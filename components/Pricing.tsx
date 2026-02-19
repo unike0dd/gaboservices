@@ -1,0 +1,119 @@
+
+import React from 'react';
+import { Language } from '../App';
+
+interface PricingProps {
+  lang: Language;
+}
+
+export const Pricing: React.FC<PricingProps> = ({ lang }) => {
+  const content = {
+    en: {
+      title: "Simple, Transparent Pricing",
+      subtitle: "Choose the plan that fits your business needs",
+      plans: [
+        {
+          name: 'Starter',
+          price: '$3,500',
+          desc: 'Perfect for small businesses',
+          features: ['Single service category', 'Admin and C-Level Support', 'Email & phone support', 'Monthly reporting', 'Basic SLA coverage', 'Starting at $150/hr'],
+          button: 'Get Started',
+          popular: false,
+          shine: 'shine-white'
+        },
+        {
+          name: 'Professional',
+          price: '$5,990',
+          desc: 'Ideal for growing companies',
+          features: ['Contact Center, IT Support, Dispatch', 'Dedicated Team', 'Priority 24/7 support', 'Weekly reporting & analytics', 'Enhanced SLA coverage', 'Dedicated account manager', 'Custom integrations'],
+          button: 'Get Started',
+          popular: true,
+          shine: 'shine-purple'
+        },
+        {
+          name: 'Enterprise',
+          price: 'Custom',
+          desc: 'For large organizations',
+          features: ['All service categories', 'White-glove support', 'Real-time dashboards', 'Premium SLA guarantee', 'Dedicated team', 'Custom workflow automation', 'On-site training & consulting'],
+          button: 'Contact Sales',
+          popular: false,
+          shine: 'shine-gold'
+        }
+      ]
+    },
+    es: {
+      title: "Precios Simples y Trasparentes",
+      subtitle: "Elija el plan que se adapte a las necesidades de su negocio",
+      plans: [
+        {
+          name: 'Inicial',
+          price: '$3,500',
+          desc: 'Perfecto para pequeñas empresas',
+          features: ['Categoría de servicio único', 'Soporte Admin y C-Level', 'Soporte por email y teléfono', 'Informes mensuales', 'Cobertura básica de SLA', 'Desde $150/hr'],
+          button: 'Empezar',
+          popular: false,
+          shine: 'shine-white'
+        },
+        {
+          name: 'Profesional',
+          price: '$5,990',
+          desc: 'Ideal para empresas en crecimiento',
+          features: ['Centro de contacto, Soporte IT, Despacho', 'Equipo Dedicado', 'Soporte prioritario 24/7', 'Informes y analítica semanales', 'Cobertura de SLA mejorada', 'Gerente de cuenta dedicado', 'Integraciones personalizadas'],
+          button: 'Empezar',
+          popular: true,
+          shine: 'shine-purple'
+        },
+        {
+          name: 'Corporativo',
+          price: 'Personalizado',
+          desc: 'Para grandes organizaciones',
+          features: ['Todas las categorías de servicio', 'Soporte guante blanco', 'Tableros en tiempo real', 'Garantía de SLA Premium', 'Equipo dedicado', 'Automatización de flujos de trabajo', 'Formación y consultoría in situ'],
+          button: 'Contactar Ventas',
+          popular: false,
+          shine: 'shine-gold'
+        }
+      ]
+    }
+  };
+
+  const t = content[lang || 'en'];
+
+  return (
+    <div className="py-24 bg-gray-50 dark:bg-gray-800/30 transition-colors">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">{t.title}</h2>
+          <p className="text-xl text-gray-500 dark:text-gray-400">{t.subtitle}</p>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {t.plans.map((p, i) => (
+            <div key={i} className={`bg-white dark:bg-gray-800 rounded-3xl p-10 border shadow-sm relative overflow-hidden flex flex-col ${p.popular ? 'border-purple-500 scale-105 z-10' : 'border-gray-100 dark:border-gray-700'}`}>
+              {p.popular && (
+                <div className="absolute top-0 right-0 bg-purple-600 text-white px-4 py-1 text-xs font-bold rounded-bl-lg">Most Popular</div>
+              )}
+              <div className="mb-8">
+                <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{p.name}</h4>
+                <p className="text-gray-500 dark:text-gray-400 mb-6">{p.desc}</p>
+                <div className="text-4xl font-extrabold text-gray-900 dark:text-white mb-1">{p.price}</div>
+                {p.price !== 'Custom' && p.price !== 'Personalizado' && <div className="text-gray-400 text-sm">{lang === 'es' ? 'por mes' : 'per month'}</div>}
+              </div>
+              <ul className="space-y-4 mb-10 flex-grow">
+                {p.features.map((f, j) => (
+                  <li key={j} className="flex items-start text-sm font-semibold text-gray-600 dark:text-gray-300">
+                    <svg className="w-5 h-5 text-purple-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <button className={`w-full py-4 rounded-xl font-bold transition-all shine-button ${p.shine} ${p.popular ? 'bg-purple-600 text-white shadow-xl hover:bg-purple-700' : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600'}`}>
+                {p.button}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
