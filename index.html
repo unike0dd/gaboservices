@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gabriel Services</title>
+    <title>Gabriel - Professional Business Services</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -14,10 +14,11 @@
             animation: {
               'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
               'fade-in-down': 'fadeInDown 0.3s ease-out',
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
             },
             keyframes: {
               fadeInUp: {
-                '0%': { opacity: '0', transform: 'translateY(30px)' },
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
                 '100%': { opacity: '1', transform: 'translateY(0)' },
               },
               fadeInDown: {
@@ -29,20 +30,40 @@
         }
       }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
             scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
         }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c7d2fe;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #818cf8;
+        }
+
         .glass-morphism {
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         .dark .glass-morphism {
-            background: rgba(31, 41, 55, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         /* Border Shine (Edge Beam) Effect */
@@ -54,7 +75,6 @@
             border: 1px solid transparent;
         }
         
-        /* The Beam Element - traveling along the edges */
         .shine-button::before {
             content: "";
             position: absolute;
@@ -64,7 +84,7 @@
             transition: opacity 0.3s ease;
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask-composite: exclude;
-            padding: 3px; /* border thickness */
+            padding: 2px;
             border-radius: inherit;
         }
 
@@ -78,29 +98,36 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Palette Variants with combo colors */
         .shine-purple:hover::before {
-            background: conic-gradient(from 0deg, transparent, #a855f7, #22d3ee, transparent 40%);
+            background: conic-gradient(from 0deg, transparent, #a855f7, #6366f1, transparent 40%);
         }
         .shine-white:hover::before {
-            background: conic-gradient(from 0deg, transparent, #ffffff, #e2e8f0, transparent 40%);
+            background: conic-gradient(from 0deg, transparent, #ffffff, #f1f5f9, transparent 40%);
         }
         .shine-blue:hover::before {
-            background: conic-gradient(from 0deg, transparent, #3b82f6, #6366f1, transparent 40%);
-        }
-        .shine-pink:hover::before {
-            background: conic-gradient(from 0deg, transparent, #ec4899, #f97316, transparent 40%);
+            background: conic-gradient(from 0deg, transparent, #3b82f6, #22d3ee, transparent 40%);
         }
         .shine-gold:hover::before {
             background: conic-gradient(from 0deg, transparent, #fbbf24, #f59e0b, transparent 40%);
         }
 
+        /* Reveal Script Classes */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
+            transform: translateY(20px);
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .stagger-reveal > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .stagger-reveal.active > * {
             opacity: 1;
             transform: translateY(0);
         }
@@ -118,5 +145,43 @@
 </head>
 <body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 overflow-x-hidden transition-colors duration-300">
     <div id="root"></div>
+    <script>
+      // Global Reveal Script
+      document.addEventListener('DOMContentLoaded', () => {
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+              if (entry.target.classList.contains('stagger-reveal')) {
+                const children = entry.target.children;
+                Array.from(children).forEach((child, index) => {
+                  child.style.transitionDelay = `${index * 100}ms`;
+                });
+              }
+            }
+          });
+        }, observerOptions);
+
+        const observeElements = () => {
+          document.querySelectorAll('.reveal, .stagger-reveal').forEach(el => {
+            observer.observe(el);
+          });
+        };
+
+        observeElements();
+        
+        // Re-observe when navigation happens (simple simulation)
+        const targetNode = document.getElementById('root');
+        const config = { childList: true, subtree: true };
+        const callback = () => observeElements();
+        const mutationObserver = new MutationObserver(callback);
+        mutationObserver.observe(targetNode, config);
+      });
+    </script>
 </body>
 </html>

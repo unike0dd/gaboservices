@@ -54,13 +54,13 @@ const App: React.FC = () => {
   const t = {
     en: {
       ctaTitle: "Ready to Elevate Your Business Operations?",
-      ctaDesc: "Join 500+ companies that trust Gabriel for their professional service needs.",
+      ctaDesc: "Join 4,759+ SMB companies that trust Gabriel for their professional service needs.",
       startFree: "Start Free Trial",
       schedule: "Schedule Consultation"
     },
     es: {
       ctaTitle: "¿Listo para Elevar sus Operaciones Comerciales?",
-      ctaDesc: "Únase a más de 500 empresas que confían en Gabriel para sus necesidades de servicios profesionales.",
+      ctaDesc: "Únase a más de 4,759 empresas SMB que confían en Gabriel para sus necesidades de servicios profesionales.",
       startFree: "Iniciar Prueba Gratuita",
       schedule: "Programar Consulta"
     }
