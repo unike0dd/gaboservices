@@ -15,12 +15,14 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ scrolled, currentPage, setCurrentPage, isDark, toggleDarkMode, language, toggleLanguage }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 
   // Close mobile menu on resize to desktop
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
         setMobileMenuOpen(false);
+        setMobileServicesOpen(false);
       }
     };
     window.addEventListener('resize', handleResize);
@@ -75,6 +77,7 @@ export const Header: React.FC<HeaderProps> = ({ scrolled, currentPage, setCurren
   const handlePageChange = (page: string) => {
     setCurrentPage(page);
     setMobileMenuOpen(false);
+    setMobileServicesOpen(false);
     setDropdownOpen(false);
   };
 
@@ -109,6 +112,7 @@ export const Header: React.FC<HeaderProps> = ({ scrolled, currentPage, setCurren
             onMouseLeave={() => setDropdownOpen(false)}
           >
             <button
+              aria-expanded={dropdownOpen}
               className={`text-sm font-semibold transition-colors flex items-center space-x-1 ${['logistics', 'it-support', 'admin-support', 'customer-relations'].includes(currentPage) ? 'text-purple-600' : 'text-gray-600 dark:text-gray-300 hover:text-purple-600'}`}
             >
               <span>{ct.services}</span>
@@ -189,6 +193,8 @@ export const Header: React.FC<HeaderProps> = ({ scrolled, currentPage, setCurren
         {/* Hamburger Button */}
         <button 
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-expanded={mobileMenuOpen}
+          aria-label="Toggle Menu"
           className="md:hidden text-gray-600 dark:text-gray-300 z-50 p-2 focus:outline-none"
         >
           {mobileMenuOpen ? (
@@ -208,42 +214,56 @@ export const Header: React.FC<HeaderProps> = ({ scrolled, currentPage, setCurren
           style={{ paddingTop: '80px' }}
         >
           <div className="flex flex-col h-full px-8 overflow-y-auto">
-            <div className="space-y-4 mb-8">
+            <div className="space-y-2 mb-8">
               <button
                 onClick={() => handlePageChange('home')}
-                className={`block w-full text-left text-2xl font-bold py-2 ${currentPage === 'home' ? 'text-purple-600' : 'text-gray-900 dark:text-white'}`}
+                className={`block w-full text-left text-2xl font-bold py-3 ${currentPage === 'home' ? 'text-purple-600' : 'text-gray-900 dark:text-white'}`}
               >
                 {ct.home}
               </button>
               
-              <div className="space-y-3">
-                <div className="text-xs font-bold text-gray-400 uppercase tracking-widest pt-4 pb-1">{ct.services}</div>
-                {serviceDropdownItems.map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => handlePageChange(item.id)}
-                    className={`block w-full text-left text-lg font-medium py-1 transition-colors ${currentPage === item.id ? 'text-purple-600' : 'text-gray-600 dark:text-gray-300'}`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
+              <div className="border-b border-gray-100 dark:border-gray-800 pb-2 mb-2">
+                <button
+                  onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                  aria-expanded={mobileServicesOpen}
+                  className={`flex items-center justify-between w-full text-left text-2xl font-bold py-3 transition-colors ${['logistics', 'it-support', 'admin-support', 'customer-relations'].includes(currentPage) ? 'text-purple-600' : 'text-gray-900 dark:text-white'}`}
+                >
+                  <span>{ct.services}</span>
+                  <svg className={`w-6 h-6 transition-transform duration-300 ${mobileServicesOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                
+                <div className={`overflow-hidden transition-all duration-300 ease-in-out ${mobileServicesOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <div className="pl-4 space-y-1 py-2">
+                    {serviceDropdownItems.map((item) => (
+                      <button
+                        key={item.id}
+                        onClick={() => handlePageChange(item.id)}
+                        className={`block w-full text-left text-lg font-medium py-3 px-4 rounded-xl transition-colors ${currentPage === item.id ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-600' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'}`}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
 
               <button
                 onClick={() => handlePageChange('about')}
-                className={`block w-full text-left text-2xl font-bold py-2 pt-4 ${currentPage === 'about' ? 'text-purple-600' : 'text-gray-900 dark:text-white'}`}
+                className={`block w-full text-left text-2xl font-bold py-3 ${currentPage === 'about' ? 'text-purple-600' : 'text-gray-900 dark:text-white'}`}
               >
                 {ct.about}
               </button>
               <button
                 onClick={() => handlePageChange('careers')}
-                className={`block w-full text-left text-2xl font-bold py-2 ${currentPage === 'careers' ? 'text-purple-600' : 'text-gray-900 dark:text-white'}`}
+                className={`block w-full text-left text-2xl font-bold py-3 ${currentPage === 'careers' ? 'text-purple-600' : 'text-gray-900 dark:text-white'}`}
               >
                 {ct.careers}
               </button>
               <button
                 onClick={() => handlePageChange('contact')}
-                className={`block w-full text-left text-2xl font-bold py-2 ${currentPage === 'contact' ? 'text-purple-600' : 'text-gray-900 dark:text-white'}`}
+                className={`block w-full text-left text-2xl font-bold py-3 ${currentPage === 'contact' ? 'text-purple-600' : 'text-gray-900 dark:text-white'}`}
               >
                 {ct.contact}
               </button>
