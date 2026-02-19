@@ -14,28 +14,28 @@ export const Pricing: React.FC<PricingProps> = ({ lang }) => {
       plans: [
         {
           name: 'Starter',
-          price: '$3,500',
-          desc: 'Perfect for small businesses',
-          features: ['Single service category', 'Admin and C-Level Support', 'Email & phone support', 'Monthly reporting', 'Basic SLA coverage', 'Starting at $150/hr'],
+          price: '$3,760',
+          desc: 'Perfect for small businesses starting their journey',
+          features: ['Single service category', 'Admin and C-Level Support', 'Email & phone support', 'Monthly reporting', 'Basic SLA coverage', 'Standard response times'],
           button: 'Get Started',
           popular: false,
           shine: 'shine-white'
         },
         {
-          name: 'Professional',
-          price: '$5,990',
-          desc: 'Ideal for growing companies',
-          features: ['Contact Center, IT Support, Dispatch', 'Dedicated Team', 'Priority 24/7 support', 'Weekly reporting & analytics', 'Enhanced SLA coverage', 'Dedicated account manager', 'Custom integrations'],
+          name: 'SMBs',
+          price: '$4,800',
+          desc: 'Comprehensive support for growing small and medium businesses',
+          features: ['Two service categories', 'IT Support Level I & II', 'Priority email support', 'Bi-weekly reporting', 'Enhanced SLA coverage', 'Dedicated account coordinator'],
           button: 'Get Started',
           popular: true,
           shine: 'shine-purple'
         },
         {
-          name: 'Enterprise',
-          price: 'Custom',
-          desc: 'For large organizations',
-          features: ['All service categories', 'White-glove support', 'Real-time dashboards', 'Premium SLA guarantee', 'Dedicated team', 'Custom workflow automation', 'On-site training & consulting'],
-          button: 'Contact Sales',
+          name: 'Professional',
+          price: '$5,990',
+          desc: 'Advanced operational excellence for scaling organizations',
+          features: ['All service categories', 'Full IT Infrastructure Support', 'Priority 24/7 support', 'Weekly reporting & analytics', 'Premium SLA coverage', 'Dedicated account manager', 'Custom integrations'],
+          button: 'Get Started',
           popular: false,
           shine: 'shine-gold'
         }
@@ -47,28 +47,28 @@ export const Pricing: React.FC<PricingProps> = ({ lang }) => {
       plans: [
         {
           name: 'Inicial',
-          price: '$3,500',
-          desc: 'Perfecto para pequeñas empresas',
-          features: ['Categoría de servicio único', 'Soporte Admin y C-Level', 'Soporte por email y teléfono', 'Informes mensuales', 'Cobertura básica de SLA', 'Desde $150/hr'],
+          price: '$3,760',
+          desc: 'Perfecto para pequeñas empresas que comienzan su camino',
+          features: ['Categoría de servicio único', 'Soporte Admin y C-Level', 'Soporte por email y teléfono', 'Informes mensuales', 'Cobertura básica de SLA', 'Tiempos de respuesta estándar'],
           button: 'Empezar',
           popular: false,
           shine: 'shine-white'
         },
         {
-          name: 'Profesional',
-          price: '$5,990',
-          desc: 'Ideal para empresas en crecimiento',
-          features: ['Centro de contacto, Soporte IT, Despacho', 'Equipo Dedicado', 'Soporte prioritario 24/7', 'Informes y analítica semanales', 'Cobertura de SLA mejorada', 'Gerente de cuenta dedicado', 'Integraciones personalizadas'],
+          name: 'SMBs',
+          price: '$4,800',
+          desc: 'Soporte integral para pequeñas y medianas empresas en crecimiento',
+          features: ['Dos categorías de servicio', 'Soporte IT Nivel I y II', 'Soporte por email prioritario', 'Informes quincenales', 'Cobertura de SLA mejorada', 'Coordinador de cuenta dedicado'],
           button: 'Empezar',
           popular: true,
           shine: 'shine-purple'
         },
         {
-          name: 'Corporativo',
-          price: 'Personalizado',
-          desc: 'Para grandes organizaciones',
-          features: ['Todas las categorías de servicio', 'Soporte guante blanco', 'Tableros en tiempo real', 'Garantía de SLA Premium', 'Equipo dedicado', 'Automatización de flujos de trabajo', 'Formación y consultoría in situ'],
-          button: 'Contactar Ventas',
+          name: 'Profesional',
+          price: '$5,990',
+          desc: 'Excelencia operativa avanzada para organizaciones en escala',
+          features: ['Todas las categorías de servicio', 'Soporte de infraestructura IT completo', 'Soporte prioritario 24/7', 'Informes y analítica semanales', 'Cobertura de SLA Premium', 'Gerente de cuenta dedicado', 'Integraciones personalizadas'],
+          button: 'Empezar',
           popular: false,
           shine: 'shine-gold'
         }
@@ -102,9 +102,7 @@ export const Pricing: React.FC<PricingProps> = ({ lang }) => {
                   </div>
                   <div className="text-right">
                     <div className="text-4xl font-extrabold text-gray-900 dark:text-white leading-none">{p.price}</div>
-                    {p.price !== 'Custom' && p.price !== 'Personalizado' && (
-                      <div className="text-gray-400 text-xs mt-1 uppercase font-bold tracking-widest">{lang === 'es' ? 'por mes' : 'per month'}</div>
-                    )}
+                    <div className="text-gray-400 text-xs mt-1 uppercase font-bold tracking-widest">{lang === 'es' ? 'por mes' : 'per month'}</div>
                   </div>
                 </div>
 
