@@ -23,18 +23,33 @@ const dictionary = {
   }
 };
 
-const services = [
-  { title: 'Logistics Operations', body: 'Order workflows, dispatch support, shipment updates, and reporting.' },
-  { title: 'IT Support', body: 'Tier 1/2 troubleshooting, account management, and endpoint support.' },
-  { title: 'Administrative Backoffice', body: 'Data entry, documentation, billing support, and process QA.' },
-  { title: 'Customer Relations', body: 'Omnichannel support, customer retention, and quality monitoring.' }
-];
+const services = {
+  en: [
+    { title: 'Logistics Operations', body: 'Order workflows, dispatch support, shipment updates, and reporting.' },
+    { title: 'IT Support', body: 'Tier 1/2 troubleshooting, account management, and endpoint support.' },
+    { title: 'Administrative Backoffice', body: 'Data entry, documentation, billing support, and process QA.' },
+    { title: 'Customer Relations', body: 'Omnichannel support, customer retention, and quality monitoring.' }
+  ],
+  es: [
+    { title: 'Operaciones Logísticas', body: 'Flujos de pedidos, soporte de despacho, actualizaciones de envíos y reportes.' },
+    { title: 'Soporte de TI', body: 'Resolución de incidencias nivel 1/2, gestión de cuentas y soporte de endpoints.' },
+    { title: 'Backoffice Administrativo', body: 'Ingreso de datos, documentación, apoyo de facturación y control de procesos.' },
+    { title: 'Relaciones con Clientes', body: 'Soporte omnicanal, retención de clientes y monitoreo de calidad.' }
+  ]
+};
 
-const plans = [
-  { name: 'Starter', price: '$299/mo', points: ['Email support', 'Business hours', 'Monthly report'] },
-  { name: 'Growth', price: '$899/mo', points: ['24/7 support', 'Priority SLA', 'Weekly optimization'] },
-  { name: 'Enterprise', price: 'Custom', points: ['Dedicated team', 'Custom integrations', 'Compliance alignment'] }
-];
+const plans = {
+  en: [
+    { name: 'Starter', price: '$299/mo', points: ['Email support', 'Business hours', 'Monthly report'] },
+    { name: 'Growth', price: '$899/mo', points: ['24/7 support', 'Priority SLA', 'Weekly optimization'] },
+    { name: 'Enterprise', price: 'Custom', points: ['Dedicated team', 'Custom integrations', 'Compliance alignment'] }
+  ],
+  es: [
+    { name: 'Inicial', price: '$299/mes', points: ['Soporte por correo', 'Horario laboral', 'Reporte mensual'] },
+    { name: 'Crecimiento', price: '$899/mes', points: ['Soporte 24/7', 'SLA prioritario', 'Optimización semanal'] },
+    { name: 'Empresarial', price: 'Personalizado', points: ['Equipo dedicado', 'Integraciones a medida', 'Alineación de cumplimiento'] }
+  ]
+};
 
 const root = document.documentElement;
 const metadata = window.SITE_METADATA || {};
@@ -105,20 +120,30 @@ class TinyGuardML {
 const tinyGuard = new TinyGuardML();
 
 function renderCards() {
-  document.getElementById('serviceCards').innerHTML = services.map((service) => `
+  const localizedServices = services[lang] || services.en;
+  const localizedPlans = plans[lang] || plans.en;
+
+  document.getElementById('serviceCards').innerHTML = localizedServices.map((service) => `
     <article class="card">
       <h3>${service.title}</h3>
       <p>${service.body}</p>
     </article>
   `).join('');
 
-  document.getElementById('pricingCards').innerHTML = plans.map((plan) => `
+  document.getElementById('pricingCards').innerHTML = localizedPlans.map((plan) => `
     <article class="price-card">
       <h3>${plan.name}</h3>
       <p class="price">${plan.price}</p>
       <ul>${plan.points.map((point) => `<li>${point}</li>`).join('')}</ul>
     </article>
   `).join('');
+}
+
+function syncThemeButton() {
+  const themeBtn = document.getElementById('themeBtn');
+  const isDark = root.classList.contains('dark');
+  themeBtn.textContent = isDark ? dictionary[lang].themeLight : dictionary[lang].themeDark;
+  themeBtn.setAttribute('aria-label', isDark ? dictionary[lang].themeLabelLight : dictionary[lang].themeLabelDark);
 }
 
 function translatePage() {
@@ -129,6 +154,7 @@ function translatePage() {
     if (copy[key]) node.textContent = copy[key];
   });
   document.getElementById('langBtn').textContent = lang === 'en' ? 'ES' : 'EN';
+  syncThemeButton();
 }
 
 function initTheme() {
@@ -172,11 +198,13 @@ function bindEvents() {
   document.getElementById('themeBtn').addEventListener('click', () => {
     root.classList.toggle('dark');
     localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+    syncThemeButton();
   });
 
   document.getElementById('langBtn').addEventListener('click', () => {
     lang = lang === 'en' ? 'es' : 'en';
     localStorage.setItem('lang', lang);
+    renderCards();
     translatePage();
   });
 
