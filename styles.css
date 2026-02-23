@@ -1,26 +1,40 @@
 :root {
-  --bg: #f8fafc;
+  --bg: #fff9c4;
   --text: #0f172a;
-  --card: #ffffff;
-  --primary: #6366f1;
-  --border: #e2e8f0;
+  --card: rgba(255, 255, 255, 0.88);
+  --primary: #4f46e5;
+  --border: rgba(255, 255, 255, 0.75);
 }
 
 :root.dark {
-  --bg: #0f172a;
+  --bg: #111827;
   --text: #f8fafc;
-  --card: #1e293b;
+  --card: rgba(31, 41, 55, 0.9);
   --primary: #818cf8;
-  --border: #334155;
+  --border: #374151;
 }
 
 * { box-sizing: border-box; }
 body {
   margin: 0;
   font-family: Inter, system-ui, sans-serif;
-  background: var(--bg);
+  background: linear-gradient(130deg, #fff9c4, #ffe082, #c8e6c9, #b2ebf2, #fce4ec);
+  background-size: 280% 280%;
+  animation: springSummerShift 18s ease-in-out infinite;
   color: var(--text);
   line-height: 1.5;
+  transition: background 600ms ease, color 300ms ease;
+}
+
+:root.dark body {
+  background: linear-gradient(160deg, #030712, #111827, #1f2937);
+  animation: none;
+}
+
+@keyframes springSummerShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 .container { width: min(1100px, 92vw); margin: 0 auto; }
 .site-header {
