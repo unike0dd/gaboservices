@@ -9,6 +9,7 @@
       content="Business services for logistics, IT, admin, and customer relations."
     />
     <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./responsive.css" />
   </head>
   <body>
     <header class="site-header" id="siteHeader">
@@ -21,6 +22,7 @@
             <li><a href="#services" data-i18n="services">Services</a></li>
             <li><a href="#about" data-i18n="about">About</a></li>
             <li><a href="#pricing" data-i18n="pricing">Pricing</a></li>
+            <li><a href="#careers">Careers</a></li>
             <li><a href="#contact" data-i18n="contact">Contact</a></li>
           </ul>
         </nav>
@@ -39,6 +41,7 @@
         <div class="cta-row">
           <a href="#contact" class="btn primary" data-i18n="startTrial">Start Free Trial</a>
           <a href="#contact" class="btn" data-i18n="schedule">Schedule Consultation</a>
+          <input class="hp-field" type="text" name="trial_reference" tabindex="-1" autocomplete="off" aria-hidden="true" />
         </div>
       </section>
 
@@ -57,9 +60,14 @@
         <div class="grid pricing" id="pricingCards"></div>
       </section>
 
+      <section id="careers" class="container section">
+        <h2>Careers</h2>
+        <p>Join our team and help SMB clients modernize logistics, IT, and support operations.</p>
+      </section>
+
       <section id="contact" class="container section">
         <h2 data-i18n="contact">Contact</h2>
-        <form class="contact-form" id="contactForm">
+        <form class="contact-form" id="contactForm" novalidate>
           <label>
             <span data-i18n="name">Name</span>
             <input required name="name" />
@@ -72,6 +80,7 @@
             <span data-i18n="message">Message</span>
             <textarea required name="message" rows="4"></textarea>
           </label>
+          <input class="hp-field" type="text" name="assistant_code" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <button class="btn primary" type="submit" data-i18n="send">Send</button>
           <p id="formStatus" role="status" aria-live="polite"></p>
         </form>
