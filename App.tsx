@@ -11,7 +11,6 @@ import { HowItWorks } from './components/HowItWorks';
 import { Pricing } from './components/Pricing';
 import { Testimonials } from './components/Testimonials';
 import { Footer } from './components/Footer';
-import { GeminiAssistant } from './components/GeminiAssistant';
 import { LogisticsPage } from './components/LogisticsPage';
 import { ITSupportPage } from './components/ITSupportPage';
 import { AdminSupportPage } from './components/AdminSupportPage';
@@ -124,7 +123,6 @@ const App: React.FC = () => {
         {renderContent()}
       </main>
       <Footer setCurrentPage={setCurrentPage} lang={language} />
-      <GeminiAssistant language={language} />
       <CookieConsent lang={language} />
     </div>
   );
