@@ -8,7 +8,11 @@ const dictionary = {
     aboutBody: 'Gabriel Services provides multilingual operational support designed for modern digital businesses.',
     name: 'Name', message: 'Message', send: 'Send', cookie: 'We use cookies to improve your experience.', accept: 'Accept',
     sent: 'Message captured. We will contact you shortly.',
-    blocked: 'Submission blocked by security checks. Please remove code-like content and retry.'
+    blocked: 'Submission blocked by security checks. Please remove code-like content and retry.',
+    themeDark: 'Dark',
+    themeLight: 'Light',
+    themeLabelDark: 'Switch to Light theme',
+    themeLabelLight: 'Switch to Dark theme'
   },
   es: {
     home: 'Inicio', services: 'Servicios', about: 'Nosotros', pricing: 'Precios', contact: 'Contacto',
@@ -19,7 +23,11 @@ const dictionary = {
     aboutBody: 'Gabriel Services ofrece soporte operativo multilingüe diseñado para negocios digitales modernos.',
     name: 'Nombre', message: 'Mensaje', send: 'Enviar', cookie: 'Usamos cookies para mejorar su experiencia.', accept: 'Aceptar',
     sent: 'Mensaje recibido. Nos pondremos en contacto pronto.',
-    blocked: 'Contenido bloqueado por seguridad. Elimine código malicioso e inténtelo otra vez.'
+    blocked: 'Contenido bloqueado por seguridad. Elimine código malicioso e inténtelo otra vez.',
+    themeDark: 'Dark',
+    themeLight: 'Light',
+    themeLabelDark: 'Cambiar a tema claro',
+    themeLabelLight: 'Cambiar a tema oscuro'
   }
 };
 
@@ -142,8 +150,8 @@ function renderCards() {
 function syncThemeButton() {
   const themeBtn = document.getElementById('themeBtn');
   const isDark = root.classList.contains('dark');
-  themeBtn.textContent = isDark ? dictionary[lang].themeLight : dictionary[lang].themeDark;
-  themeBtn.setAttribute('aria-label', isDark ? dictionary[lang].themeLabelLight : dictionary[lang].themeLabelDark);
+  themeBtn.textContent = isDark ? dictionary[lang].themeDark : dictionary[lang].themeLight;
+  themeBtn.setAttribute('aria-label', isDark ? dictionary[lang].themeLabelDark : dictionary[lang].themeLabelLight);
 }
 
 function translatePage() {
@@ -159,8 +167,12 @@ function translatePage() {
 
 function initTheme() {
   const stored = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  if (stored === 'dark' || (!stored && prefersDark)) root.classList.add('dark');
+  if (stored === 'light') {
+    root.classList.remove('dark');
+    return;
+  }
+
+  root.classList.add('dark');
 }
 
 function bindFabControls() {
