@@ -53,7 +53,7 @@ body {
 .hero { padding: 5rem 0 3rem; }
 .eyebrow { color: var(--primary); font-weight: 700; }
 h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: .3rem 0 1rem; max-width: 15ch; }
-.cta-row { display:flex; gap:.75rem; flex-wrap:wrap; margin-top:1.5rem; }
+.cta-row { display:flex; gap:.75rem; flex-wrap:wrap; margin-top:1.5rem; align-items: center; }
 .btn { border:1px solid var(--border); color: var(--text); text-decoration:none; padding:.7rem 1rem; border-radius:.7rem; background: var(--card); cursor:pointer; }
 .btn.primary { background: var(--primary); color: white; border-color: transparent; }
 .section { padding: 2.8rem 0; }
@@ -73,6 +73,79 @@ input, textarea {
   position: fixed; left: 1rem; right: 1rem; bottom: 1rem;
   background: var(--card); border:1px solid var(--border); border-radius: .8rem;
   display:flex; justify-content:space-between; align-items:center; gap: .8rem; padding:.7rem 1rem;
+}
+
+.hp-field {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fab-wrapper {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 0.6rem;
+  z-index: 90;
+}
+
+.fab-main,
+.fab-item {
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--primary);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.25);
+}
+
+.fab-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.chat-panel {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 6rem;
+  width: min(92vw, 380px);
+  height: 500px;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--card);
+  z-index: 95;
+  box-shadow: 0 20px 35px rgba(15, 23, 42, 0.35);
+  overflow: hidden;
+}
+
+.chat-panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding: 0.6rem 0.8rem;
+}
+
+.chat-panel iframe {
+  width: 100%;
+  height: calc(100% - 53px);
+  border: none;
 }
 
 @media (max-width: 780px) {

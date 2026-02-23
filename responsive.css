@@ -1,0 +1,63 @@
+/* Device-adaptive layout tuning */
+:root {
+  --fab-size: 3.4rem;
+}
+
+img,
+iframe {
+  max-width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    width: min(1000px, 94vw);
+  }
+}
+
+@media (max-width: 780px) {
+  .hero {
+    padding-top: 4rem;
+  }
+
+  .cta-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn {
+    text-align: center;
+  }
+
+  .chat-panel {
+    width: min(96vw, 420px);
+    right: 2vw;
+    bottom: 6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 0.96rem;
+  }
+
+  .site-header {
+    position: static;
+  }
+
+  .section {
+    padding: 2.2rem 0;
+  }
+
+  .fab-main,
+  .fab-item {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .chat-panel {
+    left: 2vw;
+    right: 2vw;
+    width: auto;
+    bottom: 5.8rem;
+  }
+}
