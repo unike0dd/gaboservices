@@ -7,7 +7,8 @@ const dictionary = {
     startTrial: 'Start Free Trial', schedule: 'Schedule Consultation',
     aboutBody: 'Gabriel Services provides multilingual operational support designed for modern digital businesses.',
     name: 'Name', message: 'Message', send: 'Send', cookie: 'We use cookies to improve your experience.', accept: 'Accept',
-    sent: 'Message captured. We will contact you shortly.'
+    sent: 'Message captured. We will contact you shortly.',
+    blocked: 'Submission blocked by security checks. Please remove code-like content and retry.'
   },
   es: {
     home: 'Inicio', services: 'Servicios', about: 'Nosotros', pricing: 'Precios', contact: 'Contacto',
@@ -17,7 +18,8 @@ const dictionary = {
     startTrial: 'Iniciar prueba gratuita', schedule: 'Programar consulta',
     aboutBody: 'Gabriel Services ofrece soporte operativo multilingüe diseñado para negocios digitales modernos.',
     name: 'Nombre', message: 'Mensaje', send: 'Enviar', cookie: 'Usamos cookies para mejorar su experiencia.', accept: 'Aceptar',
-    sent: 'Mensaje recibido. Nos pondremos en contacto pronto.'
+    sent: 'Mensaje recibido. Nos pondremos en contacto pronto.',
+    blocked: 'Contenido bloqueado por seguridad. Elimine código malicioso e inténtelo otra vez.'
   }
 };
 
@@ -35,12 +37,72 @@ const plans = [
 ];
 
 const root = document.documentElement;
-
 const metadata = window.SITE_METADATA || {};
 if (metadata.name) document.title = metadata.name;
 const metaDescription = document.querySelector('meta[name="description"]');
 if (metaDescription && metadata.description) metaDescription.setAttribute('content', metadata.description);
 let lang = localStorage.getItem('lang') || 'en';
+
+class TinyGuardML {
+  constructor() {
+    this.signatures = [
+      /<script/gi,
+      /on\w+\s*=/gi,
+      /javascript:/gi,
+      /<iframe/gi,
+      /\b(select|union|drop|insert|delete|update)\b/gi,
+      /\{\{.*\}\}/g,
+      /<\/?[a-z][^>]*>/gi
+    ];
+  }
+
+  sanitize(rawValue) {
+    return rawValue.replace(/[<>`]/g, '').replace(/javascript:/gi, '').trim();
+  }
+
+  score(value) {
+    return this.signatures.reduce((acc, regex) => {
+      regex.lastIndex = 0;
+      return acc + (regex.test(value) ? 1 : 0);
+    }, 0);
+  }
+
+  validateForm(form) {
+    const honeypots = [...form.querySelectorAll('.hp-field')];
+    const honeypotTriggered = honeypots.some((field) => field.value.trim().length > 0);
+
+    const inputs = [...form.querySelectorAll('input:not(.hp-field), textarea')];
+    let riskScore = honeypotTriggered ? 10 : 0;
+
+    inputs.forEach((field) => {
+      const cleaned = this.sanitize(field.value);
+      riskScore += this.score(field.value);
+      field.value = cleaned;
+    });
+
+    return {
+      allowed: riskScore < 2,
+      riskScore,
+      honeypotTriggered
+    };
+  }
+
+  monitorGlobalTampering() {
+    const observer = new MutationObserver((changes) => {
+      const suspicious = changes.some((change) => {
+        const node = change.target;
+        return node instanceof HTMLElement && /script|iframe/i.test(node.innerHTML || '');
+      });
+      if (suspicious) {
+        console.warn('[TinyGuardML] Potential tampering detected; content inspection recommended.');
+      }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+}
+
+const tinyGuard = new TinyGuardML();
 
 function renderCards() {
   document.getElementById('serviceCards').innerHTML = services.map((service) => `
@@ -75,6 +137,37 @@ function initTheme() {
   if (stored === 'dark' || (!stored && prefersDark)) root.classList.add('dark');
 }
 
+function bindFabControls() {
+  const fabMain = document.getElementById('fabMain');
+  const fabMenu = document.getElementById('fabMenu');
+  const fabChat = document.getElementById('fabChat');
+  const chatPanel = document.getElementById('chatPanel');
+  const chatClose = document.getElementById('chatClose');
+  const chatFrame = document.getElementById('chatFrame');
+
+  fabMain.addEventListener('click', () => {
+    const expanded = fabMain.getAttribute('aria-expanded') === 'true';
+    fabMain.setAttribute('aria-expanded', String(!expanded));
+    fabMenu.hidden = expanded;
+  });
+
+  fabChat.addEventListener('click', () => {
+    const shieldForm = document.createElement('form');
+    shieldForm.innerHTML = '<input class="hp-field" value="" /><textarea></textarea>';
+    const guard = tinyGuard.validateForm(shieldForm);
+    if (!guard.allowed) return;
+
+    if (chatFrame.src === 'about:blank') {
+      chatFrame.src = 'https://gabos.io';
+    }
+    chatPanel.hidden = false;
+  });
+
+  chatClose.addEventListener('click', () => {
+    chatPanel.hidden = true;
+  });
+}
+
 function bindEvents() {
   document.getElementById('themeBtn').addEventListener('click', () => {
     root.classList.toggle('dark');
@@ -98,8 +191,21 @@ function bindEvents() {
   const form = document.getElementById('contactForm');
   form.addEventListener('submit', (event) => {
     event.preventDefault();
+    const verdict = tinyGuard.validateForm(form);
+    const status = document.getElementById('formStatus');
+
+    if (!verdict.allowed) {
+      status.textContent = dictionary[lang].blocked;
+      status.dataset.state = 'blocked';
+      form.querySelectorAll('.hp-field').forEach((node) => {
+        node.value = '';
+      });
+      return;
+    }
+
     form.reset();
-    document.getElementById('formStatus').textContent = dictionary[lang].sent;
+    status.textContent = dictionary[lang].sent;
+    status.dataset.state = 'ok';
   });
 
   document.getElementById('year').textContent = String(new Date().getFullYear());
@@ -110,9 +216,12 @@ function bindEvents() {
     localStorage.setItem('cookieAccepted', 'true');
     cookieBanner.hidden = true;
   });
+
+  bindFabControls();
 }
 
 initTheme();
 renderCards();
 translatePage();
 bindEvents();
+tinyGuard.monitorGlobalTampering();
