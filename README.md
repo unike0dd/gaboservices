@@ -1,27 +1,31 @@
-# Gabriel Professional Business Services (HTML/CSS/JS)
+# Gabriel Professional Business Services (Pure HTML/CSS/JS)
 
-This repository now uses a plain web stack:
+This repository is now a **zero-JSON, static web project**:
 - `index.html`
 - `styles.css`
 - `main.js`
+- `site.config.js` (JS metadata/config replacement)
 
-## Run locally
+## Run locally (no Node required)
 
-Prerequisite: Node.js 18+
+Use any static file server. Two easy options:
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-2. Start dev server:
-   ```bash
-   npm run dev
-   ```
-3. Build production assets:
-   ```bash
-   npm run build
-   ```
-4. Preview production build:
-   ```bash
-   npm run preview
-   ```
+```bash
+python -m http.server 3000
+```
+
+or
+
+```bash
+npx serve .
+```
+
+Then open:
+
+- `http://localhost:3000`
+
+## JSON replacement notes
+
+- Removed `metadata.json` and replaced it with `site.config.js`.
+- Removed `package.json` and `package-lock.json` so the project is no longer tied to npm.
+- Removed build tooling config dependency to keep this repository fully static.
