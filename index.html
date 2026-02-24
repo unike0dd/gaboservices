@@ -77,11 +77,20 @@
           </label>
           <label>
             <span data-i18n="contactNumber">Your Contact Number</span>
-            <input required type="tel" name="contact_number" />
+            <div class="contact-number-row">
+              <select required name="contact_country_code" aria-label="Country code" data-i18n-aria-label="countryCode">
+                <option value="+1">🇺🇸 +1</option>
+                <option value="+52">🇲🇽 +52</option>
+                <option value="+34">🇪🇸 +34</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+57">🇨🇴 +57</option>
+              </select>
+              <input required type="tel" name="contact_number" inputmode="tel" autocomplete="tel-national" placeholder="555 123 4567" />
+            </div>
           </label>
           <label>
             <span data-i18n="contactTime">Most convenient time to contact you</span>
-            <input required name="contact_time" />
+            <input required type="datetime-local" name="contact_time" />
           </label>
           <label>
             <span data-i18n="message">Message</span>
