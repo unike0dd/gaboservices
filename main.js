@@ -407,24 +407,28 @@ function bindEvents() {
   });
 
   const form = document.getElementById('contactForm');
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const verdict = tinyGuard.validateForm(form);
-    const status = document.getElementById('formStatus');
+  if (form) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const verdict = tinyGuard.validateForm(form);
+      const status = document.getElementById('formStatus');
 
-    if (!verdict.allowed) {
-      status.textContent = dictionary[lang].blocked;
-      status.dataset.state = 'blocked';
-      form.querySelectorAll('.hp-field').forEach((node) => {
-        node.value = '';
-      });
-      return;
-    }
+      if (!status) return;
 
-    form.reset();
-    status.textContent = dictionary[lang].sent;
-    status.dataset.state = 'ok';
-  });
+      if (!verdict.allowed) {
+        status.textContent = dictionary[lang].blocked;
+        status.dataset.state = 'blocked';
+        form.querySelectorAll('.hp-field').forEach((node) => {
+          node.value = '';
+        });
+        return;
+      }
+
+      form.reset();
+      status.textContent = dictionary[lang].sent;
+      status.dataset.state = 'ok';
+    });
+  }
 
   document.getElementById('year').textContent = String(new Date().getFullYear());
 
