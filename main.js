@@ -129,20 +129,26 @@ function renderCards() {
   const localizedServices = services[lang] || services.en;
   const localizedPlans = plans[lang] || plans.en;
 
-  document.getElementById('serviceCards').innerHTML = localizedServices.map((service) => `
+  const serviceCards = document.getElementById('serviceCards');
+  if (serviceCards) {
+    serviceCards.innerHTML = localizedServices.map((service) => `
     <article class="card">
       <h3>${service.title}</h3>
       <p>${service.body}</p>
     </article>
   `).join('');
+  }
 
-  document.getElementById('pricingCards').innerHTML = localizedPlans.map((plan) => `
+  const pricingCards = document.getElementById('pricingCards');
+  if (pricingCards) {
+    pricingCards.innerHTML = localizedPlans.map((plan) => `
     <article class="price-card">
       <h3>${plan.name}</h3>
       <p class="price">${plan.price}</p>
       <ul>${plan.points.map((point) => `<li>${point}</li>`).join('')}</ul>
     </article>
   `).join('');
+  }
 }
 
 
