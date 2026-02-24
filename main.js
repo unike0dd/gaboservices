@@ -8,10 +8,16 @@ const dictionary = {
     name: 'Name', contactNumber: 'Your Contact Number', countryCode: 'Country code', contactTime: 'Most convenient time to contact you', message: 'Message', send: 'Send',
     sent: 'Message captured. We will contact you shortly.',
     blocked: 'Submission blocked by security checks. Please remove code-like content and retry.',
-    themeDark: 'Dark',
-    themeLight: 'Light',
-    themeLabelDark: 'Switch to Light theme',
-    themeLabelLight: 'Switch to Dark theme'
+    serviceLearnMore: 'Learn more',
+    serviceLogisticsTitle: 'Logistics Operations',
+    serviceLogisticsBody: 'Order workflows, dispatch support, shipment updates, and reporting.',
+    serviceItTitle: 'IT Support',
+    serviceItBody: 'Tier 1, Tier 2; On - Boarding, Implementation, Troubleshooting, Account Management, Customer Relations and endpoint support.',
+    serviceAdminTitle: 'Administrative Backoffice',
+    serviceAdminBody: 'Data entry, Documentation, Invoicing billing Support, Accts Payables and Accts Receivable, process, scheduling, Executive assistant services, high level of administrative support.',
+    serviceCustomerTitle: 'Customer Relations',
+    serviceCustomerBody: 'Omnichannel support, customer retention, and quality monitoring.',
+    serviceCardAction: 'View service details'
   },
   es: {
     home: 'Inicio', services: 'Servicios', about: 'Nosotros', pricing: 'Precios', contact: 'Contacto',
@@ -22,25 +28,31 @@ const dictionary = {
     name: 'Nombre', contactNumber: 'Your Contact Number', countryCode: 'Código de país', contactTime: 'Most convenient time to contact you', message: 'Mensaje', send: 'Enviar',
     sent: 'Mensaje recibido. Nos pondremos en contacto pronto.',
     blocked: 'Contenido bloqueado por seguridad. Elimine código malicioso e inténtelo otra vez.',
-    themeDark: 'Dark',
-    themeLight: 'Light',
-    themeLabelDark: 'Cambiar a tema claro',
-    themeLabelLight: 'Cambiar a tema oscuro'
+    serviceLearnMore: 'Más información',
+    serviceLogisticsTitle: 'Operaciones Logísticas',
+    serviceLogisticsBody: 'Flujos de pedidos, soporte de despacho, actualizaciones de envíos y reportes.',
+    serviceItTitle: 'Soporte de TI',
+    serviceItBody: 'Resolución de incidencias nivel 1/2, gestión de cuentas y soporte de endpoints.',
+    serviceAdminTitle: 'Backoffice Administrativo',
+    serviceAdminBody: 'Ingreso de datos, documentación, apoyo de facturación, cuentas por pagar y cobrar, procesos, agenda y asistencia ejecutiva.',
+    serviceCustomerTitle: 'Relaciones con Clientes',
+    serviceCustomerBody: 'Soporte omnicanal, retención de clientes y monitoreo de calidad.',
+    serviceCardAction: 'Ver detalles del servicio'
   }
 };
 
 const services = {
   en: [
-    { title: 'Logistics Operations', body: 'Order workflows, dispatch support, shipment updates, and reporting.' },
-    { title: 'IT Support', body: 'Tier 1, Tier 2; On - Boarding, Implementation, Troubleshooting, Account Management, Customer Relations and endpoint support.' },
-    { title: 'Administrative Backoffice', body: 'Data entry, Documentation, Invoicing billing Support, Accts Payables and Accts Receivable, process, scheduling, Executive assistant services, high level of administrative support' },
-    { title: 'Customer Relations', body: 'Omnichannel support, customer retention, and quality monitoring.' }
+    { key: 'logistics', title: 'Logistics Operations', body: 'Order workflows, dispatch support, shipment updates, and reporting.', href: '/services/logistics-operations/' },
+    { key: 'it', title: 'IT Support', body: 'Tier 1, Tier 2; On - Boarding, Implementation, Troubleshooting, Account Management, Customer Relations and endpoint support.', href: '/services/it-support/' },
+    { key: 'admin', title: 'Administrative Backoffice', body: 'Data entry, Documentation, Invoicing billing Support, Accts Payables and Accts Receivable, process, scheduling, Executive assistant services, high level of administrative support.', href: '/services/administrative-backoffice/' },
+    { key: 'customer', title: 'Customer Relations', body: 'Omnichannel support, customer retention, and quality monitoring.', href: '/services/customer-relations/' }
   ],
   es: [
-    { title: 'Operaciones Logísticas', body: 'Flujos de pedidos, soporte de despacho, actualizaciones de envíos y reportes.' },
-    { title: 'Soporte de TI', body: 'Resolución de incidencias nivel 1/2, gestión de cuentas y soporte de endpoints.' },
-    { title: 'Backoffice Administrativo', body: 'Ingreso de datos, documentación, apoyo de facturación y control de procesos.' },
-    { title: 'Relaciones con Clientes', body: 'Soporte omnicanal, retención de clientes y monitoreo de calidad.' }
+    { key: 'logistics', title: 'Operaciones Logísticas', body: 'Flujos de pedidos, soporte de despacho, actualizaciones de envíos y reportes.', href: '/services/logistics-operations/' },
+    { key: 'it', title: 'Soporte de TI', body: 'Resolución de incidencias nivel 1/2, gestión de cuentas y soporte de endpoints.', href: '/services/it-support/' },
+    { key: 'admin', title: 'Backoffice Administrativo', body: 'Ingreso de datos, documentación, apoyo de facturación y control de procesos.', href: '/services/administrative-backoffice/' },
+    { key: 'customer', title: 'Relaciones con Clientes', body: 'Soporte omnicanal, retención de clientes y monitoreo de calidad.', href: '/services/customer-relations/' }
   ]
 };
 
@@ -134,19 +146,26 @@ class TinyGuardML {
 }
 
 const tinyGuard = new TinyGuardML();
+let activeServiceKey = null;
 
 function renderCards() {
   const localizedServices = services[lang] || services.en;
   const localizedPlans = plans[lang] || plans.en;
+  const copy = dictionary[lang] || dictionary.en;
 
   const serviceCards = document.getElementById('serviceCards');
   if (serviceCards) {
     serviceCards.innerHTML = localizedServices.map((service) => `
-    <article class="card">
-      <h3>${service.title}</h3>
-      <p>${service.body}</p>
+    <article class="card service-card" data-service-card="${service.key}">
+      <button class="service-card-trigger" type="button" data-service-key="${service.key}" aria-expanded="${String(activeServiceKey === service.key)}">
+        <span class="service-card-label">Service</span>
+        <h3>${service.title}</h3>
+        <p>${service.body}</p>
+        <span class="service-card-action">${copy.serviceCardAction} →</span>
+      </button>
     </article>
   `).join('');
+    bindServiceCardActions(localizedServices);
   }
 
   const pricingCards = document.getElementById('pricingCards');
@@ -161,8 +180,61 @@ function renderCards() {
   }
 }
 
+function highlightActiveServiceCard() {
+  document.querySelectorAll('[data-service-card]').forEach((card) => {
+    const isActive = card.getAttribute('data-service-card') === activeServiceKey;
+    card.classList.toggle('active', isActive);
+    const trigger = card.querySelector('.service-card-trigger');
+    if (trigger) trigger.setAttribute('aria-expanded', String(isActive));
+  });
+}
+
+function updateServiceDetail(localizedServices, shouldScroll = false) {
+  const detailPanel = document.getElementById('serviceDetailPanel');
+  const detailTitle = document.getElementById('serviceDetailTitle');
+  const detailBody = document.getElementById('serviceDetailBody');
+  const detailLink = document.getElementById('serviceDetailLink');
+  if (!detailPanel || !detailTitle || !detailBody || !detailLink) return;
+
+  if (!activeServiceKey) {
+    detailPanel.hidden = true;
+    highlightActiveServiceCard();
+    return;
+  }
+
+  const selected = localizedServices.find((item) => item.key === activeServiceKey);
+  if (!selected) {
+    activeServiceKey = null;
+    detailPanel.hidden = true;
+    highlightActiveServiceCard();
+    return;
+  }
+
+  detailTitle.textContent = selected.title;
+  detailBody.textContent = selected.body;
+  detailLink.setAttribute('href', selected.href);
+  detailPanel.hidden = false;
+  highlightActiveServiceCard();
+  if (shouldScroll) detailPanel.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+function bindServiceCardActions(localizedServices) {
+  const triggers = document.querySelectorAll('.service-card-trigger');
+  if (!triggers.length) return;
+
+  triggers.forEach((button) => {
+    button.addEventListener('click', () => {
+      const key = button.dataset.serviceKey;
+      activeServiceKey = key || null;
+      updateServiceDetail(localizedServices, true);
+    });
+  });
+
+  updateServiceDetail(localizedServices, false);
+}
 
 async function populateCountryCodes() {
+
   const selects = [...document.querySelectorAll('select[name="contact_country_code"], select[name="applicant_contact_country_code"]')];
   if (!selects.length) return;
 
@@ -221,16 +293,6 @@ async function populateCountryCodes() {
   }
 }
 
-function syncThemeButton() {
-  const themeBtn = document.getElementById('themeBtn');
-  if (!themeBtn) return;
-
-  const copy = dictionary[lang] || dictionary.en;
-  const isDark = root.classList.contains('dark');
-  themeBtn.textContent = isDark ? copy.themeDark : copy.themeLight;
-  themeBtn.setAttribute('aria-label', isDark ? copy.themeLabelDark : copy.themeLabelLight);
-}
-
 function translatePage() {
   const copy = dictionary[lang] || dictionary.en;
   document.documentElement.lang = lang;
@@ -242,9 +304,6 @@ function translatePage() {
     const key = node.dataset.i18nAriaLabel;
     if (copy[key]) node.setAttribute('aria-label', copy[key]);
   });
-  const langBtn = document.getElementById('langBtn');
-  if (langBtn) langBtn.textContent = lang === 'en' ? 'ES' : 'EN';
-
   const langEnBtn = document.getElementById('langEnBtn');
   const langEsBtn = document.getElementById('langEsBtn');
   if (langEnBtn) {
@@ -257,18 +316,6 @@ function translatePage() {
     langEsBtn.setAttribute('aria-pressed', String(isSpanish));
     langEsBtn.classList.toggle('active', isSpanish);
   }
-
-  syncThemeButton();
-}
-
-function initTheme() {
-  const stored = localStorage.getItem('theme');
-  if (stored === 'light') {
-    root.classList.remove('dark');
-    return;
-  }
-
-  root.classList.add('dark');
 }
 
 function bindFabControls() {
@@ -414,22 +461,6 @@ function setupJoinForm() {
 }
 
 function bindEvents() {
-  const themeBtn = document.getElementById('themeBtn');
-  if (themeBtn) {
-    themeBtn.addEventListener('click', () => {
-      root.classList.toggle('dark');
-      localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
-      syncThemeButton();
-    });
-  }
-
-  const legacyLangBtn = document.getElementById('langBtn');
-  if (legacyLangBtn) {
-    legacyLangBtn.addEventListener('click', () => {
-      setLanguage(lang === 'en' ? 'es' : 'en');
-    });
-  }
-
   const langEnBtn = document.getElementById('langEnBtn');
   if (langEnBtn) langEnBtn.addEventListener('click', () => setLanguage('en'));
 
@@ -477,7 +508,6 @@ function bindEvents() {
   setupJoinForm();
 }
 
-initTheme();
 renderCards();
 translatePage();
 populateCountryCodes();

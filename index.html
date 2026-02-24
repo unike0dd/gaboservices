@@ -29,9 +29,9 @@
             <li><a href="./contact" data-i18n="contact">Contacto</a></li>
           </ul>
         </nav>
-        <div class="actions">
-          <button id="langBtn" class="ghost">EN</button>
-          <button id="themeBtn" class="ghost">Dark</button>
+        <div class="actions" role="group" aria-label="Language selector">
+          <button id="langEnBtn" class="ghost" type="button" aria-pressed="false">EN</button>
+          <button id="langEsBtn" class="ghost" type="button" aria-pressed="false">ES</button>
         </div>
       </div>
     </header>
@@ -56,6 +56,12 @@
       <section id="services" class="container section">
         <h2 data-i18n="services">Services</h2>
         <div class="grid cards" id="serviceCards"></div>
+      </section>
+
+      <section id="serviceDetailPanel" class="container section service-detail" hidden>
+        <h3 id="serviceDetailTitle"></h3>
+        <p id="serviceDetailBody"></p>
+        <a id="serviceDetailLink" class="btn" href="./services" data-i18n="serviceLearnMore">Learn more</a>
       </section>
 
 
