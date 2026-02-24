@@ -147,7 +147,7 @@ function renderCards() {
 
 
 async function populateCountryCodes() {
-  const selects = [...document.querySelectorAll('select[name="contact_country_code"]')];
+  const selects = [...document.querySelectorAll('select[name="contact_country_code"], select[name="applicant_contact_country_code"]')];
   if (!selects.length) return;
 
   const fallback = [
@@ -268,6 +268,81 @@ function bindFabControls() {
   });
 }
 
+
+function getRepeatableTemplate(type) {
+  if (type === 'expertise') {
+    return `
+      <select required name="expertise_level[]" aria-label="Level of Expertise">
+        <option value="">Select level</option>
+        <option value="Entry">Entry</option>
+        <option value="Junior">Junior</option>
+        <option value="Mid">Mid</option>
+        <option value="Advance">Advance</option>
+        <option value="Expert">Expert</option>
+      </select>
+      <textarea required name="expertise_notes[]" rows="2" placeholder="Describe your expertise"></textarea>
+    `;
+  }
+
+  const placeholders = {
+    experience: 'Describe your experience',
+    education: 'Share your education background',
+    certification: 'List your certifications',
+    skills: 'Add your skills',
+    languages: 'List language(s) and level'
+  };
+
+  return `<textarea required name="${type}[]" rows="2" placeholder="${placeholders[type] || 'Add details'}"></textarea>`;
+}
+
+function setupJoinForm() {
+  const joinForm = document.getElementById('joinForm');
+  if (!joinForm) return;
+
+  joinForm.querySelectorAll('.secure-repeatable').forEach((block) => {
+    const type = block.dataset.repeatable;
+    const list = block.querySelector('.repeatable-list');
+    const addBtn = block.querySelector('.repeat-add');
+    const removeBtn = block.querySelector('.repeat-remove');
+
+    addBtn.addEventListener('click', () => {
+      const wrapper = document.createElement('div');
+      wrapper.className = type === 'expertise' ? 'expertise-entry' : 'repeatable-entry';
+      wrapper.innerHTML = getRepeatableTemplate(type).trim();
+      list.appendChild(wrapper);
+    });
+
+    removeBtn.addEventListener('click', () => {
+      if (list.children.length <= 1) return;
+      list.removeChild(list.lastElementChild);
+    });
+  });
+
+  joinForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const verdict = tinyGuard.validateForm(joinForm);
+    const status = document.getElementById('joinFormStatus');
+
+    if (!verdict.allowed) {
+      status.textContent = dictionary[lang].blocked;
+      status.dataset.state = 'blocked';
+      joinForm.querySelectorAll('.hp-field').forEach((node) => {
+        node.value = '';
+      });
+      return;
+    }
+
+    joinForm.reset();
+    joinForm.querySelectorAll('.repeatable-list').forEach((list) => {
+      while (list.children.length > 1) {
+        list.removeChild(list.lastElementChild);
+      }
+    });
+    status.textContent = dictionary[lang].sent;
+    status.dataset.state = 'ok';
+  });
+}
+
 function bindEvents() {
   document.getElementById('themeBtn').addEventListener('click', () => {
     root.classList.toggle('dark');
@@ -321,6 +396,7 @@ function bindEvents() {
   });
 
   bindFabControls();
+  setupJoinForm();
 }
 
 initTheme();
