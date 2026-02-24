@@ -35,7 +35,6 @@
 
     <main id="home">
       <section class="hero container">
-        <p class="eyebrow" data-i18n="trustedBy">Trusted by 4,759+ SMB teams</p>
         <h1 data-i18n="heroTitle">Professional services for logistics, IT, and customer operations.</h1>
         <p data-i18n="heroBody">Scale support with expert teams, measurable SLAs, and human-centered delivery.</p>
         <div class="cta-row">
@@ -75,6 +74,23 @@
           <label>
             <span>Email</span>
             <input required type="email" name="email" />
+          </label>
+          <label>
+            <span data-i18n="contactNumber">Your Contact Number</span>
+            <div class="contact-number-row">
+              <select required name="contact_country_code" aria-label="Country code" data-i18n-aria-label="countryCode">
+                <option value="+1">🇺🇸 +1</option>
+                <option value="+52">🇲🇽 +52</option>
+                <option value="+34">🇪🇸 +34</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+57">🇨🇴 +57</option>
+              </select>
+              <input required type="tel" name="contact_number" inputmode="tel" autocomplete="tel-national" placeholder="555 123 4567" />
+            </div>
+          </label>
+          <label>
+            <span data-i18n="contactTime">Most convenient time to contact you</span>
+            <input required type="datetime-local" name="contact_time" />
           </label>
           <label>
             <span data-i18n="message">Message</span>

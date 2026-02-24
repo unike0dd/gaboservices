@@ -1,12 +1,11 @@
 const dictionary = {
   en: {
     home: 'Home', services: 'Services', about: 'About', pricing: 'Pricing', contact: 'Contact',
-    trustedBy: 'Trusted by 4,759+ SMB teams',
     heroTitle: 'Professional services for logistics, IT, and customer operations.',
     heroBody: 'Scale support with expert teams, measurable SLAs, and human-centered delivery.',
     startTrial: 'Start Free Trial', schedule: 'Schedule Consultation',
     aboutBody: 'Gabriel Services provides multilingual operational support designed for modern digital businesses.',
-    name: 'Name', message: 'Message', send: 'Send', cookie: 'We use cookies to improve your experience.', accept: 'Accept',
+    name: 'Name', contactNumber: 'Your Contact Number', countryCode: 'Country code', contactTime: 'Most convenient time to contact you', message: 'Message', send: 'Send', cookie: 'We use cookies to improve your experience.', accept: 'Accept',
     sent: 'Message captured. We will contact you shortly.',
     blocked: 'Submission blocked by security checks. Please remove code-like content and retry.',
     themeDark: 'Dark',
@@ -16,12 +15,11 @@ const dictionary = {
   },
   es: {
     home: 'Inicio', services: 'Servicios', about: 'Nosotros', pricing: 'Precios', contact: 'Contacto',
-    trustedBy: 'Con la confianza de más de 4,759 equipos PyME',
     heroTitle: 'Servicios profesionales para logística, TI y operaciones de atención al cliente.',
     heroBody: 'Escale su soporte con equipos expertos, SLA medibles y una entrega centrada en las personas.',
     startTrial: 'Iniciar prueba gratuita', schedule: 'Programar consulta',
     aboutBody: 'Gabriel Services ofrece soporte operativo multilingüe diseñado para negocios digitales modernos.',
-    name: 'Nombre', message: 'Mensaje', send: 'Enviar', cookie: 'Usamos cookies para mejorar su experiencia.', accept: 'Aceptar',
+    name: 'Nombre', contactNumber: 'Your Contact Number', countryCode: 'Código de país', contactTime: 'Most convenient time to contact you', message: 'Mensaje', send: 'Enviar', cookie: 'Usamos cookies para mejorar su experiencia.', accept: 'Aceptar',
     sent: 'Mensaje recibido. Nos pondremos en contacto pronto.',
     blocked: 'Contenido bloqueado por seguridad. Elimine código malicioso e inténtelo otra vez.',
     themeDark: 'Dark',
@@ -48,14 +46,14 @@ const services = {
 
 const plans = {
   en: [
-    { name: 'Starter', price: '$299/mo', points: ['Email support', 'Business hours', 'Monthly report'] },
-    { name: 'Growth', price: '$899/mo', points: ['24/7 support', 'Priority SLA', 'Weekly optimization'] },
-    { name: 'Enterprise', price: 'Custom', points: ['Dedicated team', 'Custom integrations', 'Compliance alignment'] }
+    { name: 'Individual', price: '$3,950/mo', points: ['Email support', 'Business hours', 'Monthly report'] },
+    { name: 'Small Business', price: '$4,850/mo', points: ['24/7 support', 'Priority SLA', 'Weekly optimization'] },
+    { name: 'Medium Business', price: '$5,950/mo', points: ['Dedicated team', 'Custom integrations', 'Compliance alignment'] }
   ],
   es: [
-    { name: 'Inicial', price: '$299/mes', points: ['Soporte por correo', 'Horario laboral', 'Reporte mensual'] },
-    { name: 'Crecimiento', price: '$899/mes', points: ['Soporte 24/7', 'SLA prioritario', 'Optimización semanal'] },
-    { name: 'Empresarial', price: 'Personalizado', points: ['Equipo dedicado', 'Integraciones a medida', 'Alineación de cumplimiento'] }
+    { name: 'Individual', price: '$3,950 usd/mes', points: ['Soporte por correo', 'Horario laboral', 'Reporte mensual'] },
+    { name: 'Small Business', price: '$4,850 usd/mes', points: ['Soporte 24/7', 'SLA prioritario', 'Optimización semanal'] },
+    { name: 'Medium Business', price: '$5,950 usd/mes', points: ['Equipo dedicado', 'Integraciones a medida', 'Alineación de cumplimiento'] }
   ]
 };
 
@@ -160,6 +158,10 @@ function translatePage() {
   document.querySelectorAll('[data-i18n]').forEach((node) => {
     const key = node.dataset.i18n;
     if (copy[key]) node.textContent = copy[key];
+  });
+  document.querySelectorAll('[data-i18n-aria-label]').forEach((node) => {
+    const key = node.dataset.i18nAriaLabel;
+    if (copy[key]) node.setAttribute('aria-label', copy[key]);
   });
   document.getElementById('langBtn').textContent = lang === 'en' ? 'ES' : 'EN';
   syncThemeButton();
