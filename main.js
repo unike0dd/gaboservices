@@ -289,10 +289,34 @@ function getRepeatableTemplate(type) {
     education: 'Share your education background',
     certification: 'List your certifications',
     skills: 'Add your skills',
-    languages: 'List language(s) and level'
+    languages: 'List language(s) and level',
+    instruction: 'Add custom instruction'
   };
 
   return `<textarea required name="${type}[]" rows="2" placeholder="${placeholders[type] || 'Add details'}"></textarea>`;
+}
+
+
+function setRepeatableLockState(block, locked) {
+  const addBtn = block.querySelector('.repeat-add');
+  const removeBtn = block.querySelector('.repeat-remove');
+  const lockBtn = block.querySelector('.repeat-lock');
+  const fields = [...block.querySelectorAll('textarea, select, input')];
+
+  addBtn.disabled = locked;
+  removeBtn.disabled = locked;
+
+  fields.forEach((field) => {
+    if (field.closest('.secure-actions')) return;
+    if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
+      field.readOnly = locked;
+    }
+    field.disabled = locked && field.tagName === 'SELECT';
+  });
+
+  lockBtn.textContent = locked ? '🔒' : '🔓';
+  lockBtn.setAttribute('aria-pressed', String(locked));
+  lockBtn.setAttribute('aria-label', locked ? 'Unlock section' : 'Lock section');
 }
 
 function setupJoinForm() {
@@ -304,8 +328,10 @@ function setupJoinForm() {
     const list = block.querySelector('.repeatable-list');
     const addBtn = block.querySelector('.repeat-add');
     const removeBtn = block.querySelector('.repeat-remove');
+    const lockBtn = block.querySelector('.repeat-lock');
 
     addBtn.addEventListener('click', () => {
+      if (addBtn.disabled) return;
       const wrapper = document.createElement('div');
       wrapper.className = type === 'expertise' ? 'expertise-entry' : 'repeatable-entry';
       wrapper.innerHTML = getRepeatableTemplate(type).trim();
@@ -313,9 +339,17 @@ function setupJoinForm() {
     });
 
     removeBtn.addEventListener('click', () => {
-      if (list.children.length <= 1) return;
+      if (removeBtn.disabled || list.children.length <= 1) return;
       list.removeChild(list.lastElementChild);
     });
+
+    lockBtn.addEventListener('click', () => {
+      const currentlyLocked = lockBtn.getAttribute('aria-pressed') === 'true';
+      setRepeatableLockState(block, !currentlyLocked);
+    });
+
+    const startsLocked = lockBtn.getAttribute('aria-pressed') === 'true';
+    setRepeatableLockState(block, startsLocked);
   });
 
   joinForm.addEventListener('submit', (event) => {

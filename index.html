@@ -63,7 +63,39 @@
         <h2>Careers</h2>
         <p>Join our team and help SMB clients modernize logistics, IT, and support operations.</p>
         <p><strong>Activate:</strong> + [Add] - [Remove] [padlock 🔒] to secure or edit.</p>
+
         <form class="contact-form join-form" id="joinForm" novalidate>
+          <div class="secure-repeatable instruction-repeatable" data-repeatable="instruction">
+            <div class="secure-repeatable-head">
+            <span>Activated Custom Instructions</span>
+            <div class="secure-actions" aria-label="Instruction controls">
+              <button type="button" class="ghost repeat-add" aria-label="Add custom instruction">+</button>
+              <button type="button" class="ghost repeat-remove" aria-label="Remove custom instruction">-</button>
+              <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="true" aria-label="Unlock section">🔒</button>
+            </div>
+          </div>
+            <div class="repeatable-list">
+            <div class="repeatable-entry">
+              <textarea name="instruction[]" rows="2" readonly>🌩️ Intelligent Code Lifecycle (Cloud + DevOps) — Activated</textarea>
+            </div>
+            <div class="repeatable-entry">
+              <textarea name="instruction[]" rows="2" readonly>🧠 HCI & UX/UI (2025+ Digital Trends) — Activated</textarea>
+            </div>
+            <div class="repeatable-entry">
+              <textarea name="instruction[]" rows="2" readonly>🔐 Cybersecurity & Compliance (OPS CyberSec Core) — Activated</textarea>
+            </div>
+            <div class="repeatable-entry">
+              <textarea name="instruction[]" rows="2" readonly>🕸️ Web Governance & Compliance — Activated</textarea>
+            </div>
+            <div class="repeatable-entry">
+              <textarea name="instruction[]" rows="2" readonly>🤖 AI / ML / LLM Integration — Activated</textarea>
+            </div>
+            <div class="repeatable-entry">
+              <textarea name="instruction[]" rows="2" readonly>📊 Data Science + Observability — Activated</textarea>
+            </div>
+            </div>
+          </div>
+
           <label>
             <span data-i18n="name">Name</span>
             <input required name="applicant_name" />
@@ -79,7 +111,7 @@
               <div class="secure-actions" aria-label="Experience controls">
                 <button type="button" class="ghost repeat-add" aria-label="Add Experience entry">+</button>
                 <button type="button" class="ghost repeat-remove" aria-label="Remove Experience entry">-</button>
-                <span class="secure-lock" aria-hidden="true">🔒</span>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
               </div>
             </div>
             <div class="repeatable-list">
@@ -95,7 +127,7 @@
               <div class="secure-actions" aria-label="Education controls">
                 <button type="button" class="ghost repeat-add" aria-label="Add Education entry">+</button>
                 <button type="button" class="ghost repeat-remove" aria-label="Remove Education entry">-</button>
-                <span class="secure-lock" aria-hidden="true">🔒</span>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
               </div>
             </div>
             <div class="repeatable-list">
@@ -111,7 +143,7 @@
               <div class="secure-actions" aria-label="Certification controls">
                 <button type="button" class="ghost repeat-add" aria-label="Add Certification entry">+</button>
                 <button type="button" class="ghost repeat-remove" aria-label="Remove Certification entry">-</button>
-                <span class="secure-lock" aria-hidden="true">🔒</span>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
               </div>
             </div>
             <div class="repeatable-list">
@@ -127,7 +159,7 @@
               <div class="secure-actions" aria-label="Skills controls">
                 <button type="button" class="ghost repeat-add" aria-label="Add Skills entry">+</button>
                 <button type="button" class="ghost repeat-remove" aria-label="Remove Skills entry">-</button>
-                <span class="secure-lock" aria-hidden="true">🔒</span>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
               </div>
             </div>
             <div class="repeatable-list">
@@ -143,7 +175,7 @@
               <div class="secure-actions" aria-label="Level of Expertise controls">
                 <button type="button" class="ghost repeat-add" aria-label="Add Level of Expertise entry">+</button>
                 <button type="button" class="ghost repeat-remove" aria-label="Remove Level of Expertise entry">-</button>
-                <span class="secure-lock" aria-hidden="true">🔒</span>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
               </div>
             </div>
             <div class="repeatable-list expertise-list">
@@ -167,7 +199,7 @@
               <div class="secure-actions" aria-label="Languages controls">
                 <button type="button" class="ghost repeat-add" aria-label="Add Languages entry">+</button>
                 <button type="button" class="ghost repeat-remove" aria-label="Remove Languages entry">-</button>
-                <span class="secure-lock" aria-hidden="true">🔒</span>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
               </div>
             </div>
             <div class="repeatable-list">
