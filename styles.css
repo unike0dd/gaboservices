@@ -208,3 +208,12 @@ input, textarea, select {
 .secure-lock {
   font-size: 1rem;
 }
+
+.secure-actions .ghost:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.instruction-repeatable {
+  margin-bottom: 0.75rem;
+}
