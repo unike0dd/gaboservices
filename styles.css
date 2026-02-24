@@ -55,12 +55,6 @@ body {
 .brand-stack { display: grid; gap: 0.2rem; }
 .brand { font-weight: 800; font-size: 24px; color: var(--text); text-decoration: none; }
 .brand-subtitle { margin: 0; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; }
-.editorial-toggle-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-}
-
 .editorial-toggle {
   justify-self: start;
   border: 1px solid var(--border);
@@ -70,13 +64,6 @@ body {
   padding: 0.28rem 0.72rem;
   font-size: 0.78rem;
   cursor: pointer;
-}
-
-.editorial-toggle.active,
-.editorial-toggle[aria-pressed='true'] {
-  background: var(--primary);
-  color: #fff;
-  border-color: transparent;
 }
 .nav-links { list-style:none; display:flex; gap:1rem; margin:0; padding:0; }
 .nav-links a { color: var(--text); text-decoration:none; }
@@ -290,35 +277,4 @@ input, textarea, select {
 
 :root[data-editorial-theme='time'] .site-header {
   border-bottom: 3px solid #b11116;
-}
-
-
-:root[data-editorial-theme='newspaper'] {
-  --bg: #f9f8f2;
-  --text: #161616;
-  --card: rgba(255, 255, 255, 0.96);
-  --primary: #2c2c2c;
-  --border: rgba(22, 22, 22, 0.25);
-}
-
-:root[data-editorial-theme='newspaper'] body {
-  font-family: 'Source Serif 4', Georgia, serif;
-  background: repeating-linear-gradient(
-    0deg,
-    #f4f3ed,
-    #f4f3ed 34px,
-    #efede6 35px,
-    #efede6 36px
-  );
-  animation: none;
-}
-
-:root[data-editorial-theme='newspaper'] .site-header {
-  border-bottom: 2px solid #1f1f1f;
-}
-
-:root[data-editorial-theme='newspaper'] .brand,
-:root[data-editorial-theme='newspaper'] h1,
-:root[data-editorial-theme='newspaper'] h2 {
-  letter-spacing: 0.02em;
 }
