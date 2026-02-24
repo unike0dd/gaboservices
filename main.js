@@ -147,7 +147,7 @@ function renderCards() {
 
 
 async function populateCountryCodes() {
-  const selects = [...document.querySelectorAll('select[name="contact_country_code"]')];
+  const selects = [...document.querySelectorAll('select[name="contact_country_code"], select[name="applicant_contact_country_code"]')];
   if (!selects.length) return;
 
   const fallback = [

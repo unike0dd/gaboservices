@@ -44,7 +44,7 @@ body {
   border-bottom: 1px solid var(--border);
 }
 .nav-wrap { display:flex; align-items:center; justify-content:space-between; padding: .8rem 0; gap: 1rem; }
-.brand { font-weight: 800; color: var(--text); text-decoration: none; }
+.brand { font-weight: 800; font-size: 24px; color: var(--text); text-decoration: none; }
 .nav-links { list-style:none; display:flex; gap:1rem; margin:0; padding:0; }
 .nav-links a { color: var(--text); text-decoration:none; }
 .actions { display:flex; gap:.5rem; }
