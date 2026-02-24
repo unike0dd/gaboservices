@@ -25,8 +25,9 @@
           </ul>
         </nav>
         <div class="actions">
-          <button class="ghost">EN</button>
-          <button class="ghost">Dark</button>
+          <button id="langEnBtn" class="ghost" type="button" aria-pressed="false">EN</button>
+          <button id="langEsBtn" class="ghost" type="button" aria-pressed="false">ES</button>
+          <button id="themeBtn" class="ghost" type="button">Dark</button>
         </div>
       </div>
     </header>
@@ -55,66 +56,8 @@
         <p id="formStatus" role="status" aria-live="polite"></p>
       </form>
     </main>
-    <script>
-      const form = document.getElementById('contactForm');
-      const countrySelect = form.querySelector('select[name="contact_country_code"]');
 
-      async function populateCountryCodes() {
-        const fallback = [
-          { name: 'United States', code: '+1' },
-          { name: 'Mexico', code: '+52' },
-          { name: 'Spain', code: '+34' },
-          { name: 'United Kingdom', code: '+44' },
-          { name: 'Colombia', code: '+57' }
-        ];
-
-        const fill = (items) => {
-          countrySelect.innerHTML = ['<option value="">Select country code</option>']
-            .concat(items.map((item) => `<option value="${item.code}">${item.name} (${item.code})</option>`))
-            .join('');
-        };
-
-        try {
-          const response = await fetch('https://restcountries.com/v3.1/all?fields=name,idd');
-          if (!response.ok) throw new Error('country source unavailable');
-          const countries = await response.json();
-          const entries = [];
-
-          countries.forEach((country) => {
-            const name = country?.name?.common;
-            const root = country?.idd?.root;
-            const suffixes = country?.idd?.suffixes || [];
-            if (!name || !root) return;
-            suffixes.forEach((suffix) => {
-              entries.push({ name, code: `${root}${suffix || ''}` });
-            });
-          });
-
-          const unique = [];
-          const seen = new Set();
-          entries
-            .sort((a, b) => a.name.localeCompare(b.name) || a.code.localeCompare(b.code))
-            .forEach((entry) => {
-              const key = `${entry.name}-${entry.code}`;
-              if (seen.has(key)) return;
-              seen.add(key);
-              unique.push(entry);
-            });
-
-          fill(unique.length ? unique : fallback);
-        } catch (error) {
-          fill(fallback);
-        }
-      }
-
-      populateCountryCodes();
-
-      form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        form.reset();
-        document.getElementById('formStatus').textContent = 'Message captured. We will contact you shortly.';
-      });
-    </script>
       <script src="../page-style-switcher.js"></script>
+    <script type="module" src="../main.js"></script>
   </body>
 </html>

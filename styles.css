@@ -69,6 +69,7 @@ body {
 .nav-links a { color: var(--text); text-decoration:none; }
 .actions { display:flex; gap:.5rem; }
 .ghost { background:transparent; border:1px solid var(--border); color:var(--text); border-radius:.5rem; padding:.4rem .6rem; }
+.actions .ghost.active { background: var(--text); color: var(--bg); border-color: var(--text); }
 .nav-toggle { display:none; }
 .hero { padding: 5rem 0 3rem; }
 .eyebrow { color: var(--primary); font-weight: 700; }
