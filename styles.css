@@ -7,11 +7,11 @@
 }
 
 :root.dark {
-  --bg: #111827;
+  --bg: #1f2937;
   --text: #f8fafc;
-  --card: rgba(31, 41, 55, 0.9);
+  --card: rgba(17, 24, 39, 0.88);
   --primary: #818cf8;
-  --border: #374151;
+  --border: rgba(148, 163, 184, 0.35);
 }
 
 * { box-sizing: border-box; }
@@ -23,15 +23,23 @@ body {
   animation: springSummerShift 18s ease-in-out infinite;
   color: var(--text);
   line-height: 1.5;
-  transition: background 600ms ease, color 300ms ease;
+  transition: background 1100ms ease, color 350ms ease;
 }
 
 :root.dark body {
-  background: linear-gradient(160deg, #030712, #111827, #1f2937);
-  animation: none;
+  /* Fall-to-winter inspired palette for dark mode */
+  background: linear-gradient(160deg, #3f2a1d, #6b3f2c, #1f2937, #0f172a, #dbeafe);
+  background-size: 280% 280%;
+  animation: fallWinterShift 16s ease-in-out infinite;
 }
 
 @keyframes springSummerShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fallWinterShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
