@@ -62,7 +62,17 @@ const metadata = window.SITE_METADATA || {};
 if (metadata.name) document.title = metadata.name;
 const metaDescription = document.querySelector('meta[name="description"]');
 if (metaDescription && metadata.description) metaDescription.setAttribute('content', metadata.description);
-let lang = localStorage.getItem('lang') || 'en';
+const supportedLanguages = ['en', 'es'];
+let lang = supportedLanguages.includes(localStorage.getItem('lang')) ? localStorage.getItem('lang') : 'en';
+
+function setLanguage(nextLang) {
+  if (!supportedLanguages.includes(nextLang)) return;
+  lang = nextLang;
+  localStorage.setItem('lang', lang);
+  renderCards();
+  translatePage();
+  populateCountryCodes();
+}
 
 class TinyGuardML {
   constructor() {
@@ -213,13 +223,16 @@ async function populateCountryCodes() {
 
 function syncThemeButton() {
   const themeBtn = document.getElementById('themeBtn');
+  if (!themeBtn) return;
+
+  const copy = dictionary[lang] || dictionary.en;
   const isDark = root.classList.contains('dark');
-  themeBtn.textContent = isDark ? dictionary[lang].themeDark : dictionary[lang].themeLight;
-  themeBtn.setAttribute('aria-label', isDark ? dictionary[lang].themeLabelDark : dictionary[lang].themeLabelLight);
+  themeBtn.textContent = isDark ? copy.themeDark : copy.themeLight;
+  themeBtn.setAttribute('aria-label', isDark ? copy.themeLabelDark : copy.themeLabelLight);
 }
 
 function translatePage() {
-  const copy = dictionary[lang];
+  const copy = dictionary[lang] || dictionary.en;
   document.documentElement.lang = lang;
   document.querySelectorAll('[data-i18n]').forEach((node) => {
     const key = node.dataset.i18n;
@@ -229,7 +242,22 @@ function translatePage() {
     const key = node.dataset.i18nAriaLabel;
     if (copy[key]) node.setAttribute('aria-label', copy[key]);
   });
-  document.getElementById('langBtn').textContent = lang === 'en' ? 'ES' : 'EN';
+  const langBtn = document.getElementById('langBtn');
+  if (langBtn) langBtn.textContent = lang === 'en' ? 'ES' : 'EN';
+
+  const langEnBtn = document.getElementById('langEnBtn');
+  const langEsBtn = document.getElementById('langEsBtn');
+  if (langEnBtn) {
+    const isEnglish = lang === 'en';
+    langEnBtn.setAttribute('aria-pressed', String(isEnglish));
+    langEnBtn.classList.toggle('active', isEnglish);
+  }
+  if (langEsBtn) {
+    const isSpanish = lang === 'es';
+    langEsBtn.setAttribute('aria-pressed', String(isSpanish));
+    langEsBtn.classList.toggle('active', isSpanish);
+  }
+
   syncThemeButton();
 }
 
@@ -250,6 +278,8 @@ function bindFabControls() {
   const chatPanel = document.getElementById('chatPanel');
   const chatClose = document.getElementById('chatClose');
   const chatFrame = document.getElementById('chatFrame');
+
+  if (!fabMain || !fabMenu || !fabChat || !chatPanel || !chatClose || !chatFrame) return;
 
   fabMain.addEventListener('click', () => {
     const expanded = fabMain.getAttribute('aria-expanded') === 'true';
@@ -384,27 +414,37 @@ function setupJoinForm() {
 }
 
 function bindEvents() {
-  document.getElementById('themeBtn').addEventListener('click', () => {
-    root.classList.toggle('dark');
-    localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
-    syncThemeButton();
-  });
+  const themeBtn = document.getElementById('themeBtn');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      root.classList.toggle('dark');
+      localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+      syncThemeButton();
+    });
+  }
 
-  document.getElementById('langBtn').addEventListener('click', () => {
-    lang = lang === 'en' ? 'es' : 'en';
-    localStorage.setItem('lang', lang);
-    renderCards();
-    translatePage();
-    populateCountryCodes();
-  });
+  const legacyLangBtn = document.getElementById('langBtn');
+  if (legacyLangBtn) {
+    legacyLangBtn.addEventListener('click', () => {
+      setLanguage(lang === 'en' ? 'es' : 'en');
+    });
+  }
+
+  const langEnBtn = document.getElementById('langEnBtn');
+  if (langEnBtn) langEnBtn.addEventListener('click', () => setLanguage('en'));
+
+  const langEsBtn = document.getElementById('langEsBtn');
+  if (langEsBtn) langEsBtn.addEventListener('click', () => setLanguage('es'));
 
   const navToggle = document.getElementById('navToggle');
   const nav = document.getElementById('primaryNav');
-  navToggle.addEventListener('click', () => {
-    const expanded = navToggle.getAttribute('aria-expanded') === 'true';
-    navToggle.setAttribute('aria-expanded', String(!expanded));
-    nav.classList.toggle('open');
-  });
+  if (navToggle && nav) {
+    navToggle.addEventListener('click', () => {
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!expanded));
+      nav.classList.toggle('open');
+    });
+  }
 
   const form = document.getElementById('contactForm');
   if (form) {
@@ -430,14 +470,18 @@ function bindEvents() {
     });
   }
 
-  document.getElementById('year').textContent = String(new Date().getFullYear());
+  const yearNode = document.getElementById('year');
+  if (yearNode) yearNode.textContent = String(new Date().getFullYear());
 
   const cookieBanner = document.getElementById('cookieBanner');
-  if (!localStorage.getItem('cookieAccepted')) cookieBanner.hidden = false;
-  document.getElementById('cookieAccept').addEventListener('click', () => {
-    localStorage.setItem('cookieAccepted', 'true');
-    cookieBanner.hidden = true;
-  });
+  const cookieAccept = document.getElementById('cookieAccept');
+  if (cookieBanner && cookieAccept) {
+    if (!localStorage.getItem('cookieAccepted')) cookieBanner.hidden = false;
+    cookieAccept.addEventListener('click', () => {
+      localStorage.setItem('cookieAccepted', 'true');
+      cookieBanner.hidden = true;
+    });
+  }
 
   bindFabControls();
   setupJoinForm();
