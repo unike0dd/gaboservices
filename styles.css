@@ -249,8 +249,11 @@ input, textarea, select {
 }
 
 .secure-actions .ghost {
-  padding: 0.2rem 0.55rem;
-  line-height: 1;
+  padding: 0.45rem 0.9rem;
+  line-height: 1.1;
+  font-size: 0.98rem;
+  font-weight: 700;
+  min-width: 5.8rem;
 }
 
 .repeatable-list,
