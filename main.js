@@ -129,20 +129,26 @@ function renderCards() {
   const localizedServices = services[lang] || services.en;
   const localizedPlans = plans[lang] || plans.en;
 
-  document.getElementById('serviceCards').innerHTML = localizedServices.map((service) => `
+  const serviceCards = document.getElementById('serviceCards');
+  if (serviceCards) {
+    serviceCards.innerHTML = localizedServices.map((service) => `
     <article class="card">
       <h3>${service.title}</h3>
       <p>${service.body}</p>
     </article>
   `).join('');
+  }
 
-  document.getElementById('pricingCards').innerHTML = localizedPlans.map((plan) => `
+  const pricingCards = document.getElementById('pricingCards');
+  if (pricingCards) {
+    pricingCards.innerHTML = localizedPlans.map((plan) => `
     <article class="price-card">
       <h3>${plan.name}</h3>
       <p class="price">${plan.price}</p>
       <ul>${plan.points.map((point) => `<li>${point}</li>`).join('')}</ul>
     </article>
   `).join('');
+  }
 }
 
 
@@ -401,24 +407,28 @@ function bindEvents() {
   });
 
   const form = document.getElementById('contactForm');
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const verdict = tinyGuard.validateForm(form);
-    const status = document.getElementById('formStatus');
+  if (form) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const verdict = tinyGuard.validateForm(form);
+      const status = document.getElementById('formStatus');
 
-    if (!verdict.allowed) {
-      status.textContent = dictionary[lang].blocked;
-      status.dataset.state = 'blocked';
-      form.querySelectorAll('.hp-field').forEach((node) => {
-        node.value = '';
-      });
-      return;
-    }
+      if (!status) return;
 
-    form.reset();
-    status.textContent = dictionary[lang].sent;
-    status.dataset.state = 'ok';
-  });
+      if (!verdict.allowed) {
+        status.textContent = dictionary[lang].blocked;
+        status.dataset.state = 'blocked';
+        form.querySelectorAll('.hp-field').forEach((node) => {
+          node.value = '';
+        });
+        return;
+      }
+
+      form.reset();
+      status.textContent = dictionary[lang].sent;
+      status.dataset.state = 'ok';
+    });
+  }
 
   document.getElementById('year').textContent = String(new Date().getFullYear());
 

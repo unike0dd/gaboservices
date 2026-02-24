@@ -25,7 +25,6 @@
             <li><a href="#home" data-i18n="home">Inicio</a></li>
             <li><a href="./about" data-i18n="about">Nosotros</a></li>
             <li><a href="./services" data-i18n="services">Servicios</a></li>
-            <li><a href="./pricing" data-i18n="pricing">Precios</a></li>
             <li><a href="./careers">Careers</a></li>
             <li><a href="./contact" data-i18n="contact">Contacto</a></li>
           </ul>
@@ -42,8 +41,8 @@
         <h1 data-i18n="heroTitle">Professional services for logistics, IT, and customer operations.</h1>
         <p data-i18n="heroBody">Scale support with expert teams, measurable SLAs, and human-centered delivery.</p>
         <div class="cta-row">
-          <a href="#contact" class="btn primary" data-i18n="startTrial">Start Free Trial</a>
-          <a href="#contact" class="btn" data-i18n="schedule">Schedule Consultation</a>
+          <a href="./contact" class="btn primary" data-i18n="startTrial">Start Free Trial</a>
+          <a href="./contact" class="btn" data-i18n="schedule">Schedule Consultation</a>
           <input class="hp-field" type="text" name="trial_reference" tabindex="-1" autocomplete="off" aria-hidden="true" />
         </div>
       </section>
@@ -58,171 +57,8 @@
         <div class="grid cards" id="serviceCards"></div>
       </section>
 
-      <section id="pricing" class="container section">
-        <h2 data-i18n="pricing">Pricing</h2>
-        <div class="grid pricing" id="pricingCards"></div>
-      </section>
 
-      <section id="careers" class="container section">
-        <h2>Careers</h2>
-        <p>Join our team and help SMB clients modernize logistics, IT, and support operations.</p>
-        <form class="contact-form join-form" id="joinForm" novalidate>
-          <label>
-            <span data-i18n="name">Name</span>
-            <input required name="applicant_name" />
-          </label>
-          <label>
-            <span>Email</span>
-            <input required type="email" name="applicant_email" />
-          </label>
 
-          <div class="secure-repeatable" data-repeatable="experience">
-            <div class="secure-repeatable-head">
-              <span>Experience</span>
-              <div class="secure-actions" aria-label="Experience controls">
-                <button type="button" class="ghost repeat-add" aria-label="Add Experience entry">+</button>
-                <button type="button" class="ghost repeat-remove" aria-label="Remove Experience entry">-</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
-              </div>
-            </div>
-            <div class="repeatable-list">
-              <div class="repeatable-entry">
-                <textarea required name="experience[]" rows="2" placeholder="Describe your experience"></textarea>
-              </div>
-            </div>
-          </div>
-
-          <div class="secure-repeatable" data-repeatable="education">
-            <div class="secure-repeatable-head">
-              <span>Education</span>
-              <div class="secure-actions" aria-label="Education controls">
-                <button type="button" class="ghost repeat-add" aria-label="Add Education entry">+</button>
-                <button type="button" class="ghost repeat-remove" aria-label="Remove Education entry">-</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
-              </div>
-            </div>
-            <div class="repeatable-list">
-              <div class="repeatable-entry">
-                <textarea required name="education[]" rows="2" placeholder="Share your education background"></textarea>
-              </div>
-            </div>
-          </div>
-
-          <div class="secure-repeatable" data-repeatable="certification">
-            <div class="secure-repeatable-head">
-              <span>Certification</span>
-              <div class="secure-actions" aria-label="Certification controls">
-                <button type="button" class="ghost repeat-add" aria-label="Add Certification entry">+</button>
-                <button type="button" class="ghost repeat-remove" aria-label="Remove Certification entry">-</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
-              </div>
-            </div>
-            <div class="repeatable-list">
-              <div class="repeatable-entry">
-                <textarea required name="certification[]" rows="2" placeholder="List your certifications"></textarea>
-              </div>
-            </div>
-          </div>
-
-          <div class="secure-repeatable" data-repeatable="skills">
-            <div class="secure-repeatable-head">
-              <span>Skills</span>
-              <div class="secure-actions" aria-label="Skills controls">
-                <button type="button" class="ghost repeat-add" aria-label="Add Skills entry">+</button>
-                <button type="button" class="ghost repeat-remove" aria-label="Remove Skills entry">-</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
-              </div>
-            </div>
-            <div class="repeatable-list">
-              <div class="repeatable-entry">
-                <textarea required name="skills[]" rows="2" placeholder="Add your skills"></textarea>
-              </div>
-            </div>
-          </div>
-
-          <div class="secure-repeatable" data-repeatable="expertise">
-            <div class="secure-repeatable-head">
-              <span>Level of Expertise</span>
-              <div class="secure-actions" aria-label="Level of Expertise controls">
-                <button type="button" class="ghost repeat-add" aria-label="Add Level of Expertise entry">+</button>
-                <button type="button" class="ghost repeat-remove" aria-label="Remove Level of Expertise entry">-</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
-              </div>
-            </div>
-            <div class="repeatable-list expertise-list">
-              <div class="expertise-entry">
-                <select required name="expertise_level[]" aria-label="Level of Expertise">
-                  <option value="">Select level</option>
-                  <option value="Entry">Entry</option>
-                  <option value="Junior">Junior</option>
-                  <option value="Mid">Mid</option>
-                  <option value="Advance">Advance</option>
-                  <option value="Expert">Expert</option>
-                </select>
-                <textarea required name="expertise_notes[]" rows="2" placeholder="Describe your expertise"></textarea>
-              </div>
-            </div>
-          </div>
-
-          <div class="secure-repeatable" data-repeatable="languages">
-            <div class="secure-repeatable-head">
-              <span>Languages</span>
-              <div class="secure-actions" aria-label="Languages controls">
-                <button type="button" class="ghost repeat-add" aria-label="Add Languages entry">+</button>
-                <button type="button" class="ghost repeat-remove" aria-label="Remove Languages entry">-</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
-              </div>
-            </div>
-            <div class="repeatable-list">
-              <div class="repeatable-entry">
-                <textarea required name="languages[]" rows="2" placeholder="List language(s) and level"></textarea>
-              </div>
-            </div>
-          </div>
-
-          <input class="hp-field" type="text" name="join_reference" tabindex="-1" autocomplete="off" aria-hidden="true" />
-          <button class="btn primary" type="submit">Submit Application</button>
-          <p id="joinFormStatus" role="status" aria-live="polite"></p>
-        </form>
-      </section>
-
-      <section id="contact" class="container section">
-        <h2 data-i18n="contact">Contact</h2>
-        <form class="contact-form" id="contactForm" novalidate>
-          <label>
-            <span data-i18n="name">Name</span>
-            <input required name="name" />
-          </label>
-          <label>
-            <span>Email</span>
-            <input required type="email" name="email" />
-          </label>
-          <label>
-            <span data-i18n="contactNumber">Your Contact Number</span>
-            <div class="contact-number-row">
-              <select required name="contact_country_code" aria-label="Country code" data-i18n-aria-label="countryCode">
-                <option value="+1">🇺🇸 +1</option>
-                <option value="+52">🇲🇽 +52</option>
-                <option value="+34">🇪🇸 +34</option>
-                <option value="+44">🇬🇧 +44</option>
-                <option value="+57">🇨🇴 +57</option>
-              </select>
-              <input required type="tel" name="contact_number" inputmode="tel" autocomplete="tel-national" placeholder="555 123 4567" />
-            </div>
-          </label>
-          <label>
-            <span data-i18n="contactTime">Most convenient time to contact you</span>
-            <input required type="datetime-local" name="contact_time" />
-          </label>
-          <label>
-            <span data-i18n="message">Message</span>
-            <textarea required name="message" rows="4"></textarea>
-          </label>
-          <input class="hp-field" type="text" name="assistant_code" tabindex="-1" autocomplete="off" aria-hidden="true" />
-          <button class="btn primary" type="submit" data-i18n="send">Send</button>
-          <p id="formStatus" role="status" aria-live="polite"></p>
-        </form>
-      </section>
     </main>
 
     <footer class="site-footer">
