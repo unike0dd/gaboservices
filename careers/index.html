@@ -13,14 +13,18 @@
         <a class="brand" href="../">Gabriel Services</a>
         <nav>
           <ul class="nav-links">
-            <li><a href="../">Home</a></li>
-            <li><a href="../services">Services</a></li>
-            <li><a href="../about">About</a></li>
-            <li><a href="../pricing">Pricing</a></li>
+            <li><a href="../">Inicio</a></li>
+            <li><a href="../about">Nosotros</a></li>
+            <li><a href="../services">Servicios</a></li>
+            <li><a href="../pricing">Precios</a></li>
             <li><a href="../careers">Careers</a></li>
-            <li><a href="../contact">Contact</a></li>
+            <li><a href="../contact">Contacto</a></li>
           </ul>
         </nav>
+        <div class="actions">
+          <button class="ghost">EN</button>
+          <button class="ghost">Dark</button>
+        </div>
       </div>
     </header>
     <main>
@@ -29,37 +33,6 @@
         <p>Join our team and help SMB clients modernize logistics, IT, and support operations.</p>
 
         <form class="contact-form join-form" id="joinForm" novalidate>
-          <div class="secure-repeatable instruction-repeatable" data-repeatable="instruction">
-            <div class="secure-repeatable-head">
-            <span>Custom Instructions</span>
-            <div class="secure-actions" aria-label="Instruction controls">
-              <button type="button" class="ghost repeat-add" aria-label="Add custom instruction">+</button>
-              <button type="button" class="ghost repeat-remove" aria-label="Remove custom instruction">-</button>
-              <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="true" aria-label="Unlock section">🔒</button>
-            </div>
-          </div>
-            <div class="repeatable-list">
-            <div class="repeatable-entry">
-              <textarea name="instruction[]" rows="2" readonly>🌩️ Intelligent Code Lifecycle (Cloud + DevOps) — Activated</textarea>
-            </div>
-            <div class="repeatable-entry">
-              <textarea name="instruction[]" rows="2" readonly>🧠 HCI & UX/UI (2025+ Digital Trends) — Activated</textarea>
-            </div>
-            <div class="repeatable-entry">
-              <textarea name="instruction[]" rows="2" readonly>🔐 Cybersecurity & Compliance (OPS CyberSec Core) — Activated</textarea>
-            </div>
-            <div class="repeatable-entry">
-              <textarea name="instruction[]" rows="2" readonly>🕸️ Web Governance & Compliance — Activated</textarea>
-            </div>
-            <div class="repeatable-entry">
-              <textarea name="instruction[]" rows="2" readonly>🤖 AI / ML / LLM Integration — Activated</textarea>
-            </div>
-            <div class="repeatable-entry">
-              <textarea name="instruction[]" rows="2" readonly>📊 Data Science + Observability — Activated</textarea>
-            </div>
-            </div>
-          </div>
-
           <label>
             <span data-i18n="name">Name</span>
             <input required name="applicant_name" />
@@ -135,16 +108,16 @@
 
           <div class="secure-repeatable" data-repeatable="expertise">
             <div class="secure-repeatable-head">
-              <span>Level of Expertise</span>
-              <div class="secure-actions" aria-label="Level of Expertise controls">
-                <button type="button" class="ghost repeat-add" aria-label="Add Level of Expertise entry">+</button>
-                <button type="button" class="ghost repeat-remove" aria-label="Remove Level of Expertise entry">-</button>
+              <span>Present Level of Expertise</span>
+              <div class="secure-actions" aria-label="Present Level of Expertise controls">
+                <button type="button" class="ghost repeat-add" aria-label="Add Present Level of Expertise entry">+</button>
+                <button type="button" class="ghost repeat-remove" aria-label="Remove Present Level of Expertise entry">-</button>
                 <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
               </div>
             </div>
             <div class="repeatable-list expertise-list">
               <div class="expertise-entry">
-                <select required name="expertise_level[]" aria-label="Level of Expertise">
+                <select required name="expertise_level[]" aria-label="Present Level of Expertise">
                   <option value="">Select level</option>
                   <option value="Entry">Entry</option>
                   <option value="Junior">Junior</option>
