@@ -160,3 +160,51 @@ input, textarea, select {
   .nav-links { display:none; position:absolute; right:1rem; top:4rem; background:var(--card); border:1px solid var(--border); border-radius:.8rem; padding:.8rem; flex-direction:column; }
   .nav-links.open { display:flex; }
 }
+
+.join-form {
+  margin-top: 1.25rem;
+  max-width: 760px;
+}
+
+.secure-repeatable {
+  border: 1px solid var(--border);
+  border-radius: 0.8rem;
+  background: var(--card);
+  padding: 0.75rem;
+}
+
+.secure-repeatable-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.6rem;
+  font-weight: 600;
+}
+
+.secure-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.secure-actions .ghost {
+  padding: 0.2rem 0.55rem;
+  line-height: 1;
+}
+
+.repeatable-list,
+.expertise-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.repeatable-entry,
+.expertise-entry {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.secure-lock {
+  font-size: 1rem;
+}
