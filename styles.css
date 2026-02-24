@@ -52,7 +52,19 @@ body {
   border-bottom: 1px solid var(--border);
 }
 .nav-wrap { display:flex; align-items:center; justify-content:space-between; padding: .8rem 0; gap: 1rem; }
+.brand-stack { display: grid; gap: 0.2rem; }
 .brand { font-weight: 800; font-size: 24px; color: var(--text); text-decoration: none; }
+.brand-subtitle { margin: 0; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; }
+.editorial-toggle {
+  justify-self: start;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 0.28rem 0.72rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
 .nav-links { list-style:none; display:flex; gap:1rem; margin:0; padding:0; }
 .nav-links a { color: var(--text); text-decoration:none; }
 .actions { display:flex; gap:.5rem; }
@@ -222,3 +234,47 @@ input, textarea, select {
   cursor: not-allowed;
 }
 
+:root[data-editorial-theme='wallstreet'] {
+  --bg: #f5f5f1;
+  --text: #111111;
+  --card: rgba(255, 255, 250, 0.9);
+  --primary: #1d3557;
+  --border: rgba(17, 17, 17, 0.22);
+}
+
+:root[data-editorial-theme='wallstreet'] body {
+  font-family: 'Merriweather', Georgia, serif;
+  background: linear-gradient(160deg, #f4f2eb, #ebe7dd, #f7f6f2);
+  animation: none;
+}
+
+:root[data-editorial-theme='wallstreet'] .site-header,
+:root[data-editorial-theme='wallstreet'] .card,
+:root[data-editorial-theme='wallstreet'] .price-card,
+:root[data-editorial-theme='wallstreet'] .contact-form,
+:root[data-editorial-theme='wallstreet'] .secure-repeatable {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.14);
+}
+
+:root[data-editorial-theme='time'] {
+  --bg: #fff4f4;
+  --text: #2b0f15;
+  --card: rgba(255, 255, 255, 0.95);
+  --primary: #b11116;
+  --border: rgba(177, 17, 22, 0.3);
+}
+
+:root[data-editorial-theme='time'] body {
+  font-family: 'Libre Baskerville', 'Times New Roman', serif;
+  background: radial-gradient(circle at top, #fff8f8, #ffe4e4 45%, #ffd4d4);
+  animation: none;
+}
+
+:root[data-editorial-theme='time'] .brand {
+  color: #b11116;
+  letter-spacing: 0.04em;
+}
+
+:root[data-editorial-theme='time'] .site-header {
+  border-bottom: 3px solid #b11116;
+}
