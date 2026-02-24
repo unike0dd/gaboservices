@@ -5,7 +5,7 @@ const dictionary = {
     heroBody: 'Scale support with expert teams, measurable SLAs, and human-centered delivery.',
     startTrial: 'Start Free Trial', schedule: 'Schedule Consultation',
     aboutBody: 'Gabriel Services provides multilingual operational support designed for modern digital businesses.',
-    name: 'Name', contactNumber: 'Your Contact Number', countryCode: 'Country code', contactTime: 'Most convenient time to contact you', message: 'Message', send: 'Send', cookie: 'We use cookies to improve your experience.', accept: 'Accept',
+    name: 'Name', contactNumber: 'Your Contact Number', countryCode: 'Country code', contactTime: 'Most convenient time to contact you', message: 'Message', send: 'Send',
     sent: 'Message captured. We will contact you shortly.',
     blocked: 'Submission blocked by security checks. Please remove code-like content and retry.',
     themeDark: 'Dark',
@@ -19,7 +19,7 @@ const dictionary = {
     heroBody: 'Escale su soporte con equipos expertos, SLA medibles y una entrega centrada en las personas.',
     startTrial: 'Iniciar prueba gratuita', schedule: 'Programar consulta',
     aboutBody: 'Gabriel Services ofrece soporte operativo multilingüe diseñado para negocios digitales modernos.',
-    name: 'Nombre', contactNumber: 'Your Contact Number', countryCode: 'Código de país', contactTime: 'Most convenient time to contact you', message: 'Mensaje', send: 'Enviar', cookie: 'Usamos cookies para mejorar su experiencia.', accept: 'Aceptar',
+    name: 'Nombre', contactNumber: 'Your Contact Number', countryCode: 'Código de país', contactTime: 'Most convenient time to contact you', message: 'Mensaje', send: 'Enviar',
     sent: 'Mensaje recibido. Nos pondremos en contacto pronto.',
     blocked: 'Contenido bloqueado por seguridad. Elimine código malicioso e inténtelo otra vez.',
     themeDark: 'Dark',
@@ -472,16 +472,6 @@ function bindEvents() {
 
   const yearNode = document.getElementById('year');
   if (yearNode) yearNode.textContent = String(new Date().getFullYear());
-
-  const cookieBanner = document.getElementById('cookieBanner');
-  const cookieAccept = document.getElementById('cookieAccept');
-  if (cookieBanner && cookieAccept) {
-    if (!localStorage.getItem('cookieAccepted')) cookieBanner.hidden = false;
-    cookieAccept.addEventListener('click', () => {
-      localStorage.setItem('cookieAccepted', 'true');
-      cookieBanner.hidden = true;
-    });
-  }
 
   bindFabControls();
   setupJoinForm();

@@ -97,11 +97,6 @@ input, textarea, select {
 }
 
 .site-footer { border-top:1px solid var(--border); padding: 1rem 0; margin-top: 2rem; }
-.cookie {
-  position: fixed; left: 1rem; right: 1rem; bottom: 1rem;
-  background: var(--card); border:1px solid var(--border); border-radius: .8rem;
-  display:flex; justify-content:space-between; align-items:center; gap: .8rem; padding:.7rem 1rem;
-}
 
 .hp-field {
   position: absolute !important;
