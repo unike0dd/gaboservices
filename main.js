@@ -32,8 +32,8 @@ const dictionary = {
 const services = {
   en: [
     { title: 'Logistics Operations', body: 'Order workflows, dispatch support, shipment updates, and reporting.' },
-    { title: 'IT Support', body: 'Tier 1/2 troubleshooting, account management, and endpoint support.' },
-    { title: 'Administrative Backoffice', body: 'Data entry, documentation, billing support, and process QA.' },
+    { title: 'IT Support', body: 'Tier 1, Tier 2; On - Boarding, Implementation, Troubleshooting, Account Management, Customer Relations and endpoint support.' },
+    { title: 'Administrative Backoffice', body: 'Data entry, Documentation, Invoicing billing Support, Accts Payables and Accts Receivable, process, scheduling, Executive assistant services, high level of administrative support' },
     { title: 'Customer Relations', body: 'Omnichannel support, customer retention, and quality monitoring.' }
   ],
   es: [
