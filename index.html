@@ -19,8 +19,8 @@
           <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">☰</button>
           <ul id="primaryNav" class="nav-links">
             <li><a href="#home" data-i18n="home">Home</a></li>
-            <li><a href="#services" data-i18n="services">Services</a></li>
             <li><a href="#about" data-i18n="about">About</a></li>
+            <li><a href="#services" data-i18n="services">Services</a></li>
             <li><a href="#pricing" data-i18n="pricing">Pricing</a></li>
             <li><a href="#careers">Careers</a></li>
             <li><a href="#contact" data-i18n="contact">Contact</a></li>
@@ -44,14 +44,14 @@
         </div>
       </section>
 
-      <section id="services" class="container section">
-        <h2 data-i18n="services">Services</h2>
-        <div class="grid cards" id="serviceCards"></div>
-      </section>
-
       <section id="about" class="container section">
         <h2 data-i18n="about">About</h2>
         <p data-i18n="aboutBody">Gabriel Services provides multilingual operational support designed for modern digital businesses.</p>
+      </section>
+
+      <section id="services" class="container section">
+        <h2 data-i18n="services">Services</h2>
+        <div class="grid cards" id="serviceCards"></div>
       </section>
 
       <section id="pricing" class="container section">
@@ -70,23 +70,6 @@
           <label>
             <span>Email</span>
             <input required type="email" name="applicant_email" />
-          </label>
-          <label>
-            <span data-i18n="contactNumber">Your Contact Number</span>
-            <div class="contact-number-row">
-              <select required name="applicant_contact_country_code" aria-label="Country code" data-i18n-aria-label="countryCode">
-                <option value="+1">🇺🇸 +1</option>
-                <option value="+52">🇲🇽 +52</option>
-                <option value="+34">🇪🇸 +34</option>
-                <option value="+44">🇬🇧 +44</option>
-                <option value="+57">🇨🇴 +57</option>
-              </select>
-              <input required type="tel" name="applicant_contact_number" inputmode="tel" autocomplete="tel-national" placeholder="555 123 4567" />
-            </div>
-          </label>
-          <label>
-            <span data-i18n="contactTime">Most convenient time to contact you</span>
-            <input required type="datetime-local" name="applicant_contact_time" />
           </label>
 
           <div class="secure-repeatable" data-repeatable="experience">
