@@ -81,22 +81,69 @@ h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: .3rem 0 1rem; max-width: 15ch;
 .grid { display:grid; gap: 1rem; }
 .cards { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 
-.service-card { transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
-.service-card:hover { transform: translateY(-2px); border-color: color-mix(in oklab, var(--primary) 35%, var(--border)); }
+.service-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(145deg, rgba(79, 70, 229, 0.2), rgba(14, 116, 144, 0.12), rgba(79, 70, 229, 0));
+  opacity: 0;
+  transition: opacity .28s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.service-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.38), transparent 45%);
+  opacity: 0;
+  transition: opacity .28s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.service-card:hover,
+.service-card:focus-within {
+  transform: translateY(-7px) scale(1.01);
+  border-color: color-mix(in oklab, var(--primary) 58%, var(--border));
+  box-shadow: 0 18px 34px rgba(15, 23, 42, 0.2);
+}
+
+.service-card:hover::before,
+.service-card:hover::after,
+.service-card:focus-within::before,
+.service-card:focus-within::after {
+  opacity: 1;
+}
+
 .service-card.active {
   border-color: color-mix(in oklab, var(--primary) 55%, var(--border));
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14);
 }
 
 .service-card-trigger {
+  position: relative;
+  z-index: 1;
   width: 100%;
+  min-height: 100%;
   text-align: left;
   background: transparent;
   border: 0;
   color: inherit;
   cursor: pointer;
   padding: 0;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: .6rem;
 }
 
@@ -109,7 +156,8 @@ h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: .3rem 0 1rem; max-width: 15ch;
 }
 
 .service-card-action {
-  font-size: .92rem;
+  margin-top: auto;
+  font-size: 14px;
   font-weight: 600;
 }
 
