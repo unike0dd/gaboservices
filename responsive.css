@@ -61,3 +61,23 @@ iframe {
     bottom: 5.8rem;
   }
 }
+
+/* Runtime adaptive tokens managed by adaptive-layout.js */
+:root {
+  --adaptive-container-width: 1140px;
+  --adaptive-container-padding: 1.4rem;
+  --adaptive-font-scale: 1;
+  --adaptive-chat-height: 500px;
+}
+
+.container {
+  width: min(var(--adaptive-container-width), calc(100vw - (var(--adaptive-container-padding) * 2)));
+}
+
+body {
+  font-size: calc(1rem * var(--adaptive-font-scale));
+}
+
+.chat-panel {
+  height: min(var(--adaptive-chat-height), 78vh);
+}

@@ -1,3 +1,5 @@
+import { initAdaptiveLayout } from './adaptive-layout.js';
+
 const dictionary = {
   en: {
     home: 'Home', services: 'Services', about: 'About', pricing: 'Pricing', contact: 'Contact',
@@ -512,4 +514,5 @@ renderCards();
 translatePage();
 populateCountryCodes();
 bindEvents();
+initAdaptiveLayout();
 tinyGuard.monitorGlobalTampering();
