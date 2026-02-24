@@ -145,6 +145,66 @@ function renderCards() {
   `).join('');
 }
 
+
+async function populateCountryCodes() {
+  const selects = [...document.querySelectorAll('select[name="contact_country_code"]')];
+  if (!selects.length) return;
+
+  const fallback = [
+    { name: 'United States', code: '+1' },
+    { name: 'Mexico', code: '+52' },
+    { name: 'Spain', code: '+34' },
+    { name: 'United Kingdom', code: '+44' },
+    { name: 'Colombia', code: '+57' }
+  ];
+
+  const fillSelects = (items) => {
+    const copy = dictionary[lang] || dictionary.en;
+    const placeholder = copy.countryCodePlaceholder || 'Select country code';
+    const options = [`<option value="">${placeholder}</option>`]
+      .concat(items.map((item) => `<option value="${item.code}">${item.name} (${item.code})</option>`));
+
+    selects.forEach((select) => {
+      const current = select.value;
+      select.innerHTML = options.join('');
+      if (current) select.value = current;
+    });
+  };
+
+  try {
+    const response = await fetch('https://restcountries.com/v3.1/all?fields=name,idd');
+    if (!response.ok) throw new Error('country source unavailable');
+    const countries = await response.json();
+    const entries = [];
+
+    countries.forEach((country) => {
+      const name = country?.name?.common;
+      const root = country?.idd?.root;
+      const suffixes = country?.idd?.suffixes || [];
+      if (!name || !root) return;
+      suffixes.forEach((suffix) => {
+        const code = `${root}${suffix || ''}`;
+        entries.push({ name, code });
+      });
+    });
+
+    const unique = [];
+    const seen = new Set();
+    entries
+      .sort((a, b) => a.name.localeCompare(b.name) || a.code.localeCompare(b.code))
+      .forEach((entry) => {
+        const key = `${entry.name}-${entry.code}`;
+        if (seen.has(key)) return;
+        seen.add(key);
+        unique.push(entry);
+      });
+
+    fillSelects(unique.length ? unique : fallback);
+  } catch (error) {
+    fillSelects(fallback);
+  }
+}
+
 function syncThemeButton() {
   const themeBtn = document.getElementById('themeBtn');
   const isDark = root.classList.contains('dark');
@@ -220,6 +280,7 @@ function bindEvents() {
     localStorage.setItem('lang', lang);
     renderCards();
     translatePage();
+    populateCountryCodes();
   });
 
   const navToggle = document.getElementById('navToggle');
@@ -265,5 +326,6 @@ function bindEvents() {
 initTheme();
 renderCards();
 translatePage();
+populateCountryCodes();
 bindEvents();
 tinyGuard.monitorGlobalTampering();
