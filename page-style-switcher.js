@@ -3,8 +3,8 @@
   const THEMES = ['wallstreet', 'time'];
 
   const labels = {
-    wallstreet: 'News Cut',
-    time: 'Magazine Cut'
+    wallstreet: 'Wall Street News Cut',
+    time: 'Time Magazine Cut'
   };
 
   const root = document.documentElement;

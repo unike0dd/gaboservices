@@ -1,48 +1,19 @@
 :root {
-  --bg: #fff9c4;
-  --text: #0f172a;
-  --card: rgba(255, 255, 255, 0.88);
-  --primary: #4f46e5;
-  --border: rgba(255, 255, 255, 0.75);
-}
-
-:root.dark {
-  --bg: #1f2937;
-  --text: #f8fafc;
-  --card: rgba(17, 24, 39, 0.88);
-  --primary: #818cf8;
-  --border: rgba(148, 163, 184, 0.35);
+  --bg: #f5f5f1;
+  --text: #111111;
+  --card: rgba(255, 255, 250, 0.9);
+  --primary: #1d3557;
+  --border: rgba(17, 17, 17, 0.22);
 }
 
 * { box-sizing: border-box; }
 body {
   margin: 0;
   font-family: Inter, system-ui, sans-serif;
-  background: linear-gradient(130deg, #fff9c4, #ffe082, #c8e6c9, #b2ebf2, #fce4ec);
-  background-size: 280% 280%;
-  animation: springSummerShift 18s ease-in-out infinite;
+  background: linear-gradient(160deg, #f4f2eb, #ebe7dd, #f7f6f2);
   color: var(--text);
   line-height: 1.5;
-  transition: background 1100ms ease, color 350ms ease;
-}
-
-:root.dark body {
-  /* Fall-to-winter inspired palette for dark mode */
-  background: linear-gradient(160deg, #3f2a1d, #6b3f2c, #1f2937, #0f172a, #dbeafe);
-  background-size: 280% 280%;
-  animation: fallWinterShift 16s ease-in-out infinite;
-}
-
-@keyframes springSummerShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes fallWinterShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  transition: background 350ms ease, color 350ms ease;
 }
 .container { width: min(1100px, 92vw); margin: 0 auto; }
 .site-header {
@@ -655,9 +626,9 @@ input, textarea, select {
   background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0));
 }
 
-:root.dark .iso-floor { background: linear-gradient(145deg, #9a6432, #6d4321); }
-:root.dark .iso-wall-back { background: linear-gradient(180deg, #7e5839, #5c3f29); }
-:root.dark .iso-wall-side { background: linear-gradient(180deg, #69432a, #4c2f1e); }
+:root .iso-floor { background: linear-gradient(145deg, #d8d4cc, #c8c3b7); }
+:root .iso-wall-back { background: linear-gradient(180deg, #f5f2ec, #dfd8cc); }
+:root .iso-wall-side { background: linear-gradient(180deg, #e6ded1, #cdc5b8); }
 
 @media (max-width: 700px) {
   .admin-backoffice-head {
