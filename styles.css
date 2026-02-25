@@ -89,6 +89,8 @@ h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: .3rem 0 1rem; max-width: 15ch;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 #serviceCards .service-card {
@@ -103,17 +105,13 @@ h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: .3rem 0 1rem; max-width: 15ch;
 
 #serviceCards .service-card:hover,
 #serviceCards .service-card:focus-within,
+#serviceCards .service-card.is-carousel-focus,
 #serviceCards .service-card.active {
   flex-basis: min(100%, 860px);
 }
 
 #serviceCards::-webkit-scrollbar {
-  height: 8px;
-}
-
-#serviceCards::-webkit-scrollbar-thumb {
-  background: color-mix(in oklab, var(--primary) 40%, var(--border));
-  border-radius: 999px;
+  display: none;
 }
 
 .service-card {

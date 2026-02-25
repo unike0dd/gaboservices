@@ -164,18 +164,28 @@ function setupServiceCarousel() {
     serviceCarouselTimer = null;
   }
 
-  const stepToNext = () => {
-    const maxScrollLeft = track.scrollWidth - track.clientWidth;
-    if (maxScrollLeft <= 0) return;
+  let carouselIndex = 0;
 
-    const nextCard = cards.find((card) => card.offsetLeft > track.scrollLeft + 10);
-    const target = nextCard ? nextCard.offsetLeft : 0;
-    track.scrollTo({ left: target, behavior: 'smooth' });
+  const setCarouselFocus = (index) => {
+    cards.forEach((card, cardIndex) => {
+      card.classList.toggle('is-carousel-focus', cardIndex === index);
+    });
+  };
+
+  const stepToNext = () => {
+    carouselIndex = (carouselIndex + 1) % cards.length;
+    const currentCard = cards[carouselIndex];
+    if (!currentCard) return;
+
+    setCarouselFocus(carouselIndex);
+    track.scrollTo({ left: currentCard.offsetLeft, behavior: 'smooth' });
   };
 
   let isPaused = false;
   const pause = () => { isPaused = true; };
   const resume = () => { isPaused = false; };
+
+  setCarouselFocus(carouselIndex);
 
   track.addEventListener('mouseenter', pause);
   track.addEventListener('mouseleave', resume);
@@ -186,7 +196,7 @@ function setupServiceCarousel() {
 
   serviceCarouselTimer = window.setInterval(() => {
     if (!isPaused) stepToNext();
-  }, 3000);
+  }, 5000);
 }
 
 function renderCards() {
