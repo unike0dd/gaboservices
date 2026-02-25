@@ -196,7 +196,7 @@ function setupServiceCarousel() {
 
   serviceCarouselTimer = window.setInterval(() => {
     if (!isPaused) stepToNext();
-  }, 5000);
+  }, 4000);
 }
 
 function renderCards() {
