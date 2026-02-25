@@ -37,7 +37,27 @@
         <article class="price-card"><h3>Medium Business</h3><p class="price">$5,950/mo</p><ul><li>Dedicated team</li><li>Custom integrations</li><li>Compliance alignment</li></ul></article>
       </div>
     </main>
-      <script src="../page-style-switcher.js"></script>
+      
+    <div class="fab-wrapper">
+      <button id="fabMain" class="fab-main fab-hamburger" type="button" aria-label="Open quick actions" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div id="fabMenu" class="fab-menu" hidden>
+        <a class="fab-item" href="../contact" aria-label="Contact"><span class="fab-item-icon">📞</span><span>Contact</span></a>
+        <a class="fab-item" href="../careers" aria-label="Careers"><span class="fab-item-icon">💼</span><span>Career</span></a>
+        <button id="fabChat" class="fab-item" type="button" aria-label="Chatbot"><span class="fab-item-icon">🤖</span><span>Chatbot</span></button>
+      </div>
+    </div>
+
+    <aside id="chatPanel" class="chat-panel" hidden aria-label="Chatbot panel">
+      <div class="chat-panel-head">
+        <strong>Chatbot</strong>
+        <button id="chatClose" class="ghost" type="button" aria-label="Close chatbot">✕</button>
+      </div>
+      <iframe id="chatFrame" title="Gabriel chatbot" src="about:blank"></iframe>
+    </aside>
+
+    <script src="../page-style-switcher.js"></script>
     <script type="module" src="../main.js"></script>
   </body>
 </html>
