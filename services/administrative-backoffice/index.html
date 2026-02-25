@@ -24,8 +24,7 @@
           </ul>
         </nav>
         <div class="actions">
-          <button id="langEnBtn" class="ghost" type="button" aria-pressed="false">EN</button>
-          <button id="langEsBtn" class="ghost" type="button" aria-pressed="false">ES</button>
+          <button id="langToggleBtn" class="ghost" type="button" aria-pressed="false" aria-label="Switch language">EN</button>
         </div>
       </div>
     </header>
@@ -33,6 +32,26 @@
       <h1 data-i18n="serviceAdminTitle">Administrative Backoffice</h1>
       <p data-i18n="serviceAdminBody">Data entry, Documentation, Invoicing billing Support, Accts Payables and Accts Receivable, process, scheduling, Executive assistant services, high level of administrative support.</p>
     </main>
+    
+    <div class="fab-wrapper">
+      <button id="fabMain" class="fab-main fab-hamburger" type="button" aria-label="Open quick actions" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div id="fabMenu" class="fab-menu" hidden>
+        <a class="fab-item" href="../../contact" aria-label="Contact"><span class="fab-item-icon">📞</span><span>Contact</span></a>
+        <a class="fab-item" href="../../careers" aria-label="Careers"><span class="fab-item-icon">💼</span><span>Career</span></a>
+        <button id="fabChat" class="fab-item" type="button" aria-label="Chatbot"><span class="fab-item-icon">🤖</span><span>Chatbot</span></button>
+      </div>
+    </div>
+
+    <aside id="chatPanel" class="chat-panel" hidden aria-label="Chatbot panel">
+      <div class="chat-panel-head">
+        <strong>Chatbot</strong>
+        <button id="chatClose" class="ghost" type="button" aria-label="Close chatbot">✕</button>
+      </div>
+      <iframe id="chatFrame" title="Gabriel chatbot" src="about:blank"></iframe>
+    </aside>
+
     <script src="../../page-style-switcher.js"></script>
     <script type="module" src="../../main.js"></script>
   </body>
