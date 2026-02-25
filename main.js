@@ -242,6 +242,9 @@ function renderCards() {
       toggleRow = document.createElement('div');
       toggleRow.id = 'serviceCarouselToggles';
       toggleRow.className = 'service-carousel-toggles';
+      toggleRow.setAttribute('aria-label', 'Service carousel toggles');
+      serviceCards.insertAdjacentElement('afterend', toggleRow);
+    } else if (toggleRow.previousElementSibling !== serviceCards) {
       serviceCards.insertAdjacentElement('afterend', toggleRow);
     }
 
