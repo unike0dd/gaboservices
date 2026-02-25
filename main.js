@@ -150,6 +150,45 @@ class TinyGuardML {
 const tinyGuard = new TinyGuardML();
 let activeServiceKey = null;
 
+let serviceCarouselTimer = null;
+
+function setupServiceCarousel() {
+  const track = document.getElementById('serviceCards');
+  if (!track) return;
+
+  const cards = [...track.querySelectorAll('.service-card')];
+  if (cards.length < 2) return;
+
+  if (serviceCarouselTimer) {
+    window.clearInterval(serviceCarouselTimer);
+    serviceCarouselTimer = null;
+  }
+
+  const stepToNext = () => {
+    const maxScrollLeft = track.scrollWidth - track.clientWidth;
+    if (maxScrollLeft <= 0) return;
+
+    const nextCard = cards.find((card) => card.offsetLeft > track.scrollLeft + 10);
+    const target = nextCard ? nextCard.offsetLeft : 0;
+    track.scrollTo({ left: target, behavior: 'smooth' });
+  };
+
+  let isPaused = false;
+  const pause = () => { isPaused = true; };
+  const resume = () => { isPaused = false; };
+
+  track.addEventListener('mouseenter', pause);
+  track.addEventListener('mouseleave', resume);
+  track.addEventListener('focusin', pause);
+  track.addEventListener('focusout', () => {
+    if (!track.contains(document.activeElement)) resume();
+  });
+
+  serviceCarouselTimer = window.setInterval(() => {
+    if (!isPaused) stepToNext();
+  }, 3000);
+}
+
 function renderCards() {
   const localizedServices = services[lang] || services.en;
   const localizedPlans = plans[lang] || plans.en;
@@ -168,6 +207,7 @@ function renderCards() {
     </article>
   `).join('');
     bindServiceCardActions(localizedServices);
+    setupServiceCarousel();
   }
 
   const pricingCards = document.getElementById('pricingCards');
