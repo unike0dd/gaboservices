@@ -81,6 +81,42 @@ h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: .3rem 0 1rem; max-width: 15ch;
 .grid { display:grid; gap: 1rem; }
 .cards { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 
+#serviceCards {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 0 0.15rem 0.45rem;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 0.15rem;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+#serviceCards .service-card {
+  flex: 0 0 clamp(260px, 34vw, 390px);
+  scroll-snap-align: start;
+  transition:
+    transform .28s ease,
+    border-color .28s ease,
+    box-shadow .28s ease,
+    flex-basis .35s ease;
+}
+
+#serviceCards .service-card:hover,
+#serviceCards .service-card:focus-within,
+#serviceCards .service-card.active {
+  flex-basis: min(92%, 820px);
+}
+
+#serviceCards::-webkit-scrollbar {
+  height: 8px;
+}
+
+#serviceCards::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--primary) 40%, var(--border));
+  border-radius: 999px;
+}
+
 .service-card {
   position: relative;
   overflow: hidden;

@@ -150,6 +150,80 @@ class TinyGuardML {
 const tinyGuard = new TinyGuardML();
 let activeServiceKey = null;
 
+let serviceCarouselTimer = null;
+let serviceCarouselEvents = null;
+let serviceCarouselIndex = 0;
+
+function setupServiceCarousel() {
+  const track = document.getElementById('serviceCards');
+  if (!track) return;
+
+  const cards = [...track.querySelectorAll('.service-card')];
+  if (cards.length < 2) return;
+
+  if (serviceCarouselTimer) {
+    window.clearInterval(serviceCarouselTimer);
+    serviceCarouselTimer = null;
+  }
+
+  if (serviceCarouselEvents) {
+    serviceCarouselEvents.abort();
+    serviceCarouselEvents = null;
+  }
+
+  serviceCarouselEvents = new AbortController();
+  const eventOptions = { signal: serviceCarouselEvents.signal };
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const getCurrentIndex = () => {
+    const currentScroll = track.scrollLeft;
+    let nearestIndex = 0;
+    let nearestDistance = Number.POSITIVE_INFINITY;
+
+    cards.forEach((card, index) => {
+      const distance = Math.abs(card.offsetLeft - currentScroll);
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestIndex = index;
+      }
+    });
+
+    return nearestIndex;
+  };
+
+  const goToCard = (index) => {
+    const nextCard = cards[index];
+    if (!nextCard) return;
+    nextCard.scrollIntoView({
+      behavior: reduceMotion ? 'auto' : 'smooth',
+      block: 'nearest',
+      inline: 'start'
+    });
+  };
+
+  const stepToNext = () => {
+    if (document.hidden) return;
+    serviceCarouselIndex = getCurrentIndex();
+    serviceCarouselIndex = (serviceCarouselIndex + 1) % cards.length;
+    goToCard(serviceCarouselIndex);
+  };
+
+  let isPaused = false;
+  const pause = () => { isPaused = true; };
+  const resume = () => { isPaused = false; };
+
+  track.addEventListener('pointerenter', pause, eventOptions);
+  track.addEventListener('pointerleave', resume, eventOptions);
+  track.addEventListener('focusin', pause, eventOptions);
+  track.addEventListener('focusout', () => {
+    if (!track.contains(document.activeElement)) resume();
+  }, eventOptions);
+
+  serviceCarouselTimer = window.setInterval(() => {
+    if (!isPaused) stepToNext();
+  }, 3000);
+}
+
 function renderCards() {
   const localizedServices = services[lang] || services.en;
   const localizedPlans = plans[lang] || plans.en;
@@ -168,6 +242,7 @@ function renderCards() {
     </article>
   `).join('');
     bindServiceCardActions(localizedServices);
+    setupServiceCarousel();
   }
 
   const pricingCards = document.getElementById('pricingCards');
