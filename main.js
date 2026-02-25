@@ -401,13 +401,23 @@ function translatePage() {
     const key = node.dataset.i18nAriaLabel;
     if (copy[key]) node.setAttribute('aria-label', copy[key]);
   });
-  const langToggleBtn = document.getElementById('langToggleBtn');
-  if (langToggleBtn) {
+  const langButtons = [...document.querySelectorAll('[data-lang-option]')];
+  if (langButtons.length) {
+    langButtons.forEach((button) => {
+      const buttonLang = button.getAttribute('data-lang-option');
+      const isActive = buttonLang === lang;
+      button.setAttribute('aria-pressed', String(isActive));
+      button.classList.toggle('active', isActive);
+    });
+  }
+
+  const legacyLangToggleBtn = document.getElementById('langToggleBtn');
+  if (legacyLangToggleBtn) {
     const isEnglish = lang === 'en';
-    langToggleBtn.textContent = isEnglish ? 'EN' : 'ES';
-    langToggleBtn.setAttribute('aria-pressed', String(isEnglish));
-    langToggleBtn.setAttribute('aria-label', isEnglish ? 'Switch language to Spanish' : 'Cambiar idioma a inglés');
-    langToggleBtn.classList.add('active');
+    legacyLangToggleBtn.textContent = isEnglish ? 'EN' : 'ES';
+    legacyLangToggleBtn.setAttribute('aria-pressed', String(isEnglish));
+    legacyLangToggleBtn.setAttribute('aria-label', isEnglish ? 'Switch language to Spanish' : 'Cambiar idioma a inglés');
+    legacyLangToggleBtn.classList.add('active');
   }
 }
 
@@ -554,9 +564,19 @@ function setupJoinForm() {
 }
 
 function bindEvents() {
-  const langToggleBtn = document.getElementById('langToggleBtn');
-  if (langToggleBtn) {
-    langToggleBtn.addEventListener('click', () => {
+  const langButtons = [...document.querySelectorAll('[data-lang-option]')];
+  if (langButtons.length) {
+    langButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const nextLang = button.getAttribute('data-lang-option');
+        if (nextLang) setLanguage(nextLang);
+      });
+    });
+  }
+
+  const legacyLangToggleBtn = document.getElementById('langToggleBtn');
+  if (legacyLangToggleBtn) {
+    legacyLangToggleBtn.addEventListener('click', () => {
       setLanguage(lang === 'en' ? 'es' : 'en');
     });
   }
