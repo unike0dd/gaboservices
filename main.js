@@ -77,7 +77,7 @@ if (metadata.name) document.title = metadata.name;
 const metaDescription = document.querySelector('meta[name="description"]');
 if (metaDescription && metadata.description) metaDescription.setAttribute('content', metadata.description);
 const supportedLanguages = ['en', 'es'];
-let lang = supportedLanguages.includes(localStorage.getItem('lang')) ? localStorage.getItem('lang') : 'en';
+let lang = 'en';
 
 function setLanguage(nextLang) {
   if (!supportedLanguages.includes(nextLang)) return;
