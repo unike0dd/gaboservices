@@ -48,10 +48,14 @@ iframe {
     padding: 2.2rem 0;
   }
 
-  .fab-main,
-  .fab-item {
+  .fab-main {
     width: 3rem;
     height: 3rem;
+  }
+
+  .fab-item {
+    min-width: 9.2rem;
+    padding: .6rem .8rem;
   }
 
   .chat-panel {

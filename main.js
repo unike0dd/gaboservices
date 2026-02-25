@@ -306,17 +306,13 @@ function translatePage() {
     const key = node.dataset.i18nAriaLabel;
     if (copy[key]) node.setAttribute('aria-label', copy[key]);
   });
-  const langEnBtn = document.getElementById('langEnBtn');
-  const langEsBtn = document.getElementById('langEsBtn');
-  if (langEnBtn) {
+  const langToggleBtn = document.getElementById('langToggleBtn');
+  if (langToggleBtn) {
     const isEnglish = lang === 'en';
-    langEnBtn.setAttribute('aria-pressed', String(isEnglish));
-    langEnBtn.classList.toggle('active', isEnglish);
-  }
-  if (langEsBtn) {
-    const isSpanish = lang === 'es';
-    langEsBtn.setAttribute('aria-pressed', String(isSpanish));
-    langEsBtn.classList.toggle('active', isSpanish);
+    langToggleBtn.textContent = isEnglish ? 'EN' : 'ES';
+    langToggleBtn.setAttribute('aria-pressed', String(isEnglish));
+    langToggleBtn.setAttribute('aria-label', isEnglish ? 'Switch language to Spanish' : 'Cambiar idioma a inglés');
+    langToggleBtn.classList.add('active');
   }
 }
 
@@ -463,11 +459,12 @@ function setupJoinForm() {
 }
 
 function bindEvents() {
-  const langEnBtn = document.getElementById('langEnBtn');
-  if (langEnBtn) langEnBtn.addEventListener('click', () => setLanguage('en'));
-
-  const langEsBtn = document.getElementById('langEsBtn');
-  if (langEsBtn) langEsBtn.addEventListener('click', () => setLanguage('es'));
+  const langToggleBtn = document.getElementById('langToggleBtn');
+  if (langToggleBtn) {
+    langToggleBtn.addEventListener('click', () => {
+      setLanguage(lang === 'en' ? 'es' : 'en');
+    });
+  }
 
   const navToggle = document.getElementById('navToggle');
   const nav = document.getElementById('primaryNav');
