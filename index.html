@@ -30,8 +30,7 @@
           </ul>
         </nav>
         <div class="actions" role="group" aria-label="Language selector">
-          <button id="langEnBtn" class="ghost" type="button" aria-pressed="false">EN</button>
-          <button id="langEsBtn" class="ghost" type="button" aria-pressed="false">ES</button>
+          <button id="langToggleBtn" class="ghost" type="button" aria-pressed="false" aria-label="Switch language">EN</button>
         </div>
       </div>
     </header>
@@ -76,11 +75,13 @@
 
 
     <div class="fab-wrapper">
-      <button id="fabMain" class="fab-main" type="button" aria-label="Open quick actions" aria-expanded="false">+</button>
+      <button id="fabMain" class="fab-main fab-hamburger" type="button" aria-label="Open quick actions" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
       <div id="fabMenu" class="fab-menu" hidden>
-        <a class="fab-item" href="./careers" aria-label="Careers">💼</a>
-        <a class="fab-item" href="./contact" aria-label="Contact">📞</a>
-        <button id="fabChat" class="fab-item" type="button" aria-label="Chatbot">🤖</button>
+        <a class="fab-item" href="./contact" aria-label="Contact"><span class="fab-item-icon">📞</span><span>Contact</span></a>
+        <a class="fab-item" href="./careers" aria-label="Careers"><span class="fab-item-icon">💼</span><span>Career</span></a>
+        <button id="fabChat" class="fab-item" type="button" aria-label="Chatbot"><span class="fab-item-icon">🤖</span><span>Chatbot</span></button>
       </div>
     </div>
 

@@ -85,15 +85,14 @@ h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: .3rem 0 1rem; max-width: 15ch;
   display: flex;
   gap: 1rem;
   overflow-x: auto;
-  padding: 0 0.15rem 0.45rem;
+  padding-bottom: 0.4rem;
   scroll-snap-type: x mandatory;
-  scroll-padding-inline: 0.15rem;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 }
 
 #serviceCards .service-card {
-  flex: 0 0 clamp(260px, 34vw, 390px);
+  flex: 0 0 min(340px, 78vw);
   scroll-snap-align: start;
   transition:
     transform .28s ease,
@@ -105,7 +104,7 @@ h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: .3rem 0 1rem; max-width: 15ch;
 #serviceCards .service-card:hover,
 #serviceCards .service-card:focus-within,
 #serviceCards .service-card.active {
-  flex-basis: min(92%, 820px);
+  flex-basis: min(100%, 860px);
 }
 
 #serviceCards::-webkit-scrollbar {
@@ -265,10 +264,52 @@ input, textarea, select {
   box-shadow: 0 10px 22px rgba(15, 23, 42, 0.25);
 }
 
+.fab-hamburger {
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+.fab-hamburger span {
+  width: 1.2rem;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  transition: transform .2s ease, opacity .2s ease;
+}
+
+.fab-hamburger[aria-expanded='true'] span:nth-child(1) {
+  transform: translateY(0.38rem) rotate(45deg);
+}
+
+.fab-hamburger[aria-expanded='true'] span:nth-child(2) {
+  opacity: 0;
+}
+
+.fab-hamburger[aria-expanded='true'] span:nth-child(3) {
+  transform: translateY(-0.38rem) rotate(-45deg);
+}
+
 .fab-menu {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.fab-item {
+  width: auto;
+  min-width: 10rem;
+  border-radius: 999px;
+  padding: .65rem .9rem;
+  height: auto;
+  justify-content: flex-start;
+  gap: .55rem;
+}
+
+.fab-item-icon {
+  display: inline-flex;
+  width: 1.3rem;
+  justify-content: center;
 }
 
 .chat-panel {

@@ -151,8 +151,6 @@ const tinyGuard = new TinyGuardML();
 let activeServiceKey = null;
 
 let serviceCarouselTimer = null;
-let serviceCarouselEvents = null;
-let serviceCarouselIndex = 0;
 
 function setupServiceCarousel() {
   const track = document.getElementById('serviceCards');
@@ -166,58 +164,25 @@ function setupServiceCarousel() {
     serviceCarouselTimer = null;
   }
 
-  if (serviceCarouselEvents) {
-    serviceCarouselEvents.abort();
-    serviceCarouselEvents = null;
-  }
-
-  serviceCarouselEvents = new AbortController();
-  const eventOptions = { signal: serviceCarouselEvents.signal };
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  const getCurrentIndex = () => {
-    const currentScroll = track.scrollLeft;
-    let nearestIndex = 0;
-    let nearestDistance = Number.POSITIVE_INFINITY;
-
-    cards.forEach((card, index) => {
-      const distance = Math.abs(card.offsetLeft - currentScroll);
-      if (distance < nearestDistance) {
-        nearestDistance = distance;
-        nearestIndex = index;
-      }
-    });
-
-    return nearestIndex;
-  };
-
-  const goToCard = (index) => {
-    const nextCard = cards[index];
-    if (!nextCard) return;
-    nextCard.scrollIntoView({
-      behavior: reduceMotion ? 'auto' : 'smooth',
-      block: 'nearest',
-      inline: 'start'
-    });
-  };
-
   const stepToNext = () => {
-    if (document.hidden) return;
-    serviceCarouselIndex = getCurrentIndex();
-    serviceCarouselIndex = (serviceCarouselIndex + 1) % cards.length;
-    goToCard(serviceCarouselIndex);
+    const maxScrollLeft = track.scrollWidth - track.clientWidth;
+    if (maxScrollLeft <= 0) return;
+
+    const nextCard = cards.find((card) => card.offsetLeft > track.scrollLeft + 10);
+    const target = nextCard ? nextCard.offsetLeft : 0;
+    track.scrollTo({ left: target, behavior: 'smooth' });
   };
 
   let isPaused = false;
   const pause = () => { isPaused = true; };
   const resume = () => { isPaused = false; };
 
-  track.addEventListener('pointerenter', pause, eventOptions);
-  track.addEventListener('pointerleave', resume, eventOptions);
-  track.addEventListener('focusin', pause, eventOptions);
+  track.addEventListener('mouseenter', pause);
+  track.addEventListener('mouseleave', resume);
+  track.addEventListener('focusin', pause);
   track.addEventListener('focusout', () => {
     if (!track.contains(document.activeElement)) resume();
-  }, eventOptions);
+  });
 
   serviceCarouselTimer = window.setInterval(() => {
     if (!isPaused) stepToNext();
@@ -381,17 +346,13 @@ function translatePage() {
     const key = node.dataset.i18nAriaLabel;
     if (copy[key]) node.setAttribute('aria-label', copy[key]);
   });
-  const langEnBtn = document.getElementById('langEnBtn');
-  const langEsBtn = document.getElementById('langEsBtn');
-  if (langEnBtn) {
+  const langToggleBtn = document.getElementById('langToggleBtn');
+  if (langToggleBtn) {
     const isEnglish = lang === 'en';
-    langEnBtn.setAttribute('aria-pressed', String(isEnglish));
-    langEnBtn.classList.toggle('active', isEnglish);
-  }
-  if (langEsBtn) {
-    const isSpanish = lang === 'es';
-    langEsBtn.setAttribute('aria-pressed', String(isSpanish));
-    langEsBtn.classList.toggle('active', isSpanish);
+    langToggleBtn.textContent = isEnglish ? 'EN' : 'ES';
+    langToggleBtn.setAttribute('aria-pressed', String(isEnglish));
+    langToggleBtn.setAttribute('aria-label', isEnglish ? 'Switch language to Spanish' : 'Cambiar idioma a inglés');
+    langToggleBtn.classList.add('active');
   }
 }
 
@@ -538,11 +499,12 @@ function setupJoinForm() {
 }
 
 function bindEvents() {
-  const langEnBtn = document.getElementById('langEnBtn');
-  if (langEnBtn) langEnBtn.addEventListener('click', () => setLanguage('en'));
-
-  const langEsBtn = document.getElementById('langEsBtn');
-  if (langEsBtn) langEsBtn.addEventListener('click', () => setLanguage('es'));
+  const langToggleBtn = document.getElementById('langToggleBtn');
+  if (langToggleBtn) {
+    langToggleBtn.addEventListener('click', () => {
+      setLanguage(lang === 'en' ? 'es' : 'en');
+    });
+  }
 
   const navToggle = document.getElementById('navToggle');
   const nav = document.getElementById('primaryNav');
