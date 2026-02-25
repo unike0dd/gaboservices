@@ -157,6 +157,7 @@ function setupServiceCarousel() {
   if (!track) return;
 
   const cards = [...track.querySelectorAll('.service-card')];
+  const toggles = [...document.querySelectorAll('.service-carousel-toggle')];
   if (cards.length < 2) return;
 
   if (serviceCarouselTimer) {
@@ -170,10 +171,16 @@ function setupServiceCarousel() {
     cards.forEach((card, cardIndex) => {
       card.classList.toggle('is-carousel-focus', cardIndex === index);
     });
+
+    toggles.forEach((toggle, toggleIndex) => {
+      const isCurrent = toggleIndex === index;
+      toggle.classList.toggle('is-current', isCurrent);
+      toggle.setAttribute('aria-pressed', String(isCurrent));
+    });
   };
 
-  const stepToNext = () => {
-    carouselIndex = (carouselIndex + 1) % cards.length;
+  const moveTo = (index) => {
+    carouselIndex = index;
     const currentCard = cards[carouselIndex];
     if (!currentCard) return;
 
@@ -181,11 +188,24 @@ function setupServiceCarousel() {
     track.scrollTo({ left: currentCard.offsetLeft, behavior: 'smooth' });
   };
 
+  const stepToNext = () => {
+    const nextIndex = (carouselIndex + 1) % cards.length;
+    moveTo(nextIndex);
+  };
+
   let isPaused = false;
   const pause = () => { isPaused = true; };
   const resume = () => { isPaused = false; };
 
   setCarouselFocus(carouselIndex);
+
+  toggles.forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const requestedIndex = Number(toggle.dataset.serviceIndex);
+      if (Number.isNaN(requestedIndex)) return;
+      moveTo(requestedIndex);
+    });
+  });
 
   track.addEventListener('mouseenter', pause);
   track.addEventListener('mouseleave', resume);
@@ -196,7 +216,7 @@ function setupServiceCarousel() {
 
   serviceCarouselTimer = window.setInterval(() => {
     if (!isPaused) stepToNext();
-  }, 4000);
+  }, 5000);
 }
 
 function renderCards() {
@@ -216,6 +236,28 @@ function renderCards() {
       </button>
     </article>
   `).join('');
+
+    let toggleRow = document.getElementById('serviceCarouselToggles');
+    if (!toggleRow) {
+      toggleRow = document.createElement('div');
+      toggleRow.id = 'serviceCarouselToggles';
+      toggleRow.className = 'service-carousel-toggles';
+      serviceCards.insertAdjacentElement('afterend', toggleRow);
+    }
+
+    toggleRow.innerHTML = localizedServices.map((service, index) => `
+      <button
+        type="button"
+        class="service-carousel-toggle"
+        data-service-index="${index}"
+        data-service-key="${service.key}"
+        aria-label="Show ${service.title}"
+        aria-pressed="false"
+      >
+        ${service.title}
+      </button>
+    `).join('');
+
     bindServiceCardActions(localizedServices);
     setupServiceCarousel();
   }
