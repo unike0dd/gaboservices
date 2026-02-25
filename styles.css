@@ -107,7 +107,7 @@ h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: .3rem 0 1rem; max-width: 15ch;
 #serviceCards .service-card:focus-within,
 #serviceCards .service-card.is-carousel-focus,
 #serviceCards .service-card.active {
-  flex-basis: 85%;
+  flex-basis: 100%;
 }
 
 #serviceCards::-webkit-scrollbar {
@@ -120,7 +120,15 @@ h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: .3rem 0 1rem; max-width: 15ch;
 #serviceCards .service-card.is-carousel-focus .service-card-trigger,
 #serviceCards .service-card.active .service-card-trigger {
   justify-content: center;
+  align-items: center;
   text-align: center;
+}
+
+#serviceCards .service-card:hover .service-card-action,
+#serviceCards .service-card:focus-within .service-card-action,
+#serviceCards .service-card.is-carousel-focus .service-card-action,
+#serviceCards .service-card.active .service-card-action {
+  margin-top: 0;
 }
 
 .service-card {
