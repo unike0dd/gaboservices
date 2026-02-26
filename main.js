@@ -159,7 +159,7 @@ function renderCards() {
     serviceCards.innerHTML = localizedServices.map((service) => `
     <article class="card service-card" data-service-card="${service.key}">
       <button class="service-card-trigger" type="button" data-service-key="${service.key}" aria-expanded="${String(activeServiceKey === service.key)}">
-        <span class="service-card-label">Service</span>
+        <span class="service-card-label">${copy.serviceLabel}</span>
         <h3>${service.title}</h3>
         <p>${service.body}</p>
         <span class="service-card-action">${copy.serviceCardAction} →</span>
@@ -172,7 +172,7 @@ function renderCards() {
       toggleRow = document.createElement('div');
       toggleRow.id = 'serviceCarouselToggles';
       toggleRow.className = 'service-carousel-toggles';
-      toggleRow.setAttribute('aria-label', 'Service carousel toggles');
+      toggleRow.setAttribute('aria-label', copy.serviceCarouselToggles || 'Service carousel toggles');
       serviceCards.insertAdjacentElement('afterend', toggleRow);
     } else if (toggleRow.previousElementSibling !== serviceCards) {
       serviceCards.insertAdjacentElement('afterend', toggleRow);
@@ -184,7 +184,7 @@ function renderCards() {
         class="service-carousel-toggle"
         data-service-index="${index}"
         data-service-key="${service.key}"
-        aria-label="Show ${service.title}"
+        aria-label="${copy.serviceShowPrefix || 'Show'} ${service.title}"
         aria-pressed="false"
       >
         ${service.title}
@@ -323,6 +323,10 @@ async function populateCountryCodes() {
 function translatePage() {
   const copy = DICTIONARY[lang] || DICTIONARY.en;
   document.documentElement.lang = lang;
+  if (copy.pageTitle) document.title = copy.pageTitle;
+  if (metaDescription && copy.pageDescription) {
+    metaDescription.setAttribute('content', copy.pageDescription);
+  }
   document.querySelectorAll('[data-i18n]').forEach((node) => {
     const key = node.dataset.i18n;
     if (copy[key]) node.textContent = copy[key];
@@ -330,6 +334,18 @@ function translatePage() {
   document.querySelectorAll('[data-i18n-aria-label]').forEach((node) => {
     const key = node.dataset.i18nAriaLabel;
     if (copy[key]) node.setAttribute('aria-label', copy[key]);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach((node) => {
+    const key = node.dataset.i18nPlaceholder;
+    if (copy[key]) node.setAttribute('placeholder', copy[key]);
+  });
+  document.querySelectorAll('[data-i18n-title]').forEach((node) => {
+    const key = node.dataset.i18nTitle;
+    if (copy[key]) node.setAttribute('title', copy[key]);
+  });
+  document.querySelectorAll('[data-i18n-content]').forEach((node) => {
+    const key = node.dataset.i18nContent;
+    if (copy[key]) node.setAttribute('content', copy[key]);
   });
   const langButtons = [...document.querySelectorAll('[data-lang-option]')];
   if (langButtons.length) {
@@ -340,6 +356,12 @@ function translatePage() {
       if (codeLabel) button.textContent = codeLabel;
       button.setAttribute('aria-pressed', String(isActive));
       button.classList.toggle('active', isActive);
+      if (buttonLang === 'en') {
+        button.setAttribute('aria-label', copy.switchToEnglish || 'Switch language to English');
+      }
+      if (buttonLang === 'es') {
+        button.setAttribute('aria-label', copy.switchToSpanish || 'Cambiar idioma a español');
+      }
     });
   }
 
@@ -388,30 +410,35 @@ function bindFabControls() {
 
 
 function getRepeatableTemplate(type) {
+  const copy = DICTIONARY[lang] || DICTIONARY.en;
+
   if (type === 'expertise') {
     return `
-      <select required name="expertise_level[]" aria-label="Level of Expertise">
-        <option value="">Select level</option>
-        <option value="Entry">Entry</option>
-        <option value="Junior">Junior</option>
-        <option value="Mid">Mid</option>
-        <option value="Advance">Advance</option>
-        <option value="Expert">Expert</option>
+      <select required name="expertise_level[]" data-i18n-aria-label="expertise" aria-label="${copy.expertise || 'Level of Expertise'}">
+        <option value="" data-i18n="selectLevel">${copy.selectLevel || 'Select level'}</option>
+        <option value="Entry" data-i18n="entry">${copy.entry || 'Entry'}</option>
+        <option value="Junior" data-i18n="junior">${copy.junior || 'Junior'}</option>
+        <option value="Mid" data-i18n="mid">${copy.mid || 'Mid'}</option>
+        <option value="Advance" data-i18n="advanced">${copy.advanced || 'Advanced'}</option>
+        <option value="Expert" data-i18n="expert">${copy.expert || 'Expert'}</option>
       </select>
-      <textarea required name="expertise_notes[]" rows="2" placeholder="Describe your expertise"></textarea>
+      <textarea required name="expertise_notes[]" rows="2" data-i18n-placeholder="placeholderExpertise" placeholder="${copy.placeholderExpertise || 'Describe your expertise'}"></textarea>
     `;
   }
 
   const placeholders = {
-    experience: 'Describe your experience',
-    education: 'Share your education background',
-    certification: 'List your certifications',
-    skills: 'Add your skills',
-    languages: 'List language(s) and level',
-    instruction: 'Add custom instruction'
+    experience: 'placeholderExperience',
+    education: 'placeholderEducation',
+    certification: 'placeholderCertification',
+    skills: 'placeholderSkills',
+    languages: 'placeholderLanguages',
+    instruction: 'placeholderSkills'
   };
 
-  return `<textarea required name="${type}[]" rows="2" placeholder="${placeholders[type] || 'Add details'}"></textarea>`;
+  const placeholderKey = placeholders[type] || 'placeholderSkills';
+  const placeholder = copy[placeholderKey] || copy.placeholderSkills || 'Add details';
+
+  return `<textarea required name="${type}[]" rows="2" data-i18n-placeholder="${placeholderKey}" placeholder="${placeholder}"></textarea>`;
 }
 
 
@@ -432,9 +459,10 @@ function setRepeatableLockState(block, locked) {
     field.disabled = locked && field.tagName === 'SELECT';
   });
 
+  const copy = DICTIONARY[lang] || DICTIONARY.en;
   lockBtn.textContent = locked ? '🔒' : '🔓';
   lockBtn.setAttribute('aria-pressed', String(locked));
-  lockBtn.setAttribute('aria-label', locked ? 'Unlock section' : 'Lock section');
+  lockBtn.setAttribute('aria-label', locked ? (copy.unlockSection || 'Unlock section') : (copy.lockSection || 'Lock section'));
 }
 
 function setupJoinForm() {
@@ -476,7 +504,8 @@ function setupJoinForm() {
     const status = document.getElementById('joinFormStatus');
 
     if (!verdict.allowed) {
-      status.textContent = dictionary[lang].blocked;
+      const copy = DICTIONARY[lang] || DICTIONARY.en;
+      status.textContent = copy.blocked;
       status.dataset.state = 'blocked';
       joinForm.querySelectorAll('.hp-field').forEach((node) => {
         node.value = '';
@@ -490,7 +519,8 @@ function setupJoinForm() {
         list.removeChild(list.lastElementChild);
       }
     });
-    status.textContent = dictionary[lang].sent;
+    const copy = DICTIONARY[lang] || DICTIONARY.en;
+    status.textContent = copy.sent;
     status.dataset.state = 'ok';
   });
 }
@@ -533,7 +563,8 @@ function bindEvents() {
       if (!status) return;
 
       if (!verdict.allowed) {
-        status.textContent = dictionary[lang].blocked;
+        const copy = DICTIONARY[lang] || DICTIONARY.en;
+        status.textContent = copy.blocked;
         status.dataset.state = 'blocked';
         form.querySelectorAll('.hp-field').forEach((node) => {
           node.value = '';
@@ -542,7 +573,8 @@ function bindEvents() {
       }
 
       form.reset();
-      status.textContent = dictionary[lang].sent;
+      const copy = DICTIONARY[lang] || DICTIONARY.en;
+      status.textContent = copy.sent;
       status.dataset.state = 'ok';
     });
   }
