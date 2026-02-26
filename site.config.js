@@ -4,5 +4,5 @@ window.SITE_METADATA = {
     'Excellence in logistics, IT support, executive assistance, and customer relations management.',
   framePermissions: [],
   chatbotEmbedUrl:
-    'https://con-artist.rulathemtodos.workers.dev/embed?parent=https%3A%2F%2Fwww.gabos.io'
+    'https://con-artist.rulathemtodos.workers.dev/embed?parent=https%3A%2F%2Fgabo.services'
 };

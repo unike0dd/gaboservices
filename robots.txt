@@ -42,4 +42,4 @@ Disallow: /
 User-agent: ia_archiver
 Disallow: /
 
-Sitemap: https://gabrielprofessionalservices.com/sitemap.xml
+Sitemap: https://gabo.services/sitemap.xml

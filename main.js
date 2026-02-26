@@ -409,7 +409,7 @@ function bindFabControls() {
 
   const defaultChatbotEmbedUrl =
     window.SITE_METADATA?.chatbotEmbedUrl ||
-    'https://con-artist.rulathemtodos.workers.dev/embed?parent=https%3A%2F%2Fwww.gabos.io';
+    'https://con-artist.rulathemtodos.workers.dev/embed?parent=https%3A%2F%2Fgabo.services';
   const configuredChatbotEmbedUrl =
     chatFrame.dataset.chatSrc ||
     (chatFrame.getAttribute('src') && chatFrame.getAttribute('src') !== 'about:blank'
