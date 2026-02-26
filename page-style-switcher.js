@@ -3,8 +3,16 @@
   const THEMES = ['wallstreet', 'time'];
 
   const labels = {
-    wallstreet: 'Wall Street News Cut',
-    time: 'Time Magazine Cut'
+    en: {
+      wallstreet: 'Wall Street News Cut',
+      time: 'Time Magazine Cut',
+      ariaPrefix: 'Switch landing and navigation look. Current:'
+    },
+    es: {
+      wallstreet: 'Recorte informativo de Wall Street',
+      time: 'Recorte de Time Magazine',
+      ariaPrefix: 'Cambiar apariencia de inicio y navegación. Actual:'
+    }
   };
 
   const root = document.documentElement;
@@ -16,10 +24,19 @@
     return THEMES.includes(stored) ? stored : 'wallstreet';
   };
 
+  const getLang = () => {
+    const storedLang = localStorage.getItem('lang');
+    if (storedLang === 'es' || storedLang === 'en') return storedLang;
+    return root.lang === 'es' ? 'es' : 'en';
+  };
+
   const applyTheme = (theme) => {
     root.setAttribute('data-editorial-theme', theme);
-    button.textContent = labels[theme];
-    button.setAttribute('aria-label', `Switch landing and navigation look. Current: ${labels[theme]}`);
+    const lang = getLang();
+    const locale = labels[lang] || labels.en;
+    const label = locale[theme] || labels.en[theme];
+    button.textContent = label;
+    button.setAttribute('aria-label', `${locale.ariaPrefix} ${label}`);
   };
 
   let currentTheme = getStoredTheme();
