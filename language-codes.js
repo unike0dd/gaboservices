@@ -193,15 +193,15 @@ export const DICTIONARY = {
 export const SERVICES = {
   en: [
     { key: 'logistics', title: 'Logistics Operations', body: 'Order workflows, dispatch support, shipment updates, and reporting.', href: '/services/logistics-operations/' },
-    { key: 'it', title: 'IT Support', body: 'Tier 1, Tier 2; On-boarding, implementation, troubleshooting, account management, customer relations, and endpoint support.', href: '/services/it-support/' },
     { key: 'admin', title: 'Administrative Backoffice', body: 'Data entry, documentation, invoicing support, accounts payable and receivable, process management, scheduling, and executive assistant services.', href: '/services/administrative-backoffice/' },
-    { key: 'customer', title: 'Customer Relations', body: 'Omnichannel support, customer retention, and quality monitoring.', href: '/services/customer-relations/' }
+    { key: 'customer', title: 'Customer Relations', body: 'Omnichannel support, customer retention, and quality monitoring.', href: '/services/customer-relations/' },
+    { key: 'it', title: 'IT Support', body: 'Tier 1, Tier 2; On-boarding, implementation, troubleshooting, account management, customer relations, and endpoint support.', href: '/services/it-support/' }
   ],
   es: [
     { key: 'logistics', title: 'Operaciones Logísticas', body: 'Flujos de pedidos, soporte de despacho, actualizaciones de envíos y reportes.', href: '/services/logistics-operations/' },
-    { key: 'it', title: 'Soporte de TI', body: 'Nivel 1 y 2; incorporación, implementación, solución de problemas, gestión de cuentas, relaciones con clientes y soporte de terminales.', href: '/services/it-support/' },
     { key: 'admin', title: 'Backoffice Administrativo', body: 'Ingreso de datos, documentación, apoyo de facturación, cuentas por pagar y cobrar, gestión de procesos, agenda y asistencia ejecutiva.', href: '/services/administrative-backoffice/' },
-    { key: 'customer', title: 'Relaciones con Clientes', body: 'Soporte omnicanal, retención de clientes y monitoreo de calidad.', href: '/services/customer-relations/' }
+    { key: 'customer', title: 'Relaciones con Clientes', body: 'Soporte omnicanal, retención de clientes y monitoreo de calidad.', href: '/services/customer-relations/' },
+    { key: 'it', title: 'Soporte de TI', body: 'Nivel 1 y 2; incorporación, implementación, solución de problemas, gestión de cuentas, relaciones con clientes y soporte de terminales.', href: '/services/it-support/' }
   ]
 };
 
