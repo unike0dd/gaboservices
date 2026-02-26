@@ -18,7 +18,7 @@ export const DICTIONARY = {
     contact: 'Contact',
     careers: 'Careers',
     brandSubtitle: 'Outsource, Delivered',
-    editorialTheme: 'Wall Street News Cut',
+    editorialTheme: 'News Cut',
     heroTitle: 'Professional services for logistics, IT, and customer operations.',
     heroBody: 'Scale support with expert teams, measurable SLAs, and human-centered delivery.',
     startTrial: 'Start Free Trial',
