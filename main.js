@@ -385,6 +385,15 @@ function bindFabControls() {
 
   if (!fabMain || !fabMenu || !fabChat || !chatPanel || !chatClose || !chatFrame) return;
 
+  const defaultChatbotEmbedUrl =
+    window.SITE_METADATA?.chatbotEmbedUrl ||
+    'https://con-artist.rulathemtodos.workers.dev/embed?parent=https%3A%2F%2Fwww.gabos.io';
+  const configuredChatbotEmbedUrl =
+    chatFrame.dataset.chatSrc ||
+    (chatFrame.getAttribute('src') && chatFrame.getAttribute('src') !== 'about:blank'
+      ? chatFrame.getAttribute('src')
+      : defaultChatbotEmbedUrl);
+
   fabMain.addEventListener('click', () => {
     const expanded = fabMain.getAttribute('aria-expanded') === 'true';
     fabMain.setAttribute('aria-expanded', String(!expanded));
@@ -398,7 +407,7 @@ function bindFabControls() {
     if (!guard.allowed) return;
 
     if (chatFrame.src === 'about:blank') {
-      chatFrame.src = 'https://gabos.io';
+      chatFrame.src = configuredChatbotEmbedUrl;
     }
     chatPanel.hidden = false;
   });
