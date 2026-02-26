@@ -96,7 +96,7 @@ export const DICTIONARY = {
     contact: 'Contacto',
     careers: 'Carreras',
     brandSubtitle: 'Tercerización que entrega',
-    editorialTheme: 'Cote Estilo Revista',
+    editorialTheme: 'Corte Estilo Revista',
     heroTitle: 'Servicios profesionales para logística, TI y operaciones de atención al cliente.',
     heroBody: 'Escale su soporte con equipos expertos, SLA medibles y una entrega centrada en las personas.',
     startTrial: 'Iniciar prueba gratuita',

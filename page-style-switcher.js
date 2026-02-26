@@ -9,7 +9,7 @@
       ariaPrefix: 'Switch landing and navigation look. Current:'
     },
     es: {
-      wallstreet: 'Cote Estilo Revista',
+      wallstreet: 'Corte Estilo Revista',
       time: 'Corte Estilo Prensa',
       ariaPrefix: 'Cambiar apariencia de inicio y navegación. Actual:'
     }
