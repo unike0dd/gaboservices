@@ -1,6 +1,8 @@
 window.SITE_METADATA = {
   name: 'Gabriel - Professional Business Services',
   description:
-    'AI-enabled professional services for logistics, IT support, back-office operations, and customer experience teams.',
-  framePermissions: []
+    'Excellence in logistics, IT support, executive assistance, and customer relations management.',
+  framePermissions: [],
+  chatbotEmbedUrl:
+    'https://con-artist.rulathemtodos.workers.dev/embed?parent=https%3A%2F%2Fwww.gabos.io'
 };
