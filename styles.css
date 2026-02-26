@@ -4,6 +4,9 @@
   --card: rgba(255, 255, 250, 0.9);
   --primary: #1d3557;
   --border: rgba(17, 17, 17, 0.22);
+  --nav-fab-offset-x: calc(1.25rem + env(safe-area-inset-right, 0px));
+  --nav-fab-offset-y: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  --nav-links-offset-y: calc(5.1rem + env(safe-area-inset-bottom, 0px));
 }
 
 * { box-sizing: border-box; }
@@ -43,8 +46,8 @@ body {
   margin: 0;
   padding: 0.8rem;
   position: fixed;
-  right: 1.25rem;
-  bottom: 5.1rem;
+  right: var(--nav-fab-offset-x);
+  bottom: var(--nav-links-offset-y);
   flex-direction: column;
   background: var(--card);
   border: 1px solid var(--border);
@@ -68,8 +71,8 @@ body {
 .actions .ghost.active { background: var(--text); color: var(--bg); border-color: var(--text); }
 .nav-toggle {
   position: fixed;
-  right: 1.25rem;
-  bottom: 1.25rem;
+  right: var(--nav-fab-offset-x);
+  bottom: var(--nav-fab-offset-y);
   width: 3.4rem;
   height: 3.4rem;
   border-radius: 999px;
@@ -77,6 +80,11 @@ body {
   background: var(--primary);
   color: #fff;
   box-shadow: 0 10px 22px rgba(15, 23, 42, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  line-height: 1;
   z-index: 93;
 }
 .hero { padding: 5rem 0 3rem; }
@@ -435,14 +443,26 @@ input, textarea, select {
   border: none;
 }
 
+@media (min-width: 781px) {
+  .nav-toggle {
+    left: auto;
+    right: var(--nav-fab-offset-x);
+  }
+
+  .nav-links {
+    left: auto;
+    right: var(--nav-fab-offset-x);
+  }
+}
+
 @media (max-width: 780px) {
   .nav-toggle {
-    left: 1.25rem;
+    left: calc(1.25rem + env(safe-area-inset-left, 0px));
     right: auto;
   }
 
   .nav-links {
-    left: 1.25rem;
+    left: calc(1.25rem + env(safe-area-inset-left, 0px));
     right: auto;
   }
 }
