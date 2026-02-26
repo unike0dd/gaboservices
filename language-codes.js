@@ -9,17 +9,6 @@ export const DICTIONARY = {
   en: {
     pageTitle: 'Gabriel Professional Business Services',
     pageDescription: 'Business services for logistics, IT, admin, and customer relations.',
-    ogLocale: 'en_US',
-    pageTitleHome: 'Gabriel Professional Business Services',
-    pageTitleAbout: 'About | Gabriel Services',
-    pageTitleServices: 'Services | Gabriel Services',
-    pageTitlePricing: 'Pricing | Gabriel Services',
-    pageTitleContact: 'Contact | Gabriel Services',
-    pageTitleCareers: 'Careers | Gabriel Services',
-    pageTitleServiceIt: 'IT Support | Gabriel Services',
-    pageTitleServiceLogistics: 'Logistics Operations | Gabriel Services',
-    pageTitleServiceAdmin: 'Administrative Backoffice | Gabriel Services',
-    pageTitleServiceCustomer: 'Customer Relations | Gabriel Services',
     switchToEnglish: 'Switch language to English',
     switchToSpanish: 'Switch language to Spanish',
     home: 'Home',
@@ -30,7 +19,6 @@ export const DICTIONARY = {
     careers: 'Careers',
     brandSubtitle: 'Outsource, Delivered',
     editorialTheme: 'Wall Street News Cut',
-    editorialThemeAlt: 'Time Magazine Cut',
     heroTitle: 'Professional services for logistics, IT, and customer operations.',
     heroBody: 'Scale support with expert teams, measurable SLAs, and human-centered delivery.',
     startTrial: 'Start Free Trial',
@@ -94,24 +82,11 @@ export const DICTIONARY = {
     chatPanelLabel: 'Chatbot panel',
     chatClose: 'Close chatbot',
     chatbot: 'Chatbot',
-    chatFrameTitle: 'Gabriel chatbot',
-    footerCopyright: 'Gabriel Professional Business Services',
-    themeSwitcherAria: 'Switch landing and navigation look. Current:'
+    footerCopyright: 'Gabriel Professional Business Services'
   },
   es: {
     pageTitle: 'Gabriel Servicios Profesionales Empresariales',
     pageDescription: 'Servicios empresariales de logística, TI, administración y atención al cliente.',
-    ogLocale: 'es_ES',
-    pageTitleHome: 'Gabriel Servicios Profesionales Empresariales',
-    pageTitleAbout: 'Nosotros | Gabriel Services',
-    pageTitleServices: 'Servicios | Gabriel Services',
-    pageTitlePricing: 'Precios | Gabriel Services',
-    pageTitleContact: 'Contacto | Gabriel Services',
-    pageTitleCareers: 'Carreras | Gabriel Services',
-    pageTitleServiceIt: 'Soporte de TI | Gabriel Services',
-    pageTitleServiceLogistics: 'Operaciones Logísticas | Gabriel Services',
-    pageTitleServiceAdmin: 'Backoffice Administrativo | Gabriel Services',
-    pageTitleServiceCustomer: 'Relaciones con Clientes | Gabriel Services',
     switchToEnglish: 'Cambiar idioma a inglés',
     switchToSpanish: 'Cambiar idioma a español',
     home: 'Inicio',
@@ -122,7 +97,6 @@ export const DICTIONARY = {
     careers: 'Carreras',
     brandSubtitle: 'Tercerización que entrega',
     editorialTheme: 'Recorte informativo de Wall Street',
-    editorialThemeAlt: 'Recorte de Time Magazine',
     heroTitle: 'Servicios profesionales para logística, TI y operaciones de atención al cliente.',
     heroBody: 'Escale su soporte con equipos expertos, SLA medibles y una entrega centrada en las personas.',
     startTrial: 'Iniciar prueba gratuita',
@@ -186,24 +160,22 @@ export const DICTIONARY = {
     chatPanelLabel: 'Panel del chatbot',
     chatClose: 'Cerrar chatbot',
     chatbot: 'Chatbot',
-    chatFrameTitle: 'Gabriel chatbot',
-    footerCopyright: 'Gabriel Servicios Profesionales Empresariales',
-    themeSwitcherAria: 'Cambiar apariencia de inicio y navegación. Actual:'
+    footerCopyright: 'Gabriel Servicios Profesionales Empresariales'
   }
 };
 
 export const SERVICES = {
   en: [
     { key: 'logistics', title: 'Logistics Operations', body: 'Order workflows, dispatch support, shipment updates, and reporting.', href: '/services/logistics-operations/' },
+    { key: 'it', title: 'IT Support', body: 'Tier 1, Tier 2; On-boarding, implementation, troubleshooting, account management, customer relations, and endpoint support.', href: '/services/it-support/' },
     { key: 'admin', title: 'Administrative Backoffice', body: 'Data entry, documentation, invoicing support, accounts payable and receivable, process management, scheduling, and executive assistant services.', href: '/services/administrative-backoffice/' },
-    { key: 'customer', title: 'Customer Relations', body: 'Omnichannel support, customer retention, and quality monitoring.', href: '/services/customer-relations/' },
-    { key: 'it', title: 'IT Support', body: 'Tier 1, Tier 2; On-boarding, implementation, troubleshooting, account management, customer relations, and endpoint support.', href: '/services/it-support/' }
+    { key: 'customer', title: 'Customer Relations', body: 'Omnichannel support, customer retention, and quality monitoring.', href: '/services/customer-relations/' }
   ],
   es: [
     { key: 'logistics', title: 'Operaciones Logísticas', body: 'Flujos de pedidos, soporte de despacho, actualizaciones de envíos y reportes.', href: '/services/logistics-operations/' },
+    { key: 'it', title: 'Soporte de TI', body: 'Nivel 1 y 2; incorporación, implementación, solución de problemas, gestión de cuentas, relaciones con clientes y soporte de terminales.', href: '/services/it-support/' },
     { key: 'admin', title: 'Backoffice Administrativo', body: 'Ingreso de datos, documentación, apoyo de facturación, cuentas por pagar y cobrar, gestión de procesos, agenda y asistencia ejecutiva.', href: '/services/administrative-backoffice/' },
-    { key: 'customer', title: 'Relaciones con Clientes', body: 'Soporte omnicanal, retención de clientes y monitoreo de calidad.', href: '/services/customer-relations/' },
-    { key: 'it', title: 'Soporte de TI', body: 'Nivel 1 y 2; incorporación, implementación, solución de problemas, gestión de cuentas, relaciones con clientes y soporte de terminales.', href: '/services/it-support/' }
+    { key: 'customer', title: 'Relaciones con Clientes', body: 'Soporte omnicanal, retención de clientes y monitoreo de calidad.', href: '/services/customer-relations/' }
   ]
 };
 

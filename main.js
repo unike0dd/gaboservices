@@ -323,22 +323,10 @@ async function populateCountryCodes() {
 function translatePage() {
   const copy = DICTIONARY[lang] || DICTIONARY.en;
   document.documentElement.lang = lang;
-  const pageKey = document.body?.dataset?.pageKey || 'home';
-  const normalizedKey = pageKey.charAt(0).toUpperCase() + pageKey.slice(1);
-  const pageTitleKey = `pageTitle${normalizedKey}`;
-  document.title = copy[pageTitleKey] || copy.pageTitle || document.title;
+  if (copy.pageTitle) document.title = copy.pageTitle;
   if (metaDescription && copy.pageDescription) {
     metaDescription.setAttribute('content', copy.pageDescription);
   }
-
-  const editorialThemeBtn = document.getElementById('editorialThemeBtn');
-  if (editorialThemeBtn) {
-    const activeTheme = document.documentElement.getAttribute('data-editorial-theme') || 'wallstreet';
-    const activeLabel = activeTheme === 'time' ? (copy.editorialThemeAlt || 'Time Magazine Cut') : (copy.editorialTheme || 'Wall Street News Cut');
-    editorialThemeBtn.textContent = activeLabel;
-    editorialThemeBtn.setAttribute('aria-label', `${copy.themeSwitcherAria || 'Switch landing and navigation look. Current:'} ${activeLabel}`);
-  }
-
   document.querySelectorAll('[data-i18n]').forEach((node) => {
     const key = node.dataset.i18n;
     if (copy[key]) node.textContent = copy[key];
