@@ -57,6 +57,11 @@ body {
 }
 .nav-links.open { display: flex; }
 .nav-links a { color: var(--text); text-decoration:none; }
+.nav-links a[aria-current='page'] {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.18rem;
+}
 .nav-chat-trigger {
   border: 0;
   background: transparent;
@@ -789,4 +794,18 @@ textarea[data-security-state='review'] {
 
 :root[data-editorial-theme='time'] .site-header {
   border-bottom: 3px solid #b11116;
+}
+
+
+body[data-viewport-tier='laptop'] .nav-toggle,
+body[data-viewport-tier='pc'] .nav-toggle {
+  right: var(--nav-fab-offset-x);
+  bottom: var(--nav-fab-offset-y);
+  left: auto;
+}
+
+body[data-viewport-tier='laptop'] .nav-links,
+body[data-viewport-tier='pc'] .nav-links {
+  right: var(--nav-fab-offset-x);
+  left: auto;
 }
