@@ -62,6 +62,28 @@ class TinyGuardML {
     };
   }
 
+  scanChatbotButton(fabChat, honeypotValue = '', clickEvent = null) {
+    const shieldForm = document.createElement('form');
+    const chatbotLabel = fabChat.getAttribute('aria-label') || fabChat.textContent || '';
+    shieldForm.innerHTML = '<input class="hp-field" value="" /><textarea></textarea>';
+
+    const trapField = shieldForm.querySelector('.hp-field');
+    if (trapField) trapField.value = honeypotValue;
+
+    const signalField = shieldForm.querySelector('textarea');
+    if (signalField) {
+      signalField.value = `${chatbotLabel} ${fabChat.id || ''} ${fabChat.className || ''}`.trim();
+    }
+
+    const verdict = this.validateForm(shieldForm);
+    if (clickEvent && clickEvent.isTrusted === false) {
+      verdict.riskScore += 2;
+      verdict.allowed = verdict.riskScore < 2;
+    }
+
+    return verdict;
+  }
+
   monitorGlobalTampering() {
     const observer = new MutationObserver((changes) => {
       const suspicious = changes.some((change) => {
@@ -400,10 +422,18 @@ function bindFabControls() {
     fabMenu.hidden = expanded;
   });
 
-  fabChat.addEventListener('click', () => {
-    const shieldForm = document.createElement('form');
-    shieldForm.innerHTML = '<input class="hp-field" value="" /><textarea></textarea>';
-    const guard = tinyGuard.validateForm(shieldForm);
+  const chatbotHoneypot = document.createElement('input');
+  chatbotHoneypot.type = 'text';
+  chatbotHoneypot.className = 'hp-field';
+  chatbotHoneypot.name = 'chatbot_company_website';
+  chatbotHoneypot.tabIndex = -1;
+  chatbotHoneypot.autocomplete = 'off';
+  chatbotHoneypot.setAttribute('aria-hidden', 'true');
+  chatbotHoneypot.style.cssText = 'position:absolute;left:-10000px;opacity:0;pointer-events:none;';
+  fabMenu.appendChild(chatbotHoneypot);
+
+  fabChat.addEventListener('click', (event) => {
+    const guard = tinyGuard.scanChatbotButton(fabChat, chatbotHoneypot.value, event);
     if (!guard.allowed) return;
 
     if (chatFrame.src === 'about:blank') {
