@@ -379,16 +379,27 @@ input, textarea, select {
   line-height: 1;
 }
 
-.chat-panel {
+.chat-overlay[hidden] {
+  display: none !important;
+}
+
+.chat-overlay {
   position: fixed;
-  right: 1.25rem;
-  bottom: 6rem;
+  inset: 0;
+  display: grid;
+  place-items: end;
+  padding: 1.25rem;
+  background: rgba(2, 6, 23, 0.46);
+  z-index: 94;
+}
+
+.chat-panel {
+  position: relative;
   width: min(92vw, 380px);
   height: 500px;
   border: 1px solid var(--border);
   border-radius: 1rem;
   background: var(--card);
-  z-index: 95;
   box-shadow: 0 20px 35px rgba(15, 23, 42, 0.35);
   overflow: hidden;
 }
@@ -403,8 +414,23 @@ input, textarea, select {
 
 .chat-panel iframe {
   width: 100%;
-  height: calc(100% - 53px);
+  height: calc(100% - 103px);
   border: none;
+}
+
+.chat-panel-actions {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid var(--border);
+  padding: 0.5rem 0.8rem;
+}
+
+.chat-panel-actions .ghost {
+  min-width: 5.5rem;
+}
+
+body.chat-open {
+  overflow: hidden;
 }
 
 @media (max-width: 780px) {
