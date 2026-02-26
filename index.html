@@ -6,7 +6,7 @@
     <title>Gabriel Professional Business Services</title>
     <meta
       name="description"
-      content="Business services for logistics, IT, admin, and customer relations."
+      content="Business services for logistics, IT, admin, and customer relations." data-i18n-content="pageDescription"
     />
     <link rel="stylesheet" href="./styles.css" />
     <link rel="stylesheet" href="./responsive.css" />
@@ -16,8 +16,8 @@
       <div class="container nav-wrap">
         <div class="brand-stack">
           <a class="brand" href="./">Gabriel Services</a>
-          <p class="brand-subtitle">Outsource, Delivered</p>
-          <button id="editorialThemeBtn" class="editorial-toggle" type="button" aria-live="polite">Wall Street News Cut</button>
+          <p class="brand-subtitle" data-i18n="brandSubtitle">Outsource, Delivered</p>
+          <button id="editorialThemeBtn" class="editorial-toggle" type="button" aria-live="polite" data-i18n="editorialTheme">Wall Street News Cut</button>
         </div>
         <nav>
           <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">☰</button>
@@ -25,13 +25,13 @@
             <li><a href="#home" data-i18n="home">Inicio</a></li>
             <li><a href="./about" data-i18n="about">Nosotros</a></li>
             <li><a href="./services" data-i18n="services">Servicios</a></li>
-            <li><a href="./careers">Careers</a></li>
+            <li><a href="./careers" data-i18n="careers">Careers</a></li>
             <li><a href="./contact" data-i18n="contact">Contacto</a></li>
           </ul>
         </nav>
         <div class="actions" role="group" aria-label="Language selector">
-          <button class="ghost lang-option" type="button" data-lang-option="en" aria-pressed="false" aria-label="Switch language to English">EN</button>
-          <button class="ghost lang-option" type="button" data-lang-option="es" aria-pressed="false" aria-label="Cambiar idioma a español">ES</button>
+          <button class="ghost lang-option" type="button" data-lang-option="en" aria-pressed="false" data-i18n-aria-label="switchToEnglish" aria-label="Switch language to English">EN</button>
+          <button class="ghost lang-option" type="button" data-lang-option="es" aria-pressed="false" data-i18n-aria-label="switchToSpanish" aria-label="Cambiar idioma a español">ES</button>
         </div>
       </div>
     </header>
@@ -56,7 +56,7 @@
       <section id="services" class="container section">
         <h2 data-i18n="services">Services</h2>
         <div class="grid cards" id="serviceCards"></div>
-        <div id="serviceCarouselToggles" class="service-carousel-toggles" aria-label="Service carousel toggles"></div>
+        <div id="serviceCarouselToggles" class="service-carousel-toggles" data-i18n-aria-label="serviceCarouselToggles" aria-label="Service carousel toggles"></div>
       </section>
 
       <section id="serviceDetailPanel" class="container section service-detail" hidden>
@@ -71,26 +71,26 @@
 
     <footer class="site-footer">
       <div class="container">
-        <p>© <span id="year"></span> Gabriel Professional Business Services</p>
+        <p>© <span id="year"></span> <span data-i18n="footerCopyright">Gabriel Professional Business Services</span></p>
       </div>
     </footer>
 
 
     <div class="fab-wrapper">
-      <button id="fabMain" class="fab-main fab-hamburger" type="button" aria-label="Open quick actions" aria-expanded="false">
+      <button id="fabMain" class="fab-main fab-hamburger" type="button" data-i18n-aria-label="fabOpenQuickActions" aria-label="Open quick actions" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
       <div id="fabMenu" class="fab-menu" hidden>
-        <a class="fab-item" href="./contact" aria-label="Contact"><span class="fab-item-icon" aria-hidden="true">☎</span><span>Contact</span></a>
-        <a class="fab-item" href="./careers" aria-label="Careers"><span class="fab-item-icon" aria-hidden="true">💼</span><span>Career</span></a>
-        <button id="fabChat" class="fab-item" type="button" aria-label="Chatbot"><span class="fab-item-icon" aria-hidden="true">🤖</span><span>Chatbot</span></button>
+        <a class="fab-item" href="./contact" data-i18n-aria-label="fabContact" aria-label="Contact"><span class="fab-item-icon" aria-hidden="true">☎</span><span data-i18n="fabContact">Contact</span></a>
+        <a class="fab-item" href="./careers" data-i18n-aria-label="careers" aria-label="Careers"><span class="fab-item-icon" aria-hidden="true">💼</span><span data-i18n="fabCareer">Career</span></a>
+        <button id="fabChat" class="fab-item" type="button" data-i18n-aria-label="fabChatbot" aria-label="Chatbot"><span class="fab-item-icon" aria-hidden="true">🤖</span><span data-i18n="chatbot">Chatbot</span></button>
       </div>
     </div>
 
-    <aside id="chatPanel" class="chat-panel" hidden aria-label="Chatbot panel">
+    <aside id="chatPanel" class="chat-panel" hidden data-i18n-aria-label="chatPanelLabel" aria-label="Chatbot panel">
       <div class="chat-panel-head">
-        <strong>Chatbot</strong>
-        <button id="chatClose" class="ghost" type="button" aria-label="Close chatbot">✕</button>
+        <strong data-i18n="chatbot">Chatbot</strong>
+        <button id="chatClose" class="ghost" type="button" data-i18n-aria-label="chatClose" aria-label="Close chatbot">✕</button>
       </div>
       <iframe
         id="chatFrame"

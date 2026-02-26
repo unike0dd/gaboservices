@@ -12,29 +12,29 @@
       <div class="container nav-wrap">
         <div class="brand-stack">
           <a class="brand" href="../">Gabriel Services</a>
-          <p class="brand-subtitle">Outsource, Delivered</p>
-          <button id="editorialThemeBtn" class="editorial-toggle" type="button" aria-live="polite">News Cut</button>
+          <p class="brand-subtitle" data-i18n="brandSubtitle">Outsource, Delivered</p>
+          <button id="editorialThemeBtn" class="editorial-toggle" type="button" aria-live="polite" data-i18n="editorialTheme">Wall Street News Cut</button>
         </div>
         <nav>
           <ul class="nav-links">
-            <li><a href="../">Inicio</a></li>
-            <li><a href="../about">Nosotros</a></li>
-            <li><a href="../services">Servicios</a></li>
-            <li><a href="../pricing">Precios</a></li>
-            <li><a href="../careers">Careers</a></li>
-            <li><a href="../contact">Contacto</a></li>
+            <li><a href="../" data-i18n="home">Inicio</a></li>
+            <li><a href="../about" data-i18n="about">Nosotros</a></li>
+            <li><a href="../services" data-i18n="services">Servicios</a></li>
+            <li><a href="../pricing" data-i18n="pricing">Precios</a></li>
+            <li><a href="../careers" data-i18n="careers">Careers</a></li>
+            <li><a href="../contact" data-i18n="contact">Contacto</a></li>
           </ul>
         </nav>
         <div class="actions">
-          <button class="ghost lang-option" type="button" data-lang-option="en" aria-pressed="false" aria-label="Switch language to English">EN</button>
-          <button class="ghost lang-option" type="button" data-lang-option="es" aria-pressed="false" aria-label="Cambiar idioma a español">ES</button>
+          <button class="ghost lang-option" type="button" data-lang-option="en" aria-pressed="false" data-i18n-aria-label="switchToEnglish" aria-label="Switch language to English">EN</button>
+          <button class="ghost lang-option" type="button" data-lang-option="es" aria-pressed="false" data-i18n-aria-label="switchToSpanish" aria-label="Cambiar idioma a español">ES</button>
         </div>
       </div>
     </header>
     <main>
       <section id="careers" class="container section">
-        <h2>Careers</h2>
-        <p>Join our team and help SMB clients modernize logistics, IT, and support operations.</p>
+        <h2 data-i18n="careersTitle">Careers</h2>
+        <p data-i18n="careersIntro">Join our team and help SMB clients modernize logistics, IT, and support operations.</p>
 
         <form class="contact-form join-form" id="joinForm" novalidate>
           <label>
@@ -42,116 +42,116 @@
             <input required name="applicant_name" />
           </label>
           <label>
-            <span>Email</span>
+            <span data-i18n="email">Email</span>
             <input required type="email" name="applicant_email" />
           </label>
 
           <div class="secure-repeatable" data-repeatable="experience">
             <div class="secure-repeatable-head">
-              <span>Experience</span>
+              <span data-i18n="experience">Experience</span>
               <div class="secure-actions" aria-label="Experience controls">
-                <button type="button" class="ghost repeat-add" aria-label="Add Experience entry">+ Add</button>
-                <button type="button" class="ghost repeat-remove" aria-label="Remove Experience entry">- Remove</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
+                <button type="button" class="ghost repeat-add" data-i18n="add" aria-label="Add Experience entry">+ Add</button>
+                <button type="button" class="ghost repeat-remove" data-i18n="remove" aria-label="Remove Experience entry">- Remove</button>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="lockSection" aria-label="Lock section">🔓</button>
               </div>
             </div>
             <div class="repeatable-list">
               <div class="repeatable-entry">
-                <textarea required name="experience[]" rows="2" placeholder="Describe your experience"></textarea>
+                <textarea required name="experience[]" rows="2" data-i18n-placeholder="placeholderExperience" placeholder="Describe your experience"></textarea>
               </div>
             </div>
           </div>
 
           <div class="secure-repeatable" data-repeatable="education">
             <div class="secure-repeatable-head">
-              <span>Education</span>
+              <span data-i18n="education">Education</span>
               <div class="secure-actions" aria-label="Education controls">
-                <button type="button" class="ghost repeat-add" aria-label="Add Education entry">+ Add</button>
-                <button type="button" class="ghost repeat-remove" aria-label="Remove Education entry">- Remove</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
+                <button type="button" class="ghost repeat-add" data-i18n="add" aria-label="Add Education entry">+ Add</button>
+                <button type="button" class="ghost repeat-remove" data-i18n="remove" aria-label="Remove Education entry">- Remove</button>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="lockSection" aria-label="Lock section">🔓</button>
               </div>
             </div>
             <div class="repeatable-list">
               <div class="repeatable-entry">
-                <textarea required name="education[]" rows="2" placeholder="Share your education background"></textarea>
+                <textarea required name="education[]" rows="2" data-i18n-placeholder="placeholderEducation" placeholder="Share your education background"></textarea>
               </div>
             </div>
           </div>
 
           <div class="secure-repeatable" data-repeatable="certification">
             <div class="secure-repeatable-head">
-              <span>Certification</span>
+              <span data-i18n="certification">Certification</span>
               <div class="secure-actions" aria-label="Certification controls">
-                <button type="button" class="ghost repeat-add" aria-label="Add Certification entry">+ Add</button>
-                <button type="button" class="ghost repeat-remove" aria-label="Remove Certification entry">- Remove</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
+                <button type="button" class="ghost repeat-add" data-i18n="add" aria-label="Add Certification entry">+ Add</button>
+                <button type="button" class="ghost repeat-remove" data-i18n="remove" aria-label="Remove Certification entry">- Remove</button>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="lockSection" aria-label="Lock section">🔓</button>
               </div>
             </div>
             <div class="repeatable-list">
               <div class="repeatable-entry">
-                <textarea required name="certification[]" rows="2" placeholder="List your certifications"></textarea>
+                <textarea required name="certification[]" rows="2" data-i18n-placeholder="placeholderCertification" placeholder="List your certifications"></textarea>
               </div>
             </div>
           </div>
 
           <div class="secure-repeatable" data-repeatable="skills">
             <div class="secure-repeatable-head">
-              <span>Skills</span>
+              <span data-i18n="skills">Skills</span>
               <div class="secure-actions" aria-label="Skills controls">
-                <button type="button" class="ghost repeat-add" aria-label="Add Skills entry">+ Add</button>
-                <button type="button" class="ghost repeat-remove" aria-label="Remove Skills entry">- Remove</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
+                <button type="button" class="ghost repeat-add" data-i18n="add" aria-label="Add Skills entry">+ Add</button>
+                <button type="button" class="ghost repeat-remove" data-i18n="remove" aria-label="Remove Skills entry">- Remove</button>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="lockSection" aria-label="Lock section">🔓</button>
               </div>
             </div>
             <div class="repeatable-list">
               <div class="repeatable-entry">
-                <textarea required name="skills[]" rows="2" placeholder="Add your skills"></textarea>
+                <textarea required name="skills[]" rows="2" data-i18n-placeholder="placeholderSkills" placeholder="Add your skills"></textarea>
               </div>
             </div>
           </div>
 
           <div class="secure-repeatable" data-repeatable="expertise">
             <div class="secure-repeatable-head">
-              <span>Present Level of Expertise</span>
+              <span data-i18n="expertise">Present Level of Expertise</span>
               <div class="secure-actions" aria-label="Present Level of Expertise controls">
-                <button type="button" class="ghost repeat-add" aria-label="Add Present Level of Expertise entry">+ Add</button>
-                <button type="button" class="ghost repeat-remove" aria-label="Remove Present Level of Expertise entry">- Remove</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
+                <button type="button" class="ghost repeat-add" data-i18n="add" aria-label="Add Present Level of Expertise entry">+ Add</button>
+                <button type="button" class="ghost repeat-remove" data-i18n="remove" aria-label="Remove Present Level of Expertise entry">- Remove</button>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="lockSection" aria-label="Lock section">🔓</button>
               </div>
             </div>
             <div class="repeatable-list expertise-list">
               <div class="expertise-entry">
-                <select required name="expertise_level[]" aria-label="Present Level of Expertise">
-                  <option value="">Select level</option>
-                  <option value="Entry">Entry</option>
-                  <option value="Junior">Junior</option>
-                  <option value="Mid">Mid</option>
-                  <option value="Advance">Advance</option>
-                  <option value="Expert">Expert</option>
+                <select required name="expertise_level[]" data-i18n-aria-label="expertise" aria-label="Present Level of Expertise">
+                  <option value="" data-i18n="selectLevel">Select level</option>
+                  <option value="Entry" data-i18n="entry">Entry</option>
+                  <option value="Junior" data-i18n="junior">Junior</option>
+                  <option value="Mid" data-i18n="mid">Mid</option>
+                  <option value="Advance" data-i18n="advanced">Advanced</option>
+                  <option value="Expert" data-i18n="expert">Expert</option>
                 </select>
-                <textarea required name="expertise_notes[]" rows="2" placeholder="Describe your expertise"></textarea>
+                <textarea required name="expertise_notes[]" rows="2" data-i18n-placeholder="placeholderExpertise" placeholder="Describe your expertise"></textarea>
               </div>
             </div>
           </div>
 
           <div class="secure-repeatable" data-repeatable="languages">
             <div class="secure-repeatable-head">
-              <span>Languages</span>
+              <span data-i18n="languages">Languages</span>
               <div class="secure-actions" aria-label="Languages controls">
-                <button type="button" class="ghost repeat-add" aria-label="Add Languages entry">+ Add</button>
-                <button type="button" class="ghost repeat-remove" aria-label="Remove Languages entry">- Remove</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" aria-label="Lock section">🔓</button>
+                <button type="button" class="ghost repeat-add" data-i18n="add" aria-label="Add Languages entry">+ Add</button>
+                <button type="button" class="ghost repeat-remove" data-i18n="remove" aria-label="Remove Languages entry">- Remove</button>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="lockSection" aria-label="Lock section">🔓</button>
               </div>
             </div>
             <div class="repeatable-list">
               <div class="repeatable-entry">
-                <textarea required name="languages[]" rows="2" placeholder="List language(s) and level"></textarea>
+                <textarea required name="languages[]" rows="2" data-i18n-placeholder="placeholderLanguages" placeholder="List language(s) and level"></textarea>
               </div>
             </div>
           </div>
 
           <input class="hp-field" type="text" name="join_reference" tabindex="-1" autocomplete="off" aria-hidden="true" />
-          <button class="btn primary" type="submit">Submit Application</button>
+          <button class="btn primary" type="submit" data-i18n="submitApplication">Submit Application</button>
           <p id="joinFormStatus" role="status" aria-live="polite"></p>
         </form>
       </section>
@@ -159,20 +159,20 @@
     </main>
       
     <div class="fab-wrapper">
-      <button id="fabMain" class="fab-main fab-hamburger" type="button" aria-label="Open quick actions" aria-expanded="false">
+      <button id="fabMain" class="fab-main fab-hamburger" type="button" data-i18n-aria-label="fabOpenQuickActions" aria-label="Open quick actions" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
       <div id="fabMenu" class="fab-menu" hidden>
-        <a class="fab-item" href="../contact" aria-label="Contact"><span class="fab-item-icon" aria-hidden="true">☎</span><span>Contact</span></a>
-        <a class="fab-item" href="../careers" aria-label="Careers"><span class="fab-item-icon" aria-hidden="true">💼</span><span>Career</span></a>
-        <button id="fabChat" class="fab-item" type="button" aria-label="Chatbot"><span class="fab-item-icon" aria-hidden="true">🤖</span><span>Chatbot</span></button>
+        <a class="fab-item" href="../contact" data-i18n-aria-label="fabContact" aria-label="Contact"><span class="fab-item-icon" aria-hidden="true">☎</span><span data-i18n="fabContact">Contact</span></a>
+        <a class="fab-item" href="../careers" data-i18n-aria-label="careers" aria-label="Careers"><span class="fab-item-icon" aria-hidden="true">💼</span><span data-i18n="fabCareer">Career</span></a>
+        <button id="fabChat" class="fab-item" type="button" data-i18n-aria-label="fabChatbot" aria-label="Chatbot"><span class="fab-item-icon" aria-hidden="true">🤖</span><span data-i18n="chatbot">Chatbot</span></button>
       </div>
     </div>
 
-    <aside id="chatPanel" class="chat-panel" hidden aria-label="Chatbot panel">
+    <aside id="chatPanel" class="chat-panel" hidden data-i18n-aria-label="chatPanelLabel" aria-label="Chatbot panel">
       <div class="chat-panel-head">
-        <strong>Chatbot</strong>
-        <button id="chatClose" class="ghost" type="button" aria-label="Close chatbot">✕</button>
+        <strong data-i18n="chatbot">Chatbot</strong>
+        <button id="chatClose" class="ghost" type="button" data-i18n-aria-label="chatClose" aria-label="Close chatbot">✕</button>
       </div>
       <iframe id="chatFrame" title="Gabriel chatbot" src="about:blank"></iframe>
     </aside>
