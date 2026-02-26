@@ -22,7 +22,7 @@ jobs:
       - name: Ensure PR SHAs are present for gitleaks range scan
         if: github.event_name == 'pull_request'
         run: |
-          git fetch --no-tags --depth=1 origin \
+          git fetch --no-tags origin \
             "${{ github.event.pull_request.base.sha }}" \
             "${{ github.event.pull_request.head.sha }}"
 
