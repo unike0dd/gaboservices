@@ -7,7 +7,7 @@ export const SUPPORTED_LANGUAGES = Object.freeze(Object.keys(LANGUAGE_CODES));
 
 export const DICTIONARY = {
   en: {
-    pageTitle: 'Gabriel Professional Business Services',
+    pageTitle: 'Gabriel Professional SMBs Services',
     pageDescription: 'Business services for logistics, IT, admin, and customer relations.',
     switchToEnglish: 'Switch language to English',
     switchToSpanish: 'Switch language to Spanish',
@@ -82,10 +82,10 @@ export const DICTIONARY = {
     chatPanelLabel: 'Chatbot panel',
     chatClose: 'Close chatbot',
     chatbot: 'Chatbot',
-    footerCopyright: 'Gabriel Professional Business Services'
+    footerCopyright: 'Gabriel Professional SMBs Services'
   },
   es: {
-    pageTitle: 'Gabriel Servicios Profesionales Empresariales',
+    pageTitle: 'Gabriel Servicios Profesionales para PYMEs',
     pageDescription: 'Servicios empresariales de logística, TI, administración y atención al cliente.',
     switchToEnglish: 'Cambiar idioma a inglés',
     switchToSpanish: 'Cambiar idioma a español',
@@ -96,7 +96,7 @@ export const DICTIONARY = {
     contact: 'Contacto',
     careers: 'Carreras',
     brandSubtitle: 'Tercerización que entrega',
-    editorialTheme: 'Recorte informativo de Wall Street',
+    editorialTheme: 'Cote Estilo Revista',
     heroTitle: 'Servicios profesionales para logística, TI y operaciones de atención al cliente.',
     heroBody: 'Escale su soporte con equipos expertos, SLA medibles y una entrega centrada en las personas.',
     startTrial: 'Iniciar prueba gratuita',
@@ -160,7 +160,7 @@ export const DICTIONARY = {
     chatPanelLabel: 'Panel del chatbot',
     chatClose: 'Cerrar chatbot',
     chatbot: 'Chatbot',
-    footerCopyright: 'Gabriel Servicios Profesionales Empresariales'
+    footerCopyright: 'Gabriel Servicios Profesionales para PYMEs'
   }
 };
 
