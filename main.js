@@ -1,4 +1,5 @@
 import { initAdaptiveLayout } from './adaptive-layout.js';
+import { LANGUAGE_CODES } from './language-codes.js';
 
 const dictionary = {
   en: {
@@ -76,7 +77,7 @@ const metadata = window.SITE_METADATA || {};
 if (metadata.name) document.title = metadata.name;
 const metaDescription = document.querySelector('meta[name="description"]');
 if (metaDescription && metadata.description) metaDescription.setAttribute('content', metadata.description);
-const supportedLanguages = ['en', 'es'];
+const supportedLanguages = Object.keys(LANGUAGE_CODES);
 let lang = 'en';
 
 function setLanguage(nextLang) {
@@ -406,6 +407,8 @@ function translatePage() {
     langButtons.forEach((button) => {
       const buttonLang = button.getAttribute('data-lang-option');
       const isActive = buttonLang === lang;
+      const codeLabel = LANGUAGE_CODES[buttonLang];
+      if (codeLabel) button.textContent = codeLabel;
       button.setAttribute('aria-pressed', String(isActive));
       button.classList.toggle('active', isActive);
     });
@@ -414,7 +417,7 @@ function translatePage() {
   const legacyLangToggleBtn = document.getElementById('langToggleBtn');
   if (legacyLangToggleBtn) {
     const isEnglish = lang === 'en';
-    legacyLangToggleBtn.textContent = isEnglish ? 'EN' : 'ES';
+    legacyLangToggleBtn.textContent = isEnglish ? LANGUAGE_CODES.en : LANGUAGE_CODES.es;
     legacyLangToggleBtn.setAttribute('aria-pressed', String(isEnglish));
     legacyLangToggleBtn.setAttribute('aria-label', isEnglish ? 'Switch language to Spanish' : 'Cambiar idioma a inglés');
     legacyLangToggleBtn.classList.add('active');
