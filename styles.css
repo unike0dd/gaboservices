@@ -101,16 +101,20 @@ h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: .3rem 0 1rem; max-width: 15ch;
   display: flex;
   gap: 1rem;
   overflow-x: auto;
+  width: 100%;
   padding-bottom: 0.4rem;
   scroll-snap-type: x mandatory;
+  scroll-snap-stop: always;
   scroll-behavior: smooth;
+  scroll-padding-inline-start: 0;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
 #serviceCards .service-card {
-  flex: 0 0 clamp(260px, 72vw, 360px);
+  flex: 0 0 100%;
+  max-width: 100%;
   scroll-snap-align: start;
   transition:
     transform .28s ease,
