@@ -26,6 +26,7 @@
             <li><a href="./about" data-i18n="about">Nosotros</a></li>
             <li><a href="./services" data-i18n="services">Servicios</a></li>
             <li><a href="./careers" data-i18n="careers">Careers</a></li>
+            <li><button class="nav-chat-trigger" type="button" data-chat-trigger data-i18n="chatbot">Chatbot</button></li>
             <li><a href="./contact" data-i18n="contact">Contacto</a></li>
           </ul>
         </nav>
@@ -75,33 +76,6 @@
       </div>
     </footer>
 
-
-    <div class="fab-wrapper">
-      <button id="fabMain" class="fab-main fab-hamburger" type="button" data-i18n-aria-label="fabOpenQuickActions" aria-label="Open quick actions" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <div id="fabMenu" class="fab-menu" hidden>
-        <a class="fab-item" href="./contact" data-i18n-aria-label="fabContact" aria-label="Contact"><span class="fab-item-icon" aria-hidden="true">☎</span><span data-i18n="fabContact">Contact</span></a>
-        <a class="fab-item" href="./careers" data-i18n-aria-label="careers" aria-label="Careers"><span class="fab-item-icon" aria-hidden="true">💼</span><span data-i18n="fabCareer">Career</span></a>
-        <button id="fabChat" class="fab-item" type="button" data-i18n-aria-label="fabChatbot" aria-label="Chatbot"><span class="fab-item-icon" aria-hidden="true">🤖</span><span data-i18n="chatbot">Chatbot</span></button>
-      </div>
-    </div>
-
-    <aside id="chatPanel" class="chat-panel" hidden data-i18n-aria-label="chatPanelLabel" aria-label="Chatbot panel">
-      <div class="chat-panel-head">
-        <strong data-i18n="chatbot">Chatbot</strong>
-        <button id="chatClose" class="ghost" type="button" data-i18n-aria-label="chatClose" aria-label="Close chatbot">✕</button>
-      </div>
-      <iframe
-        id="chatFrame"
-        src="about:blank"
-        title="Gabos.io Services Assistant"
-        loading="lazy"
-        referrerpolicy="strict-origin-when-cross-origin"
-        sandbox="allow-scripts allow-forms allow-same-origin"
-        style="width:100%;max-width:420px;height:640px;border:1px solid rgba(255,255,255,.12);border-radius:12px;display:block;background:#0a0f16;"
-      ></iframe>
-    </aside>
 
     <script src="./site.config.js"></script>
     <script src="./page-style-switcher.js"></script>
