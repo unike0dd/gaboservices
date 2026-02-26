@@ -4,8 +4,8 @@
 
   const labels = {
     en: {
-      wallstreet: 'Wall Street News Cut',
-      time: 'Time Magazine Cut',
+      wallstreet: 'News Cut',
+      time: 'Magazine Cut',
       ariaPrefix: 'Switch landing and navigation look. Current:'
     },
     es: {
