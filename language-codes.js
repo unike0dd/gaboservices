@@ -9,6 +9,7 @@ export const DICTIONARY = {
   en: {
     pageTitle: 'Gabriel Professional Business Services',
     pageDescription: 'Business services for logistics, IT, admin, and customer relations.',
+    ogLocale: 'en_US',
     pageTitleHome: 'Gabriel Professional Business Services',
     pageTitleAbout: 'About | Gabriel Services',
     pageTitleServices: 'Services | Gabriel Services',
@@ -93,13 +94,14 @@ export const DICTIONARY = {
     chatPanelLabel: 'Chatbot panel',
     chatClose: 'Close chatbot',
     chatbot: 'Chatbot',
-    chatFrameTitle: 'Chatbot de Gabriel',
+    chatFrameTitle: 'Gabriel chatbot',
     footerCopyright: 'Gabriel Professional Business Services',
     themeSwitcherAria: 'Switch landing and navigation look. Current:'
   },
   es: {
     pageTitle: 'Gabriel Servicios Profesionales Empresariales',
     pageDescription: 'Servicios empresariales de logística, TI, administración y atención al cliente.',
+    ogLocale: 'es_ES',
     pageTitleHome: 'Gabriel Servicios Profesionales Empresariales',
     pageTitleAbout: 'Nosotros | Gabriel Services',
     pageTitleServices: 'Servicios | Gabriel Services',
