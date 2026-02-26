@@ -30,13 +30,15 @@
           <p class="brand-subtitle" data-i18n="brandSubtitle">Outsourced, Delivered</p>
           <button id="editorialThemeBtn" class="editorial-toggle" type="button" aria-live="polite" data-i18n="editorialTheme">News Cut</button>
         </div>
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">☰</button>
         <nav>
-          <ul class="nav-links">
-            <li><a href="../../" data-i18n="home">Home</a></li>
-            <li><a href="../../about" data-i18n="about">About</a></li>
-            <li><a href="../../services" data-i18n="services">Services</a></li>
+          <ul id="primaryNav" class="nav-links">
+            <li><a href="../../" data-i18n="home">Inicio</a></li>
+            <li><a href="../../about" data-i18n="about">Nosotros</a></li>
+            <li><a href="../../services" data-i18n="services">Servicios</a></li>
             <li><a href="../../careers" data-i18n="careers">Careers</a></li>
-            <li><a href="../../contact" data-i18n="contact">Contact</a></li>
+            <li><button class="nav-chat-trigger" type="button" data-chat-trigger data-i18n="chatbot">Chatbot</button></li>
+            <li><a href="../../contact" data-i18n="contact">Contacto</a></li>
           </ul>
         </nav>
         <div class="actions">
@@ -50,25 +52,6 @@
       <p data-i18n="serviceCustomerBody">Omnichannel support, customer retention, and quality monitoring.</p>
     </main>
     
-    <div class="fab-wrapper">
-      <button id="fabMain" class="fab-main fab-hamburger" type="button" data-i18n-aria-label="fabOpenQuickActions" aria-label="Open quick actions" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <div id="fabMenu" class="fab-menu" hidden>
-        <a class="fab-item" href="../../contact" data-i18n-aria-label="fabContact" aria-label="Contact"><span class="fab-item-icon" aria-hidden="true">☎</span><span data-i18n="fabContact">Contact</span></a>
-        <a class="fab-item" href="../../careers" data-i18n-aria-label="careers" aria-label="Careers"><span class="fab-item-icon" aria-hidden="true">💼</span><span data-i18n="fabCareer">Careers</span></a>
-        <button id="fabChat" class="fab-item" type="button" data-i18n-aria-label="fabChatbot" aria-label="Chatbot"><span class="fab-item-icon" aria-hidden="true">🤖</span><span data-i18n="chatbot">Chatbot</span></button>
-      </div>
-    </div>
-
-    <aside id="chatPanel" class="chat-panel" hidden data-i18n-aria-label="chatPanelLabel" aria-label="Chatbot panel">
-      <div class="chat-panel-head">
-        <strong data-i18n="chatbot">Chatbot</strong>
-        <button id="chatClose" class="ghost" type="button" data-i18n-aria-label="chatClose" aria-label="Close chatbot">✕</button>
-      </div>
-      <iframe id="chatFrame" data-i18n-title="chatFrameTitle" title="Gabriel Chatbot" src="about:blank"></iframe>
-    </aside>
-
     <script src="../../page-style-switcher.js"></script>
     <script type="module" src="../../main.js"></script>
   </body>

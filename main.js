@@ -1,4 +1,5 @@
 import { initAdaptiveLayout } from './adaptive-layout.js';
+import { initFabControls } from './fab-controls.js';
 import { DICTIONARY, LANGUAGE_CODES, PLANS, SERVICES, SUPPORTED_LANGUAGES } from './language-codes.js';
 
 const root = document.documentElement;
@@ -60,28 +61,6 @@ class TinyGuardML {
       riskScore,
       honeypotTriggered
     };
-  }
-
-  scanChatbotButton(fabChat, honeypotValue = '', clickEvent = null) {
-    const shieldForm = document.createElement('form');
-    const chatbotLabel = fabChat.getAttribute('aria-label') || fabChat.textContent || '';
-    shieldForm.innerHTML = '<input class="hp-field" value="" /><textarea></textarea>';
-
-    const trapField = shieldForm.querySelector('.hp-field');
-    if (trapField) trapField.value = honeypotValue;
-
-    const signalField = shieldForm.querySelector('textarea');
-    if (signalField) {
-      signalField.value = `${chatbotLabel} ${fabChat.id || ''} ${fabChat.className || ''}`.trim();
-    }
-
-    const verdict = this.validateForm(shieldForm);
-    if (clickEvent && clickEvent.isTrusted === false) {
-      verdict.riskScore += 2;
-      verdict.allowed = verdict.riskScore < 2;
-    }
-
-    return verdict;
   }
 
   monitorGlobalTampering() {
@@ -397,57 +376,6 @@ function translatePage() {
   }
 }
 
-function bindFabControls() {
-  const fabMain = document.getElementById('fabMain');
-  const fabMenu = document.getElementById('fabMenu');
-  const fabChat = document.getElementById('fabChat');
-  const chatPanel = document.getElementById('chatPanel');
-  const chatClose = document.getElementById('chatClose');
-  const chatFrame = document.getElementById('chatFrame');
-
-  if (!fabMain || !fabMenu || !fabChat || !chatPanel || !chatClose || !chatFrame) return;
-
-  const defaultChatbotEmbedUrl =
-    window.SITE_METADATA?.chatbotEmbedUrl ||
-    'https://con-artist.rulathemtodos.workers.dev/embed?parent=https%3A%2F%2Fwww.gabos.io';
-  const configuredChatbotEmbedUrl =
-    chatFrame.dataset.chatSrc ||
-    (chatFrame.getAttribute('src') && chatFrame.getAttribute('src') !== 'about:blank'
-      ? chatFrame.getAttribute('src')
-      : defaultChatbotEmbedUrl);
-
-  fabMain.addEventListener('click', () => {
-    const expanded = fabMain.getAttribute('aria-expanded') === 'true';
-    fabMain.setAttribute('aria-expanded', String(!expanded));
-    fabMenu.hidden = expanded;
-  });
-
-  const chatbotHoneypot = document.createElement('input');
-  chatbotHoneypot.type = 'text';
-  chatbotHoneypot.className = 'hp-field';
-  chatbotHoneypot.name = 'chatbot_company_website';
-  chatbotHoneypot.tabIndex = -1;
-  chatbotHoneypot.autocomplete = 'off';
-  chatbotHoneypot.setAttribute('aria-hidden', 'true');
-  chatbotHoneypot.style.cssText = 'position:absolute;left:-10000px;opacity:0;pointer-events:none;';
-  fabMenu.appendChild(chatbotHoneypot);
-
-  fabChat.addEventListener('click', (event) => {
-    const guard = tinyGuard.scanChatbotButton(fabChat, chatbotHoneypot.value, event);
-    if (!guard.allowed) return;
-
-    if (chatFrame.src === 'about:blank') {
-      chatFrame.src = configuredChatbotEmbedUrl;
-    }
-    chatPanel.hidden = false;
-  });
-
-  chatClose.addEventListener('click', () => {
-    chatPanel.hidden = true;
-  });
-}
-
-
 function getRepeatableTemplate(type) {
   const copy = DICTIONARY[lang] || DICTIONARY.en;
 
@@ -621,7 +549,7 @@ function bindEvents() {
   const yearNode = document.getElementById('year');
   if (yearNode) yearNode.textContent = String(new Date().getFullYear());
 
-  bindFabControls();
+  initFabControls();
   setupJoinForm();
 }
 

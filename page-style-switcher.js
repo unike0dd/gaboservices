@@ -9,8 +9,8 @@
       ariaPrefix: 'Switch landing and navigation look. Current:'
     },
     es: {
-      wallstreet: 'Recorte informativo de Wall Street',
-      time: 'Recorte de Time Magazine',
+      wallstreet: 'Corte Estilo Revista',
+      time: 'Corte Estilo Prensa',
       ariaPrefix: 'Cambiar apariencia de inicio y navegación. Actual:'
     }
   };
