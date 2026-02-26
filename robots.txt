@@ -1,0 +1,17 @@
+# Allow only selected crawlers
+User-agent: *
+Disallow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+Sitemap: https://www.gabos.io/sitemap.xml

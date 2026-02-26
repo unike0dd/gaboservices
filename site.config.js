@@ -1,6 +1,6 @@
 window.SITE_METADATA = {
   name: 'Gabriel - Professional Business Services',
   description:
-    'Excellence in logistics, IT support, executive assistance, and customer relations management.',
+    'AI-enabled professional services for logistics, IT support, back-office operations, and customer experience teams.',
   framePermissions: []
 };
