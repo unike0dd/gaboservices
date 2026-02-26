@@ -10,6 +10,28 @@ permissions:
   contents: read
 
 jobs:
+  codeql-analysis:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@v3
+
   secret-scan:
     name: Secret Scan (Gitleaks)
     runs-on: ubuntu-latest
@@ -25,3 +47,35 @@ jobs:
 
       - name: Run gitleaks
         run: gitleaks dir . --redact --verbose --exit-code 1
+
+  policy-integrity:
+    name: Policy Integrity
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify governance and crawler artifacts
+        run: |
+          set -euo pipefail
+
+          required_files=(
+            ".github/copilot-instructions.md"
+            "docs/security/control-matrix.md"
+            ".github/dependabot.yml"
+            "robots.txt"
+            "sitemap.xml"
+          )
+
+          for file in "${required_files[@]}"; do
+            test -f "$file"
+          done
+
+          grep -q '^User-agent: \*$' robots.txt
+          grep -q '^Disallow: /$' robots.txt
+          grep -q '^User-agent: Googlebot$' robots.txt
+          grep -q '^Allow: /$' robots.txt
+          grep -q '^Sitemap: https://gabrielprofessionalservices.com/sitemap.xml$' robots.txt
+
+          grep -q '<loc>https://gabrielprofessionalservices.com/</loc>' sitemap.xml
+          grep -q '^# Security Control Matrix' docs/security/control-matrix.md
