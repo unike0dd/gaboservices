@@ -30,32 +30,39 @@ class FabTinyGuard {
 
 function buildChatPanelMarkup() {
   return `
-    <aside id="chatPanel" class="chat-panel" hidden data-i18n-aria-label="chatPanelLabel" aria-label="Chatbot panel">
-      <div class="chat-panel-head">
-        <strong data-i18n="chatbot">Chatbot</strong>
-        <button id="chatClose" class="ghost" type="button" data-i18n-aria-label="chatClose" aria-label="Close chatbot">✕</button>
-      </div>
-      <iframe id="chatFrame" data-i18n-title="chatFrameTitle" title="Gabriel chatbot" src="about:blank"></iframe>
-    </aside>
+    <div id="chatOverlay" class="chat-overlay" hidden>
+      <aside id="chatPanel" class="chat-panel" data-i18n-aria-label="chatPanelLabel" aria-label="Chatbot panel" role="dialog" aria-modal="true">
+        <div class="chat-panel-head">
+          <strong data-i18n="chatbot">Chatbot</strong>
+          <button id="chatClose" class="ghost" type="button" data-chat-dismiss data-i18n-aria-label="chatClose" aria-label="Close chatbot">✕</button>
+        </div>
+        <iframe id="chatFrame" data-i18n-title="chatFrameTitle" title="Gabriel chatbot" src="about:blank"></iframe>
+        <div class="chat-panel-actions">
+          <button id="chatCloseAction" class="ghost" type="button" data-chat-dismiss>Close</button>
+        </div>
+      </aside>
+    </div>
   `;
 }
 
 function ensureChatPanelMarkup() {
+  let chatOverlay = document.getElementById('chatOverlay');
   let chatPanel = document.getElementById('chatPanel');
   let chatClose = document.getElementById('chatClose');
   let chatFrame = document.getElementById('chatFrame');
 
-  if (!chatPanel || !chatClose || !chatFrame) {
+  if (!chatOverlay || !chatPanel || !chatClose || !chatFrame) {
     const wrapper = document.createElement('div');
     wrapper.innerHTML = buildChatPanelMarkup();
     document.body.append(...wrapper.children);
 
+    chatOverlay = document.getElementById('chatOverlay');
     chatPanel = document.getElementById('chatPanel');
     chatClose = document.getElementById('chatClose');
     chatFrame = document.getElementById('chatFrame');
   }
 
-  return { chatPanel, chatClose, chatFrame };
+  return { chatOverlay, chatPanel, chatClose, chatFrame };
 }
 
 export function initFabControls() {
@@ -63,8 +70,8 @@ export function initFabControls() {
   const chatTriggers = [...document.querySelectorAll('[data-chat-trigger]')];
   if (!chatTriggers.length) return;
 
-  const { chatPanel, chatClose, chatFrame } = ensureChatPanelMarkup();
-  if (!chatPanel || !chatClose || !chatFrame) return;
+  const { chatOverlay, chatPanel, chatClose, chatFrame } = ensureChatPanelMarkup();
+  if (!chatOverlay || !chatPanel || !chatClose || !chatFrame) return;
 
   const defaultChatbotEmbedUrl =
     window.SITE_METADATA?.chatbotEmbedUrl ||
@@ -86,6 +93,16 @@ export function initFabControls() {
   chatbotHoneypot.style.cssText = 'position:absolute;left:-10000px;opacity:0;pointer-events:none;';
   chatPanel.appendChild(chatbotHoneypot);
 
+  const setOpenState = (isOpen) => {
+    chatOverlay.hidden = !isOpen;
+    if (isOpen) {
+      document.body.classList.add('chat-open');
+      return;
+    }
+
+    document.body.classList.remove('chat-open');
+  };
+
   chatTriggers.forEach((trigger) => {
     trigger.addEventListener('click', (event) => {
       const signal = `${trigger.getAttribute('aria-label') || ''} ${trigger.textContent || ''} ${trigger.className || ''}`;
@@ -94,11 +111,25 @@ export function initFabControls() {
       if (chatFrame.src === 'about:blank') {
         chatFrame.src = configuredChatbotEmbedUrl;
       }
-      chatPanel.hidden = false;
+      setOpenState(true);
     });
   });
 
-  chatClose.addEventListener('click', () => {
-    chatPanel.hidden = true;
+  chatPanel.querySelectorAll('[data-chat-dismiss]').forEach((button) => {
+    button.addEventListener('click', () => {
+      setOpenState(false);
+    });
+  });
+
+  chatOverlay.addEventListener('click', (event) => {
+    if (event.target === chatOverlay) {
+      setOpenState(false);
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !chatOverlay.hidden) {
+      setOpenState(false);
+    }
   });
 }
