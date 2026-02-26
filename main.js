@@ -22,14 +22,17 @@ function setLanguage(nextLang) {
 class TinyGuardML {
   constructor() {
     this.signatures = [
-      /<script/gi,
-      /on\w+\s*=/gi,
-      /javascript:/gi,
-      /<iframe/gi,
-      /\b(select|union|drop|insert|delete|update)\b/gi,
-      /\{\{.*\}\}/g,
-      /<\/?[a-z][^>]*>/gi
+      { pattern: /<script/gi, weight: 4 },
+      { pattern: /on\w+\s*=/gi, weight: 3 },
+      { pattern: /javascript:/gi, weight: 4 },
+      { pattern: /<iframe/gi, weight: 4 },
+      { pattern: /\b(select|union|drop|insert|delete|update)\b/gi, weight: 2 },
+      { pattern: /\{\{.*\}\}/g, weight: 1 },
+      { pattern: /<\/?[a-z][^>]*>/gi, weight: 2 }
     ];
+    this.blockThreshold = 6;
+    this.reviewThreshold = 3;
+    this.lastTamperingWarningAt = 0;
   }
 
   sanitize(rawValue) {
@@ -37,9 +40,9 @@ class TinyGuardML {
   }
 
   score(value) {
-    return this.signatures.reduce((acc, regex) => {
-      regex.lastIndex = 0;
-      return acc + (regex.test(value) ? 1 : 0);
+    return this.signatures.reduce((acc, signature) => {
+      signature.pattern.lastIndex = 0;
+      return acc + (signature.pattern.test(value) ? signature.weight : 0);
     }, 0);
   }
 
@@ -49,27 +52,68 @@ class TinyGuardML {
 
     const inputs = [...form.querySelectorAll('input:not(.hp-field), textarea')];
     let riskScore = honeypotTriggered ? 10 : 0;
+    const flaggedFields = [];
 
     inputs.forEach((field) => {
       const cleaned = this.sanitize(field.value);
-      riskScore += this.score(field.value);
+      const fieldScore = this.score(field.value);
+      riskScore += fieldScore;
+      if (fieldScore > 0) {
+        flaggedFields.push(field);
+      }
       field.value = cleaned;
     });
 
+    const blocked = riskScore >= this.blockThreshold;
+    const needsReview = !blocked && riskScore >= this.reviewThreshold;
+
     return {
-      allowed: riskScore < 2,
+      allowed: !blocked,
       riskScore,
-      honeypotTriggered
+      honeypotTriggered,
+      needsReview,
+      blocked,
+      flaggedFields
     };
+  }
+
+  applyFieldFeedback(fields = []) {
+    document.querySelectorAll('[data-security-state]').forEach((field) => {
+      field.dataset.securityState = '';
+      field.removeAttribute('data-security-state');
+    });
+
+    fields.forEach((field) => {
+      field.dataset.securityState = 'review';
+      field.setAttribute('title', 'Security review suggested for this field.');
+    });
+  }
+
+  toStatus(copy, verdict) {
+    if (verdict.blocked) {
+      return { text: copy.blocked, state: 'blocked' };
+    }
+    if (verdict.needsReview) {
+      return { text: copy.review, state: 'review' };
+    }
+    return { text: copy.sent, state: 'ok' };
   }
 
   monitorGlobalTampering() {
     const observer = new MutationObserver((changes) => {
       const suspicious = changes.some((change) => {
-        const node = change.target;
-        return node instanceof HTMLElement && /script|iframe/i.test(node.innerHTML || '');
+        return [...change.addedNodes].some((node) => {
+          if (!(node instanceof HTMLElement)) return false;
+
+          const suspiciousTag = /^(script|iframe|object|embed)$/i.test(node.tagName);
+          const hasInlineEvent = [...node.attributes].some((attribute) => /^on/i.test(attribute.name));
+          return suspiciousTag || hasInlineEvent;
+        });
       });
       if (suspicious) {
+        const now = Date.now();
+        if (now - this.lastTamperingWarningAt < 2500) return;
+        this.lastTamperingWarningAt = now;
         console.warn('[TinyGuardML] Potential tampering detected; content inspection recommended.');
       }
     });
@@ -469,11 +513,14 @@ function setupJoinForm() {
     event.preventDefault();
     const verdict = tinyGuard.validateForm(joinForm);
     const status = document.getElementById('joinFormStatus');
+    const copy = DICTIONARY[lang] || DICTIONARY.en;
+
+    tinyGuard.applyFieldFeedback(verdict.flaggedFields);
 
     if (!verdict.allowed) {
-      const copy = DICTIONARY[lang] || DICTIONARY.en;
-      status.textContent = copy.blocked;
-      status.dataset.state = 'blocked';
+      const statusMessage = tinyGuard.toStatus(copy, verdict);
+      status.textContent = statusMessage.text;
+      status.dataset.state = statusMessage.state;
       joinForm.querySelectorAll('.hp-field').forEach((node) => {
         node.value = '';
       });
@@ -486,9 +533,9 @@ function setupJoinForm() {
         list.removeChild(list.lastElementChild);
       }
     });
-    const copy = DICTIONARY[lang] || DICTIONARY.en;
-    status.textContent = copy.sent;
-    status.dataset.state = 'ok';
+    const statusMessage = tinyGuard.toStatus(copy, verdict);
+    status.textContent = statusMessage.text;
+    status.dataset.state = statusMessage.state;
   });
 }
 
@@ -526,13 +573,16 @@ function bindEvents() {
       event.preventDefault();
       const verdict = tinyGuard.validateForm(form);
       const status = document.getElementById('formStatus');
+      const copy = DICTIONARY[lang] || DICTIONARY.en;
 
       if (!status) return;
 
+      tinyGuard.applyFieldFeedback(verdict.flaggedFields);
+
       if (!verdict.allowed) {
-        const copy = DICTIONARY[lang] || DICTIONARY.en;
-        status.textContent = copy.blocked;
-        status.dataset.state = 'blocked';
+        const statusMessage = tinyGuard.toStatus(copy, verdict);
+        status.textContent = statusMessage.text;
+        status.dataset.state = statusMessage.state;
         form.querySelectorAll('.hp-field').forEach((node) => {
           node.value = '';
         });
@@ -540,9 +590,9 @@ function bindEvents() {
       }
 
       form.reset();
-      const copy = DICTIONARY[lang] || DICTIONARY.en;
-      status.textContent = copy.sent;
-      status.dataset.state = 'ok';
+      const statusMessage = tinyGuard.toStatus(copy, verdict);
+      status.textContent = statusMessage.text;
+      status.dataset.state = statusMessage.state;
     });
   }
 
