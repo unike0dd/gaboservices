@@ -17,7 +17,7 @@ export const DICTIONARY = {
     pricing: 'Pricing',
     contact: 'Contact',
     careers: 'Careers',
-    brandSubtitle: 'Outsource, Delivered',
+    brandSubtitle: 'Outsourced, Delivered',
     editorialTheme: 'News Cut',
     heroTitle: 'Professional services for logistics, IT, and customer operations.',
     heroBody: 'Scale support with expert teams, measurable SLAs, and human-centered delivery.',
@@ -43,7 +43,7 @@ export const DICTIONARY = {
     serviceLogisticsTitle: 'Logistics Operations',
     serviceLogisticsBody: 'Order workflows, dispatch support, shipment updates, and reporting.',
     serviceItTitle: 'IT Support',
-    serviceItBody: 'Tier 1, Tier 2; On-boarding, implementation, troubleshooting, account management, customer relations, and endpoint support.',
+    serviceItBody: 'Tier 1 and Tier 2 onboarding, implementation, troubleshooting, account management, customer relations, and endpoint support.',
     serviceAdminTitle: 'Administrative Backoffice',
     serviceAdminBody: 'Data entry, documentation, invoicing support, accounts payable and receivable, process management, scheduling, and executive assistant services.',
     serviceCustomerTitle: 'Customer Relations',
@@ -77,7 +77,7 @@ export const DICTIONARY = {
     placeholderContactNumber: '555 123 4567',
     fabOpenQuickActions: 'Open quick actions',
     fabContact: 'Contact',
-    fabCareer: 'Career',
+    fabCareer: 'Careers',
     fabChatbot: 'Chatbot',
     chatPanelLabel: 'Chatbot panel',
     chatClose: 'Close chatbot',
@@ -95,10 +95,10 @@ export const DICTIONARY = {
     pricing: 'Precios',
     contact: 'Contacto',
     careers: 'Carreras',
-    brandSubtitle: 'Tercerización que entrega',
+    brandSubtitle: 'Tercerización con resultados',
     editorialTheme: 'Recorte informativo de Wall Street',
     heroTitle: 'Servicios profesionales para logística, TI y operaciones de atención al cliente.',
-    heroBody: 'Escale su soporte con equipos expertos, SLA medibles y una entrega centrada en las personas.',
+    heroBody: 'Escale su operación de soporte con equipos expertos, SLA medibles y una entrega centrada en las personas.',
     startTrial: 'Iniciar prueba gratuita',
     schedule: 'Programar consulta',
     aboutBody: 'Gabriel Services ofrece soporte operativo multilingüe diseñado para negocios digitales modernos.',
@@ -121,7 +121,7 @@ export const DICTIONARY = {
     serviceLogisticsTitle: 'Operaciones Logísticas',
     serviceLogisticsBody: 'Flujos de pedidos, soporte de despacho, actualizaciones de envíos y reportes.',
     serviceItTitle: 'Soporte de TI',
-    serviceItBody: 'Nivel 1 y 2; incorporación, implementación, solución de problemas, gestión de cuentas, relaciones con clientes y soporte de terminales.',
+    serviceItBody: 'Nivel 1 y nivel 2: incorporación, implementación, solución de problemas, gestión de cuentas, relaciones con clientes y soporte de dispositivos finales.',
     serviceAdminTitle: 'Backoffice Administrativo',
     serviceAdminBody: 'Ingreso de datos, documentación, apoyo de facturación, cuentas por pagar y cobrar, gestión de procesos, agenda y asistencia ejecutiva.',
     serviceCustomerTitle: 'Relaciones con Clientes',
@@ -155,7 +155,7 @@ export const DICTIONARY = {
     placeholderContactNumber: '555 123 4567',
     fabOpenQuickActions: 'Abrir acciones rápidas',
     fabContact: 'Contacto',
-    fabCareer: 'Carrera',
+    fabCareer: 'Carreras',
     fabChatbot: 'Chatbot',
     chatPanelLabel: 'Panel del chatbot',
     chatClose: 'Cerrar chatbot',
@@ -169,13 +169,13 @@ export const SERVICES = {
     { key: 'logistics', title: 'Logistics Operations', body: 'Order workflows, dispatch support, shipment updates, and reporting.', href: '/services/logistics-operations/' },
     { key: 'admin', title: 'Administrative Backoffice', body: 'Data entry, documentation, invoicing support, accounts payable and receivable, process management, scheduling, and executive assistant services.', href: '/services/administrative-backoffice/' },
     { key: 'customer', title: 'Customer Relations', body: 'Omnichannel support, customer retention, and quality monitoring.', href: '/services/customer-relations/' },
-    { key: 'it', title: 'IT Support', body: 'Tier 1, Tier 2; On-boarding, implementation, troubleshooting, account management, customer relations, and endpoint support.', href: '/services/it-support/' }
+    { key: 'it', title: 'IT Support', body: 'Tier 1 and Tier 2 onboarding, implementation, troubleshooting, account management, customer relations, and endpoint support.', href: '/services/it-support/' }
   ],
   es: [
     { key: 'logistics', title: 'Operaciones Logísticas', body: 'Flujos de pedidos, soporte de despacho, actualizaciones de envíos y reportes.', href: '/services/logistics-operations/' },
     { key: 'admin', title: 'Backoffice Administrativo', body: 'Ingreso de datos, documentación, apoyo de facturación, cuentas por pagar y cobrar, gestión de procesos, agenda y asistencia ejecutiva.', href: '/services/administrative-backoffice/' },
     { key: 'customer', title: 'Relaciones con Clientes', body: 'Soporte omnicanal, retención de clientes y monitoreo de calidad.', href: '/services/customer-relations/' },
-    { key: 'it', title: 'Soporte de TI', body: 'Nivel 1 y 2; incorporación, implementación, solución de problemas, gestión de cuentas, relaciones con clientes y soporte de terminales.', href: '/services/it-support/' }
+    { key: 'it', title: 'Soporte de TI', body: 'Nivel 1 y nivel 2: incorporación, implementación, solución de problemas, gestión de cuentas, relaciones con clientes y soporte de dispositivos finales.', href: '/services/it-support/' }
   ]
 };
 
