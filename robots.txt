@@ -1,4 +1,4 @@
-Sitemap: https://www.gabos.io/sitemap.xml
+Sitemap: https://www.gabo.services/sitemap.xml
 
 # Allow known major crawlers
 User-agent: Googlebot

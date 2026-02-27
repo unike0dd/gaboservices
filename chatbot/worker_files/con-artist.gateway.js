@@ -14,8 +14,8 @@
  */
 
 const FALLBACK_ALLOWED_ORIGINS = [
-  'https://www.gabos.io',
-  'https://gabos.io',
+  'https://www.gabo.services',
+  'https://gabo.services',
   'https://chattiavato-a11y.github.io',
   'https://con-artist.rulathemtodos.workers.dev'
 ];
