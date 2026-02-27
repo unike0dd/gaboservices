@@ -15,6 +15,10 @@ function ensureQuickActionsFab() {
         <span class="fab-item-icon" aria-hidden="true">☎️</span>
         <span data-i18n="fabContact">Contact</span>
       </a>
+      <button class="fab-item" type="button" data-chat-trigger>
+        <span class="fab-item-icon" aria-hidden="true">🤖</span>
+        <span data-i18n="fabChatbot">Chatbot</span>
+      </button>
     </div>
     <button id="fabMainToggle" class="fab-main fab-hamburger" type="button" aria-expanded="false" data-i18n-aria-label="fabOpenQuickActions" aria-label="Open quick actions">☰</button>
   `;
