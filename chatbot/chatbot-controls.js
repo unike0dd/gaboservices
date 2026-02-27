@@ -1,3 +1,5 @@
+import { initFabControls } from '../fab-controls.js';
+import { resolveWorkerTargets, CHATBOT_STREAM_BRIDGE_NAME } from './chatbot-worker-stream.js';
 class ChatbotTinyGuard {
   constructor() {
     this.signatures = [
@@ -63,22 +65,6 @@ function ensureFabChatTrigger() {
 }
 
 
-function withGatewayParam(embedUrl, gatewayUrl) {
-  const safeEmbedUrl = typeof embedUrl === 'string' ? embedUrl.trim() : '';
-  const safeGatewayUrl = typeof gatewayUrl === 'string' ? gatewayUrl.trim() : '';
-  if (!safeEmbedUrl || !safeGatewayUrl) return safeEmbedUrl;
-
-  try {
-    const url = new URL(safeEmbedUrl);
-    if (!url.searchParams.get('gateway')) {
-      url.searchParams.set('gateway', safeGatewayUrl);
-    }
-    return url.toString();
-  } catch {
-    return safeEmbedUrl;
-  }
-}
-
 function ensureChatPanelMarkup() {
   let chatOverlay = document.getElementById('chatOverlay');
   let chatPanel = document.getElementById('chatPanel');
@@ -100,6 +86,7 @@ function ensureChatPanelMarkup() {
 }
 
 export function initChatbotControls() {
+  initFabControls();
   ensureFabChatTrigger();
 
   const guard = new ChatbotTinyGuard();
@@ -109,21 +96,16 @@ export function initChatbotControls() {
   const { chatOverlay, chatPanel, chatClose, chatFrame } = ensureChatPanelMarkup();
   if (!chatOverlay || !chatPanel || !chatClose || !chatFrame) return;
 
-  const defaultChatbotEmbedUrl =
-    window.SITE_METADATA?.chatbotEmbedUrl ||
-    'https://con-artist.rulathemtodos.workers.dev/embed?parent=https%3A%2F%2Fwww.gabos.io';
-
-  const configuredGatewayUrl =
-    window.SITE_METADATA?.chatbotGatewayUrl ||
-    'https://con-artist.rulathemtodos.workers.dev/api/chat';
-
-  const configuredChatbotEmbedUrl = withGatewayParam(
+  const workerTargets = resolveWorkerTargets(window.SITE_METADATA || {}, window.location.origin);
+  const configuredGatewayUrl = workerTargets.gatewayUrl;
+  const configuredChatbotEmbedUrl =
     chatFrame.dataset.chatSrc ||
-      (chatFrame.getAttribute('src') && chatFrame.getAttribute('src') !== 'about:blank'
-        ? chatFrame.getAttribute('src')
-        : defaultChatbotEmbedUrl),
-    configuredGatewayUrl
-  );
+    (chatFrame.getAttribute('src') && chatFrame.getAttribute('src') !== 'about:blank'
+      ? chatFrame.getAttribute('src')
+      : workerTargets.embedUrl);
+
+  chatFrame.dataset.gatewayUrl = configuredGatewayUrl;
+  chatFrame.dataset.streamBridge = CHATBOT_STREAM_BRIDGE_NAME;
 
   const chatbotHoneypot = document.createElement('input');
   chatbotHoneypot.type = 'text';
