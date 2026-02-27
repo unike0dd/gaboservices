@@ -504,7 +504,8 @@ textarea[data-security-state='review'] {
 
 @media (max-width: 780px) {
   .nav-toggle {
-    left: calc(1.25rem + env(safe-area-inset-left, 0px));
+    left: calc(15px + env(safe-area-inset-left, 0px));
+    bottom: calc(15px + env(safe-area-inset-bottom, 0px));
     right: auto;
   }
 
