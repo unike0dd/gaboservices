@@ -4,8 +4,8 @@
   --card: rgba(255, 255, 250, 0.9);
   --primary: #1d3557;
   --border: rgba(17, 17, 17, 0.22);
-  --nav-fab-offset-x: calc(1.25rem + env(safe-area-inset-right, 0px));
-  --nav-fab-offset-y: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  --nav-fab-offset-x: calc(15px + env(safe-area-inset-right, 0px));
+  --nav-fab-offset-y: calc(15px + env(safe-area-inset-bottom, 0px));
   --nav-links-offset-y: calc(5.1rem + env(safe-area-inset-bottom, 0px));
 }
 
@@ -504,13 +504,13 @@ textarea[data-security-state='review'] {
 
 @media (max-width: 780px) {
   .nav-toggle {
-    left: calc(1.25rem + env(safe-area-inset-left, 0px));
-    right: auto;
+    left: auto;
+    right: var(--nav-fab-offset-x);
   }
 
   .nav-links {
-    left: calc(1.25rem + env(safe-area-inset-left, 0px));
-    right: auto;
+    left: auto;
+    right: var(--nav-fab-offset-x);
   }
 }
 
