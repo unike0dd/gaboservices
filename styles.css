@@ -492,6 +492,24 @@ textarea[data-security-state='review'] {
   nav {
     position: relative;
   }
+
+  .nav-toggle {
+    display: none;
+  }
+
+  .nav-links {
+    display: flex;
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.1rem;
+    padding: 0;
+    min-width: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+  }
 }
 
 @media (max-width: 780px) {
@@ -791,5 +809,4 @@ textarea[data-security-state='review'] {
 :root[data-editorial-theme='time'] .site-header {
   border-bottom: 3px solid #b11116;
 }
-
 
