@@ -374,8 +374,8 @@ textarea[data-security-state='review'] {
 
 .fab-wrapper {
   position: fixed;
-  right: 1.25rem;
-  bottom: 1.25rem;
+  right: var(--nav-fab-offset-x);
+  bottom: var(--nav-fab-offset-y);
   display: flex;
   flex-direction: column;
   align-items: end;
@@ -400,28 +400,9 @@ textarea[data-security-state='review'] {
 }
 
 .fab-hamburger {
-  flex-direction: column;
-  gap: 0.28rem;
-}
-
-.fab-hamburger span {
-  width: 1.2rem;
-  height: 2px;
-  background: #fff;
-  border-radius: 2px;
-  transition: transform .2s ease, opacity .2s ease;
-}
-
-.fab-hamburger[aria-expanded='true'] span:nth-child(1) {
-  transform: translateY(0.38rem) rotate(45deg);
-}
-
-.fab-hamburger[aria-expanded='true'] span:nth-child(2) {
-  opacity: 0;
-}
-
-.fab-hamburger[aria-expanded='true'] span:nth-child(3) {
-  transform: translateY(-0.38rem) rotate(-45deg);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .fab-menu {
@@ -429,6 +410,10 @@ textarea[data-security-state='review'] {
   flex-direction: column;
   gap: 0.5rem;
   align-items: flex-end;
+}
+
+.fab-menu[hidden] {
+  display: none;
 }
 
 .fab-item {
@@ -507,6 +492,18 @@ textarea[data-security-state='review'] {
 
   .nav-links {
     right: 0;
+  }
+}
+
+@media (max-width: 780px) {
+  .fab-wrapper {
+    left: var(--nav-fab-offset-x);
+    right: auto;
+    align-items: flex-start;
+  }
+
+  .fab-menu {
+    align-items: flex-start;
   }
 }
 
@@ -791,5 +788,4 @@ textarea[data-security-state='review'] {
 :root[data-editorial-theme='time'] .site-header {
   border-bottom: 3px solid #b11116;
 }
-
 
