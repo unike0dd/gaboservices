@@ -62,6 +62,23 @@ function ensureFabChatTrigger() {
   fabMenu.appendChild(action);
 }
 
+
+function withGatewayParam(embedUrl, gatewayUrl) {
+  const safeEmbedUrl = typeof embedUrl === 'string' ? embedUrl.trim() : '';
+  const safeGatewayUrl = typeof gatewayUrl === 'string' ? gatewayUrl.trim() : '';
+  if (!safeEmbedUrl || !safeGatewayUrl) return safeEmbedUrl;
+
+  try {
+    const url = new URL(safeEmbedUrl);
+    if (!url.searchParams.get('gateway')) {
+      url.searchParams.set('gateway', safeGatewayUrl);
+    }
+    return url.toString();
+  } catch {
+    return safeEmbedUrl;
+  }
+}
+
 function ensureChatPanelMarkup() {
   let chatOverlay = document.getElementById('chatOverlay');
   let chatPanel = document.getElementById('chatPanel');
@@ -96,11 +113,17 @@ export function initChatbotControls() {
     window.SITE_METADATA?.chatbotEmbedUrl ||
     'https://con-artist.rulathemtodos.workers.dev/embed?parent=https%3A%2F%2Fwww.gabos.io';
 
-  const configuredChatbotEmbedUrl =
+  const configuredGatewayUrl =
+    window.SITE_METADATA?.chatbotGatewayUrl ||
+    'https://con-artist.rulathemtodos.workers.dev/api/chat';
+
+  const configuredChatbotEmbedUrl = withGatewayParam(
     chatFrame.dataset.chatSrc ||
-    (chatFrame.getAttribute('src') && chatFrame.getAttribute('src') !== 'about:blank'
-      ? chatFrame.getAttribute('src')
-      : defaultChatbotEmbedUrl);
+      (chatFrame.getAttribute('src') && chatFrame.getAttribute('src') !== 'about:blank'
+        ? chatFrame.getAttribute('src')
+        : defaultChatbotEmbedUrl),
+    configuredGatewayUrl
+  );
 
   const chatbotHoneypot = document.createElement('input');
   chatbotHoneypot.type = 'text';
