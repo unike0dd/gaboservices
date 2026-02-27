@@ -804,6 +804,12 @@ body[data-viewport-tier='pc'] .nav-toggle {
   left: auto;
 }
 
+body[data-viewport-tier='mobile'] .nav-toggle {
+  left: calc(20px + env(safe-area-inset-left, 0px));
+  right: auto;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+}
+
 body[data-viewport-tier='laptop'] .nav-links,
 body[data-viewport-tier='pc'] .nav-links {
   right: var(--nav-fab-offset-x);
