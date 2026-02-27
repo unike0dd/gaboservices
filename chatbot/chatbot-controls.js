@@ -1,3 +1,4 @@
+import { initFabControls } from '../fab-controls.js';
 class ChatbotTinyGuard {
   constructor() {
     this.signatures = [
@@ -100,6 +101,7 @@ function ensureChatPanelMarkup() {
 }
 
 export function initChatbotControls() {
+  initFabControls();
   ensureFabChatTrigger();
 
   const guard = new ChatbotTinyGuard();
@@ -115,7 +117,7 @@ export function initChatbotControls() {
 
   const configuredGatewayUrl =
     window.SITE_METADATA?.chatbotGatewayUrl ||
-    'https://con-artist.rulathemtodos.workers.dev/api/chat';
+    'https://con-artist.rulathemtodos.workers.dev/';
 
   const configuredChatbotEmbedUrl = withGatewayParam(
     chatFrame.dataset.chatSrc ||

@@ -1,5 +1,4 @@
 import { initAdaptiveLayout } from './adaptive-layout.js';
-import { initFabControls } from './fab-controls.js';
 import { initChatbotControls } from './chatbot/chatbot-controls.js';
 import { DICTIONARY, LANGUAGE_CODES, PLANS, SERVICES, SUPPORTED_LANGUAGES } from './language-codes.js';
 
@@ -636,7 +635,6 @@ function bindEvents() {
   const yearNode = document.getElementById('year');
   if (yearNode) yearNode.textContent = String(new Date().getFullYear());
 
-  initFabControls();
   initChatbotControls();
   setupJoinForm();
 }
