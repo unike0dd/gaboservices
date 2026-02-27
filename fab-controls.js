@@ -43,6 +43,9 @@ export function initFabControls() {
     fabToggle.setAttribute('aria-expanded', String(isOpen));
   };
 
+  const desktopMedia = window.matchMedia('(min-width: 781px)');
+  setFabOpenState(desktopMedia.matches);
+
   fabToggle.addEventListener('click', () => {
     const currentlyOpen = fabToggle.getAttribute('aria-expanded') === 'true';
     setFabOpenState(!currentlyOpen);
@@ -58,5 +61,9 @@ export function initFabControls() {
     if (event.key === 'Escape') {
       setFabOpenState(false);
     }
+  });
+
+  desktopMedia.addEventListener('change', (event) => {
+    setFabOpenState(event.matches);
   });
 }
