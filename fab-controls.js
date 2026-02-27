@@ -65,8 +65,47 @@ function ensureChatPanelMarkup() {
   return { chatOverlay, chatPanel, chatClose, chatFrame };
 }
 
+function ensureQuickActionsFab() {
+  let wrapper = document.getElementById('quickActionsFab');
+  if (wrapper) return wrapper;
+
+  wrapper = document.createElement('div');
+  wrapper.id = 'quickActionsFab';
+  wrapper.className = 'fab-wrapper';
+  wrapper.innerHTML = `
+    <div id="fabQuickMenu" class="fab-menu" hidden>
+      <a class="fab-item" href="/careers" data-fab-link="careers">
+        <span class="fab-item-icon" aria-hidden="true">💼</span>
+        <span data-i18n="fabCareer">Careers</span>
+      </a>
+      <a class="fab-item" href="/contact" data-fab-link="contact">
+        <span class="fab-item-icon" aria-hidden="true">☎️</span>
+        <span data-i18n="fabContact">Contact</span>
+      </a>
+      <button class="fab-item" type="button" data-chat-trigger>
+        <span class="fab-item-icon" aria-hidden="true">🤖</span>
+        <span data-i18n="fabChatbot">Chatbot</span>
+      </button>
+    </div>
+    <button id="fabMainToggle" class="fab-main fab-hamburger" type="button" aria-expanded="false" data-i18n-aria-label="fabOpenQuickActions" aria-label="Open quick actions">☰</button>
+  `;
+
+  document.body.appendChild(wrapper);
+
+  const navCareers = document.querySelector('#primaryNav a[href*="careers"]');
+  const navContact = document.querySelector('#primaryNav a[href*="contact"]');
+  const fabCareers = wrapper.querySelector('[data-fab-link="careers"]');
+  const fabContact = wrapper.querySelector('[data-fab-link="contact"]');
+  if (navCareers && fabCareers) fabCareers.setAttribute('href', navCareers.getAttribute('href'));
+  if (navContact && fabContact) fabContact.setAttribute('href', navContact.getAttribute('href'));
+
+  return wrapper;
+}
+
 export function initFabControls() {
   const guard = new FabTinyGuard();
+  ensureQuickActionsFab();
+
   const chatTriggers = [...document.querySelectorAll('[data-chat-trigger]')];
   if (!chatTriggers.length) return;
 
@@ -93,6 +132,28 @@ export function initFabControls() {
   chatbotHoneypot.style.cssText = 'position:absolute;left:-10000px;opacity:0;pointer-events:none;';
   chatPanel.appendChild(chatbotHoneypot);
 
+  const fabToggle = document.getElementById('fabMainToggle');
+  const fabMenu = document.getElementById('fabQuickMenu');
+
+  const setFabOpenState = (isOpen) => {
+    if (!fabMenu || !fabToggle) return;
+    fabMenu.hidden = !isOpen;
+    fabToggle.setAttribute('aria-expanded', String(isOpen));
+  };
+
+  if (fabToggle && fabMenu) {
+    fabToggle.addEventListener('click', () => {
+      const currentlyOpen = fabToggle.getAttribute('aria-expanded') === 'true';
+      setFabOpenState(!currentlyOpen);
+    });
+
+    document.addEventListener('click', (event) => {
+      const fabWrapper = document.getElementById('quickActionsFab');
+      if (!fabWrapper || fabMenu.hidden) return;
+      if (!fabWrapper.contains(event.target)) setFabOpenState(false);
+    });
+  }
+
   const setOpenState = (isOpen) => {
     chatOverlay.hidden = !isOpen;
     if (isOpen) {
@@ -111,6 +172,7 @@ export function initFabControls() {
       if (chatFrame.src === 'about:blank') {
         chatFrame.src = configuredChatbotEmbedUrl;
       }
+      setFabOpenState(false);
       setOpenState(true);
     });
   });
@@ -130,6 +192,9 @@ export function initFabControls() {
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && !chatOverlay.hidden) {
       setOpenState(false);
+    }
+    if (event.key === 'Escape') {
+      setFabOpenState(false);
     }
   });
 }
