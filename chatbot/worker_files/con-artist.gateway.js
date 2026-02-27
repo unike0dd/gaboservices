@@ -139,6 +139,12 @@ function buildCfg(env) {
     if (n && safeText(assetId)) originToAsset[n] = safeText(assetId);
   }
 
+  const conArtistSecret = safeText(env?.CON_ARTIST || '');
+  const defaultGatewayOrigin = normalizeOrigin(DEFAULT_UPSTREAM);
+  if (conArtistSecret && defaultGatewayOrigin) {
+    originToAsset[defaultGatewayOrigin] = conArtistSecret;
+  }
+
   const allowed = Array.isArray(envCfg.allowedOrigins) && envCfg.allowedOrigins.length
     ? envCfg.allowedOrigins
     : Object.keys(originToAsset).length
