@@ -59,10 +59,24 @@ function timingSafeEq(a, b) {
 
 function tinySanitize(text) {
   let out = toStr(text);
+  out = out.replace(/\u0000/g, '');
   out = out.replace(/```[\s\S]*?```/g, ' [REMOVED_CODE_BLOCK] ');
+  out = out.replace(/~~~[\s\S]*?~~~/g, ' [REMOVED_CODE_BLOCK] ');
+  out = out.replace(/`[^`]{1,300}`/g, ' [REMOVED_INLINE_CODE] ');
+  out = out.replace(/<\s*(script|style)\b[^>]*>[\s\S]*?<\s*\/\s*\1\s*>/gi, ' ');
+  out = out.replace(/<\s*(iframe|object|embed|svg|math|form|meta|link|base)\b[^>]*>/gi, ' ');
   out = out.replace(/<\/?[^>]+>/g, ' ');
+  out = out.replace(/\bon\w+\s*=\s*["'][\s\S]*?["']/gi, ' ');
   out = out.replace(/\bon\w+\s*=\s*[^\s>]+/gi, ' ');
   out = out.replace(/\bjavascript\s*:/gi, '');
+  out = out.replace(/\bvbscript\s*:/gi, '');
+  out = out.replace(/\bdata\s*:\s*text\/html\b/gi, '');
+  out = out.replace(/\b(eval|new\s+Function|setTimeout\s*\(|setInterval\s*\()\b/gi, ' [REMOVED_JS_API] ');
+  out = out.replace(/\b(import|export|function|class|const|let|var|return|await|async)\b/gi, ' [REMOVED_CODE_TOKEN] ');
+  out = out
+    .split('\n')
+    .map((line) => (/[{}\[\];=<>$]{5,}/.test(line) ? ' [REMOVED_CODE_LINE] ' : line))
+    .join(' ');
   out = out.replace(/\s+/g, ' ').trim();
   return out.slice(0, 1000);
 }
@@ -71,12 +85,39 @@ function tinyRisk(text) {
   const t = toStr(text);
   const hits = [
     /<\s*script\b/i,
+    /<\s*style\b/i,
+    /<\s*iframe\b/i,
+    /<\s*(svg|math|object|embed)\b/i,
     /\bon\w+\s*=/i,
     /\bjavascript\s*:/i,
+    /\bvbscript\s*:/i,
+    /\bdata\s*:\s*text\/html\b/i,
     /\beval\s*\(/i,
-    /\bunion\s+select\b/i
+    /\bnew\s+Function\b/i,
+    /\bdocument\.(cookie|write)\b/i,
+    /\bunion\s+select\b/i,
+    /\bdrop\s+table\b/i,
+    /\bor\s+1\s*=\s*1\b/i,
+    /\b(import|export|function|class|const|let|var|return|await|async)\b/i,
+    /[{}\[\];=<>$]{8,}/
   ].filter((re) => re.test(t)).length;
   return hits;
+}
+
+function tinyHasResidualMalicious(text) {
+  const t = toStr(text);
+  const checks = [
+    /<\s*script\b/i,
+    /\bon\w+\s*=/i,
+    /\bjavascript\s*:/i,
+    /\bvbscript\s*:/i,
+    /\bdata\s*:\s*text\/html\b/i,
+    /\beval\s*\(/i,
+    /\bnew\s+Function\b/i,
+    /\bdocument\.(cookie|write)\b/i,
+    /<[^>]+>/
+  ];
+  return checks.some((re) => re.test(t));
 }
 
 function buildCfg(env) {
@@ -239,7 +280,8 @@ export default {
       const role = String(msg.role || '').toLowerCase();
       if (role !== 'user' && role !== 'assistant') continue;
       const content = tinySanitize(msg.content || '');
-      if (!content || tinyRisk(content) >= 2) {
+      const risk = tinyRisk(content);
+      if (!content || risk >= 2 || tinyHasResidualMalicious(content)) {
         return json(cfg, request, origin, 403, { ok: false, error: 'blocked_by_tinyml' });
       }
       normalizedMessages.push({ role, content });
