@@ -10,12 +10,7 @@
  * - Direct forwarding to Cloudflare upstream (SSE pass-through)
  *
  * Required bindings:
- * - env.CON_ARTIST for repo handshake and default origin asset identity
- *
- * Optional bindings:
- * - env.CON_ARTIST_UPSTREAM to override upstream URL
- * - env.CON_ARTIST_PUBLIC_ORIGIN to define the origin mapped to env.CON_ARTIST
- * - env.CON_ARTIST_ALLOWED_PARENTS_JSON for explicit CORS allowlist
+ * - None for proxy mode (optional: env.CON_ARTIST_UPSTREAM to override upstream URL)
  */
 
 const FALLBACK_ALLOWED_ORIGINS = [
@@ -137,26 +132,6 @@ function buildCfg(env) {
     }
   }
 
-  let allowedParents = [];
-  if (env?.CON_ARTIST_ALLOWED_PARENTS_JSON) {
-    try {
-      const parsed = typeof env.CON_ARTIST_ALLOWED_PARENTS_JSON === 'string'
-        ? JSON.parse(env.CON_ARTIST_ALLOWED_PARENTS_JSON)
-        : env.CON_ARTIST_ALLOWED_PARENTS_JSON;
-      if (Array.isArray(parsed)) {
-        allowedParents = parsed;
-      } else if (parsed && typeof parsed === 'object') {
-        allowedParents = Array.isArray(parsed.allowedOrigins)
-          ? parsed.allowedOrigins
-          : Array.isArray(parsed.allowed_parents)
-            ? parsed.allowed_parents
-            : [];
-      }
-    } catch {
-      allowedParents = [];
-    }
-  }
-
   const map = envCfg?.asset_identity?.origin_to_asset_id || envCfg?.origin_to_asset_id || {};
   const originToAsset = {};
   for (const [origin, assetId] of Object.entries(map)) {
@@ -165,18 +140,16 @@ function buildCfg(env) {
   }
 
   const conArtistSecret = safeText(env?.CON_ARTIST || '');
-  const publicOrigin = normalizeOrigin(env?.CON_ARTIST_PUBLIC_ORIGIN || DEFAULT_UPSTREAM);
-  if (conArtistSecret && publicOrigin) {
-    originToAsset[publicOrigin] = conArtistSecret;
+  const defaultGatewayOrigin = normalizeOrigin(DEFAULT_UPSTREAM);
+  if (conArtistSecret && defaultGatewayOrigin) {
+    originToAsset[defaultGatewayOrigin] = conArtistSecret;
   }
 
   const allowed = Array.isArray(envCfg.allowedOrigins) && envCfg.allowedOrigins.length
     ? envCfg.allowedOrigins
-    : allowedParents.length
-      ? allowedParents
-      : Object.keys(originToAsset).length
-        ? Object.keys(originToAsset)
-        : FALLBACK_ALLOWED_ORIGINS;
+    : Object.keys(originToAsset).length
+      ? Object.keys(originToAsset)
+      : FALLBACK_ALLOWED_ORIGINS;
 
   return {
     allowedOrigins: new Set(allowed.map(normalizeOrigin).filter(Boolean)),
