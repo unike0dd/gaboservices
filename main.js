@@ -2,16 +2,14 @@ import { initAdaptiveLayout } from './adaptive-layout.js';
 import { initFabControls } from './fab-controls.js';
 import { DICTIONARY, LANGUAGE_CODES, PLANS, SERVICES, SUPPORTED_LANGUAGES } from './language-codes.js';
 
-const root = document.documentElement;
 const metadata = window.SITE_METADATA || {};
 if (metadata.name) document.title = metadata.name;
 const metaDescription = document.querySelector('meta[name="description"]');
 if (metaDescription && metadata.description) metaDescription.setAttribute('content', metadata.description);
-const supportedLanguages = SUPPORTED_LANGUAGES;
 let lang = 'en';
 
 function setLanguage(nextLang) {
-  if (!supportedLanguages.includes(nextLang)) return;
+  if (!SUPPORTED_LANGUAGES.includes(nextLang)) return;
   lang = nextLang;
   localStorage.setItem('lang', lang);
   renderCards();
