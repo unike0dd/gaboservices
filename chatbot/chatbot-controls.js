@@ -64,6 +64,23 @@ function ensureFabChatTrigger() {
   fabMenu.appendChild(action);
 }
 
+async function probeGatewayAvailability(gatewayUrl) {
+  if (!gatewayUrl) return false;
+
+  const candidates = ['/api/health', '/health'];
+  for (const route of candidates) {
+    try {
+      const url = new URL(route, gatewayUrl).toString();
+      const response = await fetch(url, { method: 'GET', credentials: 'omit', cache: 'no-store' });
+      if (response.ok) return true;
+    } catch {
+      // noop: try the next health endpoint candidate.
+    }
+  }
+
+  return false;
+}
+
 
 function ensureChatPanelMarkup() {
   let chatOverlay = document.getElementById('chatOverlay');
@@ -107,6 +124,23 @@ export function initChatbotControls() {
   chatFrame.dataset.gatewayUrl = configuredGatewayUrl;
   chatFrame.dataset.streamBridge = CHATBOT_STREAM_BRIDGE_NAME;
 
+  let gatewayHealthy = true;
+  const chatStatus = document.createElement('p');
+  chatStatus.className = 'chat-status';
+  chatStatus.id = 'chatStatus';
+  chatStatus.hidden = true;
+  chatStatus.setAttribute('role', 'status');
+  chatStatus.setAttribute('aria-live', 'polite');
+  chatPanel.querySelector('.chat-panel-head')?.insertAdjacentElement('afterend', chatStatus);
+
+  probeGatewayAvailability(configuredGatewayUrl).then((healthy) => {
+    gatewayHealthy = healthy;
+    if (healthy) return;
+
+    chatStatus.hidden = false;
+    chatStatus.textContent = 'Chat assistant is temporarily unavailable. Please use contact form instead.';
+  });
+
   const chatbotHoneypot = document.createElement('input');
   chatbotHoneypot.type = 'text';
   chatbotHoneypot.className = 'hp-field';
@@ -140,6 +174,10 @@ export function initChatbotControls() {
     trigger.addEventListener('click', (event) => {
       const signal = `${trigger.getAttribute('aria-label') || ''} ${trigger.textContent || ''} ${trigger.className || ''}`;
       if (!guard.validateSignal(signal) || chatbotHoneypot.value.trim().length > 0 || event.isTrusted === false) return;
+      if (!gatewayHealthy) {
+        chatStatus.hidden = false;
+        return;
+      }
 
       if (chatFrame.src === 'about:blank') {
         chatFrame.src = configuredChatbotEmbedUrl;
