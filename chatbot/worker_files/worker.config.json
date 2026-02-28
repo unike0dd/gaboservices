@@ -3,6 +3,10 @@
     "chat": "/api/chat",
     "health": "/health"
   },
+  "headers": {
+    "hop_header_name": "x-gabo-hop",
+    "hop_header_value": "gateway"
+  },
   "asset_identity": {
     "header_name": "x-ops-asset-id",
     "origin_to_asset_id": {
@@ -19,6 +23,8 @@
     "https://con-artist.rulathemtodos.workers.dev"
   ],
   "limits": {
-    "max_body_chars": 8000
+    "max_body_chars": 8000,
+    "max_messages": 30,
+    "max_message_chars": 1000
   }
 }

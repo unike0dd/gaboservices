@@ -3,7 +3,7 @@
     <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https:; connect-src 'self' https://con-artist.rulathemtodos.workers.dev https://restcountries.com; frame-src https://con-artist.rulathemtodos.workers.dev; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; script-src-elem 'self' https://static.cloudflareinsights.com; style-src 'self'; img-src 'self' data: https:; connect-src 'self' https://con-artist.rulathemtodos.workers.dev https://restcountries.com https://static.cloudflareinsights.com; frame-src https://con-artist.rulathemtodos.workers.dev; object-src 'none'; base-uri 'self'; upgrade-insecure-requests" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="google-site-verification" content="REPLACE_WITH_GOOGLE_SEARCH_CONSOLE_TOKEN" />
@@ -69,6 +69,13 @@
           <label>
             <span data-i18n="email">Email</span>
             <input required type="email" name="applicant_email" />
+          </label>
+          <label>
+            <span data-i18n="contactNumber">Your Contact Number</span>
+            <div class="contact-number-row">
+              <input required type="text" name="applicant_country_code" inputmode="tel" autocomplete="tel-country-code" aria-label="Country code" placeholder="Country code" />
+              <input required type="tel" name="applicant_phone_number" inputmode="tel" autocomplete="tel-national" aria-label="Phone Number" placeholder="Phone Number" />
+            </div>
           </label>
 
           <div class="secure-repeatable" data-repeatable="experience">
