@@ -15,9 +15,18 @@
 5. Copy only the `content` value and paste it into `index.html`:
 
 ```html
-<meta name="google-site-verification" content="YOUR_SEARCH_CONSOLE_TOKEN" />
+<meta name="google-site-verification" content="REPLACE_WITH_GOOGLE_SEARCH_CONSOLE_TOKEN" />
 ```
 
 ## Notes
 - Keep this tag on the homepage (`/index.html`) only.
 - Alternative method: use Google's verification HTML file upload instead of the meta tag.
+
+
+## Repository policy
+- Verification meta tags are **not** kept inside page templates in this repo.
+- Store the token reference in docs, then inject the meta tag at deploy time if needed.
+
+```html
+<meta name="google-site-verification" content="REPLACE_WITH_GOOGLE_SEARCH_CONSOLE_TOKEN" />
+```
