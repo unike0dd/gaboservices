@@ -10,7 +10,7 @@
  * - Direct forwarding to Cloudflare upstream (SSE pass-through)
  *
  * Required bindings:
- * - None for proxy mode (optional: env.CON_ARTIST_UPSTREAM to override upstream URL)
+ * - None for proxy mode
  */
 
 const FALLBACK_ALLOWED_ORIGINS = [
@@ -201,8 +201,7 @@ function json(cfg, request, origin, status, payload, extra = {}) {
 }
 
 async function forwardChatToUpstream(cfg, env, origin, assetId, payload) {
-  const upstreamBase = safeText(env?.CON_ARTIST_UPSTREAM || DEFAULT_UPSTREAM).replace(/\/$/, '');
-  const upstreamUrl = `${upstreamBase}${CHAT_ROUTE}`;
+  const upstreamUrl = `${DEFAULT_UPSTREAM}${CHAT_ROUTE}`;
 
   return fetch(upstreamUrl, {
     method: 'POST',
@@ -248,7 +247,7 @@ export default {
       return json(cfg, request, origin, 200, {
         ok: true,
         worker: 'con-artist',
-        upstream: safeText(env?.CON_ARTIST_UPSTREAM || DEFAULT_UPSTREAM)
+        upstream: DEFAULT_UPSTREAM
       });
     }
 
