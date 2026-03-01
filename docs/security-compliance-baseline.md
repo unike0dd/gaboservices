@@ -17,8 +17,13 @@ This repository now implements a practical baseline for web security and complia
 
 Source: `chatbot/worker_files/con-artist.gateway.js`.
 
+Additionally, repository root `_headers` now provides a deploy-time static header policy (including CSP with required script hashes) for hosts that support `_headers` configuration files. The policy is aligned with repository resource usage: Cloudflare Web Analytics (`https://static.cloudflareinsights.com`), chatbot gateway/embed (`https://con-artist.rulathemtodos.workers.dev`), and country lookup API (`https://restcountries.com`).
+
 ### Subresource Integrity (SRI)
 SRI hashes (`integrity="sha384-..."`) with `crossorigin="anonymous"` were added to local CSS/JS assets referenced by HTML pages to harden script/style loading against tampering.
+
+### CSP inline script hash allowlist (gabo.services)
+The site-level CSP for `https://www.gabo.services` includes the inline script hash `sha256-3RErd+LDAVQIOd9ZIcoApiBt6JODoBwDW3+8PbIqsd8=` in both `script-src` and `script-src-elem` directives across route HTML pages.
 
 ### SEO and search readiness
 - Canonical and hreflang tags are present on route pages.
