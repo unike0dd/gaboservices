@@ -564,7 +564,10 @@ function embedHtml({ nonce, tenantOrigin, tenantAssetId }) {
       const lines = String(block || '').split('\\n');
       let out = '';
       for (const line of lines){
-        if (line.startsWith('data:')) out += line.slice(5) + '\\n';
+        if (!line.startsWith('data:')) continue;
+        const chunk = line.slice(5).trim();
+        if (!chunk || chunk === '[DONE]') continue;
+        out += chunk + '\\n';
       }
       return out;
     }
