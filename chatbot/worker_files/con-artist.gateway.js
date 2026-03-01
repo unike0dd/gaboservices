@@ -3,83 +3,90 @@
  *
  * PURPOSE
  * - Repo (gabo.services) -> con-artist: CORS + Origin allowlist + per-origin asset identity (x-ops-asset-id)
- * - Repo handshake: POST /__repo/handshake with header x-gabo-repo-id matching env.CON_ARTIST_SERVICES (fallback env.CON_ARTIST)
- * - Iframe: GET /embed?parent=<origin> (locked to allowed parents)
- * - Chat: POST /api/chat (SSE) -> forwards to internal Service Binding (Drastic) (SSE pass-through)
+ * - Repo handshake: POST /__repo/handshake with header x-gabo-repo-id matching env.CON_ARTIST_SERVICES
+ * - Iframe UI: GET /embed?parent=<origin> (STRICT allowed parents: www.gabo.services + gabo.services)
+ * - Chat: POST /api/chat (SSE) -> forwards to Service Binding DRASTIC (SSE pass-through)
  *
  * IMPORTANT
  * - This Worker MUST NOT mention or reference any downstream internal components in RESPONSES.
  *
- * REQUIRED (as configured)
+ * ENV (ONLY what you have in your Cloudflare picture)
  * - Secrets:
- *   - CON_ARTIST_SERVICES
  *   - CON_ARTIST_Drastic
- *   - CON_ARTIST_TO_CORE_SHARED_SECRET (kept as fallback)
- * - Variables:
+ *   - CON_ARTIST_SERVICES
+ *   - CON_ARTIST_TO_CORE_SHARED_SECRET
+ * - Plaintext:
  *   - CON_ARTIST_PUBLIC_ORIGIN
+ * - JSON:
  *   - ORIGIN_ASSET_ID_JSON
  * - Service binding:
- *   - DRASTIC  (recommended binding name)
+ *   - DRASTIC
  */
 
 /* -------------------------
  * HARD FALLBACK (never empty)
+ * (kept)
  * ------------------------- */
 const FALLBACK_ALLOWED_ORIGINS = [
-  'https://www.gabo.services',
-  'https://gabo.services',
-  'https://chattiavato-a11y.github.io',
-  'https://con-artist.rulathemtodos.workers.dev'
+  "https://www.gabo.services",
+  "https://gabo.services",
+  "https://chattiavato-a11y.github.io",
+  "https://con-artist.rulathemtodos.workers.dev",
 ];
 
 const FALLBACK_ORIGIN_TO_ASSET = {
-  'https://www.gabo.services':
-    'b91f605b23748de5cf02db0de2dd59117b31c709986a3c72837d0af8756473cf2779c206fc6ef80a57fdeddefa4ea11b972572f3a8edd9ed77900f9385e94bd6',
-  'https://gabo.services':
-    '8cdeef86bd180277d5b080d571ad8e6dbad9595f408b58475faaa3161f07448fbf12799ee199e3ee257405b75de555055fd5f43e0ce75e0740c4dc11bf86d132',
-  'https://chattiavato-a11y.github.io':
-    'b8f12ffa3559cee4ac71cb5f54eba1aed46394027f52e562d20be7a523db2a036f20c6e8fb0577c0a8d58f2fd198046230ebc0a73f4f1e71ff7c377d656f0756',
-  'https://con-artist.rulathemtodos.workers.dev':
-    '96dd27ea493d045ed9b46d72533e2ed2ec897668e2227dd3d79fff85ca2216a569c4bf622790c6fb0aab9f17b4e92d0f8e0fa040356bee68a9c3d50d5a60c945'
+  "https://www.gabo.services":
+    "b91f605b23748de5cf02db0de2dd59117b31c709986a3c72837d0af8756473cf2779c206fc6ef80a57fdeddefa4ea11b972572f3a8edd9ed77900f9385e94bd6",
+  "https://gabo.services":
+    "8cdeef86bd180277d5b080d571ad8e6dbad9595f408b58475faaa3161f07448fbf12799ee199e3ee257405b75de555055fd5f43e0ce75e0740c4dc11bf86d132",
+  "https://chattiavato-a11y.github.io":
+    "b8f12ffa3559cee4ac71cb5f54eba1aed46394027f52e562d20be7a523db2a036f20c6e8fb0577c0a8d58f2fd198046230ebc0a73f4f1e71ff7c377d656f0756",
+  "https://con-artist.rulathemtodos.workers.dev":
+    "96dd27ea493d045ed9b46d72533e2ed2ec897668e2227dd3d79fff85ca2216a569c4bf622790c6fb0aab9f17b4e92d0f8e0fa040356bee68a9c3d50d5a60c945",
 };
 
 /* -------------------------
  * Contract constants
  * ------------------------- */
-const REPO_SECRET_HEADER = 'x-gabo-repo-id';
-const REPO_HANDSHAKE_PATH = '/__repo/handshake';
+const REPO_SECRET_HEADER = "x-gabo-repo-id";
+const REPO_HANDSHAKE_PATH = "/__repo/handshake";
 
 const ROUTES = {
-  chat: '/api/chat',
-  health: '/health',
-  api_health: '/api/health',
-  embed: '/embed'
+  chat: "/api/chat",
+  health: "/health",
+  api_health: "/api/health",
+  embed: "/embed",
 };
 
-const ASSET_HDR_DEFAULT = 'x-ops-asset-id';
+const ASSET_HDR_DEFAULT = "x-ops-asset-id";
 
 // iframe tenant header (sent by iframe JS; also allowed for direct callers)
-const PARENT_HDR = 'x-gabo-parent-origin';
+const PARENT_HDR = "x-gabo-parent-origin";
 
 // internal auth headers expected by drastic-measures gateway
-const CON_ARTIST_HOP_HDR = 'x-con-artist-hop';
-const CON_ARTIST_HOP_VAL = 'iframe-gateway';
-const CON_ARTIST_SECRET_HDR = 'x-con-artist-shared-secret';
-const CON_ARTIST_MODE_IFRAME_SERVICE_QA = 'iframe_service_qa';
+const CON_ARTIST_HOP_HDR = "x-con-artist-hop";
+const CON_ARTIST_HOP_VAL = "iframe-gateway";
+const CON_ARTIST_SECRET_HDR = "x-con-artist-shared-secret";
+const CON_ARTIST_MODE_IFRAME_SERVICE_QA = "iframe_service_qa";
 
-const HOP_HDR_DEFAULT = 'x-gabo-hop';
-const HOP_VAL_DEFAULT = 'gateway';
+const HOP_HDR_DEFAULT = "x-gabo-hop";
+const HOP_VAL_DEFAULT = "gateway";
+
+/* -------------------------
+ * STRICT embed parents (NO ENV)
+ * ------------------------- */
+const STRICT_ALLOWED_PARENTS = new Set(["https://www.gabo.services", "https://gabo.services"]);
 
 /* -------------------------
  * Utils
  * ------------------------- */
 function toStr(x) {
-  return typeof x === 'string' ? x : x == null ? '' : String(x);
+  return typeof x === "string" ? x : x == null ? "" : String(x);
 }
 
 function safeTextOnly(s) {
   s = toStr(s);
-  let out = '';
+  let out = "";
   for (let i = 0; i < s.length; i++) {
     const c = s.charCodeAt(i);
     if (c === 0) continue;
@@ -91,18 +98,18 @@ function safeTextOnly(s) {
 
 function normalizeOrigin(value) {
   const v = toStr(value).trim();
-  if (!v) return '';
+  if (!v) return "";
   try {
     return new URL(v).origin.toLowerCase();
   } catch {
-    return v.replace(/\/$/, '').toLowerCase();
+    return v.replace(/\/$/, "").toLowerCase();
   }
 }
 
 function normalizeRoutePath(value, fallback) {
-  const raw = safeTextOnly(value || fallback || '');
-  if (!raw) return '';
-  return raw.startsWith('/') ? raw : `/${raw}`;
+  const raw = safeTextOnly(value || fallback || "");
+  if (!raw) return "";
+  return raw.startsWith("/") ? raw : `/${raw}`;
 }
 
 function timingSafeEq(a, b) {
@@ -117,8 +124,8 @@ function timingSafeEq(a, b) {
 /* -------------------------
  * Config loader (env.ORIGIN_ASSET_ID_JSON)
  * Accepts:
- *  A) full worker.config.json
- *  B) plain origin_to_asset_id map
+ *  A) full JSON config (your ORIGIN_ASSET_ID_JSON)
+ *  B) plain origin_to_asset_id map (supported, but not required)
  * Always prevents empty allowlist.
  * ------------------------- */
 let _CFG = null;
@@ -126,18 +133,7 @@ let _CFG = null;
 function parseEnvJson(env) {
   const v = env?.ORIGIN_ASSET_ID_JSON;
   if (!v) return null;
-  if (typeof v === 'object') return v;
-  try {
-    return JSON.parse(String(v));
-  } catch {
-    return null;
-  }
-}
-
-function parseAllowedParentsJson(env) {
-  const v = env?.CON_ARTIST_ALLOWED_PARENTS_JSON;
-  if (!v) return null;
-  if (typeof v === 'object') return v;
+  if (typeof v === "object") return v;
   try {
     return JSON.parse(String(v));
   } catch {
@@ -151,9 +147,9 @@ function buildCfg(env) {
   const raw = parseEnvJson(env);
 
   const cfg0 =
-    raw && typeof raw === 'object' && !raw.asset_identity && !raw.allowedOrigins
+    raw && typeof raw === "object" && !raw.asset_identity && !raw.allowedOrigins
       ? { asset_identity: { header_name: ASSET_HDR_DEFAULT, origin_to_asset_id: raw } }
-      : raw && typeof raw === 'object'
+      : raw && typeof raw === "object"
         ? raw
         : {};
 
@@ -161,16 +157,15 @@ function buildCfg(env) {
     chat: normalizeRoutePath(cfg0?.routes?.chat, ROUTES.chat),
     health: normalizeRoutePath(cfg0?.routes?.health, ROUTES.health),
     api_health: ROUTES.api_health,
-    embed: ROUTES.embed
+    embed: ROUTES.embed,
   };
 
   const assetHeader = safeTextOnly(cfg0?.asset_identity?.header_name || ASSET_HDR_DEFAULT).toLowerCase();
-  const hopHeaderName = safeTextOnly(cfg0?.headers?.hop_header_name || HOP_HDR_DEFAULT).toLowerCase();
-  const hopHeaderValue = safeTextOnly(cfg0?.headers?.hop_header_value || HOP_VAL_DEFAULT);
 
+  // Map: env map overlays fallback map
   const originToAsset = { ...FALLBACK_ORIGIN_TO_ASSET };
   const map =
-    cfg0?.asset_identity?.origin_to_asset_id && typeof cfg0.asset_identity.origin_to_asset_id === 'object'
+    cfg0?.asset_identity?.origin_to_asset_id && typeof cfg0.asset_identity.origin_to_asset_id === "object"
       ? cfg0.asset_identity.origin_to_asset_id
       : {};
   for (const [k, v] of Object.entries(map)) {
@@ -179,6 +174,7 @@ function buildCfg(env) {
     if (o && id) originToAsset[o] = id;
   }
 
+  // Allowed origins: config.allowedOrigins OR keys(originToAsset) OR fallback list
   let allowedList = Array.isArray(cfg0.allowedOrigins) ? cfg0.allowedOrigins : [];
   if (!allowedList.length) allowedList = Object.keys(originToAsset);
   if (!allowedList.length) allowedList = FALLBACK_ALLOWED_ORIGINS;
@@ -188,33 +184,26 @@ function buildCfg(env) {
     for (const o of FALLBACK_ALLOWED_ORIGINS) allowedOrigins.add(normalizeOrigin(o));
   }
 
-  const parentsRaw = parseAllowedParentsJson(env);
-  const defaultParents = ['https://www.gabo.services', 'https://gabo.services'];
-  const allowedParents = new Set(
-    (Array.isArray(parentsRaw) && parentsRaw.length ? parentsRaw : defaultParents)
-      .map(normalizeOrigin)
-      .filter(Boolean)
-  );
+  // Allowed parents for iframe embedding: STRICT only (NO ENV)
+  const allowedParents = new Set([...STRICT_ALLOWED_PARENTS].map(normalizeOrigin));
 
   const limits = {
     max_body_chars: Number(cfg0?.limits?.max_body_chars || 8000),
     max_messages: Number(cfg0?.limits?.max_messages || 30),
-    max_message_chars: Number(cfg0?.limits?.max_message_chars || 1000)
+    max_message_chars: Number(cfg0?.limits?.max_message_chars || 1000),
   };
 
-  const publicOrigin = normalizeOrigin(env?.CON_ARTIST_PUBLIC_ORIGIN || 'https://con-artist.rulathemtodos.workers.dev');
+  const publicOrigin = normalizeOrigin(env?.CON_ARTIST_PUBLIC_ORIGIN || "https://con-artist.rulathemtodos.workers.dev");
 
   _CFG = {
-    cfg_source: raw ? 'env' : 'fallback',
+    cfg_source: raw ? "env" : "fallback",
     routes,
     assetHeader,
-    hopHeaderName,
-    hopHeaderValue,
     allowedOrigins,
     allowedParents,
     originToAsset,
     limits,
-    publicOrigin
+    publicOrigin,
   };
 
   return _CFG;
@@ -225,36 +214,36 @@ function buildCfg(env) {
  * ------------------------- */
 function securityHeadersApi() {
   const h = new Headers();
-  h.set('X-Content-Type-Options', 'nosniff');
-  h.set('X-Frame-Options', 'DENY');
-  h.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  h.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-  h.set('Cache-Control', 'no-store, no-transform');
-  h.set('Content-Security-Policy', "default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'");
-  h.set('X-Permitted-Cross-Domain-Policies', 'none');
-  h.set('X-DNS-Prefetch-Control', 'off');
-  h.set('Permissions-Policy', 'camera=(), geolocation=(), microphone=()');
-  h.set('Cross-Origin-Opener-Policy', 'same-origin');
+  h.set("X-Content-Type-Options", "nosniff");
+  h.set("X-Frame-Options", "DENY");
+  h.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  h.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+  h.set("Cache-Control", "no-store, no-transform");
+  h.set("Content-Security-Policy", "default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'");
+  h.set("X-Permitted-Cross-Domain-Policies", "none");
+  h.set("X-DNS-Prefetch-Control", "off");
+  h.set("Permissions-Policy", "camera=(), geolocation=(), microphone=()");
+  h.set("Cross-Origin-Opener-Policy", "same-origin");
   return h;
 }
 
 function makeNonce() {
   const a = new Uint8Array(16);
   crypto.getRandomValues(a);
-  let s = '';
-  for (const b of a) s += b.toString(16).padStart(2, '0');
+  let s = "";
+  for (const b of a) s += b.toString(16).padStart(2, "0");
   return s;
 }
 
 function embedSecurityHeaders(frameAncestorsList, nonce) {
-  const fa = frameAncestorsList.length ? frameAncestorsList.join(' ') : "'none'";
+  const fa = frameAncestorsList.length ? frameAncestorsList.join(" ") : "'none'";
   const h = new Headers();
-  h.set('X-Content-Type-Options', 'nosniff');
-  h.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  h.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-  h.set('Cache-Control', 'no-store, no-transform');
+  h.set("X-Content-Type-Options", "nosniff");
+  h.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  h.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+  h.set("Cache-Control", "no-store, no-transform");
   h.set(
-    'Content-Security-Policy',
+    "Content-Security-Policy",
     `default-src 'none'; ` +
       `script-src 'nonce-${nonce}'; ` +
       `style-src 'nonce-${nonce}'; ` +
@@ -271,7 +260,7 @@ function embedSecurityHeaders(frameAncestorsList, nonce) {
  * ------------------------- */
 function isAllowedOrigin(cfg, origin) {
   const o = normalizeOrigin(origin);
-  return !!o && o !== 'null' && cfg.allowedOrigins.has(o);
+  return !!o && o !== "null" && cfg.allowedOrigins.has(o);
 }
 
 function corsPreflightHeaders(cfg, request, origin) {
@@ -280,24 +269,35 @@ function corsPreflightHeaders(cfg, request, origin) {
   const allowed = isAllowedOrigin(cfg, o);
 
   if (allowed) {
-    h.set('Access-Control-Allow-Origin', o);
-    h.set('Vary', 'Origin, Access-Control-Request-Method, Access-Control-Request-Headers');
+    h.set("Access-Control-Allow-Origin", o);
+    h.set("Vary", "Origin, Access-Control-Request-Method, Access-Control-Request-Headers");
   }
 
-  h.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  h.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
 
-  const reqHdrs = request.headers.get('Access-Control-Request-Headers');
-  if (reqHdrs && String(reqHdrs).trim()) h.set('Access-Control-Allow-Headers', String(reqHdrs));
+  const reqHdrs = request.headers.get("Access-Control-Request-Headers");
+  if (reqHdrs && String(reqHdrs).trim()) h.set("Access-Control-Allow-Headers", String(reqHdrs));
   else {
     h.set(
-      'Access-Control-Allow-Headers',
-      ['content-type', 'accept', 'x-ops-asset-id', 'x-gabo-repo-id', 'x-gabo-parent-origin', 'x-gabo-hop'].join(', ')
+      "Access-Control-Allow-Headers",
+      [
+        "content-type",
+        "accept",
+        "x-ops-asset-id",
+        "x-gabo-repo-id",
+        "x-gabo-parent-origin",
+        "x-gabo-hop",
+      ].join(", ")
     );
   }
 
-  h.set('Access-Control-Max-Age', '86400');
-  h.set('Access-Control-Expose-Headers', ['x-gabo-asset-verified', 'x-gabo-cors-debug', 'x-gabo-tenant-origin'].join(', '));
-  h.set('x-gabo-cors-debug', `ok;origin_${allowed ? 'allowed' : 'denied'};cfg=${cfg.cfg_source};n=${cfg.allowedOrigins.size}`);
+  h.set("Access-Control-Max-Age", "86400");
+  h.set("Access-Control-Expose-Headers", ["x-gabo-asset-verified", "x-gabo-cors-debug", "x-gabo-tenant-origin"].join(", "));
+
+  h.set(
+    "x-gabo-cors-debug",
+    `ok;origin_${allowed ? "allowed" : "denied"};cfg=${cfg.cfg_source};n=${cfg.allowedOrigins.size}`
+  );
   return h;
 }
 
@@ -307,12 +307,15 @@ function corsResponseHeaders(cfg, origin) {
   const allowed = isAllowedOrigin(cfg, o);
 
   if (allowed) {
-    h.set('Access-Control-Allow-Origin', o);
-    h.set('Vary', 'Origin');
+    h.set("Access-Control-Allow-Origin", o);
+    h.set("Vary", "Origin");
   }
 
-  h.set('Access-Control-Expose-Headers', ['x-gabo-asset-verified', 'x-gabo-cors-debug', 'x-gabo-tenant-origin'].join(', '));
-  h.set('x-gabo-cors-debug', `ok;origin_${allowed ? 'allowed' : 'denied'};cfg=${cfg.cfg_source};n=${cfg.allowedOrigins.size}`);
+  h.set("Access-Control-Expose-Headers", ["x-gabo-asset-verified", "x-gabo-cors-debug", "x-gabo-tenant-origin"].join(", "));
+  h.set(
+    "x-gabo-cors-debug",
+    `ok;origin_${allowed ? "allowed" : "denied"};cfg=${cfg.cfg_source};n=${cfg.allowedOrigins.size}`
+  );
   return h;
 }
 
@@ -320,7 +323,7 @@ function respondJson(cfg, origin, status, obj, extra) {
   const h = new Headers(extra || {});
   corsResponseHeaders(cfg, origin).forEach((v, k) => h.set(k, v));
   securityHeadersApi().forEach((v, k) => h.set(k, v));
-  h.set('content-type', 'application/json; charset=utf-8');
+  h.set("content-type", "application/json; charset=utf-8");
   return new Response(JSON.stringify(obj), { status, headers: h });
 }
 
@@ -328,74 +331,78 @@ function respondSSE(cfg, origin, stream, extra) {
   const h = new Headers(extra || {});
   corsResponseHeaders(cfg, origin).forEach((v, k) => h.set(k, v));
   securityHeadersApi().forEach((v, k) => h.set(k, v));
-  h.set('content-type', 'text/event-stream; charset=utf-8');
-  h.set('cache-control', 'no-cache, no-transform');
-  h.set('x-accel-buffering', 'no');
+  h.set("content-type", "text/event-stream; charset=utf-8");
+  h.set("cache-control", "no-cache, no-transform");
+  h.set("x-accel-buffering", "no");
   return new Response(stream, { status: 200, headers: h });
 }
 
 /* -------------------------
  * Repo handshake verification
+ * (STRICT: only CON_ARTIST_SERVICES)
  * ------------------------- */
 function verifyRepoSecret(request, env) {
-  const expected = safeTextOnly(env?.CON_ARTIST_SERVICES || env?.CON_ARTIST || '');
-  const got = safeTextOnly(request.headers.get(REPO_SECRET_HEADER) || '');
-  if (!expected) return { ok: false, reason: 'missing_worker_secret' };
-  if (!got) return { ok: false, reason: 'missing_header' };
-  return timingSafeEq(got, expected) ? { ok: true } : { ok: false, reason: 'bad_secret' };
+  const expected = safeTextOnly(env?.CON_ARTIST_SERVICES || "");
+  const got = safeTextOnly(request.headers.get(REPO_SECRET_HEADER) || "");
+  if (!expected) return { ok: false, reason: "missing_worker_secret" };
+  if (!got) return { ok: false, reason: "missing_header" };
+  return timingSafeEq(got, expected) ? { ok: true } : { ok: false, reason: "bad_secret" };
 }
 
 /* -------------------------
  * Tenant resolution + asset verification
  * ------------------------- */
 function resolveTenant(cfg, request) {
-  const origin = normalizeOrigin(request.headers.get('Origin') || '');
-  const parent = normalizeOrigin(request.headers.get(PARENT_HDR) || '');
+  const origin = normalizeOrigin(request.headers.get("Origin") || "");
+  const parent = normalizeOrigin(request.headers.get(PARENT_HDR) || "");
 
+  // If parent header is present, treat as iframe tenant signal.
   if (parent) {
-    if (!cfg.allowedParents.has(parent)) return { ok: false, error: 'parent_not_allowed', saw_parent: parent };
-    if (!cfg.allowedOrigins.has(parent)) return { ok: false, error: 'tenant_not_allowed', saw_tenant: parent };
-    return { ok: true, tenantOrigin: parent, mode: 'iframe' };
+    if (!cfg.allowedParents.has(parent)) return { ok: false, error: "parent_not_allowed", saw_parent: parent };
+    if (!cfg.allowedOrigins.has(parent)) return { ok: false, error: "tenant_not_allowed", saw_tenant: parent };
+    return { ok: true, tenantOrigin: parent, mode: "iframe" };
   }
 
-  if (!origin) return { ok: false, error: 'missing_origin' };
-  if (!cfg.allowedOrigins.has(origin)) return { ok: false, error: 'origin_not_allowed', saw_origin: origin };
-  return { ok: true, tenantOrigin: origin, mode: 'direct' };
+  // Direct caller mode
+  if (!origin) return { ok: false, error: "missing_origin" };
+  if (!cfg.allowedOrigins.has(origin)) return { ok: false, error: "origin_not_allowed", saw_origin: origin };
+  return { ok: true, tenantOrigin: origin, mode: "direct" };
 }
 
 function verifyTenantAsset(cfg, tenantOrigin, request) {
   const got =
-    safeTextOnly(request.headers.get(cfg.assetHeader) || '') ||
-    safeTextOnly(request.headers.get(ASSET_HDR_DEFAULT) || '') ||
-    safeTextOnly(request.headers.get('X-Ops-Asset-Id') || '');
-  const expected = safeTextOnly(cfg.originToAsset[tenantOrigin] || '');
+    safeTextOnly(request.headers.get(cfg.assetHeader) || "") ||
+    safeTextOnly(request.headers.get(ASSET_HDR_DEFAULT) || "") ||
+    safeTextOnly(request.headers.get("X-Ops-Asset-Id") || "");
+  const expected = safeTextOnly(cfg.originToAsset[tenantOrigin] || "");
   return { ok: !!expected && got === expected, got, expected };
 }
 
 /* -------------------------
  * TinyML sanitation (strict, light)
+ * (kept)
  * ------------------------- */
 function tinySanitize(text) {
   let out = toStr(text);
-  out = out.replace(/\u0000/g, '');
-  out = out.replace(/```[\s\S]*?```/g, ' [REMOVED_CODE_BLOCK] ');
-  out = out.replace(/~~~[\s\S]*?~~~/g, ' [REMOVED_CODE_BLOCK] ');
-  out = out.replace(/`[^`]{1,300}`/g, ' [REMOVED_INLINE_CODE] ');
-  out = out.replace(/<\s*(script|style)\b[^>]*>[\s\S]*?<\s*\/\s*\1\s*>/gi, ' ');
-  out = out.replace(/<\s*(iframe|object|embed|svg|math|form|meta|link|base)\b[^>]*>/gi, ' ');
-  out = out.replace(/<\/?[^>]+>/g, ' ');
-  out = out.replace(/\bon\w+\s*=\s*["'][\s\S]*?["']/gi, ' ');
-  out = out.replace(/\bon\w+\s*=\s*[^\s>]+/gi, ' ');
-  out = out.replace(/\bjavascript\s*:/gi, '');
-  out = out.replace(/\bvbscript\s*:/gi, '');
-  out = out.replace(/\bdata\s*:\s*text\/html\b/gi, '');
-  out = out.replace(/\b(eval|new\s+Function|setTimeout\s*\(|setInterval\s*\()\b/gi, ' [REMOVED_JS_API] ');
-  out = out.replace(/\b(import|export|function|class|const|let|var|return|await|async)\b/gi, ' [REMOVED_CODE_TOKEN] ');
+  out = out.replace(/\u0000/g, "");
+  out = out.replace(/```[\s\S]*?```/g, " [REMOVED_CODE_BLOCK] ");
+  out = out.replace(/~~~[\s\S]*?~~~/g, " [REMOVED_CODE_BLOCK] ");
+  out = out.replace(/`[^`]{1,300}`/g, " [REMOVED_INLINE_CODE] ");
+  out = out.replace(/<\s*(script|style)\b[^>]*>[\s\S]*?<\s*\/\s*\1\s*>/gi, " ");
+  out = out.replace(/<\s*(iframe|object|embed|svg|math|form|meta|link|base)\b[^>]*>/gi, " ");
+  out = out.replace(/<\/?[^>]+>/g, " ");
+  out = out.replace(/\bon\w+\s*=\s*["'][\s\S]*?["']/gi, " ");
+  out = out.replace(/\bon\w+\s*=\s*[^\s>]+/gi, " ");
+  out = out.replace(/\bjavascript\s*:/gi, "");
+  out = out.replace(/\bvbscript\s*:/gi, "");
+  out = out.replace(/\bdata\s*:\s*text\/html\b/gi, "");
+  out = out.replace(/\b(eval|new\s+Function|setTimeout\s*\(|setInterval\s*\()\b/gi, " [REMOVED_JS_API] ");
+  out = out.replace(/\b(import|export|function|class|const|let|var|return|await|async)\b/gi, " [REMOVED_CODE_TOKEN] ");
   out = out
-    .split('\n')
-    .map((line) => (/[{}\[\];=<>$]{5,}/.test(line) ? ' [REMOVED_CODE_LINE] ' : line))
-    .join(' ');
-  out = out.replace(/\s+/g, ' ').trim();
+    .split("\n")
+    .map((line) => (/[{}\[\];=<>$]{5,}/.test(line) ? " [REMOVED_CODE_LINE] " : line))
+    .join(" ");
+  out = out.replace(/\s+/g, " ").trim();
   return out.slice(0, 1000);
 }
 
@@ -417,7 +424,7 @@ function tinyRisk(text) {
     /\bdrop\s+table\b/i,
     /\bor\s+1\s*=\s*1\b/i,
     /\b(import|export|function|class|const|let|var|return|await|async)\b/i,
-    /[{}\[\];=<>$]{8,}/
+    /[{}\[\];=<>$]{8,}/,
   ].filter((re) => re.test(t)).length;
   return hits;
 }
@@ -433,78 +440,70 @@ function tinyHasResidualMalicious(text) {
     /\beval\s*\(/i,
     /\bnew\s+Function\b/i,
     /\bdocument\.(cookie|write)\b/i,
-    /<[^>]+>/
+    /<[^>]+>/,
   ];
   return checks.some((re) => re.test(t));
 }
 
 /* -------------------------
  * Service binding call (SSE pass-through)
+ * (STRICT: only env.DRASTIC)
  * ------------------------- */
-function getUpstreamBinding(env) {
-  const candidates = ['DRASTIC', 'Drastic', 'drastic', 'DRASTIC_MEASURES', 'DRASTICMEASURES', 'UPSTREAM', 'Upstream', 'upstream'];
-
-  for (const k of candidates) {
-    const b = env?.[k];
-    if (b && typeof b.fetch === 'function') return b;
+function requireUpstream(env) {
+  const b = env?.DRASTIC;
+  if (!b || typeof b.fetch !== "function") {
+    throw new Error("Upstream unavailable");
   }
-  return null;
+  return b;
 }
 
-
 function pickSharedSecret(env) {
-  const a = safeTextOnly(env?.CON_ARTIST_Drastic || env?.CON_ARTIST_DRASTIC || '');
+  // STRICT: only the two secrets you have in the picture
+  const a = safeTextOnly(env?.CON_ARTIST_Drastic || "");
   if (a) return a;
-  const b = safeTextOnly(env?.CON_ARTIST_TO_CORE_SHARED_SECRET || '');
+  const b = safeTextOnly(env?.CON_ARTIST_TO_CORE_SHARED_SECRET || "");
   if (b) return b;
-  return '';
+  return "";
 }
 
 async function forwardChatUpstream(cfg, env, tenantOrigin, tenantAssetId, payload) {
-  const upstream = getUpstreamBinding(env);
+  const upstream = requireUpstream(env);
 
   const sharedSecret = pickSharedSecret(env);
-  if (!sharedSecret) throw new Error('Upstream unavailable');
+  if (!sharedSecret) throw new Error("Upstream unavailable");
 
-  const headers = {
-    'content-type': 'application/json',
-    accept: 'text/event-stream',
-    Origin: tenantOrigin,
-    [cfg.assetHeader]: tenantAssetId,
-    [CON_ARTIST_HOP_HDR]: CON_ARTIST_HOP_VAL,
-    [CON_ARTIST_SECRET_HDR]: sharedSecret,
-    [cfg.hopHeaderName]: cfg.hopHeaderValue
-  };
+  return upstream.fetch("https://drastic/api/chat", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      accept: "text/event-stream",
 
-  if (upstream) {
-    return upstream.fetch('https://upstream/api/chat', {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(payload)
-    });
-  }
+      // Tenant identity forwarded
+      Origin: tenantOrigin,
+      [cfg.assetHeader]: tenantAssetId,
 
-  const fallbackUrl = safeTextOnly(env?.CON_ARTIST_UPSTREAM_URL || '');
-  if (!fallbackUrl) throw new Error('Upstream unavailable');
+      // Required trust headers for drastic-measures verification
+      [CON_ARTIST_HOP_HDR]: CON_ARTIST_HOP_VAL,
+      [CON_ARTIST_SECRET_HDR]: sharedSecret,
 
-  return fetch(`${fallbackUrl.replace(/\/$/, '')}/api/chat`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(payload)
+      // Non-secret hop label (kept)
+      [HOP_HDR_DEFAULT]: HOP_VAL_DEFAULT,
+    },
+    body: JSON.stringify(payload),
   });
 }
 
 async function safeUpstreamErrorCode(resp) {
-  const t = await resp.text().catch(() => '');
-  if (!t) return '';
+  const t = await resp.text().catch(() => "");
+  if (!t) return "";
   try {
     const obj = JSON.parse(t);
-    const e = typeof obj?.error === 'string' ? obj.error : '';
-    const r = typeof obj?.reason === 'string' ? obj.reason : '';
-    const code = [e, r].filter(Boolean).join(':');
-    return code.replace(/https?:\/\/\S+/g, '').slice(0, 80);
+    const e = typeof obj?.error === "string" ? obj.error : "";
+    const r = typeof obj?.reason === "string" ? obj.reason : "";
+    const code = [e, r].filter(Boolean).join(":");
+    return code.replace(/https?:\/\/\S+/g, "").slice(0, 80);
   } catch {
-    return '';
+    return "";
   }
 }
 
@@ -562,10 +561,10 @@ function embedHtml({ nonce, tenantOrigin, tenantAssetId }) {
     }
 
     function parseSSE(block){
-      const lines = String(block || '').split('\n');
+      const lines = String(block || '').split('\\n');
       let out = '';
       for (const line of lines){
-        if (line.startsWith('data:')) out += line.slice(5) + '\n';
+        if (line.startsWith('data:')) out += line.slice(5) + '\\n';
       }
       return out;
     }
@@ -606,9 +605,9 @@ function embedHtml({ nonce, tenantOrigin, tenantAssetId }) {
         if(done) break;
 
         buffer += dec.decode(value, {stream:true});
-        if (!buffer.includes('\n\n')) continue;
+        if (!buffer.includes('\\n\\n')) continue;
 
-        const parts = buffer.split('\n\n');
+        const parts = buffer.split('\\n\\n');
         buffer = parts.pop() || '';
 
         for(const p of parts){
@@ -642,110 +641,118 @@ export default {
   async fetch(request, env) {
     const cfg = buildCfg(env);
     const url = new URL(request.url);
-    const origin = request.headers.get('Origin') || '';
+    const origin = request.headers.get("Origin") || "";
 
-    if (request.method === 'OPTIONS') {
+    // ---- OPTIONS preflight (CORS fix)
+    if (request.method === "OPTIONS") {
       const h = corsPreflightHeaders(cfg, request, origin);
       securityHeadersApi().forEach((v, k) => h.set(k, v));
       return new Response(null, { status: 204, headers: h });
     }
 
-    if (url.pathname === '/' || url.pathname === cfg.routes.health || url.pathname === cfg.routes.api_health) {
-      const upstreamPresent = !!getUpstreamBinding(env);
+    // ---- Health
+    if (url.pathname === "/" || url.pathname === cfg.routes.health || url.pathname === cfg.routes.api_health) {
+      // Do not disclose internal binding names in response
+      let relay = "missing";
+      try { requireUpstream(env); relay = "present"; } catch {}
       return respondJson(cfg, origin, 200, {
         ok: true,
-        health: 'gateway: ok',
+        health: "gateway: ok",
         cfg_source: cfg.cfg_source,
         allowed_origins_count: cfg.allowedOrigins.size,
         allowed_parents_count: cfg.allowedParents.size,
         public_origin: cfg.publicOrigin,
-        upstream_binding: upstreamPresent ? 'present' : 'missing'
+        relay,
       });
     }
 
-    if (request.method === 'GET' && url.pathname === cfg.routes.chat) {
-      const upstreamPresent = !!getUpstreamBinding(env);
+    // ---- Debug snapshot (GET /api/chat)
+    if (request.method === "GET" && url.pathname === cfg.routes.chat) {
+      let relay = "missing";
+      try { requireUpstream(env); relay = "present"; } catch {}
       return respondJson(cfg, origin, 200, {
         ok: true,
         routes: { ...cfg.routes, handshake: REPO_HANDSHAKE_PATH },
         allowed_origins: Array.from(cfg.allowedOrigins),
         allowed_parents: Array.from(cfg.allowedParents),
         asset_header: cfg.assetHeader,
-        handshake: { method: 'POST', path: REPO_HANDSHAKE_PATH, header: REPO_SECRET_HEADER, secret_env: 'CON_ARTIST_SERVICES' },
-        upstream_binding: upstreamPresent ? 'present' : 'missing',
-        note: 'This endpoint streams SSE on POST.'
+        handshake: { method: "POST", path: REPO_HANDSHAKE_PATH, header: REPO_SECRET_HEADER, secret_env: "CON_ARTIST_SERVICES" },
+        relay,
+        note: "This endpoint streams SSE on POST.",
       });
     }
 
+    // ---- Repo handshake
     if (url.pathname === REPO_HANDSHAKE_PATH) {
-      if (request.method !== 'POST') return respondJson(cfg, origin, 405, { ok: false, error: 'method_not_allowed' });
+      if (request.method !== "POST") return respondJson(cfg, origin, 405, { ok: false, error: "method_not_allowed" });
       const check = verifyRepoSecret(request, env);
-      if (!check.ok) return respondJson(cfg, origin, 403, { ok: false, error: 'repo_auth_failed', reason: check.reason });
-      return respondJson(cfg, origin, 200, { ok: true, match: 'repo<->worker', worker: 'con-artist' });
+      if (!check.ok) return respondJson(cfg, origin, 403, { ok: false, error: "repo_auth_failed", reason: check.reason });
+      return respondJson(cfg, origin, 200, { ok: true, match: "repo<->worker", worker: "con-artist" });
     }
 
+    // ---- /embed (iframe UI)
     if (url.pathname === cfg.routes.embed) {
-      const parent = normalizeOrigin(url.searchParams.get('parent') || '');
-      if (!parent) return new Response('Missing ?parent=', { status: 400, headers: { 'content-type': 'text/plain; charset=utf-8' } });
-      if (!cfg.allowedParents.has(parent)) return new Response('Parent not allowed', { status: 403, headers: { 'content-type': 'text/plain; charset=utf-8' } });
+      const parent = normalizeOrigin(url.searchParams.get("parent") || "");
+      if (!parent) return new Response("Missing ?parent=", { status: 400, headers: { "content-type": "text/plain; charset=utf-8" } });
+      if (!cfg.allowedParents.has(parent)) return new Response("Parent not allowed", { status: 403, headers: { "content-type": "text/plain; charset=utf-8" } });
 
-      const tenantAssetId = safeTextOnly(cfg.originToAsset[parent] || '');
-      if (!tenantAssetId) return new Response('Missing tenant asset mapping', { status: 500, headers: { 'content-type': 'text/plain; charset=utf-8' } });
+      const tenantAssetId = safeTextOnly(cfg.originToAsset[parent] || "");
+      if (!tenantAssetId) return new Response("Missing tenant asset mapping", { status: 500, headers: { "content-type": "text/plain; charset=utf-8" } });
 
       const nonce = makeNonce();
       const frameAncestors = Array.from(cfg.allowedParents);
 
       const h = embedSecurityHeaders(frameAncestors, nonce);
-      h.set('content-type', 'text/html; charset=utf-8');
+      h.set("content-type", "text/html; charset=utf-8");
       return new Response(embedHtml({ nonce, tenantOrigin: parent, tenantAssetId }), { status: 200, headers: h });
     }
 
-    if (url.pathname !== cfg.routes.chat) return respondJson(cfg, origin, 404, { ok: false, error: 'not_found' });
-    if (request.method !== 'POST') return respondJson(cfg, origin, 405, { ok: false, error: 'method_not_allowed' });
+    // ---- Only /api/chat is supported for POST
+    if (url.pathname !== cfg.routes.chat) return respondJson(cfg, origin, 404, { ok: false, error: "not_found" });
+    if (request.method !== "POST") return respondJson(cfg, origin, 405, { ok: false, error: "method_not_allowed" });
 
+    // ---- Tenant resolve (iframe or direct) + asset verify
     const tenant = resolveTenant(cfg, request);
-    if (!tenant.ok) return respondJson(cfg, origin, 403, { ok: false, error: 'tenant_rejected', detail: tenant });
+    if (!tenant.ok) return respondJson(cfg, origin, 403, { ok: false, error: "tenant_rejected", detail: tenant });
 
     const assetCheck = verifyTenantAsset(cfg, tenant.tenantOrigin, request);
     if (!assetCheck.ok) {
       return respondJson(cfg, origin, 403, {
         ok: false,
-        error: 'invalid_asset_identity',
+        error: "invalid_asset_identity",
         tenant_origin: tenant.tenantOrigin,
-        got_asset_id: assetCheck.got || '(none)',
-        expected_asset_id: assetCheck.expected || '(missing mapping)'
+        got_asset_id: assetCheck.got || "(none)",
+        expected_asset_id: assetCheck.expected || "(missing mapping)",
       });
     }
 
-    if (tenant.mode === 'direct') {
+    // ---- Origin allowlist enforcement for direct callers
+    if (tenant.mode === "direct") {
       if (!isAllowedOrigin(cfg, origin)) {
-        return respondJson(cfg, origin, 403, { ok: false, error: 'origin_not_allowed', saw_origin: origin || '(none)' });
+        return respondJson(cfg, origin, 403, { ok: false, error: "origin_not_allowed", saw_origin: origin || "(none)" });
       }
     }
 
-    const raw = await request.text().catch(() => '');
-    if (!raw) return respondJson(cfg, origin, 400, { ok: false, error: 'empty_body' });
-    if (raw.length > cfg.limits.max_body_chars) return respondJson(cfg, origin, 413, { ok: false, error: 'request_too_large' });
+    // ---- Parse request body + sanitize messages
+    const raw = await request.text().catch(() => "");
+    if (!raw) return respondJson(cfg, origin, 400, { ok: false, error: "empty_body" });
+    if (raw.length > cfg.limits.max_body_chars) return respondJson(cfg, origin, 413, { ok: false, error: "request_too_large" });
 
     let body;
-    try {
-      body = JSON.parse(raw);
-    } catch {
-      return respondJson(cfg, origin, 400, { ok: false, error: 'invalid_json' });
-    }
+    try { body = JSON.parse(raw); } catch { return respondJson(cfg, origin, 400, { ok: false, error: "invalid_json" }); }
 
     const messages = Array.isArray(body.messages) ? body.messages : [];
     const normalizedMessages = [];
 
     for (const msg of messages.slice(-cfg.limits.max_messages)) {
-      if (!msg || typeof msg !== 'object') continue;
-      const role = String(msg.role || '').toLowerCase();
-      if (role !== 'user' && role !== 'assistant') continue;
+      if (!msg || typeof msg !== "object") continue;
+      const role = String(msg.role || "").toLowerCase();
+      if (role !== "user" && role !== "assistant") continue;
 
-      const content = tinySanitize(msg.content || '');
+      const content = tinySanitize(msg.content || "");
       const risk = tinyRisk(content);
       if (!content || risk >= 2 || tinyHasResidualMalicious(content)) {
-        return respondJson(cfg, origin, 403, { ok: false, error: 'blocked_by_tinyml' });
+        return respondJson(cfg, origin, 403, { ok: false, error: "blocked_by_tinyml" });
       }
 
       let clipped = safeTextOnly(content);
@@ -753,30 +760,32 @@ export default {
       if (clipped) normalizedMessages.push({ role, content: clipped });
     }
 
-    if (!normalizedMessages.length) return respondJson(cfg, origin, 400, { ok: false, error: 'messages_required' });
+    if (!normalizedMessages.length) return respondJson(cfg, origin, 400, { ok: false, error: "messages_required" });
 
+    // ---- Force mode required by drastic-measures when con-artist trust headers are present
     const payload = {
       mode: CON_ARTIST_MODE_IFRAME_SERVICE_QA,
       messages: normalizedMessages,
-      meta: body.meta && typeof body.meta === 'object' ? body.meta : {}
+      meta: body.meta && typeof body.meta === "object" ? body.meta : {},
     };
 
+    // ---- Forward upstream (SSE pass-through)
     let upstreamResp;
     try {
       upstreamResp = await forwardChatUpstream(cfg, env, tenant.tenantOrigin, assetCheck.got, payload);
     } catch {
-      return respondJson(cfg, origin, 502, { ok: false, error: 'upstream_unreachable' });
+      return respondJson(cfg, origin, 502, { ok: false, error: "upstream_unreachable" });
     }
 
     if (!upstreamResp.ok) {
       const code = await safeUpstreamErrorCode(upstreamResp);
-      return respondJson(cfg, origin, 502, { ok: false, error: 'upstream_error', status: upstreamResp.status, code: code || undefined });
+      return respondJson(cfg, origin, 502, { ok: false, error: "upstream_error", status: upstreamResp.status, code: code || undefined });
     }
 
     const extra = new Headers();
-    extra.set('x-gabo-asset-verified', '1');
-    extra.set('x-gabo-tenant-origin', tenant.tenantOrigin);
+    extra.set("x-gabo-asset-verified", "1");
+    extra.set("x-gabo-tenant-origin", tenant.tenantOrigin);
 
     return respondSSE(cfg, origin, upstreamResp.body, extra);
-  }
+  },
 };
