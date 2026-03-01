@@ -528,15 +528,12 @@ function embedHtml({ nonce, tenantOrigin, tenantAssetId }) {
     .bar { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 10px; border-top: 1px solid #eee; }
     input { padding: 10px; border: 1px solid #ddd; border-radius: 10px; }
     button { padding: 10px 14px; border: 0; border-radius: 10px; background: #111; color: #fff; cursor: pointer; }
-    .hint { font-size: 12px; opacity: .7; padding: 0 12px 10px; }
     .bubble { white-space: pre-wrap; }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="log" id="log">
-      <div class="hint">Tenant: ${tenantOrigin}</div>
-    </div>
+    <div class="log" id="log"></div>
     <div class="bar">
       <input id="q" placeholder="Ask a question…" autocomplete="off" />
       <button id="send">Send</button>
