@@ -82,7 +82,7 @@ export const DICTIONARY = {
     fabChatbot: 'Chatbot',
     chatPanelLabel: 'Chatbot panel',
     chatClose: 'Close chatbot',
-    chatbot: 'Chatbot',
+    chatbot: 'Gabo io',
     footerCopyright: 'Gabriel Professional SMBs Services'
   },
   es: {
@@ -161,7 +161,7 @@ export const DICTIONARY = {
     fabChatbot: 'Chatbot',
     chatPanelLabel: 'Panel del chatbot',
     chatClose: 'Cerrar chatbot',
-    chatbot: 'Chatbot',
+    chatbot: 'Gabo io',
     footerCopyright: 'Gabriel Servicios Profesionales para PYMEs'
   }
 };
