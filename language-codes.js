@@ -23,6 +23,10 @@ export const DICTIONARY = {
     heroBody: 'Scale support with expert teams, measurable SLAs, and human-centered delivery.',
     startTrial: 'Start Free Trial',
     schedule: 'Schedule Consultation',
+    carouselHeading: 'What teams gain with Gabriel Services',
+    carouselPrev: 'Previous slide',
+    carouselNext: 'Next slide',
+    carouselSlideLabel: 'Slide',
     aboutBody: 'Gabriel Services provides multilingual operational support designed for modern digital businesses.',
     name: 'Name',
     email: 'Email',
@@ -102,6 +106,10 @@ export const DICTIONARY = {
     heroBody: 'Escale su operación de soporte con equipos expertos, SLA medibles y una entrega centrada en las personas.',
     startTrial: 'Iniciar prueba gratuita',
     schedule: 'Programar consulta',
+    carouselHeading: 'Lo que su equipo gana con Gabriel Services',
+    carouselPrev: 'Diapositiva anterior',
+    carouselNext: 'Siguiente diapositiva',
+    carouselSlideLabel: 'Diapositiva',
     aboutBody: 'Gabriel Services ofrece soporte operativo multilingüe diseñado para negocios digitales modernos.',
     name: 'Nombre',
     email: 'Correo electrónico',
@@ -191,5 +199,36 @@ export const PLANS = {
     { name: 'Individual', price: '$3,950 usd/mes', points: ['Soporte por correo', 'Horario laboral', 'Reporte mensual'] },
     { name: 'Pequeña Empresa', price: '$4,850 usd/mes', points: ['Soporte 24/7', 'SLA prioritario', 'Optimización semanal'] },
     { name: 'Mediana Empresa', price: '$5,950 usd/mes', points: ['Equipo dedicado', 'Integraciones a medida', 'Alineación de cumplimiento'] }
+  ]
+};
+
+export const CAROUSEL_SLIDES = {
+  en: [
+    {
+      title: 'Fast onboarding in under 2 weeks',
+      body: 'Deploy multilingual support workflows with documented handoff and measurable readiness checks.'
+    },
+    {
+      title: '24/7 operational visibility',
+      body: 'Track SLA health, backlog, and customer signals through structured daily reporting.'
+    },
+    {
+      title: 'Compliance-friendly delivery model',
+      body: 'Built with secure procedures, least-privilege access, and audit-ready operating practices.'
+    }
+  ],
+  es: [
+    {
+      title: 'Incorporación rápida en menos de 2 semanas',
+      body: 'Implemente flujos de soporte multilingüe con transferencia documentada y controles de preparación.'
+    },
+    {
+      title: 'Visibilidad operativa 24/7',
+      body: 'Monitoree SLA, carga pendiente y señales de clientes mediante reportes diarios estructurados.'
+    },
+    {
+      title: 'Modelo de entrega compatible con cumplimiento',
+      body: 'Construido con procedimientos seguros, accesos de mínimo privilegio y prácticas listas para auditoría.'
+    }
   ]
 };

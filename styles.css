@@ -103,6 +103,76 @@ h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: .3rem 0 1rem; max-width: 15ch;
 .grid { display:grid; gap: 1rem; }
 .cards { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 
+.home-carousel {
+  padding-top: 1.2rem;
+}
+
+.home-carousel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.9rem;
+}
+
+.home-carousel-head h2 {
+  margin: 0;
+}
+
+.home-carousel-nav {
+  display: inline-flex;
+  gap: 0.5rem;
+}
+
+.home-carousel-track {
+  position: relative;
+  min-height: 185px;
+}
+
+.home-carousel-slide {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  gap: 0.55rem;
+  opacity: 0;
+  transform: translateX(14px);
+  pointer-events: none;
+  transition: opacity .32s ease, transform .32s ease;
+}
+
+.home-carousel-slide h3,
+.home-carousel-slide p {
+  margin: 0;
+}
+
+.home-carousel-slide.is-current {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.home-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 1rem;
+}
+
+.home-carousel-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+}
+
+.home-carousel-dot.is-current {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
 #serviceCards {
   display: flex;
   gap: 1rem;
