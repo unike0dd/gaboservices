@@ -8,6 +8,9 @@
   --btn: #f2efe8;
   --btn2: #e9e4d8;
   --focus: #1d3557;
+  --footer-bg: color-mix(in oklab, #000000 88%, var(--link));
+  --footer-fg: var(--bg);
+  --footer-border: color-mix(in oklab, var(--bg) 28%, transparent);
   --radius: 14px;
   --max: 980px;
   --pad: 18px;
@@ -79,13 +82,14 @@ ul { margin: 10px 0 0 18px; color: var(--fg); }
 li { margin: 6px 0; }
 
 .legal-footer {
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--footer-border);
   padding: 18px 0;
-  color: var(--muted);
-  background: color-mix(in oklab, var(--bg) 90%, transparent);
+  color: var(--footer-fg);
+  background: var(--footer-bg);
 }
+.legal-footer a { color: var(--footer-fg); }
 .legal-footer .wrap { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-.sep { color: rgba(168,179,194,.45); }
+.sep { color: color-mix(in oklab, var(--footer-fg) 45%, transparent); }
 
 .table {
   display: grid;
