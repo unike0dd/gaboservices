@@ -8,11 +8,34 @@ const metaDescription = document.querySelector('meta[name="description"]');
 if (metaDescription && metadata.description) metaDescription.setAttribute('content', metadata.description);
 let lang = 'en';
 
+function resolveInitialLanguage() {
+  const params = new URLSearchParams(window.location.search);
+  const urlLang = params.get('lang');
+  if (urlLang && SUPPORTED_LANGUAGES.includes(urlLang)) {
+    localStorage.setItem('lang', urlLang);
+    return urlLang;
+  }
+
+  const storedLang = localStorage.getItem('lang');
+  if (storedLang && SUPPORTED_LANGUAGES.includes(storedLang)) {
+    return storedLang;
+  }
+
+  return 'en';
+}
+
+function syncLanguageQueryParam() {
+  const url = new URL(window.location.href);
+  url.searchParams.set('lang', lang);
+  window.history.replaceState({}, '', url);
+}
+
 
 function setLanguage(nextLang) {
   if (!SUPPORTED_LANGUAGES.includes(nextLang)) return;
   lang = nextLang;
   localStorage.setItem('lang', lang);
+  syncLanguageQueryParam();
   renderCards();
   translatePage();
   populateCountryCodes();
@@ -726,6 +749,8 @@ function bindEvents() {
   setupJoinForm();
 }
 
+lang = resolveInitialLanguage();
+syncLanguageQueryParam();
 renderCards();
 translatePage();
 populateCountryCodes();
