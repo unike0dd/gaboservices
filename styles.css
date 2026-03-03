@@ -4,6 +4,9 @@
   --card: rgba(255, 255, 250, 0.9);
   --primary: #1d3557;
   --border: rgba(17, 17, 17, 0.22);
+  --footer-bg: color-mix(in oklab, #000000 88%, var(--primary));
+  --footer-fg: var(--bg);
+  --footer-border: color-mix(in oklab, var(--bg) 28%, transparent);
   --nav-fab-offset-x: 20px;
   --nav-fab-offset-y: 20px;
 }
@@ -384,7 +387,17 @@ textarea[data-security-state='review'] {
   gap: 0.6rem;
 }
 
-.site-footer { border-top:1px solid var(--border); padding: 1rem 0; margin-top: 2rem; }
+.site-footer {
+  border-top: 1px solid var(--footer-border);
+  padding: 1rem 0;
+  margin-top: 2rem;
+  background: var(--footer-bg);
+  color: var(--footer-fg);
+}
+
+.site-footer a {
+  color: var(--footer-fg);
+}
 
 .hp-field {
   position: absolute !important;
@@ -816,6 +829,9 @@ textarea[data-security-state='review'] {
   --card: rgba(255, 255, 255, 0.95);
   --primary: #b11116;
   --border: rgba(177, 17, 22, 0.3);
+  --footer-bg: color-mix(in oklab, #000000 82%, var(--primary));
+  --footer-fg: #fff4f4;
+  --footer-border: color-mix(in oklab, #fff4f4 24%, transparent);
 }
 
 :root[data-editorial-theme='time'] body {
