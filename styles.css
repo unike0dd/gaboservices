@@ -384,7 +384,17 @@ textarea[data-security-state='review'] {
   gap: 0.6rem;
 }
 
-.site-footer { border-top:1px solid var(--border); padding: 1rem 0; margin-top: 2rem; }
+.site-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 1rem 0;
+  margin-top: 2rem;
+  background: #000000;
+  color: #f8fafc;
+}
+
+.site-footer a {
+  color: #f8fafc;
+}
 
 .hp-field {
   position: absolute !important;
