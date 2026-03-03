@@ -8,6 +8,7 @@ const metaDescription = document.querySelector('meta[name="description"]');
 if (metaDescription && metadata.description) metaDescription.setAttribute('content', metadata.description);
 let lang = 'en';
 
+
 function setLanguage(nextLang) {
   if (!SUPPORTED_LANGUAGES.includes(nextLang)) return;
   lang = nextLang;
