@@ -8,6 +8,21 @@ const metaDescription = document.querySelector('meta[name="description"]');
 if (metaDescription && metadata.description) metaDescription.setAttribute('content', metadata.description);
 let lang = 'en';
 
+
+const HUMAN_VERIFIED_KEY = 'gs_human_verified_v1';
+const HUMAN_CHECK_PATH = '/human-check/';
+
+function requireHumanVerification() {
+  if (window.location.pathname.startsWith(HUMAN_CHECK_PATH)) return true;
+  if (sessionStorage.getItem(HUMAN_VERIFIED_KEY) === 'ok') return true;
+
+  const nextPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+  const destination = `${HUMAN_CHECK_PATH}?next=${encodeURIComponent(nextPath)}`;
+  window.location.replace(destination);
+  return false;
+}
+
+
 function setLanguage(nextLang) {
   if (!SUPPORTED_LANGUAGES.includes(nextLang)) return;
   lang = nextLang;
@@ -639,9 +654,11 @@ function bindEvents() {
   setupJoinForm();
 }
 
-renderCards();
-translatePage();
-populateCountryCodes();
-bindEvents();
-initAdaptiveLayout();
-tinyGuard.monitorGlobalTampering();
+if (requireHumanVerification()) {
+  renderCards();
+  translatePage();
+  populateCountryCodes();
+  bindEvents();
+  initAdaptiveLayout();
+  tinyGuard.monitorGlobalTampering();
+}

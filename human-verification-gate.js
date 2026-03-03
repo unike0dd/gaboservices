@@ -1,5 +1,7 @@
 const TURNSTILE_SITE_KEY = '0x4AAAAAAClznmpo7ljP9CE1';
 const CHALLENGE_TIMEOUT_MS = 45000;
+const HUMAN_VERIFIED_KEY = 'gs_human_verified_v1';
+const NEXT_PARAM = 'next';
 
 const state = {
   readyAt: Date.now(),
@@ -57,21 +59,22 @@ function monitorHoneypots() {
     });
   });
 
-  const fastInteraction = Date.now() - state.readyAt;
-  if (fastInteraction < 700) {
-    blockAndToss('interaction_too_fast');
-  }
 }
 
 function releasePage() {
   state.verified = true;
+  sessionStorage.setItem(HUMAN_VERIFIED_KEY, 'ok');
   document.body.classList.remove('human-check-required');
   if (state.status) {
     state.status.dataset.state = 'ok';
     state.status.textContent = 'Verification complete. Loading site…';
   }
+
+  const nextValue = new URLSearchParams(window.location.search).get(NEXT_PARAM);
+  const safeNext = nextValue && nextValue.startsWith('/') ? nextValue : '/';
+
   window.setTimeout(() => {
-    state.overlay?.remove();
+    window.location.replace(safeNext);
   }, 350);
 }
 
