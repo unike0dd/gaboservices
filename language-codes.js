@@ -87,6 +87,13 @@ export const DICTIONARY = {
     chatPanelLabel: 'Chatbot panel',
     chatClose: 'Close chatbot',
     chatbot: 'Gabo io',
+    footerCompany: 'Company',
+    footerSupport: 'Support',
+    footerLegal: 'Legal',
+    footerSitemap: 'Sitemap',
+    footerTerms: 'T&C',
+    footerCookies: 'Cookies Consent',
+    footerGdpr: 'GDPR',
     footerCopyright: 'Gabriel Professional SMBs Services'
   },
   es: {
@@ -170,6 +177,13 @@ export const DICTIONARY = {
     chatPanelLabel: 'Panel del chatbot',
     chatClose: 'Cerrar chatbot',
     chatbot: 'Gabo io',
+    footerCompany: 'Empresa',
+    footerSupport: 'Soporte',
+    footerLegal: 'Legal',
+    footerSitemap: 'Mapa del sitio',
+    footerTerms: 'Términos y condiciones',
+    footerCookies: 'Consentimiento de cookies',
+    footerGdpr: 'RGPD',
     footerCopyright: 'Gabriel Servicios Profesionales para PYMEs'
   }
 };
