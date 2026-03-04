@@ -135,8 +135,8 @@ function setupFabCarousel(fabMenu, mobileMedia) {
     if (!fabMenu.contains(document.activeElement)) start();
   });
 
-  refresh();
-  return { start, stop, refresh };
+  setActiveItem(0);
+  return { start, stop };
 }
 
 export function initFabControls() {
