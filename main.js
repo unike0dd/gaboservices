@@ -1,6 +1,6 @@
 import { initAdaptiveLayout } from './adaptive-layout.js';
 import { initChatbotControls } from './chatbot/chatbot-controls.js';
-import { CAROUSEL_SLIDES, DICTIONARY, LANGUAGE_CODES, PLANS, SERVICES, SUPPORTED_LANGUAGES } from './language-codes.js';
+import { DICTIONARY, LANGUAGE_CODES, PLANS, SERVICES, SUPPORTED_LANGUAGES } from './language-codes.js';
 
 const metadata = window.SITE_METADATA || {};
 if (metadata.name) document.title = metadata.name;
@@ -149,68 +149,6 @@ let activeServiceKey = null;
 
 let serviceCarouselTimer = null;
 
-let homeCarouselTimer = null;
-
-function setupHomeCarousel() {
-  const track = document.getElementById('homeCarouselTrack');
-  const dotsContainer = document.getElementById('homeCarouselDots');
-  const prev = document.getElementById('homeCarouselPrev');
-  const next = document.getElementById('homeCarouselNext');
-  if (!track || !dotsContainer || !prev || !next) return;
-
-  const slides = [...track.querySelectorAll('.home-carousel-slide')];
-  const dots = [...dotsContainer.querySelectorAll('.home-carousel-dot')];
-  if (slides.length < 2) return;
-
-  if (homeCarouselTimer) {
-    window.clearInterval(homeCarouselTimer);
-    homeCarouselTimer = null;
-  }
-
-  let currentIndex = 0;
-
-  const moveTo = (index) => {
-    currentIndex = (index + slides.length) % slides.length;
-
-    slides.forEach((slide, slideIndex) => {
-      const isCurrent = slideIndex === currentIndex;
-      slide.classList.toggle('is-current', isCurrent);
-      slide.setAttribute('aria-hidden', String(!isCurrent));
-    });
-
-    dots.forEach((dot, dotIndex) => {
-      const isCurrent = dotIndex === currentIndex;
-      dot.classList.toggle('is-current', isCurrent);
-      dot.setAttribute('aria-pressed', String(isCurrent));
-    });
-  };
-
-  moveTo(currentIndex);
-
-  prev.addEventListener('click', () => moveTo(currentIndex - 1));
-  next.addEventListener('click', () => moveTo(currentIndex + 1));
-
-  dots.forEach((dot) => {
-    dot.addEventListener('click', () => {
-      const requestedIndex = Number(dot.dataset.slideIndex);
-      if (!Number.isNaN(requestedIndex)) moveTo(requestedIndex);
-    });
-  });
-
-  let paused = false;
-  track.addEventListener('mouseenter', () => { paused = true; });
-  track.addEventListener('mouseleave', () => { paused = false; });
-  track.addEventListener('focusin', () => { paused = true; });
-  track.addEventListener('focusout', () => {
-    if (!track.contains(document.activeElement)) paused = false;
-  });
-
-  homeCarouselTimer = window.setInterval(() => {
-    if (!paused) moveTo(currentIndex + 1);
-  }, 6500);
-}
-
-
 function setupServiceCarousel() {
   const track = document.getElementById('serviceCards');
   if (!track) return;
@@ -282,30 +220,6 @@ function renderCards() {
   const localizedServices = SERVICES[lang] || SERVICES.en;
   const localizedPlans = PLANS[lang] || PLANS.en;
   const copy = DICTIONARY[lang] || DICTIONARY.en;
-
-  const homeSlides = CAROUSEL_SLIDES[lang] || CAROUSEL_SLIDES.en;
-  const homeCarouselTrack = document.getElementById('homeCarouselTrack');
-  const homeCarouselDots = document.getElementById('homeCarouselDots');
-  if (homeCarouselTrack && homeCarouselDots) {
-    homeCarouselTrack.innerHTML = homeSlides.map((slide, index) => `
-      <article class="card home-carousel-slide" aria-hidden="${String(index !== 0)}">
-        <h3>${slide.title}</h3>
-        <p>${slide.body}</p>
-      </article>
-    `).join('');
-
-    homeCarouselDots.innerHTML = homeSlides.map((slide, index) => `
-      <button
-        type="button"
-        class="home-carousel-dot"
-        data-slide-index="${index}"
-        aria-label="${copy.carouselSlideLabel || 'Slide'} ${index + 1}: ${slide.title}"
-        aria-pressed="false"
-      ></button>
-    `).join('');
-
-    setupHomeCarousel();
-  }
 
   const serviceCards = document.getElementById('serviceCards');
   if (serviceCards) {
