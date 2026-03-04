@@ -364,6 +364,35 @@ async function populateCountryCodes() {
   }
 }
 
+
+function renderFooter(copy) {
+  const footerContainer = document.querySelector('.site-footer .container');
+  if (!footerContainer) return;
+
+  const currentYear = new Date().getFullYear();
+  footerContainer.classList.add('footer-grid');
+  footerContainer.innerHTML = `
+    <div class="footer-column">
+      <h3>${copy.footerCompany || 'Company'}</h3>
+      <a href="/about">${copy.about || 'About'}</a>
+      <a href="/services">${copy.services || 'Services'}</a>
+      <a href="/careers">${copy.careers || 'Careers'}</a>
+    </div>
+    <div class="footer-column">
+      <h3>${copy.footerSupport || 'Support'}</h3>
+      <a href="/contact">${copy.contact || 'Contact'}</a>
+      <a href="/sitemap.xml">${copy.footerSitemap || 'Sitemap'}</a>
+    </div>
+    <div class="footer-column">
+      <h3>${copy.footerLegal || 'Legal'}</h3>
+      <a href="/legal/terms.html">${copy.footerTerms || 'T&C'}</a>
+      <a href="/legal/cookies.html">${copy.footerCookies || 'Cookies Consent'}</a>
+      <a href="/legal/privacy-gdpr.html">${copy.footerGdpr || 'GDPR'}</a>
+    </div>
+    <p class="footer-copy">© ${currentYear} ${copy.footerCopyright || 'Gabriel Professional SMBs Services'}</p>
+  `;
+}
+
 function translatePage() {
   const copy = DICTIONARY[lang] || DICTIONARY.en;
   document.documentElement.lang = lang;
@@ -371,6 +400,8 @@ function translatePage() {
   if (metaDescription && copy.pageDescription) {
     metaDescription.setAttribute('content', copy.pageDescription);
   }
+
+  renderFooter(copy);
   document.querySelectorAll('[data-i18n]').forEach((node) => {
     const key = node.dataset.i18n;
     if (copy[key]) node.textContent = copy[key];
