@@ -67,6 +67,15 @@ function ensureFabChatTrigger() {
 async function probeGatewayAvailability(gatewayUrl) {
   if (!gatewayUrl) return false;
 
+  try {
+    const gatewayOrigin = new URL(gatewayUrl, window.location.href).origin;
+    if (gatewayOrigin !== window.location.origin) {
+      return true;
+    }
+  } catch {
+    return false;
+  }
+
   const candidates = ['/api/health', '/health'];
   for (const route of candidates) {
     try {
