@@ -176,13 +176,13 @@ function setupServiceCarousel() {
     });
   };
 
-  const moveTo = (index) => {
+  const moveTo = (index, behavior = 'smooth') => {
     carouselIndex = index;
     const currentCard = cards[carouselIndex];
     if (!currentCard) return;
 
     setCarouselFocus(carouselIndex);
-    track.scrollTo({ left: currentCard.offsetLeft, behavior: 'smooth' });
+    track.scrollTo({ left: currentCard.offsetLeft, behavior });
   };
 
   const stepToNext = () => {
@@ -203,6 +203,32 @@ function setupServiceCarousel() {
       moveTo(requestedIndex);
     });
   });
+
+  let scrollSyncFrame = null;
+  const syncIndexFromScroll = () => {
+    scrollSyncFrame = null;
+    const offset = track.scrollLeft;
+    let closestIndex = 0;
+    let closestDistance = Number.POSITIVE_INFINITY;
+
+    cards.forEach((card, index) => {
+      const distance = Math.abs(card.offsetLeft - offset);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    if (closestIndex !== carouselIndex) {
+      carouselIndex = closestIndex;
+      setCarouselFocus(carouselIndex);
+    }
+  };
+
+  track.addEventListener('scroll', () => {
+    if (scrollSyncFrame) return;
+    scrollSyncFrame = window.requestAnimationFrame(syncIndexFromScroll);
+  }, { passive: true });
 
   track.addEventListener('mouseenter', pause);
   track.addEventListener('mouseleave', resume);
