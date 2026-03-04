@@ -11,11 +11,17 @@
   <header class="legal-header">
     <div class="wrap">
       <a class="brand" href="/">Gabriel Services</a>
-      <nav class="legal-nav" aria-label="Legal navigation">
-        <a href="/legal/terms.html" aria-current="page">Terms</a>
-        <a href="/legal/cookies.html">Cookies</a>
-        <a href="/legal/privacy-gdpr.html">Privacy & GDPR</a>
+      <div class="legal-tools">
+        <nav class="legal-nav" data-i18n-aria-label="legalNavigation" aria-label="Legal navigation">
+        <a href="/legal/terms.html" aria-current="page" data-i18n="legalTerms">Terms</a>
+        <a href="/legal/cookies.html" data-i18n="legalCookies">Cookies</a>
+        <a href="/legal/privacy-gdpr.html" data-i18n="legalPrivacy">Privacy & GDPR</a>
       </nav>
+        <div class="legal-lang" role="group" data-i18n-aria-label="languageSelector" aria-label="Language selector">
+          <button type="button" data-lang-option="en">EN</button>
+          <button type="button" data-lang-option="es">ES</button>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -206,17 +212,19 @@
   </main>
 
   <footer class="legal-footer">
+
     <div class="wrap">
       <span>© <span id="year">2026</span> Gabriel Services</span>
       <span class="sep" aria-hidden="true">•</span>
-      <a href="/legal/terms.html">Terms</a>
+      <a href="/legal/terms.html" data-i18n="legalTerms">Terms</a>
       <span class="sep" aria-hidden="true">•</span>
-      <a href="/legal/cookies.html">Cookies</a>
+      <a href="/legal/cookies.html" data-i18n="legalCookies">Cookies</a>
       <span class="sep" aria-hidden="true">•</span>
-      <a href="/legal/privacy-gdpr.html">Privacy & GDPR</a>
+      <a href="/legal/privacy-gdpr.html" data-i18n="legalPrivacy">Privacy & GDPR</a>
     </div>
   </footer>
 
   <!-- No inline JS (CSP-friendly). If you want a dynamic year, set it server-side OR keep static. -->
+  <script src="/assets/legal-i18n.js" defer></script>
 </body>
 </html>
