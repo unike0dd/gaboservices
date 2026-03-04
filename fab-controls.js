@@ -36,10 +36,12 @@ function ensureQuickActionsFab() {
   return wrapper;
 }
 
-function setupFabCarousel(fabMenu) {
+function setupFabCarousel(fabMenu, mobileMedia) {
   const items = [...fabMenu.querySelectorAll('.fab-item')];
   const dotsContainer = fabMenu.querySelector('.fab-carousel-dots');
-  if (!dotsContainer || items.length < 2) return { start() {}, stop() {} };
+  if (!dotsContainer || items.length < 2) {
+    return { start() {}, stop() {}, refresh() {} };
+  }
 
   let activeIndex = 0;
   let timer = null;
@@ -57,8 +59,25 @@ function setupFabCarousel(fabMenu) {
 
   const dots = [...dotsContainer.querySelectorAll('.fab-carousel-dot')];
 
+  const showAllItems = () => {
+    fabMenu.classList.remove('fab-carousel-active');
+    dotsContainer.hidden = true;
+    items.forEach((item) => {
+      item.hidden = false;
+      item.removeAttribute('aria-hidden');
+      item.classList.remove('is-fab-carousel-current');
+    });
+    dots.forEach((dot) => {
+      dot.classList.remove('is-current');
+      dot.setAttribute('aria-selected', 'false');
+    });
+  };
+
   const setActiveItem = (index) => {
     activeIndex = index;
+    fabMenu.classList.add('fab-carousel-active');
+    dotsContainer.hidden = false;
+
     items.forEach((item, itemIndex) => {
       const isCurrent = itemIndex === activeIndex;
       item.classList.toggle('is-fab-carousel-current', isCurrent);
@@ -79,7 +98,7 @@ function setupFabCarousel(fabMenu) {
   };
 
   const start = () => {
-    if (timer) return;
+    if (!mobileMedia.matches || timer) return;
     timer = window.setInterval(step, 4000);
   };
 
@@ -89,8 +108,20 @@ function setupFabCarousel(fabMenu) {
     timer = null;
   };
 
+  const refresh = () => {
+    stop();
+    if (!mobileMedia.matches) {
+      showAllItems();
+      return;
+    }
+
+    setActiveItem(activeIndex);
+    start();
+  };
+
   dots.forEach((dot) => {
     dot.addEventListener('click', () => {
+      if (!mobileMedia.matches) return;
       const requestedIndex = Number(dot.dataset.fabDotIndex);
       if (Number.isNaN(requestedIndex)) return;
       setActiveItem(requestedIndex);
@@ -115,19 +146,23 @@ export function initFabControls() {
   const fabMenu = document.getElementById('fabQuickMenu');
   if (!fabToggle || !fabMenu) return;
 
-  const carousel = setupFabCarousel(fabMenu);
+  const desktopMedia = window.matchMedia('(min-width: 781px)');
+  const mobileMedia = window.matchMedia('(max-width: 780px)');
+  const carousel = setupFabCarousel(fabMenu, mobileMedia);
 
   const setFabOpenState = (isOpen) => {
     fabMenu.hidden = !isOpen;
     fabToggle.setAttribute('aria-expanded', String(isOpen));
-    if (isOpen) {
-      carousel.start();
-    } else {
+
+    if (!isOpen) {
       carousel.stop();
+      return;
     }
+
+    carousel.refresh();
+    carousel.start();
   };
 
-  const desktopMedia = window.matchMedia('(min-width: 781px)');
   setFabOpenState(desktopMedia.matches);
 
   fabToggle.addEventListener('click', () => {
@@ -149,5 +184,11 @@ export function initFabControls() {
 
   desktopMedia.addEventListener('change', (event) => {
     setFabOpenState(event.matches);
+  });
+
+  mobileMedia.addEventListener('change', () => {
+    if (!fabMenu.hidden) {
+      carousel.refresh();
+    }
   });
 }
