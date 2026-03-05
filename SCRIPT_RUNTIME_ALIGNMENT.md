@@ -6,7 +6,6 @@ This document links each JavaScript file to its runtime entrypoint, trigger/even
 
 | Script | Where linked/referenced | Trigger/event | Primary action/function |
 |---|---|---|---|
-| `human-verification-gate.js` | `index.html` | `DOMContentLoaded` | Creates Turnstile + honeypot overlay, blocks page until verification or timeout. |
 | `main.js` (module) | All main public pages | Module evaluation + DOM event listeners | Boots i18n UI, nav/actions, service cards, forms, chatbot embed hooks, page interactions. |
 | `page-style-switcher.js` | All main public pages | Button click events | Toggles the editorial/news-cut style mode and persists preference. |
 | `site.config.js` | All main public pages | Script load (global assignment) | Defines `window.SITE_METADATA` consumed by runtime modules. |
@@ -37,4 +36,4 @@ This document links each JavaScript file to its runtime entrypoint, trigger/even
 ## Alignment implemented in this update
 
 - Added `site.config.js` inclusion to all service detail pages so `main.js` receives the same config context as the rest of the site pages.
-- Kept the Turnstile gate active and linked on homepage (`index.html` + `human-verification-gate.js` + `human-verification-gate.css`).
+- Moved Turnstile checks to submit-time on interactive forms (`contact` and `careers`) to reduce landing-page friction.
