@@ -1,5 +1,7 @@
-const TURNSTILE_SITE_KEY = '0x4AAAAAAClznmpo7ljP9CE1';
+const TURNSTILE_SITE_KEY = '0x4AAAAAACmn2SujEOLKGdSU';
 const CHALLENGE_TIMEOUT_MS = 45000;
+const TURNSTILE_BOOT_TIMEOUT_MS = 8000;
+const TURNSTILE_RETRY_INTERVAL_MS = 200;
 
 const state = {
   readyAt: Date.now(),
@@ -8,7 +10,9 @@ const state = {
   widgetId: null,
   overlay: null,
   status: null,
-  honeypotFields: []
+  honeypotFields: [],
+  turnstileBootTimer: null,
+  turnstilePollTimer: null
 };
 
 function blockAndToss(reason) {
@@ -70,6 +74,10 @@ function releasePage() {
     state.status.dataset.state = 'ok';
     state.status.textContent = 'Verification complete. Loading site…';
   }
+
+  if (state.turnstilePollTimer) window.clearInterval(state.turnstilePollTimer);
+  if (state.turnstileBootTimer) window.clearTimeout(state.turnstileBootTimer);
+
   window.setTimeout(() => {
     state.overlay?.remove();
   }, 350);
@@ -77,8 +85,7 @@ function releasePage() {
 
 function mountTurnstile() {
   if (!window.turnstile || state.blocked) {
-    blockAndToss('turnstile_unavailable');
-    return;
+    return false;
   }
 
   state.status.textContent = 'Complete the human check to continue.';
@@ -106,13 +113,37 @@ function mountTurnstile() {
       blockAndToss('turnstile_timeout');
     }
   }, CHALLENGE_TIMEOUT_MS);
+
+  return true;
+}
+
+function bootTurnstileWhenReady() {
+  state.status.textContent = 'Loading human verification challenge…';
+
+  state.turnstileBootTimer = window.setTimeout(() => {
+    if (!state.verified && !state.blocked && !window.turnstile) {
+      blockAndToss('turnstile_unavailable');
+    }
+  }, TURNSTILE_BOOT_TIMEOUT_MS);
+
+  state.turnstilePollTimer = window.setInterval(() => {
+    if (state.verified || state.blocked) {
+      window.clearInterval(state.turnstilePollTimer);
+      return;
+    }
+
+    if (mountTurnstile()) {
+      window.clearInterval(state.turnstilePollTimer);
+      if (state.turnstileBootTimer) window.clearTimeout(state.turnstileBootTimer);
+    }
+  }, TURNSTILE_RETRY_INTERVAL_MS);
 }
 
 function initHumanGate() {
   document.body.classList.add('human-check-required');
   createOverlay();
   monitorHoneypots();
-  mountTurnstile();
+  bootTurnstileWhenReady();
 }
 
 window.addEventListener('DOMContentLoaded', initHumanGate, { once: true });
