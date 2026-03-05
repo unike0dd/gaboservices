@@ -577,31 +577,6 @@ textarea[data-security-state='review'] {
 }
 
 
-.fab-item.is-fab-carousel-current {
-  display: inline-flex;
-}
-
-.fab-carousel-dots {
-  display: inline-flex;
-  gap: 0.35rem;
-  justify-content: center;
-  width: 100%;
-}
-
-.fab-carousel-dot {
-  width: 0.6rem;
-  height: 0.6rem;
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--text) 35%, transparent);
-  background: color-mix(in srgb, var(--card) 65%, transparent);
-  padding: 0;
-}
-
-.fab-carousel-dot.is-current {
-  background: #fff;
-  border-color: #fff;
-}
-
 .chat-overlay[hidden] {
   display: none !important;
 }
