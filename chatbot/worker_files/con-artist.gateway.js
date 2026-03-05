@@ -14,6 +14,7 @@
  * - Secrets:
  *   - CON_ARTIST_Drastic
  *   - CON_ARTIST_SERVICES
+ *   - HV_SIGNING_SECRET
  *   - CON_ARTIST_TO_CORE_SHARED_SECRET
  * - Plaintext:
  *   - CON_ARTIST_PUBLIC_ORIGIN
@@ -458,11 +459,13 @@ function requireUpstream(env) {
 }
 
 function pickSharedSecret(env) {
-  // STRICT: only the two secrets you have in the picture
+  // Prefer explicit worker secret names, then fallback to repo-level signing secret.
   const a = safeTextOnly(env?.CON_ARTIST_Drastic || "");
   if (a) return a;
   const b = safeTextOnly(env?.CON_ARTIST_TO_CORE_SHARED_SECRET || "");
   if (b) return b;
+  const c = safeTextOnly(env?.HV_SIGNING_SECRET || "");
+  if (c) return c;
   return "";
 }
 
