@@ -15,22 +15,38 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      HV_SIGNING_SECRET: ${{ secrets.HV_SIGNING_SECRET }}
+      GITLEAKS_VERSION: 8.24.2
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: Checkout repository without GitHub Actions marketplace dependencies
+        run: |
+          set -euo pipefail
+          rm -rf .git
+          git init .
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git -c http.extraheader="AUTHORIZATION: bearer ${GITHUB_TOKEN}" fetch --no-tags --prune --depth=0 origin
+          git checkout --detach "${GITHUB_SHA}"
 
-      - name: Ensure PR SHAs are present for gitleaks range scan
+      - name: Install gitleaks binary
+        run: |
+          set -euo pipefail
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" -o /tmp/gitleaks.tar.gz
+          tar -xzf /tmp/gitleaks.tar.gz -C /tmp gitleaks
+          mkdir -p "$HOME/.local/bin"
+          install -m 0755 /tmp/gitleaks "$HOME/.local/bin/gitleaks"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Run gitleaks on pull request commit range
         if: github.event_name == 'pull_request'
         run: |
+          set -euo pipefail
           git fetch --no-tags origin \
             "${{ github.event.pull_request.base.sha }}" \
             "${{ github.event.pull_request.head.sha }}"
+          gitleaks git --no-banner --redact --exit-code 1 \
+            --log-opts "${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}"
 
-      - name: Run gitleaks
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
-          HV_SIGNING_SECRET: ${{ env.HV_SIGNING_SECRET }}
+      - name: Run gitleaks on push history
+        if: github.event_name != 'pull_request'
+        run: |
+          set -euo pipefail
+          gitleaks git --no-banner --redact --exit-code 1
