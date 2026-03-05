@@ -7,21 +7,6 @@ function toCleanString(value) {
 }
 
 
-function withGatewayParam(embedUrl, gatewayUrl) {
-  const cleanEmbed = toCleanString(embedUrl);
-  const cleanGateway = toCleanString(gatewayUrl);
-  if (!cleanEmbed) return cleanEmbed;
-  if (!cleanGateway) return cleanEmbed;
-  try {
-    const parsed = new URL(cleanEmbed);
-    if (!parsed.searchParams.get('gateway')) {
-      parsed.searchParams.set('gateway', cleanGateway);
-    }
-    return parsed.toString();
-  } catch {
-    return cleanEmbed;
-  }
-}
 
 export function normalizeWorkerBaseUrl(url = DEFAULT_WORKER_BASE_URL) {
   const candidate = toCleanString(url) || DEFAULT_WORKER_BASE_URL;
@@ -42,8 +27,7 @@ export function buildWorkerChatStreamUrl(workerBaseUrl = DEFAULT_WORKER_BASE_URL
 
 export function buildWorkerEmbedUrl({ workerBaseUrl = DEFAULT_WORKER_BASE_URL, parentOrigin, gatewayUrl } = {}) {
   const embedUrl = new URL(EMBED_ROUTE, normalizeWorkerBaseUrl(workerBaseUrl));
-  const parent = toCleanString(parentOrigin);
-  if (parent) embedUrl.searchParams.set('parent', parent);
+  embedUrl.searchParams.set('parent', toCleanString(parentOrigin) || window.location.origin);
 
   const gateway = toCleanString(gatewayUrl) || buildWorkerChatStreamUrl(workerBaseUrl);
   embedUrl.searchParams.set('gateway', gateway);
@@ -51,17 +35,15 @@ export function buildWorkerEmbedUrl({ workerBaseUrl = DEFAULT_WORKER_BASE_URL, p
 }
 
 export function resolveWorkerTargets(siteMetadata = window.SITE_METADATA || {}, parentOrigin = window.location.origin) {
-  const workerBaseUrl = normalizeWorkerBaseUrl(siteMetadata.chatbotWorkerBaseUrl || siteMetadata.chatbotGatewayUrl || DEFAULT_WORKER_BASE_URL);
+  const gatewayOrigin = toCleanString(window.SITE_METADATA?.chatbotGatewayUrl) || toCleanString(siteMetadata.chatbotGatewayUrl) || DEFAULT_WORKER_BASE_URL;
+  const parent = window.location.origin || parentOrigin;
+  const workerBaseUrl = normalizeWorkerBaseUrl(gatewayOrigin);
   const gatewayUrl = toCleanString(siteMetadata.chatbotGatewayUrl) || buildWorkerChatStreamUrl(workerBaseUrl);
-  const embedUrl = withGatewayParam(
-    toCleanString(siteMetadata.chatbotEmbedUrl) ||
-      buildWorkerEmbedUrl({
-        workerBaseUrl,
-        parentOrigin,
-        gatewayUrl
-      }),
+  const embedUrl = buildWorkerEmbedUrl({
+    workerBaseUrl,
+    parentOrigin: parent,
     gatewayUrl
-  );
+  });
 
   return {
     workerBaseUrl,
