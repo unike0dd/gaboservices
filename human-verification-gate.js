@@ -40,7 +40,7 @@ function createOverlay() {
           <label>Leave this empty <input class="hp-field" type="text" name="website_url" autocomplete="off" tabindex="-1"></label>
           <label>Leave this empty <input class="hp-field" type="text" name="campaign_ref" autocomplete="off" tabindex="-1"></label>
         </div>
-        <div id="turnstileMount" class="cf-turnstile" data-sitekey="${TURNSTILE_SITE_KEY}" data-theme="light"></div>
+        <div id="turnstileMount" class="human-gate-turnstile" aria-label="Cloudflare security check"></div>
       </form>
       <p id="humanGateStatus" class="human-gate-status">Running security checks…</p>
     </div>
@@ -86,6 +86,10 @@ function releasePage() {
 function mountTurnstile() {
   if (!window.turnstile || state.blocked) {
     return false;
+  }
+
+  if (state.widgetId !== null) {
+    return true;
   }
 
   state.status.textContent = 'Complete the human check to continue.';

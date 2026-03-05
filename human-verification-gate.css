@@ -28,6 +28,10 @@
   color: rgba(236, 241, 255, 0.9);
 }
 
+.human-gate-turnstile {
+  min-height: 70px;
+}
+
 .human-gate-status {
   min-height: 1.5rem;
   margin-top: 0.75rem;
