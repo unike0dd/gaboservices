@@ -124,11 +124,7 @@ export function initChatbotControls() {
 
   const workerTargets = resolveWorkerTargets(window.SITE_METADATA || {}, window.location.origin);
   const configuredGatewayUrl = workerTargets.gatewayUrl;
-  const configuredChatbotEmbedUrl =
-    chatFrame.dataset.chatSrc ||
-    (chatFrame.getAttribute('src') && chatFrame.getAttribute('src') !== 'about:blank'
-      ? chatFrame.getAttribute('src')
-      : workerTargets.embedUrl);
+  const configuredChatbotEmbedUrl = workerTargets.embedUrl;
 
   chatFrame.dataset.gatewayUrl = configuredGatewayUrl;
   chatFrame.dataset.streamBridge = CHATBOT_STREAM_BRIDGE_NAME;
@@ -185,6 +181,7 @@ export function initChatbotControls() {
       if (!guard.validateSignal(signal) || chatbotHoneypot.value.trim().length > 0 || event.isTrusted === false) return;
       if (!gatewayHealthy) {
         chatStatus.hidden = false;
+        chatStatus.textContent = 'Chat assistant is temporarily unavailable. Please use contact form instead.';
         return;
       }
 

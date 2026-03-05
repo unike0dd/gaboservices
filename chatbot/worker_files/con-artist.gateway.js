@@ -36,13 +36,13 @@ const FALLBACK_ALLOWED_ORIGINS = [
 
 const FALLBACK_ORIGIN_TO_ASSET = {
   "https://www.gabo.services":
-    "b91f605b23748de5cf02db0de2dd59117b31c709986a3c72837d0af8756473cf2779c206fc6ef80a57fdeddefa4ea11b972572f3a8edd9ed77900f9385e94bd6",
+    "PUT_THE_SITE_ASSET_ID_FOR_HTTPS___WWW_GABO_SERVICES_HERE",
   "https://gabo.services":
-    "8cdeef86bd180277d5b080d571ad8e6dbad9595f408b58475faaa3161f07448fbf12799ee199e3ee257405b75de555055fd5f43e0ce75e0740c4dc11bf86d132",
+    "PUT_THE_SITE_ASSET_ID_FOR_HTTPS___GABO_SERVICES_HERE",
   "https://chattiavato-a11y.github.io":
-    "b8f12ffa3559cee4ac71cb5f54eba1aed46394027f52e562d20be7a523db2a036f20c6e8fb0577c0a8d58f2fd198046230ebc0a73f4f1e71ff7c377d656f0756",
+    "PUT_THE_SITE_ASSET_ID_FOR_HTTPS___CHATTIAVATO_A11Y_GITHUB_IO_HERE",
   "https://con-artist.rulathemtodos.workers.dev":
-    "96dd27ea493d045ed9b46d72533e2ed2ec897668e2227dd3d79fff85ca2216a569c4bf622790c6fb0aab9f17b4e92d0f8e0fa040356bee68a9c3d50d5a60c945",
+    "PUT_THE_SITE_ASSET_ID_FOR_HTTPS___CON_ARTIST_RULATHEMTODOS_WORKERS_DEV_HERE",
 };
 
 /* -------------------------
@@ -666,20 +666,8 @@ export default {
       });
     }
 
-    // ---- Debug snapshot (GET /api/chat)
     if (request.method === "GET" && url.pathname === cfg.routes.chat) {
-      let relay = "missing";
-      try { requireUpstream(env); relay = "present"; } catch {}
-      return respondJson(cfg, origin, 200, {
-        ok: true,
-        routes: { ...cfg.routes, handshake: REPO_HANDSHAKE_PATH },
-        allowed_origins: Array.from(cfg.allowedOrigins),
-        allowed_parents: Array.from(cfg.allowedParents),
-        asset_header: cfg.assetHeader,
-        handshake: { method: "POST", path: REPO_HANDSHAKE_PATH, header: REPO_SECRET_HEADER, secret_env: "CON_ARTIST_SERVICES" },
-        relay,
-        note: "This endpoint streams SSE on POST.",
-      });
+      return respondJson(cfg, origin, 405, { ok: false, error: "method_not_allowed" });
     }
 
     // ---- Repo handshake
