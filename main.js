@@ -7,6 +7,13 @@ if (metadata.name) document.title = metadata.name;
 const metaDescription = document.querySelector('meta[name="description"]');
 if (metaDescription && metadata.description) metaDescription.setAttribute('content', metadata.description);
 let lang = 'en';
+const COUNTRY_CODES = [
+  { name: 'United States', code: '+1' },
+  { name: 'Mexico', code: '+52' },
+  { name: 'Spain', code: '+34' },
+  { name: 'United Kingdom', code: '+44' },
+  { name: 'Colombia', code: '+57' }
+];
 
 function resolveInitialLanguage() {
   const params = new URLSearchParams(window.location.search);
@@ -353,18 +360,10 @@ function bindServiceCardActions(localizedServices) {
   updateServiceDetail(localizedServices, false);
 }
 
-async function populateCountryCodes() {
+function populateCountryCodes() {
 
   const selects = [...document.querySelectorAll('select[name="contact_country_code"], select[name="applicant_contact_country_code"]')];
   if (!selects.length) return;
-
-  const countryCodes = [
-    { name: 'United States', code: '+1' },
-    { name: 'Mexico', code: '+52' },
-    { name: 'Spain', code: '+34' },
-    { name: 'United Kingdom', code: '+44' },
-    { name: 'Colombia', code: '+57' }
-  ];
 
   const fillSelects = (items) => {
     const copy = DICTIONARY[lang] || DICTIONARY.en;
@@ -379,7 +378,7 @@ async function populateCountryCodes() {
     });
   };
 
-  fillSelects(countryCodes);
+  fillSelects(COUNTRY_CODES);
 }
 
 
