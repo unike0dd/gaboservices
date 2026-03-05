@@ -358,7 +358,7 @@ async function populateCountryCodes() {
   const selects = [...document.querySelectorAll('select[name="contact_country_code"], select[name="applicant_contact_country_code"]')];
   if (!selects.length) return;
 
-  const fallback = [
+  const countryCodes = [
     { name: 'United States', code: '+1' },
     { name: 'Mexico', code: '+52' },
     { name: 'Spain', code: '+34' },
@@ -379,38 +379,7 @@ async function populateCountryCodes() {
     });
   };
 
-  try {
-    const response = await fetch('https://restcountries.com/v3.1/all?fields=name,idd');
-    if (!response.ok) throw new Error('country source unavailable');
-    const countries = await response.json();
-    const entries = [];
-
-    countries.forEach((country) => {
-      const name = country?.name?.common;
-      const root = country?.idd?.root;
-      const suffixes = country?.idd?.suffixes || [];
-      if (!name || !root) return;
-      suffixes.forEach((suffix) => {
-        const code = `${root}${suffix || ''}`;
-        entries.push({ name, code });
-      });
-    });
-
-    const unique = [];
-    const seen = new Set();
-    entries
-      .sort((a, b) => a.name.localeCompare(b.name) || a.code.localeCompare(b.code))
-      .forEach((entry) => {
-        const key = `${entry.name}-${entry.code}`;
-        if (seen.has(key)) return;
-        seen.add(key);
-        unique.push(entry);
-      });
-
-    fillSelects(unique.length ? unique : fallback);
-  } catch (error) {
-    fillSelects(fallback);
-  }
+  fillSelects(countryCodes);
 }
 
 
