@@ -424,6 +424,45 @@ h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: .3rem 0 1rem; max-width: 15ch;
   border:1px solid var(--border); background: var(--card); border-radius: 1rem; padding:1rem;
 }
 .pricing { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+
+
+.operational-grid {
+  display: grid;
+  gap: 1.15rem;
+}
+
+.section-heading-row {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.section-heading-row h2,
+.section-heading-row p {
+  margin: 0;
+}
+
+.section-heading-row p {
+  max-width: 78ch;
+  opacity: 0.9;
+}
+
+.ops-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.ops-card {
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+  min-height: 170px;
+}
+
+.ops-card h3,
+.ops-card p {
+  margin: 0;
+}
 .price { font-size:1.6rem; font-weight:800; color: var(--primary); }
 .contact-form { display:grid; gap:.8rem; max-width: 600px; }
 input, textarea, select {

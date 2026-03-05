@@ -89,7 +89,21 @@ export const DICTIONARY = {
     footerTerms: 'T&C',
     footerCookies: 'Cookies Consent',
     footerGdpr: 'GDPR',
-    footerCopyright: 'Gabriel Professional SMBs Services'
+    footerCopyright: 'Gabriel Professional SMBs Services',
+    opsHeading: 'Integrated delivery framework',
+    opsIntro: 'A synchronized model that connects secure delivery, adaptive UX, governance, and observability in one operating rhythm.',
+    opsLifecycleTitle: 'Intelligent code lifecycle',
+    opsLifecycleBody: 'Coordinate CI/CD, cloud-native automation, and plain-language documentation across the full release path.',
+    opsDesignTitle: 'Adaptive UX/UI intelligence',
+    opsDesignBody: 'Ship human-centered interfaces with responsive layouts, accessibility, and measurable interaction quality.',
+    opsSecurityTitle: 'Security + compliance orchestration',
+    opsSecurityBody: 'Align NIST CSF, CISA Cyber Essentials, and PCI controls from identify to recover across operations.',
+    opsGovernanceTitle: 'Web governance controls',
+    opsGovernanceBody: 'Reinforce governance with secure headers, privacy standards, and policy-aware platform configuration.',
+    opsAiTitle: 'AI/ML/LLM integration',
+    opsAiBody: 'Connect assistants and tiny models for real-time personalization while preserving security and budget efficiency.',
+    opsDataTitle: 'Observability and analytics loops',
+    opsDataBody: 'Monitor Core Web Vitals, service health, and behavior data to continuously optimize UX, resilience, and outcomes.'
   },
   es: {
     pageTitle: 'Gabriel Servicios Profesionales para PYMEs',
@@ -174,7 +188,21 @@ export const DICTIONARY = {
     footerTerms: 'Términos y condiciones',
     footerCookies: 'Consentimiento de cookies',
     footerGdpr: 'RGPD',
-    footerCopyright: 'Gabriel Servicios Profesionales para PYMEs'
+    footerCopyright: 'Gabriel Servicios Profesionales para PYMEs',
+    opsHeading: 'Marco de entrega integrado',
+    opsIntro: 'Un modelo sincronizado que conecta entrega segura, UX adaptativa, gobernanza y observabilidad bajo un solo ritmo operativo.',
+    opsLifecycleTitle: 'Ciclo de vida de código inteligente',
+    opsLifecycleBody: 'Coordine CI/CD, automatización cloud-native y documentación en lenguaje claro a lo largo de toda la entrega.',
+    opsDesignTitle: 'Inteligencia UX/UI adaptativa',
+    opsDesignBody: 'Implemente interfaces centradas en las personas con diseño responsivo, accesibilidad y calidad de interacción medible.',
+    opsSecurityTitle: 'Orquestación de seguridad y cumplimiento',
+    opsSecurityBody: 'Alinee NIST CSF, CISA Cyber Essentials y controles PCI desde identificar hasta recuperar en toda la operación.',
+    opsGovernanceTitle: 'Controles de gobernanza web',
+    opsGovernanceBody: 'Refuerce la gobernanza con encabezados seguros, estándares de privacidad y configuración de plataforma orientada a políticas.',
+    opsAiTitle: 'Integración de AI/ML/LLM',
+    opsAiBody: 'Conecte asistentes y modelos pequeños para personalización en tiempo real preservando seguridad y eficiencia de costos.',
+    opsDataTitle: 'Bucles de observabilidad y analítica',
+    opsDataBody: 'Monitoree Core Web Vitals, salud de servicios y datos de comportamiento para optimizar continuamente UX, resiliencia y resultados.'
   }
 };
 
