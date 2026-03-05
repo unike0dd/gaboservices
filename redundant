@@ -1,0 +1,39 @@
+# Redundancy and linkage audit (static review)
+
+Date: 2026-03-04
+Scope: Entire repository under `/workspace/gaboservices`
+
+## Method used
+- Enumerated repo files.
+- Checked local `href/src/action/import/fetch/url(...)` references for resolvable targets.
+- Manually reviewed runtime entrypoints (`index.html`, `main.js`, chatbot modules, and worker files).
+
+## Confirmed redundant / unlinked items
+1. `human-verification-gate.js`
+   - File exists and defines a full Turnstile/honeypot gate flow.
+   - No HTML file includes this script (only `human-verification-gate.css` is loaded on the landing page).
+   - Outcome: currently dead code asset; safe to treat as redundant until explicitly re-linked.
+
+2. `chatbot/worker_files/con-artist.gateway.js`
+   - This worker source is not imported by site runtime JS/HTML.
+   - It appears to be a deployment/runtime artifact for Cloudflare Worker infrastructure, not for browser execution.
+   - Outcome: redundant for the static website runtime, but may be intentionally retained for ops/deployment.
+
+## Potential duplication (not automatically removable)
+1. Security signal logic duplication
+   - `TinyGuardML` in `main.js` and `ChatbotTinyGuard` in `chatbot/chatbot-controls.js` implement near-identical signature-based sanitization/scoring.
+   - Opportunity: extract to a shared module to reduce maintenance drift.
+
+2. Repeated head/nav/footer structures across page-level HTML files
+   - Multiple pages keep almost identical metadata and navigation markup.
+   - Opportunity: move to a templating/build step (partials) if this repo evolves further.
+
+## Link/reference integrity summary
+- Internal route references are broadly coherent for static hosting patterns (`/about`, `/services`, directory `index.html` routing).
+- One parser false-positive reference (`about:blank` iframe source) was excluded as intentional.
+- No hard broken local asset references were found in static analysis.
+
+## Recommended action list
+- Remove or re-link `human-verification-gate.js`.
+- Keep `chatbot/worker_files/con-artist.gateway.js` only if this repository is the source of worker deployment; otherwise move to infra repo.
+- Optionally centralize duplicate security guard logic into one shared module.
