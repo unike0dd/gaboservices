@@ -410,6 +410,25 @@ function renderFooter(copy) {
   `;
 }
 
+function applyLocalizedAttributes(copy, datasetKey, attributeName) {
+  const selector = `[data-i18n-${datasetKey}]`;
+  const dataKey = `i18n${datasetKey.charAt(0).toUpperCase()}${datasetKey.slice(1)}`;
+
+  document.querySelectorAll(selector).forEach((node) => {
+    const key = node.dataset[dataKey];
+    if (copy[key]) node.setAttribute(attributeName, copy[key]);
+  });
+}
+
+function getLanguageToggleLabel(buttonLang, copy) {
+  const labels = {
+    en: copy.switchToEnglish || 'Switch language to English',
+    es: copy.switchToSpanish || 'Cambiar idioma a español'
+  };
+
+  return labels[buttonLang] || '';
+}
+
 function translatePage() {
   const copy = DICTIONARY[lang] || DICTIONARY.en;
   document.documentElement.lang = lang;
@@ -423,22 +442,14 @@ function translatePage() {
     const key = node.dataset.i18n;
     if (copy[key]) node.textContent = copy[key];
   });
-  document.querySelectorAll('[data-i18n-aria-label]').forEach((node) => {
-    const key = node.dataset.i18nAriaLabel;
-    if (copy[key]) node.setAttribute('aria-label', copy[key]);
-  });
-  document.querySelectorAll('[data-i18n-placeholder]').forEach((node) => {
-    const key = node.dataset.i18nPlaceholder;
-    if (copy[key]) node.setAttribute('placeholder', copy[key]);
-  });
-  document.querySelectorAll('[data-i18n-title]').forEach((node) => {
-    const key = node.dataset.i18nTitle;
-    if (copy[key]) node.setAttribute('title', copy[key]);
-  });
-  document.querySelectorAll('[data-i18n-content]').forEach((node) => {
-    const key = node.dataset.i18nContent;
-    if (copy[key]) node.setAttribute('content', copy[key]);
-  });
+
+  [
+    ['ariaLabel', 'aria-label'],
+    ['placeholder', 'placeholder'],
+    ['title', 'title'],
+    ['content', 'content']
+  ].forEach(([datasetKey, attributeName]) => applyLocalizedAttributes(copy, datasetKey, attributeName));
+
   const langButtons = [...document.querySelectorAll('[data-lang-option]')];
   if (langButtons.length) {
     langButtons.forEach((button) => {
@@ -448,12 +459,8 @@ function translatePage() {
       if (codeLabel) button.textContent = codeLabel;
       button.setAttribute('aria-pressed', String(isActive));
       button.classList.toggle('active', isActive);
-      if (buttonLang === 'en') {
-        button.setAttribute('aria-label', copy.switchToEnglish || 'Switch language to English');
-      }
-      if (buttonLang === 'es') {
-        button.setAttribute('aria-label', copy.switchToSpanish || 'Cambiar idioma a español');
-      }
+      const label = getLanguageToggleLabel(buttonLang, copy);
+      if (label) button.setAttribute('aria-label', label);
     });
   }
 
