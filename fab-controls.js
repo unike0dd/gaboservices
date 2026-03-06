@@ -36,7 +36,9 @@ function ensureQuickActionsFab() {
 }
 
 export function initFabControls() {
-  ensureQuickActionsFab();
+  const wrapper = ensureQuickActionsFab();
+  if (!wrapper || wrapper.dataset.fabBound === 'true') return;
+  wrapper.dataset.fabBound = 'true';
 
   const fabToggle = document.getElementById('fabMainToggle');
   const fabMenu = document.getElementById('fabQuickMenu');
