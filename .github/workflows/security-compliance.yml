@@ -39,11 +39,17 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           set -euo pipefail
-          git fetch --no-tags origin \
+          git -c http.extraheader="AUTHORIZATION: bearer ${GITHUB_TOKEN}" fetch --no-tags origin \
             "${{ github.event.pull_request.base.sha }}" \
             "${{ github.event.pull_request.head.sha }}"
           gitleaks git --no-banner --redact --exit-code 1 \
             --log-opts "${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}"
+
+      - name: Run gitleaks on pull request checked-out tree
+        if: github.event_name == 'pull_request'
+        run: |
+          set -euo pipefail
+          gitleaks dir --no-banner --redact --exit-code 1 .
 
       - name: Run gitleaks on push history
         if: github.event_name != 'pull_request'
