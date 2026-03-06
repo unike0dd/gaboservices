@@ -39,7 +39,7 @@ jobs:
       - name: Guard workflow against invalid git depth usage
         run: |
           set -euo pipefail
-          if grep -n -- '--depth=0' .github/workflows/*.yml; then
+          if grep -nE -- 'git fetch[^#]*--depth(=|[[:space:]]+)0(\s|$)' .github/workflows/*.yml; then
             echo "Invalid git fetch depth detected: --depth must be a positive number."
             exit 1
           fi
