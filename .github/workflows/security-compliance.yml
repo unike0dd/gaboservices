@@ -22,8 +22,9 @@ jobs:
           set -euo pipefail
           rm -rf .git
           git init .
+          git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
           git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
-          git -c http.extraheader="AUTHORIZATION: bearer ${GITHUB_TOKEN}" fetch --no-tags --prune --depth=0 origin
+          git fetch --no-tags --prune origin
           git checkout --detach "${GITHUB_SHA}"
 
       - name: Install gitleaks binary
@@ -35,6 +36,14 @@ jobs:
           install -m 0755 /tmp/gitleaks "$HOME/.local/bin/gitleaks"
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
+      - name: Guard workflow against invalid git depth usage
+        run: |
+          set -euo pipefail
+          if grep -n -- '--depth=0' .github/workflows/*.yml; then
+            echo "Invalid git fetch depth detected: --depth must be a positive number."
+            exit 1
+          fi
+
       - name: Run gitleaks on pull request commit range
         if: github.event_name == 'pull_request'
         run: |
@@ -44,6 +53,12 @@ jobs:
             "${{ github.event.pull_request.head.sha }}"
           gitleaks git --no-banner --redact --exit-code 1 \
             --log-opts "${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}"
+
+      - name: Run gitleaks on pull request checked-out tree
+        if: github.event_name == 'pull_request'
+        run: |
+          set -euo pipefail
+          gitleaks dir --no-banner --redact --exit-code 1 .
 
       - name: Run gitleaks on push history
         if: github.event_name != 'pull_request'
