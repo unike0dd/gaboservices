@@ -101,6 +101,14 @@ h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: .3rem 0 1rem; max-width: 15ch;
 .btn.primary { background: var(--primary); color: white; border-color: transparent; }
 .section { padding: 2.8rem 0; }
 
+#about h2 {
+  font-size: 24px;
+}
+
+#about p {
+  font-size: 18px;
+}
+
 .about-content p {
   font-size: 16px;
 }
