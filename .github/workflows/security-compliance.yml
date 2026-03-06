@@ -22,8 +22,8 @@ jobs:
           set -euo pipefail
           rm -rf .git
           git init .
-          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
-          git -c http.extraheader="AUTHORIZATION: bearer ${GITHUB_TOKEN}" fetch --no-tags --prune origin
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --no-tags --prune origin
           git checkout --detach "${GITHUB_SHA}"
 
       - name: Install gitleaks binary
@@ -47,7 +47,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           set -euo pipefail
-          git -c http.extraheader="AUTHORIZATION: bearer ${GITHUB_TOKEN}" fetch --no-tags origin \
+          git fetch --no-tags origin \
             "${{ github.event.pull_request.base.sha }}" \
             "${{ github.event.pull_request.head.sha }}"
           gitleaks git --no-banner --redact --exit-code 1 \
