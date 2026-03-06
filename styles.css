@@ -1,6 +1,7 @@
 :root {
   --bg: #f5f5f1;
   --text: #111111;
+  --heading-color: #1d3557;
   --card: rgba(255, 255, 250, 0.9);
   --primary: #1d3557;
   --border: rgba(17, 17, 17, 0.22);
@@ -20,6 +21,21 @@ body {
   line-height: 1.5;
   transition: background 350ms ease, color 350ms ease;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--heading-color);
+}
+
+main p,
+main li {
+  font-size: 28px;
+}
+
 .container { width: min(1100px, 92vw); margin: 0 auto; }
 .site-header {
   position: sticky; top: 0; z-index: 20;
@@ -986,6 +1002,7 @@ textarea[data-security-state='review'] {
 :root[data-editorial-theme='time'] {
   --bg: #fff4f4;
   --text: #2b0f15;
+  --heading-color: #b11116;
   --card: rgba(255, 255, 255, 0.95);
   --primary: #b11116;
   --border: rgba(177, 17, 22, 0.3);
