@@ -24,8 +24,8 @@ jobs:
           git init .
           git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
           git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
-          git fetch --no-tags --prune origin
-          git checkout --detach "${GITHUB_SHA}"
+          git fetch --no-tags --prune origin "${GITHUB_REF}"
+          git checkout --detach "${GITHUB_SHA}" || git checkout --detach FETCH_HEAD
 
       - name: Install gitleaks binary
         run: |
@@ -39,7 +39,7 @@ jobs:
       - name: Guard workflow against invalid git depth usage
         run: |
           set -euo pipefail
-          if grep -nE -- 'git fetch[^#]*--depth(=|[[:space:]]+)0(\s|$)' .github/workflows/*.yml; then
+          if grep -nE -- 'git fetch[^#]*--depth(=|[[:space:]]+)0([[:space:]]|$)' .github/workflows/*.yml; then
             echo "Invalid git fetch depth detected: --depth must be a positive number."
             exit 1
           fi
