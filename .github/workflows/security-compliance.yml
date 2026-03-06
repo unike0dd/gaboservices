@@ -23,7 +23,7 @@ jobs:
           rm -rf .git
           git init .
           git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
-          git -c http.extraheader="AUTHORIZATION: bearer ${GITHUB_TOKEN}" fetch --no-tags --prune --depth=0 origin
+          git -c http.extraheader="AUTHORIZATION: bearer ${GITHUB_TOKEN}" fetch --no-tags --prune origin
           git checkout --detach "${GITHUB_SHA}"
 
       - name: Install gitleaks binary
