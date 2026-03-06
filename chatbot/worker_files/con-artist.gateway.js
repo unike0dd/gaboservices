@@ -559,7 +559,8 @@ function embedHtml({ nonce, tenantOrigin, tenantAssetId }) {
       const allNodes = document.querySelectorAll('body *');
       for (const node of allNodes) {
         if (node.children.length > 0) continue;
-        if (!/^\s*Tenant:\s*https:\/\/www\.gabo\.services\/?\s*$/i.test(node.textContent || '')) continue;
+        const text = (node.textContent || '').trim();
+        if (!/^tenant:\s*(?:https?:\/\/)?(?:www\.)?gabo\.services\/?$/i.test(text)) continue;
         node.remove();
       }
     }
