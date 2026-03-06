@@ -35,6 +35,14 @@ jobs:
           install -m 0755 /tmp/gitleaks "$HOME/.local/bin/gitleaks"
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
+      - name: Guard workflow against invalid git depth usage
+        run: |
+          set -euo pipefail
+          if grep -n -- '--depth=0' .github/workflows/*.yml; then
+            echo "Invalid git fetch depth detected: --depth must be a positive number."
+            exit 1
+          fi
+
       - name: Run gitleaks on pull request commit range
         if: github.event_name == 'pull_request'
         run: |
