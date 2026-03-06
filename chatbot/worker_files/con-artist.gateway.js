@@ -550,6 +550,23 @@ function embedHtml({ nonce, tenantOrigin, tenantAssetId }) {
     const q = document.getElementById('q');
     const send = document.getElementById('send');
 
+    function removeTenantBadge() {
+      const directSelectors = ['.tenant', '.tenant-badge', '[data-tenant]', '[data-tenant-origin]'];
+      for (const selector of directSelectors) {
+        document.querySelectorAll(selector).forEach((node) => node.remove());
+      }
+
+      const allNodes = document.querySelectorAll('body *');
+      for (const node of allNodes) {
+        if (node.children.length > 0) continue;
+        if (!/^\s*Tenant:\s*https:\/\/www\.gabo\.services\/?\s*$/i.test(node.textContent || '')) continue;
+        node.remove();
+      }
+    }
+
+    removeTenantBadge();
+    new MutationObserver(removeTenantBadge).observe(document.body, { childList: true, subtree: true });
+
     function add(label, text, cls){
       const d = document.createElement('div');
       d.className = 'msg';
