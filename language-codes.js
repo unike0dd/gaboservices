@@ -136,7 +136,7 @@ export const DICTIONARY = {
     brandSubtitle: 'Tercerización que entrega',
     editorialTheme: 'Corte Estilo Revista',
     heroTitle: 'Servicios profesionales para logística, TI y operaciones de atención al cliente.',
-    heroBody: 'Escale su operación de soporte con equipos expertos, SLA medibles y una entrega centrada en las personas.',
+    heroBody: 'Escale su operación de soporte con equipos expertos.',
     schedule: 'Programar consulta',
     aboutBody: 'Gabriel Services ofrece soporte operativo multilingüe diseñado para negocios digitales modernos.',
     aboutBodyP1: 'En Gabriel Services, entendemos que el éxito empresarial depende de equipos eficientes, comunicación clara y operaciones diarias confiables.',
