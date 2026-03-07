@@ -133,6 +133,14 @@ h1 { font-size: 38px; margin: .3rem 0 1rem; max-width: 15ch; }
 .about-content p {
   font-size: 28px;
 }
+
+.about-quick-links {
+  margin-top: 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
 .grid { display:grid; gap: 1rem; }
 .cards { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 
