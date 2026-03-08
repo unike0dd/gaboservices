@@ -154,7 +154,39 @@ class TinyGuardML {
 
 const tinyGuard = new TinyGuardML();
 let activeServiceKey = null;
+let activeHeroServiceIndex = 0;
 
+const HERO_SERVICE_COLOR = {
+  logistics: ['#6b00cf', '#8420d7'],
+  admin: ['#0ea44d', '#1fc965'],
+  customer: ['#ff5b00', '#ff7b1d'],
+  it: ['#f5c400', '#ffdd2e']
+};
+
+const HERO_SERVICE_MEDIA = {
+  logistics: [
+    { title: 'Dispatch visibility', subtitle: 'Routes • ETA • Driver updates' },
+    { title: 'Shipment control', subtitle: 'Tracking • Exceptions • Escalations' },
+    { title: 'Billing ops', subtitle: 'AP/AR • Invoicing • Reconciliation' }
+  ],
+  admin: [
+    { title: 'Executive support', subtitle: 'Calendar • Follow-up • Reporting' },
+    { title: 'Document flow', subtitle: 'Records • SOPs • Compliance checks' },
+    { title: 'Office coordination', subtitle: 'Scheduling • Inbox • Team support' }
+  ],
+  customer: [
+    { title: 'Customer care', subtitle: 'Retention • QA • Omnichannel support' },
+    { title: 'Revenue support', subtitle: 'Lead handling • Upsell • Follow-up' },
+    { title: 'Account service', subtitle: 'Billing communication • Case closure' }
+  ],
+  it: [
+    { title: 'Help desk', subtitle: 'Ticket triage • User assistance' },
+    { title: 'Level I / II support', subtitle: 'Troubleshooting • Escalation paths' },
+    { title: 'Implementation', subtitle: 'Onboarding • Rollout • Hypercare' }
+  ]
+};
+
+const heroCarouselState = {};
 let serviceCarouselTimer = null;
 
 function setupServiceCarousel() {
@@ -250,12 +282,160 @@ function setupServiceCarousel() {
   }, 8000);
 }
 
+function renderServiceHeroAccordion(localizedServices, copy) {
+  const heroAccordion = document.getElementById('serviceHeroAccordion');
+  if (!heroAccordion) return;
+
+  const heroShell = heroAccordion.closest('.services-hero-accordion');
+  const safeIndex = Math.max(0, Math.min(activeHeroServiceIndex, localizedServices.length - 1));
+  activeHeroServiceIndex = safeIndex;
+
+  localizedServices.forEach((service) => {
+    if (!Number.isInteger(heroCarouselState[service.key])) {
+      heroCarouselState[service.key] = 0;
+    }
+  });
+
+  const buildHeroSlides = (service) => {
+    const mediaSlides = HERO_SERVICE_MEDIA[service.key] || [{ title: service.title, subtitle: service.body }];
+    const [startColor, endColor] = HERO_SERVICE_COLOR[service.key] || ['#1f2937', '#374151'];
+    const activeSlide = heroCarouselState[service.key] || 0;
+    const dots = mediaSlides.map((_, slideIndex) => `
+      <button
+        type="button"
+        class="hero-media-dot ${slideIndex === activeSlide ? 'is-active' : ''}"
+        data-action="hero-dot"
+        data-service-key="${service.key}"
+        data-slide-index="${slideIndex}"
+        aria-label="${copy.serviceShowPrefix || 'Show'} ${service.title} ${slideIndex + 1}"
+      ></button>
+    `).join('');
+
+    return `
+      <div class="hero-media-carousel" data-hero-carousel="${service.key}">
+        <button type="button" class="hero-media-nav" data-action="hero-prev" data-service-key="${service.key}" aria-label="Previous media">←</button>
+        <div class="hero-media-viewport">
+          <div class="hero-media-track" style="transform: translateX(-${activeSlide * 100}%);">
+            ${mediaSlides.map((slide) => `
+              <article class="hero-media-slide">
+                <div class="hero-media-visual" style="background: linear-gradient(145deg, color-mix(in oklab, ${startColor} 74%, black 26%), color-mix(in oklab, ${endColor} 74%, black 26%));"></div>
+                <h4>${slide.title}</h4>
+                <p>${slide.subtitle}</p>
+              </article>
+            `).join('')}
+          </div>
+        </div>
+        <button type="button" class="hero-media-nav" data-action="hero-next" data-service-key="${service.key}" aria-label="Next media">→</button>
+      </div>
+      <div class="hero-media-dots">${dots}</div>
+    `;
+  };
+
+  heroAccordion.innerHTML = localizedServices.map((service, index) => {
+    const [startColor, endColor] = HERO_SERVICE_COLOR[service.key] || ['#1f2937', '#374151'];
+    return `
+      <article class="service-hero-column ${index === safeIndex ? 'is-active' : ''}" data-hero-service-index="${index}" data-hero-service-key="${service.key}">
+        <button
+          type="button"
+          class="service-hero-tab"
+          aria-expanded="${String(index === safeIndex)}"
+          aria-label="${copy.serviceShowPrefix || 'Show'} ${service.title}"
+          style="background: linear-gradient(180deg, ${startColor} 0%, ${endColor} 100%);"
+        >
+          ${service.title}
+        </button>
+        <div class="service-hero-content">
+          <h3>${service.title}</h3>
+          <p>${service.body}</p>
+          ${buildHeroSlides(service)}
+          <a class="service-hero-link" href="${service.href}">${copy.serviceCardAction || 'View service details'} →</a>
+        </div>
+      </article>
+    `;
+  }).join('');
+
+  const setActive = (index) => {
+    activeHeroServiceIndex = index;
+    const columns = heroAccordion.querySelectorAll('.service-hero-column');
+    columns.forEach((column, columnIndex) => {
+      const isActive = columnIndex === index;
+      column.classList.toggle('is-active', isActive);
+      const tab = column.querySelector('.service-hero-tab');
+      if (tab) tab.setAttribute('aria-expanded', String(isActive));
+    });
+
+    const activeService = localizedServices[index];
+    if (!activeService || !heroShell) return;
+    const [startColor, endColor] = HERO_SERVICE_COLOR[activeService.key] || ['#1f2937', '#374151'];
+    heroShell.style.setProperty('--hero-glow-start', startColor);
+    heroShell.style.setProperty('--hero-glow-end', endColor);
+  };
+
+  setActive(safeIndex);
+
+  heroAccordion.onmouseover = (event) => {
+    const column = event.target.closest('.service-hero-column');
+    if (!column) return;
+    const index = Number(column?.dataset.heroServiceIndex);
+    if (!Number.isInteger(index)) return;
+    setActive(index);
+  };
+
+  heroAccordion.onfocusin = (event) => {
+    const column = event.target.closest('.service-hero-column');
+    if (!column) return;
+    const index = Number(column?.dataset.heroServiceIndex);
+    if (!Number.isInteger(index)) return;
+    setActive(index);
+  };
+
+  heroAccordion.onclick = (event) => {
+    const tab = event.target.closest('.service-hero-tab');
+    if (tab) {
+      const column = tab.closest('.service-hero-column');
+      const index = Number(column?.dataset.heroServiceIndex);
+      if (Number.isInteger(index)) setActive(index);
+      return;
+    }
+
+    const control = event.target.closest('[data-action]');
+    if (!control) return;
+
+    const action = control.dataset.action;
+    const serviceKey = control.dataset.serviceKey;
+    if (!serviceKey || !heroCarouselState[serviceKey] && heroCarouselState[serviceKey] !== 0) return;
+
+    const mediaSlides = HERO_SERVICE_MEDIA[serviceKey] || [];
+    const totalSlides = mediaSlides.length || 1;
+
+    if (action === 'hero-prev') {
+      heroCarouselState[serviceKey] = (heroCarouselState[serviceKey] - 1 + totalSlides) % totalSlides;
+      renderServiceHeroAccordion(localizedServices, copy);
+      return;
+    }
+
+    if (action === 'hero-next') {
+      heroCarouselState[serviceKey] = (heroCarouselState[serviceKey] + 1) % totalSlides;
+      renderServiceHeroAccordion(localizedServices, copy);
+      return;
+    }
+
+    if (action === 'hero-dot') {
+      const slideIndex = Number(control.dataset.slideIndex);
+      if (Number.isNaN(slideIndex)) return;
+      heroCarouselState[serviceKey] = slideIndex;
+      renderServiceHeroAccordion(localizedServices, copy);
+    }
+  };
+}
+
 function renderCards() {
   const localizedServices = SERVICES[lang] || SERVICES.en;
   const localizedPlans = PLANS[lang] || PLANS.en;
   const copy = DICTIONARY[lang] || DICTIONARY.en;
 
   const serviceCards = document.getElementById('serviceCards');
+  renderServiceHeroAccordion(localizedServices, copy);
   if (serviceCards) {
     serviceCards.innerHTML = localizedServices.map((service) => `
     <article class="card service-card" data-service-card="${service.key}">
