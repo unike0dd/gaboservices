@@ -33,6 +33,20 @@ iframe {
     right: 2vw;
     bottom: 6rem;
   }
+
+  .services-hero-accordion {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+
+  .service-hero-accordion {
+    min-height: 280px;
+  }
+
+  .service-hero-column {
+    grid-template-columns: 62px minmax(0, 1fr);
+  }
 }
 
 @media (max-width: 480px) {
@@ -63,6 +77,28 @@ iframe {
     right: 2vw;
     width: auto;
     bottom: 5.8rem;
+  }
+
+  .service-hero-accordion {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .service-hero-column,
+  .service-hero-column.is-active {
+    grid-template-columns: 1fr;
+    flex: none;
+  }
+
+  .service-hero-tab {
+    writing-mode: horizontal-tb;
+    transform: none;
+    min-height: 48px;
+  }
+
+  .service-hero-content {
+    opacity: 1;
+    transform: none;
   }
 }
 
