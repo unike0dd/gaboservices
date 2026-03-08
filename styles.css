@@ -185,7 +185,7 @@ h1 { font-size: 38px; margin: .3rem 0 1rem; max-width: 15ch; }
   position: relative;
   z-index: 1;
   display: grid;
-  align-content: center;
+  align-content: start;
   gap: 1rem;
   min-height: var(--hero-panel-height);
   padding: clamp(1.2rem, 2vw, 1.8rem);
@@ -247,7 +247,7 @@ h1 { font-size: 38px; margin: .3rem 0 1rem; max-width: 15ch; }
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   text-transform: uppercase;
-  font-size: 0.9rem;
+  font-size: calc(0.9rem + 15px);
   cursor: pointer;
 }
 
@@ -262,7 +262,7 @@ h1 { font-size: 38px; margin: .3rem 0 1rem; max-width: 15ch; }
 
 .service-hero-content {
   display: grid;
-  align-content: center;
+  align-content: start;
   gap: 0.7rem;
   padding: 1rem 1.05rem;
   color: #fff;
