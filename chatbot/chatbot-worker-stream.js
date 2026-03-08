@@ -38,7 +38,7 @@ export function resolveWorkerTargets(siteMetadata = window.SITE_METADATA || {}, 
   const gatewayOrigin = toCleanString(window.SITE_METADATA?.chatbotGatewayUrl) || toCleanString(siteMetadata.chatbotGatewayUrl) || DEFAULT_WORKER_BASE_URL;
   const parent = window.location.origin || parentOrigin;
   const workerBaseUrl = normalizeWorkerBaseUrl(gatewayOrigin);
-  const gatewayUrl = toCleanString(siteMetadata.chatbotGatewayUrl) || buildWorkerChatStreamUrl(workerBaseUrl);
+  const gatewayUrl = buildWorkerChatStreamUrl(workerBaseUrl);
   const embedUrl = buildWorkerEmbedUrl({
     workerBaseUrl,
     parentOrigin: parent,
