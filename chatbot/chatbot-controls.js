@@ -36,12 +36,8 @@ function buildChatPanelMarkup() {
       <aside id="chatPanel" class="chat-panel" data-i18n-aria-label="chatPanelLabel" aria-label="Chatbot panel" role="dialog" aria-modal="true">
         <div class="chat-panel-head">
           <strong data-i18n="chatbot">Gabo io</strong>
-          <button id="chatClose" class="ghost" type="button" data-chat-dismiss data-i18n-aria-label="chatClose" aria-label="Close chatbot">✕</button>
         </div>
         <iframe id="chatFrame" data-i18n-title="chatFrameTitle" title="Gabriel chatbot" src="about:blank"></iframe>
-        <div class="chat-panel-actions">
-          <button id="chatCloseAction" class="ghost" type="button" data-chat-dismiss>Close</button>
-        </div>
       </aside>
     </div>
   `;
@@ -94,21 +90,19 @@ async function probeGatewayAvailability(gatewayUrl) {
 function ensureChatPanelMarkup() {
   let chatOverlay = document.getElementById('chatOverlay');
   let chatPanel = document.getElementById('chatPanel');
-  let chatClose = document.getElementById('chatClose');
   let chatFrame = document.getElementById('chatFrame');
 
-  if (!chatOverlay || !chatPanel || !chatClose || !chatFrame) {
+  if (!chatOverlay || !chatPanel || !chatFrame) {
     const wrapper = document.createElement('div');
     wrapper.innerHTML = buildChatPanelMarkup();
     document.body.append(...wrapper.children);
 
     chatOverlay = document.getElementById('chatOverlay');
     chatPanel = document.getElementById('chatPanel');
-    chatClose = document.getElementById('chatClose');
     chatFrame = document.getElementById('chatFrame');
   }
 
-  return { chatOverlay, chatPanel, chatClose, chatFrame };
+  return { chatOverlay, chatPanel, chatFrame };
 }
 
 export function initChatbotControls() {
@@ -119,8 +113,8 @@ export function initChatbotControls() {
   const chatTriggers = [...document.querySelectorAll('[data-chat-trigger]')];
   if (!chatTriggers.length) return;
 
-  const { chatOverlay, chatPanel, chatClose, chatFrame } = ensureChatPanelMarkup();
-  if (!chatOverlay || !chatPanel || !chatClose || !chatFrame) return;
+  const { chatOverlay, chatPanel, chatFrame } = ensureChatPanelMarkup();
+  if (!chatOverlay || !chatPanel || !chatFrame) return;
 
   const workerTargets = resolveWorkerTargets(window.SITE_METADATA || {}, window.location.origin);
   const configuredGatewayUrl = workerTargets.gatewayUrl;
