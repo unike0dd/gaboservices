@@ -45,7 +45,7 @@ iframe {
   }
 
   .service-hero-column {
-    grid-template-columns: 62px minmax(0, 1fr);
+    grid-template-columns: 50px minmax(0, 1fr);
   }
 }
 

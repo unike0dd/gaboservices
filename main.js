@@ -171,10 +171,10 @@ const HERO_SERVICE_PALETTE = {
 };
 
 const HERO_SERVICE_TEXT_COLOR = {
-  logistics: '#f8f2ff',
-  admin: '#05280f',
-  customer: '#2f1300',
-  it: '#2d2200'
+  logistics: '#12081f',
+  admin: '#061f0f',
+  customer: '#2b1200',
+  it: '#2a1d00'
 };
 
 const HERO_SERVICE_MEDIA = {
