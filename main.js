@@ -170,6 +170,13 @@ const HERO_SERVICE_PALETTE = {
   it: { en: 'Digital Gold', es: 'Oro Digital' }
 };
 
+const HERO_SERVICE_TEXT_COLOR = {
+  logistics: '#f8f2ff',
+  admin: '#05280f',
+  customer: '#2f1300',
+  it: '#2d2200'
+};
+
 const HERO_SERVICE_MEDIA = {
   logistics: [
     { title: 'Dispatch visibility', subtitle: 'Routes • ETA • Driver updates' },
@@ -340,6 +347,7 @@ function renderServiceHeroAccordion(localizedServices, copy) {
 
   heroAccordion.innerHTML = localizedServices.map((service, index) => {
     const [startColor, endColor] = HERO_SERVICE_COLOR[service.key] || ['#1f2937', '#374151'];
+    const tabTextColor = HERO_SERVICE_TEXT_COLOR[service.key] || '#ffffff';
     const paletteLabel = HERO_SERVICE_PALETTE[service.key]?.[lang] || HERO_SERVICE_PALETTE[service.key]?.en || 'Editorial Palette';
     return `
       <article class="service-hero-column ${index === safeIndex ? 'is-active' : ''}" data-hero-service-index="${index}" data-hero-service-key="${service.key}">
@@ -348,7 +356,7 @@ function renderServiceHeroAccordion(localizedServices, copy) {
           class="service-hero-tab"
           aria-expanded="${String(index === safeIndex)}"
           aria-label="${copy.serviceShowPrefix || 'Show'} ${service.title} (${paletteLabel})"
-          style="background: linear-gradient(180deg, ${startColor} 0%, ${endColor} 100%);"
+          style="--hero-tab-fg: ${tabTextColor}; background: linear-gradient(180deg, ${startColor} 0%, ${endColor} 100%);"
         >
           <span class="service-hero-tab-name">${service.title}</span>
           <span class="service-hero-tab-palette">${paletteLabel}</span>
