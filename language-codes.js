@@ -155,7 +155,7 @@ export const DICTIONARY = {
     blocked: 'Contenido bloqueado por seguridad. Elimine contenido sospechoso e inténtelo de nuevo.',
     review: 'Mensaje recibido con precaución. Evite fragmentos HTML/JS, a menos que sean necesarios.',
     contactIntro: 'Contacte a nuestro equipo para soporte, incorporación o alianzas.',
-    serviceLearnMore: 'Más información',
+    serviceLearnMore: 'Definiciones de servicios',
     serviceLabel: 'Servicio',
     serviceCarouselToggles: 'Controles del carrusel de servicios',
     serviceShowPrefix: 'Mostrar',
