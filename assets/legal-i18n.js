@@ -38,7 +38,7 @@
   const params = new URLSearchParams(window.location.search);
   const requested = params.get('lang');
   const stored = localStorage.getItem('lang');
-  const lang = SUPPORTED.includes(requested) ? requested : (SUPPORTED.includes(stored) ? stored : 'en');
+  const lang = SUPPORTED.includes(requested) ? requested : (SUPPORTED.includes(stored) ? stored : 'es');
   localStorage.setItem('lang', lang);
 
   const url = new URL(window.location.href);
