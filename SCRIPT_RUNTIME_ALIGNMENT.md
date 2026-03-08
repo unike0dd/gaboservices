@@ -27,11 +27,11 @@ This document links each JavaScript file to its runtime entrypoint, trigger/even
 | `chatbot/chatbot-controls.js` | Imported by `main.js` runtime path | UI/chatbot init lifecycle | Handles chatbot UI state and stream interactions. |
 | `chatbot/worker_files/con-artist.gateway.js` | Cloudflare Worker deployment source | HTTP route handlers (`/api/chat`, `/embed`, health, repo handshake) | Enforces origin/asset identity checks and forwards upstream stream traffic. |
 
-## Known intentionally non-linked script asset
+## Shared UI support scripts
 
-| Script | Status |
-|---|---|
-| `fab-controls.js` | Present in repo, not currently linked by any page/module. Keep as staging asset or remove if no longer needed. |
+| Script | Where linked/referenced | Trigger/event | Primary action/function |
+|---|---|---|---|
+| `fab-controls.js` | Imported by `main.js` and `chatbot/chatbot-controls.js` | Initialization calls during app/chatbot boot | Injects and controls the floating action button (FAB) quick-actions menu and syncs quick links. |
 
 ## Alignment implemented in this update
 
