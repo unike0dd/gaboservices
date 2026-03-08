@@ -596,6 +596,7 @@ function renderFooter(copy) {
     <div class="footer-column">
       <h3>${copy.footerSupport || 'Support'}</h3>
       <a href="/contact">${copy.contact || 'Contact'}</a>
+      <a href="/learning">${copy.learning || 'Learning'}</a>
       <a href="/sitemap.xml">${copy.footerSitemap || 'Sitemap'}</a>
     </div>
     <div class="footer-column">
