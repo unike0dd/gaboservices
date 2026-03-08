@@ -1,0 +1,53 @@
+# Security Review (Injection/Intrusion Focus)
+
+## Current Security Posture Score
+
+**6.5 / 10** (baseline as of this review).
+
+This repository already has strong foundational protections for a static web property (CSP, HSTS, security headers, origin checks in the worker gateway, and secret scanning workflow). The biggest gap is that several controls are **client-side only**, which can be bypassed by a direct attacker.
+
+## Key Findings
+
+### Strengths
+
+1. **Good baseline HTTP/browser hardening**
+   - CSP, HSTS, X-Content-Type-Options, Referrer-Policy, frame controls are present in `_headers`.
+2. **Gateway-side security controls exist**
+   - Worker gateway enforces origin allowlisting, response security headers, and constrained embed parents.
+3. **Automated secret scanning in CI**
+   - Gitleaks workflow runs on push/PR.
+
+### Weaknesses (Injection/Intrusion)
+
+1. **Client-side “TinyGuard” is bypassable**
+   - Input filtering in `main.js` and `chatbot-controls.js` helps UX but does not provide server-side trust.
+2. **Turnstile verification appears client-enforced only in this repo**
+   - Token is collected client-side; secure validation must happen server-side at submit endpoint.
+3. **DOM injection surface through `innerHTML` patterns**
+   - Multiple UI sections use `innerHTML`; currently fed from local dictionaries/templates, but future dynamic data could create XSS risk if not escaped.
+4. **No explicit rate-limit / abuse-control config in this repo for form endpoints**
+   - Intrusion/spam resistance depends on external infra.
+
+## No-Cost Hardening Actions (No New Server Required)
+
+All of the following can be implemented without paid services and without adding a new server type:
+
+1. **Keep gateway URL normalization strict in frontend stream bridge** ✅ implemented in this change.
+2. **Reduce future XSS risk by preferring `textContent`/DOM APIs over `innerHTML`** for any future user-influenced values.
+3. **Add CSP reporting endpoint only if already available in existing worker** (optional, no extra infra if reused).
+4. **Enable stricter branch protection + required security workflow checks** in GitHub settings (free).
+5. **Add dependency update automation (Dependabot/Renovate free tier)** for JS tooling and GitHub actions.
+6. **Document incident response + key rotation checklist** in repo to improve recoverability.
+
+## Target Score Roadmap
+
+- **6.5 → 7.5**: complete low-effort config/process hardening (checks required, docs/runbooks, remove risky patterns over time).
+- **7.5 → 8.5**: enforce server-side verification on all submission flows in existing worker endpoints, with audit logging and rate limiting.
+- **8.5 → 9+**: add structured threat modeling cadence and periodic security testing automation.
+
+## Practical Answer to “Can this be done with no cost and no new server?”
+
+**Yes, mostly.**
+
+- You can significantly improve to around **8/10** using current stack + free GitHub/Cloudflare capabilities.
+- Going beyond that depends more on operational maturity and strict backend enforcement in your existing worker, not on buying new infrastructure.
