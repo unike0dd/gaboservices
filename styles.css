@@ -209,9 +209,12 @@ h1 { font-size: 38px; margin: .3rem 0 1rem; max-width: 15ch; }
 }
 
 .service-hero-accordion {
+  --hero-tab-width: 58px;
+  --hero-panel-open-width: clamp(280px, 36vw, 430px);
   position: relative;
   z-index: 1;
   display: flex;
+  align-items: stretch;
   min-height: var(--hero-panel-height);
   height: 100%;
   overflow: hidden;
@@ -221,15 +224,17 @@ h1 { font-size: 38px; margin: .3rem 0 1rem; max-width: 15ch; }
 .service-hero-column {
   position: relative;
   display: grid;
-  grid-template-columns: 56px minmax(0, 1fr);
-  flex: 1 1 0;
-  min-width: 56px;
+  grid-template-columns: var(--hero-tab-width) minmax(0, 1fr);
+  align-items: stretch;
+  height: 100%;
+  flex: 0 0 var(--hero-tab-width);
+  min-width: var(--hero-tab-width);
   overflow: hidden;
-  transition: flex .34s ease;
+  transition: flex-basis .34s ease;
 }
 
 .service-hero-column.is-active {
-  flex: 3.2 1 0;
+  flex: 0 0 var(--hero-panel-open-width);
 }
 
 .service-hero-tab {
@@ -257,15 +262,12 @@ h1 { font-size: 38px; margin: .3rem 0 1rem; max-width: 15ch; }
   font-weight: 800;
 }
 
-.service-hero-tab-palette {
-  font-size: 0.72rem;
-  opacity: 0.92;
-}
-
 .service-hero-content {
   display: grid;
   align-content: start;
   gap: 0.7rem;
+  height: 100%;
+  min-height: 100%;
   padding: 1rem 1.05rem;
   color: #fff;
   background: rgba(8, 10, 24, 0.58);

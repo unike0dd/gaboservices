@@ -44,8 +44,14 @@ iframe {
     min-height: 280px;
   }
 
+  .service-hero-accordion {
+    --hero-tab-width: 52px;
+    --hero-panel-open-width: min(100%, 420px);
+  }
+
   .service-hero-column {
-    grid-template-columns: 50px minmax(0, 1fr);
+    grid-template-columns: var(--hero-tab-width) minmax(0, 1fr);
+    flex-basis: var(--hero-tab-width);
   }
 }
 
