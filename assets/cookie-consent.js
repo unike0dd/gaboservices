@@ -87,9 +87,9 @@
     var ok = writeConsent(consent);
     if (ok) {
       applyConsent(consent);
-      setStatus("Saved. Your preferences were updated.");
+      setStatus("Guardado. Sus preferencias fueron actualizadas.");
     } else {
-      setStatus("Could not save preferences (storage blocked). You can still manage cookies in your browser.");
+      setStatus("No se pudieron guardar las preferencias (almacenamiento bloqueado). Aún puede gestionar las cookies en su navegador.");
     }
   }
 
@@ -98,7 +98,7 @@
     writeConsent(consent);
     setFormFromConsent(consent);
     applyConsent(consent);
-    setStatus("All optional cookies accepted.");
+    setStatus("Todas las cookies opcionales fueron aceptadas.");
   }
 
   function rejectAll() {
@@ -106,7 +106,7 @@
     writeConsent(consent);
     setFormFromConsent(consent);
     applyConsent(consent);
-    setStatus("All optional cookies rejected.");
+    setStatus("Todas las cookies opcionales fueron rechazadas.");
   }
 
   function wireUI() {
@@ -132,9 +132,9 @@
     if (consent) {
       setFormFromConsent(consent);
       applyConsent(consent);
-      setStatus("Your current preferences are loaded.");
+      setStatus("Sus preferencias actuales están cargadas.");
     } else {
-      setStatus("No saved preferences yet. Choose your settings and save.");
+      setStatus("Aún no hay preferencias guardadas. Elija su configuración y guarde.");
     }
   }
 
