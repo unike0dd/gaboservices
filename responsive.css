@@ -79,6 +79,16 @@ iframe {
   .service-hero-column:not(.is-active) .service-hero-content {
     display: none;
   }
+
+  .pricing-compare-header,
+  .pricing-feature-row {
+    grid-template-columns: minmax(140px, 1.25fr) repeat(3, minmax(110px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .pricing-compare-header {
+    top: 62px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -134,6 +144,15 @@ iframe {
     max-height: calc(100vh - 5.5rem);
     overflow-y: auto;
     padding-bottom: max(0.8rem, env(safe-area-inset-bottom));
+  }
+
+  .pricing-compare {
+    overflow-x: auto;
+  }
+
+  .pricing-compare-header,
+  .pricing-compare-body {
+    min-width: 620px;
   }
 }
 

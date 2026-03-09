@@ -615,13 +615,33 @@ function renderCards() {
 
   const pricingCards = document.getElementById('pricingCards');
   if (pricingCards) {
-    pricingCards.innerHTML = localizedPlans.map((plan) => `
-    <article class="price-card">
-      <h3>${plan.name}</h3>
-      <p class="price">${plan.price}</p>
-      <ul>${plan.points.map((point) => `<li>${point}</li>`).join('')}</ul>
-    </article>
-  `).join('');
+    const allFeatures = [...new Set(localizedPlans.flatMap((plan) => plan.points))];
+
+    pricingCards.innerHTML = `
+      <section class="pricing-compare" aria-label="${copy.pricing}">
+        <div class="pricing-compare-header" role="row">
+          <div class="pricing-feature-heading" role="columnheader">${copy.pricingFeaturesLabel || 'Features'}</div>
+          ${localizedPlans.map((plan) => `
+            <article class="price-card pricing-plan-heading" role="columnheader">
+              <h3>${plan.name}</h3>
+              <p class="price">${plan.price}</p>
+            </article>
+          `).join('')}
+        </div>
+        <div class="pricing-compare-body">
+          ${allFeatures.map((feature) => `
+            <div class="pricing-feature-row" role="row">
+              <p class="pricing-feature-name">${feature}</p>
+              ${localizedPlans.map((plan) => `
+                <span class="pricing-feature-value" aria-label="${plan.name}: ${feature}">
+                  ${plan.points.includes(feature) ? '✓' : '—'}
+                </span>
+              `).join('')}
+            </div>
+          `).join('')}
+        </div>
+      </section>
+    `;
   }
 }
 
