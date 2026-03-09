@@ -26,6 +26,35 @@
     }
   }
 
+  var MESSAGES = {
+    es: {
+      saved: "Guardado. Sus preferencias fueron actualizadas.",
+      saveError: "No se pudieron guardar las preferencias (almacenamiento bloqueado). Aún puede gestionar las cookies en su navegador.",
+      accepted: "Todas las cookies opcionales fueron aceptadas.",
+      rejected: "Todas las cookies opcionales fueron rechazadas.",
+      loaded: "Sus preferencias actuales están cargadas.",
+      empty: "Aún no hay preferencias guardadas. Elija su configuración y guarde."
+    },
+    en: {
+      saved: "Saved. Your preferences were updated.",
+      saveError: "Preferences could not be saved (storage blocked). You can still manage cookies in your browser.",
+      accepted: "All optional cookies were accepted.",
+      rejected: "All optional cookies were rejected.",
+      loaded: "Your current preferences are loaded.",
+      empty: "No saved preferences yet. Choose your settings and save."
+    }
+  };
+
+  function getLang() {
+    var lang = (document.documentElement.getAttribute("lang") || "es").toLowerCase();
+    return lang === "en" ? "en" : "es";
+  }
+
+  function t(key) {
+    var lang = getLang();
+    return (MESSAGES[lang] && MESSAGES[lang][key]) || MESSAGES.es[key] || "";
+  }
+
   function setStatus(msg) {
     var el = document.getElementById("cookie-status");
     if (el) el.textContent = msg;
@@ -87,9 +116,9 @@
     var ok = writeConsent(consent);
     if (ok) {
       applyConsent(consent);
-      setStatus("Guardado. Sus preferencias fueron actualizadas.");
+      setStatus(t("saved"));
     } else {
-      setStatus("No se pudieron guardar las preferencias (almacenamiento bloqueado). Aún puede gestionar las cookies en su navegador.");
+      setStatus(t("saveError"));
     }
   }
 
@@ -98,7 +127,7 @@
     writeConsent(consent);
     setFormFromConsent(consent);
     applyConsent(consent);
-    setStatus("Todas las cookies opcionales fueron aceptadas.");
+    setStatus(t("accepted"));
   }
 
   function rejectAll() {
@@ -106,7 +135,7 @@
     writeConsent(consent);
     setFormFromConsent(consent);
     applyConsent(consent);
-    setStatus("Todas las cookies opcionales fueron rechazadas.");
+    setStatus(t("rejected"));
   }
 
   function wireUI() {
@@ -132,9 +161,9 @@
     if (consent) {
       setFormFromConsent(consent);
       applyConsent(consent);
-      setStatus("Sus preferencias actuales están cargadas.");
+      setStatus(t("loaded"));
     } else {
-      setStatus("Aún no hay preferencias guardadas. Elija su configuración y guarde.");
+      setStatus(t("empty"));
     }
   }
 
