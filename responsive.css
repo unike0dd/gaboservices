@@ -8,12 +8,6 @@ iframe {
   max-width: 100%;
 }
 
-@media (max-width: 1024px) {
-  .container {
-    width: min(1000px, 94vw);
-  }
-}
-
 @media (max-width: 780px) {
   .hero {
     padding-top: 4rem;
@@ -39,33 +33,76 @@ iframe {
     min-height: auto;
   }
 
-
   .service-hero-accordion {
-    min-height: 280px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(82vw, 1fr);
+    align-items: stretch;
+    gap: 0.7rem;
+    width: 100%;
+    min-height: auto;
+    overflow-x: auto;
+    padding: 0.35rem;
+    scroll-snap-type: x mandatory;
+    border-left: 0;
+    box-shadow: none;
+    background: linear-gradient(180deg, rgba(20, 20, 26, 0.18), rgba(20, 20, 26, 0.36));
   }
 
-  .service-hero-accordion {
-    --hero-tab-width: 52px;
-    --hero-panel-open-width: min(100%, 420px);
+  .service-hero-column,
+  .service-hero-column.is-active {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    min-width: auto;
+    flex: none;
+    border-radius: 0.85rem;
+    overflow: hidden;
+    scroll-snap-align: start;
+    background: rgba(18, 26, 42, 0.35);
   }
 
-  .service-hero-column {
-    grid-template-columns: var(--hero-tab-width) minmax(0, 1fr);
-    flex-basis: var(--hero-tab-width);
+  .service-hero-tab {
+    writing-mode: horizontal-tb;
+    transform: none;
+    min-height: 48px;
+    align-items: flex-start;
+    padding: 0.65rem 0.75rem;
+  }
+
+  .service-hero-content {
+    opacity: 1;
+    transform: none;
+    padding: 0.8rem;
+  }
+
+  .service-hero-column:not(.is-active) .service-hero-content {
+    display: none;
   }
 }
 
 @media (max-width: 480px) {
-  body {
-    font-size: 0.96rem;
-  }
-
   .site-header {
-    position: static;
+    position: sticky;
+    top: 0;
+    z-index: 140;
+    backdrop-filter: blur(6px);
   }
 
-  .section {
-    padding: 2.2rem 0;
+  .brand {
+    font-size: 1.1rem;
+  }
+
+  .brand-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .actions .ghost,
+  .editorial-toggle,
+  .btn,
+  .nav-toggle,
+  .nav-links a {
+    min-height: 44px;
   }
 
   .fab-main {
@@ -159,10 +196,11 @@ iframe {
   --adaptive-container-padding: 1.4rem;
   --adaptive-font-scale: 1;
   --adaptive-chat-height: 500px;
-}
-
-.container {
-  width: min(var(--adaptive-container-width), calc(100vw - (var(--adaptive-container-padding) * 2)));
+  --adaptive-section-padding-y: 2.8rem;
+  --adaptive-grid-gap: 1rem;
+  --adaptive-cta-gap: 0.75rem;
+  --adaptive-nav-gap: 1rem;
+  --adaptive-nav-wrap-padding-y: 0.8rem;
 }
 
 body {
