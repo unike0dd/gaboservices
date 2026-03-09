@@ -419,9 +419,9 @@ function renderServiceHeroAccordion(localizedServices, copy) {
       <div class="hero-media-carousel" data-hero-carousel="${service.key}">
         <button type="button" class="hero-media-nav" data-action="hero-prev" data-service-key="${service.key}" aria-label="Previous media">←</button>
         <div class="hero-media-viewport">
-          <div class="hero-media-track is-slide-${activeSlide}">
-            ${mediaSlides.map((slide) => `
-              <article class="hero-media-slide">
+          <div class="hero-media-track" role="group" aria-label="${service.title} media">
+            ${mediaSlides.map((slide, slideIndex) => `
+              <article class="hero-media-slide ${slideIndex === activeSlide ? 'is-active' : ''}" aria-hidden="${String(slideIndex !== activeSlide)}">
                 <div class="hero-media-visual hero-media-visual--${service.key}"></div>
                 <h4>${slide.title}</h4>
                 <p>${slide.subtitle}</p>

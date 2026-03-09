@@ -419,18 +419,17 @@ h1 { font-size: 38px; margin: .3rem 0 1rem; max-width: 15ch; }
 }
 
 .hero-media-track {
-  display: flex;
-  transition: transform .28s ease;
+  display: grid;
 }
-
-.hero-media-track.is-slide-0 { transform: translateX(0); }
-.hero-media-track.is-slide-1 { transform: translateX(-100%); }
-.hero-media-track.is-slide-2 { transform: translateX(-200%); }
 
 .hero-media-slide {
   min-width: 100%;
-  display: grid;
+  display: none;
   gap: 0.45rem;
+}
+
+.hero-media-slide.is-active {
+  display: grid;
 }
 
 .hero-media-visual {
