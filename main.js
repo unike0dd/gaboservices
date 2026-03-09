@@ -154,7 +154,7 @@ class TinyGuardML {
 
 const tinyGuard = new TinyGuardML();
 let activeServiceKey = null;
-let activeHeroServiceIndex = 0;
+let activeHeroServiceIndex = -1;
 
 const HERO_SERVICE_COLOR = {
   logistics: ['#6b00cf', '#8420d7'],
@@ -406,7 +406,8 @@ function renderServiceHeroAccordion(localizedServices, copy) {
   if (!heroAccordion) return;
 
   const heroShell = heroAccordion.closest('.services-hero-accordion');
-  const safeIndex = Math.max(0, Math.min(activeHeroServiceIndex, localizedServices.length - 1));
+  const hasActiveIndex = Number.isInteger(activeHeroServiceIndex) && activeHeroServiceIndex >= 0;
+  const safeIndex = hasActiveIndex ? Math.max(0, Math.min(activeHeroServiceIndex, localizedServices.length - 1)) : -1;
   activeHeroServiceIndex = safeIndex;
 
   localizedServices.forEach((service) => {
@@ -455,11 +456,11 @@ function renderServiceHeroAccordion(localizedServices, copy) {
     const tabTextColor = HERO_SERVICE_TEXT_COLOR[service.key] || '#1c1308';
     const serviceDetails = HERO_SERVICE_DETAILS[lang]?.[service.key] || HERO_SERVICE_DETAILS.en[service.key];
     return `
-      <article class="service-hero-column ${index === safeIndex ? 'is-active' : ''}" data-hero-service-index="${index}" data-hero-service-key="${service.key}">
+      <article class="service-hero-column ${safeIndex >= 0 && index === safeIndex ? 'is-active' : ''}" data-hero-service-index="${index}" data-hero-service-key="${service.key}">
         <button
           type="button"
           class="service-hero-tab"
-          aria-expanded="${String(index === safeIndex)}"
+          aria-expanded="${String(safeIndex >= 0 && index === safeIndex)}"
           aria-label="${copy.serviceShowPrefix || 'Show'} ${service.title}"
           style="--hero-tab-fg: ${tabTextColor}; background: linear-gradient(180deg, ${startColor} 0%, ${endColor} 100%);"
         >
@@ -498,23 +499,28 @@ function renderServiceHeroAccordion(localizedServices, copy) {
   }).join('');
 
   const setActive = (index) => {
-    activeHeroServiceIndex = index;
+    activeHeroServiceIndex = Number.isInteger(index) && index >= 0 ? index : -1;
     const columns = heroAccordion.querySelectorAll('.service-hero-column');
     columns.forEach((column, columnIndex) => {
-      const isActive = columnIndex === index;
+      const isActive = activeHeroServiceIndex >= 0 && columnIndex === activeHeroServiceIndex;
       column.classList.toggle('is-active', isActive);
       const tab = column.querySelector('.service-hero-tab');
       if (tab) tab.setAttribute('aria-expanded', String(isActive));
     });
 
-    const activeService = localizedServices[index];
-    if (!activeService || !heroShell) return;
+    if (!heroShell) return;
+    const activeService = localizedServices[activeHeroServiceIndex];
+    if (!activeService) {
+      heroShell.style.removeProperty('--hero-glow-start');
+      heroShell.style.removeProperty('--hero-glow-end');
+      return;
+    }
     const [startColor, endColor] = HERO_SERVICE_COLOR[activeService.key] || ['#1f2937', '#374151'];
     heroShell.style.setProperty('--hero-glow-start', startColor);
     heroShell.style.setProperty('--hero-glow-end', endColor);
   };
 
-  setActive(safeIndex);
+  setActive(-1);
 
   heroAccordion.onmouseover = (event) => {
     const column = event.target.closest('.service-hero-column');
@@ -522,6 +528,11 @@ function renderServiceHeroAccordion(localizedServices, copy) {
     const index = Number(column?.dataset.heroServiceIndex);
     if (!Number.isInteger(index)) return;
     setActive(index);
+  };
+
+
+  heroAccordion.onmouseleave = () => {
+    setActive(-1);
   };
 
   heroAccordion.onfocusin = (event) => {
