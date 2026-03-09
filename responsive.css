@@ -56,12 +56,32 @@ iframe {
 }
 
 @media (max-width: 480px) {
-  body {
-    font-size: 0.96rem;
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 140;
+    backdrop-filter: blur(6px);
   }
 
-  .site-header {
-    position: static;
+  .nav-wrap {
+    padding: 0.55rem 0;
+    gap: 0.6rem;
+  }
+
+  .brand {
+    font-size: 1.1rem;
+  }
+
+  .brand-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .actions .ghost,
+  .editorial-toggle,
+  .btn,
+  .nav-toggle,
+  .nav-links a {
+    min-height: 44px;
   }
 
   .section {
@@ -105,6 +125,12 @@ iframe {
   .service-hero-content {
     opacity: 1;
     transform: none;
+  }
+
+  .nav-links {
+    max-height: calc(100vh - 5.5rem);
+    overflow-y: auto;
+    padding-bottom: max(0.8rem, env(safe-area-inset-bottom));
   }
 }
 
