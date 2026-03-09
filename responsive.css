@@ -33,19 +33,51 @@ iframe {
     min-height: auto;
   }
 
-
   .service-hero-accordion {
-    min-height: 280px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(82vw, 1fr);
+    align-items: stretch;
+    gap: 0.7rem;
+    width: 100%;
+    min-height: auto;
+    overflow-x: auto;
+    padding: 0.35rem;
+    scroll-snap-type: x mandatory;
+    border-left: 0;
+    box-shadow: none;
+    background: linear-gradient(180deg, rgba(20, 20, 26, 0.18), rgba(20, 20, 26, 0.36));
   }
 
-  .service-hero-accordion {
-    --hero-tab-width: 52px;
-    --hero-panel-open-width: min(100%, 420px);
+  .service-hero-column,
+  .service-hero-column.is-active {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    min-width: auto;
+    flex: none;
+    border-radius: 0.85rem;
+    overflow: hidden;
+    scroll-snap-align: start;
+    background: rgba(18, 26, 42, 0.35);
   }
 
-  .service-hero-column {
-    grid-template-columns: var(--hero-tab-width) minmax(0, 1fr);
-    flex-basis: var(--hero-tab-width);
+  .service-hero-tab {
+    writing-mode: horizontal-tb;
+    transform: none;
+    min-height: 48px;
+    align-items: flex-start;
+    padding: 0.65rem 0.75rem;
+  }
+
+  .service-hero-content {
+    opacity: 1;
+    transform: none;
+    padding: 0.8rem;
+  }
+
+  .service-hero-column:not(.is-active) .service-hero-content {
+    display: none;
   }
 }
 
@@ -56,7 +88,6 @@ iframe {
     z-index: 140;
     backdrop-filter: blur(6px);
   }
-
 
   .brand {
     font-size: 1.1rem;
@@ -73,7 +104,6 @@ iframe {
   .nav-links a {
     min-height: 44px;
   }
-
 
   .fab-main {
     width: 3rem;
@@ -93,25 +123,11 @@ iframe {
   }
 
   .service-hero-accordion {
-    flex-direction: column;
-    min-height: auto;
-  }
-
-  .service-hero-column,
-  .service-hero-column.is-active {
-    grid-template-columns: 1fr;
-    flex: none;
+    grid-auto-columns: minmax(88vw, 1fr);
   }
 
   .service-hero-tab {
-    writing-mode: horizontal-tb;
-    transform: none;
-    min-height: 48px;
-  }
-
-  .service-hero-content {
-    opacity: 1;
-    transform: none;
+    min-height: 46px;
   }
 
   .nav-links {

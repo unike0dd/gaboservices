@@ -406,6 +406,7 @@ function renderServiceHeroAccordion(localizedServices, copy) {
   if (!heroAccordion) return;
 
   const heroShell = heroAccordion.closest('.services-hero-accordion');
+  const isMobileHeroLayout = () => window.matchMedia('(max-width: 780px)').matches;
   const hasActiveIndex = Number.isInteger(activeHeroServiceIndex) && activeHeroServiceIndex >= 0;
   const safeIndex = hasActiveIndex ? Math.max(0, Math.min(activeHeroServiceIndex, localizedServices.length - 1)) : -1;
   activeHeroServiceIndex = safeIndex;
@@ -520,9 +521,10 @@ function renderServiceHeroAccordion(localizedServices, copy) {
     heroShell.style.setProperty('--hero-glow-end', endColor);
   };
 
-  setActive(-1);
+  setActive(isMobileHeroLayout() ? 0 : -1);
 
   heroAccordion.onmouseover = (event) => {
+    if (isMobileHeroLayout()) return;
     const column = event.target.closest('.service-hero-column');
     if (!column) return;
     const index = Number(column?.dataset.heroServiceIndex);
@@ -532,7 +534,7 @@ function renderServiceHeroAccordion(localizedServices, copy) {
 
 
   heroAccordion.onmouseleave = () => {
-    setActive(-1);
+    setActive(isMobileHeroLayout() ? 0 : -1);
   };
 
   heroAccordion.onfocusin = (event) => {
@@ -548,7 +550,10 @@ function renderServiceHeroAccordion(localizedServices, copy) {
     if (tab) {
       const column = tab.closest('.service-hero-column');
       const index = Number(column?.dataset.heroServiceIndex);
-      if (Number.isInteger(index)) setActive(index);
+      if (Number.isInteger(index)) {
+        const shouldCollapse = isMobileHeroLayout() && activeHeroServiceIndex === index;
+        setActive(shouldCollapse ? -1 : index);
+      }
       return;
     }
 
