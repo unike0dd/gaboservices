@@ -65,7 +65,8 @@ class TinyGuardML {
     this.lastTamperingWarningAt = 0;
     this.trustedScriptHosts = new Set([
       window.location.hostname,
-      'static.cloudflareinsights.com'
+      'static.cloudflareinsights.com',
+      'challenges.cloudflare.com'
     ]);
   }
 
