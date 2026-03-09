@@ -194,6 +194,117 @@ const HERO_SERVICE_MEDIA = {
   ]
 };
 
+const HERO_SERVICE_DETAILS = {
+  en: {
+    logistics: {
+      eyebrow: 'Logistics Operations',
+      card1Title: 'Dispatch Support',
+      card1Text: 'Tracking, routing updates, pickup and delivery coordination, and issue follow-up.',
+      card2Title: 'Accounts Flow',
+      card2Text: 'Billing support, document follow-up, and payable / receivable coordination.',
+      metric1Value: '24/7',
+      metric1Label: 'Tracking rhythm',
+      metric2Value: 'SLA',
+      metric2Label: 'Response control',
+      metric3Value: 'Flow',
+      metric3Label: 'Exception handling'
+    },
+    admin: {
+      eyebrow: 'Administrative Backoffice',
+      card1Title: 'Executive Support',
+      card1Text: 'Calendar coordination, reporting support, inbox structure, and internal continuity.',
+      card2Title: 'Digital Office Admin',
+      card2Text: 'Data entry, document organization, recurring tasks, and workflow stability.',
+      metric1Value: 'Clean',
+      metric1Label: 'Records flow',
+      metric2Value: 'On time',
+      metric2Label: 'Admin cadence',
+      metric3Value: 'Order',
+      metric3Label: 'Process support'
+    },
+    customer: {
+      eyebrow: 'Customer Relations',
+      card1Title: 'Customer Experience',
+      card1Text: 'Issue handling, feedback loops, after-sales communication, and confidence care.',
+      card2Title: 'Sales Support',
+      card2Text: 'Lead handling, qualification flow, and response management for revenue continuity.',
+      metric1Value: 'CX',
+      metric1Label: 'Retention support',
+      metric2Value: 'Care',
+      metric2Label: 'After-sales flow',
+      metric3Value: 'NPS',
+      metric3Label: 'Experience rhythm'
+    },
+    it: {
+      eyebrow: 'IT Support',
+      card1Title: 'Tier 1 Support',
+      card1Text: 'Ticket intake, triage, password resets, and basic troubleshooting.',
+      card2Title: 'Tier 2 Support',
+      card2Text: 'Escalation handling, issue diagnosis, and implementation support continuity.',
+      metric1Value: 'T1/T2',
+      metric1Label: 'Support layers',
+      metric2Value: 'Fast',
+      metric2Label: 'Ticket response',
+      metric3Value: 'Assist',
+      metric3Label: 'Endpoint help'
+    }
+  },
+  es: {
+    logistics: {
+      eyebrow: 'Operaciones Logísticas',
+      card1Title: 'Soporte de Despacho',
+      card1Text: 'Rastreo, actualizaciones de ruta, coordinación de recolección y entrega, y seguimiento de incidencias.',
+      card2Title: 'Flujo de Cuentas',
+      card2Text: 'Apoyo en facturación, seguimiento documental y coordinación de cuentas por pagar y cobrar.',
+      metric1Value: '24/7',
+      metric1Label: 'Ritmo de rastreo',
+      metric2Value: 'SLA',
+      metric2Label: 'Control de respuesta',
+      metric3Value: 'Flujo',
+      metric3Label: 'Manejo de excepciones'
+    },
+    admin: {
+      eyebrow: 'Backoffice Administrativo',
+      card1Title: 'Soporte Ejecutivo',
+      card1Text: 'Coordinación de agenda, apoyo en reportes, estructura de bandeja y continuidad interna.',
+      card2Title: 'Administración Digital',
+      card2Text: 'Ingreso de datos, organización documental, tareas recurrentes y estabilidad operativa.',
+      metric1Value: 'Limpio',
+      metric1Label: 'Flujo de registros',
+      metric2Value: 'A tiempo',
+      metric2Label: 'Cadencia admin',
+      metric3Value: 'Orden',
+      metric3Label: 'Soporte de procesos'
+    },
+    customer: {
+      eyebrow: 'Relaciones con Clientes',
+      card1Title: 'Experiencia del Cliente',
+      card1Text: 'Gestión de incidencias, retroalimentación, comunicación postventa y atención continua.',
+      card2Title: 'Soporte Comercial',
+      card2Text: 'Gestión de leads, calificación y seguimiento de respuestas para continuidad comercial.',
+      metric1Value: 'CX',
+      metric1Label: 'Soporte de retención',
+      metric2Value: 'Atención',
+      metric2Label: 'Flujo postventa',
+      metric3Value: 'NPS',
+      metric3Label: 'Ritmo de experiencia'
+    },
+    it: {
+      eyebrow: 'Soporte de TI',
+      card1Title: 'Soporte Nivel 1',
+      card1Text: 'Recepción y triaje de tickets, restablecimiento de accesos y soporte básico.',
+      card2Title: 'Soporte Nivel 2',
+      card2Text: 'Gestión de escalaciones, diagnóstico de incidentes y continuidad de implementación.',
+      metric1Value: 'N1/N2',
+      metric1Label: 'Capas de soporte',
+      metric2Value: 'Ágil',
+      metric2Label: 'Respuesta a tickets',
+      metric3Value: 'Ayuda',
+      metric3Label: 'Soporte endpoint'
+    }
+  }
+};
+
 const heroCarouselState = {};
 let serviceCarouselTimer = null;
 
@@ -342,6 +453,7 @@ function renderServiceHeroAccordion(localizedServices, copy) {
   heroAccordion.innerHTML = localizedServices.map((service, index) => {
     const [startColor, endColor] = HERO_SERVICE_COLOR[service.key] || ['#1f2937', '#374151'];
     const tabTextColor = HERO_SERVICE_TEXT_COLOR[service.key] || '#1c1308';
+    const serviceDetails = HERO_SERVICE_DETAILS[lang]?.[service.key] || HERO_SERVICE_DETAILS.en[service.key];
     return `
       <article class="service-hero-column ${index === safeIndex ? 'is-active' : ''}" data-hero-service-index="${index}" data-hero-service-key="${service.key}">
         <button
@@ -354,10 +466,32 @@ function renderServiceHeroAccordion(localizedServices, copy) {
           <span class="service-hero-tab-name">${service.title}</span>
         </button>
         <div class="service-hero-content">
-          <h3>${service.title}</h3>
-          <p>${service.body}</p>
-          ${buildHeroSlides(service)}
-          <a class="service-hero-link" href="${service.href}">${copy.serviceCardAction || 'View service details'} →</a>
+          <span class="service-hero-eyebrow">${serviceDetails.eyebrow}</span>
+          <div class="service-hero-content-grid">
+            <div class="service-hero-primary">
+              <h3>${service.title}</h3>
+              <p>${service.body}</p>
+              ${buildHeroSlides(service)}
+            </div>
+            <div class="service-hero-features">
+              <article class="service-feature-card">
+                <strong>${serviceDetails.card1Title}</strong>
+                <span>${serviceDetails.card1Text}</span>
+              </article>
+              <article class="service-feature-card">
+                <strong>${serviceDetails.card2Title}</strong>
+                <span>${serviceDetails.card2Text}</span>
+              </article>
+            </div>
+          </div>
+          <div class="service-hero-bottom-row">
+            <div class="service-hero-metrics">
+              <div class="service-hero-metric"><strong>${serviceDetails.metric1Value}</strong><span>${serviceDetails.metric1Label}</span></div>
+              <div class="service-hero-metric"><strong>${serviceDetails.metric2Value}</strong><span>${serviceDetails.metric2Label}</span></div>
+              <div class="service-hero-metric"><strong>${serviceDetails.metric3Value}</strong><span>${serviceDetails.metric3Label}</span></div>
+            </div>
+            <a class="service-hero-link" href="${service.href}">${copy.serviceCardAction || 'View service details'} →</a>
+          </div>
         </div>
       </article>
     `;
