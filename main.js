@@ -63,6 +63,35 @@ class TinyGuardML {
     this.blockThreshold = 6;
     this.reviewThreshold = 3;
     this.lastTamperingWarningAt = 0;
+    this.trustedScriptHosts = new Set([
+      window.location.hostname,
+      'static.cloudflareinsights.com'
+    ]);
+  }
+
+  isTrustedNode(node) {
+    if (!(node instanceof HTMLElement)) return false;
+
+    if (node.tagName === 'SCRIPT') {
+      const srcAttr = node.getAttribute('src') || '';
+      if (!srcAttr) {
+        return node.hasAttribute('data-cf-beacon') || node.hasAttribute('data-cfasync');
+      }
+
+      try {
+        const scriptUrl = new URL(srcAttr, window.location.origin);
+        return this.trustedScriptHosts.has(scriptUrl.hostname);
+      } catch {
+        return false;
+      }
+    }
+
+    if (node.tagName === 'IFRAME') {
+      const src = node.getAttribute('src') || '';
+      return src.startsWith('https://challenges.cloudflare.com');
+    }
+
+    return false;
   }
 
   sanitize(rawValue) {
@@ -137,7 +166,9 @@ class TinyGuardML {
 
           const suspiciousTag = /^(script|iframe|object|embed)$/i.test(node.tagName);
           const hasInlineEvent = [...node.attributes].some((attribute) => /^on/i.test(attribute.name));
-          return suspiciousTag || hasInlineEvent;
+          if (hasInlineEvent) return true;
+          if (!suspiciousTag) return false;
+          return !this.isTrustedNode(node);
         });
       });
       if (suspicious) {
