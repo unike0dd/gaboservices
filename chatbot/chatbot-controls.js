@@ -170,6 +170,11 @@ export function initChatbotControls() {
     document.body.classList.remove('chat-open');
   };
 
+  const closeChat = () => {
+    if (chatOverlay.hidden) return;
+    setOpenState(false);
+  };
+
   chatTriggers.forEach((trigger) => {
     trigger.addEventListener('click', (event) => {
       const signal = `${trigger.getAttribute('aria-label') || ''} ${trigger.textContent || ''} ${trigger.className || ''}`;
@@ -189,20 +194,28 @@ export function initChatbotControls() {
   });
 
   chatPanel.querySelectorAll('[data-chat-dismiss]').forEach((button) => {
-    button.addEventListener('click', () => {
-      setOpenState(false);
-    });
+    const dismissHandler = (event) => {
+      event.preventDefault();
+      closeChat();
+    };
+
+    button.addEventListener('click', dismissHandler);
+    button.addEventListener('touchend', dismissHandler, { passive: false });
   });
 
-  chatOverlay.addEventListener('click', (event) => {
+  const closeFromOverlay = (event) => {
     if (event.target === chatOverlay) {
-      setOpenState(false);
+      closeChat();
     }
-  });
+  };
+
+  chatOverlay.addEventListener('click', closeFromOverlay);
+  chatOverlay.addEventListener('pointerdown', closeFromOverlay);
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && !chatOverlay.hidden) {
-      setOpenState(false);
+      event.preventDefault();
+      closeChat();
     }
     if (event.key === 'Escape') {
       setFabOpenState(false);
