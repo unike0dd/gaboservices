@@ -156,21 +156,6 @@ const tinyGuard = new TinyGuardML();
 let activeServiceKey = null;
 let activeHeroServiceIndex = -1;
 
-const HERO_SERVICE_COLOR = {
-  logistics: ['#6b00cf', '#8420d7'],
-  admin: ['#0ea44d', '#1fc965'],
-  customer: ['#ff5b00', '#ff7b1d'],
-  it: ['#f5c400', '#ffdd2e']
-};
-
-
-const HERO_SERVICE_TEXT_COLOR = {
-  logistics: '#12081f',
-  admin: '#061f0f',
-  customer: '#2b1200',
-  it: '#2a1d00'
-};
-
 const HERO_SERVICE_MEDIA = {
   logistics: [
     { title: 'Dispatch visibility', subtitle: 'Routes • ETA • Driver updates' },
@@ -418,7 +403,6 @@ function renderServiceHeroAccordion(localizedServices, copy) {
 
   const buildHeroSlides = (service) => {
     const mediaSlides = HERO_SERVICE_MEDIA[service.key] || [{ title: service.title, subtitle: service.body }];
-    const [startColor, endColor] = HERO_SERVICE_COLOR[service.key] || ['#1f2937', '#374151'];
     const activeSlide = heroCarouselState[service.key] || 0;
     const dots = mediaSlides.map((_, slideIndex) => `
       <button
@@ -435,10 +419,10 @@ function renderServiceHeroAccordion(localizedServices, copy) {
       <div class="hero-media-carousel" data-hero-carousel="${service.key}">
         <button type="button" class="hero-media-nav" data-action="hero-prev" data-service-key="${service.key}" aria-label="Previous media">←</button>
         <div class="hero-media-viewport">
-          <div class="hero-media-track" style="transform: translateX(-${activeSlide * 100}%);">
+          <div class="hero-media-track is-slide-${activeSlide}">
             ${mediaSlides.map((slide) => `
               <article class="hero-media-slide">
-                <div class="hero-media-visual" style="background: linear-gradient(145deg, color-mix(in oklab, ${startColor} 74%, black 26%), color-mix(in oklab, ${endColor} 74%, black 26%));"></div>
+                <div class="hero-media-visual hero-media-visual--${service.key}"></div>
                 <h4>${slide.title}</h4>
                 <p>${slide.subtitle}</p>
               </article>
@@ -452,17 +436,14 @@ function renderServiceHeroAccordion(localizedServices, copy) {
   };
 
   heroAccordion.innerHTML = localizedServices.map((service, index) => {
-    const [startColor, endColor] = HERO_SERVICE_COLOR[service.key] || ['#1f2937', '#374151'];
-    const tabTextColor = HERO_SERVICE_TEXT_COLOR[service.key] || '#1c1308';
     const serviceDetails = HERO_SERVICE_DETAILS[lang]?.[service.key] || HERO_SERVICE_DETAILS.en[service.key];
     return `
       <article class="service-hero-column ${safeIndex >= 0 && index === safeIndex ? 'is-active' : ''}" data-hero-service-index="${index}" data-hero-service-key="${service.key}">
         <button
           type="button"
-          class="service-hero-tab"
+          class="service-hero-tab service-hero-tab--${service.key}"
           aria-expanded="${String(safeIndex >= 0 && index === safeIndex)}"
           aria-label="${copy.serviceShowPrefix || 'Show'} ${service.title}"
-          style="--hero-tab-fg: ${tabTextColor}; background: linear-gradient(180deg, ${startColor} 0%, ${endColor} 100%);"
         >
           <span class="service-hero-tab-name">${service.title}</span>
         </button>
@@ -511,13 +492,10 @@ function renderServiceHeroAccordion(localizedServices, copy) {
     if (!heroShell) return;
     const activeService = localizedServices[activeHeroServiceIndex];
     if (!activeService) {
-      heroShell.style.removeProperty('--hero-glow-start');
-      heroShell.style.removeProperty('--hero-glow-end');
+      delete heroShell.dataset.activeServiceKey;
       return;
     }
-    const [startColor, endColor] = HERO_SERVICE_COLOR[activeService.key] || ['#1f2937', '#374151'];
-    heroShell.style.setProperty('--hero-glow-start', startColor);
-    heroShell.style.setProperty('--hero-glow-end', endColor);
+    heroShell.dataset.activeServiceKey = activeService.key;
   };
 
   setActive(-1);

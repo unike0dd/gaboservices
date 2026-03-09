@@ -169,6 +169,26 @@ h1 { font-size: 38px; margin: .3rem 0 1rem; max-width: 15ch; }
   overflow: hidden;
 }
 
+.services-hero-accordion[data-active-service-key="logistics"] {
+  --hero-glow-start: #6b00cf;
+  --hero-glow-end: #8420d7;
+}
+
+.services-hero-accordion[data-active-service-key="admin"] {
+  --hero-glow-start: #0ea44d;
+  --hero-glow-end: #1fc965;
+}
+
+.services-hero-accordion[data-active-service-key="customer"] {
+  --hero-glow-start: #ff5b00;
+  --hero-glow-end: #ff7b1d;
+}
+
+.services-hero-accordion[data-active-service-key="it"] {
+  --hero-glow-start: #f5c400;
+  --hero-glow-end: #ffdd2e;
+}
+
 .services-hero-accordion::before {
   content: '';
   position: absolute;
@@ -270,6 +290,26 @@ h1 { font-size: 38px; margin: .3rem 0 1rem; max-width: 15ch; }
   text-transform: uppercase;
   font-size: calc(0.75rem + 10px);
   cursor: pointer;
+}
+
+.service-hero-tab--logistics {
+  --hero-tab-fg: #12081f;
+  background: linear-gradient(180deg, #6b00cf 0%, #8420d7 100%);
+}
+
+.service-hero-tab--admin {
+  --hero-tab-fg: #061f0f;
+  background: linear-gradient(180deg, #0ea44d 0%, #1fc965 100%);
+}
+
+.service-hero-tab--customer {
+  --hero-tab-fg: #2b1200;
+  background: linear-gradient(180deg, #ff5b00 0%, #ff7b1d 100%);
+}
+
+.service-hero-tab--it {
+  --hero-tab-fg: #2a1d00;
+  background: linear-gradient(180deg, #f5c400 0%, #ffdd2e 100%);
 }
 
 .service-hero-tab-name {
@@ -383,6 +423,10 @@ h1 { font-size: 38px; margin: .3rem 0 1rem; max-width: 15ch; }
   transition: transform .28s ease;
 }
 
+.hero-media-track.is-slide-0 { transform: translateX(0); }
+.hero-media-track.is-slide-1 { transform: translateX(-100%); }
+.hero-media-track.is-slide-2 { transform: translateX(-200%); }
+
 .hero-media-slide {
   min-width: 100%;
   display: grid;
@@ -393,6 +437,22 @@ h1 { font-size: 38px; margin: .3rem 0 1rem; max-width: 15ch; }
   min-height: 94px;
   border-radius: 0.8rem;
   border: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+.hero-media-visual--logistics {
+  background: linear-gradient(145deg, color-mix(in oklab, #6b00cf 74%, black 26%), color-mix(in oklab, #8420d7 74%, black 26%));
+}
+
+.hero-media-visual--admin {
+  background: linear-gradient(145deg, color-mix(in oklab, #0ea44d 74%, black 26%), color-mix(in oklab, #1fc965 74%, black 26%));
+}
+
+.hero-media-visual--customer {
+  background: linear-gradient(145deg, color-mix(in oklab, #ff5b00 74%, black 26%), color-mix(in oklab, #ff7b1d 74%, black 26%));
+}
+
+.hero-media-visual--it {
+  background: linear-gradient(145deg, color-mix(in oklab, #f5c400 74%, black 26%), color-mix(in oklab, #ffdd2e 74%, black 26%));
 }
 
 .hero-media-slide h4,
