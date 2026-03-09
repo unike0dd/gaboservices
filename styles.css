@@ -1227,20 +1227,34 @@ textarea[data-security-state='review'] {
     row-gap: 0.5rem;
   }
 
+  .brand-stack {
+    order: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
   .actions {
-    order: 2;
+    order: 3;
+    flex-basis: 100%;
+    justify-content: flex-end;
+    margin-top: 0.2rem;
+    margin-right: 0.25rem;
     margin-left: auto;
   }
 
   nav {
     position: relative;
-    order: 3;
+    order: 2;
     margin-left: auto;
+    margin-right: 0.25rem;
+    align-self: flex-start;
   }
 
   #navToggle {
-    order: 3;
+    order: 2;
     margin-left: auto;
+    margin-right: 0.25rem;
+    align-self: flex-start;
   }
 
   .nav-toggle {
