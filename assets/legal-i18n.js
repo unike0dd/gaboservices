@@ -145,59 +145,67 @@
   };
 
   const params = new URLSearchParams(window.location.search);
-  const requested = params.get('lang');
-  const stored = localStorage.getItem('lang');
-  const lang = SUPPORTED.includes(requested) ? requested : (SUPPORTED.includes(stored) ? stored : 'es');
-  localStorage.setItem('lang', lang);
+  const requested = (params.get('lang') || '').toLowerCase();
+  const stored = (localStorage.getItem('lang') || '').toLowerCase();
 
-  const url = new URL(window.location.href);
-  url.searchParams.set('lang', lang);
-  window.history.replaceState({}, '', url);
+  const applyLanguage = (lang) => {
+    const activeLang = SUPPORTED.includes(lang) ? lang : 'es';
+    localStorage.setItem('lang', activeLang);
 
-  const copy = COPY[lang] || COPY.en;
-  const pageKey = getPageKey();
-  document.documentElement.lang = lang;
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', activeLang);
+    window.history.replaceState({}, '', url);
 
-  if (pageKey && PAGE_CONTENT[pageKey] && PAGE_CONTENT[pageKey][lang]) {
-    const main = document.querySelector('main.legal-main');
-    if (main) {
-      main.innerHTML = PAGE_CONTENT[pageKey][lang];
+    const copy = COPY[activeLang] || COPY.en;
+    const pageKey = getPageKey();
+    document.documentElement.lang = activeLang;
+
+    if (pageKey && PAGE_CONTENT[pageKey] && PAGE_CONTENT[pageKey][activeLang]) {
+      const main = document.querySelector('main.legal-main');
+      if (main) {
+        main.innerHTML = PAGE_CONTENT[pageKey][activeLang];
+      }
+      const description = document.querySelector('meta[name="description"]');
+      if (pageKey === 'terms') {
+        document.title = copy.pageTermsTitle;
+        if (description) description.setAttribute('content', copy.pageTermsDescription);
+      } else if (pageKey === 'cookies') {
+        document.title = copy.pageCookiesTitle;
+        if (description) description.setAttribute('content', copy.pageCookiesDescription);
+      } else if (pageKey === 'privacy') {
+        document.title = copy.pagePrivacyTitle;
+        if (description) description.setAttribute('content', copy.pagePrivacyDescription);
+      }
     }
-    if (pageKey === 'terms') {
-      document.title = copy.pageTermsTitle;
-      const description = document.querySelector('meta[name="description"]');
-      if (description) description.setAttribute('content', copy.pageTermsDescription);
-    } else if (pageKey === 'cookies') {
-      document.title = copy.pageCookiesTitle;
-      const description = document.querySelector('meta[name="description"]');
-      if (description) description.setAttribute('content', copy.pageCookiesDescription);
-    } else if (pageKey === 'privacy') {
-      document.title = copy.pagePrivacyTitle;
-      const description = document.querySelector('meta[name="description"]');
-      if (description) description.setAttribute('content', copy.pagePrivacyDescription);
-    }
-  }
+
+    document.querySelectorAll('[data-lang-option]').forEach((button) => {
+      const buttonLang = button.getAttribute('data-lang-option');
+      const active = buttonLang === activeLang;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+
+    document.querySelectorAll('[data-i18n]').forEach((node) => {
+      const key = node.getAttribute('data-i18n');
+      if (copy[key]) node.textContent = copy[key];
+    });
+    document.querySelectorAll('[data-i18n-aria-label]').forEach((node) => {
+      const key = node.getAttribute('data-i18n-aria-label');
+      if (copy[key]) node.setAttribute('aria-label', copy[key]);
+    });
+  };
+
+  const initialLang = SUPPORTED.includes(requested)
+    ? requested
+    : (SUPPORTED.includes(stored) ? stored : 'es');
+
+  applyLanguage(initialLang);
 
   document.querySelectorAll('[data-lang-option]').forEach((button) => {
-    const buttonLang = button.getAttribute('data-lang-option');
-    const active = buttonLang === lang;
-    button.classList.toggle('is-active', active);
-    button.setAttribute('aria-pressed', String(active));
     button.addEventListener('click', () => {
+      const buttonLang = (button.getAttribute('data-lang-option') || '').toLowerCase();
       if (!SUPPORTED.includes(buttonLang)) return;
-      localStorage.setItem('lang', buttonLang);
-      const next = new URL(window.location.href);
-      next.searchParams.set('lang', buttonLang);
-      window.location.href = next.toString();
+      applyLanguage(buttonLang);
     });
-  });
-
-  document.querySelectorAll('[data-i18n]').forEach((node) => {
-    const key = node.getAttribute('data-i18n');
-    if (copy[key]) node.textContent = copy[key];
-  });
-  document.querySelectorAll('[data-i18n-aria-label]').forEach((node) => {
-    const key = node.getAttribute('data-i18n-aria-label');
-    if (copy[key]) node.setAttribute('aria-label', copy[key]);
   });
 })();
