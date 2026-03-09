@@ -911,6 +911,9 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
 .pricing-compare {
   display: grid;
   gap: 0.75rem;
+  max-height: min(68vh, 700px);
+  overflow-y: auto;
+  padding-right: 0.2rem;
 }
 
 .pricing-compare-header,
@@ -946,6 +949,19 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
 
 .pricing-plan-heading .price {
   margin: 0.35rem 0 0;
+  transition: font-size 0.2s ease;
+}
+
+.pricing-plan-heading h3 {
+  transition: font-size 0.2s ease;
+}
+
+.pricing-compare.is-scrolled .pricing-plan-heading h3 {
+  font-size: 1rem;
+}
+
+.pricing-compare.is-scrolled .pricing-plan-heading .price {
+  font-size: 1.32rem;
 }
 
 .pricing-compare-body {

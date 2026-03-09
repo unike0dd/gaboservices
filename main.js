@@ -643,6 +643,16 @@ function renderCards() {
         </div>
       </section>
     `;
+
+    const pricingCompare = pricingCards.querySelector('.pricing-compare');
+    if (pricingCompare) {
+      const toggleCompactPlanHeadings = () => {
+        pricingCompare.classList.toggle('is-scrolled', pricingCompare.scrollTop > 8);
+      };
+
+      pricingCompare.addEventListener('scroll', toggleCompactPlanHeadings, { passive: true });
+      toggleCompactPlanHeadings();
+    }
   }
 }
 
