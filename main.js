@@ -520,7 +520,8 @@ function renderServiceHeroAccordion(localizedServices, copy) {
     heroShell.style.setProperty('--hero-glow-end', endColor);
   };
 
-  setActive(-1);
+  const mobileAccordion = window.matchMedia('(max-width: 480px)').matches;
+  setActive(mobileAccordion && localizedServices.length ? 0 : -1);
 
   heroAccordion.onmouseover = (event) => {
     const column = event.target.closest('.service-hero-column');
