@@ -903,7 +903,68 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
 .card, .price-card {
   border:1px solid var(--border); background: var(--card); border-radius: 1rem; padding:1rem;
 }
-.pricing { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+
+.pricing {
+  grid-template-columns: 1fr;
+}
+
+.pricing-compare {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.pricing-compare-header,
+.pricing-feature-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.2fr) repeat(3, minmax(140px, 1fr));
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.pricing-compare-header {
+  position: sticky;
+  top: 72px;
+  z-index: 3;
+  padding: 0.4rem 0;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(3px);
+}
+
+.pricing-feature-heading {
+  font-weight: 700;
+  padding: 0.75rem 0.3rem;
+}
+
+.pricing-plan-heading {
+  min-height: 100%;
+}
+
+.pricing-plan-heading h3,
+.pricing-feature-name {
+  margin: 0;
+}
+
+.pricing-plan-heading .price {
+  margin: 0.35rem 0 0;
+}
+
+.pricing-compare-body {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.pricing-feature-row {
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  padding: 0.85rem 0.9rem;
+  background: var(--card);
+}
+
+.pricing-feature-value {
+  text-align: center;
+  font-weight: 700;
+  color: var(--primary);
+}
 
 
 .operational-grid {
