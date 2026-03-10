@@ -25,8 +25,18 @@ jobs:
           git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
           git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
           if ! git fetch --no-tags --prune origin "${GITHUB_REF}"; then
-            echo "Falling back to commit SHA fetch because ${GITHUB_REF} was not found."
-            git fetch --no-tags --prune origin "${GITHUB_SHA}"
+            echo "Primary fetch failed for ${GITHUB_REF}."
+            pr_number="${GITHUB_REF#refs/pull/}"
+            pr_number="${pr_number%/merge}"
+
+            if [[ "${GITHUB_REF}" == refs/pull/*/merge ]] && git fetch --no-tags --prune origin "refs/pull/${pr_number}/head"; then
+              echo "Fetched refs/pull/${pr_number}/head as fallback for missing merge ref."
+            elif git fetch --no-tags --prune origin "${GITHUB_SHA}"; then
+              echo "Fetched commit SHA ${GITHUB_SHA} as fallback."
+            else
+              echo "Falling back to default branch fetch from origin/HEAD."
+              git fetch --no-tags --prune origin +HEAD
+            fi
           fi
           git checkout --detach "${GITHUB_SHA}" || git checkout --detach FETCH_HEAD
 
