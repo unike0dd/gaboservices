@@ -25,7 +25,6 @@ This document links each JavaScript file to its runtime entrypoint, trigger/even
 |---|---|---|---|
 | `chatbot/chatbot-worker-stream.js` | Imported by chatbot controls/runtime | Function calls during chatbot boot | Resolves gateway/embed URLs and opens direct SSE chat stream. |
 | `chatbot/chatbot-controls.js` | Imported by `main.js` runtime path | UI/chatbot init lifecycle | Handles chatbot UI state and stream interactions. |
-| `chatbot/worker_files/con-artist.gateway.js` | Cloudflare Worker deployment source | HTTP route handlers (`/api/chat`, `/embed`, health, repo handshake) | Enforces origin/asset identity checks and forwards upstream stream traffic. |
 
 ## Shared UI support scripts
 
