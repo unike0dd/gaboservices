@@ -415,7 +415,7 @@ function setupServiceCarousel() {
 
   serviceCarouselTimer = window.setInterval(() => {
     if (!isPaused) stepToNext();
-  }, 8000);
+  }, 12000);
 }
 
 function renderServiceHeroAccordion(localizedServices, copy) {
@@ -607,16 +607,23 @@ function renderCards() {
   const serviceCards = document.getElementById('serviceCards');
   renderServiceHeroAccordion(localizedServices, copy);
   if (serviceCards) {
-    serviceCards.innerHTML = localizedServices.map((service) => `
+    serviceCards.innerHTML = localizedServices.map((service) => {
+      const supportItems = Array.isArray(service.items)
+        ? service.items.map((item) => `<li>${item}</li>`).join('')
+        : '';
+
+      return `
     <article class="card service-card" data-service-card="${service.key}">
       <button class="service-card-trigger" type="button" data-service-key="${service.key}" aria-expanded="${String(activeServiceKey === service.key)}">
         <span class="service-card-label">${copy.serviceLabel}</span>
         <h3>${service.title}</h3>
         <p>${service.body}</p>
-        <span class="service-card-action">${copy.serviceCardAction} →</span>
+        ${supportItems ? `<ul>${supportItems}</ul>` : ''}
       </button>
+      <a class="btn" href="${service.href}">${copy.serviceLearnMore || 'Learn more'}</a>
     </article>
-  `).join('');
+  `;
+    }).join('');
 
     let toggleRow = document.getElementById('serviceCarouselToggles');
     if (!toggleRow) {
