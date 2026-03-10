@@ -911,9 +911,8 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
 .pricing-compare {
   display: grid;
   gap: 0.75rem;
-  max-height: min(68vh, 700px);
-  overflow-y: auto;
-  padding-right: 0.2rem;
+  max-height: none;
+  overflow-y: visible;
 }
 
 .pricing-compare-header,
