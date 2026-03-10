@@ -24,7 +24,10 @@ jobs:
           git init .
           git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
           git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
-          git fetch --no-tags --prune origin "${GITHUB_REF}"
+          if ! git fetch --no-tags --prune origin "${GITHUB_REF}"; then
+            echo "Falling back to commit SHA fetch because ${GITHUB_REF} was not found."
+            git fetch --no-tags --prune origin "${GITHUB_SHA}"
+          fi
           git checkout --detach "${GITHUB_SHA}" || git checkout --detach FETCH_HEAD
 
       - name: Install gitleaks binary
