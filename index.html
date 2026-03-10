@@ -59,13 +59,18 @@
     </header>
 
     <main id="home">
-      <section class="hero container">
-        <h1 data-i18n="heroTitle">Professional services for logistics, IT, and customer operations.</h1>
-        <p data-i18n="heroBody">Scale support with expert teams, measurable SLAs, and human-centered delivery.</p>
-        <div class="cta-row">
+      <section class="container services-hero-accordion" aria-label="Featured services accordion">
+        <div class="services-hero-copy">
+          <h1 class="services-hero-title" data-i18n="heroTitle">Professional services for logistics, IT, and customer operations.</h1>
+          <p class="services-hero-body" data-i18n="heroBody">Scale support with expert teams, measurable SLAs, and human-centered delivery.</p>
           <a href="./contact" class="btn" data-i18n="schedule">Schedule Consultation</a>
-          <input class="hp-field" type="text" name="trial_reference" tabindex="-1" autocomplete="off" aria-hidden="true" />
         </div>
+        <section
+          id="serviceHeroAccordion"
+          class="service-hero-accordion"
+          data-i18n-aria-label="serviceCarouselToggles"
+          aria-label="Service carousel toggles"
+        ></section>
       </section>
 
       <section id="about" class="container section">
@@ -75,14 +80,13 @@
 
       <section id="services" class="container section">
         <h2 data-i18n="services">Services</h2>
+        <p>Flexible support across logistics, administrative operations, customer operations, and IT support.</p>
         <div class="grid cards" id="serviceCards"></div>
         <div id="serviceCarouselToggles" class="service-carousel-toggles" data-i18n-aria-label="serviceCarouselToggles" aria-label="Service carousel toggles"></div>
-      </section>
-
-      <section id="serviceDetailPanel" class="container section service-detail" hidden>
-        <h3 id="serviceDetailTitle"></h3>
-        <p id="serviceDetailBody"></p>
-        <a id="serviceDetailLink" class="btn" href="./services" data-i18n="serviceLearnMore">Learn more</a>
+        <div class="cta-row">
+          <a class="btn" href="./services/">Explore Services</a>
+          <a class="btn ghost" href="./contact/">Schedule Consultation</a>
+        </div>
       </section>
 
     </main>

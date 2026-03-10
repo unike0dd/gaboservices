@@ -646,32 +646,22 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
 }
 
 #serviceCards {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 1rem;
-  overflow-x: auto;
   width: 100%;
-  padding-bottom: 0.4rem;
-  scroll-snap-type: x mandatory;
-  scroll-snap-stop: always;
-  scroll-behavior: smooth;
-  scroll-padding-inline-start: 0;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  padding: 0.2rem 0;
 }
 
 #serviceCards .service-card {
-  flex: 0 0 100%;
+  width: min(100%, 1120px);
   max-width: 100%;
-  scroll-snap-align: start;
+  min-height: clamp(230px, 24vw, 290px);
+  margin: 0 auto;
   transition:
     transform .28s ease,
     border-color .28s ease,
     box-shadow .28s ease;
-}
-
-#serviceCards::-webkit-scrollbar {
-  display: none;
 }
 
 
@@ -679,9 +669,9 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
 #serviceCards .service-card:focus-within .service-card-trigger,
 #serviceCards .service-card.is-carousel-focus .service-card-trigger,
 #serviceCards .service-card.active .service-card-trigger {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
 }
 
 #serviceCards .service-card:hover .service-card-action,
@@ -695,6 +685,13 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
   position: relative;
   overflow: hidden;
   isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
+  column-gap: 1.25rem;
+  min-height: clamp(250px, 30vw, 320px);
+  padding: clamp(1rem, 1.6vw, 1.4rem);
+  border-radius: 1rem;
   transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
 }
 
@@ -744,9 +741,9 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
 .service-card-trigger {
   position: relative;
   z-index: 1;
-  width: 100%;
-  min-height: calc(100% + 10px);
-  text-align: center;
+  width: auto;
+  min-height: 100%;
+  text-align: left;
   background: transparent;
   border: 0;
   color: inherit;
@@ -754,24 +751,39 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
   padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   gap: .6rem;
 }
 
 
 .service-card h3 {
   margin: 0;
-  text-align: center;
-  font-size: 24px;
+  text-align: left;
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
   line-height: 1.25;
 }
 
 .service-card p {
   margin: 0;
-  text-align: center;
-  font-size: 20px;
+  text-align: left;
+  font-size: clamp(1.05rem, 0.95rem + 0.7vw, 1.3rem);
   line-height: 1.5;
+}
+
+.service-card ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: clamp(1rem, 0.92rem + 0.4vw, 1.15rem);
+  line-height: 1.5;
+}
+
+.service-card .btn {
+  align-self: end;
+  justify-self: end;
+  white-space: nowrap;
+  font-size: 1rem;
+  padding: 0.85rem 1.1rem;
 }
 .service-card-label {
   font-size: 14px;
@@ -788,11 +800,7 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
 }
 
 .service-carousel-toggles {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem;
-  justify-content: center;
-  margin-top: 0.85rem;
+  display: none;
 }
 
 .service-carousel-toggle {
