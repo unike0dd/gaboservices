@@ -244,16 +244,64 @@ export const DICTIONARY = {
 
 export const SERVICES = {
   en: [
-    { key: 'logistics', title: 'Logistics Operations', body: 'Order workflows, dispatch support, shipment updates, and reporting.', href: '/services/logistics-operations/' },
-    { key: 'admin', title: 'Administrative Backoffice', body: 'Data entry, documentation, invoicing support, accounts payable and receivable, process management, scheduling, and executive assistant services.', href: '/services/administrative-backoffice/' },
-    { key: 'customer', title: 'Customer Relations', body: 'Omnichannel support, customer retention, and quality monitoring.', href: '/services/customer-relations/' },
-    { key: 'it', title: 'IT Support', body: 'Tier 1 and Tier 2 onboarding, implementation, troubleshooting, account management, customer relations, and endpoint support.', href: '/services/it-support/' }
+    {
+      key: 'logistics',
+      title: 'Logistics Operations',
+      body: 'Support for coordination-heavy logistics workflows that require consistency, communication, and follow-through.',
+      items: ['Shipment and delivery coordination', 'Dispatch and status follow-up', 'Billing and operational documentation'],
+      href: '/services/logistics-operations/'
+    },
+    {
+      key: 'admin',
+      title: 'Administrative Backoffice',
+      body: 'Remote administrative support that keeps routine business operations organized and moving.',
+      items: ['Documentation and records support', 'Scheduling and coordination tasks', 'Reporting and internal follow-up'],
+      href: '/services/administrative-backoffice/'
+    },
+    {
+      key: 'customer',
+      title: 'Customer Relations',
+      body: 'Customer-facing support that helps businesses stay responsive, clear, and professional.',
+      items: ['Customer communication support', 'After-sales follow-up', 'Case updates and service continuity'],
+      href: '/services/customer-relations/'
+    },
+    {
+      key: 'it',
+      title: 'IT Support',
+      body: 'Operational IT assistance for routine support needs and internal issue coordination.',
+      items: ['Help desk intake', 'Support ticket follow-up', 'User support coordination'],
+      href: '/services/it-support/'
+    }
   ],
   es: [
-    { key: 'logistics', title: 'Operaciones Logísticas', body: 'Flujos de pedidos, soporte de despacho, actualizaciones de envíos y reportes.', href: '/services/logistics-operations/' },
-    { key: 'admin', title: 'Backoffice Administrativo', body: 'Ingreso de datos, documentación, apoyo de facturación, cuentas por pagar y cobrar, gestión de procesos, agenda y asistencia ejecutiva.', href: '/services/administrative-backoffice/' },
-    { key: 'customer', title: 'Relaciones con Clientes', body: 'Soporte omnicanal, retención de clientes y monitoreo de calidad.', href: '/services/customer-relations/' },
-    { key: 'it', title: 'Soporte de TI', body: 'Nivel 1 y nivel 2: incorporación, implementación, solución de problemas, gestión de cuentas, relaciones con clientes y soporte de dispositivos finales.', href: '/services/it-support/' }
+    {
+      key: 'logistics',
+      title: 'Operaciones Logísticas',
+      body: 'Soporte para flujos logísticos con alta coordinación que requieren consistencia, comunicación y seguimiento.',
+      items: ['Coordinación de envíos y entregas', 'Despacho y seguimiento de estado', 'Facturación y documentación operativa'],
+      href: '/services/logistics-operations/'
+    },
+    {
+      key: 'admin',
+      title: 'Backoffice Administrativo',
+      body: 'Soporte administrativo remoto que mantiene las operaciones rutinarias organizadas y en movimiento.',
+      items: ['Soporte documental y de registros', 'Tareas de agenda y coordinación', 'Reportes y seguimiento interno'],
+      href: '/services/administrative-backoffice/'
+    },
+    {
+      key: 'customer',
+      title: 'Relaciones con Clientes',
+      body: 'Soporte de atención al cliente que ayuda a mantener respuestas claras, ágiles y profesionales.',
+      items: ['Soporte de comunicación con clientes', 'Seguimiento postventa', 'Actualizaciones de casos y continuidad del servicio'],
+      href: '/services/customer-relations/'
+    },
+    {
+      key: 'it',
+      title: 'Soporte de TI',
+      body: 'Asistencia operativa de TI para necesidades rutinarias y coordinación interna de incidencias.',
+      items: ['Recepción de mesa de ayuda', 'Seguimiento de tickets de soporte', 'Coordinación de soporte a usuarios'],
+      href: '/services/it-support/'
+    }
   ]
 };
 
