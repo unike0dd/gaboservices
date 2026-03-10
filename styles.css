@@ -650,14 +650,21 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
   grid-template-columns: 1fr;
   gap: 1rem;
   width: 100%;
-  padding: 0.2rem 0;
+  padding: 0 0.35rem 0.55rem;
+  scroll-snap-type: x mandatory;
+  scroll-snap-stop: always;
+  scroll-behavior: smooth;
+  scroll-padding-inline-start: 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 #serviceCards .service-card {
   width: min(100%, 1120px);
   max-width: 100%;
-  min-height: clamp(230px, 24vw, 290px);
-  margin: 0 auto;
+  scroll-snap-align: start;
+  margin: 0.35rem 0;
   transition:
     transform .28s ease,
     border-color .28s ease,
@@ -779,7 +786,7 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
 }
 
 .service-card .btn {
-  align-self: end;
+  align-self: center;
   justify-self: end;
   white-space: nowrap;
   font-size: 1rem;
