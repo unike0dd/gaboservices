@@ -7,7 +7,7 @@ export const SUPPORTED_LANGUAGES = Object.freeze(Object.keys(LANGUAGE_CODES));
 
 export const DICTIONARY = {
   en: {
-    pageTitle: 'Gabriel Professional SMBs Services',
+    pageTitle: 'Gabriel Services',
     pageDescription: 'Business services for logistics, IT, admin, and customer relations.',
     switchToEnglish: 'Switch language to English',
     switchToSpanish: 'Switch language to Spanish',
@@ -107,7 +107,7 @@ export const DICTIONARY = {
     footerTerms: 'T&C',
     footerCookies: 'Cookies Consent',
     footerGdpr: 'GDPR',
-    footerCopyright: 'Gabriel Professional SMBs Services',
+    footerCopyright: 'Gabriel Services',
     opsHeading: 'Integrated delivery framework',
     opsIntro: 'A synchronized model that connects secure delivery, adaptive UX, governance, and observability in one operating rhythm.',
     opsLifecycleTitle: 'Intelligent code lifecycle',
