@@ -1002,6 +1002,54 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
   gap: 1.15rem;
 }
 
+
+.service-matrix-section h2 {
+  font-size: 24px;
+}
+
+.service-matrix-section p {
+  max-width: 72ch;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid rgba(39, 51, 82, 0.2);
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.service-matrix-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.service-matrix-table th,
+.service-matrix-table td {
+  border-bottom: 1px solid rgba(39, 51, 82, 0.16);
+  padding: 0.7rem 0.85rem;
+  text-align: center;
+}
+
+.service-matrix-table thead th {
+  background: #f3f6fd;
+  color: #0f1a3b;
+  font-weight: 700;
+}
+
+.service-matrix-table th[scope='row'] {
+  text-align: left;
+  font-weight: 600;
+  color: #18244d;
+  background: #fbfcff;
+}
+
+.service-matrix-table tr:last-child th,
+.service-matrix-table tr:last-child td {
+  border-bottom: 0;
+}
+
 .section-heading-row {
   display: grid;
   gap: 0.4rem;
