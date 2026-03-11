@@ -1074,6 +1074,131 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
   border-bottom: 0;
 }
 
+
+.engagement-options {
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.engagement-options__inner {
+  width: 100%;
+}
+
+.engagement-options__header {
+  margin-bottom: 1.25rem;
+}
+
+.engagement-options__header h2 {
+  margin: 0 0 0.5rem;
+}
+
+.engagement-options__header p {
+  margin: 0;
+  max-width: 42rem;
+}
+
+.engagement-options__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.engagement-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 1.25rem;
+  border: 1px solid rgba(39, 51, 82, 0.2);
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.engagement-card h3 {
+  margin: 0 0 0.5rem;
+}
+
+.engagement-card p {
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+
+.engagement-card__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.engagement-card__list li {
+  position: relative;
+  padding-left: 0.9rem;
+}
+
+.engagement-card__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.75;
+  transform: translateY(-50%);
+}
+
+.engagement-card__cta {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 2.5rem;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid rgba(39, 51, 82, 0.2);
+  color: inherit;
+  background: #f7f9ff;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.engagement-card__cta:hover,
+.engagement-card__cta:focus-visible {
+  background: #eef3ff;
+  border-color: rgba(39, 51, 82, 0.35);
+  transform: translateY(-1px);
+}
+
+.engagement-card__cta:focus-visible {
+  outline: 2px solid #18244d;
+  outline-offset: 2px;
+}
+
+.engagement-options__note {
+  margin-top: 1rem;
+  max-width: 48rem;
+  opacity: 0.9;
+}
+
+@media (max-width: 900px) {
+  .engagement-options {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .engagement-options__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .engagement-card {
+    padding: 1rem;
+  }
+}
+
 .section-heading-row {
   display: grid;
   gap: 0.4rem;
