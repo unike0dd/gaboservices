@@ -42,7 +42,26 @@ main li {
   font-size: clamp(1rem, 0.95rem + 0.8vw, 1.75rem);
 }
 
-.container { width: min(100%, var(--adaptive-container-width, 1100px)); margin: 0 auto; padding-inline: var(--adaptive-container-padding, 1rem); }
+main p {
+  margin: 0 0 1rem;
+  text-indent: clamp(0.75rem, 0.5rem + 0.7vw, 1.25rem);
+}
+
+main ul,
+main ol {
+  margin: 0.75rem 0 1rem;
+  padding-inline-start: clamp(1.2rem, 0.9rem + 0.7vw, 1.8rem);
+}
+
+main li + li {
+  margin-top: 0.35rem;
+}
+
+.container {
+  width: min(100%, var(--adaptive-container-width, 1100px));
+  margin: 0 auto;
+  padding-inline: max(var(--adaptive-container-padding, 1rem), env(safe-area-inset-left), env(safe-area-inset-right));
+}
 .site-header {
   position: sticky; top: 0; z-index: 120;
   backdrop-filter: blur(8px);
@@ -697,7 +716,7 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
   align-items: stretch;
   column-gap: 1.25rem;
   min-height: clamp(250px, 30vw, 320px);
-  padding: clamp(1rem, 1.6vw, 1.4rem);
+  padding: clamp(1.15rem, 1.9vw, 1.7rem);
   border-radius: 1rem;
   transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
 }
@@ -773,16 +792,21 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
 
 .service-card p {
   margin: 0;
+  text-indent: clamp(0.7rem, 0.45rem + 0.8vw, 1.2rem);
   text-align: left;
   font-size: clamp(1.05rem, 0.95rem + 0.7vw, 1.3rem);
   line-height: 1.5;
 }
 
 .service-card ul {
-  margin: 0;
-  padding-left: 1.1rem;
+  margin: 0.35rem 0 0;
+  padding-left: clamp(1.25rem, 1rem + 0.7vw, 1.8rem);
   font-size: clamp(1rem, 0.92rem + 0.4vw, 1.15rem);
   line-height: 1.5;
+}
+
+.service-card li + li {
+  margin-top: 0.4rem;
 }
 
 .service-card .btn {
@@ -1246,7 +1270,7 @@ textarea[data-security-state='review'] {
   place-items: end;
   padding: 1.25rem;
   background: rgba(2, 6, 23, 0.46);
-  z-index: 94;
+  z-index: 1000;
 }
 
 .chat-panel {
@@ -1274,7 +1298,7 @@ textarea[data-security-state='review'] {
   border: none;
 }
 
-@media (min-width: 781px) {
+@media (min-width: 901px) {
   nav {
     position: relative;
   }
@@ -1298,7 +1322,7 @@ textarea[data-security-state='review'] {
   }
 }
 
-@media (max-width: 780px) {
+@media (max-width: 900px) {
   .nav-wrap {
     flex-wrap: wrap;
     align-items: flex-start;
@@ -1364,7 +1388,7 @@ textarea[data-security-state='review'] {
     visibility: hidden;
     pointer-events: none;
     transition: transform .3s ease, opacity .2s ease;
-    z-index: 220;
+    z-index: 3500;
     overflow-y: auto;
     overscroll-behavior: contain;
   }
@@ -1383,15 +1407,85 @@ textarea[data-security-state='review'] {
   }
 }
 
-@media (max-width: 780px) {
+@media (max-width: 900px) {
   .fab-wrapper {
     left: var(--nav-fab-offset-x);
     right: auto;
     align-items: flex-start;
+    z-index: 3000;
   }
 
   .fab-menu {
     align-items: flex-start;
+  }
+
+  .chat-overlay {
+    z-index: 3000;
+  }
+}
+
+
+.service-detail-page > h1,
+.service-detail-page > p,
+.service-detail-page > .section {
+  max-width: 78ch;
+}
+
+.service-detail-page > p {
+  margin-bottom: 1.25rem;
+}
+
+.service-detail-page .section h2 {
+  margin-bottom: 0.65rem;
+}
+
+.related-services-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.related-service-link {
+  display: block;
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  background: var(--card);
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background-color .2s ease;
+}
+
+.related-service-link:hover,
+.related-service-link:focus-visible {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--primary) 55%, var(--border));
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+  background: color-mix(in oklab, var(--card) 86%, #ffffff);
+  text-decoration: none;
+}
+
+
+@media (max-width: 900px) {
+  .service-detail-page > h1,
+  .service-detail-page > p,
+  .service-detail-page > .section {
+    max-width: 100%;
+  }
+
+  .related-services-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .related-services-grid {
+    grid-template-columns: 1fr;
   }
 }
 

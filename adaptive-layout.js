@@ -21,25 +21,29 @@ function applyViewportTokens(tier) {
   const tokens = {
     mobile: {
       containerWidth: '100%',
-      containerPadding: '0.9rem',
+      containerPadding: '1rem',
       fontScale: '0.96',
       chatHeight: '70vh',
       sectionPaddingY: '2.2rem',
       gridGap: '0.85rem',
       ctaGap: '0.65rem',
       navGap: '0.6rem',
-      navWrapPaddingY: '0.55rem'
+      navWrapPaddingY: '0.55rem',
+      fabOffsetX: '1rem',
+      fabOffsetY: '1rem'
     },
     tablet: {
       containerWidth: '1024px',
-      containerPadding: '1.2rem',
+      containerPadding: '1.35rem',
       fontScale: '0.99',
       chatHeight: '72vh',
       sectionPaddingY: '2.5rem',
       gridGap: '0.95rem',
       ctaGap: '0.7rem',
       navGap: '0.85rem',
-      navWrapPaddingY: '0.68rem'
+      navWrapPaddingY: '0.68rem',
+      fabOffsetX: '1.15rem',
+      fabOffsetY: '1.15rem'
     },
     laptop: {
       containerWidth: '1140px',
@@ -50,7 +54,9 @@ function applyViewportTokens(tier) {
       gridGap: '1rem',
       ctaGap: '0.75rem',
       navGap: '1rem',
-      navWrapPaddingY: '0.8rem'
+      navWrapPaddingY: '0.8rem',
+      fabOffsetX: '1.25rem',
+      fabOffsetY: '1.25rem'
     },
     pc: {
       containerWidth: '1240px',
@@ -61,7 +67,9 @@ function applyViewportTokens(tier) {
       gridGap: '1.05rem',
       ctaGap: '0.8rem',
       navGap: '1rem',
-      navWrapPaddingY: '0.82rem'
+      navWrapPaddingY: '0.82rem',
+      fabOffsetX: '1.35rem',
+      fabOffsetY: '1.35rem'
     }
   };
 
@@ -75,6 +83,8 @@ function applyViewportTokens(tier) {
   root.style.setProperty('--adaptive-cta-gap', activeTokens.ctaGap);
   root.style.setProperty('--adaptive-nav-gap', activeTokens.navGap);
   root.style.setProperty('--adaptive-nav-wrap-padding-y', activeTokens.navWrapPaddingY);
+  root.style.setProperty('--nav-fab-offset-x', activeTokens.fabOffsetX);
+  root.style.setProperty('--nav-fab-offset-y', activeTokens.fabOffsetY);
 }
 
 export function initAdaptiveLayout() {
