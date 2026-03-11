@@ -1791,3 +1791,28 @@ textarea[data-security-state='review'] {
     scroll-behavior: auto !important;
   }
 }
+
+.related-services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.related-services a {
+  display: inline-block;
+  text-decoration: none;
+  color: #d9e2f2;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.related-services a:hover,
+.related-services a:focus-visible {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  transform: translateY(-1px);
+  outline: none;
+}
