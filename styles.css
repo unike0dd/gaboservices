@@ -42,6 +42,21 @@ main li {
   font-size: clamp(1rem, 0.95rem + 0.8vw, 1.75rem);
 }
 
+main p {
+  margin: 0 0 1rem;
+  text-indent: clamp(0.75rem, 0.5rem + 0.7vw, 1.25rem);
+}
+
+main ul,
+main ol {
+  margin: 0.75rem 0 1rem;
+  padding-inline-start: clamp(1.2rem, 0.9rem + 0.7vw, 1.8rem);
+}
+
+main li + li {
+  margin-top: 0.35rem;
+}
+
 .container {
   width: min(100%, var(--adaptive-container-width, 1100px));
   margin: 0 auto;
@@ -701,7 +716,7 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
   align-items: stretch;
   column-gap: 1.25rem;
   min-height: clamp(250px, 30vw, 320px);
-  padding: clamp(1rem, 1.6vw, 1.4rem);
+  padding: clamp(1.15rem, 1.9vw, 1.7rem);
   border-radius: 1rem;
   transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
 }
@@ -777,16 +792,21 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
 
 .service-card p {
   margin: 0;
+  text-indent: clamp(0.7rem, 0.45rem + 0.8vw, 1.2rem);
   text-align: left;
   font-size: clamp(1.05rem, 0.95rem + 0.7vw, 1.3rem);
   line-height: 1.5;
 }
 
 .service-card ul {
-  margin: 0;
-  padding-left: 1.1rem;
+  margin: 0.35rem 0 0;
+  padding-left: clamp(1.25rem, 1rem + 0.7vw, 1.8rem);
   font-size: clamp(1rem, 0.92rem + 0.4vw, 1.15rem);
   line-height: 1.5;
+}
+
+.service-card li + li {
+  margin-top: 0.4rem;
 }
 
 .service-card .btn {
