@@ -1006,6 +1006,50 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
   gap: 1.15rem;
 }
 
+
+.service-matrix-section p {
+  max-width: 72ch;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid rgba(39, 51, 82, 0.2);
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.service-matrix-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.service-matrix-table th,
+.service-matrix-table td {
+  border-bottom: 1px solid rgba(39, 51, 82, 0.16);
+  padding: 0.7rem 0.85rem;
+  text-align: center;
+}
+
+.service-matrix-table thead th {
+  background: #f3f6fd;
+  color: #0f1a3b;
+  font-weight: 700;
+}
+
+.service-matrix-table th[scope='row'] {
+  text-align: left;
+  font-weight: 600;
+  color: #18244d;
+  background: #fbfcff;
+}
+
+.service-matrix-table tr:last-child th,
+.service-matrix-table tr:last-child td {
+  border-bottom: 0;
+}
+
 .section-heading-row {
   display: grid;
   gap: 0.4rem;
@@ -1363,10 +1407,6 @@ textarea[data-security-state='review'] {
   max-width: 78ch;
 }
 
-.service-detail-page {
-  margin-inline: auto;
-}
-
 .service-detail-page > p {
   margin-bottom: 1.25rem;
 }
@@ -1379,36 +1419,33 @@ textarea[data-security-state='review'] {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0.8rem 1rem;
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
 }
 
 .related-service-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  display: block;
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  background: var(--card);
   color: var(--text);
   text-decoration: none;
-  font-weight: 700;
-  padding: 0.2rem 0.35rem;
-  border-radius: 0.5rem;
-  border: 1px solid transparent;
-  transition: color .2s ease, background-color .2s ease, border-color .2s ease, text-decoration-color .2s ease;
+  font-weight: 600;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background-color .2s ease;
 }
 
 .related-service-link:hover,
 .related-service-link:focus-visible {
-  color: var(--primary);
-  background: color-mix(in oklab, var(--primary) 12%, var(--card));
-  border-color: color-mix(in oklab, var(--primary) 42%, var(--border));
-  text-decoration: underline;
-  text-underline-offset: 0.16rem;
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--primary) 55%, var(--border));
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+  background: color-mix(in oklab, var(--card) 86%, #ffffff);
+  text-decoration: none;
 }
+
 
 @media (max-width: 900px) {
   .service-detail-page > h1,
@@ -1418,7 +1455,13 @@ textarea[data-security-state='review'] {
   }
 
   .related-services-grid {
-    justify-content: flex-start;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .related-services-grid {
+    grid-template-columns: 1fr;
   }
 }
 
