@@ -1007,6 +1007,10 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
 }
 
 
+.service-matrix-section h2 {
+  font-size: 24px;
+}
+
 .service-matrix-section p {
   max-width: 72ch;
 }
