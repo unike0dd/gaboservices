@@ -795,7 +795,7 @@ function renderFooter(copy) {
       <a href="/legal/cookies.html">${copy.footerCookies || 'Cookies Consent'}</a>
       <a href="/legal/privacy-gdpr.html">${copy.footerGdpr || 'GDPR'}</a>
     </div>
-    <p class="footer-copy">© ${currentYear} ${copy.footerCopyright || 'Gabriel Professional SMBs Services'}</p>
+    <p class="footer-copy">© ${currentYear} ${copy.footerCopyright || 'Gabriel Services'}</p>
   `;
 }
 
