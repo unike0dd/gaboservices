@@ -1675,6 +1675,24 @@ textarea[data-security-state='review'] {
   max-width: 760px;
 }
 
+body[data-page-key="careers"] .join-form {
+  margin-inline: auto;
+}
+
+body[data-page-key="careers"] .join-form > label,
+body[data-page-key="careers"] .join-form > .secure-repeatable,
+body[data-page-key="careers"] .join-form > .btn,
+body[data-page-key="careers"] .join-form > #joinFormStatus,
+body[data-page-key="careers"] .join-form > .hp-field {
+  width: min(100%, 680px);
+  margin-inline: auto;
+}
+
+body[data-page-key="careers"] .join-form > label,
+body[data-page-key="careers"] .secure-repeatable-head span {
+  text-align: center;
+}
+
 .secure-repeatable {
   border: 1px solid var(--border);
   border-radius: 0.8rem;
