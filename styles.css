@@ -2228,6 +2228,11 @@ select {
     --body-size: 18px;
   }
 
+  .hero-text .hero-support {
+    font-size: 22px;
+    max-width: 100%;
+  }
+
   .hero-editorial {
     padding-top: 56px;
     padding-bottom: 72px;
