@@ -55,24 +55,37 @@
         </div>
       </div>
     </header>
-    <main class="container section">
-      <h1 data-i18n="contact">Contact</h1>
-      <p data-i18n="contactIntro">Reach our team for support, onboarding, or partnership requests.</p>
-      <form class="contact-form" id="contactForm">
-        <label><span data-i18n="name">Name</span><input required name="name" /></label>
-        <label><span data-i18n="email">Email</span><input required type="email" name="email" /></label>
-        <label>
-          <span data-i18n="contactNumber">Your Contact Number</span>
-          <div class="contact-number-row">
-            <input required type="text" name="contact_country_code" inputmode="tel" autocomplete="tel-country-code" aria-label="Country code" placeholder="Country code" />
-            <input required type="tel" name="contact_number" inputmode="tel" autocomplete="tel-national" aria-label="Phone Number" placeholder="Phone Number" />
-          </div>
-        </label>
-        <label><span data-i18n="contactTime">Most convenient time to contact you</span><input required type="datetime-local" name="contact_time" /></label>
-        <label><span data-i18n="message">Message</span><textarea required name="message" rows="4"></textarea></label>
-        <button class="btn primary" type="submit" data-i18n="send">Send</button>
-        <p id="formStatus" role="status" aria-live="polite"></p>
-      </form>
+    <main class="container editorial-page page-main">
+      <section class="hero-editorial">
+        <h1>Contact Gabriel Services</h1>
+        <p class="lead">Reach our team for support, onboarding, project discussions, or partnership inquiries.</p>
+      </section>
+
+      <section class="section-block">
+        <h2>How to reach us</h2>
+        <p>This contact channel is designed for businesses that need operational support, service onboarding, or partnership coordination. Share your business context so our team can direct your request to the right workflow lead.</p>
+      </section>
+
+      <section class="section-block">
+        <h2>Tell us what you need</h2>
+        <div class="form-panel">
+          <p class="form-helper">Include your support priorities, preferred contact details, and any timeline expectations for faster alignment.</p>
+          <form class="contact-form" id="contactForm">
+            <label><span>Name</span><input required name="name" /></label>
+            <label><span>Email</span><input required type="email" name="email" /></label>
+            <label><span>Your Contact Number</span><div class="contact-number-row"><input required type="text" name="contact_country_code" inputmode="tel" autocomplete="tel-country-code" aria-label="Country code" placeholder="Country code" /><input required type="tel" name="contact_number" inputmode="tel" autocomplete="tel-national" aria-label="Phone Number" placeholder="Phone Number" /></div></label>
+            <label><span>Most convenient time to contact you</span><input required type="datetime-local" name="contact_time" /></label>
+            <label><span>Message</span><textarea required name="message" rows="4"></textarea></label>
+            <button class="btn primary" type="submit">Send</button>
+            <p id="formStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <h2>What happens next</h2>
+        <p>After submission, we review your request, confirm the service context, and follow up with next steps. Qualified inquiries receive a response flow with proposed timing, discovery points, and recommended engagement direction.</p>
+      </section>
     </main>
 
       
