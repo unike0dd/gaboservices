@@ -274,7 +274,7 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
 }
 
 .services-hero-cta {
-  margin-top: calc(clamp(1rem, 2.2vw, 1.8rem) + 15px);
+  margin-top: clamp(1rem, 2.2vw, 1.8rem);
 }
 
 .services-list-title {
@@ -1118,6 +1118,7 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
 .engagement-options__header h2 {
   margin: 0 0 0.5rem;
   font-size: 30px;
+  white-space: nowrap;
 }
 
 .engagement-options__header p {
@@ -1241,6 +1242,7 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
 
   .engagement-options__header h2 {
     font-size: clamp(1.75rem, 1.5rem + 1.2vw, 30px);
+    white-space: normal;
   }
 
   .engagement-card h3 {

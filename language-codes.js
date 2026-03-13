@@ -21,7 +21,7 @@ export const DICTIONARY = {
     brandSubtitle: 'Outsourced, Delivered',
     editorialTheme: 'News Cut',
     heroTitle: 'Professional services for logistics, IT, and customer operations.',
-    heroBody: 'Scale support with expert teams, measurable SLAs, and human-centered delivery.',
+    heroBody: 'Scale support with expert teams, measurable SLAs, and precision-driven delivery.',
     schedule: 'Schedule Consultation',
     aboutBody: 'Gabriel Services provides multilingual operational support designed for modern digital businesses.',
     aboutBodyP1: 'At Gabriel Services, we understand that business success depends on efficient teams, clear communication, and reliable day-to-day operations.',
