@@ -2094,7 +2094,8 @@ main.editorial-page {
   color: #f6f7fb;
 }
 
-.hero-media p {
+.hero-media p,
+.hero-text .hero-supporting-copy {
   margin: 3px 0 0;
   font-size: 17px;
   line-height: 1.6;
@@ -2110,7 +2111,7 @@ body[data-page-key="home"] .hero-text .cta-row {
   transform: translateX(36px);
 }
 
-body[data-page-key="home"] .hero-media p {
+body[data-page-key="home"] .hero-text .hero-supporting-copy {
   margin-top: 6px;
 }
 
