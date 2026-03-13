@@ -2094,12 +2094,19 @@ main.editorial-page {
   color: #f6f7fb;
 }
 
-.hero-media p,
-.hero-text .hero-supporting-copy {
+.hero-media p {
   margin: 3px 0 0;
   font-size: 17px;
   line-height: 1.6;
   max-width: 30ch;
+}
+
+.hero-text .hero-supporting-copy {
+  margin: 0;
+  font-size: var(--lead-size);
+  line-height: 1.5;
+  font-weight: 400;
+  max-width: 38ch;
 }
 
 .hero-text .cta-row {
@@ -2112,7 +2119,7 @@ body[data-page-key="home"] .hero-text .cta-row {
 }
 
 body[data-page-key="home"] .hero-text .hero-supporting-copy {
-  margin-top: 6px;
+  margin-top: 11px;
 }
 
 .editorial-grid-2 {
