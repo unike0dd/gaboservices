@@ -2106,6 +2106,14 @@ main.editorial-page {
   justify-content: flex-end;
 }
 
+body[data-page-key="home"] .hero-text .cta-row {
+  transform: translateX(36px);
+}
+
+body[data-page-key="home"] .hero-media p {
+  margin-top: 6px;
+}
+
 .editorial-grid-2 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2200,6 +2208,10 @@ select {
     min-height: 260px;
   }
 
+  body[data-page-key="home"] .hero-text .cta-row {
+    transform: translateX(22px);
+  }
+
   .cards-grid,
   .editorial-grid-2 {
     grid-template-columns: 1fr;
@@ -2222,5 +2234,9 @@ select {
 
   .section-block {
     margin-block: 64px;
+  }
+
+  body[data-page-key="home"] .hero-text .cta-row {
+    transform: translateX(8px);
   }
 }
