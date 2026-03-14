@@ -36,7 +36,10 @@ function buildChatPanelMarkup() {
       <aside id="chatPanel" class="chat-panel" data-i18n-aria-label="chatPanelLabel" aria-label="Chatbot panel" role="dialog" aria-modal="true">
         <div class="chat-panel-head">
           <strong data-i18n="chatbot">Gabo io</strong>
-          <button id="chatClose" class="ghost" type="button" data-chat-dismiss data-i18n-aria-label="chatClose" aria-label="Close chatbot">✕</button>
+          <div class="chat-panel-actions">
+            <button class="ghost" type="button" data-chat-dismiss data-i18n="chatCloseCta">Close</button>
+            <button id="chatClose" class="ghost" type="button" data-chat-dismiss data-i18n-aria-label="chatClose" aria-label="Close chatbot">✕</button>
+          </div>
         </div>
         <iframe id="chatFrame" data-i18n-title="chatFrameTitle" title="Gabriel chatbot" src="about:blank"></iframe>
       </aside>
@@ -213,11 +216,11 @@ export function initChatbotControls() {
   chatOverlay.addEventListener('pointerdown', closeFromOverlay);
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && !chatOverlay.hidden) {
+    if ((event.key === 'Escape' || event.key === 'Esc') && !chatOverlay.hidden) {
       event.preventDefault();
       closeChat();
     }
-    if (event.key === 'Escape') {
+    if (event.key === 'Escape' || event.key === 'Esc') {
       setFabOpenState(false);
     }
   });
