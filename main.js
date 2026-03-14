@@ -7,7 +7,7 @@ const metadata = window.SITE_METADATA || {};
 if (metadata.name) document.title = metadata.name;
 const metaDescription = document.querySelector('meta[name="description"]');
 if (metaDescription && metadata.description) metaDescription.setAttribute('content', metadata.description);
-let lang = 'en';
+let lang = 'es';
 const COUNTRY_CODES = [
   { name: 'United States', code: '+1' },
   { name: 'Mexico', code: '+52' },
@@ -29,7 +29,7 @@ function resolveInitialLanguage() {
     return storedLang;
   }
 
-  return 'en';
+  return 'es';
 }
 
 function syncLanguageQueryParam() {
