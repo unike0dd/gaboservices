@@ -367,3 +367,93 @@ export const PLANS = {
     { name: 'Mediana Empresa', price: '$5,950 usd/mes', points: ['Equipo dedicado', 'Integraciones a medida', 'Alineación de cumplimiento'] }
   ]
 };
+
+// ================================================================
+// Translation maintenance guide (single-script map by page/route)
+// ================================================================
+export const TRANSLATION_PAGE_MAP = Object.freeze({
+  shared: {
+    route: '*',
+    description: 'Global UI copy reused across pages (nav, footer, common controls).',
+    keyPrefixes: ['switchTo', 'footer', 'fab', 'chat', 'pageTitle', 'pageDescription', 'ogLocale'],
+    exactKeys: ['home', 'services', 'about', 'pricing', 'contact', 'careers', 'learning', 'brandSubtitle', 'editorialTheme']
+  },
+  home: {
+    route: '/',
+    description: 'Homepage editorial sections and CTAs.',
+    keyPrefixes: ['homeHero', 'homeOps', 'homeCard', 'homeWhy', 'homeStart', 'homeServiceAreas']
+  },
+  about: {
+    route: '/about/',
+    description: 'About page narrative content.',
+    keyPrefixes: ['aboutBody']
+  },
+  services: {
+    route: '/services/',
+    description: 'Services overview and service definition entries.',
+    keyPrefixes: ['service', 'serviceDefinition']
+  },
+  logistics: {
+    route: '/services/logistics-operations/',
+    description: 'Logistics page and logistics-specific copy hooks.',
+    keyPrefixes: ['serviceLogistics', 'serviceDefinitionLogistics']
+  },
+  administrativeBackoffice: {
+    route: '/services/administrative-backoffice/',
+    description: 'Administrative backoffice service page copy hooks.',
+    keyPrefixes: ['serviceAdmin', 'serviceDefinitionRemoteAdministrativeBackOffice']
+  },
+  customerRelations: {
+    route: '/services/customer-relations/',
+    description: 'Customer relations service page copy hooks.',
+    keyPrefixes: ['serviceCustomer']
+  },
+  itSupport: {
+    route: '/services/it-support/',
+    description: 'IT support service page copy hooks.',
+    keyPrefixes: ['serviceIt', 'serviceDefinitionTechConsultantLevelI', 'serviceDefinitionTechConsultantLevelII']
+  },
+  pricing: {
+    route: '/pricing/',
+    description: 'Pricing page labels and plan related copy.',
+    keyPrefixes: ['pricing']
+  },
+  careers: {
+    route: '/careers/',
+    description: 'Careers form labels, placeholders, and controls.',
+    keyPrefixes: ['careers', 'experience', 'education', 'certification', 'skills', 'expertise', 'placeholder', 'selectLevel', 'entry', 'junior', 'mid', 'advanced', 'expert', 'submitApplication', 'lockSection', 'unlockSection', 'controls', 'add', 'remove']
+  },
+  contact: {
+    route: '/contact/',
+    description: 'Contact form labels and security status copy.',
+    keyPrefixes: ['name', 'email', 'contact', 'countryCode', 'message', 'send', 'sent', 'blocked', 'review']
+  },
+  learning: {
+    route: '/learning/',
+    description: 'Learning and framework explainer copy.',
+    keyPrefixes: ['ops']
+  },
+  legal: {
+    route: '/legal/*',
+    description: 'Legal page links surfaced in UI/footer.',
+    keyPrefixes: ['footerTerms', 'footerCookies', 'footerGdpr']
+  }
+});
+
+function keyMatchesSection(key, section = {}) {
+  const prefixes = section.keyPrefixes || [];
+  const exactKeys = section.exactKeys || [];
+
+  if (exactKeys.includes(key)) return true;
+  return prefixes.some((prefix) => key.startsWith(prefix));
+}
+
+export function getTranslationsBySection(language = 'en', sectionName = 'shared') {
+  const langPack = DICTIONARY[language] || DICTIONARY.en;
+  const section = TRANSLATION_PAGE_MAP[sectionName];
+  if (!section) return {};
+
+  return Object.fromEntries(
+    Object.entries(langPack).filter(([key]) => keyMatchesSection(key, section))
+  );
+}
