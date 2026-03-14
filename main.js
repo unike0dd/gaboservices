@@ -322,6 +322,23 @@ const HERO_SERVICE_DETAILS = {
   }
 };
 
+
+const SERVICE_PAGE_BY_KEY = Object.freeze({
+  logistics: '/services/logistics-operations/',
+  admin: '/services/administrative-backoffice/',
+  customer: '/services/customer-relations/',
+  it: '/services/it-support/'
+});
+
+function syncServiceCardLinks() {
+  document.querySelectorAll('[data-service-link]').forEach((node) => {
+    const key = node.getAttribute('data-service-link');
+    const basePath = SERVICE_PAGE_BY_KEY[key || ''];
+    if (!basePath) return;
+    node.setAttribute('href', `${basePath}?lang=${lang}`);
+  });
+}
+
 const heroCarouselState = {};
 let serviceCarouselTimer = null;
 
@@ -867,6 +884,7 @@ function translatePage() {
   }
 
   renderFooter(copy);
+  syncServiceCardLinks();
   document.querySelectorAll('[data-i18n]').forEach((node) => {
     const key = node.dataset.i18n;
     const value = copy[key] ?? fallbackCopy[key];
