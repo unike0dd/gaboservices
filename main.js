@@ -340,6 +340,8 @@ function syncServiceCardLinks() {
 }
 
 function syncLanguageAwareLinks() {
+  const staticAssetPattern = /\.(?:xml|pdf|zip|csv|txt|png|jpe?g|gif|webp|svg|ico|mp4|mp3|woff2?|ttf)$/i;
+
   document.querySelectorAll('a[href]').forEach((node) => {
     const href = node.getAttribute('href') || '';
     if (!href || href.startsWith('#')) return;
@@ -353,10 +355,16 @@ function syncLanguageAwareLinks() {
     }
 
     if (targetUrl.origin !== window.location.origin) return;
+    if (staticAssetPattern.test(targetUrl.pathname)) return;
 
     targetUrl.searchParams.set('lang', lang);
-    const relativePath = `${targetUrl.pathname}${targetUrl.search}${targetUrl.hash}`;
-    node.setAttribute('href', relativePath);
+
+    const wasAbsolute = /^[a-z][a-z\d+.-]*:\/\//i.test(href);
+    const nextHref = wasAbsolute
+      ? targetUrl.toString()
+      : `${targetUrl.pathname}${targetUrl.search}${targetUrl.hash}`;
+
+    node.setAttribute('href', nextHref);
   });
 }
 
