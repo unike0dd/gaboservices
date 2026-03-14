@@ -1,6 +1,6 @@
 import { initAdaptiveLayout } from './adaptive-layout.js';
 import { initChatbotControls } from './chatbot/chatbot-controls.js';
-import { DICTIONARY, LANGUAGE_CODES, PLANS, SERVICES, SUPPORTED_LANGUAGES } from './language-codes.js';
+import { DICTIONARY, LANGUAGE_CODES, PLANS, SERVICES, SUPPORTED_LANGUAGES, TRANSLATION_PAGE_MAP, getTranslationsBySection } from './language-codes.js';
 import { initFabControls } from './fab-controls.js';
 
 const metadata = window.SITE_METADATA || {};
@@ -602,7 +602,7 @@ function renderServiceHeroAccordion(localizedServices, copy) {
 function renderCards() {
   const localizedServices = SERVICES[lang] || SERVICES.en;
   const localizedPlans = PLANS[lang] || PLANS.en;
-  const copy = DICTIONARY[lang] || DICTIONARY.en;
+  const copy = buildPageCopy();
 
   const serviceCards = document.getElementById('serviceCards');
   renderServiceHeroAccordion(localizedServices, copy);
@@ -754,7 +754,7 @@ function populateCountryCodes() {
   if (!selects.length) return;
 
   const fillSelects = (items) => {
-    const copy = DICTIONARY[lang] || DICTIONARY.en;
+    const copy = buildPageCopy();
     const placeholder = copy.countryCodePlaceholder || 'Select country code';
     const options = [`<option value="">${placeholder}</option>`]
       .concat(items.map((item) => `<option value="${item.code}">${item.name} (${item.code})</option>`));
@@ -818,8 +818,45 @@ function getLanguageToggleLabel(buttonLang, copy) {
   return labels[buttonLang] || '';
 }
 
+
+const PAGE_SECTION_ALIAS = Object.freeze({
+  serviceLogistics: 'logistics',
+  serviceAdmin: 'administrativeBackoffice',
+  serviceCustomer: 'customerRelations',
+  serviceIt: 'itSupport'
+});
+
+function resolveTranslationSectionsForPage() {
+  const pageKey = document.body?.dataset?.pageKey || '';
+  const normalizedPageKey = PAGE_SECTION_ALIAS[pageKey] || pageKey;
+  const sectionNames = ['shared'];
+
+  if (TRANSLATION_PAGE_MAP[normalizedPageKey]) {
+    sectionNames.push(normalizedPageKey);
+  }
+
+  return [...new Set(sectionNames)];
+}
+
+function buildPageCopy() {
+  const fallbackCopy = DICTIONARY[lang] || DICTIONARY.en;
+  const sections = resolveTranslationSectionsForPage();
+
+  const sectionCopy = sections.reduce((acc, sectionName) => {
+    return {
+      ...acc,
+      ...getTranslationsBySection(lang, sectionName)
+    };
+  }, {});
+
+  return {
+    ...fallbackCopy,
+    ...sectionCopy
+  };
+}
+
 function translatePage() {
-  const copy = DICTIONARY[lang] || DICTIONARY.en;
+  const copy = buildPageCopy();
   document.documentElement.lang = lang;
   if (copy.pageTitle) document.title = copy.pageTitle;
   if (metaDescription && copy.pageDescription) {
