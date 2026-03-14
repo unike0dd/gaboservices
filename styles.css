@@ -2007,17 +2007,20 @@ body[data-page-key="careers"] .join-form > label:nth-of-type(-n + 3) {
 .related-services a {
   display: inline-block;
   text-decoration: none;
-  color: #d9e2f2;
+  color: #f8fbff;
   font-weight: 600;
   padding: 8px 12px;
   border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  background-color: rgba(18, 53, 99, 0.86);
+  box-shadow: 0 6px 14px rgba(10, 33, 66, 0.22);
   transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .related-services a:hover,
 .related-services a:focus-visible {
-  background-color: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
+  background-color: #f4f8ff;
+  color: #0d2f5f;
   transform: translateY(-1px);
   outline: none;
 }
