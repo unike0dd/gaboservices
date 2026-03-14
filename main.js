@@ -810,10 +810,11 @@ function applyLocalizedAttributes(copy, fallbackCopy, datasetKey, attributeName)
   });
 }
 
-function getLanguageToggleLabel(buttonLang, copy) {
+function getLanguageToggleLabel(buttonLang) {
+  const targetCopy = DICTIONARY[buttonLang] || DICTIONARY.en || {};
   const labels = {
-    en: copy.switchToEnglish || 'Switch language to English',
-    es: copy.switchToSpanish || 'Cambiar idioma a español'
+    en: targetCopy.switchToEnglish || 'Switch language to English',
+    es: targetCopy.switchToSpanish || 'Cambiar idioma a español'
   };
 
   return labels[buttonLang] || '';
@@ -888,7 +889,7 @@ function translatePage() {
       if (codeLabel) button.textContent = codeLabel;
       button.setAttribute('aria-pressed', String(isActive));
       button.classList.toggle('active', isActive);
-      const label = getLanguageToggleLabel(buttonLang, copy);
+      const label = getLanguageToggleLabel(buttonLang);
       if (label) button.setAttribute('aria-label', label);
     });
   }
@@ -898,7 +899,7 @@ function translatePage() {
     const isEnglish = lang === 'en';
     legacyLangToggleBtn.textContent = isEnglish ? LANGUAGE_CODES.en : LANGUAGE_CODES.es;
     legacyLangToggleBtn.setAttribute('aria-pressed', String(isEnglish));
-    legacyLangToggleBtn.setAttribute('aria-label', isEnglish ? 'Switch language to Spanish' : 'Cambiar idioma a inglés');
+    legacyLangToggleBtn.setAttribute('aria-label', getLanguageToggleLabel(isEnglish ? 'es' : 'en'));
     legacyLangToggleBtn.classList.add('active');
   }
 }
