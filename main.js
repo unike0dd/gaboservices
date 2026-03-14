@@ -38,6 +38,28 @@ function syncLanguageQueryParam() {
   window.history.replaceState({}, '', url);
 }
 
+function syncInternalLanguageLinks() {
+  document.querySelectorAll('a[href]').forEach((link) => {
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('#')) return;
+    if (link.hasAttribute('download')) return;
+    if (/^(mailto:|tel:|javascript:)/i.test(href)) return;
+
+    let targetUrl;
+    try {
+      targetUrl = new URL(href, window.location.origin);
+    } catch {
+      return;
+    }
+
+    if (targetUrl.origin !== window.location.origin) return;
+
+    targetUrl.searchParams.set('lang', lang);
+    const relativePath = `${targetUrl.pathname}${targetUrl.search}${targetUrl.hash}`;
+    link.setAttribute('href', relativePath);
+  });
+}
+
 
 function setLanguage(nextLang) {
   if (!SUPPORTED_LANGUAGES.includes(nextLang)) return;
@@ -46,6 +68,7 @@ function setLanguage(nextLang) {
   syncLanguageQueryParam();
   renderCards();
   translatePage();
+  syncInternalLanguageLinks();
   populateCountryCodes();
 }
 
@@ -1148,6 +1171,7 @@ syncLanguageQueryParam();
 initFabControls();
 renderCards();
 translatePage();
+syncInternalLanguageLinks();
 populateCountryCodes();
 bindEvents();
 initAdaptiveLayout();
