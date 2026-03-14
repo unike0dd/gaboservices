@@ -15,7 +15,9 @@
       pagePrivacyDescription: 'Privacy policy and GDPR disclosures for Gabriel Services.',
       cookieAcceptAll: 'Accept all',
       cookieRejectAll: 'Reject all',
-      cookieSavePrefs: 'Save preferences'
+      cookieSavePrefs: 'Save preferences',
+      switchToEnglish: 'Switch language to English',
+      switchToSpanish: 'Switch language to Spanish'
     },
     es: {
       legalNavigation: 'Navegación legal',
@@ -31,7 +33,9 @@
       pagePrivacyDescription: 'Política de privacidad y divulgaciones de RGPD para Gabriel Services.',
       cookieAcceptAll: 'Aceptar todo',
       cookieRejectAll: 'Rechazar todo',
-      cookieSavePrefs: 'Guardar preferencias'
+      cookieSavePrefs: 'Guardar preferencias',
+      switchToEnglish: 'Cambiar idioma a inglés',
+      switchToSpanish: 'Cambiar idioma a español'
     }
   };
 
@@ -181,8 +185,16 @@
     document.querySelectorAll('[data-lang-option]').forEach((button) => {
       const buttonLang = button.getAttribute('data-lang-option');
       const active = buttonLang === activeLang;
+      const label = buttonLang === 'en'
+        ? (copy.switchToEnglish || COPY.en.switchToEnglish)
+        : (copy.switchToSpanish || COPY.en.switchToSpanish);
+
       button.classList.toggle('is-active', active);
       button.setAttribute('aria-pressed', String(active));
+      if (label) {
+        button.setAttribute('aria-label', label);
+        button.setAttribute('title', label);
+      }
     });
 
     document.querySelectorAll('[data-i18n]').forEach((node) => {
