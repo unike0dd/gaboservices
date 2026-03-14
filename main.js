@@ -8,6 +8,7 @@ if (metadata.name) document.title = metadata.name;
 const metaDescription = document.querySelector('meta[name="description"]');
 if (metaDescription && metadata.description) metaDescription.setAttribute('content', metadata.description);
 let lang = 'es';
+const LANGUAGE_CONTROL_SELECTOR = '[data-lang-option]';
 const COUNTRY_CODES = [
   { name: 'United States', code: '+1' },
   { name: 'Mexico', code: '+52' },
@@ -62,7 +63,7 @@ function syncInternalLanguageLinks() {
 
 
 function setLanguage(nextLang) {
-  if (!SUPPORTED_LANGUAGES.includes(nextLang)) return;
+  if (!SUPPORTED_LANGUAGES.includes(nextLang) || nextLang === lang) return;
   lang = nextLang;
   localStorage.setItem('lang', lang);
   syncLanguageQueryParam();
@@ -951,7 +952,7 @@ function translatePage() {
     ['content', 'content']
   ].forEach(([datasetKey, attributeName]) => applyLocalizedAttributes(copy, fallbackCopy, datasetKey, attributeName));
 
-  const langButtons = [...document.querySelectorAll('[data-lang-option]')];
+  const langButtons = [...document.querySelectorAll(LANGUAGE_CONTROL_SELECTOR)];
   if (langButtons.length) {
     langButtons.forEach((button) => {
       const buttonLang = button.getAttribute('data-lang-option');
@@ -1129,15 +1130,17 @@ function syncNavCurrentDestination() {
 }
 
 function bindEvents() {
-  const langButtons = [...document.querySelectorAll('[data-lang-option]')];
-  if (langButtons.length) {
-    langButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        const nextLang = button.getAttribute('data-lang-option');
-        if (nextLang) setLanguage(nextLang);
-      });
-    });
-  }
+  const handleLanguageSelection = (target) => {
+    const nextLang = target?.getAttribute('data-lang-option');
+    if (!nextLang) return;
+    setLanguage(nextLang);
+  };
+
+  document.addEventListener('click', (event) => {
+    const trigger = event.target.closest(LANGUAGE_CONTROL_SELECTOR);
+    if (!trigger) return;
+    handleLanguageSelection(trigger);
+  });
 
   const legacyLangToggleBtn = document.getElementById('langToggleBtn');
   if (legacyLangToggleBtn) {
