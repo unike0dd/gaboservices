@@ -186,7 +186,7 @@ export const DICTIONARY = {
     footerSitemap: 'Sitemap',
     footerTerms: 'T&C',
     footerCookies: 'Cookies Consent',
-    footerGdpr: 'Privacidad y RGPD',
+    footerGdpr: 'Privacy and GDPR',
     footerCopyright: 'Gabriel Services',
     opsHeading: 'Integrated delivery framework',
     opsIntro: 'A synchronized model that connects secure delivery, adaptive UX, governance, and observability in one operating rhythm.',
