@@ -1,0 +1,84 @@
+(() => {
+  const DEFAULT_STORAGE_KEY = 'lang';
+  const DEFAULT_QUERY_PARAM = 'lang';
+  const DEFAULT_SELECTOR = '[data-lang-option]';
+
+  const sanitizeSupported = (supported = []) => Array.from(new Set(supported.filter(Boolean)));
+
+  function resolveInitialLanguage({ supported, defaultLang, storageKey, queryParam }) {
+    const params = new URLSearchParams(window.location.search);
+    const requested = (params.get(queryParam) || '').toLowerCase();
+    if (supported.includes(requested)) {
+      localStorage.setItem(storageKey, requested);
+      return requested;
+    }
+
+    const stored = (localStorage.getItem(storageKey) || '').toLowerCase();
+    if (supported.includes(stored)) return stored;
+
+    return defaultLang;
+  }
+
+  function syncLanguageInUrl(lang, queryParam) {
+    const url = new URL(window.location.href);
+    url.searchParams.set(queryParam, lang);
+    window.history.replaceState({}, '', url);
+  }
+
+  function syncLanguageButtons(lang, { selector, getButtonLabel }) {
+    document.querySelectorAll(selector).forEach((button) => {
+      const buttonLang = (button.getAttribute('data-lang-option') || '').toLowerCase();
+      const isActive = buttonLang === lang;
+      button.setAttribute('aria-pressed', String(isActive));
+      button.classList.toggle('active', isActive);
+      button.classList.toggle('is-active', isActive);
+
+      if (typeof getButtonLabel === 'function') {
+        const label = getButtonLabel(buttonLang, lang);
+        if (label) {
+          button.setAttribute('aria-label', label);
+          button.setAttribute('title', label);
+        }
+      }
+    });
+  }
+
+  function initLanguageSwitcher(options = {}) {
+    const supported = sanitizeSupported(options.supported || ['en', 'es']);
+    const defaultLang = supported.includes(options.defaultLang) ? options.defaultLang : (supported[0] || 'es');
+    const storageKey = options.storageKey || DEFAULT_STORAGE_KEY;
+    const queryParam = options.queryParam || DEFAULT_QUERY_PARAM;
+    const selector = options.selector || DEFAULT_SELECTOR;
+
+    let lang = resolveInitialLanguage({ supported, defaultLang, storageKey, queryParam });
+
+    const applyLanguage = (nextLang) => {
+      if (!supported.includes(nextLang)) return lang;
+      lang = nextLang;
+      localStorage.setItem(storageKey, lang);
+      syncLanguageInUrl(lang, queryParam);
+      document.documentElement.lang = lang;
+      syncLanguageButtons(lang, { selector, getButtonLabel: options.getButtonLabel });
+      if (typeof options.onChange === 'function') {
+        options.onChange(lang);
+      }
+      return lang;
+    };
+
+    document.addEventListener('click', (event) => {
+      const trigger = event.target.closest(selector);
+      if (!trigger) return;
+      const nextLang = (trigger.getAttribute('data-lang-option') || '').toLowerCase();
+      applyLanguage(nextLang);
+    });
+
+    applyLanguage(lang);
+
+    return {
+      getLanguage: () => lang,
+      setLanguage: (nextLang) => applyLanguage((nextLang || '').toLowerCase())
+    };
+  }
+
+  window.GaboLanguageSwitcher = { initLanguageSwitcher };
+})();

@@ -8,6 +8,7 @@ if (metadata.name) document.title = metadata.name;
 const metaDescription = document.querySelector('meta[name="description"]');
 if (metaDescription && metadata.description) metaDescription.setAttribute('content', metadata.description);
 let lang = 'es';
+let appReady = false;
 const LANGUAGE_CONTROL_SELECTOR = '[data-lang-option]';
 const COUNTRY_CODES = [
   { name: 'United States', code: '+1' },
@@ -17,27 +18,21 @@ const COUNTRY_CODES = [
   { name: 'Colombia', code: '+57' }
 ];
 
-function resolveInitialLanguage() {
-  const params = new URLSearchParams(window.location.search);
-  const urlLang = params.get('lang');
-  if (urlLang && SUPPORTED_LANGUAGES.includes(urlLang)) {
-    localStorage.setItem('lang', urlLang);
-    return urlLang;
+const languageSwitcher = window.GaboLanguageSwitcher?.initLanguageSwitcher({
+  supported: SUPPORTED_LANGUAGES,
+  defaultLang: 'es',
+  getButtonLabel: (buttonLang) => getLanguageToggleLabel(buttonLang),
+  onChange: (nextLang) => {
+    if (nextLang === lang) return;
+    lang = nextLang;
+    if (!appReady) return;
+    renderCards();
+    translatePage();
+    syncInternalLanguageLinks();
+    populateCountryCodes();
   }
+});
 
-  const storedLang = localStorage.getItem('lang');
-  if (storedLang && SUPPORTED_LANGUAGES.includes(storedLang)) {
-    return storedLang;
-  }
-
-  return 'es';
-}
-
-function syncLanguageQueryParam() {
-  const url = new URL(window.location.href);
-  url.searchParams.set('lang', lang);
-  window.history.replaceState({}, '', url);
-}
 
 function syncInternalLanguageLinks() {
   document.querySelectorAll('a[href]').forEach((link) => {
@@ -63,10 +58,16 @@ function syncInternalLanguageLinks() {
 
 
 function setLanguage(nextLang) {
-  if (!SUPPORTED_LANGUAGES.includes(nextLang) || nextLang === lang) return;
-  lang = nextLang;
+  const normalizedLang = (nextLang || '').toLowerCase();
+  if (!SUPPORTED_LANGUAGES.includes(normalizedLang) || normalizedLang === lang) return;
+
+  if (languageSwitcher) {
+    languageSwitcher.setLanguage(normalizedLang);
+    return;
+  }
+
+  lang = normalizedLang;
   localStorage.setItem('lang', lang);
-  syncLanguageQueryParam();
   renderCards();
   translatePage();
   syncInternalLanguageLinks();
@@ -1130,18 +1131,6 @@ function syncNavCurrentDestination() {
 }
 
 function bindEvents() {
-  const handleLanguageSelection = (target) => {
-    const nextLang = target?.getAttribute('data-lang-option');
-    if (!nextLang) return;
-    setLanguage(nextLang);
-  };
-
-  document.addEventListener('click', (event) => {
-    const trigger = event.target.closest(LANGUAGE_CONTROL_SELECTOR);
-    if (!trigger) return;
-    handleLanguageSelection(trigger);
-  });
-
   const legacyLangToggleBtn = document.getElementById('langToggleBtn');
   if (legacyLangToggleBtn) {
     legacyLangToggleBtn.addEventListener('click', () => {
@@ -1199,8 +1188,14 @@ function bindEvents() {
   setupJoinForm();
 }
 
-lang = resolveInitialLanguage();
-syncLanguageQueryParam();
+if (languageSwitcher) {
+  languageSwitcher.setLanguage(languageSwitcher.getLanguage());
+  lang = languageSwitcher.getLanguage();
+} else {
+  lang = 'es';
+}
+
+appReady = true;
 initFabControls();
 renderCards();
 translatePage();
