@@ -322,6 +322,23 @@ const HERO_SERVICE_DETAILS = {
   }
 };
 
+
+const SERVICE_PAGE_BY_KEY = Object.freeze({
+  logistics: '/services/logistics-operations/',
+  admin: '/services/administrative-backoffice/',
+  customer: '/services/customer-relations/',
+  it: '/services/it-support/'
+});
+
+function syncServiceCardLinks() {
+  document.querySelectorAll('[data-service-link]').forEach((node) => {
+    const key = node.getAttribute('data-service-link');
+    const basePath = SERVICE_PAGE_BY_KEY[key || ''];
+    if (!basePath) return;
+    node.setAttribute('href', `${basePath}?lang=${lang}`);
+  });
+}
+
 const heroCarouselState = {};
 let serviceCarouselTimer = null;
 
@@ -810,10 +827,11 @@ function applyLocalizedAttributes(copy, fallbackCopy, datasetKey, attributeName)
   });
 }
 
-function getLanguageToggleLabel(buttonLang, copy) {
+function getLanguageToggleLabel(buttonLang) {
+  const targetCopy = DICTIONARY[buttonLang] || DICTIONARY.en || {};
   const labels = {
-    en: copy.switchToEnglish || 'Switch language to English',
-    es: copy.switchToSpanish || 'Cambiar idioma a español'
+    en: targetCopy.switchToEnglish || 'Switch language to English',
+    es: targetCopy.switchToSpanish || 'Cambiar idioma a español'
   };
 
   return labels[buttonLang] || '';
@@ -866,6 +884,7 @@ function translatePage() {
   }
 
   renderFooter(copy);
+  syncServiceCardLinks();
   document.querySelectorAll('[data-i18n]').forEach((node) => {
     const key = node.dataset.i18n;
     const value = copy[key] ?? fallbackCopy[key];
@@ -888,7 +907,7 @@ function translatePage() {
       if (codeLabel) button.textContent = codeLabel;
       button.setAttribute('aria-pressed', String(isActive));
       button.classList.toggle('active', isActive);
-      const label = getLanguageToggleLabel(buttonLang, copy);
+      const label = getLanguageToggleLabel(buttonLang);
       if (label) button.setAttribute('aria-label', label);
     });
   }
@@ -898,7 +917,7 @@ function translatePage() {
     const isEnglish = lang === 'en';
     legacyLangToggleBtn.textContent = isEnglish ? LANGUAGE_CODES.en : LANGUAGE_CODES.es;
     legacyLangToggleBtn.setAttribute('aria-pressed', String(isEnglish));
-    legacyLangToggleBtn.setAttribute('aria-label', isEnglish ? 'Switch language to Spanish' : 'Cambiar idioma a inglés');
+    legacyLangToggleBtn.setAttribute('aria-label', getLanguageToggleLabel(isEnglish ? 'es' : 'en'));
     legacyLangToggleBtn.classList.add('active');
   }
 }

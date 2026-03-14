@@ -185,9 +185,10 @@
     document.querySelectorAll('[data-lang-option]').forEach((button) => {
       const buttonLang = button.getAttribute('data-lang-option');
       const active = buttonLang === activeLang;
+      const targetCopy = COPY[buttonLang] || COPY.en;
       const label = buttonLang === 'en'
-        ? (copy.switchToEnglish || COPY.en.switchToEnglish)
-        : (copy.switchToSpanish || COPY.en.switchToSpanish);
+        ? (targetCopy.switchToEnglish || COPY.en.switchToEnglish)
+        : (targetCopy.switchToSpanish || COPY.en.switchToSpanish);
 
       button.classList.toggle('is-active', active);
       button.setAttribute('aria-pressed', String(active));
