@@ -57,21 +57,35 @@
     </header>
     <main class="container editorial-page page-main">
       <section class="hero-editorial">
-        <h1 data-i18n="contact">Contacto</h1>
-        <p class="lead" data-i18n="contactIntro">Comuníquese con nuestro equipo para solicitudes de soporte, incorporación o alianzas.</p>
+        <h1>Contact Gabriel Services</h1>
+        <p class="lead">Reach our team for support, onboarding, project discussions, or partnership inquiries.</p>
+      </section>
+
+      <section class="section-block wide-reading">
+        <h2>How to reach us</h2>
+        <p>This contact channel is designed for businesses that need operational support, service onboarding guidance, or partnership conversations with Gabriel Services.</p>
       </section>
 
       <section class="section-block">
-        <form id="contactForm" class="form-stack" novalidate>
-          <label for="name" data-i18n="name">Nombre</label><input id="name" name="name" required />
-          <label for="email" data-i18n="email">Correo electrónico</label><input id="email" name="email" type="email" required />
-          <label for="contact" data-i18n="contactNumber">Su número de contacto</label><input id="contact" name="contact" />
-          <label for="time" data-i18n="contactTime">Horario más conveniente para contactarle</label><input id="time" name="time" />
-          <label for="message" data-i18n="message">Mensaje</label><textarea id="message" name="message" rows="4"></textarea>
-          <input class="hp-field" type="text" name="contact_reference" tabindex="-1" autocomplete="off" aria-hidden="true" />
-          <button class="btn primary" type="submit" data-i18n="send">Enviar</button>
-          <p id="formStatus" role="status" aria-live="polite"></p>
-        </form>
+        <h2>Tell us what you need</h2>
+        <div class="form-panel">
+          <p class="form-helper">Share your current workflows, priorities, and expected response needs so we can route your request accurately.</p>
+          <form id="contactForm" class="form-stack" novalidate>
+            <label for="name">Name</label><input id="name" name="name" required />
+            <label for="email">Email</label><input id="email" name="email" type="email" required />
+            <label for="contact">Contact number</label><input id="contact" name="contact" />
+            <label for="time">Preferred contact window</label><input id="time" name="time" />
+            <label for="message">Message</label><textarea id="message" name="message" rows="4"></textarea>
+            <input class="hp-field" type="text" name="contact_reference" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <button class="btn primary" type="submit">Send</button>
+            <p id="formStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
+      <section class="section-block wide-reading">
+        <h2>What happens next</h2>
+        <p>Our team reviews submissions, confirms scope details when needed, and follows up with recommended next steps and expected onboarding flow.</p>
       </section>
     </main>
 
