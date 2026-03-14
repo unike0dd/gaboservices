@@ -339,6 +339,27 @@ function syncServiceCardLinks() {
   });
 }
 
+function syncLanguageAwareLinks() {
+  document.querySelectorAll('a[href]').forEach((node) => {
+    const href = node.getAttribute('href') || '';
+    if (!href || href.startsWith('#')) return;
+    if (/^(mailto:|tel:|javascript:)/i.test(href)) return;
+
+    let targetUrl;
+    try {
+      targetUrl = new URL(href, window.location.origin);
+    } catch {
+      return;
+    }
+
+    if (targetUrl.origin !== window.location.origin) return;
+
+    targetUrl.searchParams.set('lang', lang);
+    const relativePath = `${targetUrl.pathname}${targetUrl.search}${targetUrl.hash}`;
+    node.setAttribute('href', relativePath);
+  });
+}
+
 const heroCarouselState = {};
 let serviceCarouselTimer = null;
 
@@ -885,6 +906,7 @@ function translatePage() {
 
   renderFooter(copy);
   syncServiceCardLinks();
+  syncLanguageAwareLinks();
   document.querySelectorAll('[data-i18n]').forEach((node) => {
     const key = node.dataset.i18n;
     const value = copy[key] ?? fallbackCopy[key];
