@@ -799,13 +799,14 @@ function renderFooter(copy) {
   `;
 }
 
-function applyLocalizedAttributes(copy, datasetKey, attributeName) {
+function applyLocalizedAttributes(copy, fallbackCopy, datasetKey, attributeName) {
   const selector = `[data-i18n-${datasetKey}]`;
   const dataKey = `i18n${datasetKey.charAt(0).toUpperCase()}${datasetKey.slice(1)}`;
 
   document.querySelectorAll(selector).forEach((node) => {
     const key = node.dataset[dataKey];
-    if (copy[key]) node.setAttribute(attributeName, copy[key]);
+    const value = copy[key] ?? fallbackCopy[key];
+    if (value) node.setAttribute(attributeName, value);
   });
 }
 
@@ -857,6 +858,7 @@ function buildPageCopy() {
 
 function translatePage() {
   const copy = buildPageCopy();
+  const fallbackCopy = DICTIONARY.en || {};
   document.documentElement.lang = lang;
   if (copy.pageTitle) document.title = copy.pageTitle;
   if (metaDescription && copy.pageDescription) {
@@ -866,7 +868,8 @@ function translatePage() {
   renderFooter(copy);
   document.querySelectorAll('[data-i18n]').forEach((node) => {
     const key = node.dataset.i18n;
-    if (copy[key]) node.textContent = copy[key];
+    const value = copy[key] ?? fallbackCopy[key];
+    if (value) node.textContent = value;
   });
 
   [
@@ -874,7 +877,7 @@ function translatePage() {
     ['placeholder', 'placeholder'],
     ['title', 'title'],
     ['content', 'content']
-  ].forEach(([datasetKey, attributeName]) => applyLocalizedAttributes(copy, datasetKey, attributeName));
+  ].forEach(([datasetKey, attributeName]) => applyLocalizedAttributes(copy, fallbackCopy, datasetKey, attributeName));
 
   const langButtons = [...document.querySelectorAll('[data-lang-option]')];
   if (langButtons.length) {
