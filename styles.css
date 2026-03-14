@@ -2220,6 +2220,15 @@ body[data-page-key="home"] .hero-text .hero-supporting-copy {
   font-size: 21px;
 }
 
+body[data-page-key="home"] #services .info-card {
+  display: flex;
+  flex-direction: column;
+}
+
+body[data-page-key="home"] #services .service-card-link {
+  margin-top: auto;
+  align-self: flex-end;
+}
 
 .service-card-link {
   display: inline-flex;
