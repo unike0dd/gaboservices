@@ -28,6 +28,7 @@ export function buildWorkerChatStreamUrl(workerBaseUrl = DEFAULT_WORKER_BASE_URL
 export function buildWorkerEmbedUrl({ workerBaseUrl = DEFAULT_WORKER_BASE_URL, parentOrigin, gatewayUrl } = {}) {
   const embedUrl = new URL(EMBED_ROUTE, normalizeWorkerBaseUrl(workerBaseUrl));
   embedUrl.searchParams.set('parent', toCleanString(parentOrigin) || window.location.origin);
+  embedUrl.searchParams.set('hideTenant', 'true');
 
   const gateway = toCleanString(gatewayUrl) || buildWorkerChatStreamUrl(workerBaseUrl);
   embedUrl.searchParams.set('gateway', gateway);
