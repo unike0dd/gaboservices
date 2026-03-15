@@ -236,6 +236,21 @@ const HERO_SERVICE_MEDIA = {
   ]
 };
 
+
+const PAGE_METADATA_KEY_MAP = Object.freeze({
+  home: { title: 'pageTitleHome', description: 'pageDescriptionHome' },
+  about: { title: 'pageTitleAbout', description: 'pageDescriptionAbout' },
+  services: { title: 'pageTitleServices', description: 'pageDescriptionServices' },
+  pricing: { title: 'pageTitlePricing', description: 'pageDescriptionPricing' },
+  careers: { title: 'pageTitleCareers', description: 'pageDescriptionCareers' },
+  contact: { title: 'pageTitleContact', description: 'pageDescriptionContact' },
+  learning: { title: 'pageTitleLearning', description: 'pageDescriptionLearning' },
+  serviceLogistics: { title: 'pageTitleServiceLogistics', description: 'pageDescriptionServiceLogistics' },
+  serviceAdmin: { title: 'pageTitleServiceAdmin', description: 'pageDescriptionServiceAdmin' },
+  serviceCustomer: { title: 'pageTitleServiceCustomer', description: 'pageDescriptionServiceCustomer' },
+  serviceIt: { title: 'pageTitleServiceIt', description: 'pageDescriptionServiceIt' }
+});
+
 const HERO_SERVICE_DETAILS = {
   en: {
     logistics: {
@@ -931,10 +946,15 @@ function buildPageCopy() {
 function translatePage() {
   const copy = buildPageCopy();
   const fallbackCopy = DICTIONARY.en || {};
+  const pageKey = document.body?.dataset?.pageKey || 'home';
+  const metaKeys = PAGE_METADATA_KEY_MAP[pageKey] || {};
+  const resolvedTitle = copy[metaKeys.title] ?? fallbackCopy[metaKeys.title] ?? copy.pageTitle ?? fallbackCopy.pageTitle;
+  const resolvedDescription = copy[metaKeys.description] ?? fallbackCopy[metaKeys.description] ?? copy.pageDescription ?? fallbackCopy.pageDescription;
+
   document.documentElement.lang = lang;
-  if (copy.pageTitle) document.title = copy.pageTitle;
-  if (metaDescription && copy.pageDescription) {
-    metaDescription.setAttribute('content', copy.pageDescription);
+  if (resolvedTitle) document.title = resolvedTitle;
+  if (metaDescription && resolvedDescription) {
+    metaDescription.setAttribute('content', resolvedDescription);
   }
 
   renderFooter(copy);
