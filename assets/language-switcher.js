@@ -6,9 +6,7 @@
   const sanitizeSupported = (supported = []) => Array.from(new Set(supported.filter(Boolean)));
 
   function getPathLocale(pathname, supported) {
-    const match = (pathname || '').match(/^\/([a-z]{2})(?:\/|$)/i);
-    const locale = (match?.[1] || '').toLowerCase();
-    return supported.includes(locale) ? locale : '';
+    return '';
   }
 
   function resolveInitialLanguage({ supported, defaultLang, storageKey, queryParam }) {
@@ -67,11 +65,8 @@
     const currentUrl = new URL(window.location.href);
     const locale = getPathLocale(currentUrl.pathname, supported);
     if (!locale) return null;
-    const strippedPath = currentUrl.pathname.replace(/^\/(en|es)(?=\/|$)/i, '') || '/';
-    const rewrittenPath = `/${lang}${strippedPath.startsWith('/') ? strippedPath : `/${strippedPath}`}`;
-    const nextUrl = new URL(rewrittenPath, window.location.origin);
-    nextUrl.search = currentUrl.search;
-    nextUrl.searchParams.delete(queryParam);
+    const nextUrl = new URL(window.location.href);
+    nextUrl.searchParams.set(queryParam, lang);
     nextUrl.hash = currentUrl.hash;
     return nextUrl;
   }

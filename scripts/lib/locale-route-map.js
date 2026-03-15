@@ -1,3 +1,5 @@
+const LOCALE_ROOT = 'locale';
+
 const SOURCE_ROUTES = [
   { route: '/', source: 'index.html', output: 'index.html' },
   { route: '/about/', source: 'about/index.html', output: 'about/index.html' },
@@ -27,15 +29,15 @@ function normalizeRoute(route) {
 
 function localePath(locale, route) {
   const normalized = normalizeRoute(route);
-  if (normalized === '/') return `/${locale}/`;
+  if (normalized === '/') return `/${LOCALE_ROOT}/${locale}/`;
   if (normalized.startsWith('/legal/')) {
-    return `/${locale}${normalized}.html`;
+    return `/${LOCALE_ROOT}/${locale}${normalized}.html`;
   }
-  return `/${locale}${normalized}`;
+  return `/${LOCALE_ROOT}/${locale}${normalized}`;
 }
 
 function getLocaleOutputPath(locale, sourceFile) {
-  return `${locale}/${sourceFile}`;
+  return `${LOCALE_ROOT}/${locale}/${sourceFile}`;
 }
 
 function getEnPath(route) {
@@ -51,6 +53,7 @@ function getAlternateLocalePath(route, locale) {
 }
 
 module.exports = {
+  LOCALE_ROOT,
   SOURCE_ROUTES,
   normalizeRoute,
   localePath,
