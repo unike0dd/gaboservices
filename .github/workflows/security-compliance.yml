@@ -58,6 +58,11 @@ jobs:
           fi
 
 
+      - name: Validate i18n critical-vs-optional scope
+        run: |
+          set -euo pipefail
+          node scripts/validate-i18n-scope.js
+
       - name: Verify locale generated artifacts are in sync
         run: |
           set -euo pipefail

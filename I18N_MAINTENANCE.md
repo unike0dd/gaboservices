@@ -38,3 +38,20 @@ If the check fails, regenerate locale pages and commit updated artifacts.
 - Locale outputs are generated artifacts.
 - Source dictionaries and templates are authoritative.
 - Pull requests should avoid manual copy edits in `en/**` and `es/**` unless produced by generator scripts.
+
+
+## Phase 2 Scope Governance
+
+Translation scope is tracked in `i18n-translation-scope.json`:
+
+- `criticalKeys`: keys that must exist in both EN and ES to preserve core UX, forms, legal/footer navigation, and chatbot controls.
+
+Run Phase 2 validation:
+
+- `node scripts/validate-i18n-scope.js`
+
+Validation behavior:
+
+- Fails if any critical key is missing/empty in either locale.
+- Reports (non-fatal) optional parity gaps for backlog management.
+- Reports how many critical keys are actively referenced by `data-i18n*` attributes in templates/scripts.
