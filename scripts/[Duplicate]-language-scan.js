@@ -1,4 +1,12 @@
 #!/usr/bin/env node
+/**
+ * Standalone duplicate/language scanner.
+ *
+ * This script is intentionally disconnected from repo workflows:
+ * - No imports from project modules.
+ * - No automatic writes to tracked files.
+ * - Outputs JSON to stdout unless --out <path> is provided.
+ */
 const fs = require('fs');
 const path = require('path');
 
@@ -15,6 +23,17 @@ const PATTERNS = [
   { key: 'hreflang_es', regex: /hreflang=["']es["']/g },
   { key: 'locale_array_en_es', regex: /\[(?:\s*["']en["']\s*,\s*["']es["']\s*)\]/g }
 ];
+
+function parseArgs(argv) {
+  const args = { out: '' };
+  for (let i = 2; i < argv.length; i += 1) {
+    if (argv[i] === '--out' && argv[i + 1]) {
+      args.out = argv[i + 1];
+      i += 1;
+    }
+  }
+  return args;
+}
 
 function walk(dir, out = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -54,12 +73,12 @@ function getI18nDuplicateSummary(files) {
     .map(([key, count]) => ({ key, count }));
 }
 
-function main() {
-  const files = walk(ROOT);
+function scanRepo(rootDir) {
+  const files = walk(rootDir);
   const findings = [];
 
   for (const file of files) {
-    const rel = path.relative(ROOT, file).replace(/\\/g, '/');
+    const rel = path.relative(rootDir, file).replace(/\\/g, '/');
     const txt = fs.readFileSync(file, 'utf8');
 
     for (const pattern of PATTERNS) {
@@ -78,24 +97,34 @@ function main() {
     }
   }
 
-  const byType = findings.reduce((acc, item) => {
+  const totalsByType = findings.reduce((acc, item) => {
     acc[item.type] = (acc[item.type] || 0) + 1;
     return acc;
   }, {});
 
-  const report = {
+  return {
     generatedAt: new Date().toISOString(),
     totalFindings: findings.length,
-    totalsByType: byType,
+    totalsByType,
     duplicatedI18nKeysTop: getI18nDuplicateSummary(files),
     findings
   };
+}
 
-  const outDir = path.join(ROOT, 'reports');
-  fs.mkdirSync(outDir, { recursive: true });
-  const outFile = path.join(outDir, 'language-deep-scan-report.json');
-  fs.writeFileSync(outFile, JSON.stringify(report, null, 2));
-  console.log(`Wrote ${path.relative(ROOT, outFile)} with ${report.totalFindings} findings.`);
+function main() {
+  const { out } = parseArgs(process.argv);
+  const report = scanRepo(ROOT);
+  const json = JSON.stringify(report, null, 2);
+
+  if (out) {
+    const outPath = path.resolve(ROOT, out);
+    fs.mkdirSync(path.dirname(outPath), { recursive: true });
+    fs.writeFileSync(outPath, `${json}\n`, 'utf8');
+    console.log(`Wrote ${path.relative(ROOT, outPath)} with ${report.totalFindings} findings.`);
+    return;
+  }
+
+  process.stdout.write(`${json}\n`);
 }
 
 main();
