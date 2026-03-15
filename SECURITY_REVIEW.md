@@ -51,3 +51,31 @@ All of the following can be implemented without paid services and without adding
 
 - You can significantly improve to around **8/10** using current stack + free GitHub/Cloudflare capabilities.
 - Going beyond that depends more on operational maturity and strict backend enforcement in your existing worker, not on buying new infrastructure.
+
+## 2026-03 Hardening Update (SEO + OWASP/CISA/NIST/PCI DSS Alignment)
+
+### Changes Applied
+
+1. **Security headers hardened in `_headers`**
+   - CSP simplified to host-allowlist model with mixed-content blocking.
+   - HSTS increased to 2-year preload profile.
+   - Added `X-Permitted-Cross-Domain-Policies: none`.
+   - Added scoped CORS policy for `/assets/*`.
+2. **Crawler policy updated in `robots.txt`**
+   - Default policy is now crawl-allow for all user agents.
+   - Kept non-content technical paths disallowed to preserve crawl budget.
+3. **Sitemap generation improved for Search Console**
+   - `scripts/update-locale-sitemap.js` now includes both base routes and `/en` + `/es` locale routes.
+
+### Compliance Mapping (practical)
+
+- **OWASP ASVS / Top 10:** CSP, clickjacking protection, MIME sniffing prevention, strict referrer, mixed-content blocking.
+- **CISA Cyber Essentials:** secure configuration baseline + external attack-surface reduction via restrictive headers.
+- **NIST CSF (Protect/Detect):** preventive browser controls + explicit policy artifacts that are auditable in-repo.
+- **PCI DSS 4.0 (Req. 6, 8, 10, 11 aligned support):** secure coding controls, hardening evidence in version control, and repeatable security config update scripts.
+
+### Google Search Console Readiness
+
+- Crawl access enabled globally.
+- Sitemap endpoint preserved and machine-readable.
+- Locale URLs published explicitly for `/en/` and `/es/`.

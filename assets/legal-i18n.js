@@ -148,77 +148,50 @@
     return null;
   };
 
-  const params = new URLSearchParams(window.location.search);
-  const requested = (params.get('lang') || '').toLowerCase();
-  const stored = (localStorage.getItem('lang') || '').toLowerCase();
+  const switcher = window.GaboLanguageSwitcher?.initLanguageSwitcher({
+    supported: SUPPORTED,
+    defaultLang: 'es',
+    getButtonLabel: (buttonLang) => {
+      const copyByLang = COPY[buttonLang] || COPY.en;
+      return buttonLang === 'en'
+        ? (copyByLang.switchToEnglish || COPY.en.switchToEnglish)
+        : (copyByLang.switchToSpanish || COPY.en.switchToSpanish);
+    },
+    onChange: (activeLang) => {
+      const copy = COPY[activeLang] || COPY.en;
+      const pageKey = getPageKey();
+      document.documentElement.lang = activeLang;
 
-  const applyLanguage = (lang) => {
-    const activeLang = SUPPORTED.includes(lang) ? lang : 'es';
-    localStorage.setItem('lang', activeLang);
-
-    const url = new URL(window.location.href);
-    url.searchParams.set('lang', activeLang);
-    window.history.replaceState({}, '', url);
-
-    const copy = COPY[activeLang] || COPY.en;
-    const pageKey = getPageKey();
-    document.documentElement.lang = activeLang;
-
-    if (pageKey && PAGE_CONTENT[pageKey] && PAGE_CONTENT[pageKey][activeLang]) {
-      const main = document.querySelector('main.legal-main');
-      if (main) {
-        main.innerHTML = PAGE_CONTENT[pageKey][activeLang];
+      if (pageKey && PAGE_CONTENT[pageKey] && PAGE_CONTENT[pageKey][activeLang]) {
+        const main = document.querySelector('main.legal-main');
+        if (main) {
+          main.innerHTML = PAGE_CONTENT[pageKey][activeLang];
+        }
+        const description = document.querySelector('meta[name="description"]');
+        if (pageKey === 'terms') {
+          document.title = copy.pageTermsTitle;
+          if (description) description.setAttribute('content', copy.pageTermsDescription);
+        } else if (pageKey === 'cookies') {
+          document.title = copy.pageCookiesTitle;
+          if (description) description.setAttribute('content', copy.pageCookiesDescription);
+        } else if (pageKey === 'privacy') {
+          document.title = copy.pagePrivacyTitle;
+          if (description) description.setAttribute('content', copy.pagePrivacyDescription);
+        }
       }
-      const description = document.querySelector('meta[name="description"]');
-      if (pageKey === 'terms') {
-        document.title = copy.pageTermsTitle;
-        if (description) description.setAttribute('content', copy.pageTermsDescription);
-      } else if (pageKey === 'cookies') {
-        document.title = copy.pageCookiesTitle;
-        if (description) description.setAttribute('content', copy.pageCookiesDescription);
-      } else if (pageKey === 'privacy') {
-        document.title = copy.pagePrivacyTitle;
-        if (description) description.setAttribute('content', copy.pagePrivacyDescription);
-      }
+
+      document.querySelectorAll('[data-i18n]').forEach((node) => {
+        const key = node.getAttribute('data-i18n');
+        if (copy[key]) node.textContent = copy[key];
+      });
+      document.querySelectorAll('[data-i18n-aria-label]').forEach((node) => {
+        const key = node.getAttribute('data-i18n-aria-label');
+        if (copy[key]) node.setAttribute('aria-label', copy[key]);
+      });
     }
-
-    document.querySelectorAll('[data-lang-option]').forEach((button) => {
-      const buttonLang = button.getAttribute('data-lang-option');
-      const active = buttonLang === activeLang;
-      const targetCopy = COPY[buttonLang] || COPY.en;
-      const label = buttonLang === 'en'
-        ? (targetCopy.switchToEnglish || COPY.en.switchToEnglish)
-        : (targetCopy.switchToSpanish || COPY.en.switchToSpanish);
-
-      button.classList.toggle('is-active', active);
-      button.setAttribute('aria-pressed', String(active));
-      if (label) {
-        button.setAttribute('aria-label', label);
-        button.setAttribute('title', label);
-      }
-    });
-
-    document.querySelectorAll('[data-i18n]').forEach((node) => {
-      const key = node.getAttribute('data-i18n');
-      if (copy[key]) node.textContent = copy[key];
-    });
-    document.querySelectorAll('[data-i18n-aria-label]').forEach((node) => {
-      const key = node.getAttribute('data-i18n-aria-label');
-      if (copy[key]) node.setAttribute('aria-label', copy[key]);
-    });
-  };
-
-  const initialLang = SUPPORTED.includes(requested)
-    ? requested
-    : (SUPPORTED.includes(stored) ? stored : 'es');
-
-  applyLanguage(initialLang);
-
-  document.querySelectorAll('[data-lang-option]').forEach((button) => {
-    button.addEventListener('click', () => {
-      const buttonLang = (button.getAttribute('data-lang-option') || '').toLowerCase();
-      if (!SUPPORTED.includes(buttonLang)) return;
-      applyLanguage(buttonLang);
-    });
   });
+
+  if (!switcher) {
+    console.warn('[legal-i18n] Language switcher unavailable.');
+  }
 })();
