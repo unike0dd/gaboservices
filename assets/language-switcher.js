@@ -5,12 +5,30 @@
 
   const sanitizeSupported = (supported = []) => Array.from(new Set(supported.filter(Boolean)));
 
+  function getPathLocale(pathname, supported) {
+    const match = (pathname || '').match(/^\/([a-z]{2})(?:\/|$)/i);
+    const locale = (match?.[1] || '').toLowerCase();
+    return supported.includes(locale) ? locale : '';
+  }
+
   function resolveInitialLanguage({ supported, defaultLang, storageKey, queryParam }) {
+    const pathLocale = getPathLocale(window.location.pathname, supported);
+    if (pathLocale) {
+      localStorage.setItem(storageKey, pathLocale);
+      return pathLocale;
+    }
+
     const params = new URLSearchParams(window.location.search);
     const requested = (params.get(queryParam) || '').toLowerCase();
     if (supported.includes(requested)) {
       localStorage.setItem(storageKey, requested);
       return requested;
+    }
+
+    const htmlLang = (document.documentElement.lang || '').toLowerCase();
+    if (supported.includes(htmlLang)) {
+      localStorage.setItem(storageKey, htmlLang);
+      return htmlLang;
     }
 
     const stored = (localStorage.getItem(storageKey) || '').toLowerCase();
@@ -19,25 +37,43 @@
     return defaultLang;
   }
 
-  function syncLanguageInUrl(lang, queryParam) {
+  function syncLanguageInUrl(lang, queryParam, supported) {
     const url = new URL(window.location.href);
-    url.searchParams.set(queryParam, lang);
+    if (getPathLocale(url.pathname, supported)) {
+      url.searchParams.delete(queryParam);
+    } else {
+      url.searchParams.set(queryParam, lang);
+    }
     window.history.replaceState({}, '', url);
   }
 
-  function getAlternateLocaleUrl(lang) {
+  function getAlternateLocaleUrl(lang, supported, queryParam) {
     const alternate = document.querySelector(`link[rel="alternate"][hreflang="${lang}"]`);
     const href = alternate?.getAttribute('href');
-    if (!href) return null;
-
-    try {
-      const alternateUrl = new URL(href, window.location.origin);
-      const nextUrl = new URL(`${alternateUrl.pathname}${alternateUrl.search}`, window.location.origin);
-      nextUrl.hash = window.location.hash;
-      return nextUrl;
-    } catch {
-      return null;
+    if (href) {
+      try {
+        const alternateUrl = new URL(href, window.location.origin);
+        const nextUrl = new URL(`${alternateUrl.pathname}${alternateUrl.search}`, window.location.origin);
+        if (getPathLocale(nextUrl.pathname, supported)) {
+          nextUrl.searchParams.delete(queryParam);
+        }
+        nextUrl.hash = window.location.hash;
+        return nextUrl;
+      } catch {
+        // Continue to path-rewrite fallback.
+      }
     }
+
+    const currentUrl = new URL(window.location.href);
+    const locale = getPathLocale(currentUrl.pathname, supported);
+    if (!locale) return null;
+    const strippedPath = currentUrl.pathname.replace(/^\/(en|es)(?=\/|$)/i, '') || '/';
+    const rewrittenPath = `/${lang}${strippedPath.startsWith('/') ? strippedPath : `/${strippedPath}`}`;
+    const nextUrl = new URL(rewrittenPath, window.location.origin);
+    nextUrl.search = currentUrl.search;
+    nextUrl.searchParams.delete(queryParam);
+    nextUrl.hash = currentUrl.hash;
+    return nextUrl;
   }
 
   function syncLanguageButtons(lang, { selector, getButtonLabel }) {
@@ -71,7 +107,7 @@
       if (!supported.includes(nextLang)) return lang;
       lang = nextLang;
       localStorage.setItem(storageKey, lang);
-      syncLanguageInUrl(lang, queryParam);
+      syncLanguageInUrl(lang, queryParam, supported);
       document.documentElement.lang = lang;
       syncLanguageButtons(lang, { selector, getButtonLabel: options.getButtonLabel });
       if (typeof options.onChange === 'function') {
@@ -79,7 +115,7 @@
       }
 
       if (triggeredByUser && options.navigateOnChange !== false) {
-        const alternateUrl = getAlternateLocaleUrl(lang);
+        const alternateUrl = getAlternateLocaleUrl(lang, supported, queryParam);
         if (alternateUrl && alternateUrl.href !== window.location.href) {
           window.location.assign(alternateUrl.href);
         }

@@ -48,12 +48,13 @@
             <li><a href="/es/services/" data-i18n="services">Servicios</a></li>
             <li><a href="/es/pricing/" data-i18n="pricing">Precios</a></li>
             <li><a href="/es/careers/" data-i18n="careers">Carreras</a></li>
+            <li><a href="/es/learning/" data-i18n="learning">Aprendizaje</a></li>
             <li><a href="/es/contact/" data-i18n="contact">Contacto</a></li>
           </ul>
         </nav>
         <div class="actions">
-          <button class="ghost lang-option" type="button" data-lang-option="en" aria-pressed="false" data-i18n-aria-label="Cambiar idioma a inglés" aria-label="Switch language to English">EN</button>
-          <button class="ghost lang-option" type="button" data-lang-option="es" aria-pressed="false" data-i18n-aria-label="Cambiar idioma a español" aria-label="Cambiar idioma a español">ES</button>
+          <button class="ghost lang-option" type="button" data-lang-option="en" aria-pressed="false" data-i18n-aria-label="switchToEnglish" aria-label="Cambiar idioma a inglés">EN</button>
+          <button class="ghost lang-option" type="button" data-lang-option="es" aria-pressed="false" data-i18n-aria-label="switchToSpanish" aria-label="Cambiar idioma a español">ES</button>
         </div>
       </div>
     </header>
@@ -84,8 +85,10 @@
           <label>
             <span data-i18n="contactNumber">Su número de contacto</span>
             <div class="contact-number-row">
-              <input required type="text" name="applicant_country_code" inputmode="tel" autocomplete="tel-country-code" data-i18n-aria-label="countryCode" aria-label="Country code" data-i18n-placeholder="Código de país" placeholder="Country code" />
-              <input required type="tel" name="applicant_phone_number" inputmode="tel" autocomplete="tel-national" data-i18n-aria-label="phoneNumber" aria-label="Phone number" data-i18n-placeholder="Número de teléfono" placeholder="Phone number" />
+              <select required name="applicant_contact_country_code" data-i18n-aria-label="countryCode" aria-label="Código de país">
+                <option value="" data-i18n="countryCodePlaceholder">Seleccione código de país</option>
+              </select>
+              <input required type="tel" name="applicant_phone_number" inputmode="tel" autocomplete="tel-national" data-i18n-aria-label="phoneNumber" aria-label="Phone number" data-i18n-placeholder="phoneNumber" placeholder="Número de teléfono" />
             </div>
           </label>
 
@@ -95,12 +98,12 @@
               <div class="secure-actions" aria-label="Experiencia controles">
                 <button type="button" class="ghost repeat-add" data-i18n="add" aria-label="Agregar entrada de experiencia">Agregar</button>
                 <button type="button" class="ghost repeat-remove" data-i18n="remove" aria-label="Quitar entrada de experiencia">Quitar</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="Bloquear sección" aria-label="Bloquear sección">🔓</button>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="lockSection" aria-label="Bloquear sección">🔓</button>
               </div>
             </div>
             <div class="repeatable-list">
               <div class="repeatable-entry">
-                <textarea required name="experience[]" rows="2" data-i18n-placeholder="Describa su experiencia" placeholder="Describe your experience"></textarea>
+                <textarea required name="experience[]" rows="2" data-i18n-placeholder="placeholderExperience" placeholder="Describa su experiencia"></textarea>
               </div>
             </div>
           </div>
@@ -111,12 +114,12 @@
               <div class="secure-actions" aria-label="Educación controles">
                 <button type="button" class="ghost repeat-add" data-i18n="add" aria-label="Agregar entrada de educación">Agregar</button>
                 <button type="button" class="ghost repeat-remove" data-i18n="remove" aria-label="Quitar entrada de educación">Quitar</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="Bloquear sección" aria-label="Bloquear sección">🔓</button>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="lockSection" aria-label="Bloquear sección">🔓</button>
               </div>
             </div>
             <div class="repeatable-list">
               <div class="repeatable-entry">
-                <textarea required name="education[]" rows="2" data-i18n-placeholder="Comparta su formación académica" placeholder="Share your education background"></textarea>
+                <textarea required name="education[]" rows="2" data-i18n-placeholder="placeholderEducation" placeholder="Comparta su formación académica"></textarea>
               </div>
             </div>
           </div>
@@ -127,12 +130,12 @@
               <div class="secure-actions" aria-label="Certificación controles">
                 <button type="button" class="ghost repeat-add" data-i18n="add" aria-label="Agregar entrada de certificación">Agregar</button>
                 <button type="button" class="ghost repeat-remove" data-i18n="remove" aria-label="Quitar entrada de certificación">Quitar</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="Bloquear sección" aria-label="Bloquear sección">🔓</button>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="lockSection" aria-label="Bloquear sección">🔓</button>
               </div>
             </div>
             <div class="repeatable-list">
               <div class="repeatable-entry">
-                <textarea required name="certification[]" rows="2" data-i18n-placeholder="Liste sus certificaciones" placeholder="List your certifications"></textarea>
+                <textarea required name="certification[]" rows="2" data-i18n-placeholder="placeholderCertification" placeholder="Liste sus certificaciones"></textarea>
               </div>
             </div>
           </div>
@@ -143,12 +146,12 @@
               <div class="secure-actions" aria-label="Habilidades controles">
                 <button type="button" class="ghost repeat-add" data-i18n="add" aria-label="Agregar entrada de habilidades">Agregar</button>
                 <button type="button" class="ghost repeat-remove" data-i18n="remove" aria-label="Quitar entrada de habilidades">Quitar</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="Bloquear sección" aria-label="Bloquear sección">🔓</button>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="lockSection" aria-label="Bloquear sección">🔓</button>
               </div>
             </div>
             <div class="repeatable-list">
               <div class="repeatable-entry">
-                <textarea required name="skills[]" rows="2" data-i18n-placeholder="Agregue sus habilidades" placeholder="Add your skills"></textarea>
+                <textarea required name="skills[]" rows="2" data-i18n-placeholder="placeholderSkills" placeholder="Agregue sus habilidades"></textarea>
               </div>
             </div>
           </div>
@@ -159,12 +162,12 @@
               <div class="secure-actions" aria-label="Nivel actual de experiencia controles">
                 <button type="button" class="ghost repeat-add" data-i18n="add" aria-label="Agregar entrada de nivel actual de experiencia">Agregar</button>
                 <button type="button" class="ghost repeat-remove" data-i18n="remove" aria-label="Quitar entrada de nivel actual de experiencia">Quitar</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="Bloquear sección" aria-label="Bloquear sección">🔓</button>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="lockSection" aria-label="Bloquear sección">🔓</button>
               </div>
             </div>
             <div class="repeatable-list expertise-list">
               <div class="expertise-entry">
-                <select required name="expertise_level[]" data-i18n-aria-label="Nivel actual de experiencia" aria-label="Nivel actual de experiencia">
+                <select required name="expertise_level[]" data-i18n-aria-label="expertise" aria-label="Nivel actual de experiencia">
                   <option value="" data-i18n="selectLevel">Seleccione nivel</option>
                   <option value="Entry" data-i18n="entry">Inicial</option>
                   <option value="Junior" data-i18n="junior">Junior</option>
@@ -172,7 +175,7 @@
                   <option value="Advance" data-i18n="advanced">Avanzado</option>
                   <option value="Expert" data-i18n="expert">Experto</option>
                 </select>
-                <textarea required name="expertise_notes[]" rows="2" data-i18n-placeholder="Describa su nivel de experiencia" placeholder="Describe your expertise"></textarea>
+                <textarea required name="expertise_notes[]" rows="2" data-i18n-placeholder="placeholderExpertise" placeholder="Describa su nivel de experiencia"></textarea>
               </div>
             </div>
           </div>
@@ -183,12 +186,12 @@
               <div class="secure-actions" aria-label="Idiomas controles">
                 <button type="button" class="ghost repeat-add" data-i18n="add" aria-label="Agregar entrada de idiomas">Agregar</button>
                 <button type="button" class="ghost repeat-remove" data-i18n="remove" aria-label="Quitar entrada de idiomas">Quitar</button>
-                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="Bloquear sección" aria-label="Bloquear sección">🔓</button>
+                <button type="button" class="ghost secure-lock repeat-lock" aria-pressed="false" data-i18n-aria-label="lockSection" aria-label="Bloquear sección">🔓</button>
               </div>
             </div>
             <div class="repeatable-list">
               <div class="repeatable-entry">
-                <textarea required name="languages[]" rows="2" data-i18n-placeholder="Indique idioma(s) y nivel" placeholder="List language(s) and level"></textarea>
+                <textarea required name="languages[]" rows="2" data-i18n-placeholder="placeholderLanguages" placeholder="Indique idioma(s) y nivel"></textarea>
               </div>
             </div>
           </div>
@@ -222,7 +225,7 @@
         <div class="footer-column">
           <h3>Soporte</h3>
           <a href="/es/contact/">Contacto</a>
-          <a href="/es/learning/">Aprendizaje</a>
+          <a href="/es/learning/">Conocimiento</a>
           <a href="/sitemap.xml">Mapa del sitio</a>
         </div>
         <div class="footer-column">
@@ -236,8 +239,6 @@
     </footer>
 
     <script src="/page-style-switcher.js"></script>
-    <script src="/assets/language-switcher.js" defer></script>
-    <script data-cfasync="false" type="module" crossorigin="anonymous" src="/main.js"></script>
     <script src="/site.config.js"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
     <script src="/turnstile-submit-gate.js" defer></script>

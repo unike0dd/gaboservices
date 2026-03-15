@@ -7,7 +7,13 @@ const metadata = window.SITE_METADATA || {};
 if (metadata.name) document.title = metadata.name;
 const metaDescription = document.querySelector('meta[name="description"]');
 if (metaDescription && metadata.description) metaDescription.setAttribute('content', metadata.description);
-let lang = 'es';
+
+const PATH_LOCALE_MATCH = window.location.pathname.match(/^\/(en|es)(?:\/|$)/i);
+const ACTIVE_PATH_LOCALE = (PATH_LOCALE_MATCH?.[1] || '').toLowerCase();
+const IS_LOCALE_ROUTE = Boolean(ACTIVE_PATH_LOCALE);
+const SHOULD_RUNTIME_TRANSLATE = !IS_LOCALE_ROUTE;
+
+let lang = ACTIVE_PATH_LOCALE || (document.documentElement.lang || '').toLowerCase() || 'es';
 let appReady = false;
 const LANGUAGE_CONTROL_SELECTOR = '[data-lang-option]';
 const COUNTRY_CODES = [
@@ -20,7 +26,7 @@ const COUNTRY_CODES = [
 
 const languageSwitcher = window.GaboLanguageSwitcher?.initLanguageSwitcher({
   supported: SUPPORTED_LANGUAGES,
-  defaultLang: 'es',
+  defaultLang: ACTIVE_PATH_LOCALE || (document.documentElement.lang || '').toLowerCase() || 'es',
   getButtonLabel: (buttonLang) => getLanguageToggleLabel(buttonLang),
   onChange: (nextLang) => {
     if (nextLang === lang) return;
@@ -49,10 +55,7 @@ function syncInternalLanguageLinks() {
     }
 
     if (targetUrl.origin !== window.location.origin) return;
-
-    targetUrl.searchParams.set('lang', lang);
-    const relativePath = `${targetUrl.pathname}${targetUrl.search}${targetUrl.hash}`;
-    link.setAttribute('href', relativePath);
+    link.setAttribute('href', buildLocalizedPath(`${targetUrl.pathname}${targetUrl.search}${targetUrl.hash}`));
   });
 }
 
@@ -370,12 +373,42 @@ const SERVICE_PAGE_BY_KEY = Object.freeze({
   it: '/services/it-support/'
 });
 
+function stripLocalePrefix(pathname = '/') {
+  return pathname.replace(/^\/(en|es)(?=\/|$)/i, '') || '/';
+}
+
+function buildLocalizedPath(basePath, targetLang = lang) {
+  const sourceUrl = new URL(basePath, window.location.origin);
+
+  if (!IS_LOCALE_ROUTE) {
+    sourceUrl.searchParams.set('lang', targetLang);
+    return `${sourceUrl.pathname}${sourceUrl.search}${sourceUrl.hash}`;
+  }
+
+  const unlocalizedPath = stripLocalePrefix(sourceUrl.pathname);
+  const isLegalHtml = /^\/legal\/.+\.html$/i.test(unlocalizedPath);
+
+  let normalizedPath = unlocalizedPath || '/';
+  if (!isLegalHtml && normalizedPath !== '/' && !normalizedPath.endsWith('/')) {
+    normalizedPath = `${normalizedPath}/`;
+  }
+  if (normalizedPath === '/') {
+    sourceUrl.pathname = `/${targetLang}/`;
+  } else {
+    sourceUrl.pathname = `/${targetLang}${normalizedPath.startsWith('/') ? normalizedPath : `/${normalizedPath}`}`;
+  }
+
+  sourceUrl.searchParams.delete('lang');
+  return `${sourceUrl.pathname}${sourceUrl.search}${sourceUrl.hash}`;
+}
+
+
 function syncServiceCardLinks() {
   document.querySelectorAll('[data-service-link]').forEach((node) => {
     const key = node.getAttribute('data-service-link');
     const basePath = SERVICE_PAGE_BY_KEY[key || ''];
     if (!basePath) return;
-    node.setAttribute('href', `${basePath}?lang=${lang}`);
+    node.setAttribute('href', buildLocalizedPath(basePath));
   });
 }
 
@@ -397,13 +430,17 @@ function syncLanguageAwareLinks() {
     if (targetUrl.origin !== window.location.origin) return;
     if (staticAssetPattern.test(targetUrl.pathname)) return;
 
-    targetUrl.searchParams.set('lang', lang);
-
     const wasAbsolute = /^[a-z][a-z\d+.-]*:\/\//i.test(href);
+    if (IS_LOCALE_ROUTE) {
+      const localizedHref = buildLocalizedPath(`${targetUrl.pathname}${targetUrl.search}${targetUrl.hash}`);
+      node.setAttribute('href', wasAbsolute ? new URL(localizedHref, window.location.origin).toString() : localizedHref);
+      return;
+    }
+
+    targetUrl.searchParams.set('lang', lang);
     const nextHref = wasAbsolute
       ? targetUrl.toString()
       : `${targetUrl.pathname}${targetUrl.search}${targetUrl.hash}`;
-
     node.setAttribute('href', nextHref);
   });
 }
@@ -952,26 +989,31 @@ function translatePage() {
   const resolvedDescription = copy[metaKeys.description] ?? fallbackCopy[metaKeys.description] ?? copy.pageDescription ?? fallbackCopy.pageDescription;
 
   document.documentElement.lang = lang;
-  if (resolvedTitle) document.title = resolvedTitle;
-  if (metaDescription && resolvedDescription) {
+  if (SHOULD_RUNTIME_TRANSLATE && resolvedTitle) document.title = resolvedTitle;
+  if (SHOULD_RUNTIME_TRANSLATE && metaDescription && resolvedDescription) {
     metaDescription.setAttribute('content', resolvedDescription);
   }
 
-  renderFooter(copy);
+  if (SHOULD_RUNTIME_TRANSLATE) {
+    renderFooter(copy);
+  }
   syncServiceCardLinks();
   syncLanguageAwareLinks();
-  document.querySelectorAll('[data-i18n]').forEach((node) => {
-    const key = node.dataset.i18n;
-    const value = copy[key] ?? fallbackCopy[key];
-    if (value) node.textContent = value;
-  });
 
-  [
-    ['ariaLabel', 'aria-label'],
-    ['placeholder', 'placeholder'],
-    ['title', 'title'],
-    ['content', 'content']
-  ].forEach(([datasetKey, attributeName]) => applyLocalizedAttributes(copy, fallbackCopy, datasetKey, attributeName));
+  if (SHOULD_RUNTIME_TRANSLATE) {
+    document.querySelectorAll('[data-i18n]').forEach((node) => {
+      const key = node.dataset.i18n;
+      const value = copy[key] ?? fallbackCopy[key];
+      if (value) node.textContent = value;
+    });
+
+    [
+      ['ariaLabel', 'aria-label'],
+      ['placeholder', 'placeholder'],
+      ['title', 'title'],
+      ['content', 'content']
+    ].forEach(([datasetKey, attributeName]) => applyLocalizedAttributes(copy, fallbackCopy, datasetKey, attributeName));
+  }
 
   const langButtons = [...document.querySelectorAll(LANGUAGE_CONTROL_SELECTOR)];
   if (langButtons.length) {
@@ -1212,7 +1254,7 @@ if (languageSwitcher) {
   languageSwitcher.setLanguage(languageSwitcher.getLanguage());
   lang = languageSwitcher.getLanguage();
 } else {
-  lang = 'es';
+  lang = ACTIVE_PATH_LOCALE || 'es';
 }
 
 appReady = true;

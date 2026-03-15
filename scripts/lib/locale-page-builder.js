@@ -127,8 +127,9 @@ function localizeDataI18n(html, copy, fallback) {
     const translated = copy[key] ?? fallback[key];
     if (!translated) return full;
     const attr = type === 'aria-label' ? 'aria-label' : type;
-    if (new RegExp(`${attr}=["']`).test(open)) {
-      return `${open.replace(new RegExp(`${attr}=["'][^"']*["']`), `${attr}="${escapeAttr(translated)}"`)}${end}`;
+    const attrPattern = new RegExp(`(^|\\s)${attr}=["'][^"']*["']`, 'i');
+    if (attrPattern.test(open)) {
+      return `${open.replace(attrPattern, `$1${attr}="${escapeAttr(translated)}"`)}${end}`;
     }
     return `${open} ${attr}="${escapeAttr(translated)}"${end}`;
   });
