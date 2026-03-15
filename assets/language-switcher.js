@@ -25,6 +25,21 @@
     window.history.replaceState({}, '', url);
   }
 
+  function getAlternateLocaleUrl(lang) {
+    const alternate = document.querySelector(`link[rel="alternate"][hreflang="${lang}"]`);
+    const href = alternate?.getAttribute('href');
+    if (!href) return null;
+
+    try {
+      const alternateUrl = new URL(href, window.location.origin);
+      const nextUrl = new URL(`${alternateUrl.pathname}${alternateUrl.search}`, window.location.origin);
+      nextUrl.hash = window.location.hash;
+      return nextUrl;
+    } catch {
+      return null;
+    }
+  }
+
   function syncLanguageButtons(lang, { selector, getButtonLabel }) {
     document.querySelectorAll(selector).forEach((button) => {
       const buttonLang = (button.getAttribute('data-lang-option') || '').toLowerCase();
@@ -52,7 +67,7 @@
 
     let lang = resolveInitialLanguage({ supported, defaultLang, storageKey, queryParam });
 
-    const applyLanguage = (nextLang) => {
+    const applyLanguage = (nextLang, { triggeredByUser = false } = {}) => {
       if (!supported.includes(nextLang)) return lang;
       lang = nextLang;
       localStorage.setItem(storageKey, lang);
@@ -62,6 +77,14 @@
       if (typeof options.onChange === 'function') {
         options.onChange(lang);
       }
+
+      if (triggeredByUser && options.navigateOnChange !== false) {
+        const alternateUrl = getAlternateLocaleUrl(lang);
+        if (alternateUrl && alternateUrl.href !== window.location.href) {
+          window.location.assign(alternateUrl.href);
+        }
+      }
+
       return lang;
     };
 
@@ -69,7 +92,7 @@
       const trigger = event.target.closest(selector);
       if (!trigger) return;
       const nextLang = (trigger.getAttribute('data-lang-option') || '').toLowerCase();
-      applyLanguage(nextLang);
+      applyLanguage(nextLang, { triggeredByUser: true });
     });
 
     applyLanguage(lang);
