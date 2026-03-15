@@ -1338,8 +1338,21 @@ textarea[data-security-state='review'] {
 
 .contact-number-row {
   display: grid;
-  grid-template-columns: minmax(110px, 140px) 1fr;
-  gap: 0.6rem;
+  grid-template-columns: minmax(140px, 180px) minmax(0, 1fr);
+  gap: 0.65rem;
+}
+
+.contact-number-row select,
+.contact-number-row input {
+  min-height: 46px;
+  padding: 0.68rem 0.85rem;
+}
+
+
+@media (max-width: 560px) {
+  .contact-number-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 .site-footer {

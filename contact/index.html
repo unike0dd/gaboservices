@@ -73,7 +73,13 @@
           <form id="contactForm" class="form-stack" novalidate>
             <label for="name" data-i18n="name">Name</label><input id="name" name="name" required />
             <label for="email" data-i18n="email">Email</label><input id="email" name="email" type="email" required />
-            <label for="contact" data-i18n="contactNumber">Contact number</label><input id="contact" name="contact" />
+            <label for="contact_phone_number" data-i18n="contactNumber">Your Contact Number</label>
+            <div class="contact-number-row">
+              <select id="contact_country_code" name="contact_country_code" data-i18n-aria-label="countryCode" aria-label="Country code">
+                <option value="" data-i18n="countryCodePlaceholder">Country code</option>
+              </select>
+              <input id="contact_phone_number" type="tel" name="contact_phone_number" inputmode="tel" autocomplete="tel-national" data-i18n-aria-label="phoneNumber" aria-label="Phone number" data-i18n-placeholder="phoneNumber" placeholder="Phone number" />
+            </div>
             <label for="time" data-i18n="contactTime">Preferred contact window</label><input id="time" name="time" />
             <label for="message" data-i18n="message">Message</label><textarea id="message" name="message" rows="4"></textarea>
             <input class="hp-field" type="text" name="contact_reference" tabindex="-1" autocomplete="off" aria-hidden="true" />
