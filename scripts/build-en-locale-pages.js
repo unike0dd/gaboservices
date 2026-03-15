@@ -17,7 +17,7 @@ function main() {
     });
   });
 
-  console.log(`Generated ${SOURCE_ROUTES.length} EN locale pages under /en`);
+  console.log(`Generated ${SOURCE_ROUTES.length} EN locale pages under /lang/en`);
 }
 
 main();

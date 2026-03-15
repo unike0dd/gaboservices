@@ -15,7 +15,7 @@ function main() {
   run('node', ['scripts/build-en-locale-pages.js']);
   run('node', ['scripts/build-es-locale-pages.js']);
 
-  const diffResult = spawnSync('git', ['diff', '--exit-code', '--', 'en', 'es'], {
+  const diffResult = spawnSync('git', ['diff', '--exit-code', '--', 'lang/en', 'lang/es'], {
     encoding: 'utf8'
   });
 
@@ -27,7 +27,7 @@ function main() {
     process.exit(1);
   }
 
-  console.log('[i18n] Locale generated pages are in sync (en/, es/).');
+  console.log('[i18n] Locale generated pages are in sync (lang/en/, lang/es/).');
 }
 
 main();
