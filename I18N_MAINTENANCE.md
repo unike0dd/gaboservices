@@ -1,0 +1,40 @@
+# i18n Maintenance Guide (Phase 1)
+
+This project uses bilingual EN/ES content with generated locale pages under `/en` and `/es`.
+
+## Single Source of Truth
+
+Do **not** edit generated locale files directly in:
+
+- `en/**`
+- `es/**`
+
+Edit source content only in:
+
+- `language-codes.js` (main page copy and dictionary values)
+- `assets/legal-i18n.js` (legal page translated copy)
+- base route templates (for structure, markup, and data-i18n bindings)
+
+## Required Update Flow
+
+1. Update source dictionary/legal content and/or base templates.
+2. Regenerate locale pages:
+   - `node scripts/build-en-locale-pages.js`
+   - `node scripts/build-es-locale-pages.js`
+3. Regenerate locale routing artifacts when route coverage changes:
+   - `node scripts/update-locale-sitemap.js`
+   - `node scripts/update-locale-redirects.js`
+4. Run the drift check:
+   - `node scripts/check-locale-generated.js`
+
+## CI Guardrail
+
+CI runs `scripts/check-locale-generated.js` to ensure generated locale pages are in sync with sources.
+
+If the check fails, regenerate locale pages and commit updated artifacts.
+
+## Policy
+
+- Locale outputs are generated artifacts.
+- Source dictionaries and templates are authoritative.
+- Pull requests should avoid manual copy edits in `en/**` and `es/**` unless produced by generator scripts.
