@@ -135,7 +135,7 @@ function main() {
     process.exit(1);
   }
 
-  console.log('[i18n-scope] Critical translation coverage passed for en/es.');
+  console.log(`i18n scope validation passed (${payload.rulesChecked} rule(s) checked).`);
 }
 
 main();
