@@ -161,7 +161,7 @@ function rewriteHref(href, lang) {
     try {
       const u = new URL(href);
       if (u.hostname !== 'www.gabo.services' && u.hostname !== 'gabo.services') return href;
-      return `/lang/${lang}${normalizeRoute(u.pathname) === '/' ? '/' : normalizeRoute(u.pathname)}`.replace(/\/legal\/([^/]+)\/$/, '/legal/$1.html');
+      return `/${lang}${normalizeRoute(u.pathname) === '/' ? '/' : normalizeRoute(u.pathname)}`.replace(/\/legal\/([^/]+)\/$/, '/legal/$1.html');
     } catch {
       return href;
     }

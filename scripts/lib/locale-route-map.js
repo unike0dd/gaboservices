@@ -1,4 +1,4 @@
-const LOCALE_ROOT = 'lang';
+const LOCALE_ROOT = 'locale';
 
 const SOURCE_ROUTES = [
   { route: '/', source: 'index.html', output: 'index.html' },
