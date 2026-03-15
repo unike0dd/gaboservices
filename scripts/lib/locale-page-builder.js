@@ -8,6 +8,13 @@ const ROOT = path.resolve(__dirname, '..', '..');
 
 function parseLanguageCodes() {
   const file = path.join(ROOT, 'language-codes.js');
+  if (!fs.existsSync(file)) {
+    return {
+      DICTIONARY: {},
+      TRANSLATION_PAGE_MAP: {},
+      getTranslationsBySection: () => ({})
+    };
+  }
   const src = fs.readFileSync(file, 'utf8');
   const transformed = src
     .replace(/export\s+const\s+/g, 'const ')
