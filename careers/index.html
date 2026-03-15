@@ -82,7 +82,9 @@
           <label>
             <span data-i18n="contactNumber">Su número de contacto</span>
             <div class="contact-number-row">
-              <input required type="text" name="applicant_country_code" inputmode="tel" autocomplete="tel-country-code" data-i18n-aria-label="countryCode" aria-label="Country code" data-i18n-placeholder="countryCode" placeholder="Country code" />
+              <select required name="applicant_contact_country_code" data-i18n-aria-label="countryCode" aria-label="Country code">
+                <option value="" data-i18n="countryCodePlaceholder">Country code</option>
+              </select>
               <input required type="tel" name="applicant_phone_number" inputmode="tel" autocomplete="tel-national" data-i18n-aria-label="phoneNumber" aria-label="Phone number" data-i18n-placeholder="phoneNumber" placeholder="Phone number" />
             </div>
           </label>
@@ -220,7 +222,7 @@
         <div class="footer-column">
           <h3>Soporte</h3>
           <a href="/contact">Contacto</a>
-          <a href="/learning">Aprendizaje</a>
+          <a href="/learning">Conocimiento</a>
           <a href="/sitemap.xml">Mapa del sitio</a>
         </div>
         <div class="footer-column">

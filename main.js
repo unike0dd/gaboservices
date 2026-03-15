@@ -826,7 +826,7 @@ function populateCountryCodes() {
 
   const fillSelects = (items) => {
     const copy = buildPageCopy();
-    const placeholder = copy.countryCodePlaceholder || 'Select country code';
+    const placeholder = copy.countryCode || copy.countryCodePlaceholder || 'Country code';
     const options = [`<option value="">${placeholder}</option>`]
       .concat(items.map((item) => `<option value="${item.code}">${item.name} (${item.code})</option>`));
 
