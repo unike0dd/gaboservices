@@ -1,0 +1,26 @@
+{
+  "rules": [
+    {
+      "file": "services/index.html",
+      "forbiddenPhrases": [
+        "Service matrix",
+        "A scan-friendly view of how each service line supports execution priorities.",
+        "Engagement options",
+        "On-demand",
+        "Ongoing coverage",
+        "How we support execution"
+      ]
+    },
+    {
+      "file": "es/services/index.html",
+      "forbiddenPhrases": [
+        "Service matrix",
+        "A scan-friendly view of how each service line supports execution priorities.",
+        "Engagement options",
+        "On-demand",
+        "Ongoing coverage",
+        "How we support execution"
+      ]
+    }
+  ]
+}
