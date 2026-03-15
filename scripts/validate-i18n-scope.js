@@ -1,122 +1,136 @@
 #!/usr/bin/env node
-'use strict';
-
-const fs = require('node:fs');
-const path = require('node:path');
+const fs = require('fs');
+const path = require('path');
+const { parseLanguageCodes } = require('./lib/locale-page-builder');
+const { SOURCE_ROUTES } = require('./lib/locale-route-map');
 
 const ROOT = path.resolve(__dirname, '..');
-const DEFAULT_SCOPE_FILE = path.join(ROOT, 'i18n-translation-scope.json');
+const SCOPE_FILE = path.join(ROOT, 'i18n-translation-scope.json');
 
-function readJson(filePath) {
-  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+function readJson(file) {
+  return JSON.parse(fs.readFileSync(file, 'utf8'));
 }
 
 function parseArgs(argv) {
-  const args = { reportPath: null, scopePath: DEFAULT_SCOPE_FILE };
-
+  const args = { report: '' };
   for (let i = 0; i < argv.length; i += 1) {
-    const token = argv[i];
-    if (token === '--report') {
-      args.reportPath = argv[i + 1];
+    if (argv[i] === '--report') {
+      args.report = argv[i + 1] || '';
       i += 1;
-      continue;
-    }
-
-    if (token === '--scope') {
-      args.scopePath = path.resolve(argv[i + 1]);
-      i += 1;
-      continue;
     }
   }
-
   return args;
 }
 
-function resolveRepoPath(relativeFile) {
-  return path.resolve(ROOT, relativeFile);
-}
-
-function validateScope(scope) {
-  const violations = [];
-  const warnings = [];
-
-  const rules = Array.isArray(scope.rules) ? scope.rules : [];
-
-  for (const rule of rules) {
-    const file = rule.file;
-    const phrases = Array.isArray(rule.forbiddenPhrases) ? rule.forbiddenPhrases : [];
-
-    if (!file) {
-      warnings.push('Encountered a rule without a file path.');
-      continue;
-    }
-
-    const absoluteFile = resolveRepoPath(file);
-    if (!fs.existsSync(absoluteFile)) {
-      violations.push({
-        file,
-        phrase: null,
-        message: 'Configured file is missing.'
-      });
-      continue;
-    }
-
-    const contents = fs.readFileSync(absoluteFile, 'utf8');
-
-    for (const phrase of phrases) {
-      if (!phrase) {
-        continue;
-      }
-
-      if (contents.includes(phrase)) {
-        violations.push({
-          file,
-          phrase,
-          message: 'Forbidden phrase found in scoped file.'
-        });
-      }
-    }
+function extractI18nKeys(content) {
+  const keys = new Set();
+  const regex = /data-i18n(?:-(?:aria-label|placeholder|title|content))?=["']([^"']+)["']/g;
+  let match;
+  while ((match = regex.exec(content))) {
+    keys.add(match[1]);
   }
-
-  return { violations, warnings, rulesChecked: rules.length };
+  return keys;
 }
 
-function writeReport(filePath, payload) {
-  const absolutePath = path.resolve(filePath);
-  fs.mkdirSync(path.dirname(absolutePath), { recursive: true });
-  fs.writeFileSync(absolutePath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+function usedI18nKeys() {
+  const files = new Set(SOURCE_ROUTES.map((entry) => path.join(ROOT, entry.source)));
+  files.add(path.join(ROOT, 'main.js'));
+  files.add(path.join(ROOT, 'chatbot/chatbot-controls.js'));
+  files.add(path.join(ROOT, 'assets/legal-i18n.js'));
+
+  const used = new Set();
+  for (const file of files) {
+    if (!fs.existsSync(file)) continue;
+    const content = fs.readFileSync(file, 'utf8');
+    for (const key of extractI18nKeys(content)) used.add(key);
+  }
+  return used;
+}
+
+function listMissing(keys, dictionary) {
+  return keys.filter((key) => {
+    const value = dictionary?.[key];
+    return typeof value !== 'string' || value.trim().length === 0;
+  });
+}
+
+function writeReport(reportPath, data) {
+  if (!reportPath) return;
+  const absolute = path.isAbsolute(reportPath) ? reportPath : path.join(ROOT, reportPath);
+  fs.mkdirSync(path.dirname(absolute), { recursive: true });
+  fs.writeFileSync(absolute, `${JSON.stringify(data, null, 2)}\n`, 'utf8');
+  console.log(`[i18n-scope] Wrote report: ${path.relative(ROOT, absolute)}`);
 }
 
 function main() {
-  const { reportPath, scopePath } = parseArgs(process.argv.slice(2));
+  const args = parseArgs(process.argv.slice(2));
+  const scope = readJson(SCOPE_FILE);
+  const criticalKeys = Array.from(new Set(scope.criticalKeys || [])).sort();
+  const { DICTIONARY } = parseLanguageCodes();
+  const en = DICTIONARY.en || {};
+  const es = DICTIONARY.es || {};
 
-  if (!fs.existsSync(scopePath)) {
-    throw new Error(`Missing scope file: ${scopePath}`);
-  }
+  const missingCriticalInEn = listMissing(criticalKeys, en);
+  const missingCriticalInEs = listMissing(criticalKeys, es);
 
-  const scope = readJson(scopePath);
-  const startedAt = new Date().toISOString();
-  const results = validateScope(scope);
+  const allKeys = Array.from(new Set([...Object.keys(en), ...Object.keys(es)])).sort();
+  const optionalKeys = allKeys.filter((key) => !criticalKeys.includes(key));
+  const optionalMissingInEs = listMissing(optionalKeys, es);
+  const optionalMissingInEn = listMissing(optionalKeys, en);
 
-  const payload = {
-    startedAt,
-    finishedAt: new Date().toISOString(),
-    scopeFile: path.relative(ROOT, scopePath).replace(/\\/g, '/'),
-    rulesChecked: results.rulesChecked,
-    warnings: results.warnings,
-    violations: results.violations,
-    passed: results.violations.length === 0
+  const usedKeys = usedI18nKeys();
+  const criticalUsed = criticalKeys.filter((key) => usedKeys.has(key));
+  const criticalUnused = criticalKeys.filter((key) => !usedKeys.has(key));
+  const deadKeys = allKeys.filter((key) => !usedKeys.has(key));
+
+  const report = {
+    generatedAt: new Date().toISOString(),
+    totals: {
+      dictionaryUnion: allKeys.length,
+      critical: criticalKeys.length,
+      optional: optionalKeys.length,
+      usedByDataI18n: usedKeys.size,
+      deadKeys: deadKeys.length
+    },
+    critical: {
+      missingInEn: missingCriticalInEn,
+      missingInEs: missingCriticalInEs,
+      used: criticalUsed,
+      unused: criticalUnused
+    },
+    optional: {
+      missingInEn: optionalMissingInEn,
+      missingInEs: optionalMissingInEs
+    },
+    deadKeys
   };
 
-  if (reportPath) {
-    writeReport(reportPath, payload);
+  console.log(`[i18n-scope] Total dictionary keys (union): ${allKeys.length}`);
+  console.log(`[i18n-scope] Critical keys: ${criticalKeys.length}`);
+  console.log(`[i18n-scope] Optional keys: ${optionalKeys.length}`);
+  console.log(`[i18n-scope] Keys referenced via data-i18n*: ${usedKeys.size}`);
+  console.log(`[i18n-scope] Dead dictionary keys (not referenced): ${deadKeys.length}`);
+
+  if (criticalUnused.length) {
+    console.log(`[i18n-scope] Critical keys not currently referenced (${criticalUnused.length}):`);
+    criticalUnused.forEach((key) => console.log(`  - ${key}`));
   }
 
-  if (!payload.passed) {
-    console.error('i18n scope validation failed.');
-    for (const violation of payload.violations) {
-      const phrasePart = violation.phrase ? ` phrase="${violation.phrase}"` : '';
-      console.error(`- ${violation.file}:${phrasePart} ${violation.message}`);
+  if (optionalMissingInEn.length || optionalMissingInEs.length) {
+    console.log(`[i18n-scope] Optional key parity gaps: missing in en=${optionalMissingInEn.length}, missing in es=${optionalMissingInEs.length}`);
+  }
+
+  writeReport(args.report, report);
+
+  if (missingCriticalInEn.length || missingCriticalInEs.length) {
+    console.error('[i18n-scope] Critical translation coverage check failed.');
+    if (missingCriticalInEn.length) {
+      console.error('  Missing critical keys in en:');
+      missingCriticalInEn.forEach((key) => console.error(`    - ${key}`));
+    }
+    if (missingCriticalInEs.length) {
+      console.error('  Missing critical keys in es:');
+      missingCriticalInEs.forEach((key) => console.error(`    - ${key}`));
     }
     process.exit(1);
   }
