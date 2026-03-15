@@ -55,3 +55,19 @@ Validation behavior:
 - Fails if any critical key is missing/empty in either locale.
 - Reports (non-fatal) optional parity gaps for backlog management.
 - Reports how many critical keys are actively referenced by `data-i18n*` attributes in templates/scripts.
+
+
+## Phase 3 Automation & Reporting
+
+Generate an integrity report artifact (for CI logs and release KPI tracking):
+
+- `node scripts/validate-i18n-scope.js --report reports/i18n-integrity-report.json`
+
+This report includes:
+
+- Critical coverage status by locale
+- Optional parity gap counts by locale
+- Dead dictionary keys (keys not referenced by `data-i18n*` in source templates/scripts)
+- Aggregate totals for trend tracking
+
+Use `I18N_RELEASE_CHECKLIST.md` for release gating and KPI capture.

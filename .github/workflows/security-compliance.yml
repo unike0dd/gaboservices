@@ -61,7 +61,13 @@ jobs:
       - name: Validate i18n critical-vs-optional scope
         run: |
           set -euo pipefail
-          node scripts/validate-i18n-scope.js
+          node scripts/validate-i18n-scope.js --report reports/i18n-integrity-report.json
+
+
+      - name: Print i18n integrity report summary
+        run: |
+          set -euo pipefail
+          cat reports/i18n-integrity-report.json
 
       - name: Verify locale generated artifacts are in sync
         run: |
