@@ -4,8 +4,8 @@
     en: {
       legalNavigation: 'Legal navigation',
       languageSelector: 'Language selector',
-      legalTerms: 'Terms',
-      legalCookies: 'Cookies',
+      legalTerms: 'T&C',
+      legalCookies: 'Cookies Consent',
       legalPrivacy: 'Privacy & GDPR',
       pageTermsTitle: 'Terms & Conditions | Gabriel Services',
       pageCookiesTitle: 'Cookies Consent | Gabriel Services',
@@ -22,8 +22,8 @@
     es: {
       legalNavigation: 'Navegación legal',
       languageSelector: 'Selector de idioma',
-      legalTerms: 'Términos',
-      legalCookies: 'Cookies',
+      legalTerms: 'Términos y Condiciones',
+      legalCookies: 'Consentimiento de Cookies',
       legalPrivacy: 'Privacidad y RGPD',
       pageTermsTitle: 'Términos y Condiciones | Gabriel Services',
       pageCookiesTitle: 'Consentimiento de Cookies | Gabriel Services',
