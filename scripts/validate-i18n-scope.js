@@ -135,7 +135,7 @@ function main() {
     process.exit(1);
   }
 
-  console.log(`i18n scope validation passed (${payload.rulesChecked} rule(s) checked).`);
+  console.log(`[i18n-scope] Validation passed. Checked ${criticalKeys.length} critical key(s).`);
 }
 
 main();
