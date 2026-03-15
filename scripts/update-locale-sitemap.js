@@ -11,13 +11,27 @@ function urlTag(loc) {
   return `  <url><loc>${BASE}${loc}</loc></url>`;
 }
 
-const localeUrls = [];
+const baseUrls = [
+  '/',
+  '/about/',
+  '/services/',
+  '/services/logistics-operations/',
+  '/services/administrative-backoffice/',
+  '/services/customer-relations/',
+  '/services/it-support/',
+  '/pricing/',
+  '/careers/',
+  '/contact/',
+  '/learning/'
+];
+
+const allUrls = [...baseUrls];
 SOURCE_ROUTES.forEach(({ route }) => {
-  localeUrls.push(getEnPath(route));
-  localeUrls.push(getEsPath(route));
+  allUrls.push(getEnPath(route));
+  allUrls.push(getEsPath(route));
 });
 
-const unique = Array.from(new Set(localeUrls));
+const unique = Array.from(new Set(allUrls));
 
 const xml = [
   '<?xml version="1.0" encoding="UTF-8"?>',
