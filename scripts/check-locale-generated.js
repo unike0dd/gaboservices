@@ -12,8 +12,7 @@ function run(command, args) {
 }
 
 function main() {
-  run('node', ['scripts/build-en-locale-pages.js']);
-  run('node', ['scripts/build-es-locale-pages.js']);
+  run('node', ['scripts/duplicates.js', 'en', 'es']);
 
   const diffResult = spawnSync('git', ['diff', '--exit-code', '--', 'en', 'es'], {
     encoding: 'utf8'
@@ -23,7 +22,7 @@ function main() {
     process.stdout.write(diffResult.stdout || '');
     process.stderr.write(diffResult.stderr || '');
     console.error('\n[i18n] Generated locale pages are out of sync with sources.');
-    console.error('[i18n] Run: node scripts/build-en-locale-pages.js && node scripts/build-es-locale-pages.js');
+    console.error('[i18n] Run: node scripts/duplicates.js en es');
     process.exit(1);
   }
 
