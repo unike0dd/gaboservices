@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = path.resolve(__dirname, '..');
+const ROOT = path.resolve(__dirname, '..', '..');
 const sitemapFile = path.join(ROOT, 'sitemap.xml');
 const BASE = 'https://www.gabo.services';
 

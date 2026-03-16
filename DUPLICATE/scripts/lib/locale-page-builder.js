@@ -4,10 +4,11 @@ const vm = require('vm');
 const { upsertCanonical, rewriteAlternates } = require('./locale-head-utils');
 const { normalizeRoute, getAlternateLocalePath } = require('./locale-route-map');
 
-const ROOT = path.resolve(__dirname, '..', '..');
+const ROOT = path.resolve(__dirname, '..', '..', '..');
+const I18N_ROOT = path.join(ROOT, 'DUPLICATE');
 
 function parseLanguageCodes() {
-  const file = path.join(ROOT, 'language-codes.js');
+  const file = path.join(I18N_ROOT, 'language-codes.js');
   if (!fs.existsSync(file)) {
     return {
       DICTIONARY: {},
@@ -28,7 +29,7 @@ function parseLanguageCodes() {
 }
 
 function parseLegalI18n() {
-  const file = path.join(ROOT, 'assets/legal-i18n.js');
+  const file = path.join(I18N_ROOT, 'assets/legal-i18n.js');
   const src = fs.readFileSync(file, 'utf8');
 
   const copyLiteral = extractAssignedObjectLiteral(src, 'COPY');
