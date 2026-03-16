@@ -4,7 +4,7 @@
   var STORAGE_KEY = "gs_cookie_consent_v1";
 
   function nowISO() {
-    try { return new Date().toISOString(); } catch (e) { return ""; }
+    try { return new Date().toISOString(); } catch { return ""; }
   }
 
   function readConsent() {
@@ -12,7 +12,7 @@
       var raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return null;
       return JSON.parse(raw);
-    } catch (e) {
+    } catch {
       return null;
     }
   }
@@ -21,7 +21,7 @@
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(consent));
       return true;
-    } catch (e) {
+    } catch {
       return false;
     }
   }
