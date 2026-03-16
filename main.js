@@ -8,12 +8,12 @@ if (metadata.name) document.title = metadata.name;
 const metaDescription = document.querySelector('meta[name="description"]');
 if (metaDescription && metadata.description) metaDescription.setAttribute('content', metadata.description);
 
-const PATH_LOCALE_MATCH = window.location.pathname.match(/^\/(en|es)(?:\/|$)/i);
-const ACTIVE_PATH_LOCALE = (PATH_LOCALE_MATCH?.[1] || '').toLowerCase();
-const IS_LOCALE_ROUTE = Boolean(ACTIVE_PATH_LOCALE);
-const SHOULD_RUNTIME_TRANSLATE = !IS_LOCALE_ROUTE;
+const PATH_LOCALE_MATCH = window.location.pathname.match(/^\/es(?:\/|$)/i);
+const ACTIVE_PATH_LOCALE = PATH_LOCALE_MATCH ? 'es' : 'en';
+const IS_LOCALE_ROUTE = PATH_LOCALE_MATCH !== null;
+const SHOULD_RUNTIME_TRANSLATE = true;
 
-let lang = ACTIVE_PATH_LOCALE || (document.documentElement.lang || '').toLowerCase() || 'es';
+let lang = ACTIVE_PATH_LOCALE || (document.documentElement.lang || '').toLowerCase() || 'en';
 let appReady = false;
 const LANGUAGE_CONTROL_SELECTOR = '[data-lang-option]';
 const COUNTRY_CODES = [
@@ -374,17 +374,12 @@ const SERVICE_PAGE_BY_KEY = Object.freeze({
 });
 
 function stripLocalePrefix(pathname = '/') {
-  return pathname.replace(/^\/(en|es)(?=\/|$)/i, '') || '/';
+  return pathname.replace(/^\/es(?=\/|$)/i, '') || '/';
 }
 
 function buildLocalizedPath(basePath, targetLang = lang) {
   const sourceUrl = new URL(basePath, window.location.origin);
-
-  if (!IS_LOCALE_ROUTE) {
-    sourceUrl.searchParams.set('lang', targetLang);
-    return `${sourceUrl.pathname}${sourceUrl.search}${sourceUrl.hash}`;
-  }
-
+  const normalizedTarget = (targetLang || 'en').toLowerCase() === 'es' ? 'es' : 'en';
   const unlocalizedPath = stripLocalePrefix(sourceUrl.pathname);
   const isLegalHtml = /^\/legal\/.+\.html$/i.test(unlocalizedPath);
 
@@ -392,10 +387,13 @@ function buildLocalizedPath(basePath, targetLang = lang) {
   if (!isLegalHtml && normalizedPath !== '/' && !normalizedPath.endsWith('/')) {
     normalizedPath = `${normalizedPath}/`;
   }
-  if (normalizedPath === '/') {
-    sourceUrl.pathname = `/${targetLang}/`;
+
+  if (normalizedTarget === 'es') {
+    sourceUrl.pathname = normalizedPath === '/'
+      ? '/es/'
+      : `/es${normalizedPath.startsWith('/') ? normalizedPath : `/${normalizedPath}`}`;
   } else {
-    sourceUrl.pathname = `/${targetLang}${normalizedPath.startsWith('/') ? normalizedPath : `/${normalizedPath}`}`;
+    sourceUrl.pathname = normalizedPath;
   }
 
   sourceUrl.searchParams.delete('lang');
@@ -431,17 +429,8 @@ function syncLanguageAwareLinks() {
     if (staticAssetPattern.test(targetUrl.pathname)) return;
 
     const wasAbsolute = /^[a-z][a-z\d+.-]*:\/\//i.test(href);
-    if (IS_LOCALE_ROUTE) {
-      const localizedHref = buildLocalizedPath(`${targetUrl.pathname}${targetUrl.search}${targetUrl.hash}`);
-      node.setAttribute('href', wasAbsolute ? new URL(localizedHref, window.location.origin).toString() : localizedHref);
-      return;
-    }
-
-    targetUrl.searchParams.set('lang', lang);
-    const nextHref = wasAbsolute
-      ? targetUrl.toString()
-      : `${targetUrl.pathname}${targetUrl.search}${targetUrl.hash}`;
-    node.setAttribute('href', nextHref);
+    const localizedHref = buildLocalizedPath(`${targetUrl.pathname}${targetUrl.search}${targetUrl.hash}`);
+    node.setAttribute('href', wasAbsolute ? new URL(localizedHref, window.location.origin).toString() : localizedHref);
   });
 }
 
