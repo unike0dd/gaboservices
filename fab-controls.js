@@ -20,7 +20,7 @@ function ensureQuickActionsFab() {
         <span data-i18n="fabChatbot">Chatbot</span>
       </button>
     </div>
-    <button id="fabMainToggle" class="fab-main fab-hamburger" type="button" aria-expanded="false" data-i18n-aria-label="fabOpenQuickActions" aria-label="Open quick actions">☰</button>
+    <button id="fabMainToggle" class="fab-main fab-hamburger" type="button" aria-expanded="false" aria-haspopup="menu" aria-controls="fabQuickMenu" data-i18n-aria-label="fabOpenQuickActions" aria-label="Open quick actions">☰</button>
   `;
 
   document.body.appendChild(wrapper);
@@ -44,10 +44,23 @@ export function initFabControls() {
   const fabMenu = document.getElementById('fabQuickMenu');
   if (!fabToggle || !fabMenu) return;
 
+  const getMenuActions = () => [...fabMenu.querySelectorAll('.fab-item')];
+
+  const focusMenuAction = (targetIndex = 0) => {
+    const actions = getMenuActions();
+    if (!actions.length) return;
+    const index = Math.min(Math.max(targetIndex, 0), actions.length - 1);
+    actions[index].focus();
+  };
+
   const setFabOpenState = (isOpen) => {
     fabMenu.hidden = !isOpen;
     fabToggle.setAttribute('aria-expanded', String(isOpen));
-
+    if (isOpen) {
+      requestAnimationFrame(() => focusMenuAction(0));
+      return;
+    }
+    fabToggle.focus();
   };
 
   setFabOpenState(false);
@@ -55,6 +68,47 @@ export function initFabControls() {
   fabToggle.addEventListener('click', () => {
     const currentlyOpen = fabToggle.getAttribute('aria-expanded') === 'true';
     setFabOpenState(!currentlyOpen);
+  });
+
+  fabMenu.addEventListener('click', (event) => {
+    const action = event.target.closest('.fab-item');
+    if (!action) return;
+    setFabOpenState(false);
+  });
+
+  fabMenu.addEventListener('keydown', (event) => {
+    const actions = getMenuActions();
+    if (!actions.length) return;
+
+    const currentIndex = actions.indexOf(document.activeElement);
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      setFabOpenState(false);
+      return;
+    }
+
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      if (currentIndex === -1) {
+        focusMenuAction(0);
+        return;
+      }
+      const delta = event.key === 'ArrowDown' ? 1 : -1;
+      const nextIndex = (currentIndex + delta + actions.length) % actions.length;
+      focusMenuAction(nextIndex);
+      return;
+    }
+
+    if (event.key === 'Home') {
+      event.preventDefault();
+      focusMenuAction(0);
+      return;
+    }
+
+    if (event.key === 'End') {
+      event.preventDefault();
+      focusMenuAction(actions.length - 1);
+    }
   });
 
   document.addEventListener('click', (event) => {

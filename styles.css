@@ -1474,6 +1474,12 @@ textarea[data-security-state='review'] {
   line-height: 1;
 }
 
+.fab-main:focus-visible,
+.fab-item:focus-visible {
+  outline: 3px solid color-mix(in oklab, var(--primary) 30%, #ffffff);
+  outline-offset: 2px;
+}
+
 
 .chat-overlay[hidden] {
   display: none !important;
