@@ -1,11 +1,25 @@
 (() => {
-  const DEFAULT_STORAGE_KEY = 'lang';
+  const DEFAULT_STORAGE_KEY = 'gabrielServices.locale';
   const DEFAULT_QUERY_PARAM = 'lang';
   const DEFAULT_SELECTOR = '[data-lang-option]';
 
   const sanitizeSupported = (supported = []) => Array.from(new Set(supported.filter(Boolean).map((lang) => String(lang).toLowerCase())));
 
   const stripTrailingSlash = (value) => (value.length > 1 ? value.replace(/\/+$/, '') : value);
+
+  function readLocaleCookie(name) {
+    const safeName = encodeURIComponent(name);
+    const match = document.cookie.match(new RegExp(`(?:^|; )${safeName}=([^;]*)`));
+    return match ? decodeURIComponent(match[1]) : '';
+  }
+
+  function writeLocaleCookie(name, value) {
+    const safeName = encodeURIComponent(name);
+    const safeValue = encodeURIComponent(value);
+    const maxAgeSeconds = 60 * 60 * 24 * 365;
+    const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `${safeName}=${safeValue}; Max-Age=${maxAgeSeconds}; Path=/; SameSite=Lax${secure}`;
+  }
 
   function normalizePathname(pathname = '/') {
     if (!pathname) return '/';
@@ -25,8 +39,8 @@
     const { segments } = splitPath(pathname);
     const firstSegment = (segments[0] || '').toLowerCase();
 
-    if (supported.includes(firstSegment)) {
-      return { locale: firstSegment, explicit: true };
+    if (firstSegment === 'es' && supported.includes('es')) {
+      return { locale: 'es', explicit: true };
     }
 
     const fallbackLocale = supported.includes('en') ? 'en' : (supported[0] || 'en');
@@ -42,9 +56,8 @@
     if (!supported.includes(normalizedLang)) return null;
 
     const { segments, trailingSlash } = splitPath(pathname);
-    const first = (segments[0] || '').toLowerCase();
-    const hasLeadingLocale = supported.includes(first);
-    const normalizedSegments = hasLeadingLocale ? segments.slice(1) : segments.slice();
+    const hasEsPrefix = (segments[0] || '').toLowerCase() === 'es';
+    const normalizedSegments = hasEsPrefix ? segments.slice(1) : segments.slice();
 
     if (normalizedLang === 'en') {
       const nextPath = `/${normalizedSegments.join('/')}`;
@@ -53,26 +66,37 @@
       return trailingSlash ? `${stablePath}/` : stablePath;
     }
 
-    const nextSegments = [normalizedLang, ...normalizedSegments];
+    const nextSegments = ['es', ...normalizedSegments];
     const nextPath = `/${nextSegments.join('/')}`;
     const stablePath = stripTrailingSlash(nextPath);
-    return trailingSlash || stablePath === `/${normalizedLang}` ? `${stablePath}/` : stablePath;
+    return trailingSlash || stablePath === '/es' ? `${stablePath}/` : stablePath;
   }
 
   function resolveInitialLanguage({ supported, defaultLang, storageKey, queryParam }) {
     const { locale: pathLocale, explicit } = parsePathLocale(window.location.pathname, supported);
     if (explicit) {
       localStorage.setItem(storageKey, pathLocale);
+      writeLocaleCookie(storageKey, pathLocale);
       return pathLocale;
     }
 
     const stored = (localStorage.getItem(storageKey) || '').toLowerCase();
     if (supported.includes(stored)) return stored;
 
+    const storedCookie = (readLocaleCookie(storageKey) || '').toLowerCase();
+    if (supported.includes(storedCookie)) {
+      localStorage.setItem(storageKey, storedCookie);
+      return storedCookie;
+    }
+
+    const htmlLang = (document.documentElement.lang || '').toLowerCase();
+    if (supported.includes(htmlLang)) return htmlLang;
+
     const params = new URLSearchParams(window.location.search);
     const requested = (params.get(queryParam) || '').toLowerCase();
     if (supported.includes(requested)) {
       localStorage.setItem(storageKey, requested);
+      writeLocaleCookie(storageKey, requested);
       return requested;
     }
 
@@ -126,8 +150,11 @@
 
     try {
       const alternateUrl = new URL(href, window.location.origin);
-      alternateUrl.hash = currentUrl.hash;
-      return alternateUrl;
+      const sameOriginUrl = new URL(window.location.href);
+      sameOriginUrl.pathname = alternateUrl.pathname;
+      sameOriginUrl.search = alternateUrl.search;
+      sameOriginUrl.hash = currentUrl.hash;
+      return sameOriginUrl;
     } catch {
       return null;
     }
@@ -172,6 +199,7 @@
 
       lang = normalizedLang;
       localStorage.setItem(storageKey, lang);
+      writeLocaleCookie(storageKey, lang);
       syncLanguageInUrl(lang, queryParam, supported);
       document.documentElement.lang = lang;
       syncLanguageButtons(lang, { selector, getButtonLabel: options.getButtonLabel });
