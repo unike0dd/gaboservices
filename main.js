@@ -26,7 +26,7 @@ const COUNTRY_CODES = [
 
 const languageSwitcher = window.GaboLanguageSwitcher?.initLanguageSwitcher({
   supported: SUPPORTED_LANGUAGES,
-  defaultLang: ACTIVE_PATH_LOCALE || (document.documentElement.lang || '').toLowerCase() || 'es',
+  defaultLang: ACTIVE_PATH_LOCALE || (document.documentElement.lang || '').toLowerCase() || 'en',
   getButtonLabel: (buttonLang) => getLanguageToggleLabel(buttonLang),
   onChange: (nextLang) => {
     if (nextLang === lang) return;
@@ -70,7 +70,8 @@ function setLanguage(nextLang) {
   }
 
   lang = normalizedLang;
-  localStorage.setItem('lang', lang);
+  localStorage.setItem('gabrielServices.locale', lang);
+  document.documentElement.lang = lang;
   renderCards();
   translatePage();
   syncInternalLanguageLinks();
@@ -1243,7 +1244,7 @@ if (languageSwitcher) {
   languageSwitcher.setLanguage(languageSwitcher.getLanguage());
   lang = languageSwitcher.getLanguage();
 } else {
-  lang = ACTIVE_PATH_LOCALE || 'es';
+  lang = ACTIVE_PATH_LOCALE || 'en';
 }
 
 appReady = true;
