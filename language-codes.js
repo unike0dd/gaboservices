@@ -242,6 +242,7 @@ export const DICTIONARY = {
     careersTitle: 'Careers',
     careersIntro: 'Join our team and help SMB clients modernize logistics, IT, and support operations.',
     careersHeroTitle: 'Careers at Gabriel Services',
+    
     careersHeroLead: 'Join a team that helps businesses strengthen logistics, IT, admin, and customer operations with practical, reliable execution.',
     careersWhyTitle: 'Why join Gabriel Services',
     careersWhyBody: 'Our work centers on high-accountability operational support. Every team member is expected to communicate clearly, execute consistently, and deliver practical solutions under real business pressure.',
@@ -545,6 +546,7 @@ export const DICTIONARY = {
     serviceItResult3: 'Seguimiento y coordinación más claros',
     serviceItResult4: 'Menor fricción en la actividad técnica rutinaria',
     serviceItDetailCollaborationBody: 'Comenzamos revisando su flujo de trabajo, prioridades de solicitudes y necesidades de comunicación. Luego alineamos el trabajo con su proceso interno para que las solicitudes técnicas rutinarias se atiendan con seguimiento claro, mayor visibilidad y coordinación consistente.',
+    
     careersTitle: 'Carreras',
     careersIntro: 'Únase a nuestro equipo y ayude a clientes PyME a modernizar operaciones de logística, TI y soporte.',
     careersHeroTitle: 'Carreras en Gabriel Services',
