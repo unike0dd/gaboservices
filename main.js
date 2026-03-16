@@ -1,6 +1,6 @@
 import { initAdaptiveLayout } from './adaptive-layout.js';
 import { initChatbotControls } from './chatbot/chatbot-controls.js';
-import { DICTIONARY, LANGUAGE_CODES, PLANS, SERVICES, SUPPORTED_LANGUAGES, TRANSLATION_PAGE_MAP, getTranslationsBySection } from './DUPLICATE/language-codes.js';
+import { DICTIONARY, LANGUAGE_CODES, PLANS, SERVICES, SUPPORTED_LANGUAGES, TRANSLATION_PAGE_MAP, getTranslationsBySection } from './i18n/language-codes.js';
 import { initFabControls } from './fab-controls.js';
 
 const metadata = window.SITE_METADATA || {};
