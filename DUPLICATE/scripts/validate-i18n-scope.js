@@ -4,8 +4,9 @@ const path = require('path');
 const { parseLanguageCodes } = require('./lib/locale-page-builder');
 const { SOURCE_ROUTES } = require('./lib/locale-route-map');
 
-const ROOT = path.resolve(__dirname, '..');
-const SCOPE_FILE = path.join(ROOT, 'i18n-translation-scope.json');
+const ROOT = path.resolve(__dirname, '..', '..');
+const I18N_ROOT = path.join(ROOT, 'DUPLICATE');
+const SCOPE_FILE = path.join(I18N_ROOT, 'i18n-translation-scope.json');
 
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -36,7 +37,7 @@ function usedI18nKeys() {
   const files = new Set(SOURCE_ROUTES.map((entry) => path.join(ROOT, entry.source)));
   files.add(path.join(ROOT, 'main.js'));
   files.add(path.join(ROOT, 'chatbot/chatbot-controls.js'));
-  files.add(path.join(ROOT, 'assets/legal-i18n.js'));
+  files.add(path.join(I18N_ROOT, 'assets/legal-i18n.js'));
 
   const used = new Set();
   for (const file of files) {

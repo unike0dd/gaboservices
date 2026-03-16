@@ -2,8 +2,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = path.resolve(__dirname, '..');
-const outputFile = path.join(ROOT, 'legacy-locale-redirects.txt');
+const ROOT = path.resolve(__dirname, '..', '..');
+const I18N_ROOT = path.join(ROOT, 'DUPLICATE');
+const outputFile = path.join(I18N_ROOT, 'legacy-locale-redirects.txt');
 
 const lines = [
   '# Legacy locale redirects are disabled.',
