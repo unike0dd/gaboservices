@@ -10,7 +10,6 @@ if (metaDescription && metadata.description) metaDescription.setAttribute('conte
 
 const PATH_LOCALE_MATCH = window.location.pathname.match(/^\/es(?:\/|$)/i);
 const ACTIVE_PATH_LOCALE = PATH_LOCALE_MATCH ? 'es' : 'en';
-const IS_LOCALE_ROUTE = PATH_LOCALE_MATCH !== null;
 const SHOULD_RUNTIME_TRANSLATE = true;
 
 let lang = ACTIVE_PATH_LOCALE || (document.documentElement.lang || '').toLowerCase() || 'en';
