@@ -3,18 +3,71 @@
   const DEFAULT_QUERY_PARAM = 'lang';
   const DEFAULT_SELECTOR = '[data-lang-option]';
 
-  const sanitizeSupported = (supported = []) => Array.from(new Set(supported.filter(Boolean)));
+  const sanitizeSupported = (supported = []) => Array.from(new Set(supported.filter(Boolean).map((lang) => String(lang).toLowerCase())));
+
+  const stripTrailingSlash = (value) => (value.length > 1 ? value.replace(/\/+$/, '') : value);
+
+  function normalizePathname(pathname = '/') {
+    if (!pathname) return '/';
+    const base = pathname.startsWith('/') ? pathname : `/${pathname}`;
+    return base.replace(/\/+/g, '/');
+  }
+
+  function splitPath(pathname = '/') {
+    const normalizedPath = normalizePathname(pathname);
+    const trailingSlash = normalizedPath.endsWith('/') && normalizedPath !== '/';
+    const trimmed = normalizedPath.replace(/^\/+|\/+$/g, '');
+    const segments = trimmed ? trimmed.split('/') : [];
+    return { segments, trailingSlash };
+  }
+
+  function parsePathLocale(pathname, supported) {
+    const { segments } = splitPath(pathname);
+    const firstSegment = (segments[0] || '').toLowerCase();
+
+    if (supported.includes(firstSegment)) {
+      return { locale: firstSegment, explicit: true };
+    }
+
+    const fallbackLocale = supported.includes('en') ? 'en' : (supported[0] || 'en');
+    return { locale: fallbackLocale, explicit: false };
+  }
 
   function getPathLocale(pathname, supported) {
-    return '';
+    return parsePathLocale(pathname, supported).locale;
+  }
+
+  function buildLocalePath(pathname, lang, supported) {
+    const normalizedLang = (lang || '').toLowerCase();
+    if (!supported.includes(normalizedLang)) return null;
+
+    const { segments, trailingSlash } = splitPath(pathname);
+    const first = (segments[0] || '').toLowerCase();
+    const hasLeadingLocale = supported.includes(first);
+    const normalizedSegments = hasLeadingLocale ? segments.slice(1) : segments.slice();
+
+    if (normalizedLang === 'en') {
+      const nextPath = `/${normalizedSegments.join('/')}`;
+      const stablePath = stripTrailingSlash(nextPath || '/');
+      if (stablePath === '/') return '/';
+      return trailingSlash ? `${stablePath}/` : stablePath;
+    }
+
+    const nextSegments = [normalizedLang, ...normalizedSegments];
+    const nextPath = `/${nextSegments.join('/')}`;
+    const stablePath = stripTrailingSlash(nextPath);
+    return trailingSlash || stablePath === `/${normalizedLang}` ? `${stablePath}/` : stablePath;
   }
 
   function resolveInitialLanguage({ supported, defaultLang, storageKey, queryParam }) {
-    const pathLocale = getPathLocale(window.location.pathname, supported);
-    if (pathLocale) {
+    const { locale: pathLocale, explicit } = parsePathLocale(window.location.pathname, supported);
+    if (explicit) {
       localStorage.setItem(storageKey, pathLocale);
       return pathLocale;
     }
+
+    const stored = (localStorage.getItem(storageKey) || '').toLowerCase();
+    if (supported.includes(stored)) return stored;
 
     const params = new URLSearchParams(window.location.search);
     const requested = (params.get(queryParam) || '').toLowerCase();
@@ -23,21 +76,13 @@
       return requested;
     }
 
-    const htmlLang = (document.documentElement.lang || '').toLowerCase();
-    if (supported.includes(htmlLang)) {
-      localStorage.setItem(storageKey, htmlLang);
-      return htmlLang;
-    }
-
-    const stored = (localStorage.getItem(storageKey) || '').toLowerCase();
-    if (supported.includes(stored)) return stored;
-
-    return defaultLang;
+    return supported.includes(defaultLang) ? defaultLang : pathLocale;
   }
 
   function syncLanguageInUrl(lang, queryParam, supported) {
     const url = new URL(window.location.href);
-    if (getPathLocale(url.pathname, supported)) {
+    const { explicit } = parsePathLocale(url.pathname, supported);
+    if (explicit) {
       url.searchParams.delete(queryParam);
     } else {
       url.searchParams.set(queryParam, lang);
@@ -45,30 +90,47 @@
     window.history.replaceState({}, '', url);
   }
 
-  function getAlternateLocaleUrl(lang, supported, queryParam) {
-    const alternate = document.querySelector(`link[rel="alternate"][hreflang="${lang}"]`);
-    const href = alternate?.getAttribute('href');
-    if (href) {
+  function hasPathLocaleAlternates(lang, supported) {
+    const expectedPath = buildLocalePath(window.location.pathname, lang, supported);
+    if (!expectedPath) return false;
+
+    const canonicalPath = stripTrailingSlash(expectedPath);
+    return [...document.querySelectorAll(`link[rel="alternate"][hreflang="${lang}"]`)].some((alternate) => {
+      const href = alternate.getAttribute('href');
+      if (!href) return false;
       try {
-        const alternateUrl = new URL(href, window.location.origin);
-        const nextUrl = new URL(`${alternateUrl.pathname}${alternateUrl.search}`, window.location.origin);
-        if (getPathLocale(nextUrl.pathname, supported)) {
-          nextUrl.searchParams.delete(queryParam);
-        }
-        nextUrl.hash = window.location.hash;
-        return nextUrl;
+        const pathname = normalizePathname(new URL(href, window.location.origin).pathname);
+        return stripTrailingSlash(pathname) === canonicalPath;
       } catch {
-        // Continue to path-rewrite fallback.
+        return false;
       }
+    });
+  }
+
+  function getAlternateLocaleUrl(lang, supported) {
+    const currentUrl = new URL(window.location.href);
+    const { explicit } = parsePathLocale(currentUrl.pathname, supported);
+    const pathCandidate = buildLocalePath(currentUrl.pathname, lang, supported);
+
+    if (pathCandidate && (explicit || hasPathLocaleAlternates(lang, supported))) {
+      const nextUrl = new URL(window.location.href);
+      nextUrl.pathname = pathCandidate;
+      nextUrl.search = currentUrl.search;
+      nextUrl.hash = currentUrl.hash;
+      return nextUrl;
     }
 
-    const currentUrl = new URL(window.location.href);
-    const locale = getPathLocale(currentUrl.pathname, supported);
-    if (!locale) return null;
-    const nextUrl = new URL(window.location.href);
-    nextUrl.searchParams.set(queryParam, lang);
-    nextUrl.hash = currentUrl.hash;
-    return nextUrl;
+    const alternate = document.querySelector(`link[rel="alternate"][hreflang="${lang}"]`);
+    const href = alternate?.getAttribute('href');
+    if (!href) return null;
+
+    try {
+      const alternateUrl = new URL(href, window.location.origin);
+      alternateUrl.hash = currentUrl.hash;
+      return alternateUrl;
+    } catch {
+      return null;
+    }
   }
 
   function syncLanguageButtons(lang, { selector, getButtonLabel }) {
@@ -91,7 +153,7 @@
 
   function initLanguageSwitcher(options = {}) {
     const supported = sanitizeSupported(options.supported || ['en', 'es']);
-    const defaultLang = supported.includes(options.defaultLang) ? options.defaultLang : (supported[0] || 'es');
+    const defaultLang = (options.defaultLang || supported[0] || 'en').toLowerCase();
     const storageKey = options.storageKey || DEFAULT_STORAGE_KEY;
     const queryParam = options.queryParam || DEFAULT_QUERY_PARAM;
     const selector = options.selector || DEFAULT_SELECTOR;
@@ -99,18 +161,27 @@
     let lang = resolveInitialLanguage({ supported, defaultLang, storageKey, queryParam });
 
     const applyLanguage = (nextLang, { triggeredByUser = false } = {}) => {
-      if (!supported.includes(nextLang)) return lang;
-      lang = nextLang;
+      const normalizedLang = (nextLang || '').toLowerCase();
+      if (!supported.includes(normalizedLang)) return lang;
+
+      if (normalizedLang === lang && triggeredByUser) {
+        document.documentElement.lang = lang;
+        syncLanguageButtons(lang, { selector, getButtonLabel: options.getButtonLabel });
+        return lang;
+      }
+
+      lang = normalizedLang;
       localStorage.setItem(storageKey, lang);
       syncLanguageInUrl(lang, queryParam, supported);
       document.documentElement.lang = lang;
       syncLanguageButtons(lang, { selector, getButtonLabel: options.getButtonLabel });
+
       if (typeof options.onChange === 'function') {
         options.onChange(lang);
       }
 
       if (triggeredByUser && options.navigateOnChange !== false) {
-        const alternateUrl = getAlternateLocaleUrl(lang, supported, queryParam);
+        const alternateUrl = getAlternateLocaleUrl(lang, supported);
         if (alternateUrl && alternateUrl.href !== window.location.href) {
           window.location.assign(alternateUrl.href);
         }
@@ -130,6 +201,7 @@
 
     return {
       getLanguage: () => lang,
+      getPathLocale: () => getPathLocale(window.location.pathname, supported),
       setLanguage: (nextLang) => applyLanguage((nextLang || '').toLowerCase())
     };
   }
