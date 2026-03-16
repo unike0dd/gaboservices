@@ -53,6 +53,12 @@ function collectPageTranslations() {
 
   for (const locale of LOCALES) {
     const localeRoot = path.join(ROOT, locale);
+    if (!fs.existsSync(localeRoot)) {
+      perLocale[locale] = [];
+      process.stderr.write(`[translation-deep-dive] Skipping missing locale directory: ${localeRoot}\n`);
+      continue;
+    }
+
     const htmlFiles = listFiles(localeRoot, '.html');
     perLocale[locale] = htmlFiles.map((file) => {
       const html = readText(file);
