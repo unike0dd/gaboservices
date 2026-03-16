@@ -388,15 +388,13 @@ function buildLocalizedPath(basePath, targetLang = lang) {
     normalizedPath = `${normalizedPath}/`;
   }
 
+  sourceUrl.pathname = normalizedPath;
   if (normalizedTarget === 'es') {
-    sourceUrl.pathname = normalizedPath === '/'
-      ? '/es/'
-      : `/es${normalizedPath.startsWith('/') ? normalizedPath : `/${normalizedPath}`}`;
+    sourceUrl.searchParams.set('lang', 'es');
   } else {
-    sourceUrl.pathname = normalizedPath;
+    sourceUrl.searchParams.delete('lang');
   }
 
-  sourceUrl.searchParams.delete('lang');
   return `${sourceUrl.pathname}${sourceUrl.search}${sourceUrl.hash}`;
 }
 
