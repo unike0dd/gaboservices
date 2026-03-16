@@ -4,7 +4,17 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const LOCALES = ['en', 'es'];
+const LOCALE_REDIRECTS_FILE = path.join(ROOT, 'legacy-locale-redirects.txt');
+const DISCONNECTED_NOTICE = 'Locale archive is intentionally disconnected.';
 const TRANSLATION_HINT = /(\bDICTIONARY\b|\bSUPPORTED_LANGUAGES\b|\bTRANSLATION_PAGE_MAP\b|\blanguage-switcher\b|\blegal-i18n\b|\blocale\b|\bhreflang\b|\bdata-i18n\b|\blang\b)/i;
+
+
+function isLocaleArchiveDisconnected() {
+  if (!fs.existsSync(LOCALE_REDIRECTS_FILE)) return false;
+
+  const redirects = fs.readFileSync(LOCALE_REDIRECTS_FILE, 'utf8');
+  return redirects.includes(DISCONNECTED_NOTICE);
+}
 
 function listFiles(dir, extension) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -49,13 +59,16 @@ function extractHeadMeta(html) {
 }
 
 function collectPageTranslations() {
+  if (isLocaleArchiveDisconnected()) {
+    return [];
+  }
+
   const perLocale = {};
 
   for (const locale of LOCALES) {
     const localeRoot = path.join(ROOT, locale);
     if (!fs.existsSync(localeRoot)) {
       perLocale[locale] = [];
-      process.stderr.write(`[translation-deep-dive] Skipping missing locale directory: ${localeRoot}\n`);
       continue;
     }
 
@@ -121,9 +134,12 @@ function collectTranslationHelperScripts() {
 }
 
 function buildBundle() {
+  const localeArchiveDisconnected = isLocaleArchiveDisconnected();
+
   return {
     generatedAt: new Date().toISOString(),
     locales: LOCALES,
+    localeArchiveDisconnected,
     pageTranslations: collectPageTranslations(),
     translationHelperScripts: collectTranslationHelperScripts()
   };
