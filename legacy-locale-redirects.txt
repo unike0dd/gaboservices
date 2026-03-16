@@ -1,2 +1,0 @@
-# Legacy locale redirects are disabled.
-# Locale archive is intentionally disconnected.
