@@ -12,6 +12,24 @@
   <main class="container section-block">
     <h1>Careers</h1>
     <p>This page is available in English only.</p>
+
+    <section class="form-panel">
+      <h2>Career / Job Application Form</h2>
+      <form id="careerForm" class="form-stack" novalidate>
+        <label for="career_name">Full Name</label><input id="career_name" name="career_name" required />
+        <label for="career_email">Email</label><input id="career_email" name="career_email" type="email" required />
+        <label for="career_availability_date">Availability Date</label><input id="career_availability_date" name="career_availability_date" type="date" required />
+        <label for="career_availability_time">Availability Time</label>
+        <select id="career_availability_time" name="career_availability_time" required>
+          <option value="">Select time</option>
+          <option value="Morning">Morning</option>
+          <option value="Afternoon">Afternoon</option>
+          <option value="Evening">Evening</option>
+          <option value="Flexible">Flexible</option>
+        </select>
+        <button class="btn primary" type="submit">Submit Application</button>
+      </form>
+    </section>
   </main>
   <script type="module" src="/main.js"></script>
 </body>
