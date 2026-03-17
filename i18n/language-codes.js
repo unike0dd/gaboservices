@@ -126,28 +126,28 @@ export const SERVICES = {
       key: 'logistics',
       title: 'Logistics Operations',
       body: 'Dispatch coordination, route support, and delivery-flow continuity.',
-      href: '/services/logistics-operations/',
+      href: '/en/services/logistics-operations/',
       items: ['Dispatch tracking', 'Escalation handling', 'Execution reporting']
     },
     {
       key: 'admin',
       title: 'Administrative Backoffice',
       body: 'Documentation, scheduling, and structured process support.',
-      href: '/services/administrative-backoffice/',
+      href: '/en/services/administrative-backoffice/',
       items: ['Documentation control', 'Scheduling support', 'Workflow upkeep']
     },
     {
       key: 'customer',
       title: 'Customer Relations',
       body: 'Customer communications and service continuity for daily operations.',
-      href: '/services/customer-relations/',
+      href: '/en/services/customer-relations/',
       items: ['Inbound support', 'Follow-up cadence', 'Retention support']
     },
     {
       key: 'it',
       title: 'IT Support',
       body: 'Operational technical support for business continuity.',
-      href: '/services/it-support/',
+      href: '/en/services/it-support/',
       items: ['Ticket triage', 'Issue coordination', 'Endpoint support']
     }
   ],
@@ -156,28 +156,28 @@ export const SERVICES = {
       key: 'logistics',
       title: 'Operaciones Logísticas',
       body: 'Coordinación de despacho, soporte de rutas y continuidad operativa.',
-      href: '/services/logistics-operations/',
+      href: '/es/services/logistics-operations/',
       items: ['Seguimiento de despacho', 'Gestión de escalaciones', 'Reportes de ejecución']
     },
     {
       key: 'admin',
       title: 'Backoffice Administrativo',
       body: 'Documentación, programación y soporte estructurado de procesos.',
-      href: '/services/administrative-backoffice/',
+      href: '/es/services/administrative-backoffice/',
       items: ['Control documental', 'Apoyo en programación', 'Mantenimiento de flujo']
     },
     {
       key: 'customer',
       title: 'Relaciones con Clientes',
       body: 'Comunicación con clientes y continuidad de atención diaria.',
-      href: '/services/customer-relations/',
+      href: '/es/services/customer-relations/',
       items: ['Soporte entrante', 'Seguimiento', 'Retención']
     },
     {
       key: 'it',
       title: 'Soporte de TI',
       body: 'Soporte técnico operativo para continuidad del negocio.',
-      href: '/services/it-support/',
+      href: '/es/services/it-support/',
       items: ['Triaje de tickets', 'Coordinación de incidentes', 'Soporte de endpoints']
     }
   ]
