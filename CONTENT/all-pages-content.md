@@ -122,6 +122,47 @@ Cookies Consent
 Privacy and GDPR
 © 2026 Gabriel Services
 
+English (translated)
+Careers at Gabriel Services
+Join a team that helps companies strengthen logistics, IT, administration, and customer operations through practical, reliable execution.
+Why join Gabriel Services
+Our work centers on high-responsibility operational support. Every team member is expected to communicate clearly, execute consistently, and deliver practical solutions under real day-to-day business pressure.
+Application form
+Share clear information so our team can efficiently review your profile and match your experience with active operational needs.
+Name
+Email
+Your contact number
+Country code
+Experience
++ Add
+- Remove
+Education
++ Add
+- Remove
+Certification
++ Add
+- Remove
+Skills
++ Add
+- Remove
+Current experience level
++ Add
+- Remove
+Select level
+Entry
+Junior
+Mid
+Advanced
+Expert
+Languages
++ Add
+- Remove
+Submit application
+Skills, experience, and background
+Candidates may include prior experience, academic education, certifications, key skills, current specialization level, and language abilities relevant to operational support roles.
+What happens after you apply
+After review, shortlisted candidates will be contacted for next steps, role alignment, and interview scheduling based on current hiring priorities.
+
 ---
 
 Page: contact/index.html
@@ -276,6 +317,21 @@ Cookies Consent
 Privacy and GDPR
 © 2026 Gabriel Services
 
+English (translated)
+Service definitions
+Operations
+Operations is the end-to-end execution system that continuously designs, controls, and improves how people, processes, and technology convert inputs into consistent, high-quality outcomes, delivering predictable performance in cost, risk, and customer results under real operating conditions.
+Logistics
+Logistics is the integrated system that plans, executes, and continuously optimizes transportation, storage, inventory movement, and visibility to move items through a network from origin to destination, achieving on-time, accurate, and in-good-condition fulfillment while managing total cost, capacity, risk, and customer experience.
+Remote virtual assistance
+Remote virtual assistance is a remote, on-demand workforce capability that uses standardized workflows and digital tools to offload administrative, customer service, and operational tasks, improving speed, accuracy, service quality, and cost efficiency through measurable outcomes.
+Technical consultant level I
+Level I technical consultant is an execution-support role that performs clearly defined technical tasks to stabilize systems and meet project milestones using standard guides, measuring outcomes and escalating complexity when needed under senior supervision.
+Technical consultant level II
+Level II technical consultant is an independent execution owner who translates client needs into implemented solutions, leading scoped work end-to-end to improve reliability, security, and cost performance while coordinating stakeholders and guiding junior staff.
+Remote administrative back office
+Remote administrative back office is a scalable external capability that standardizes and executes key internal workflows for administration, documentation, data management, coordination, reporting, and routine controls so the business operates with greater precision, faster cycles, and lower cost and risk.
+
 ---
 
 Page: legal/cookies.html
@@ -345,6 +401,27 @@ Consentimiento de Cookies
 Privacidad y RGPD
 •
 Conocimiento
+
+English (translated)
+Cookies Consent | Gabriel Services
+Cookies Consent
+1. What are cookies?
+Cookies are small text files stored on your device. They help websites function, remember preferences, and (when enabled) measure usage and improve user experience.
+We may also use similar technologies (local storage, pixels, SDKs) that function like cookies.
+2. How we use cookies
+Gabriel Services may use cookies for the following purposes: strictly necessary, preferences, analytics, and marketing (where consent is required).
+3. Cookie categories (examples)
+Category | Typical use | Required?
+Strictly necessary | Security, load balancing, consent storage | Yes
+Preferences | Remember settings such as language/theme | No (optional)
+Analytics | Understand traffic and performance | No (optional)
+Marketing | Measure ads / personalize messaging | No (optional)
+4. Manage your cookie preferences
+Use the controls on this page to set your preferences at any time.
+5. Browser controls
+You can also manage cookies through browser settings; blocking strictly necessary cookies may affect site functionality.
+6. Contact
+Questions about cookies: Contact form.
 
 ---
 
@@ -447,6 +524,23 @@ Privacidad y RGPD
 •
 Conocimiento
 
+English (translated)
+Privacy Policy and GDPR | Gabriel Services
+1. Who we are (Data Controller): Gabriel Services is the controller for personal data processed through our Services unless stated otherwise.
+2. What personal data we collect: contact, account (if applicable), support, transaction (if applicable), technical, and optional usage analytics data.
+3. How we use personal data: provide and improve Services, support users, process transactions, prevent abuse, send service/admin messages, optional marketing, and comply with legal obligations.
+4. Legal bases (GDPR): contract, legitimate interests, consent, and legal obligation.
+5. Cookies: used as described in our Cookies Consent page.
+6. Sharing/disclosures: service providers/processors, payment processors, legal/safety disclosures, and business transfers.
+7. International transfers: protected with appropriate safeguards when required.
+8. Data retention: retained only as needed for stated purposes and legal obligations.
+9. Security: reasonable administrative, technical, and organizational measures are implemented.
+10. Your rights (GDPR): access, rectification, deletion, restriction, portability, objection, and consent withdrawal.
+11. Marketing preferences: opt-out available at any time.
+12. Children: services are not directed to minors under 18.
+13. Policy updates: this policy may be updated periodically.
+14. Contact: privacy questions and requests via contact form.
+
 ---
 
 Page: legal/terms.html
@@ -543,6 +637,26 @@ Consentimiento de Cookies
 Privacidad y RGPD
 •
 Conocimiento
+
+English (translated)
+Terms and Conditions | Gabriel Services
+1. About Gabriel Services
+2. Acceptance of Terms
+3. Eligibility
+4. Services, changes, and availability
+5. Accounts and security
+6. Acceptable use
+7. Intellectual property
+8. User content (if applicable)
+9. Paid services, billing, and refunds (if applicable)
+10. Third-party services and links
+11. Disclaimers
+12. Limitation of liability
+13. Indemnification
+14. Suspension and termination
+15. Governing law and dispute resolution
+16. Changes to these terms
+17. Contact
 
 ---
 
@@ -649,6 +763,34 @@ Cookies Consent
 Privacy and GDPR
 © 2026 Gabriel Services
 
+English (translated)
+Administrative Back Office
+Administrative Back Office provides structured coverage for recurring administrative tasks that keep business operations stable. We manage documentation, internal coordination, and follow-up to sustain organized and consistent processes.
+Service description
+This service is designed for companies that require reliable coverage for routine administrative operations. We help reduce task accumulation, maintain internal order, and sustain recurring workflows with greater consistency and clarity.
+What this service covers
+Documentation
+Scheduling
+Reporting
+Operational follow-up
+Internal coordination
+Administrative continuity
+Typical workflows
+Document preparation and organization
+Record maintenance
+Internal request management
+Agenda and coordination
+Recurring administrative follow-up
+Operational outcomes
+Stronger operational organization
+Lower administrative accumulation
+Improved internal continuity
+More consistent daily execution
+How collaboration works
+We begin by reviewing your workflow, recurring priorities, and communication rhythm. Then we align the work with your internal process so administrative tasks are recorded, organized, and followed up with greater consistency and control.
+Related services
+Logistics Operations Customer Operations IT Support
+
 ---
 
 Page: services/customer-relations/index.html
@@ -702,6 +844,31 @@ T&C
 Cookies Consent
 Privacy and GDPR
 © 2026 Gabriel Services
+
+English (translated)
+Customer Operations
+Customer Operations provides operational support for communication and follow-up throughout the service lifecycle. We help maintain clear responses, case continuity, and steady coordination in daily customer interactions.
+Service description
+This service is designed for companies that need consistent front-line communication and follow-up support. We help maintain response continuity, improve service coordination, and strengthen visibility of ongoing interactions.
+What this service covers
+Customer support
+Issue management
+Continuity communication
+Post-service communication
+Follow-up and escalation
+Typical workflows
+Responding to customer requests
+Status and case updates
+Follow-up coordination
+Operational outcomes
+More consistent customer communication
+Stronger customer experience
+Fewer missed or delayed follow-ups
+Better continuity in customer interactions
+How collaboration works
+We begin by reviewing your communication flow, response priorities, and follow-up expectations. Then we align the work with your process to manage customer interactions with greater consistency, visibility, and operational clarity.
+Related services
+Logistics Operations Administrative Back Office IT Support
 
 ---
 
@@ -877,6 +1044,31 @@ Cookies Consent
 Privacy and GDPR
 © 2026 Gabriel Services
 
+English (translated)
+IT Support
+IT Support provides reliable coverage for day-to-day internal technical needs. We help organize request intake, maintain visibility into open incidents, and sustain clear communication throughout the process.
+Service description
+This service is designed for businesses that need structured daily coverage for common internal technical requests. We help keep ticket flow organized, maintain communication continuity, and improve follow-up so routine technical operations remain stable and well coordinated.
+What this service covers
+Help desk
+Ticket management
+User coordination and follow-up
+Troubleshooting
+Communication
+Typical workflows
+Ticket handling and documentation
+Triage
+Request follow-up and coordination
+Operational outcomes
+More reliable operational flow
+Greater visibility into open requests
+Clearer follow-up and coordination
+Lower friction in routine technical activity
+How collaboration works
+We begin by reviewing your workflow, request priorities, and communication needs. Then we align the work with your internal process so routine technical requests are handled with clear follow-up, better visibility, and consistent coordination.
+Related services
+Logistics Operations Administrative Back Office Customer Operations
+
 ---
 
 Page: services/logistics-operations/index.html
@@ -931,5 +1123,31 @@ T&C
 Cookies Consent
 Privacy and GDPR
 © 2026 Gabriel Services
+
+English (translated)
+Logistics Operations
+Logistics Operations provides reliable execution coverage for highly coordinated daily workflows. We help manage communication, follow-up, and documentation across multiple fronts to keep operations organized, visible, and moving.
+Service description
+This service is designed for companies that need dependable coordination in active logistics operations. We help maintain communication flow, improve follow-up, and strengthen alignment in daily tasks that support logistics activity.
+What this service covers
+Coordination
+Dispatch
+Delivery tracking
+Escalation
+Communications
+Documentation
+Typical workflows
+Tracking
+Escalation
+Communication and follow-up
+Operational outcomes
+Fewer communication gaps
+Greater delivery visibility
+More consistent operational follow-up
+Stronger day-to-day execution
+How collaboration works
+We begin by reviewing your workflow, operational priorities, and communication requirements. Then we align the work with your process to manage logistics tasks with clearer coordination, better updates, and more reliable follow-up.
+Related services
+Administrative Back Office Customer Operations IT Support
 
 ---
