@@ -15,11 +15,93 @@
 
     <section class="form-panel">
       <h2>Career / Job Application Form</h2>
+<<<<<<< codex/update-forms-to-include-availability-fields
+      <form id="application-form" class="form-stack" novalidate>
+        <label for="career_full_name">Full Name</label>
+        <input id="career_full_name" type="text" name="full_name" />
+
+        <label for="career_email">Email Address</label>
+        <input id="career_email" type="email" name="email" />
+
+        <label for="career_country_code">Country Code</label>
+        <input id="career_country_code" type="text" name="country_code" placeholder="+593" />
+        <label for="career_contact_number">Contact Number</label>
+        <input id="career_contact_number" type="tel" name="contact_number" />
+
+        <label for="career_city">City</label>
+        <input id="career_city" type="text" name="city" />
+
+        <label for="career_state_province">State / Province</label>
+        <input id="career_state_province" type="text" name="state_province" />
+
+        <label for="career_zip_code">Country Zip Code</label>
+        <input id="career_zip_code" type="text" name="zip_code" />
+
+        <fieldset>
+          <legend>Area of Interest</legend>
+          <label><input type="checkbox" name="interest[]" value="logistics" /> Logistics Operations</label>
+          <label><input type="checkbox" name="interest[]" value="admin" /> Administrative Back Office</label>
+          <label><input type="checkbox" name="interest[]" value="customer" /> Customer Relations</label>
+          <label><input type="checkbox" name="interest[]" value="it" /> IT Support</label>
+        </fieldset>
+
+        <label for="experience_extra">Experience Level Notes</label>
+        <input id="experience_extra" type="text" name="experience_extra" placeholder="Add + Remove -" />
+
+        <label for="language_level">Language Level</label>
+        <select id="language_level" name="language_level">
+          <option>Beginner</option>
+          <option>Elementary</option>
+          <option>Intermediate</option>
+          <option>Advance</option>
+          <option>Advance Professional</option>
+          <option>Native</option>
+        </select>
+        <label for="career_languages">Languages</label>
+        <input id="career_languages" type="text" name="languages" placeholder="Add + Remove -" />
+
+        <label for="skill_level">Skill Level</label>
+        <select id="skill_level" name="skill_level">
+          <option>Select level</option>
+          <option>Entry</option>
+          <option>Junior</option>
+          <option>Mid</option>
+          <option>Advanced</option>
+          <option>Expert</option>
+        </select>
+        <label for="career_skills">Skills</label>
+        <input id="career_skills" type="text" name="skills" placeholder="Add + Remove -" />
+
+        <label for="projects">Projects</label>
+        <input id="projects" type="text" name="projects" placeholder="Add + Remove -" />
+
+        <label for="education">Education</label>
+        <select id="education" name="education">
+          <option>Grammar School</option>
+          <option>High School</option>
+          <option>Some High School</option>
+          <option>Some College</option>
+          <option>Associate Degree</option>
+          <option>Bachelor</option>
+          <option>Masters</option>
+          <option>PhD</option>
+        </select>
+        <label for="education_extra">Education Notes</label>
+        <input id="education_extra" type="text" name="education_extra" placeholder="Add + Remove -" />
+
+        <label for="availability">Availability</label>
+        <input id="availability" type="datetime-local" name="availability" />
+
+        <label for="resume_link">Resume or Profile Link</label>
+        <input id="resume_link" type="url" name="resume_link" />
+
+=======
       <form id="careerForm" class="form-stack" novalidate>
         <label for="career_name">Full Name</label><input id="career_name" name="career_name" required />
         <label for="career_email">Email</label><input id="career_email" name="career_email" type="email" required />
         <label for="career_availability_date">Availability Date</label><input id="career_availability_date" name="career_availability_date" type="date" required />
         <label for="career_availability_time">Availability Time</label><input id="career_availability_time" name="career_availability_time" type="time" step="60" required />
+>>>>>>> main
         <button class="btn primary" type="submit">Submit Application</button>
       </form>
     </section>
