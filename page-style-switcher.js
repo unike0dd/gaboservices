@@ -1,18 +1,10 @@
 (function pageStyleSwitcher() {
   const STORAGE_KEY = 'editorialTheme';
   const THEMES = ['wallstreet', 'time'];
-
   const labels = {
-    en: {
-      wallstreet: 'News Cut',
-      time: 'Magazine Cut',
-      ariaPrefix: 'Switch landing and navigation look. Current:'
-    },
-    es: {
-      wallstreet: 'Corte Estilo Revista',
-      time: 'Corte Estilo Prensa',
-      ariaPrefix: 'Cambiar apariencia de inicio y navegación. Actual:'
-    }
+    wallstreet: 'News Cut',
+    time: 'Magazine Cut',
+    ariaPrefix: 'Switch landing and navigation look. Current:'
   };
 
   const root = document.documentElement;
@@ -24,19 +16,11 @@
     return THEMES.includes(stored) ? stored : 'wallstreet';
   };
 
-  const getLang = () => {
-    const storedLang = localStorage.getItem('lang');
-    if (storedLang === 'es' || storedLang === 'en') return storedLang;
-    return root.lang === 'es' ? 'es' : 'en';
-  };
-
   const applyTheme = (theme) => {
     root.setAttribute('data-editorial-theme', theme);
-    const lang = getLang();
-    const locale = labels[lang] || labels.en;
-    const label = locale[theme] || labels.en[theme];
+    const label = labels[theme] || labels.wallstreet;
     button.textContent = label;
-    button.setAttribute('aria-label', `${locale.ariaPrefix} ${label}`);
+    button.setAttribute('aria-label', `${labels.ariaPrefix} ${label}`);
   };
 
   let currentTheme = getStoredTheme();

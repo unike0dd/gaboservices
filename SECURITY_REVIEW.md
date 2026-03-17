@@ -78,4 +78,3 @@ All of the following can be implemented without paid services and without adding
 
 - Crawl access enabled globally.
 - Sitemap endpoint preserved and machine-readable.
-- Locale URLs published explicitly for `/en/` and `/es/`.
