@@ -266,3 +266,50 @@ body {
 .chat-panel {
   height: min(var(--adaptive-chat-height), 78vh);
 }
+
+
+@media (min-width: 901px) and (max-width: 1120px) {
+  .brand {
+    font-size: 1.25rem;
+  }
+
+  .brand-subtitle {
+    letter-spacing: 0.06em;
+    font-size: 0.74rem;
+  }
+
+  .editorial-toggle {
+    padding-inline: 0.6rem;
+    font-size: 0.74rem;
+  }
+
+  .nav-links {
+    gap: 0.7rem;
+  }
+
+  .nav-links a {
+    font-size: 0.96rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .brand-subtitle {
+    letter-spacing: 0.06em;
+  }
+
+  .editorial-toggle {
+    font-size: 0.74rem;
+    padding: 0.24rem 0.62rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-subtitle {
+    letter-spacing: 0.05em;
+  }
+
+  .editorial-toggle {
+    width: fit-content;
+    max-width: 100%;
+  }
+}

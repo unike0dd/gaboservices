@@ -62,32 +62,35 @@
       }
     </style>
   </head>
-  <body>
-    <div class="container">
-      <section class="form-card">
-        <h1>Career Application Form</h1>
-        <p class="intro">Submit your application to join our team of remote assistants. Please be as detailed as possible.</p>
-        <form id="careerForm" novalidate>
-          <div class="section">
-            <h2>Personal Information</h2>
-            <div class="form-grid">
-              <div class="field full"><label class="label-required" for="aFullName">Full Name</label><input id="aFullName" type="text" name="fullName" required /></div>
-              <div class="field"><label class="label-required" for="aEmail">Email Address</label><input id="aEmail" type="email" name="email" required /></div>
-              <div class="field"><label class="label-required">Contact Number</label><div class="phone-split"><input type="text" name="countryCode" placeholder="+593" required /><input type="tel" name="phone" placeholder="Phone number" required /></div></div>
-              <div class="field"><label for="aCity">City</label><input id="aCity" type="text" name="city" /></div>
-              <div class="field"><label for="aState">State / Province</label><input id="aState" type="text" name="state" /></div>
-              <div class="field"><label for="aZip">Zip / Postal Code</label><input id="aZip" type="text" name="zip" /></div>
-              <div class="field full">
-                <label>Area of Interest</label>
-                <div class="checkbox-group">
-                  <label class="checkbox-item"><input type="checkbox" name="areaInterest[]" value="Logistics Operations" /> Logistics Operations</label>
-                  <label class="checkbox-item"><input type="checkbox" name="areaInterest[]" value="Administrative Back Office" /> Administrative Back Office</label>
-                  <label class="checkbox-item"><input type="checkbox" name="areaInterest[]" value="Customer Relations" /> Customer Relations</label>
-                  <label class="checkbox-item"><input type="checkbox" name="areaInterest[]" value="IT Support" /> IT Support</label>
-                </div>
-              </div>
-            </div>
-          </div>
+  <body data-page-key="home">
+    <header class="site-header" id="siteHeader">
+      <div class="container nav-wrap">
+        <div class="brand-stack">
+          <a class="brand" href="./">Gabriel Services</a>
+          <p class="brand-subtitle">Outsource, Delivered</p>
+          <button id="editorialThemeBtn" class="editorial-toggle" type="button" aria-live="polite">Magazine Cut</button>
+        </div>
+        <nav>
+          <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">☰</button>
+          <ul id="primaryNav" class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="./about">About</a></li>
+            <li><a href="./services">Services</a></li>
+            <li><a href="./pricing">Pricing</a></li>
+            <li><a href="./careers">Careers</a></li>
+            <li><a href="./contact">Contact</a></li>
+          </ul>
+        </nav>
+    <h1>Careers</h1>
+    <section class="form-panel">
+      <h2>Career / Job Application Form</h2>
+        <form id="careerForm" class="form-stack" novalidate>
+        <label for="career_name">Full Name</label><input id="career_name" name="career_name" required />
+        <label for="career_email">Email</label><input id="career_email" name="career_email" type="email" required />
+        <label for="career_availability_date">Availability Date</label><input id="career_availability_date" name="career_availability_date" type="date" required />
+        <label for="career_availability_time">Availability Time</label><input id="career_availability_time" name="career_availability_time" type="time" step="60" required />
+        <label for="career_country_code">Country Code</label><input id="career_country_code" type="text" name="country_code" placeholder="+593" />
+        <label for="career_contact_number">Contact Number</label><input id="career_contact_number" type="tel" name="contact_number" />
 
           <div class="section">
             <h2>Professional Qualifications</h2>
