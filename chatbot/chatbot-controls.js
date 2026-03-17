@@ -207,12 +207,15 @@ export function initChatbotControls() {
   });
 
   const closeFromOverlay = (event) => {
-    if (event.target === chatOverlay) {
+    const target = event.target;
+    if (!(target instanceof Node)) return;
+    if (!chatPanel.contains(target)) {
       closeChat();
     }
   };
 
   chatOverlay.addEventListener('click', closeFromOverlay);
+  chatOverlay.addEventListener('touchstart', closeFromOverlay, { passive: true });
   chatOverlay.addEventListener('pointerdown', closeFromOverlay);
 
   document.addEventListener('keydown', (event) => {
