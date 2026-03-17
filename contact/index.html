@@ -44,7 +44,6 @@
             <li><a href="../services">Services</a></li>
             <li><a href="../pricing">Pricing</a></li>
             <li><a href="../careers">Careers</a></li>
-            <li><a href="../learning">Learning</a></li>
             <li><a href="../contact">Contact</a></li>
           </ul>
         </nav>
@@ -74,7 +73,7 @@
               <input id="contact_phone_number" type="tel" name="contact_phone_number" inputmode="tel" autocomplete="tel-national" aria-label="Phone number" placeholder="Phone number" />
             </div>
             <label for="availability_date">Availability Date</label><input id="availability_date" name="availability_date" type="date" required />
-            <label for="availability_time">Availability Time (24-hour)</label><input id="availability_time" name="availability_time" type="time" step="60" required />
+            <label for="availability_time">Availability Time</label><input id="availability_time" name="availability_time" type="time" step="60" required />
             <label for="message">Message</label><textarea id="message" name="message" rows="4"></textarea>
             <input class="hp-field" type="text" name="contact_reference" tabindex="-1" autocomplete="off" aria-hidden="true" />
             <button class="btn primary" type="submit">Send</button>
@@ -114,10 +113,10 @@
       </div>
     </footer>
 
-    <script src="../page-style-switcher.js"></script>
+    <script type="module" src="../page-style-switcher.js"></script>
     <script src="../site.config.js"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
-    <script src="../turnstile-submit-gate.js" defer></script>
+    <script type="module" src="../turnstile-submit-gate.js"></script>
         <script data-cfasync="false" type="module" crossorigin="anonymous" src="../main.js"></script>
   </body>
 </html>

@@ -1,6 +1,7 @@
 import { initAdaptiveLayout } from './adaptive-layout.js';
 import { initChatbotControls } from './chatbot/chatbot-controls.js';
 import { initFabControls } from './fab-controls.js';
+import { EN_MESSAGES } from './locales/en/messages.js';
 
 const metadata = window.SITE_METADATA || {};
 if (metadata.name) document.title = metadata.name;
@@ -21,14 +22,14 @@ function initNavToggle() {
   const navBackdrop = document.createElement('button');
   navBackdrop.type = 'button';
   navBackdrop.className = 'nav-backdrop';
-  navBackdrop.setAttribute('aria-label', 'Close navigation menu');
+  navBackdrop.setAttribute('aria-label', EN_MESSAGES.nav.closeNavigationMenu);
   navBackdrop.hidden = true;
   document.body.appendChild(navBackdrop);
 
   const navCloseBtn = document.createElement('button');
   navCloseBtn.type = 'button';
   navCloseBtn.className = 'nav-close-floating';
-  navCloseBtn.setAttribute('aria-label', 'Close navigation menu');
+  navCloseBtn.setAttribute('aria-label', EN_MESSAGES.nav.closeNavigationMenu);
   navCloseBtn.textContent = '✕';
   navCloseBtn.hidden = true;
   document.body.appendChild(navCloseBtn);
@@ -88,7 +89,7 @@ function initFormStatus() {
     form.addEventListener('submit', () => {
       const status = form.querySelector('[data-status]');
       if (!status) return;
-      status.textContent = 'Submitting...';
+      status.textContent = EN_MESSAGES.nav.submitting;
       status.dataset.state = 'review';
     });
   });

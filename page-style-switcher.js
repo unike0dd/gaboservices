@@ -1,11 +1,9 @@
+import { EN_MESSAGES } from './locales/en/messages.js';
+
 (function pageStyleSwitcher() {
   const STORAGE_KEY = 'editorialTheme';
   const THEMES = ['wallstreet', 'time'];
-  const labels = {
-    wallstreet: 'News Cut',
-    time: 'Magazine Cut',
-    ariaPrefix: 'Switch landing and navigation look. Current:'
-  };
+  const labels = EN_MESSAGES.editorialTheme;
 
   const root = document.documentElement;
   const button = document.getElementById('editorialThemeBtn');
