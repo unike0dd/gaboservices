@@ -73,14 +73,7 @@
               <input id="contact_phone_number" type="tel" name="contact_phone_number" inputmode="tel" autocomplete="tel-national" aria-label="Phone number" placeholder="Phone number" />
             </div>
             <label for="availability_date">Availability Date</label><input id="availability_date" name="availability_date" type="date" required />
-            <label for="availability_time">Availability Time</label>
-            <select id="availability_time" name="availability_time" required>
-              <option value="">Select time</option>
-              <option value="Morning">Morning</option>
-              <option value="Afternoon">Afternoon</option>
-              <option value="Evening">Evening</option>
-              <option value="Flexible">Flexible</option>
-            </select>
+            <label for="availability_time">Availability Time</label><input id="availability_time" name="availability_time" type="time" step="60" required />
             <label for="message">Message</label><textarea id="message" name="message" rows="4"></textarea>
             <input class="hp-field" type="text" name="contact_reference" tabindex="-1" autocomplete="off" aria-hidden="true" />
             <button class="btn primary" type="submit">Send</button>
