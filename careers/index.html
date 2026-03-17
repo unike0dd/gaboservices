@@ -1,42 +1,70 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Careers | Gabriel Services</title>
-  <link rel="stylesheet" href="/styles.css" />
-  <link rel="stylesheet" href="/responsive.css" />
-</head>
-<body>
-  <header class="site-header"><div class="container nav-wrap"><a class="brand" href="/">Gabriel Services</a></div></header>
-  <main class="container section-block">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="author" content="Gabriel Services" />
+    <meta name="keywords" content="SMB business services, logistics operations, IT support, administrative backoffice, customer relations" />
+    <meta name="theme-color" content="#0a1028" />
+    <title>Gabriel Services</title>
+    <meta
+      name="description"
+      content="Business services for logistics, IT, admin, and customer relations."
+    />
+    <link rel="canonical" href="https://www.gabo.services/" />
+    <link rel="alternate" hreflang="en" href="https://www.gabo.services/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.gabo.services/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Gabriel Services" />
+    <meta property="og:title" content="Gabriel Services" />
+    <meta property="og:description" content="Business services for logistics, IT, admin, and customer relations." />
+    <meta property="og:url" content="https://www.gabo.services/" />
+    <meta property="og:image" content="https://www.gabo.services/assets/og-cover.svg" />
+    <meta property="og:locale" content="en_US" />
+        <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Gabriel Services" />
+    <meta name="twitter:description" content="Business services for logistics, IT, admin, and customer relations." />
+    <meta name="twitter:image" content="https://www.gabo.services/assets/og-cover.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./responsive.css" />
+  </head>
+  <body data-page-key="home">
+    <header class="site-header" id="siteHeader">
+      <div class="container nav-wrap">
+        <div class="brand-stack">
+          <a class="brand" href="./">Gabriel Services</a>
+          <p class="brand-subtitle">Outsourcing that delivers</p>
+          <button id="editorialThemeBtn" class="editorial-toggle" type="button" aria-live="polite">Editorial style mode</button>
+        </div>
+        <nav>
+          <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">☰</button>
+          <ul id="primaryNav" class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="./about">About</a></li>
+            <li><a href="./services">Services</a></li>
+            <li><a href="./pricing">Pricing</a></li>
+            <li><a href="./careers">Careers</a></li>
+            <li><a href="./contact">Contact</a></li>
+          </ul>
+        </nav>
     <h1>Careers</h1>
-    <p>This page is available in English only.</p>
-
     <section class="form-panel">
       <h2>Career / Job Application Form</h2>
-<<<<<<< codex/update-forms-to-include-availability-fields
-      <form id="application-form" class="form-stack" novalidate>
-        <label for="career_full_name">Full Name</label>
-        <input id="career_full_name" type="text" name="full_name" />
+        <form id="careerForm" class="form-stack" novalidate>
+        <label for="career_name">Full Name</label><input id="career_name" name="career_name" required />
+        <label for="career_email">Email</label><input id="career_email" name="career_email" type="email" required />
+        <label for="career_availability_date">Availability Date</label><input id="career_availability_date" name="career_availability_date" type="date" required />
+        <label for="career_availability_time">Availability Time</label><input id="career_availability_time" name="career_availability_time" type="time" step="60" required />
+        <label for="career_country_code">Country Code</label><input id="career_country_code" type="text" name="country_code" placeholder="+593" />
+        <label for="career_contact_number">Contact Number</label><input id="career_contact_number" type="tel" name="contact_number" />
 
-        <label for="career_email">Email Address</label>
-        <input id="career_email" type="email" name="email" />
-
-        <label for="career_country_code">Country Code</label>
-        <input id="career_country_code" type="text" name="country_code" placeholder="+593" />
-        <label for="career_contact_number">Contact Number</label>
-        <input id="career_contact_number" type="tel" name="contact_number" />
-
-        <label for="career_city">City</label>
-        <input id="career_city" type="text" name="city" />
-
-        <label for="career_state_province">State / Province</label>
+        <label for="career_city">City</label><input id="career_city" type="text" name="city" />
+        <label for="career_state_province">State or Province</label>
         <input id="career_state_province" type="text" name="state_province" />
-
         <label for="career_zip_code">Country Zip Code</label>
         <input id="career_zip_code" type="text" name="zip_code" />
-
         <fieldset>
           <legend>Area of Interest</legend>
           <label><input type="checkbox" name="interest[]" value="logistics" /> Logistics Operations</label>
@@ -44,10 +72,6 @@
           <label><input type="checkbox" name="interest[]" value="customer" /> Customer Relations</label>
           <label><input type="checkbox" name="interest[]" value="it" /> IT Support</label>
         </fieldset>
-
-        <label for="experience_extra">Experience Level Notes</label>
-        <input id="experience_extra" type="text" name="experience_extra" placeholder="Add + Remove -" />
-
         <label for="language_level">Language Level</label>
         <select id="language_level" name="language_level">
           <option>Beginner</option>
@@ -59,7 +83,6 @@
         </select>
         <label for="career_languages">Languages</label>
         <input id="career_languages" type="text" name="languages" placeholder="Add + Remove -" />
-
         <label for="skill_level">Skill Level</label>
         <select id="skill_level" name="skill_level">
           <option>Select level</option>
@@ -71,10 +94,8 @@
         </select>
         <label for="career_skills">Skills</label>
         <input id="career_skills" type="text" name="skills" placeholder="Add + Remove -" />
-
         <label for="projects">Projects</label>
         <input id="projects" type="text" name="projects" placeholder="Add + Remove -" />
-
         <label for="education">Education</label>
         <select id="education" name="education">
           <option>Grammar School</option>
@@ -88,20 +109,15 @@
         </select>
         <label for="education_extra">Education Notes</label>
         <input id="education_extra" type="text" name="education_extra" placeholder="Add + Remove -" />
-
         <label for="availability">Availability</label>
         <input id="availability" type="datetime-local" name="availability" />
-
         <label for="resume_link">Resume or Profile Link</label>
         <input id="resume_link" type="url" name="resume_link" />
-
-=======
-      <form id="careerForm" class="form-stack" novalidate>
+        <form id="careerForm" class="form-stack" novalidate>
         <label for="career_name">Full Name</label><input id="career_name" name="career_name" required />
         <label for="career_email">Email</label><input id="career_email" name="career_email" type="email" required />
         <label for="career_availability_date">Availability Date</label><input id="career_availability_date" name="career_availability_date" type="date" required />
         <label for="career_availability_time">Availability Time</label><input id="career_availability_time" name="career_availability_time" type="time" step="60" required />
->>>>>>> main
         <button class="btn primary" type="submit">Submit Application</button>
       </form>
     </section>
