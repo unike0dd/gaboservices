@@ -33,15 +33,15 @@ class ChatbotTinyGuard {
 function buildChatPanelMarkup() {
   return `
     <div id="chatOverlay" class="chat-overlay" hidden>
-      <aside id="chatPanel" class="chat-panel" data-i18n-aria-label="chatPanelLabel" aria-label="Chatbot panel" role="dialog" aria-modal="true">
+      <aside id="chatPanel" class="chat-panel" aria-label="Chatbot panel" role="dialog" aria-modal="true">
         <div class="chat-panel-head">
-          <strong data-i18n="chatbot">Gabo io</strong>
+          <strong>Gabo io</strong>
           <div class="chat-panel-actions">
-            <button class="ghost" type="button" data-chat-dismiss data-i18n="chatCloseCta">Close</button>
-            <button id="chatClose" class="ghost" type="button" data-chat-dismiss data-i18n-aria-label="chatClose" aria-label="Close chatbot">✕</button>
+            <button class="ghost" type="button" data-chat-dismiss>Close</button>
+            <button id="chatClose" class="ghost" type="button" data-chat-dismiss aria-label="Close chatbot">✕</button>
           </div>
         </div>
-        <iframe id="chatFrame" data-i18n-title="chatFrameTitle" title="Gabriel chatbot" src="about:blank"></iframe>
+        <iframe id="chatFrame" title="Gabriel chatbot" src="about:blank"></iframe>
       </aside>
     </div>
   `;
@@ -58,7 +58,7 @@ function ensureFabChatTrigger() {
   action.setAttribute('data-chat-trigger', '');
   action.innerHTML = `
     <span class="fab-item-icon" aria-hidden="true">🤖</span>
-    <span data-i18n="fabChatbot">Chatbot</span>
+    <span>Chatbot</span>
   `;
 
   fabMenu.appendChild(action);

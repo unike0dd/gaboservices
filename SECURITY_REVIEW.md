@@ -65,7 +65,7 @@ All of the following can be implemented without paid services and without adding
    - Default policy is now crawl-allow for all user agents.
    - Kept non-content technical paths disallowed to preserve crawl budget.
 3. **Sitemap generation improved for Search Console**
-   - `scripts/update-locale-sitemap.js` now includes both base routes and `/en` + `/es` locale routes.
+   - `scripts/update-locale-sitemap.js` now includes the English base routes only.
 
 ### Compliance Mapping (practical)
 
@@ -78,4 +78,3 @@ All of the following can be implemented without paid services and without adding
 
 - Crawl access enabled globally.
 - Sitemap endpoint preserved and machine-readable.
-- Locale URLs published explicitly for `/en/` and `/es/`.

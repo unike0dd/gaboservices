@@ -9,18 +9,18 @@ function ensureQuickActionsFab() {
     <div id="fabQuickMenu" class="fab-menu" hidden>
       <a class="fab-item" href="/careers" data-fab-link="careers">
         <span class="fab-item-icon" aria-hidden="true">💼</span>
-        <span data-i18n="fabCareer">Careers</span>
+        <span>Careers</span>
       </a>
       <a class="fab-item" href="/contact" data-fab-link="contact">
         <span class="fab-item-icon" aria-hidden="true">☎️</span>
-        <span data-i18n="fabContact">Contact</span>
+        <span>Contact</span>
       </a>
       <button class="fab-item" type="button" data-chat-trigger>
         <span class="fab-item-icon" aria-hidden="true">🤖</span>
-        <span data-i18n="fabChatbot">Chatbot</span>
+        <span>Chatbot</span>
       </button>
     </div>
-    <button id="fabMainToggle" class="fab-main fab-hamburger" type="button" aria-expanded="false" aria-haspopup="menu" aria-controls="fabQuickMenu" data-i18n-aria-label="fabOpenQuickActions" aria-label="Open quick actions">☰</button>
+    <button id="fabMainToggle" class="fab-main fab-hamburger" type="button" aria-expanded="false" aria-haspopup="menu" aria-controls="fabQuickMenu" aria-label="Open quick actions">☰</button>
   `;
 
   document.body.appendChild(wrapper);
