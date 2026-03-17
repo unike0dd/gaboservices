@@ -8,7 +8,26 @@
   <link rel="stylesheet" href="/responsive.css" />
 </head>
 <body>
-  <header class="site-header"><div class="container nav-wrap"><a class="brand" href="/">Gabriel Services</a></div></header>
+    <header class="site-header" id="siteHeader">
+    <div class="container nav-wrap">
+      <div class="brand-stack">
+        <a class="brand" href="/">Gabriel Services</a>
+        <p class="brand-subtitle">Outsource, Delivered</p>
+        <button id="editorialThemeBtn" class="editorial-toggle" type="button" aria-live="polite">Magazine Cut</button>
+      </div>
+      <nav>
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">☰</button>
+        <ul id="primaryNav" class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/pricing">Pricing</a></li>
+          <li><a href="/careers">Careers</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
   <main class="container section-block">
     <h1>Learning</h1>
     <p>Explore our English service guidance for operations and support workflows.</p>
@@ -42,6 +61,8 @@
       </div>
     </section>
   </main>
+  <script src="/site.config.js"></script>
+  <script type="module" src="/page-style-switcher.js"></script>
   <script type="module" src="/main.js"></script>
 </body>
 </html>

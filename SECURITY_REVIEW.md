@@ -66,6 +66,12 @@ All of the following can be implemented without paid services and without adding
    - Kept non-content technical paths disallowed to preserve crawl budget.
 3. **Sitemap generation improved for Search Console**
    - `scripts/update-locale-sitemap.js` now includes the English base routes only.
+4. **Per-route CSP continuity preserved**
+   - Restored page-level CSP meta directives on key routes to preserve existing origin/ID checks expected by current Cloudflare Worker communication paths.
+5. **Turnstile-compatible CSP baseline**
+   - Added `https://challenges.cloudflare.com` to script/connect/frame directives in `_headers` to align contact-form challenge loading with the site-wide policy.
+6. **Scoped static asset CORS retained**
+   - `/assets/*` keeps explicit `Access-Control-Allow-Origin: https://www.gabo.services` for strict origin control on static asset reads.
 
 ### Compliance Mapping (practical)
 

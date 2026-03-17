@@ -19,6 +19,14 @@ function initNavToggle() {
   if (!navToggle || !primaryNav) return;
 
   const desktopQuery = window.matchMedia('(min-width: 901px)');
+
+  const setNavToggleA11y = (expanded) => {
+    navToggle.setAttribute('aria-expanded', String(expanded));
+    navToggle.setAttribute(
+      'aria-label',
+      expanded ? EN_MESSAGES.nav.closeNavigationMenu : EN_MESSAGES.nav.openNavigationMenu
+    );
+  };
   const navBackdrop = document.createElement('button');
   navBackdrop.type = 'button';
   navBackdrop.className = 'nav-backdrop';
@@ -35,7 +43,7 @@ function initNavToggle() {
   document.body.appendChild(navCloseBtn);
 
   const closeNav = () => {
-    navToggle.setAttribute('aria-expanded', 'false');
+    setNavToggleA11y(false);
     primaryNav.classList.remove('open');
     document.body.classList.remove('nav-open');
     navBackdrop.hidden = true;
@@ -43,12 +51,14 @@ function initNavToggle() {
   };
 
   const openNav = () => {
-    navToggle.setAttribute('aria-expanded', 'true');
+    setNavToggleA11y(true);
     primaryNav.classList.add('open');
     document.body.classList.add('nav-open');
     navBackdrop.hidden = false;
     navCloseBtn.hidden = false;
   };
+
+  setNavToggleA11y(false);
 
   navToggle.addEventListener('click', () => {
     const expanded = navToggle.getAttribute('aria-expanded') === 'true';
