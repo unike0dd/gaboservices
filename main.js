@@ -29,7 +29,7 @@ function initNavToggle() {
   navCloseBtn.type = 'button';
   navCloseBtn.className = 'nav-close-floating';
   navCloseBtn.setAttribute('aria-label', 'Close navigation menu');
-  navCloseBtn.textContent = '✕ Close';
+  navCloseBtn.textContent = '✕';
   navCloseBtn.hidden = true;
   document.body.appendChild(navCloseBtn);
 
