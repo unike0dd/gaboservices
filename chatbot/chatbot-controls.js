@@ -1,5 +1,6 @@
 import { initFabControls } from '../fab-controls.js';
 import { resolveWorkerTargets, CHATBOT_STREAM_BRIDGE_NAME } from './chatbot-worker-stream.js';
+import { EN_MESSAGES } from '../locales/en/messages.js';
 class ChatbotTinyGuard {
   constructor() {
     this.signatures = [
@@ -33,15 +34,15 @@ class ChatbotTinyGuard {
 function buildChatPanelMarkup() {
   return `
     <div id="chatOverlay" class="chat-overlay" hidden>
-      <aside id="chatPanel" class="chat-panel" aria-label="Chatbot panel" role="dialog" aria-modal="true">
+      <aside id="chatPanel" class="chat-panel" aria-label="${EN_MESSAGES.chatbot.panelAriaLabel}" role="dialog" aria-modal="true">
         <div class="chat-panel-head">
           <strong>Gabo io</strong>
           <div class="chat-panel-actions">
-            <button class="ghost" type="button" data-chat-dismiss>Close</button>
-            <button id="chatClose" class="ghost" type="button" data-chat-dismiss aria-label="Close chatbot">✕</button>
+            <button class="ghost" type="button" data-chat-dismiss>${EN_MESSAGES.chatbot.close}</button>
+            <button id="chatClose" class="ghost" type="button" data-chat-dismiss aria-label="${EN_MESSAGES.chatbot.closeChatbot}">✕</button>
           </div>
         </div>
-        <iframe id="chatFrame" title="Gabriel chatbot" src="about:blank"></iframe>
+        <iframe id="chatFrame" title="${EN_MESSAGES.chatbot.iframeTitle}" src="about:blank"></iframe>
       </aside>
     </div>
   `;
@@ -58,7 +59,7 @@ function ensureFabChatTrigger() {
   action.setAttribute('data-chat-trigger', '');
   action.innerHTML = `
     <span class="fab-item-icon" aria-hidden="true">🤖</span>
-    <span>Chatbot</span>
+    <span>${EN_MESSAGES.fab.chatbot}</span>
   `;
 
   fabMenu.appendChild(action);
@@ -141,7 +142,7 @@ export function initChatbotControls() {
     if (healthy) return;
 
     chatStatus.hidden = false;
-    chatStatus.textContent = 'Chat assistant is temporarily unavailable. Please use contact form instead.';
+    chatStatus.textContent = EN_MESSAGES.chatbot.unavailable;
   });
 
   const chatbotHoneypot = document.createElement('input');
@@ -184,7 +185,7 @@ export function initChatbotControls() {
       if (!guard.validateSignal(signal) || chatbotHoneypot.value.trim().length > 0 || event.isTrusted === false) return;
       if (!gatewayHealthy) {
         chatStatus.hidden = false;
-        chatStatus.textContent = 'Chat assistant is temporarily unavailable. Please use contact form instead.';
+        chatStatus.textContent = EN_MESSAGES.chatbot.unavailable;
         return;
       }
 
