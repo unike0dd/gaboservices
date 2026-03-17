@@ -23,7 +23,9 @@
     const normalizedTarget = normalizeLang(targetLang);
     const sourceUrl = new URL(window.location.pathname + window.location.search + window.location.hash, window.location.origin);
     const unlocalizedPath = sourceUrl.pathname.replace(/^\/(en|es)(?=\/|$)/i, '') || '/';
-    const normalizedPath = unlocalizedPath === '/' ? '/' : (unlocalizedPath.endsWith('/') ? unlocalizedPath : `${unlocalizedPath}/`);
+    const normalizedPath = unlocalizedPath === '/'
+      ? '/'
+      : (/\.[a-z0-9]+$/i.test(unlocalizedPath) ? unlocalizedPath : (unlocalizedPath.endsWith('/') ? unlocalizedPath : `${unlocalizedPath}/`));
     sourceUrl.pathname = `/${normalizedTarget}${normalizedPath === '/' ? '/' : normalizedPath}`;
     return `${sourceUrl.pathname}${sourceUrl.search}${sourceUrl.hash}`;
   }
@@ -36,14 +38,27 @@
         current = activeSupported[0] || 'en';
       }
 
+      const syncButtons = () => {
+        document.querySelectorAll('[data-lang-option]').forEach((button) => {
+          const buttonLang = normalizeLang(button.getAttribute('data-lang-option'));
+          const isActive = buttonLang === current;
+          button.setAttribute('aria-pressed', String(isActive));
+          button.classList.toggle('active', isActive);
+          button.classList.toggle('is-active', isActive);
+          button.disabled = false;
+        });
+      };
+
       const notify = () => {
         document.documentElement.lang = current;
         window.localStorage.setItem(STORAGE_KEY, current);
+        syncButtons();
         if (typeof onChange === 'function') onChange(current);
       };
 
       const bind = () => {
         document.querySelectorAll('[data-lang-option]').forEach((button) => {
+          button.disabled = false;
           button.addEventListener('click', () => {
             const nextLang = normalizeLang(button.getAttribute('data-lang-option'));
             if (!activeSupported.includes(nextLang) || nextLang === current) return;
@@ -53,6 +68,8 @@
           });
         });
       };
+
+      notify();
 
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', bind, { once: true });
