@@ -1,7 +1,10 @@
 window.SITE_METADATA = {
-  name: 'Gabriel - Professional Business Services',
-  description:
-    'Excellence in logistics, IT support, executive assistance, and customer relations management.',
+  name: {
+    en: 'Gabriel Services'
+  },
+  description: {
+    en: 'Providing Remote Professional Assistance and Business Services to Logistics, IT Support, C Suite Executive, and Customer Relations Management.'
+  },
   framePermissions: [],
   chatbotGatewayUrl: 'https://con-artist.rulathemtodos.workers.dev/'
 };
