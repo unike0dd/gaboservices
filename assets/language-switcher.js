@@ -39,13 +39,13 @@
       }
 
       const syncButtons = () => {
-        document.querySelectorAll('[data-lang-option]').forEach((button) => {
-          const buttonLang = normalizeLang(button.getAttribute('data-lang-option'));
+        document.querySelectorAll('[data-lang-option]').forEach((control) => {
+          const buttonLang = normalizeLang(control.getAttribute('data-lang-option'));
           const isActive = buttonLang === current;
-          button.setAttribute('aria-pressed', String(isActive));
-          button.classList.toggle('active', isActive);
-          button.classList.toggle('is-active', isActive);
-          button.disabled = false;
+          control.setAttribute('aria-pressed', String(isActive));
+          control.classList.toggle('active', isActive);
+          control.classList.toggle('is-active', isActive);
+          if ('disabled' in control) control.disabled = false;
         });
       };
 
@@ -57,10 +57,11 @@
       };
 
       const bind = () => {
-        document.querySelectorAll('[data-lang-option]').forEach((button) => {
-          button.disabled = false;
-          button.addEventListener('click', () => {
-            const nextLang = normalizeLang(button.getAttribute('data-lang-option'));
+        document.querySelectorAll('[data-lang-option]').forEach((control) => {
+          if ('disabled' in control) control.disabled = false;
+          control.addEventListener('click', (event) => {
+            if (control.tagName === 'A') event.preventDefault();
+            const nextLang = normalizeLang(control.getAttribute('data-lang-option'));
             if (!activeSupported.includes(nextLang) || nextLang === current) return;
             current = nextLang;
             notify();
