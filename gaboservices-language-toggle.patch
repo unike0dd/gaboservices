@@ -1,0 +1,168 @@
+diff -ruN /tmp/gabo_orig/gaboservices-main/LANGUAGE_TOGGLE_FIX_SUMMARY.txt gaboservices-main/LANGUAGE_TOGGLE_FIX_SUMMARY.txt
+--- /tmp/gabo_orig/gaboservices-main/LANGUAGE_TOGGLE_FIX_SUMMARY.txt	1970-01-01 00:00:00.000000000 +0000
++++ gaboservices-main/LANGUAGE_TOGGLE_FIX_SUMMARY.txt	2026-03-17 09:19:58.473907631 +0000
+@@ -0,0 +1,19 @@
++Gabriel Services language toggle fix summary
++
++Files updated:
++- index.html
++- en/index.html
++- es/index.html
++- assets/language-switcher.js
++- assets/legal-i18n.js
++- styles.css
++
++What changed:
++1. Homepage EN/ES controls were changed from JavaScript-only buttons to real anchor links.
++2. The language switcher now prefers each control's explicit href/data-lang-href instead of guessing the destination path.
++3. Legal page i18n switching was hardened with the same explicit-target behavior.
++4. Lang toggle styling now guarantees visible click affordance for anchors and buttons.
++
++Result:
++- EN and ES toggles now have direct destinations even if JavaScript is delayed or partially fails.
++- When JavaScript is active, the switcher still updates localStorage, aria states, and navigates to the correct localized page.
+diff -ruN /tmp/gabo_orig/gaboservices-main/assets/language-switcher.js gaboservices-main/assets/language-switcher.js
+--- /tmp/gabo_orig/gaboservices-main/assets/language-switcher.js	2026-03-17 07:54:27.000000000 +0000
++++ gaboservices-main/assets/language-switcher.js	2026-03-17 09:19:58.472542147 +0000
+@@ -30,6 +30,23 @@
+     return `${sourceUrl.pathname}${sourceUrl.search}${sourceUrl.hash}`;
+   }
+ 
++  function resolveControlTarget(control, targetLang) {
++    const explicitTarget = control.getAttribute('data-lang-href') || control.getAttribute('href');
++    if (explicitTarget) {
++      try {
++        const explicitUrl = new URL(explicitTarget, window.location.origin);
++        if (explicitUrl.origin === window.location.origin) {
++          return `${explicitUrl.pathname}${explicitUrl.search}${explicitUrl.hash}`;
++        }
++        return explicitUrl.toString();
++      } catch {
++        // Fall back to computed locale path below.
++      }
++    }
++
++    return toLocalizedPath(targetLang);
++  }
++
+   window.GaboLanguageSwitcher = {
+     initLanguageSwitcher({ supported = SUPPORTED, defaultLang = 'en', onChange } = {}) {
+       const activeSupported = supported.filter((lang) => SUPPORTED.includes(lang));
+@@ -60,12 +77,13 @@
+         document.querySelectorAll('[data-lang-option]').forEach((control) => {
+           if ('disabled' in control) control.disabled = false;
+           control.addEventListener('click', (event) => {
+-            if (control.tagName === 'A') event.preventDefault();
+             const nextLang = normalizeLang(control.getAttribute('data-lang-option'));
++            const target = resolveControlTarget(control, nextLang);
++            if (control.tagName === 'A') event.preventDefault();
+             if (!activeSupported.includes(nextLang) || nextLang === current) return;
+             current = nextLang;
+             notify();
+-            window.location.assign(toLocalizedPath(current));
++            window.location.assign(target);
+           });
+         });
+       };
+diff -ruN /tmp/gabo_orig/gaboservices-main/assets/legal-i18n.js gaboservices-main/assets/legal-i18n.js
+--- /tmp/gabo_orig/gaboservices-main/assets/legal-i18n.js	2026-03-17 07:54:27.000000000 +0000
++++ gaboservices-main/assets/legal-i18n.js	2026-03-17 09:19:58.472798331 +0000
+@@ -25,6 +25,23 @@
+     return `${url.pathname}${url.search}${url.hash}`;
+   }
+ 
++  function resolveControlTarget(control, targetLang) {
++    const explicitTarget = control.getAttribute('data-lang-href') || control.getAttribute('href');
++    if (explicitTarget) {
++      try {
++        const explicitUrl = new URL(explicitTarget, window.location.origin);
++        if (explicitUrl.origin === window.location.origin) {
++          return `${explicitUrl.pathname}${explicitUrl.search}${explicitUrl.hash}`;
++        }
++        return explicitUrl.toString();
++      } catch {
++        // Fall back to computed locale path below.
++      }
++    }
++
++    return localizedPath(targetLang);
++  }
++
+   const current = detectActiveLang();
+   root.lang = current;
+   window.localStorage.setItem(STORAGE_KEY, current);
+@@ -33,12 +50,13 @@
+     const controlLang = normalize(control.getAttribute('data-lang-option'));
+     control.setAttribute('aria-pressed', String(controlLang === current));
+     control.addEventListener('click', (event) => {
+-      if (control.tagName === 'A') event.preventDefault();
+       const nextLang = normalize(control.getAttribute('data-lang-option'));
++      const target = resolveControlTarget(control, nextLang);
++      if (control.tagName === 'A') event.preventDefault();
+       if (nextLang === detectActiveLang()) return;
+       window.localStorage.setItem(STORAGE_KEY, nextLang);
+       root.lang = nextLang;
+-      window.location.assign(localizedPath(nextLang));
++      window.location.assign(target);
+     });
+   });
+ })();
+diff -ruN /tmp/gabo_orig/gaboservices-main/en/index.html gaboservices-main/en/index.html
+--- /tmp/gabo_orig/gaboservices-main/en/index.html	2026-03-17 07:54:27.000000000 +0000
++++ gaboservices-main/en/index.html	2026-03-17 09:19:58.471746181 +0000
+@@ -54,8 +54,8 @@
+           </ul>
+         </nav>
+         <div class="actions">
+-          <button class="ghost lang-option" type="button" data-lang-option="en" aria-pressed="false" data-i18n-aria-label="switchToEnglish" aria-label="Switch language to English">EN</button>
+-          <button class="ghost lang-option" type="button" data-lang-option="es" aria-pressed="false" data-i18n-aria-label="switchToSpanish" aria-label="Cambiar idioma a español">ES</button>
++          <a class="ghost lang-option" data-lang-option="en" aria-pressed="false" data-i18n-aria-label="switchToEnglish" aria-label="Switch language to English" href="/en/">EN</a>
++          <a class="ghost lang-option" data-lang-option="es" aria-pressed="false" data-i18n-aria-label="switchToSpanish" aria-label="Cambiar idioma a español" href="/es/">ES</a>
+         </div>
+       </div>
+     </header>
+diff -ruN /tmp/gabo_orig/gaboservices-main/es/index.html gaboservices-main/es/index.html
+--- /tmp/gabo_orig/gaboservices-main/es/index.html	2026-03-17 07:54:27.000000000 +0000
++++ gaboservices-main/es/index.html	2026-03-17 09:19:58.472123323 +0000
+@@ -54,8 +54,8 @@
+           </ul>
+         </nav>
+         <div class="actions">
+-          <button class="ghost lang-option" type="button" data-lang-option="en" aria-pressed="false" data-i18n-aria-label="switchToEnglish" aria-label="Switch language to English">EN</button>
+-          <button class="ghost lang-option" type="button" data-lang-option="es" aria-pressed="false" data-i18n-aria-label="switchToSpanish" aria-label="Cambiar idioma a español">ES</button>
++          <a class="ghost lang-option" data-lang-option="en" aria-pressed="false" data-i18n-aria-label="switchToEnglish" aria-label="Switch language to English" href="/en/">EN</a>
++          <a class="ghost lang-option" data-lang-option="es" aria-pressed="false" data-i18n-aria-label="switchToSpanish" aria-label="Cambiar idioma a español" href="/es/">ES</a>
+         </div>
+       </div>
+     </header>
+diff -ruN /tmp/gabo_orig/gaboservices-main/index.html gaboservices-main/index.html
+--- /tmp/gabo_orig/gaboservices-main/index.html	2026-03-17 07:54:27.000000000 +0000
++++ gaboservices-main/index.html	2026-03-17 09:19:58.471277868 +0000
+@@ -53,8 +53,8 @@
+           </ul>
+         </nav>
+         <div class="actions">
+-          <button class="ghost lang-option" type="button" data-lang-option="en" aria-pressed="false" data-i18n-aria-label="switchToEnglish" aria-label="Switch language to English">EN</button>
+-          <button class="ghost lang-option" type="button" data-lang-option="es" aria-pressed="false" data-i18n-aria-label="switchToSpanish" aria-label="Cambiar idioma a español">ES</button>
++          <a class="ghost lang-option" data-lang-option="en" aria-pressed="false" data-i18n-aria-label="switchToEnglish" aria-label="Switch language to English" href="/en/">EN</a>
++          <a class="ghost lang-option" data-lang-option="es" aria-pressed="false" data-i18n-aria-label="switchToSpanish" aria-label="Cambiar idioma a español" href="/es/">ES</a>
+         </div>
+       </div>
+     </header>
+diff -ruN /tmp/gabo_orig/gaboservices-main/styles.css gaboservices-main/styles.css
+--- /tmp/gabo_orig/gaboservices-main/styles.css	2026-03-17 07:54:27.000000000 +0000
++++ gaboservices-main/styles.css	2026-03-17 09:19:58.473735081 +0000
+@@ -142,6 +142,13 @@
+ .actions { display:flex; gap:.5rem; }
+ .ghost { background:transparent; border:1px solid var(--border); color:var(--text); border-radius:.5rem; padding:.4rem .6rem; }
+ .actions .ghost.active { background: var(--text); color: var(--bg); border-color: var(--text); }
++.lang-option {
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
++  text-decoration: none;
++  cursor: pointer;
++}
+ .ghost,
+ .btn,
+ .nav-links a,
