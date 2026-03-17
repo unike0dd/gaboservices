@@ -130,6 +130,16 @@ main li + li {
   text-decoration: underline;
   text-underline-offset: 0.18rem;
 }
+
+
+.nav-backdrop {
+  display: none;
+}
+
+
+.nav-close-floating {
+  display: none;
+}
 .nav-chat-trigger {
   border: 0;
   background: transparent;
@@ -1534,6 +1544,15 @@ textarea[data-security-state='review'] {
     display: none;
   }
 
+  .nav-backdrop {
+    display: none !important;
+  }
+
+
+  .nav-close-floating {
+    display: none !important;
+  }
+
   .nav-links {
     display: flex;
     position: static;
@@ -1593,6 +1612,44 @@ textarea[data-security-state='review'] {
     z-index: 230;
   }
 
+  .nav-backdrop {
+    position: fixed;
+    inset: 0;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background: rgba(2, 6, 23, 0.5);
+    z-index: 3000;
+    display: block;
+  }
+
+  .nav-backdrop[hidden] {
+    display: none;
+  }
+
+
+  .nav-close-floating {
+    display: inline-flex !important;
+    align-items: center;
+    position: fixed;
+    top: 0.9rem;
+    right: 0.9rem;
+    z-index: 4100;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--bg) 90%, white 10%);
+    color: var(--text);
+    font: inherit;
+    font-weight: 600;
+    min-height: 44px;
+    padding: 0.5rem 0.85rem;
+    cursor: pointer;
+  }
+
+  .nav-close-floating[hidden] {
+    display: none;
+  }
+
   .nav-links {
     display: flex;
     position: fixed;
@@ -1618,7 +1675,7 @@ textarea[data-security-state='review'] {
     visibility: hidden;
     pointer-events: none;
     transition: transform .3s ease, opacity .2s ease;
-    z-index: 3500;
+    z-index: 4000;
     overflow-y: auto;
     overscroll-behavior: contain;
   }
