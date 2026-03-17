@@ -18,7 +18,9 @@
     const normalizedTarget = normalize(targetLang);
     const url = new URL(window.location.pathname + window.location.search + window.location.hash, window.location.origin);
     const unlocalizedPath = url.pathname.replace(/^\/(en|es)(?=\/|$)/i, '') || '/';
-    const normalizedPath = unlocalizedPath === '/' ? '/' : (unlocalizedPath.endsWith('/') ? unlocalizedPath : `${unlocalizedPath}/`);
+    const normalizedPath = unlocalizedPath === '/'
+      ? '/'
+      : (/\.[a-z0-9]+$/i.test(unlocalizedPath) ? unlocalizedPath : (unlocalizedPath.endsWith('/') ? unlocalizedPath : `${unlocalizedPath}/`));
     url.pathname = `/${normalizedTarget}${normalizedPath === '/' ? '/' : normalizedPath}`;
     return `${url.pathname}${url.search}${url.hash}`;
   }
@@ -27,11 +29,12 @@
   root.lang = current;
   window.localStorage.setItem(STORAGE_KEY, current);
 
-  document.querySelectorAll('[data-lang-option]').forEach((button) => {
-    const buttonLang = normalize(button.getAttribute('data-lang-option'));
-    button.setAttribute('aria-pressed', String(buttonLang === current));
-    button.addEventListener('click', () => {
-      const nextLang = normalize(button.getAttribute('data-lang-option'));
+  document.querySelectorAll('[data-lang-option]').forEach((control) => {
+    const controlLang = normalize(control.getAttribute('data-lang-option'));
+    control.setAttribute('aria-pressed', String(controlLang === current));
+    control.addEventListener('click', (event) => {
+      if (control.tagName === 'A') event.preventDefault();
+      const nextLang = normalize(control.getAttribute('data-lang-option'));
       if (nextLang === detectActiveLang()) return;
       window.localStorage.setItem(STORAGE_KEY, nextLang);
       root.lang = nextLang;
