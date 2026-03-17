@@ -30,7 +30,6 @@
   document.querySelectorAll('[data-lang-option]').forEach((button) => {
     const buttonLang = normalize(button.getAttribute('data-lang-option'));
     button.setAttribute('aria-pressed', String(buttonLang === current));
-
     button.addEventListener('click', () => {
       const nextLang = normalize(button.getAttribute('data-lang-option'));
       if (nextLang === detectActiveLang()) return;
