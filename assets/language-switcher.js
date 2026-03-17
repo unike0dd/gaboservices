@@ -8,16 +8,24 @@
   }
 
   function detectLang(defaultLang = 'en') {
-    const queryLang = new URLSearchParams(window.location.search).get('lang');
-    if (queryLang) return normalizeLang(queryLang);
-
-    const pathMatch = window.location.pathname.match(/^\/es(?:\/|$)/i);
-    if (pathMatch) return 'es';
+    const pathMatch = window.location.pathname.match(/^\/(en|es)(?:\/|$)/i);
+    if (pathMatch) return normalizeLang(pathMatch[1]);
 
     const saved = window.localStorage.getItem(STORAGE_KEY);
     if (saved) return normalizeLang(saved);
 
     return normalizeLang(defaultLang || document.documentElement.lang || 'en');
+  }
+
+
+
+  function toLocalizedPath(targetLang) {
+    const normalizedTarget = normalizeLang(targetLang);
+    const sourceUrl = new URL(window.location.pathname + window.location.search + window.location.hash, window.location.origin);
+    const unlocalizedPath = sourceUrl.pathname.replace(/^\/(en|es)(?=\/|$)/i, '') || '/';
+    const normalizedPath = unlocalizedPath === '/' ? '/' : (unlocalizedPath.endsWith('/') ? unlocalizedPath : `${unlocalizedPath}/`);
+    sourceUrl.pathname = `/${normalizedTarget}${normalizedPath === '/' ? '/' : normalizedPath}`;
+    return `${sourceUrl.pathname}${sourceUrl.search}${sourceUrl.hash}`;
   }
 
   window.GaboLanguageSwitcher = {
@@ -41,6 +49,7 @@
             if (!activeSupported.includes(nextLang) || nextLang === current) return;
             current = nextLang;
             notify();
+            window.location.assign(toLocalizedPath(current));
           });
         });
       };
@@ -57,6 +66,7 @@
           if (!activeSupported.includes(normalized) || normalized === current) return;
           current = normalized;
           notify();
+          window.location.assign(toLocalizedPath(current));
         },
         getLanguage() {
           return current;
