@@ -1,194 +1,281 @@
 <!doctype html>
 <html lang="en">
-    <head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-p06ISXZEElf+iq9kovJtTfupUXTLY54Eb03Gx5f4QkE=' 'sha256-3RErd+LDAVQIOd9ZIcoApiBt6JODoBwDW3+8PbIqsd8=' 'sha256-LRCQfUySbHR4qyW456EyKIkkxMGD6tFXXFXNmuNBDoI=' 'sha256-vl4KqKHcEdbuLHpAScXN70ooQD6yrj9qQjAC724zzCg=' https://static.cloudflareinsights.com https://challenges.cloudflare.com; script-src-elem 'self' 'sha256-p06ISXZEElf+iq9kovJtTfupUXTLY54Eb03Gx5f4QkE=' 'sha256-3RErd+LDAVQIOd9ZIcoApiBt6JODoBwDW3+8PbIqsd8=' 'sha256-LRCQfUySbHR4qyW456EyKIkkxMGD6tFXXFXNmuNBDoI=' 'sha256-vl4KqKHcEdbuLHpAScXN70ooQD6yrj9qQjAC724zzCg=' https://static.cloudflareinsights.com https://challenges.cloudflare.com; style-src 'self'; img-src 'self' data: https:; connect-src 'self' https://con-artist.rulathemtodos.workers.dev https://static.cloudflareinsights.com https://challenges.cloudflare.com; frame-src https://con-artist.rulathemtodos.workers.dev https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; upgrade-insecure-requests" />
-    <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="author" content="Gabriel Services" />
-    <meta name="keywords" content="SMB business services, logistics operations, IT support, administrative backoffice, customer relations" />
-    <meta name="theme-color" content="#0a1028" />
-    <title>Gabriel Services</title>
-    <meta name="description" content="Business services for logistics, IT, admin, and customer relations." />
-    <link rel="canonical" href="https://www.gabo.services/contact/" />
-    <link rel="alternate" hreflang="en" href="https://www.gabo.services/contact/" />
-    <link rel="alternate" hreflang="x-default" href="https://www.gabo.services/contact/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Gabriel Services" />
-    <meta property="og:title" content="Gabriel Services" />
-    <meta property="og:description" content="Business services for logistics, IT, admin, and customer relations." />
-    <meta property="og:url" content="https://www.gabo.services/contact/" />
-    <meta property="og:image" content="https://www.gabo.services/assets/og-cover.svg" />
-    <meta property="og:locale" content="en_US" />
-        <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Gabriel Services" />
-    <meta name="twitter:description" content="Business services for logistics, IT, admin, and customer relations." />
-    <meta name="twitter:image" content="https://www.gabo.services/assets/og-cover.svg" />
-    <link rel="stylesheet" href="../styles.css" />
-    <link rel="stylesheet" href="../responsive.css" />
+    <title>Gabriel Services | Contact Form</title>
+    <style>
+      :root {
+        --bg: #f8fafc;
+        --card: #ffffff;
+        --text: #0f172a;
+        --muted: #64748b;
+        --border: #e2e8f0;
+        --accent: #1e40af;
+        --accent-dark: #1e3a8a;
+        --danger: #dc2626;
+        --radius: 12px;
+        --radius-sm: 8px;
+        --shadow: 0 10px 28px -6px rgba(15, 23, 42, 0.08);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        padding: 20px 16px 56px;
+      }
+      .container { max-width: 1080px; margin: 0 auto; }
+      .form-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 32px;
+      }
+      h1 { margin: 0 0 8px; font-size: clamp(1.5rem, 4vw, 2.1rem); }
+      h2 { margin: 0 0 20px; font-size: clamp(1.1rem, 3vw, 1.32rem); }
+      .intro { margin: 0 0 24px; color: var(--muted); }
+      .section { padding-top: 28px; margin-top: 28px; border-top: 1px solid var(--border); }
+      .section:first-of-type { border-top: 0; margin-top: 0; padding-top: 0; }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px 24px;
+      }
+      .field { display: flex; flex-direction: column; gap: 8px; }
+      .field.full { grid-column: 1 / -1; }
+      .phone-split { display: grid; grid-template-columns: 120px 1fr; gap: 12px; }
+      label { font-size: 0.95rem; font-weight: 600; }
+      .label-required::after { content: ' *'; color: var(--danger); font-weight: 400; }
+      input, select {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-size: 1rem;
+      }
+      input:focus, select:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.12);
+      }
+      .checkbox-group {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+      }
+      .checkbox-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        background: #f8fafc;
+        padding: 10px 12px;
+      }
+      .checkbox-item input { width: 18px; height: 18px; accent-color: var(--accent); }
+      .repeat-row { display: grid; gap: 12px; }
+      .repeat-row.simple { grid-template-columns: 1fr auto; }
+      .repeat-row.paired { grid-template-columns: 220px 1fr auto; }
+      .repeat-list { display: grid; gap: 12px; margin-top: 8px; }
+      .btn-small, .btn-submit {
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 999px;
+      }
+      .btn-small { padding: 9px 16px; border: 1px solid var(--border); background: #f1f5f9; }
+      .btn-small.remove { color: var(--danger); }
+      .btn-submit { padding: 14px 32px; border: 0; color: #fff; background: var(--accent); }
+      .form-footer { margin-top: 28px; }
+      @media (max-width: 960px) {
+        .form-card { padding: 24px; }
+        .form-grid { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 640px) {
+        body { padding: 12px 10px 40px; }
+        .phone-split, .repeat-row.simple, .repeat-row.paired { grid-template-columns: 1fr; }
+        .btn-submit { width: 100%; }
+      }
+    </style>
   </head>
-  <body data-page-key="contact">
-    <header class="site-header">
-      <div class="container nav-wrap">
-        <div class="brand-stack">
-          <a class="brand" href="../">Gabriel Services</a>
-          <p class="brand-subtitle">Outsourcing that delivers</p>
-          <button id="editorialThemeBtn" class="editorial-toggle" type="button" aria-live="polite">Editorial style mode</button>
-        </div>
-        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">☰</button>
-        <nav>
-          <ul id="primaryNav" class="nav-links">
-            <li><a href="../">Home</a></li>
-            <li><a href="../about">About</a></li>
-            <li><a href="../services">Services</a></li>
-            <li><a href="../pricing">Pricing</a></li>
-            <li><a href="../careers">Careers</a></li>
-            <li><a href="../contact">Contact</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-    <main class="container editorial-page page-main">
-      <section class="hero-editorial">
-        <h1>Contact Gabriel Services</h1>
-        <p class="lead">Reach our team for support, onboarding, project discussions, or partnership inquiries.</p>
-      </section>
-
-      <section class="section-block wide-reading">
-        <h2>How to reach us</h2>
-        <p>This contact channel is designed for businesses that need operational support, service onboarding guidance, or partnership conversations with Gabriel Services.</p>
-      </section>
-
-      <section class="section-block">
-        <h2>Tell us what you need</h2>
-        <div class="form-panel">
-          <p class="form-helper">Share your current workflows, priorities, and expected response needs so we can route your request accurately.</p>
-          <form id="contact-form" class="form-stack" novalidate>
-            <h3>Contact Form</h3>
-
-            <label for="full_name">Full Name</label>
-            <input id="full_name" type="text" name="full_name" />
-
-            <label for="email">Email Address</label>
-            <input id="email" type="email" name="email" />
-
-            <label for="country_code">Country Code</label>
-            <input id="country_code" type="text" name="country_code" placeholder="+593" />
-            <label for="contact_number">Contact Number</label>
-            <input id="contact_number" type="tel" name="contact_number" />
-
-            <label for="city">City</label>
-            <input id="city" type="text" name="city" />
-
-            <label for="state_province">State / Province</label>
-            <input id="state_province" type="text" name="state_province" />
-
-            <label for="zip_code">Country Zip Code</label>
-            <input id="zip_code" type="text" name="zip_code" />
-
-            <label for="best_time">Best Time to Contact You</label>
-            <input id="best_time" type="datetime-local" name="best_time" />
-
-            <fieldset>
-              <legend>Area of Interest</legend>
-              <label><input type="checkbox" name="interest[]" value="logistics" /> Logistics Operations</label>
-              <label><input type="checkbox" name="interest[]" value="admin" /> Administrative Back Office</label>
-              <label><input type="checkbox" name="interest[]" value="customer" /> Customer Relations</label>
-              <label><input type="checkbox" name="interest[]" value="it" /> IT Support</label>
-            </fieldset>
-
-            <h3>Inquiry about Remote Assistant with the following:</h3>
-
-            <label for="skills">Skills</label>
-            <input id="skills" type="text" name="skills" placeholder="Add skill" />
-
-            <fieldset>
-              <legend>Assistant Area of Interest</legend>
-              <label><input type="checkbox" name="assistant_interest[]" value="logistics" /> Logistics Operations</label>
-              <label><input type="checkbox" name="assistant_interest[]" value="admin" /> Administrative Back Office</label>
-              <label><input type="checkbox" name="assistant_interest[]" value="customer" /> Customer Relations</label>
-              <label><input type="checkbox" name="assistant_interest[]" value="it" /> IT Support</label>
-            </fieldset>
-
-            <fieldset>
-              <legend>Experience Level</legend>
-              <label><input type="checkbox" name="exp[]" value="entry" /> Entry</label>
-              <label><input type="checkbox" name="exp[]" value="junior" /> Junior</label>
-              <label><input type="checkbox" name="exp[]" value="mid" /> Mid</label>
-              <label><input type="checkbox" name="exp[]" value="advanced" /> Advanced</label>
-              <label><input type="checkbox" name="exp[]" value="expert" /> Expert</label>
-            </fieldset>
-
-            <label for="languages">Languages</label>
-            <input id="languages" type="text" name="languages" placeholder="Add language" />
-
-            <fieldset>
-              <legend>Education</legend>
-              <label><input type="checkbox" name="edu[]" value="grammar" /> Grammar School</label>
-              <label><input type="checkbox" name="edu[]" value="high" /> High School</label>
-              <label><input type="checkbox" name="edu[]" value="some-high" /> Some High School</label>
-              <label><input type="checkbox" name="edu[]" value="some-college" /> Some College</label>
-              <label><input type="checkbox" name="edu[]" value="associate" /> Associate Degree</label>
-              <label><input type="checkbox" name="edu[]" value="bachelor" /> Bachelor</label>
-              <label><input type="checkbox" name="edu[]" value="masters" /> Masters</label>
-              <label><input type="checkbox" name="edu[]" value="doctorate" /> Doctorate</label>
-            </fieldset>
-
-            <button class="btn primary" type="submit">Request Information Inquire</button>
-          <form id="contactForm" class="form-stack" novalidate>
-            <label for="name">Name</label><input id="name" name="name" required />
-            <label for="email">Email</label><input id="email" name="email" type="email" required />
-            <label for="contact_phone_number">Your Contact Number</label>
-            <div class="contact-number-row">
-              <input id="contact_country_code" type="text" name="contact_country_code" inputmode="tel" autocomplete="tel-country-code" aria-label="Country code" placeholder="Country code" />
-              <input id="contact_phone_number" type="tel" name="contact_phone_number" inputmode="tel" autocomplete="tel-national" aria-label="Phone number" placeholder="Phone number" />
+  <body>
+    <div class="container">
+      <section class="form-card">
+        <h1>Contact Form</h1>
+        <p class="intro">Please provide your contact information and tell us about the remote assistant support you are looking for.</p>
+        <form id="contactForm" novalidate>
+          <div class="section">
+            <h2>Contact Information</h2>
+            <div class="form-grid">
+              <div class="field full">
+                <label class="label-required" for="cFullName">Full Name</label>
+                <input id="cFullName" type="text" name="fullName" required placeholder="Your full name" />
+              </div>
+              <div class="field">
+                <label class="label-required" for="cEmail">Email Address</label>
+                <input id="cEmail" type="email" name="email" required placeholder="your@email.com" />
+              </div>
+              <div class="field">
+                <label class="label-required">Contact Number</label>
+                <div class="phone-split">
+                  <input type="text" name="countryCode" placeholder="+593" required />
+                  <input type="tel" name="phone" placeholder="Phone number" required />
+                </div>
+              </div>
+              <div class="field"><label for="cCity">City</label><input id="cCity" type="text" name="city" placeholder="City" /></div>
+              <div class="field"><label for="cState">State / Province</label><input id="cState" type="text" name="state" placeholder="State or Province" /></div>
+              <div class="field"><label for="cZip">Zip / Postal Code</label><input id="cZip" type="text" name="zip" placeholder="Zip / Postal Code" /></div>
+              <div class="field"><label for="bestTime">Best Time to Contact You</label><input id="bestTime" type="datetime-local" name="bestContactTime" /></div>
+              <div class="field full">
+                <label>Area of Interest</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-item"><input type="checkbox" name="areaInterest[]" value="Logistics Operations" /> Logistics Operations</label>
+                  <label class="checkbox-item"><input type="checkbox" name="areaInterest[]" value="Administrative Back Office" /> Administrative Back Office</label>
+                  <label class="checkbox-item"><input type="checkbox" name="areaInterest[]" value="Customer Relations" /> Customer Relations</label>
+                  <label class="checkbox-item"><input type="checkbox" name="areaInterest[]" value="IT Support" /> IT Support</label>
+                </div>
+              </div>
             </div>
-            <label for="availability_date">Availability Date</label><input id="availability_date" name="availability_date" type="date" required />
-            <label for="availability_time">Availability Time</label><input id="availability_time" name="availability_time" type="time" step="60" required />
-            <label for="message">Message</label><textarea id="message" name="message" rows="4"></textarea>
-            <input class="hp-field" type="text" name="contact_reference" tabindex="-1" autocomplete="off" aria-hidden="true" />
-            <button class="btn primary" type="submit">Send</button>
-            <p id="formStatus" role="status" aria-live="polite"></p>
-          </form>
-        </div>
+          </div>
+
+          <div class="section">
+            <h2>Inquiry about Remote Assistant</h2>
+            <div class="form-grid">
+              <div class="field full">
+                <label>Skills</label>
+                <div class="repeat-list" id="cSkillsList">
+                  <div class="repeat-row paired">
+                    <select name="skillLevel[]">
+                      <option value="">Select level</option>
+                      <option>Entry</option>
+                      <option>Junior</option>
+                      <option>Mid</option>
+                      <option>Advanced</option>
+                      <option>Expert</option>
+                    </select>
+                    <input type="text" name="skillDetail[]" placeholder="e.g. Excel, CRM, QuickBooks" />
+                    <button type="button" class="btn-small remove" data-remove>- Remove</button>
+                  </div>
+                </div>
+                <button type="button" class="btn-small" id="addContactSkill">Add +</button>
+              </div>
+              <div class="field full">
+                <label>Area of Interest</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-item"><input type="checkbox" name="inquiryArea[]" value="Logistics Operations" /> Logistics Operations</label>
+                  <label class="checkbox-item"><input type="checkbox" name="inquiryArea[]" value="Administrative Back Office" /> Administrative Back Office</label>
+                  <label class="checkbox-item"><input type="checkbox" name="inquiryArea[]" value="Customer Relations" /> Customer Relations</label>
+                  <label class="checkbox-item"><input type="checkbox" name="inquiryArea[]" value="IT Support" /> IT Support</label>
+                </div>
+              </div>
+              <div class="field">
+                <label for="cExpLevel">Experience Level</label>
+                <select id="cExpLevel" name="experienceLevel">
+                  <option value="">Select level</option><option>Entry</option><option>Junior</option><option>Mid</option><option>Advanced</option><option>Expert</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label>Languages</label>
+                <div class="repeat-list" id="cLanguagesList">
+                  <div class="repeat-row paired">
+                    <select name="languageLevel[]">
+                      <option value="">Select level</option>
+                      <option>Beginner</option>
+                      <option>Elementary</option>
+                      <option>Intermediate</option>
+                      <option>Advance</option>
+                      <option>Advance Professional</option>
+                      <option>Native</option>
+                    </select>
+                    <input type="text" name="languageDetail[]" placeholder="e.g. Spanish" />
+                    <button type="button" class="btn-small remove" data-remove>- Remove</button>
+                  </div>
+                </div>
+                <button type="button" class="btn-small" id="addContactLanguage">Add +</button>
+              </div>
+
+              <div class="field full">
+                <label>Education</label>
+                <div class="repeat-list" id="cEducationList">
+                  <div class="repeat-row paired">
+                    <select name="educationLevel[]">
+                      <option value="">Select level</option>
+                      <option>Grammar School</option>
+                      <option>High School</option>
+                      <option>Some High School</option>
+                      <option>Some College</option>
+                      <option>associate degree</option>
+                      <option>Bachelor</option>
+                      <option>Masters</option>
+                      <option>PhD</option>
+                    </select>
+                    <input type="text" name="educationDetail[]" placeholder="e.g. Business Administration" />
+                    <button type="button" class="btn-small remove" data-remove>- Remove</button>
+                  </div>
+                </div>
+                <button type="button" class="btn-small" id="addContactEducation">Add +</button>
+              </div>
+            </div>
+            <div class="form-footer">
+              <button class="btn-submit" type="submit">Request Information / Inquire</button>
+            </div>
+          </div>
+        </form>
       </section>
+    </div>
 
-      <section class="section-block wide-reading">
-        <h2>What happens next</h2>
-        <p>Our team reviews submissions, confirms scope details when needed, and follows up with recommended next steps and expected onboarding flow.</p>
-      </section>
-    </main>
+    <script>
+      function createPairedRow(selectName, inputName, options, placeholder) {
+        const row = document.createElement('div');
+        row.className = 'repeat-row paired';
+        row.innerHTML = `<select name="${selectName}"><option value="">Select level</option>${options.map((o) => `<option>${o}</option>`).join('')}</select><input type="text" name="${inputName}" placeholder="${placeholder}" /><button type="button" class="btn-small remove" data-remove>- Remove</button>`;
+        return row;
+      }
 
-      
-    <footer class="site-footer">
-      <div class="container footer-grid">
-        <div class="footer-column">
-          <h3>Company</h3>
-          <a href="/about">About</a>
-          <a href="/services">Services</a>
-          <a href="/careers">Careers</a>
-        </div>
-        <div class="footer-column">
-          <h3>Support</h3>
-          <a href="/contact">Contact</a>
-          <a href="/learning">Learning</a>
-          <a href="/sitemap.xml">Sitemap</a>
-        </div>
-        <div class="footer-column">
-          <h3>Legal</h3>
-          <a href="/legal/terms.html">T&C</a>
-          <a href="/legal/cookies.html">Cookies Consent</a>
-          <a href="/legal/privacy-gdpr.html">Privacy and GDPR</a>
-        </div>
-        <p class="footer-copy">© 2026 Gabriel Services</p>
-      </div>
-    </footer>
+      const contactAddButtons = {
+        addContactSkill: {
+          list: 'cSkillsList',
+          fn: () => createPairedRow('skillLevel[]', 'skillDetail[]', ['Entry', 'Junior', 'Mid', 'Advanced', 'Expert'], 'Add skill detail')
+        },
+        addContactLanguage: {
+          list: 'cLanguagesList',
+          fn: () => createPairedRow('languageLevel[]', 'languageDetail[]', ['Beginner', 'Elementary', 'Intermediate', 'Advance', 'Advance Professional', 'Native'], 'Add language')
+        },
+        addContactEducation: {
+          list: 'cEducationList',
+          fn: () => createPairedRow('educationLevel[]', 'educationDetail[]', ['Grammar School', 'High School', 'Some High School', 'Some College', 'associate degree', 'Bachelor', 'Masters', 'PhD'], 'Add education detail')
+        }
+      };
 
-    <script type="module" src="../page-style-switcher.js"></script>
-    <script src="../site.config.js"></script>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
-    <script type="module" src="../turnstile-submit-gate.js"></script>
-        <script data-cfasync="false" type="module" crossorigin="anonymous" src="../main.js"></script>
+      Object.keys(contactAddButtons).forEach((id) => {
+        const btn = document.getElementById(id);
+        if (btn) {
+          btn.addEventListener('click', () => {
+            const { list, fn } = contactAddButtons[id];
+            document.getElementById(list).appendChild(fn());
+          });
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        const t = e.target;
+        if (t.matches('[data-remove], .remove')) {
+          const row = t.closest('.repeat-row');
+          if (!row) return;
+          const list = row.parentElement;
+          if (list.children.length > 1) {
+            row.remove();
+          } else {
+            row.querySelectorAll('input, select').forEach((el) => {
+              if (el.tagName === 'SELECT') el.selectedIndex = 0;
+              else el.value = '';
+            });
+          }
+        }
+      });
+    </script>
   </body>
 </html>
