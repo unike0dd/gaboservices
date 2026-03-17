@@ -763,6 +763,34 @@ Cookies Consent
 Privacy and GDPR
 © 2026 Gabriel Services
 
+English (translated)
+Administrative Back Office
+Administrative Back Office provides structured coverage for recurring administrative tasks that keep business operations stable. We manage documentation, internal coordination, and follow-up to sustain organized and consistent processes.
+Service description
+This service is designed for companies that require reliable coverage for routine administrative operations. We help reduce task accumulation, maintain internal order, and sustain recurring workflows with greater consistency and clarity.
+What this service covers
+Documentation
+Scheduling
+Reporting
+Operational follow-up
+Internal coordination
+Administrative continuity
+Typical workflows
+Document preparation and organization
+Record maintenance
+Internal request management
+Agenda and coordination
+Recurring administrative follow-up
+Operational outcomes
+Stronger operational organization
+Lower administrative accumulation
+Improved internal continuity
+More consistent daily execution
+How collaboration works
+We begin by reviewing your workflow, recurring priorities, and communication rhythm. Then we align the work with your internal process so administrative tasks are recorded, organized, and followed up with greater consistency and control.
+Related services
+Logistics Operations Customer Operations IT Support
+
 ---
 
 Page: services/customer-relations/index.html
@@ -816,6 +844,31 @@ T&C
 Cookies Consent
 Privacy and GDPR
 © 2026 Gabriel Services
+
+English (translated)
+Customer Operations
+Customer Operations provides operational support for communication and follow-up throughout the service lifecycle. We help maintain clear responses, case continuity, and steady coordination in daily customer interactions.
+Service description
+This service is designed for companies that need consistent front-line communication and follow-up support. We help maintain response continuity, improve service coordination, and strengthen visibility of ongoing interactions.
+What this service covers
+Customer support
+Issue management
+Continuity communication
+Post-service communication
+Follow-up and escalation
+Typical workflows
+Responding to customer requests
+Status and case updates
+Follow-up coordination
+Operational outcomes
+More consistent customer communication
+Stronger customer experience
+Fewer missed or delayed follow-ups
+Better continuity in customer interactions
+How collaboration works
+We begin by reviewing your communication flow, response priorities, and follow-up expectations. Then we align the work with your process to manage customer interactions with greater consistency, visibility, and operational clarity.
+Related services
+Logistics Operations Administrative Back Office IT Support
 
 ---
 
@@ -991,6 +1044,31 @@ Cookies Consent
 Privacy and GDPR
 © 2026 Gabriel Services
 
+English (translated)
+IT Support
+IT Support provides reliable coverage for day-to-day internal technical needs. We help organize request intake, maintain visibility into open incidents, and sustain clear communication throughout the process.
+Service description
+This service is designed for businesses that need structured daily coverage for common internal technical requests. We help keep ticket flow organized, maintain communication continuity, and improve follow-up so routine technical operations remain stable and well coordinated.
+What this service covers
+Help desk
+Ticket management
+User coordination and follow-up
+Troubleshooting
+Communication
+Typical workflows
+Ticket handling and documentation
+Triage
+Request follow-up and coordination
+Operational outcomes
+More reliable operational flow
+Greater visibility into open requests
+Clearer follow-up and coordination
+Lower friction in routine technical activity
+How collaboration works
+We begin by reviewing your workflow, request priorities, and communication needs. Then we align the work with your internal process so routine technical requests are handled with clear follow-up, better visibility, and consistent coordination.
+Related services
+Logistics Operations Administrative Back Office Customer Operations
+
 ---
 
 Page: services/logistics-operations/index.html
@@ -1045,5 +1123,31 @@ T&C
 Cookies Consent
 Privacy and GDPR
 © 2026 Gabriel Services
+
+English (translated)
+Logistics Operations
+Logistics Operations provides reliable execution coverage for highly coordinated daily workflows. We help manage communication, follow-up, and documentation across multiple fronts to keep operations organized, visible, and moving.
+Service description
+This service is designed for companies that need dependable coordination in active logistics operations. We help maintain communication flow, improve follow-up, and strengthen alignment in daily tasks that support logistics activity.
+What this service covers
+Coordination
+Dispatch
+Delivery tracking
+Escalation
+Communications
+Documentation
+Typical workflows
+Tracking
+Escalation
+Communication and follow-up
+Operational outcomes
+Fewer communication gaps
+Greater delivery visibility
+More consistent operational follow-up
+Stronger day-to-day execution
+How collaboration works
+We begin by reviewing your workflow, operational priorities, and communication requirements. Then we align the work with your process to manage logistics tasks with clearer coordination, better updates, and more reliable follow-up.
+Related services
+Administrative Back Office Customer Operations IT Support
 
 ---
