@@ -3,141 +3,144 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gabriel Services | Career Application</title>
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="author" content="Gabriel Services" />
+    <meta name="keywords" content="SMB business services, logistics operations, IT support, administrative backoffice, customer relations" />
+    <meta name="theme-color" content="#0a1028" />
+    <title>Gabriel Services | Careers</title>
+    <meta name="description" content="Apply to join Gabriel Services and support logistics, customer operations, and administrative workflows." />
+    <link rel="canonical" href="https://www.gabo.services/careers/" />
+    <link rel="alternate" hreflang="en" href="https://www.gabo.services/careers/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.gabo.services/careers/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Gabriel Services" />
+    <meta property="og:title" content="Gabriel Services | Careers" />
+    <meta property="og:description" content="Apply to join Gabriel Services and support logistics, customer operations, and administrative workflows." />
+    <meta property="og:url" content="https://www.gabo.services/careers/" />
+    <meta property="og:image" content="https://www.gabo.services/assets/og-cover.svg" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Gabriel Services | Careers" />
+    <meta name="twitter:description" content="Apply to join Gabriel Services and support logistics, customer operations, and administrative workflows." />
+    <meta name="twitter:image" content="https://www.gabo.services/assets/og-cover.svg" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../responsive.css" />
     <style>
-      :root {
-        --bg: #f8fafc;
-        --card: #ffffff;
-        --text: #0f172a;
-        --muted: #64748b;
-        --border: #e2e8f0;
-        --accent: #1e40af;
-        --accent-dark: #1e3a8a;
-        --danger: #dc2626;
-        --radius: 12px;
-        --radius-sm: 8px;
-      }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        line-height: 1.6;
-        padding: 20px 16px 56px;
-      }
-      .container { max-width: 1080px; margin: 0 auto; }
-      .form-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; }
-      h1 { margin: 0 0 8px; font-size: clamp(1.5rem, 4vw, 2.1rem); }
-      h2 { margin: 0 0 18px; font-size: clamp(1.1rem, 3vw, 1.32rem); }
-      .intro { margin: 0 0 24px; color: var(--muted); }
-      .section { padding-top: 28px; margin-top: 28px; border-top: 1px solid var(--border); }
-      .section:first-of-type { border-top: 0; margin-top: 0; padding-top: 0; }
       .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; }
       .field { display: flex; flex-direction: column; gap: 8px; }
       .field.full { grid-column: 1 / -1; }
-      .phone-split { display: grid; grid-template-columns: 120px 1fr; gap: 12px; }
-      label { font-size: 0.95rem; font-weight: 600; }
-      .label-required::after { content: ' *'; color: var(--danger); font-weight: 400; }
-      input, select { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 1rem; }
-      .checkbox-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
-      .checkbox-item { display: flex; align-items: center; gap: 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: #f8fafc; padding: 10px 12px; }
-      .checkbox-item input { width: 18px; height: 18px; accent-color: var(--accent); }
       .repeat-list { display: grid; gap: 12px; margin: 8px 0; }
       .repeat-row { display: grid; gap: 12px; }
       .repeat-row.paired { grid-template-columns: 200px 1fr auto; }
       .repeat-row.simple { grid-template-columns: 1fr auto; }
       .btn-small, .btn-submit { font-weight: 600; cursor: pointer; border-radius: 999px; }
-      .btn-small { padding: 9px 16px; border: 1px solid var(--border); background: #f1f5f9; }
-      .btn-small.remove { color: var(--danger); }
-      .btn-submit { margin-top: 24px; padding: 14px 32px; border: 0; background: var(--accent); color: #fff; }
-      @media (max-width: 960px) {
-        .form-card { padding: 24px; }
-        .form-grid, .repeat-row.paired { grid-template-columns: 1fr; }
-      }
-      @media (max-width: 640px) {
-        body { padding: 12px 10px 40px; }
-        .phone-split, .repeat-row.simple { grid-template-columns: 1fr; }
-        .btn-submit { width: 100%; }
-      }
+      .btn-small { padding: 9px 16px; border: 1px solid var(--outline); background: var(--surface); }
+      .btn-small.remove { color: #ef4444; }
+      .btn-submit { margin-top: 24px; padding: 14px 32px; border: 0; background: var(--brand); color: #fff; }
+      @media (max-width: 960px) { .form-grid, .repeat-row.paired { grid-template-columns: 1fr; } }
+      @media (max-width: 640px) { .repeat-row.simple, .btn-submit { width: 100%; grid-template-columns: 1fr; } }
     </style>
   </head>
-  <body data-page-key="home">
-    <header class="site-header" id="siteHeader">
+  <body data-page-key="careers">
+    <header class="site-header">
       <div class="container nav-wrap">
         <div class="brand-stack">
-          <a class="brand" href="./">Gabriel Services</a>
+          <a class="brand" href="../">Gabriel Services</a>
           <p class="brand-subtitle">Outsource, Delivered</p>
           <button id="editorialThemeBtn" class="editorial-toggle" type="button" aria-live="polite">Magazine Cut</button>
         </div>
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">☰</button>
         <nav>
-          <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">☰</button>
           <ul id="primaryNav" class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="./about">About</a></li>
-            <li><a href="./services">Services</a></li>
-            <li><a href="./pricing">Pricing</a></li>
-            <li><a href="./careers">Careers</a></li>
-            <li><a href="./contact">Contact</a></li>
+            <li><a href="../">Home</a></li>
+            <li><a href="../about">About</a></li>
+            <li><a href="../services">Services</a></li>
+            <li><a href="../pricing">Pricing</a></li>
+            <li><a href="../careers">Careers</a></li>
+            <li><a href="../contact">Contact</a></li>
           </ul>
         </nav>
-    <h1>Careers</h1>
-    <section class="form-panel">
-      <h2>Career / Job Application Form</h2>
-        <form id="careerForm" class="form-stack" novalidate>
-        <label for="career_name">Full Name</label><input id="career_name" name="career_name" required />
-        <label for="career_email">Email</label><input id="career_email" name="career_email" type="email" required />
-        <label for="career_availability_date">Availability Date</label><input id="career_availability_date" name="career_availability_date" type="date" required />
-        <label for="career_availability_time">Availability Time</label><input id="career_availability_time" name="career_availability_time" type="time" step="60" required />
-        <label for="career_country_code">Country Code</label><input id="career_country_code" type="text" name="country_code" placeholder="+593" />
-        <label for="career_contact_number">Contact Number</label><input id="career_contact_number" type="tel" name="contact_number" />
+      </div>
+    </header>
 
-          <div class="section">
-            <h2>Professional Qualifications</h2>
-            <div class="form-grid">
-              <div class="field full">
-                <label>Experience Level</label>
-                <div class="repeat-list" id="aExperienceList">
-                  <div class="repeat-row paired"><select name="experienceLevel[]"><option value="">Select level</option><option>Entry</option><option>Junior</option><option>Mid</option><option>Advanced</option><option>Expert</option></select><input type="text" name="experienceDetail[]" placeholder="e.g. Managed logistics team for 2 years" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
-                </div>
-                <button type="button" class="btn-small" id="addExp">Add +</button>
+    <main class="container editorial-page page-main">
+      <section class="hero-editorial">
+        <h1>Careers at Gabriel Services</h1>
+        <p class="lead">Apply to support operations, customer communications, and delivery workflows with our team.</p>
+      </section>
+
+      <section class="section-block">
+        <h2>Career Application</h2>
+        <form id="careerForm" class="form-stack form-panel" novalidate>
+          <div class="form-grid">
+            <div class="field"><label for="career_name">Full Name</label><input id="career_name" name="career_name" required /></div>
+            <div class="field"><label for="career_email">Email</label><input id="career_email" name="career_email" type="email" required /></div>
+            <div class="field"><label for="career_country_code">Country Code</label><input id="career_country_code" type="text" name="country_code" placeholder="+593" /></div>
+            <div class="field"><label for="career_contact_number">Contact Number</label><input id="career_contact_number" type="tel" name="contact_number" /></div>
+            <div class="field"><label for="career_availability_date">Availability Date</label><input id="career_availability_date" name="career_availability_date" type="date" required /></div>
+            <div class="field"><label for="career_availability_time">Availability Time</label><input id="career_availability_time" name="career_availability_time" type="time" step="60" required /></div>
+
+            <div class="field full">
+              <label>Experience Level</label>
+              <div class="repeat-list" id="aExperienceList">
+                <div class="repeat-row paired"><select name="experienceLevel[]"><option value="">Select level</option><option>Entry</option><option>Junior</option><option>Mid</option><option>Advanced</option><option>Expert</option></select><input type="text" name="experienceDetail[]" placeholder="Add experience detail" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
               </div>
-              <div class="field full">
-                <label>Languages</label>
-                <div class="repeat-list" id="aLanguagesList">
-                  <div class="repeat-row paired"><select name="languageLevel[]"><option value="">Select level</option><option>Beginner</option><option>Elementary</option><option>Intermediate</option><option>Advance</option><option>Advance Professional</option><option>Native</option></select><input type="text" name="languageDetail[]" placeholder="e.g. Spanish" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
-                </div>
-                <button type="button" class="btn-small" id="addLang">Add +</button>
-              </div>
-              <div class="field full">
-                <label>Skills</label>
-                <div class="repeat-list" id="aSkillsList">
-                  <div class="repeat-row paired"><select name="skillLevel[]"><option value="">Select level</option><option>Entry</option><option>Junior</option><option>Mid</option><option>Advanced</option><option>Expert</option></select><input type="text" name="skillDetail[]" placeholder="e.g. Google Workspace" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
-                </div>
-                <button type="button" class="btn-small" id="addSkill">Add +</button>
-              </div>
-              <div class="field full">
-                <label>Projects</label>
-                <div class="repeat-list" id="aProjectsList">
-                  <div class="repeat-row simple"><input type="text" name="projects[]" placeholder="e.g. Implemented new CRM system" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
-                </div>
-                <button type="button" class="btn-small" data-add-simple="aProjectsList" data-name="projects[]" data-ph="Describe project">Add +</button>
-              </div>
-              <div class="field full">
-                <label>Education</label>
-                <div class="repeat-list" id="aEducationList">
-                  <div class="repeat-row paired"><select name="educationLevel[]"><option value="">Select level</option><option>Grammar School</option><option>High School</option><option>Some High School</option><option>Some College</option><option>Associate Degree</option><option>Bachelor</option><option>Masters</option><option>PhD</option></select><input type="text" name="educationDetail[]" placeholder="e.g. Business Administration" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
-                </div>
-                <button type="button" class="btn-small" id="addEdu">Add +</button>
-              </div>
-              <div class="field"><label for="aAvailability">Availability</label><input id="aAvailability" type="datetime-local" name="availability" /></div>
-              <div class="field full"><label for="aResume">Resume or Profile Link</label><input id="aResume" type="url" name="resumeLink" placeholder="LinkedIn / Google Drive / Dropbox link" /></div>
+              <button type="button" class="btn-small" id="addExp">Add +</button>
             </div>
-            <button class="btn-submit" type="submit">Submit Application</button>
+
+            <div class="field full">
+              <label>Languages</label>
+              <div class="repeat-list" id="aLanguagesList">
+                <div class="repeat-row paired"><select name="languageLevel[]"><option value="">Select level</option><option>Beginner</option><option>Elementary</option><option>Intermediate</option><option>Advance</option><option>Advance Professional</option><option>Native</option></select><input type="text" name="languageDetail[]" placeholder="Add language" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
+              </div>
+              <button type="button" class="btn-small" id="addLang">Add +</button>
+            </div>
+
+            <div class="field full">
+              <label>Skills</label>
+              <div class="repeat-list" id="aSkillsList">
+                <div class="repeat-row paired"><select name="skillLevel[]"><option value="">Select level</option><option>Entry</option><option>Junior</option><option>Mid</option><option>Advanced</option><option>Expert</option></select><input type="text" name="skillDetail[]" placeholder="Add skill detail" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
+              </div>
+              <button type="button" class="btn-small" id="addSkill">Add +</button>
+            </div>
+
+            <div class="field full">
+              <label>Projects</label>
+              <div class="repeat-list" id="aProjectsList">
+                <div class="repeat-row simple"><input type="text" name="projects[]" placeholder="Describe project" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
+              </div>
+              <button type="button" class="btn-small" data-add-simple="aProjectsList" data-name="projects[]" data-ph="Describe project">Add +</button>
+            </div>
           </div>
+          <button class="btn-submit" type="submit">Submit Application</button>
         </form>
       </section>
-    </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-column">
+          <h3>Company</h3>
+          <a href="/about">About</a>
+          <a href="/services">Services</a>
+          <a href="/careers">Careers</a>
+        </div>
+        <div class="footer-column">
+          <h3>Support</h3>
+          <a href="/contact">Contact</a>
+          <a href="/learning">Learning</a>
+          <a href="/sitemap.xml">Sitemap</a>
+        </div>
+        <div class="footer-column">
+          <h3>Legal</h3>
+          <a href="/legal/terms.html">T&C</a>
+          <a href="/legal/cookies.html">Cookies Consent</a>
+          <a href="/legal/privacy-gdpr.html">Privacy and GDPR</a>
+        </div>
+        <p class="footer-copy">© 2026 Gabriel Services</p>
+      </div>
+    </footer>
 
     <script>
       function createPairedRow(selectName, inputName, options, placeholder) {
@@ -150,8 +153,7 @@
       const addButtons = {
         addExp: { list: 'aExperienceList', fn: () => createPairedRow('experienceLevel[]', 'experienceDetail[]', ['Entry', 'Junior', 'Mid', 'Advanced', 'Expert'], 'Add experience detail') },
         addLang: { list: 'aLanguagesList', fn: () => createPairedRow('languageLevel[]', 'languageDetail[]', ['Beginner', 'Elementary', 'Intermediate', 'Advance', 'Advance Professional', 'Native'], 'Add language') },
-        addSkill: { list: 'aSkillsList', fn: () => createPairedRow('skillLevel[]', 'skillDetail[]', ['Entry', 'Junior', 'Mid', 'Advanced', 'Expert'], 'Add skill detail') },
-        addEdu: { list: 'aEducationList', fn: () => createPairedRow('educationLevel[]', 'educationDetail[]', ['Grammar School', 'High School', 'Some High School', 'Some College', 'Associate Degree', 'Bachelor', 'Masters', 'PhD'], 'Add education detail') }
+        addSkill: { list: 'aSkillsList', fn: () => createPairedRow('skillLevel[]', 'skillDetail[]', ['Entry', 'Junior', 'Mid', 'Advanced', 'Expert'], 'Add skill detail') }
       };
 
       Object.keys(addButtons).forEach((id) => {
@@ -184,5 +186,8 @@
         }
       });
     </script>
+    <script type="module" src="../page-style-switcher.js"></script>
+    <script src="../site.config.js"></script>
+    <script data-cfasync="false" type="module" crossorigin="anonymous" src="../main.js"></script>
   </body>
 </html>
