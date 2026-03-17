@@ -17,10 +17,47 @@ function initNavToggle() {
   const primaryNav = document.getElementById('primaryNav');
   if (!navToggle || !primaryNav) return;
 
+  const desktopQuery = window.matchMedia('(min-width: 901px)');
+
+  const closeNav = () => {
+    navToggle.setAttribute('aria-expanded', 'false');
+    primaryNav.classList.remove('open');
+    document.body.classList.remove('nav-open');
+  };
+
+  const openNav = () => {
+    navToggle.setAttribute('aria-expanded', 'true');
+    primaryNav.classList.add('open');
+    document.body.classList.add('nav-open');
+  };
+
   navToggle.addEventListener('click', () => {
     const expanded = navToggle.getAttribute('aria-expanded') === 'true';
-    navToggle.setAttribute('aria-expanded', String(!expanded));
-    primaryNav.classList.toggle('is-open', !expanded);
+    if (expanded) {
+      closeNav();
+      return;
+    }
+    openNav();
+  });
+
+  primaryNav.addEventListener('click', (event) => {
+    if (event.target instanceof Element && event.target.closest('a')) {
+      closeNav();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeNav();
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return;
+    const isInsideNav = event.target.closest('#primaryNav') || event.target.closest('#navToggle');
+    if (!isInsideNav) closeNav();
+  });
+
+  desktopQuery.addEventListener('change', (event) => {
+    if (event.matches) closeNav();
   });
 }
 
