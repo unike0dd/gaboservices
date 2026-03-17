@@ -30,6 +30,7 @@ const languageSwitcher = window.GaboLanguageSwitcher?.initLanguageSwitcher({
   onChange: (nextLang) => {
     if (nextLang === lang) return;
     lang = nextLang;
+    syncBrowserUrlWithLanguage();
     if (!appReady) return;
     renderCards();
     translatePage();
@@ -388,16 +389,22 @@ function buildLocalizedPath(basePath, targetLang = lang) {
     normalizedPath = `${normalizedPath}/`;
   }
 
+  sourceUrl.pathname = normalizedPath;
   if (normalizedTarget === 'es') {
-    sourceUrl.pathname = normalizedPath === '/'
-      ? '/es/'
-      : `/es${normalizedPath.startsWith('/') ? normalizedPath : `/${normalizedPath}`}`;
+    sourceUrl.searchParams.set('lang', 'es');
   } else {
-    sourceUrl.pathname = normalizedPath;
+    sourceUrl.searchParams.delete('lang');
   }
 
-  sourceUrl.searchParams.delete('lang');
   return `${sourceUrl.pathname}${sourceUrl.search}${sourceUrl.hash}`;
+}
+
+
+function syncBrowserUrlWithLanguage() {
+  const localizedCurrentPath = buildLocalizedPath(`${window.location.pathname}${window.location.search}${window.location.hash}`);
+  const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+  if (localizedCurrentPath === current) return;
+  window.history.replaceState({}, '', localizedCurrentPath);
 }
 
 
@@ -1245,6 +1252,7 @@ if (languageSwitcher) {
 } else {
   lang = ACTIVE_PATH_LOCALE || 'en';
 }
+syncBrowserUrlWithLanguage();
 
 appReady = true;
 initFabControls();

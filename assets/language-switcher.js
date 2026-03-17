@@ -8,6 +8,9 @@
   }
 
   function detectLang(defaultLang = 'en') {
+    const queryLang = new URLSearchParams(window.location.search).get('lang');
+    if (queryLang) return normalizeLang(queryLang);
+
     const pathMatch = window.location.pathname.match(/^\/es(?:\/|$)/i);
     if (pathMatch) return 'es';
 
