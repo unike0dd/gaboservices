@@ -65,18 +65,78 @@
         <h2>Tell us what you need</h2>
         <div class="form-panel">
           <p class="form-helper">Share your current workflows, priorities, and expected response needs so we can route your request accurately.</p>
-          <form id="contactForm" class="form-stack" novalidate>
-            <label for="name">Name</label><input id="name" name="name" required />
-            <label for="email">Email</label><input id="email" name="email" type="email" required />
-            <label for="contact_phone_number">Your Contact Number</label>
-            <div class="contact-number-row">
-              <input id="contact_country_code" type="text" name="contact_country_code" inputmode="tel" autocomplete="tel-country-code" aria-label="Country code" placeholder="Country code" />
-              <input id="contact_phone_number" type="tel" name="contact_phone_number" inputmode="tel" autocomplete="tel-national" aria-label="Phone number" placeholder="Phone number" />
-            </div>
-            <label for="time">Preferred Contact Time</label><input id="time" name="time" />
-            <label for="message">Message</label><textarea id="message" name="message" rows="4"></textarea>
-            <input class="hp-field" type="text" name="contact_reference" tabindex="-1" autocomplete="off" aria-hidden="true" />
-            <button class="btn primary" type="submit">Send</button>
+          <form id="contact-form" class="form-stack" novalidate>
+            <h3>Contact Form</h3>
+
+            <label for="full_name">Full Name</label>
+            <input id="full_name" type="text" name="full_name" />
+
+            <label for="email">Email Address</label>
+            <input id="email" type="email" name="email" />
+
+            <label for="country_code">Country Code</label>
+            <input id="country_code" type="text" name="country_code" placeholder="+593" />
+            <label for="contact_number">Contact Number</label>
+            <input id="contact_number" type="tel" name="contact_number" />
+
+            <label for="city">City</label>
+            <input id="city" type="text" name="city" />
+
+            <label for="state_province">State / Province</label>
+            <input id="state_province" type="text" name="state_province" />
+
+            <label for="zip_code">Country Zip Code</label>
+            <input id="zip_code" type="text" name="zip_code" />
+
+            <label for="best_time">Best Time to Contact You</label>
+            <input id="best_time" type="datetime-local" name="best_time" />
+
+            <fieldset>
+              <legend>Area of Interest</legend>
+              <label><input type="checkbox" name="interest[]" value="logistics" /> Logistics Operations</label>
+              <label><input type="checkbox" name="interest[]" value="admin" /> Administrative Back Office</label>
+              <label><input type="checkbox" name="interest[]" value="customer" /> Customer Relations</label>
+              <label><input type="checkbox" name="interest[]" value="it" /> IT Support</label>
+            </fieldset>
+
+            <h3>Inquiry about Remote Assistant with the following:</h3>
+
+            <label for="skills">Skills</label>
+            <input id="skills" type="text" name="skills" placeholder="Add skill" />
+
+            <fieldset>
+              <legend>Assistant Area of Interest</legend>
+              <label><input type="checkbox" name="assistant_interest[]" value="logistics" /> Logistics Operations</label>
+              <label><input type="checkbox" name="assistant_interest[]" value="admin" /> Administrative Back Office</label>
+              <label><input type="checkbox" name="assistant_interest[]" value="customer" /> Customer Relations</label>
+              <label><input type="checkbox" name="assistant_interest[]" value="it" /> IT Support</label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Experience Level</legend>
+              <label><input type="checkbox" name="exp[]" value="entry" /> Entry</label>
+              <label><input type="checkbox" name="exp[]" value="junior" /> Junior</label>
+              <label><input type="checkbox" name="exp[]" value="mid" /> Mid</label>
+              <label><input type="checkbox" name="exp[]" value="advanced" /> Advanced</label>
+              <label><input type="checkbox" name="exp[]" value="expert" /> Expert</label>
+            </fieldset>
+
+            <label for="languages">Languages</label>
+            <input id="languages" type="text" name="languages" placeholder="Add language" />
+
+            <fieldset>
+              <legend>Education</legend>
+              <label><input type="checkbox" name="edu[]" value="grammar" /> Grammar School</label>
+              <label><input type="checkbox" name="edu[]" value="high" /> High School</label>
+              <label><input type="checkbox" name="edu[]" value="some-high" /> Some High School</label>
+              <label><input type="checkbox" name="edu[]" value="some-college" /> Some College</label>
+              <label><input type="checkbox" name="edu[]" value="associate" /> Associate Degree</label>
+              <label><input type="checkbox" name="edu[]" value="bachelor" /> Bachelor</label>
+              <label><input type="checkbox" name="edu[]" value="masters" /> Masters</label>
+              <label><input type="checkbox" name="edu[]" value="doctorate" /> Doctorate</label>
+            </fieldset>
+
+            <button class="btn primary" type="submit">Request Information Inquire</button>
             <p id="formStatus" role="status" aria-live="polite"></p>
           </form>
         </div>
