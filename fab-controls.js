@@ -1,3 +1,5 @@
+import { EN_MESSAGES } from './locales/en/messages.js';
+
 function ensureQuickActionsFab() {
   let wrapper = document.getElementById('quickActionsFab');
   if (wrapper) return wrapper;
@@ -9,18 +11,18 @@ function ensureQuickActionsFab() {
     <div id="fabQuickMenu" class="fab-menu" hidden>
       <a class="fab-item" href="/careers" data-fab-link="careers">
         <span class="fab-item-icon" aria-hidden="true">💼</span>
-        <span>Careers</span>
+        <span>${EN_MESSAGES.fab.careers}</span>
       </a>
       <a class="fab-item" href="/contact" data-fab-link="contact">
         <span class="fab-item-icon" aria-hidden="true">☎️</span>
-        <span>Contact</span>
+        <span>${EN_MESSAGES.fab.contact}</span>
       </a>
       <button class="fab-item" type="button" data-chat-trigger>
         <span class="fab-item-icon" aria-hidden="true">🤖</span>
-        <span>Chatbot</span>
+        <span>${EN_MESSAGES.fab.chatbot}</span>
       </button>
     </div>
-    <button id="fabMainToggle" class="fab-main fab-hamburger" type="button" aria-expanded="false" aria-haspopup="menu" aria-controls="fabQuickMenu" aria-label="Open quick actions">☰</button>
+    <button id="fabMainToggle" class="fab-main fab-hamburger" type="button" aria-expanded="false" aria-haspopup="menu" aria-controls="fabQuickMenu" aria-label="${EN_MESSAGES.fab.openQuickActions}">☰</button>
   `;
 
   document.body.appendChild(wrapper);

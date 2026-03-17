@@ -15,6 +15,7 @@
 
     <section class="form-panel">
       <h2>Career / Job Application Form</h2>
+<<<<<<< codex/update-forms-to-include-availability-fields
       <form id="application-form" class="form-stack" novalidate>
         <label for="career_full_name">Full Name</label>
         <input id="career_full_name" type="text" name="full_name" />
@@ -94,6 +95,13 @@
         <label for="resume_link">Resume or Profile Link</label>
         <input id="resume_link" type="url" name="resume_link" />
 
+=======
+      <form id="careerForm" class="form-stack" novalidate>
+        <label for="career_name">Full Name</label><input id="career_name" name="career_name" required />
+        <label for="career_email">Email</label><input id="career_email" name="career_email" type="email" required />
+        <label for="career_availability_date">Availability Date</label><input id="career_availability_date" name="career_availability_date" type="date" required />
+        <label for="career_availability_time">Availability Time</label><input id="career_availability_time" name="career_availability_time" type="time" step="60" required />
+>>>>>>> main
         <button class="btn primary" type="submit">Submit Application</button>
       </form>
     </section>

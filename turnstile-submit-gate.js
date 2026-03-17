@@ -1,3 +1,5 @@
+import { EN_MESSAGES } from './locales/en/messages.js';
+
 const TURNSTILE_SITE_KEY = '0x4AAAAAACmn2SujEOLKGdSU';
 const TURNSTILE_SELECTOR = '#contactForm, #joinForm';
 const TURNSTILE_RESPONSE_FIELD = 'cf-turnstile-response';
@@ -32,14 +34,14 @@ function ensureResponseField(form) {
 
 function mountTurnstileForForm(form) {
   if (!window.turnstile) {
-    setStatus(form, 'Human verification is unavailable. Please refresh and try again.');
+    setStatus(form, EN_MESSAGES.turnstile.unavailable);
     return;
   }
 
   const anchor = getSubmitAnchor(form);
   const mount = document.createElement('div');
   mount.className = 'turnstile-inline-mount';
-  mount.setAttribute('aria-label', 'Cloudflare security check');
+  mount.setAttribute('aria-label', EN_MESSAGES.turnstile.securityCheckAriaLabel);
 
   anchor.parentNode.insertBefore(mount, anchor);
 
@@ -53,20 +55,20 @@ function mountTurnstileForForm(form) {
       tokenField.value = verificationState.token;
       form.dataset.turnstileVerified = verificationState.token ? 'true' : 'false';
       if (verificationState.token) {
-        setStatus(form, 'Human verification complete.', 'ok');
+        setStatus(form, EN_MESSAGES.turnstile.complete, 'ok');
       }
     },
     'expired-callback': () => {
       verificationState.token = '';
       tokenField.value = '';
       form.dataset.turnstileVerified = 'false';
-      setStatus(form, 'Verification expired. Please complete the challenge again.');
+      setStatus(form, EN_MESSAGES.turnstile.expired);
     },
     'error-callback': () => {
       verificationState.token = '';
       tokenField.value = '';
       form.dataset.turnstileVerified = 'false';
-      setStatus(form, 'Verification failed. Please retry the challenge.');
+      setStatus(form, EN_MESSAGES.turnstile.failed);
     }
   });
 
@@ -84,7 +86,7 @@ function mountTurnstileForForm(form) {
 
     event.preventDefault();
     event.stopPropagation();
-    setStatus(form, 'Please complete the human verification challenge before submitting.');
+    setStatus(form, EN_MESSAGES.turnstile.required);
   }, true);
 }
 
