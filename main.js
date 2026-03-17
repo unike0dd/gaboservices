@@ -4,14 +4,23 @@ import { initFabControls } from './fab-controls.js';
 import { EN_MESSAGES } from './locales/en/messages.js';
 
 const metadata = window.SITE_METADATA || {};
-if (metadata.name) document.title = metadata.name;
+const activeLocale = 'en';
+
+const getLocalizedValue = (value) => {
+  if (value && typeof value === 'object' && value[activeLocale]) return value[activeLocale];
+  return typeof value === 'string' ? value : '';
+};
+
+const localizedName = getLocalizedValue(metadata.name);
+if (localizedName) document.title = localizedName;
 
 const metaDescription = document.querySelector('meta[name="description"]');
-if (metaDescription && metadata.description) {
-  metaDescription.setAttribute('content', metadata.description);
+const localizedDescription = getLocalizedValue(metadata.description);
+if (metaDescription && localizedDescription) {
+  metaDescription.setAttribute('content', localizedDescription);
 }
 
-document.documentElement.lang = 'en';
+document.documentElement.lang = activeLocale;
 
 function initNavToggle() {
   const navToggle = document.getElementById('navToggle');
