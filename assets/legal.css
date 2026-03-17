@@ -58,25 +58,6 @@ a:hover { text-decoration: underline; }
   gap: 10px;
   flex-wrap: wrap;
 }
-.legal-lang {
-  display: inline-flex;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  overflow: hidden;
-}
-.legal-lang a,
-.legal-lang button {
-  border: 0;
-  background: transparent;
-  color: var(--fg);
-  padding: 7px 10px;
-  cursor: pointer;
-  font-weight: 600;
-}
-.legal-lang a.is-active,
-.legal-lang button.is-active {
-  background: color-mix(in oklab, var(--bg) 70%, #ffffff);
-}
 .legal-nav a {
   padding: 8px 10px;
   border: 1px solid transparent;
