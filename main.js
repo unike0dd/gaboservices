@@ -17,10 +17,68 @@ function initNavToggle() {
   const primaryNav = document.getElementById('primaryNav');
   if (!navToggle || !primaryNav) return;
 
+  const desktopQuery = window.matchMedia('(min-width: 901px)');
+  const navBackdrop = document.createElement('button');
+  navBackdrop.type = 'button';
+  navBackdrop.className = 'nav-backdrop';
+  navBackdrop.setAttribute('aria-label', 'Close navigation menu');
+  navBackdrop.hidden = true;
+  document.body.appendChild(navBackdrop);
+
+  const navCloseBtn = document.createElement('button');
+  navCloseBtn.type = 'button';
+  navCloseBtn.className = 'nav-close-floating';
+  navCloseBtn.setAttribute('aria-label', 'Close navigation menu');
+  navCloseBtn.textContent = '✕';
+  navCloseBtn.hidden = true;
+  document.body.appendChild(navCloseBtn);
+
+  const closeNav = () => {
+    navToggle.setAttribute('aria-expanded', 'false');
+    primaryNav.classList.remove('open');
+    document.body.classList.remove('nav-open');
+    navBackdrop.hidden = true;
+    navCloseBtn.hidden = true;
+  };
+
+  const openNav = () => {
+    navToggle.setAttribute('aria-expanded', 'true');
+    primaryNav.classList.add('open');
+    document.body.classList.add('nav-open');
+    navBackdrop.hidden = false;
+    navCloseBtn.hidden = false;
+  };
+
   navToggle.addEventListener('click', () => {
     const expanded = navToggle.getAttribute('aria-expanded') === 'true';
-    navToggle.setAttribute('aria-expanded', String(!expanded));
-    primaryNav.classList.toggle('is-open', !expanded);
+    if (expanded) {
+      closeNav();
+      return;
+    }
+    openNav();
+  });
+
+  navCloseBtn.addEventListener('click', closeNav);
+  navBackdrop.addEventListener('click', closeNav);
+
+  primaryNav.addEventListener('click', (event) => {
+    if (event.target instanceof Element && event.target.closest('a')) {
+      closeNav();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeNav();
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return;
+    const isInsideNav = event.target.closest('#primaryNav') || event.target.closest('#navToggle');
+    if (!isInsideNav && !navBackdrop.hidden) closeNav();
+  });
+
+  desktopQuery.addEventListener('change', (event) => {
+    if (event.matches) closeNav();
   });
 }
 

@@ -130,6 +130,16 @@ main li + li {
   text-decoration: underline;
   text-underline-offset: 0.18rem;
 }
+
+
+.nav-backdrop {
+  display: none;
+}
+
+
+.nav-close-floating {
+  display: none;
+}
 .nav-chat-trigger {
   border: 0;
   background: transparent;
@@ -1534,6 +1544,15 @@ textarea[data-security-state='review'] {
     display: none;
   }
 
+  .nav-backdrop {
+    display: none !important;
+  }
+
+
+  .nav-close-floating {
+    display: none !important;
+  }
+
   .nav-links {
     display: flex;
     position: static;
@@ -1593,29 +1612,70 @@ textarea[data-security-state='review'] {
     z-index: 230;
   }
 
+  .nav-backdrop {
+    position: fixed;
+    inset: 0;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background: rgba(2, 6, 23, 0.5);
+    z-index: 3000;
+    display: block;
+  }
+
+  .nav-backdrop[hidden] {
+    display: none;
+  }
+
+
+  .nav-close-floating {
+    display: inline-flex !important;
+    align-items: center;
+    position: fixed;
+    top: 0.9rem;
+    right: 0.9rem;
+    z-index: 4100;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--bg) 90%, white 10%);
+    color: var(--text);
+    font: inherit;
+    font-weight: 600;
+    min-height: 44px;
+    padding: 0.5rem 0.85rem;
+    cursor: pointer;
+  }
+
+  .nav-close-floating[hidden] {
+    display: none;
+  }
+
   .nav-links {
     display: flex;
     position: fixed;
     top: 0;
     right: 0;
     flex-direction: column;
-    gap: 1rem;
-    width: min(82vw, 320px);
+    align-items: stretch;
+    gap: 0.35rem;
+    width: min(86vw, 340px);
+    max-width: 100%;
     height: 100dvh;
     margin: 0;
-    padding: 5.25rem 1.1rem 1.25rem;
+    padding: 5.3rem 1rem 1.4rem;
     border-radius: 0;
     border-left: 1px solid var(--border);
     border-top: 0;
     border-right: 0;
     border-bottom: 0;
+    background: color-mix(in oklab, var(--bg) 92%, white 8%);
     box-shadow: -12px 0 34px rgba(15, 23, 42, 0.28);
     transform: translateX(106%);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     transition: transform .3s ease, opacity .2s ease;
-    z-index: 3500;
+    z-index: 4000;
     overflow-y: auto;
     overscroll-behavior: contain;
   }
@@ -1627,10 +1687,21 @@ textarea[data-security-state='review'] {
     pointer-events: auto;
   }
 
-  .nav-toggle[aria-expanded='true'] {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+  .nav-links a {
+    width: 100%;
+    padding: 0.62rem 0.72rem;
+    border-radius: 0.6rem;
+  }
+
+  .nav-links a:hover,
+  .nav-links a:focus-visible {
+    background: color-mix(in oklab, var(--primary) 15%, transparent);
+    outline: none;
+  }
+
+  body.nav-open {
+    overflow: hidden;
+    touch-action: none;
   }
 }
 
