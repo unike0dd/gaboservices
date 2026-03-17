@@ -77,7 +77,9 @@
         padding: 10px 12px;
       }
       .checkbox-item input { width: 18px; height: 18px; accent-color: var(--accent); }
-      .repeat-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; }
+      .repeat-row { display: grid; gap: 12px; }
+      .repeat-row.simple { grid-template-columns: 1fr auto; }
+      .repeat-row.paired { grid-template-columns: 220px 1fr auto; }
       .repeat-list { display: grid; gap: 12px; margin-top: 8px; }
       .btn-small, .btn-submit {
         font-weight: 600;
@@ -94,7 +96,7 @@
       }
       @media (max-width: 640px) {
         body { padding: 12px 10px 40px; }
-        .phone-split, .repeat-row { grid-template-columns: 1fr; }
+        .phone-split, .repeat-row.simple, .repeat-row.paired { grid-template-columns: 1fr; }
         .btn-submit { width: 100%; }
       }
     </style>
@@ -145,12 +147,20 @@
               <div class="field full">
                 <label>Skills</label>
                 <div class="repeat-list" id="cSkillsList">
-                  <div class="repeat-row">
-                    <input type="text" name="skills[]" placeholder="e.g. Excel, CRM, QuickBooks" />
+                  <div class="repeat-row paired">
+                    <select name="skillLevel[]">
+                      <option value="">Select level</option>
+                      <option>Entry</option>
+                      <option>Junior</option>
+                      <option>Mid</option>
+                      <option>Advanced</option>
+                      <option>Expert</option>
+                    </select>
+                    <input type="text" name="skillDetail[]" placeholder="e.g. Excel, CRM, QuickBooks" />
                     <button type="button" class="btn-small remove" data-remove>- Remove</button>
                   </div>
                 </div>
-                <button type="button" class="btn-small" data-add-simple="cSkillsList" data-name="skills[]" data-ph="e.g. Excel, CRM">Add +</button>
+                <button type="button" class="btn-small" id="addContactSkill">Add +</button>
               </div>
               <div class="field full">
                 <label>Area of Interest</label>
@@ -170,12 +180,43 @@
               <div class="field full">
                 <label>Languages</label>
                 <div class="repeat-list" id="cLanguagesList">
-                  <div class="repeat-row">
-                    <input type="text" name="languages[]" placeholder="e.g. Spanish – Native, English – Advanced" />
+                  <div class="repeat-row paired">
+                    <select name="languageLevel[]">
+                      <option value="">Select level</option>
+                      <option>Beginner</option>
+                      <option>Elementary</option>
+                      <option>Intermediate</option>
+                      <option>Advance</option>
+                      <option>Advance Professional</option>
+                      <option>Native</option>
+                    </select>
+                    <input type="text" name="languageDetail[]" placeholder="e.g. Spanish" />
                     <button type="button" class="btn-small remove" data-remove>- Remove</button>
                   </div>
                 </div>
-                <button type="button" class="btn-small" data-add-simple="cLanguagesList" data-name="languages[]" data-ph="e.g. Spanish – Native">Add +</button>
+                <button type="button" class="btn-small" id="addContactLanguage">Add +</button>
+              </div>
+
+              <div class="field full">
+                <label>Education</label>
+                <div class="repeat-list" id="cEducationList">
+                  <div class="repeat-row paired">
+                    <select name="educationLevel[]">
+                      <option value="">Select level</option>
+                      <option>Grammar School</option>
+                      <option>High School</option>
+                      <option>Some High School</option>
+                      <option>Some College</option>
+                      <option>associate degree</option>
+                      <option>Bachelor</option>
+                      <option>Masters</option>
+                      <option>PhD</option>
+                    </select>
+                    <input type="text" name="educationDetail[]" placeholder="e.g. Business Administration" />
+                    <button type="button" class="btn-small remove" data-remove>- Remove</button>
+                  </div>
+                </div>
+                <button type="button" class="btn-small" id="addContactEducation">Add +</button>
               </div>
             </div>
             <div class="form-footer">
@@ -187,6 +228,38 @@
     </div>
 
     <script>
+      function createPairedRow(selectName, inputName, options, placeholder) {
+        const row = document.createElement('div');
+        row.className = 'repeat-row paired';
+        row.innerHTML = `<select name="${selectName}"><option value="">Select level</option>${options.map((o) => `<option>${o}</option>`).join('')}</select><input type="text" name="${inputName}" placeholder="${placeholder}" /><button type="button" class="btn-small remove" data-remove>- Remove</button>`;
+        return row;
+      }
+
+      const contactAddButtons = {
+        addContactSkill: {
+          list: 'cSkillsList',
+          fn: () => createPairedRow('skillLevel[]', 'skillDetail[]', ['Entry', 'Junior', 'Mid', 'Advanced', 'Expert'], 'Add skill detail')
+        },
+        addContactLanguage: {
+          list: 'cLanguagesList',
+          fn: () => createPairedRow('languageLevel[]', 'languageDetail[]', ['Beginner', 'Elementary', 'Intermediate', 'Advance', 'Advance Professional', 'Native'], 'Add language')
+        },
+        addContactEducation: {
+          list: 'cEducationList',
+          fn: () => createPairedRow('educationLevel[]', 'educationDetail[]', ['Grammar School', 'High School', 'Some High School', 'Some College', 'associate degree', 'Bachelor', 'Masters', 'PhD'], 'Add education detail')
+        }
+      };
+
+      Object.keys(contactAddButtons).forEach((id) => {
+        const btn = document.getElementById(id);
+        if (btn) {
+          btn.addEventListener('click', () => {
+            const { list, fn } = contactAddButtons[id];
+            document.getElementById(list).appendChild(fn());
+          });
+        }
+      });
+
       document.addEventListener('click', (e) => {
         const t = e.target;
         if (t.matches('[data-remove], .remove')) {
@@ -196,17 +269,11 @@
           if (list.children.length > 1) {
             row.remove();
           } else {
-            row.querySelectorAll('input').forEach((el) => (el.value = ''));
+            row.querySelectorAll('input, select').forEach((el) => {
+              if (el.tagName === 'SELECT') el.selectedIndex = 0;
+              else el.value = '';
+            });
           }
-          return;
-        }
-        if (t.hasAttribute('data-add-simple')) {
-          const list = document.getElementById(t.getAttribute('data-add-simple'));
-          if (!list) return;
-          const row = document.createElement('div');
-          row.className = 'repeat-row';
-          row.innerHTML = `<input type="text" name="${t.getAttribute('data-name')}" placeholder="${t.getAttribute('data-ph') || 'Add item'}" /><button type="button" class="btn-small remove" data-remove>- Remove</button>`;
-          list.appendChild(row);
         }
       });
     </script>
