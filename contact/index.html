@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-    <head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-p06ISXZEElf+iq9kovJtTfupUXTLY54Eb03Gx5f4QkE=' 'sha256-3RErd+LDAVQIOd9ZIcoApiBt6JODoBwDW3+8PbIqsd8=' 'sha256-LRCQfUySbHR4qyW456EyKIkkxMGD6tFXXFXNmuNBDoI=' 'sha256-vl4KqKHcEdbuLHpAScXN70ooQD6yrj9qQjAC724zzCg=' https://static.cloudflareinsights.com; script-src-elem 'self' 'sha256-p06ISXZEElf+iq9kovJtTfupUXTLY54Eb03Gx5f4QkE=' 'sha256-3RErd+LDAVQIOd9ZIcoApiBt6JODoBwDW3+8PbIqsd8=' 'sha256-LRCQfUySbHR4qyW456EyKIkkxMGD6tFXXFXNmuNBDoI=' 'sha256-vl4KqKHcEdbuLHpAScXN70ooQD6yrj9qQjAC724zzCg=' https://static.cloudflareinsights.com; style-src 'self'; img-src 'self' data: https:; connect-src 'self' https://con-artist.rulathemtodos.workers.dev https://static.cloudflareinsights.com; frame-src https://con-artist.rulathemtodos.workers.dev; object-src 'none'; base-uri 'self'; upgrade-insecure-requests" />
@@ -123,72 +123,141 @@
             <label for="languages">Languages</label>
             <input id="languages" type="text" name="languages" placeholder="Add language" />
 
-            <fieldset>
-              <legend>Education</legend>
-              <label><input type="checkbox" name="edu[]" value="grammar" /> Grammar School</label>
-              <label><input type="checkbox" name="edu[]" value="high" /> High School</label>
-              <label><input type="checkbox" name="edu[]" value="some-high" /> Some High School</label>
-              <label><input type="checkbox" name="edu[]" value="some-college" /> Some College</label>
-              <label><input type="checkbox" name="edu[]" value="associate" /> Associate Degree</label>
-              <label><input type="checkbox" name="edu[]" value="bachelor" /> Bachelor</label>
-              <label><input type="checkbox" name="edu[]" value="masters" /> Masters</label>
-              <label><input type="checkbox" name="edu[]" value="doctorate" /> Doctorate</label>
-            </fieldset>
+          <div class="section">
+            <h2>Inquiry about Remote Assistant</h2>
+            <div class="form-grid">
+              <div class="field full">
+                <label>Skills</label>
+                <div class="repeat-list" id="cSkillsList">
+                  <div class="repeat-row paired">
+                    <select name="skillLevel[]">
+                      <option value="">Select level</option>
+                      <option>Entry</option>
+                      <option>Junior</option>
+                      <option>Mid</option>
+                      <option>Advanced</option>
+                      <option>Expert</option>
+                    </select>
+                    <input type="text" name="skillDetail[]" placeholder="e.g. Excel, CRM, QuickBooks" />
+                    <button type="button" class="btn-small remove" data-remove>- Remove</button>
+                  </div>
+                </div>
+                <button type="button" class="btn-small" id="addContactSkill">Add +</button>
+              </div>
+              <div class="field full">
+                <label>Area of Interest</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-item"><input type="checkbox" name="inquiryArea[]" value="Logistics Operations" /> Logistics Operations</label>
+                  <label class="checkbox-item"><input type="checkbox" name="inquiryArea[]" value="Administrative Back Office" /> Administrative Back Office</label>
+                  <label class="checkbox-item"><input type="checkbox" name="inquiryArea[]" value="Customer Relations" /> Customer Relations</label>
+                  <label class="checkbox-item"><input type="checkbox" name="inquiryArea[]" value="IT Support" /> IT Support</label>
+                </div>
+              </div>
+              <div class="field">
+                <label for="cExpLevel">Experience Level</label>
+                <select id="cExpLevel" name="experienceLevel">
+                  <option value="">Select level</option><option>Entry</option><option>Junior</option><option>Mid</option><option>Advanced</option><option>Expert</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label>Languages</label>
+                <div class="repeat-list" id="cLanguagesList">
+                  <div class="repeat-row paired">
+                    <select name="languageLevel[]">
+                      <option value="">Select level</option>
+                      <option>Beginner</option>
+                      <option>Elementary</option>
+                      <option>Intermediate</option>
+                      <option>Advance</option>
+                      <option>Advance Professional</option>
+                      <option>Native</option>
+                    </select>
+                    <input type="text" name="languageDetail[]" placeholder="e.g. Spanish" />
+                    <button type="button" class="btn-small remove" data-remove>- Remove</button>
+                  </div>
+                </div>
+                <button type="button" class="btn-small" id="addContactLanguage">Add +</button>
+              </div>
 
-            <button class="btn primary" type="submit">Request Information Inquire</button>
-          <form id="contactForm" class="form-stack" novalidate>
-            <label for="name">Name</label><input id="name" name="name" required />
-            <label for="email">Email</label><input id="email" name="email" type="email" required />
-            <label for="contact_phone_number">Your Contact Number</label>
-            <div class="contact-number-row">
-              <input id="contact_country_code" type="text" name="contact_country_code" inputmode="tel" autocomplete="tel-country-code" aria-label="Country code" placeholder="Country code" />
-              <input id="contact_phone_number" type="tel" name="contact_phone_number" inputmode="tel" autocomplete="tel-national" aria-label="Phone number" placeholder="Phone number" />
+              <div class="field full">
+                <label>Education</label>
+                <div class="repeat-list" id="cEducationList">
+                  <div class="repeat-row paired">
+                    <select name="educationLevel[]">
+                      <option value="">Select level</option>
+                      <option>Grammar School</option>
+                      <option>High School</option>
+                      <option>Some High School</option>
+                      <option>Some College</option>
+                      <option>associate degree</option>
+                      <option>Bachelor</option>
+                      <option>Masters</option>
+                      <option>PhD</option>
+                    </select>
+                    <input type="text" name="educationDetail[]" placeholder="e.g. Business Administration" />
+                    <button type="button" class="btn-small remove" data-remove>- Remove</button>
+                  </div>
+                </div>
+                <button type="button" class="btn-small" id="addContactEducation">Add +</button>
+              </div>
             </div>
-            <label for="availability_date">Availability Date</label><input id="availability_date" name="availability_date" type="date" required />
-            <label for="availability_time">Availability Time</label><input id="availability_time" name="availability_time" type="time" step="60" required />
-            <label for="message">Message</label><textarea id="message" name="message" rows="4"></textarea>
-            <input class="hp-field" type="text" name="contact_reference" tabindex="-1" autocomplete="off" aria-hidden="true" />
-            <button class="btn primary" type="submit">Send</button>
-            <p id="formStatus" role="status" aria-live="polite"></p>
-          </form>
-        </div>
+            <div class="form-footer">
+              <button class="btn-submit" type="submit">Request Information / Inquire</button>
+            </div>
+          </div>
+        </form>
       </section>
+    </div>
 
-      <section class="section-block wide-reading">
-        <h2>What happens next</h2>
-        <p>Our team reviews submissions, confirms scope details when needed, and follows up with recommended next steps and expected onboarding flow.</p>
-      </section>
-    </main>
+    <script>
+      function createPairedRow(selectName, inputName, options, placeholder) {
+        const row = document.createElement('div');
+        row.className = 'repeat-row paired';
+        row.innerHTML = `<select name="${selectName}"><option value="">Select level</option>${options.map((o) => `<option>${o}</option>`).join('')}</select><input type="text" name="${inputName}" placeholder="${placeholder}" /><button type="button" class="btn-small remove" data-remove>- Remove</button>`;
+        return row;
+      }
 
-      
-    <footer class="site-footer">
-      <div class="container footer-grid">
-        <div class="footer-column">
-          <h3>Company</h3>
-          <a href="/about">About</a>
-          <a href="/services">Services</a>
-          <a href="/careers">Careers</a>
-        </div>
-        <div class="footer-column">
-          <h3>Support</h3>
-          <a href="/contact">Contact</a>
-          <a href="/learning">Learning</a>
-          <a href="/sitemap.xml">Sitemap</a>
-        </div>
-        <div class="footer-column">
-          <h3>Legal</h3>
-          <a href="/legal/terms.html">T&C</a>
-          <a href="/legal/cookies.html">Cookies Consent</a>
-          <a href="/legal/privacy-gdpr.html">Privacy and GDPR</a>
-        </div>
-        <p class="footer-copy">© 2026 Gabriel Services</p>
-      </div>
-    </footer>
+      const contactAddButtons = {
+        addContactSkill: {
+          list: 'cSkillsList',
+          fn: () => createPairedRow('skillLevel[]', 'skillDetail[]', ['Entry', 'Junior', 'Mid', 'Advanced', 'Expert'], 'Add skill detail')
+        },
+        addContactLanguage: {
+          list: 'cLanguagesList',
+          fn: () => createPairedRow('languageLevel[]', 'languageDetail[]', ['Beginner', 'Elementary', 'Intermediate', 'Advance', 'Advance Professional', 'Native'], 'Add language')
+        },
+        addContactEducation: {
+          list: 'cEducationList',
+          fn: () => createPairedRow('educationLevel[]', 'educationDetail[]', ['Grammar School', 'High School', 'Some High School', 'Some College', 'associate degree', 'Bachelor', 'Masters', 'PhD'], 'Add education detail')
+        }
+      };
 
-    <script type="module" src="../page-style-switcher.js"></script>
-    <script src="../site.config.js"></script>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
-    <script type="module" src="../turnstile-submit-gate.js"></script>
-        <script data-cfasync="false" type="module" crossorigin="anonymous" src="../main.js"></script>
+      Object.keys(contactAddButtons).forEach((id) => {
+        const btn = document.getElementById(id);
+        if (btn) {
+          btn.addEventListener('click', () => {
+            const { list, fn } = contactAddButtons[id];
+            document.getElementById(list).appendChild(fn());
+          });
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        const t = e.target;
+        if (t.matches('[data-remove], .remove')) {
+          const row = t.closest('.repeat-row');
+          if (!row) return;
+          const list = row.parentElement;
+          if (list.children.length > 1) {
+            row.remove();
+          } else {
+            row.querySelectorAll('input, select').forEach((el) => {
+              if (el.tagName === 'SELECT') el.selectedIndex = 0;
+              else el.value = '';
+            });
+          }
+        }
+      });
+    </script>
   </body>
 </html>

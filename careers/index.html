@@ -1,34 +1,66 @@
 <!doctype html>
 <html lang="en">
-    <head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="author" content="Gabriel Services" />
-    <meta name="keywords" content="SMB business services, logistics operations, IT support, administrative backoffice, customer relations" />
-    <meta name="theme-color" content="#0a1028" />
-    <title>Gabriel Services</title>
-    <meta
-      name="description"
-      content="Business services for logistics, IT, admin, and customer relations."
-    />
-    <link rel="canonical" href="https://www.gabo.services/" />
-    <link rel="alternate" hreflang="en" href="https://www.gabo.services/" />
-    <link rel="alternate" hreflang="x-default" href="https://www.gabo.services/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Gabriel Services" />
-    <meta property="og:title" content="Gabriel Services" />
-    <meta property="og:description" content="Business services for logistics, IT, admin, and customer relations." />
-    <meta property="og:url" content="https://www.gabo.services/" />
-    <meta property="og:image" content="https://www.gabo.services/assets/og-cover.svg" />
-    <meta property="og:locale" content="en_US" />
-        <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Gabriel Services" />
-    <meta name="twitter:description" content="Business services for logistics, IT, admin, and customer relations." />
-    <meta name="twitter:image" content="https://www.gabo.services/assets/og-cover.svg" />
-    <link rel="stylesheet" href="./styles.css" />
-    <link rel="stylesheet" href="./responsive.css" />
+    <title>Gabriel Services | Career Application</title>
+    <style>
+      :root {
+        --bg: #f8fafc;
+        --card: #ffffff;
+        --text: #0f172a;
+        --muted: #64748b;
+        --border: #e2e8f0;
+        --accent: #1e40af;
+        --accent-dark: #1e3a8a;
+        --danger: #dc2626;
+        --radius: 12px;
+        --radius-sm: 8px;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        padding: 20px 16px 56px;
+      }
+      .container { max-width: 1080px; margin: 0 auto; }
+      .form-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; }
+      h1 { margin: 0 0 8px; font-size: clamp(1.5rem, 4vw, 2.1rem); }
+      h2 { margin: 0 0 18px; font-size: clamp(1.1rem, 3vw, 1.32rem); }
+      .intro { margin: 0 0 24px; color: var(--muted); }
+      .section { padding-top: 28px; margin-top: 28px; border-top: 1px solid var(--border); }
+      .section:first-of-type { border-top: 0; margin-top: 0; padding-top: 0; }
+      .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; }
+      .field { display: flex; flex-direction: column; gap: 8px; }
+      .field.full { grid-column: 1 / -1; }
+      .phone-split { display: grid; grid-template-columns: 120px 1fr; gap: 12px; }
+      label { font-size: 0.95rem; font-weight: 600; }
+      .label-required::after { content: ' *'; color: var(--danger); font-weight: 400; }
+      input, select { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 1rem; }
+      .checkbox-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+      .checkbox-item { display: flex; align-items: center; gap: 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: #f8fafc; padding: 10px 12px; }
+      .checkbox-item input { width: 18px; height: 18px; accent-color: var(--accent); }
+      .repeat-list { display: grid; gap: 12px; margin: 8px 0; }
+      .repeat-row { display: grid; gap: 12px; }
+      .repeat-row.paired { grid-template-columns: 200px 1fr auto; }
+      .repeat-row.simple { grid-template-columns: 1fr auto; }
+      .btn-small, .btn-submit { font-weight: 600; cursor: pointer; border-radius: 999px; }
+      .btn-small { padding: 9px 16px; border: 1px solid var(--border); background: #f1f5f9; }
+      .btn-small.remove { color: var(--danger); }
+      .btn-submit { margin-top: 24px; padding: 14px 32px; border: 0; background: var(--accent); color: #fff; }
+      @media (max-width: 960px) {
+        .form-card { padding: 24px; }
+        .form-grid, .repeat-row.paired { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 640px) {
+        body { padding: 12px 10px 40px; }
+        .phone-split, .repeat-row.simple { grid-template-columns: 1fr; }
+        .btn-submit { width: 100%; }
+      }
+    </style>
   </head>
   <body data-page-key="home">
     <header class="site-header" id="siteHeader">
@@ -60,68 +92,97 @@
         <label for="career_country_code">Country Code</label><input id="career_country_code" type="text" name="country_code" placeholder="+593" />
         <label for="career_contact_number">Contact Number</label><input id="career_contact_number" type="tel" name="contact_number" />
 
-        <label for="career_city">City</label><input id="career_city" type="text" name="city" />
-        <label for="career_state_province">State or Province</label>
-        <input id="career_state_province" type="text" name="state_province" />
-        <label for="career_zip_code">Country Zip Code</label>
-        <input id="career_zip_code" type="text" name="zip_code" />
-        <fieldset>
-          <legend>Area of Interest</legend>
-          <label><input type="checkbox" name="interest[]" value="logistics" /> Logistics Operations</label>
-          <label><input type="checkbox" name="interest[]" value="admin" /> Administrative Back Office</label>
-          <label><input type="checkbox" name="interest[]" value="customer" /> Customer Relations</label>
-          <label><input type="checkbox" name="interest[]" value="it" /> IT Support</label>
-        </fieldset>
-        <label for="language_level">Language Level</label>
-        <select id="language_level" name="language_level">
-          <option>Beginner</option>
-          <option>Elementary</option>
-          <option>Intermediate</option>
-          <option>Advance</option>
-          <option>Advance Professional</option>
-          <option>Native</option>
-        </select>
-        <label for="career_languages">Languages</label>
-        <input id="career_languages" type="text" name="languages" placeholder="Add + Remove -" />
-        <label for="skill_level">Skill Level</label>
-        <select id="skill_level" name="skill_level">
-          <option>Select level</option>
-          <option>Entry</option>
-          <option>Junior</option>
-          <option>Mid</option>
-          <option>Advanced</option>
-          <option>Expert</option>
-        </select>
-        <label for="career_skills">Skills</label>
-        <input id="career_skills" type="text" name="skills" placeholder="Add + Remove -" />
-        <label for="projects">Projects</label>
-        <input id="projects" type="text" name="projects" placeholder="Add + Remove -" />
-        <label for="education">Education</label>
-        <select id="education" name="education">
-          <option>Grammar School</option>
-          <option>High School</option>
-          <option>Some High School</option>
-          <option>Some College</option>
-          <option>Associate Degree</option>
-          <option>Bachelor</option>
-          <option>Masters</option>
-          <option>PhD</option>
-        </select>
-        <label for="education_extra">Education Notes</label>
-        <input id="education_extra" type="text" name="education_extra" placeholder="Add + Remove -" />
-        <label for="availability">Availability</label>
-        <input id="availability" type="datetime-local" name="availability" />
-        <label for="resume_link">Resume or Profile Link</label>
-        <input id="resume_link" type="url" name="resume_link" />
-        <form id="careerForm" class="form-stack" novalidate>
-        <label for="career_name">Full Name</label><input id="career_name" name="career_name" required />
-        <label for="career_email">Email</label><input id="career_email" name="career_email" type="email" required />
-        <label for="career_availability_date">Availability Date</label><input id="career_availability_date" name="career_availability_date" type="date" required />
-        <label for="career_availability_time">Availability Time</label><input id="career_availability_time" name="career_availability_time" type="time" step="60" required />
-        <button class="btn primary" type="submit">Submit Application</button>
-      </form>
-    </section>
-  </main>
-  <script type="module" src="/main.js"></script>
-</body>
+          <div class="section">
+            <h2>Professional Qualifications</h2>
+            <div class="form-grid">
+              <div class="field full">
+                <label>Experience Level</label>
+                <div class="repeat-list" id="aExperienceList">
+                  <div class="repeat-row paired"><select name="experienceLevel[]"><option value="">Select level</option><option>Entry</option><option>Junior</option><option>Mid</option><option>Advanced</option><option>Expert</option></select><input type="text" name="experienceDetail[]" placeholder="e.g. Managed logistics team for 2 years" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
+                </div>
+                <button type="button" class="btn-small" id="addExp">Add +</button>
+              </div>
+              <div class="field full">
+                <label>Languages</label>
+                <div class="repeat-list" id="aLanguagesList">
+                  <div class="repeat-row paired"><select name="languageLevel[]"><option value="">Select level</option><option>Beginner</option><option>Elementary</option><option>Intermediate</option><option>Advance</option><option>Advance Professional</option><option>Native</option></select><input type="text" name="languageDetail[]" placeholder="e.g. Spanish" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
+                </div>
+                <button type="button" class="btn-small" id="addLang">Add +</button>
+              </div>
+              <div class="field full">
+                <label>Skills</label>
+                <div class="repeat-list" id="aSkillsList">
+                  <div class="repeat-row paired"><select name="skillLevel[]"><option value="">Select level</option><option>Entry</option><option>Junior</option><option>Mid</option><option>Advanced</option><option>Expert</option></select><input type="text" name="skillDetail[]" placeholder="e.g. Google Workspace" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
+                </div>
+                <button type="button" class="btn-small" id="addSkill">Add +</button>
+              </div>
+              <div class="field full">
+                <label>Projects</label>
+                <div class="repeat-list" id="aProjectsList">
+                  <div class="repeat-row simple"><input type="text" name="projects[]" placeholder="e.g. Implemented new CRM system" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
+                </div>
+                <button type="button" class="btn-small" data-add-simple="aProjectsList" data-name="projects[]" data-ph="Describe project">Add +</button>
+              </div>
+              <div class="field full">
+                <label>Education</label>
+                <div class="repeat-list" id="aEducationList">
+                  <div class="repeat-row paired"><select name="educationLevel[]"><option value="">Select level</option><option>Grammar School</option><option>High School</option><option>Some High School</option><option>Some College</option><option>Associate Degree</option><option>Bachelor</option><option>Masters</option><option>PhD</option></select><input type="text" name="educationDetail[]" placeholder="e.g. Business Administration" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
+                </div>
+                <button type="button" class="btn-small" id="addEdu">Add +</button>
+              </div>
+              <div class="field"><label for="aAvailability">Availability</label><input id="aAvailability" type="datetime-local" name="availability" /></div>
+              <div class="field full"><label for="aResume">Resume or Profile Link</label><input id="aResume" type="url" name="resumeLink" placeholder="LinkedIn / Google Drive / Dropbox link" /></div>
+            </div>
+            <button class="btn-submit" type="submit">Submit Application</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <script>
+      function createPairedRow(selectName, inputName, options, placeholder) {
+        const row = document.createElement('div');
+        row.className = 'repeat-row paired';
+        row.innerHTML = `<select name="${selectName}"><option value="">Select level</option>${options.map((o) => `<option>${o}</option>`).join('')}</select><input type="text" name="${inputName}" placeholder="${placeholder}" /><button type="button" class="btn-small remove" data-remove>- Remove</button>`;
+        return row;
+      }
+
+      const addButtons = {
+        addExp: { list: 'aExperienceList', fn: () => createPairedRow('experienceLevel[]', 'experienceDetail[]', ['Entry', 'Junior', 'Mid', 'Advanced', 'Expert'], 'Add experience detail') },
+        addLang: { list: 'aLanguagesList', fn: () => createPairedRow('languageLevel[]', 'languageDetail[]', ['Beginner', 'Elementary', 'Intermediate', 'Advance', 'Advance Professional', 'Native'], 'Add language') },
+        addSkill: { list: 'aSkillsList', fn: () => createPairedRow('skillLevel[]', 'skillDetail[]', ['Entry', 'Junior', 'Mid', 'Advanced', 'Expert'], 'Add skill detail') },
+        addEdu: { list: 'aEducationList', fn: () => createPairedRow('educationLevel[]', 'educationDetail[]', ['Grammar School', 'High School', 'Some High School', 'Some College', 'Associate Degree', 'Bachelor', 'Masters', 'PhD'], 'Add education detail') }
+      };
+
+      Object.keys(addButtons).forEach((id) => {
+        const btn = document.getElementById(id);
+        if (btn) {
+          btn.addEventListener('click', () => {
+            const { list, fn } = addButtons[id];
+            document.getElementById(list).appendChild(fn());
+          });
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        const t = e.target;
+        if (t.matches('[data-remove], .remove')) {
+          const row = t.closest('.repeat-row');
+          if (!row) return;
+          const list = row.parentElement;
+          if (list.children.length > 1) row.remove();
+          else row.querySelectorAll('input, select').forEach((el) => (el.tagName === 'SELECT' ? (el.selectedIndex = 0) : (el.value = '')));
+        }
+
+        if (t.hasAttribute('data-add-simple')) {
+          const list = document.getElementById(t.getAttribute('data-add-simple'));
+          if (!list) return;
+          const row = document.createElement('div');
+          row.className = 'repeat-row simple';
+          row.innerHTML = `<input type="text" name="${t.getAttribute('data-name')}" placeholder="${t.getAttribute('data-ph') || 'Add item'}" /><button type="button" class="btn-small remove" data-remove>- Remove</button>`;
+          list.appendChild(row);
+        }
+      });
+    </script>
+  </body>
 </html>
