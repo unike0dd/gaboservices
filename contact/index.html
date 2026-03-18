@@ -97,7 +97,7 @@
                     <h3 class="panel__title">Application Workspace</h3>
                     <p class="panel__subtitle">Switch modes without leaving the page.</p>
                   </div>
-                  <button type="button" id="summaryToggleBtn" class="mode-badge summary-toggle" aria-controls="summaryDrawer" aria-expanded="false">Summary</button>
+                  <span id="currentModeBadge" class="mode-badge">Contact / Inquiry</span>
                 </div>
 
                 <div id="contactModePanel" role="tabpanel" aria-labelledby="modeContactBtn">
@@ -316,15 +316,11 @@
               </div>
             </div>
 
-            <div id="summaryOverlay" class="summary-overlay hidden" aria-hidden="true"></div>
-
-            <aside id="summaryDrawer" class="summary hidden" aria-labelledby="summaryTitle" aria-hidden="true">
+            <aside class="summary">
               <section class="summary-card">
-                <div class="summary-head">
-                  <h3 id="summaryTitle">Summary</h3>
-                  <button type="button" id="summaryCloseBtn" class="summary-close" aria-label="Close summary">×</button>
-                </div>
+                <h3>Live Summary</h3>
                 <div class="summary-list">
+                  <div class="summary-row"><span class="summary-label">Mode</span><span id="summaryMode" class="summary-value">Contact / Inquiry</span></div>
                   <div class="summary-row"><span class="summary-label">Full Name</span><span id="summaryName" class="summary-value">Not provided yet</span></div>
                   <div class="summary-row"><span class="summary-label">Email</span><span id="summaryEmail" class="summary-value">Not provided yet</span></div>
                   <div class="summary-row"><span class="summary-label">Location</span><span id="summaryLocation" class="summary-value">Not provided yet</span></div>
@@ -334,6 +330,13 @@
                 </div>
               </section>
 
+              <section class="summary-card">
+                <h3>What this page improves</h3>
+                <p class="summary-note">One page instead of separate crowded sections.</p>
+                <p class="summary-note">Switch between inquiry and application without reloading.</p>
+                <p class="summary-note">Users can see a running summary while filling the form.</p>
+                <p class="summary-note">Dynamic list entries keep skills, languages, projects, and education structured.</p>
+              </section>
             </aside>
           </section>
         </div>
