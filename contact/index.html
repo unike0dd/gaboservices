@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-p06ISXZEElf+iq9kovJtTfupUXTLY54Eb03Gx5f4QkE=' 'sha256-3RErd+LDAVQIOd9ZIcoApiBt6JODoBwDW3+8PbIqsd8=' 'sha256-LRCQfUySbHR4qyW456EyKIkkxMGD6tFXXFXNmuNBDoI=' 'sha256-vl4KqKHcEdbuLHpAScXN70ooQD6yrj9qQjAC724zzCg=' https://static.cloudflareinsights.com; script-src-elem 'self' 'sha256-p06ISXZEElf+iq9kovJtTfupUXTLY54Eb03Gx5f4QkE=' 'sha256-3RErd+LDAVQIOd9ZIcoApiBt6JODoBwDW3+8PbIqsd8=' 'sha256-LRCQfUySbHR4qyW456EyKIkkxMGD6tFXXFXNmuNBDoI=' 'sha256-vl4KqKHcEdbuLHpAScXN70ooQD6yrj9qQjAC724zzCg=' https://static.cloudflareinsights.com; style-src 'self'; img-src 'self' data: https:; connect-src 'self' https://con-artist.rulathemtodos.workers.dev https://static.cloudflareinsights.com; frame-src https://con-artist.rulathemtodos.workers.dev; object-src 'none'; base-uri 'self'; upgrade-insecure-requests" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-e+vgFE2hBcvEf5TBXS5QW8umRYmBF1eNBqEdT3Js/sk=' https://static.cloudflareinsights.com; script-src-elem 'self' 'sha256-e+vgFE2hBcvEf5TBXS5QW8umRYmBF1eNBqEdT3Js/sk=' https://static.cloudflareinsights.com; style-src 'self'; img-src 'self' data: https:; connect-src 'self' https://con-artist.rulathemtodos.workers.dev https://static.cloudflareinsights.com; frame-src https://con-artist.rulathemtodos.workers.dev; object-src 'none'; base-uri 'self'; upgrade-insecure-requests" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="author" content="Gabriel Services" />
@@ -21,12 +21,27 @@
     <meta property="og:url" content="https://www.gabo.services/contact/" />
     <meta property="og:image" content="https://www.gabo.services/assets/og-cover.svg" />
     <meta property="og:locale" content="en_US" />
-        <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Gabriel Services" />
     <meta name="twitter:description" content="Business services for logistics, IT, admin, and customer relations." />
     <meta name="twitter:image" content="https://www.gabo.services/assets/og-cover.svg" />
     <link rel="stylesheet" href="../styles.css" />
     <link rel="stylesheet" href="../responsive.css" />
+    <style>
+      .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; }
+      .field { display: flex; flex-direction: column; gap: 8px; }
+      .field.full { grid-column: 1 / -1; }
+      .repeat-list { display: grid; gap: 12px; margin: 8px 0; }
+      .repeat-row { display: grid; gap: 12px; }
+      .repeat-row.paired { grid-template-columns: 200px 1fr auto; }
+      .repeat-row.simple { grid-template-columns: 1fr auto; }
+      .btn-small, .btn-submit { font-weight: 600; cursor: pointer; border-radius: 999px; }
+      .btn-small { padding: 9px 16px; border: 1px solid var(--outline); background: var(--surface); }
+      .btn-small.remove { color: #ef4444; }
+      .btn-submit { margin-top: 24px; padding: 14px 32px; border: 0; background: var(--brand); color: #fff; }
+      @media (max-width: 960px) { .form-grid, .repeat-row.paired { grid-template-columns: 1fr; } }
+      @media (max-width: 640px) { .repeat-row.simple, .btn-submit { width: 100%; grid-template-columns: 1fr; } }
+    </style>
   </head>
   <body data-page-key="contact">
     <header class="site-header">
@@ -49,6 +64,7 @@
         </nav>
       </div>
     </header>
+
     <main class="container editorial-page page-main">
       <section class="hero-editorial">
         <h1>Contact Gabriel Services</h1>
@@ -61,150 +77,49 @@
       </section>
 
       <section class="section-block">
-        <h2>Tell us what you need</h2>
-        <div class="form-panel">
-          <p class="form-helper">Share your current workflows, priorities, and expected response needs so we can route your request accurately.</p>
-          <form id="contact-form" class="form-stack" novalidate>
-            <h3>Contact Form</h3>
+        <h2>Career Application</h2>
+        <form id="careerForm" class="form-stack form-panel" novalidate>
+          <div class="form-grid">
+            <div class="field"><label for="career_name">Full Name</label><input id="career_name" name="career_name" required /></div>
+            <div class="field"><label for="career_email">Email</label><input id="career_email" name="career_email" type="email" required /></div>
+            <div class="field"><label for="career_country_code">Country Code</label><input id="career_country_code" type="text" name="country_code" placeholder="+593" /></div>
+            <div class="field"><label for="career_contact_number">Contact Number</label><input id="career_contact_number" type="tel" name="contact_number" /></div>
+            <div class="field"><label for="career_availability_date">Availability Date</label><input id="career_availability_date" name="career_availability_date" type="date" required /></div>
+            <div class="field"><label for="career_availability_time">Availability Time</label><input id="career_availability_time" name="career_availability_time" type="time" step="60" required /></div>
 
-            <label for="full_name">Full Name</label>
-            <input id="full_name" type="text" name="full_name" />
-
-            <label for="email">Email Address</label>
-            <input id="email" type="email" name="email" />
-
-            <label for="country_code">Country Code</label>
-            <input id="country_code" type="text" name="country_code" placeholder="+593" />
-            <label for="contact_number">Contact Number</label>
-            <input id="contact_number" type="tel" name="contact_number" />
-
-            <label for="city">City</label>
-            <input id="city" type="text" name="city" />
-
-            <label for="state_province">State / Province</label>
-            <input id="state_province" type="text" name="state_province" />
-
-            <label for="zip_code">Country Zip Code</label>
-            <input id="zip_code" type="text" name="zip_code" />
-
-            <label for="best_time">Best Time to Contact You</label>
-            <input id="best_time" type="datetime-local" name="best_time" />
-
-            <fieldset>
-              <legend>Area of Interest</legend>
-              <label><input type="checkbox" name="interest[]" value="logistics" /> Logistics Operations</label>
-              <label><input type="checkbox" name="interest[]" value="admin" /> Administrative Back Office</label>
-              <label><input type="checkbox" name="interest[]" value="customer" /> Customer Relations</label>
-              <label><input type="checkbox" name="interest[]" value="it" /> IT Support</label>
-            </fieldset>
-
-            <h3>Inquiry about Remote Assistant with the following:</h3>
-
-            <label for="skills">Skills</label>
-            <input id="skills" type="text" name="skills" placeholder="Add skill" />
-
-            <fieldset>
-              <legend>Assistant Area of Interest</legend>
-              <label><input type="checkbox" name="assistant_interest[]" value="logistics" /> Logistics Operations</label>
-              <label><input type="checkbox" name="assistant_interest[]" value="admin" /> Administrative Back Office</label>
-              <label><input type="checkbox" name="assistant_interest[]" value="customer" /> Customer Relations</label>
-              <label><input type="checkbox" name="assistant_interest[]" value="it" /> IT Support</label>
-            </fieldset>
-
-            <fieldset>
-              <legend>Experience Level</legend>
-              <label><input type="checkbox" name="exp[]" value="entry" /> Entry</label>
-              <label><input type="checkbox" name="exp[]" value="junior" /> Junior</label>
-              <label><input type="checkbox" name="exp[]" value="mid" /> Mid</label>
-              <label><input type="checkbox" name="exp[]" value="advanced" /> Advanced</label>
-              <label><input type="checkbox" name="exp[]" value="expert" /> Expert</label>
-            </fieldset>
-
-            <label for="languages">Languages</label>
-            <input id="languages" type="text" name="languages" placeholder="Add language" />
-
-          <div class="section">
-            <h2>Inquiry about Remote Assistant</h2>
-            <div class="form-grid">
-              <div class="field full">
-                <label>Skills</label>
-                <div class="repeat-list" id="cSkillsList">
-                  <div class="repeat-row paired">
-                    <select name="skillLevel[]">
-                      <option value="">Select level</option>
-                      <option>Entry</option>
-                      <option>Junior</option>
-                      <option>Mid</option>
-                      <option>Advanced</option>
-                      <option>Expert</option>
-                    </select>
-                    <input type="text" name="skillDetail[]" placeholder="e.g. Excel, CRM, QuickBooks" />
-                    <button type="button" class="btn-small remove" data-remove>- Remove</button>
-                  </div>
-                </div>
-                <button type="button" class="btn-small" id="addContactSkill">Add +</button>
+            <div class="field full">
+              <label>Experience Level</label>
+              <div class="repeat-list" id="aExperienceList">
+                <div class="repeat-row paired"><select name="experienceLevel[]"><option value="">Select level</option><option>Entry</option><option>Junior</option><option>Mid</option><option>Advanced</option><option>Expert</option></select><input type="text" name="experienceDetail[]" placeholder="Add experience detail" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
               </div>
-              <div class="field full">
-                <label>Area of Interest</label>
-                <div class="checkbox-group">
-                  <label class="checkbox-item"><input type="checkbox" name="inquiryArea[]" value="Logistics Operations" /> Logistics Operations</label>
-                  <label class="checkbox-item"><input type="checkbox" name="inquiryArea[]" value="Administrative Back Office" /> Administrative Back Office</label>
-                  <label class="checkbox-item"><input type="checkbox" name="inquiryArea[]" value="Customer Relations" /> Customer Relations</label>
-                  <label class="checkbox-item"><input type="checkbox" name="inquiryArea[]" value="IT Support" /> IT Support</label>
-                </div>
-              </div>
-              <div class="field">
-                <label for="cExpLevel">Experience Level</label>
-                <select id="cExpLevel" name="experienceLevel">
-                  <option value="">Select level</option><option>Entry</option><option>Junior</option><option>Mid</option><option>Advanced</option><option>Expert</option>
-                </select>
-              </div>
-              <div class="field full">
-                <label>Languages</label>
-                <div class="repeat-list" id="cLanguagesList">
-                  <div class="repeat-row paired">
-                    <select name="languageLevel[]">
-                      <option value="">Select level</option>
-                      <option>Beginner</option>
-                      <option>Elementary</option>
-                      <option>Intermediate</option>
-                      <option>Advance</option>
-                      <option>Advance Professional</option>
-                      <option>Native</option>
-                    </select>
-                    <input type="text" name="languageDetail[]" placeholder="e.g. Spanish" />
-                    <button type="button" class="btn-small remove" data-remove>- Remove</button>
-                  </div>
-                </div>
-                <button type="button" class="btn-small" id="addContactLanguage">Add +</button>
-              </div>
-
-              <div class="field full">
-                <label>Education</label>
-                <div class="repeat-list" id="cEducationList">
-                  <div class="repeat-row paired">
-                    <select name="educationLevel[]">
-                      <option value="">Select level</option>
-                      <option>Grammar School</option>
-                      <option>High School</option>
-                      <option>Some High School</option>
-                      <option>Some College</option>
-                      <option>associate degree</option>
-                      <option>Bachelor</option>
-                      <option>Masters</option>
-                      <option>PhD</option>
-                    </select>
-                    <input type="text" name="educationDetail[]" placeholder="e.g. Business Administration" />
-                    <button type="button" class="btn-small remove" data-remove>- Remove</button>
-                  </div>
-                </div>
-                <button type="button" class="btn-small" id="addContactEducation">Add +</button>
-              </div>
+              <button type="button" class="btn-small" id="addExp">Add +</button>
             </div>
-            <div class="form-footer">
-              <button class="btn-submit" type="submit">Request Information / Inquire</button>
+
+            <div class="field full">
+              <label>Languages</label>
+              <div class="repeat-list" id="aLanguagesList">
+                <div class="repeat-row paired"><select name="languageLevel[]"><option value="">Select level</option><option>Beginner</option><option>Elementary</option><option>Intermediate</option><option>Advance</option><option>Advance Professional</option><option>Native</option></select><input type="text" name="languageDetail[]" placeholder="Add language" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
+              </div>
+              <button type="button" class="btn-small" id="addLang">Add +</button>
+            </div>
+
+            <div class="field full">
+              <label>Skills</label>
+              <div class="repeat-list" id="aSkillsList">
+                <div class="repeat-row paired"><select name="skillLevel[]"><option value="">Select level</option><option>Entry</option><option>Junior</option><option>Mid</option><option>Advanced</option><option>Expert</option></select><input type="text" name="skillDetail[]" placeholder="Add skill detail" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
+              </div>
+              <button type="button" class="btn-small" id="addSkill">Add +</button>
+            </div>
+
+            <div class="field full">
+              <label>Projects</label>
+              <div class="repeat-list" id="aProjectsList">
+                <div class="repeat-row simple"><input type="text" name="projects[]" placeholder="Describe project" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
+              </div>
+              <button type="button" class="btn-small" data-add-simple="aProjectsList" data-name="projects[]" data-ph="Describe project">Add +</button>
             </div>
           </div>
+          <button class="btn-submit" type="submit">Submit Application</button>
         </form>
       </section>
     </main>
@@ -241,26 +156,17 @@
         return row;
       }
 
-      const contactAddButtons = {
-        addContactSkill: {
-          list: 'cSkillsList',
-          fn: () => createPairedRow('skillLevel[]', 'skillDetail[]', ['Entry', 'Junior', 'Mid', 'Advanced', 'Expert'], 'Add skill detail')
-        },
-        addContactLanguage: {
-          list: 'cLanguagesList',
-          fn: () => createPairedRow('languageLevel[]', 'languageDetail[]', ['Beginner', 'Elementary', 'Intermediate', 'Advance', 'Advance Professional', 'Native'], 'Add language')
-        },
-        addContactEducation: {
-          list: 'cEducationList',
-          fn: () => createPairedRow('educationLevel[]', 'educationDetail[]', ['Grammar School', 'High School', 'Some High School', 'Some College', 'associate degree', 'Bachelor', 'Masters', 'PhD'], 'Add education detail')
-        }
+      const addButtons = {
+        addExp: { list: 'aExperienceList', fn: () => createPairedRow('experienceLevel[]', 'experienceDetail[]', ['Entry', 'Junior', 'Mid', 'Advanced', 'Expert'], 'Add experience detail') },
+        addLang: { list: 'aLanguagesList', fn: () => createPairedRow('languageLevel[]', 'languageDetail[]', ['Beginner', 'Elementary', 'Intermediate', 'Advance', 'Advance Professional', 'Native'], 'Add language') },
+        addSkill: { list: 'aSkillsList', fn: () => createPairedRow('skillLevel[]', 'skillDetail[]', ['Entry', 'Junior', 'Mid', 'Advanced', 'Expert'], 'Add skill detail') }
       };
 
-      Object.keys(contactAddButtons).forEach((id) => {
+      Object.keys(addButtons).forEach((id) => {
         const btn = document.getElementById(id);
         if (btn) {
           btn.addEventListener('click', () => {
-            const { list, fn } = contactAddButtons[id];
+            const { list, fn } = addButtons[id];
             document.getElementById(list).appendChild(fn());
           });
         }
@@ -272,14 +178,17 @@
           const row = t.closest('.repeat-row');
           if (!row) return;
           const list = row.parentElement;
-          if (list.children.length > 1) {
-            row.remove();
-          } else {
-            row.querySelectorAll('input, select').forEach((el) => {
-              if (el.tagName === 'SELECT') el.selectedIndex = 0;
-              else el.value = '';
-            });
-          }
+          if (list.children.length > 1) row.remove();
+          else row.querySelectorAll('input, select').forEach((el) => (el.tagName === 'SELECT' ? (el.selectedIndex = 0) : (el.value = '')));
+        }
+
+        if (t.hasAttribute('data-add-simple')) {
+          const list = document.getElementById(t.getAttribute('data-add-simple'));
+          if (!list) return;
+          const row = document.createElement('div');
+          row.className = 'repeat-row simple';
+          row.innerHTML = `<input type="text" name="${t.getAttribute('data-name')}" placeholder="${t.getAttribute('data-ph') || 'Add item'}" /><button type="button" class="btn-small remove" data-remove>- Remove</button>`;
+          list.appendChild(row);
         }
       });
     </script>
