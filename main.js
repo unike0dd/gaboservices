@@ -36,25 +36,16 @@ function initNavToggle() {
       expanded ? EN_MESSAGES.nav.closeNavigationMenu : EN_MESSAGES.nav.openNavigationMenu
     );
   };
-  const navBackdrop = document.createElement('button');
-  navBackdrop.type = 'button';
-  navBackdrop.className = 'nav-backdrop';
-  navBackdrop.setAttribute('aria-label', EN_MESSAGES.nav.closeNavigationMenu);
-  navBackdrop.hidden = true;
-  document.body.appendChild(navBackdrop);
-
   const closeNav = () => {
     setNavToggleA11y(false);
     primaryNav.classList.remove('open');
     document.body.classList.remove('nav-open');
-    navBackdrop.hidden = true;
   };
 
   const openNav = () => {
     setNavToggleA11y(true);
     primaryNav.classList.add('open');
     document.body.classList.add('nav-open');
-    navBackdrop.hidden = false;
   };
 
   setNavToggleA11y(false);
@@ -67,8 +58,6 @@ function initNavToggle() {
     }
     openNav();
   });
-
-  navBackdrop.addEventListener('click', closeNav);
 
   primaryNav.addEventListener('click', (event) => {
     if (event.target instanceof Element && event.target.closest('a')) {
@@ -83,7 +72,7 @@ function initNavToggle() {
   document.addEventListener('click', (event) => {
     if (!(event.target instanceof Element)) return;
     const isInsideNav = event.target.closest('#primaryNav') || event.target.closest('#navToggle');
-    if (!isInsideNav && !navBackdrop.hidden) closeNav();
+    if (!isInsideNav && primaryNav.classList.contains('open')) closeNav();
   });
 
   desktopQuery.addEventListener('change', (event) => {
