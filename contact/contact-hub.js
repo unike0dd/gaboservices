@@ -11,6 +11,7 @@
   var summaryDrawer = root.querySelector('#summaryDrawer');
   var summaryOverlay = root.querySelector('#summaryOverlay');
   var summaryCloseBtn = root.querySelector('#summaryCloseBtn');
+  var summaryTitle = root.querySelector('#summaryTitle');
   var summaryName = root.querySelector('#summaryName');
   var summaryEmail = root.querySelector('#summaryEmail');
   var summaryLocation = root.querySelector('#summaryLocation');
@@ -23,12 +24,13 @@
     return Array.from(root.querySelectorAll(selector + ':checked')).map(function (el) { return el.value; });
   }
 
-  function getSummaryButtonLabel() {
+  function getSummaryTitle() {
     return mode === 'contact' ? 'Contact Summary' : 'Career Summary';
   }
 
-  function syncSummaryButtonLabel() {
-    if (summaryToggleBtn) summaryToggleBtn.textContent = getSummaryButtonLabel();
+  function syncSummaryHeading() {
+    if (summaryTitle) summaryTitle.textContent = getSummaryTitle();
+    if (summaryToggleBtn) summaryToggleBtn.textContent = getSummaryTitle();
   }
 
   function setMode(nextMode, options) {
@@ -41,7 +43,7 @@
     modeCareerBtn.classList.toggle('is-active', !isContact);
     modeContactBtn.setAttribute('aria-selected', isContact ? 'true' : 'false');
     modeCareerBtn.setAttribute('aria-selected', isContact ? 'false' : 'true');
-    syncSummaryButtonLabel();
+    syncSummaryHeading();
     updateSummary();
     if (config.openSummary) setSummaryOpen(true);
   }
@@ -306,6 +308,6 @@
     status.dataset.state = 'review';
   });
 
-  syncSummaryButtonLabel();
+  syncSummaryHeading();
   updateSummary();
 })();
