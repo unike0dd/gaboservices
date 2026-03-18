@@ -35,7 +35,7 @@
         <div class="brand-stack">
           <a class="brand" href="../">Gabriel Services</a>
           <p class="brand-subtitle">Outsource, Delivered</p>
-          <button id="editorialThemeBtn" class="editorial-toggle" type="button" aria-live="polite">News / Magazine Cut</button>
+          <button id="editorialThemeBtn" class="editorial-toggle" type="button" aria-live="polite">News Cut</button>
         </div>
         <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">☰</button>
         <nav>
@@ -91,15 +91,57 @@
 
           <section class="layout">
             <div class="panel">
-              <div class="panel__body">
+              <div class="panel__body panel__body--compact">
                 <div class="panel__head">
                   <div>
                     <h3 class="panel__title">Application Workspace</h3>
-                    <p class="panel__subtitle">Switch modes without leaving the page.</p>
+                    <p class="panel__subtitle">Choose a path, then complete the full form inside the right-side live summary panel.</p>
                   </div>
                   <span id="currentModeBadge" class="mode-badge">Contact Summary</span>
                 </div>
 
+                <div class="workspace-intro">
+                  <section class="workspace-card">
+                    <p class="workspace-card__eyebrow">Contact Summary</p>
+                    <h4>Open the client inquiry workspace</h4>
+                    <p>Use the side panel to complete contact details, interest areas, remote assistant preferences, and submission review in one place.</p>
+                    <button type="button" class="btn btn--primary workspace-card__action" data-open-mode="contact">Open Contact Summary</button>
+                  </section>
+
+                  <section class="workspace-card workspace-card--muted">
+                    <p class="workspace-card__eyebrow">Career Summary</p>
+                    <h4>Open the applicant workspace</h4>
+                    <p>Use the side panel to complete the career application form, experience items, projects, education, and final submission review.</p>
+                    <button type="button" class="btn btn--ghost workspace-card__action" data-open-mode="career">Open Career Summary</button>
+                  </section>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" id="summaryDrawerToggle" class="summary-drawer-toggle" aria-expanded="false" aria-controls="summaryDrawer">Open live summary</button>
+
+            <div id="summaryDrawerOverlay" class="summary-drawer-overlay" hidden></div>
+            <aside id="summaryDrawer" class="summary summary-drawer" aria-hidden="true" aria-labelledby="summaryDrawerTitle">
+              <section class="summary-card summary-card--sticky">
+                <div class="summary-card__head">
+                  <div>
+                    <p class="summary-kicker">Live summary</p>
+                    <h3 id="summaryDrawerTitle">Contact Summary</h3>
+                  </div>
+                  <button type="button" id="summaryDrawerClose" class="summary-drawer-close" aria-label="Close live summary">×</button>
+                </div>
+                <p id="summaryDrawerDescription" class="summary-note">Review the active contact details while you fill out the form.</p>
+                <div class="summary-list">
+                  <div class="summary-row"><span class="summary-label">Full Name</span><span id="summaryName" class="summary-value">Not provided yet</span></div>
+                  <div class="summary-row"><span class="summary-label">Email</span><span id="summaryEmail" class="summary-value">Not provided yet</span></div>
+                  <div class="summary-row"><span class="summary-label">Location</span><span id="summaryLocation" class="summary-value">Not provided yet</span></div>
+                  <div class="summary-row"><span class="summary-label">Interest Areas</span><span id="summaryInterest" class="summary-value">None selected</span></div>
+                  <div class="summary-row"><span class="summary-label">Skills / Profile Items</span><span id="summaryItems" class="summary-value">No items added yet</span></div>
+                  <div class="summary-row"><span class="summary-label">Preferred Time / Availability</span><span id="summaryTime" class="summary-value">Not provided yet</span></div>
+                </div>
+              </section>
+
+              <div class="drawer-form-panels">
                 <div id="contactModePanel" role="tabpanel" aria-labelledby="modeContactBtn">
                   <form id="contactForm" class="site-form" method="post" novalidate>
                     <section class="form-block">
@@ -314,30 +356,6 @@
                   </form>
                 </div>
               </div>
-            </div>
-
-            <button type="button" id="summaryDrawerToggle" class="summary-drawer-toggle" aria-expanded="false" aria-controls="summaryDrawer">Open live summary</button>
-
-            <div id="summaryDrawerOverlay" class="summary-drawer-overlay" hidden></div>
-            <aside id="summaryDrawer" class="summary summary-drawer" aria-hidden="true" aria-labelledby="summaryDrawerTitle">
-              <section class="summary-card">
-                <div class="summary-card__head">
-                  <div>
-                    <p class="summary-kicker">Live summary</p>
-                    <h3 id="summaryDrawerTitle">Contact Summary</h3>
-                  </div>
-                  <button type="button" id="summaryDrawerClose" class="summary-drawer-close" aria-label="Close live summary">×</button>
-                </div>
-                <p id="summaryDrawerDescription" class="summary-note">Review the active contact details while you fill out the form.</p>
-                <div class="summary-list">
-                  <div class="summary-row"><span class="summary-label">Full Name</span><span id="summaryName" class="summary-value">Not provided yet</span></div>
-                  <div class="summary-row"><span class="summary-label">Email</span><span id="summaryEmail" class="summary-value">Not provided yet</span></div>
-                  <div class="summary-row"><span class="summary-label">Location</span><span id="summaryLocation" class="summary-value">Not provided yet</span></div>
-                  <div class="summary-row"><span class="summary-label">Interest Areas</span><span id="summaryInterest" class="summary-value">None selected</span></div>
-                  <div class="summary-row"><span class="summary-label">Skills / Profile Items</span><span id="summaryItems" class="summary-value">No items added yet</span></div>
-                  <div class="summary-row"><span class="summary-label">Preferred Time / Availability</span><span id="summaryTime" class="summary-value">Not provided yet</span></div>
-                </div>
-              </section>
             </aside>
           </section>
         </div>
