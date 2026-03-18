@@ -22,9 +22,9 @@ import { EN_MESSAGES } from './locales/en/messages.js';
     const alternateLabel = labels[alternateTheme] || labels.time;
 
     root.setAttribute('data-editorial-theme', theme);
-    button.textContent = `Activate ${alternateLabel}`;
-    button.setAttribute('aria-label', `${labels.ariaPrefix} Current style: ${currentLabel}. Activate ${alternateLabel}.`);
-    button.setAttribute('title', `Current style: ${currentLabel}. Click to activate ${alternateLabel}.`);
+    button.textContent = `${currentLabel} · ${alternateLabel}`;
+    button.setAttribute('aria-label', `${labels.ariaPrefix} ${currentLabel}. Activate ${alternateLabel} next.`);
+    button.setAttribute('title', `Current: ${currentLabel}. Click to activate ${alternateLabel}.`);
   };
 
   let currentTheme = getStoredTheme();
