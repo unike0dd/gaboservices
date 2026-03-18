@@ -8,6 +8,12 @@
   var contactPanel = root.querySelector('#contactModePanel');
   var careerPanel = root.querySelector('#careerModePanel');
   var currentModeBadge = root.querySelector('#currentModeBadge');
+  var summaryDrawer = root.querySelector('#summaryDrawer');
+  var summaryDrawerOverlay = root.querySelector('#summaryDrawerOverlay');
+  var summaryDrawerToggle = root.querySelector('#summaryDrawerToggle');
+  var summaryDrawerClose = root.querySelector('#summaryDrawerClose');
+  var summaryDrawerTitle = root.querySelector('#summaryDrawerTitle');
+  var summaryDrawerDescription = root.querySelector('#summaryDrawerDescription');
   var summaryName = root.querySelector('#summaryName');
   var summaryEmail = root.querySelector('#summaryEmail');
   var summaryLocation = root.querySelector('#summaryLocation');
@@ -18,6 +24,16 @@
   function safeValue(value, fallback) { return value && value.trim() ? value.trim() : fallback; }
   function getCheckedValues(selector) {
     return Array.from(root.querySelectorAll(selector + ':checked')).map(function (el) { return el.value; });
+  }
+
+  function setSummaryDrawer(open) {
+    if (!summaryDrawer || !summaryDrawerOverlay || !summaryDrawerToggle) return;
+    summaryDrawer.classList.toggle('is-open', open);
+    summaryDrawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+    summaryDrawerToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    summaryDrawerToggle.textContent = open ? 'Close live summary' : 'Open live summary';
+    summaryDrawerOverlay.hidden = !open;
+    document.body.classList.toggle('summary-drawer-open', open);
   }
 
   function setMode(nextMode) {
@@ -31,11 +47,28 @@
     modeCareerBtn.setAttribute('aria-selected', isContact ? 'false' : 'true');
     var label = isContact ? 'Contact Summary' : 'Career Summary';
     currentModeBadge.textContent = label;
+    if (summaryDrawerTitle) summaryDrawerTitle.textContent = label;
+    if (summaryDrawerDescription) {
+      summaryDrawerDescription.textContent = isContact
+        ? 'Review the active contact details while you fill out the form.'
+        : 'Review the active career profile details while you fill out the form.';
+    }
     updateSummary();
   }
 
-  modeContactBtn.addEventListener('click', function () { setMode('contact'); });
-  modeCareerBtn.addEventListener('click', function () { setMode('career'); });
+  modeContactBtn.addEventListener('click', function () { setMode('contact'); setSummaryDrawer(true); });
+  modeCareerBtn.addEventListener('click', function () { setMode('career'); setSummaryDrawer(true); });
+  if (summaryDrawerToggle) {
+    summaryDrawerToggle.addEventListener('click', function () {
+      var isOpen = summaryDrawer && summaryDrawer.classList.contains('is-open');
+      setSummaryDrawer(!isOpen);
+    });
+  }
+  if (summaryDrawerClose) summaryDrawerClose.addEventListener('click', function () { setSummaryDrawer(false); });
+  if (summaryDrawerOverlay) summaryDrawerOverlay.addEventListener('click', function () { setSummaryDrawer(false); });
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') setSummaryDrawer(false);
+  });
 
   function updateHidden(listEl, hiddenEl) {
     var values = Array.from(listEl.querySelectorAll('.pill')).map(function (item) { return item.getAttribute('data-value') || ''; });
@@ -262,4 +295,5 @@
   });
 
   updateSummary();
+  setMode(mode);
 })();
