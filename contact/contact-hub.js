@@ -7,11 +7,8 @@
   var modeCareerBtn = root.querySelector('#modeCareerBtn');
   var contactPanel = root.querySelector('#contactModePanel');
   var careerPanel = root.querySelector('#careerModePanel');
-  var summaryToggleBtn = root.querySelector('#summaryToggleBtn');
-  var summaryDrawer = root.querySelector('#summaryDrawer');
-  var summaryOverlay = root.querySelector('#summaryOverlay');
-  var summaryCloseBtn = root.querySelector('#summaryCloseBtn');
-  var summaryTitle = root.querySelector('#summaryTitle');
+  var currentModeBadge = root.querySelector('#currentModeBadge');
+  var summaryMode = root.querySelector('#summaryMode');
   var summaryName = root.querySelector('#summaryName');
   var summaryEmail = root.querySelector('#summaryEmail');
   var summaryLocation = root.querySelector('#summaryLocation');
@@ -24,17 +21,7 @@
     return Array.from(root.querySelectorAll(selector + ':checked')).map(function (el) { return el.value; });
   }
 
-  function getSummaryTitle() {
-    return mode === 'contact' ? 'Contact Summary' : 'Career Summary';
-  }
-
-  function syncSummaryHeading() {
-    if (summaryTitle) summaryTitle.textContent = getSummaryTitle();
-    if (summaryToggleBtn) summaryToggleBtn.textContent = getSummaryTitle();
-  }
-
-  function setMode(nextMode, options) {
-    var config = options || {};
+  function setMode(nextMode) {
     mode = nextMode;
     var isContact = mode === 'contact';
     contactPanel.classList.toggle('hidden', !isContact);
@@ -43,45 +30,14 @@
     modeCareerBtn.classList.toggle('is-active', !isContact);
     modeContactBtn.setAttribute('aria-selected', isContact ? 'true' : 'false');
     modeCareerBtn.setAttribute('aria-selected', isContact ? 'false' : 'true');
-    syncSummaryHeading();
+    var label = isContact ? 'Contact / Inquiry' : 'Career / Job Application';
+    currentModeBadge.textContent = label;
+    summaryMode.textContent = label;
     updateSummary();
-    if (config.openSummary) setSummaryOpen(true);
   }
 
-  modeContactBtn.addEventListener('click', function () { setMode('contact', { openSummary: true }); });
-  modeCareerBtn.addEventListener('click', function () { setMode('career', { openSummary: true }); });
-
-  function setSummaryOpen(isOpen) {
-    if (!summaryDrawer || !summaryOverlay || !summaryToggleBtn) return;
-    summaryDrawer.classList.toggle('is-open', isOpen);
-    summaryOverlay.classList.toggle('is-open', isOpen);
-    summaryDrawer.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
-    summaryOverlay.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
-    summaryToggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    document.body.classList.toggle('contact-summary-open', isOpen);
-  }
-
-  if (summaryToggleBtn) {
-    summaryToggleBtn.addEventListener('click', function () {
-      setSummaryOpen(!summaryDrawer.classList.contains('is-open'));
-    });
-  }
-
-  if (summaryCloseBtn) {
-    summaryCloseBtn.addEventListener('click', function () {
-      setSummaryOpen(false);
-    });
-  }
-
-  if (summaryOverlay) {
-    summaryOverlay.addEventListener('click', function () {
-      setSummaryOpen(false);
-    });
-  }
-
-  document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape') setSummaryOpen(false);
-  });
+  modeContactBtn.addEventListener('click', function () { setMode('contact'); });
+  modeCareerBtn.addEventListener('click', function () { setMode('career'); });
 
   function updateHidden(listEl, hiddenEl) {
     var values = Array.from(listEl.querySelectorAll('.pill')).map(function (item) { return item.getAttribute('data-value') || ''; });
@@ -307,6 +263,5 @@
     status.dataset.state = 'review';
   });
 
-  syncSummaryHeading();
   updateSummary();
 })();
