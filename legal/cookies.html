@@ -3,37 +3,146 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cookie Policy | Gabriel Services</title>
-  <link rel="stylesheet" href="/styles.css" />
-  <link rel="stylesheet" href="/responsive.css" />
+  <title>Cookies Consent | Gabriel Services</title>
+  <meta name="description" content="Cookie consent and cookie preference controls for the Gabriel Services website." />
+  <link rel="stylesheet" href="/assets/legal.css" />
 </head>
 <body>
-    <header class="site-header" id="siteHeader">
-    <div class="container nav-wrap">
-      <div class="brand-stack">
-        <a class="brand" href="/">Gabriel Services</a>
-        <p class="brand-subtitle">Outsource, Delivered</p>
-        <button id="editorialThemeBtn" class="editorial-toggle" type="button" aria-live="polite">News Cut</button>
-      </div>
-      <nav>
-        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">☰</button>
-        <ul id="primaryNav" class="nav-links">
-          <li><a href="/">Home</a></li>
-          <li><a href="/about">About</a></li>
-          <li><a href="/services">Services</a></li>
-          <li><a href="/pricing">Pricing</a></li>
-          <li><a href="/careers">Careers</a></li>
-          <li><a href="/contact">Contact</a></li>
-        </ul>
+  <header class="legal-header">
+    <div class="wrap">
+      <a class="brand" href="/">Gabriel Services</a>
+      <nav class="legal-nav" aria-label="Legal pages">
+        <a href="/legal/terms.html">T&amp;C</a>
+        <a href="/legal/cookies.html" aria-current="page">Cookies Consent</a>
+        <a href="/legal/privacy-gdpr.html">Privacy and GDPR</a>
       </nav>
     </div>
   </header>
-  <main class="container section-block">
-    <h1>Cookie Policy</h1>
-    <p>This page is available in English only.</p>
+
+  <main class="legal-main wrap">
+    <h1>Cookies Consent</h1>
+    <p class="meta">Effective date: March 18, 2026</p>
+    <p>
+      This page explains how Gabriel Services uses cookies and similar technologies on this website, and how you can
+      manage your consent preferences.
+    </p>
+
+    <section class="card">
+      <h2>1. What cookies are</h2>
+      <p>
+        Cookies are small text files stored on your device when you visit a website. They help websites function,
+        remember preferences, measure performance, and support security features. Similar technologies such as local
+        storage, pixels, and scripts may be used for related purposes.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>2. How we use cookies</h2>
+      <div class="table" role="table" aria-label="Cookie categories">
+        <div class="tr" role="row">
+          <div class="th" role="columnheader">Category</div>
+          <div class="th" role="columnheader">Purpose</div>
+          <div class="th" role="columnheader">Consent</div>
+        </div>
+        <div class="tr" role="row">
+          <div class="td" role="cell">Strictly necessary</div>
+          <div class="td" role="cell">Security, load balancing, form protection, accessibility, and core website functionality.</div>
+          <div class="td" role="cell">Always active</div>
+        </div>
+        <div class="tr" role="row">
+          <div class="td" role="cell">Preferences</div>
+          <div class="td" role="cell">Remembering interface choices such as saved cookie settings or display preferences.</div>
+          <div class="td" role="cell">Optional</div>
+        </div>
+        <div class="tr" role="row">
+          <div class="td" role="cell">Analytics</div>
+          <div class="td" role="cell">Understanding site performance, traffic patterns, and user interactions in aggregate form.</div>
+          <div class="td" role="cell">Optional</div>
+        </div>
+        <div class="tr" role="row">
+          <div class="td" role="cell">Marketing</div>
+          <div class="td" role="cell">Supporting campaign measurement or embedded third-party content where applicable.</div>
+          <div class="td" role="cell">Optional</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card prefs">
+      <h2>3. Manage your preferences</h2>
+      <p>
+        You can use the controls below to save your preferences on this device. Strictly necessary cookies remain active
+        because the website relies on them for essential functionality and security.
+      </p>
+      <form id="cookie-prefs-form">
+        <fieldset>
+          <legend>Cookie settings</legend>
+          <label class="toggle">
+            <input type="checkbox" checked disabled />
+            <span class="toggle-ui" aria-hidden="true"></span>
+            <span class="toggle-text"><strong>Strictly necessary</strong> — required for the website to operate and cannot be turned off here.</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" name="preferences" />
+            <span class="toggle-ui" aria-hidden="true"></span>
+            <span class="toggle-text"><strong>Preferences</strong> — remembers non-essential website choices.</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" name="analytics" />
+            <span class="toggle-ui" aria-hidden="true"></span>
+            <span class="toggle-text"><strong>Analytics</strong> — helps us understand usage and improve the website.</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" name="marketing" />
+            <span class="toggle-ui" aria-hidden="true"></span>
+            <span class="toggle-text"><strong>Marketing</strong> — supports campaign attribution and third-party promotional features when used.</span>
+          </label>
+        </fieldset>
+        <div class="btn-row">
+          <button type="submit" class="btn primary">Save preferences</button>
+          <button type="button" class="btn" id="btn-accept-all">Accept all</button>
+          <button type="button" class="btn" id="btn-reject-all">Reject optional</button>
+        </div>
+        <p id="cookie-status" class="status" aria-live="polite">Choose your settings and save your preference.</p>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>4. Browser controls</h2>
+      <p>
+        Most browsers let you block or delete cookies through their settings. If you disable strictly necessary cookies,
+        parts of the website may stop working correctly. Device-level or browser-level settings may override preferences
+        saved on this page.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>5. Third-party technologies</h2>
+      <p>
+        Some website features may rely on third-party providers such as security verification, analytics, embedded media,
+        or external scheduling/contact tools. When those providers place cookies or similar identifiers, their own privacy
+        notices may also apply.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>6. Updates to this page</h2>
+      <p>
+        We may update this cookie notice and preference experience to reflect changes in law, technology, or website
+        functionality. The latest version will remain available on this page.
+      </p>
+    </section>
   </main>
-  <script src="/site.config.js"></script>
-  <script type="module" src="/page-style-switcher.js"></script>
-  <script type="module" src="/main.js"></script>
+
+  <footer class="legal-footer">
+    <div class="wrap">
+      <a class="footer-home-link" href="/">← Back to home</a>
+      <span class="sep">•</span>
+      <a href="/legal/terms.html">T&amp;C</a>
+      <a href="/legal/cookies.html">Cookies Consent</a>
+      <a href="/legal/privacy-gdpr.html">Privacy and GDPR</a>
+    </div>
+  </footer>
+
+  <script type="module" src="/assets/cookie-consent.js"></script>
 </body>
 </html>
