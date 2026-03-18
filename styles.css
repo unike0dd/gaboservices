@@ -132,10 +132,6 @@ main li + li {
 }
 
 
-.nav-backdrop {
-  display: none;
-}
-
 .nav-chat-trigger {
   border: 0;
   background: transparent;
@@ -1540,11 +1536,6 @@ textarea[data-security-state='review'] {
     display: none;
   }
 
-  .nav-backdrop {
-    display: none !important;
-  }
-
-
   .nav-links {
     display: flex;
     position: static;
@@ -1603,22 +1594,6 @@ textarea[data-security-state='review'] {
     font-size: 1rem;
     z-index: 230;
   }
-
-  .nav-backdrop {
-    position: fixed;
-    inset: 0;
-    border: 0;
-    margin: 0;
-    padding: 0;
-    background: rgba(2, 6, 23, 0.5);
-    z-index: 3000;
-    display: block;
-  }
-
-  .nav-backdrop[hidden] {
-    display: none;
-  }
-
 
   .nav-links {
     display: flex;
