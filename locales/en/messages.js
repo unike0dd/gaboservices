@@ -13,7 +13,7 @@ export const EN_MESSAGES = {
   editorialTheme: {
     wallstreet: 'News Cut',
     time: 'Magazine Cut',
-    ariaPrefix: 'Switch landing and navigation look. Current:'
+    ariaPrefix: 'Switch landing and navigation look.'
   },
   chatbot: {
     panelAriaLabel: 'Chatbot panel',
