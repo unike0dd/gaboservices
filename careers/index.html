@@ -34,6 +34,7 @@
       .careers-hero h1 {
         max-width: none;
         font-size: calc(var(--h1-size) + 3px);
+        text-align: center;
         white-space: nowrap;
       }
       .careers-hero .lead {
@@ -42,6 +43,9 @@
       }
       .careers-form-section {
         margin-top: 12px;
+      }
+      .contact-hub .hero__title {
+        margin-bottom: 5px;
       }
       .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; }
       .field { display: flex; flex-direction: column; gap: 8px; }
@@ -96,7 +100,7 @@
 
     <main class="container editorial-page page-main">
       <section class="hero-editorial careers-hero">
-        <h1>Careers at Gabriel Services</h1>
+        <h1>Careers</h1>
         <p class="lead">Apply to support operations, customer communications, and delivery workflows with our team.</p>
       </section>
 
@@ -113,20 +117,8 @@
           <section class="layout">
             <div class="panel">
               <div class="panel__body">
-                <div class="panel__head">
-                  <div>
-                    <h3 class="panel__title">Applicant Workspace</h3>
-                    <p class="panel__subtitle">This page now contains the full career application form only.</p>
-                  </div>
-                  <span class="mode-badge">Career Summary</span>
-                </div>
-
                 <form id="careerForm" class="site-form" method="post" novalidate>
                   <section class="form-block">
-                    <div>
-                      <h4 class="form-block__title">Career Application Form</h4>
-                      <p class="form-block__text">Complete your details and share your profile for review.</p>
-                    </div>
                     <div class="grid grid--2">
                       <div class="field"><label for="careerFullName">Full Name</label><input id="careerFullName" name="full_name" type="text" autocomplete="name" required /></div>
                       <div class="field"><label for="careerEmail">Email Address</label><input id="careerEmail" name="email_address" type="email" autocomplete="email" required /></div>
@@ -225,7 +217,7 @@
                   </section>
 
                   <div class="secure-actions">
-                    <button type="submit" class="btn btn--primary">Submit Career Summary</button>
+                    <button type="submit" class="btn btn--primary">Submit Application</button>
                     <button type="button" class="btn btn--ghost" data-clear-form="career">Clear Form</button>
                   </div>
                   <p id="careerFormStatus" class="status-note" aria-live="polite"></p>
