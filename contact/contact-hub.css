@@ -1,0 +1,128 @@
+.contact-hub {
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --surface-soft: #f2f4f7;
+  --text: #101828;
+  --muted: #475467;
+  --line: #d0d5dd;
+  --line-strong: #98a2b3;
+  --accent: #111111;
+  --accent-soft: #ececec;
+  --success: #067647;
+  --danger: #b42318;
+  --shadow: 0 10px 30px rgba(16, 24, 40, 0.06);
+  --radius-xl: 24px;
+  --radius-lg: 18px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --space-1: 8px;
+  --space-2: 12px;
+  --space-3: 16px;
+  --space-4: 20px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 40px;
+  --space-8: 48px;
+  width: 100%;
+}
+.contact-hub * { box-sizing: border-box; }
+.contact-hub a { color: inherit; }
+.contact-hub button,
+.contact-hub input,
+.contact-hub select,
+.contact-hub textarea { font: inherit; }
+.contact-hub .hub-page { width: min(100%, 1260px); margin: 0 auto; padding: 28px 0 64px; }
+.contact-hub .hero { display: grid; gap: var(--space-5); margin-bottom: var(--space-6); padding: var(--space-6); border: 1px solid var(--line); border-radius: var(--radius-xl); background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%); box-shadow: var(--shadow); }
+.contact-hub .hero__eyebrow { display: inline-flex; align-items: center; width: fit-content; padding: 8px 12px; border-radius: 999px; background: var(--surface-soft); color: var(--muted); font-size: 0.92rem; font-weight: 600; }
+.contact-hub .hero__title { margin: 0; font-size: clamp(2rem, 3.7vw, 3.4rem); line-height: 1.08; letter-spacing: -0.03em; }
+.contact-hub .hero__text { max-width: 860px; margin: 0; color: var(--muted); font-size: 1.03rem; }
+.contact-hub .switcher { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 6px; }
+.contact-hub .switcher__btn { display: grid; gap: 6px; padding: 18px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff; text-align: left; cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease; }
+.contact-hub .switcher__btn:hover,
+.contact-hub .switcher__btn:focus-visible { transform: translateY(-1px); border-color: var(--line-strong); outline: none; }
+.contact-hub .switcher__btn.is-active { border-color: #111; background: #111; color: #fff; }
+.contact-hub .switcher__title { font-weight: 800; font-size: 1rem; }
+.contact-hub .switcher__desc { margin: 0; font-size: 0.95rem; opacity: 0.88; }
+.contact-hub .layout { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.75fr); gap: var(--space-5); align-items: start; }
+.contact-hub .panel { border: 1px solid var(--line); border-radius: var(--radius-xl); background: var(--surface); box-shadow: var(--shadow); }
+.contact-hub .panel__body { padding: var(--space-5); }
+.contact-hub .panel__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-4); }
+.contact-hub .panel__title { margin: 0; font-size: 1.4rem; line-height: 1.2; }
+.contact-hub .panel__subtitle { margin: 4px 0 0; color: var(--muted); font-size: 0.96rem; }
+.contact-hub .mode-badge { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-soft); color: var(--muted); font-size: 0.92rem; font-weight: 700; white-space: nowrap; }
+.contact-hub .summary-toggle { cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease; }
+.contact-hub .summary-toggle:hover,
+.contact-hub .summary-toggle:focus-visible { transform: translateY(-1px); border-color: var(--line-strong); outline: none; }
+.contact-hub .site-form { display: grid; gap: var(--space-4); }
+.contact-hub .form-block { display: grid; gap: var(--space-4); padding: var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff; }
+.contact-hub .form-block__title { margin: 0; font-size: 1.08rem; line-height: 1.2; }
+.contact-hub .form-block__text { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+.contact-hub .grid { display: grid; gap: var(--space-3); }
+.contact-hub .grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.contact-hub .grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.contact-hub .field { display: grid; gap: 8px; min-width: 0; }
+.contact-hub .field label,
+.contact-hub .field .label { font-size: 0.95rem; font-weight: 700; }
+.contact-hub .field input,
+.contact-hub .field select,
+.contact-hub .field textarea { width: 100%; min-height: 48px; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius-md); background: #fff; color: var(--text); transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+.contact-hub .field textarea { min-height: 110px; resize: vertical; }
+.contact-hub .field input:focus,
+.contact-hub .field select:focus,
+.contact-hub .field textarea:focus { outline: none; border-color: #111; box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08); }
+.contact-hub .field-help { margin: 0; color: var(--muted); font-size: 0.9rem; }
+.contact-hub .check-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.contact-hub .check-card { display: flex; align-items: flex-start; gap: 12px; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface); cursor: pointer; }
+.contact-hub .check-card input { margin-top: 2px; width: auto; min-height: auto; }
+.contact-hub .dynamic { display: grid; gap: 12px; }
+.contact-hub .dynamic__entry { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: stretch; }
+.contact-hub .dynamic__entry--triple { grid-template-columns: minmax(0, 1fr) minmax(180px, 220px) auto; }
+.contact-hub .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 18px; border: 1px solid #111; border-radius: 12px; background: #fff; color: #111; font-weight: 700; cursor: pointer; transition: transform 0.15s ease, background 0.2s ease, color 0.2s ease; white-space: nowrap; }
+.contact-hub .btn:hover,
+.contact-hub .btn:focus-visible { transform: translateY(-1px); outline: none; }
+.contact-hub .btn--primary { background: #111; color: #fff; }
+.contact-hub .btn--soft { border-color: var(--line); background: var(--surface-soft); color: var(--text); }
+.contact-hub .btn--ghost { border-color: var(--line); background: #fff; color: var(--text); }
+.contact-hub .pill-list { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.contact-hub .pill { display: inline-flex; align-items: center; gap: 10px; min-height: 40px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-soft); font-size: 0.94rem; }
+.contact-hub .pill button { min-height: auto; padding: 6px 10px; border: 1px solid var(--line); border-radius: 999px; background: #fff; cursor: pointer; }
+.contact-hub .form-actions,
+.contact-hub .secure-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: flex-start; }
+.contact-hub .status-note { min-height: 24px; margin: 0; font-size: 0.95rem; color: var(--muted); }
+.contact-hub .status-note[data-state='success'],
+.contact-hub .status-note[data-state='ok'] { color: var(--success); }
+.contact-hub .status-note[data-state='blocked'] { color: var(--danger); }
+.contact-hub .summary-overlay { position: fixed; inset: 0; background: rgba(16, 24, 40, 0.42); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.25s ease, visibility 0s linear 0.25s; z-index: 39; }
+.contact-hub .summary-overlay.is-open { opacity: 1; visibility: visible; pointer-events: auto; transition-delay: 0s; }
+.contact-hub .summary { position: fixed; top: 0; right: 0; width: min(420px, calc(100vw - 24px)); height: 100vh; padding: 18px; display: grid; align-content: start; background: transparent; opacity: 0; visibility: hidden; pointer-events: none; transform: translate3d(100%, 0, 0); transition: transform 0.32s ease, opacity 0.22s ease, visibility 0s linear 0.32s; z-index: 40; }
+.contact-hub .summary.is-open { opacity: 1; visibility: visible; pointer-events: auto; transform: translate3d(0, 0, 0); transition-delay: 0s; }
+.contact-hub .summary-card { max-height: calc(100vh - 36px); overflow: auto; padding: var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-xl); background: var(--surface); box-shadow: var(--shadow); }
+.contact-hub .summary-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.contact-hub .summary-card h3 { margin: 0; font-size: 1.1rem; }
+.contact-hub .summary-close { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--text); cursor: pointer; font-size: 1.5rem; line-height: 1; }
+.contact-hub .summary-close:hover,
+.contact-hub .summary-close:focus-visible { border-color: var(--line-strong); outline: none; }
+.contact-hub .summary-list { display: grid; gap: 12px; margin: 0; }
+.contact-hub .summary-row { display: grid; gap: 4px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.contact-hub .summary-row:last-child { padding-bottom: 0; border-bottom: 0; }
+.contact-hub .summary-label { color: var(--muted); font-size: 0.88rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.contact-hub .summary-value { font-size: 0.98rem; font-weight: 600; word-break: break-word; }
+.contact-hub .summary-note { margin: 0; color: var(--muted); font-size: 0.93rem; }
+.contact-hub .hidden { display: none !important; }
+body.contact-summary-open { overflow: hidden; }
+.contact-hub .divider { height: 1px; background: var(--line); margin: 2px 0; }
+@media (max-width: 1080px) { .contact-hub .layout { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+  .contact-hub .switcher,
+  .contact-hub .grid--2,
+  .contact-hub .grid--3,
+  .contact-hub .check-grid,
+  .contact-hub .dynamic__entry,
+  .contact-hub .dynamic__entry--triple { grid-template-columns: 1fr; }
+  .contact-hub .hero,
+  .contact-hub .panel__body,
+  .contact-hub .summary-card,
+  .contact-hub .form-block { padding: 18px; }
+  .contact-hub .summary { width: min(100vw, 420px); padding: 12px; }
+  .contact-hub .summary-card { max-height: calc(100vh - 24px); }
+}
