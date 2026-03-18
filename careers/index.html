@@ -26,6 +26,7 @@
     <meta name="twitter:image" content="https://www.gabo.services/assets/og-cover.svg" />
     <link rel="stylesheet" href="../styles.css" />
     <link rel="stylesheet" href="../responsive.css" />
+    <link rel="stylesheet" href="../contact/contact-hub.css?v=20260318c" />
     <style>
       .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; }
       .field { display: flex; flex-direction: column; gap: 8px; }
@@ -70,51 +71,140 @@
         <p class="lead">Apply to support operations, customer communications, and delivery workflows with our team.</p>
       </section>
 
-      <section class="section-block">
-        <h2>Career Application</h2>
-        <form id="careerForm" class="form-stack form-panel" novalidate>
-          <div class="form-grid">
-            <div class="field"><label for="career_name">Full Name</label><input id="career_name" name="career_name" required /></div>
-            <div class="field"><label for="career_email">Email</label><input id="career_email" name="career_email" type="email" required /></div>
-            <div class="field"><label for="career_country_code">Country Code</label><input id="career_country_code" type="text" name="country_code" placeholder="+593" /></div>
-            <div class="field"><label for="career_contact_number">Contact Number</label><input id="career_contact_number" type="tel" name="contact_number" /></div>
-            <div class="field"><label for="career_availability_date">Availability Date</label><input id="career_availability_date" name="career_availability_date" type="date" required /></div>
-            <div class="field"><label for="career_availability_time">Availability Time</label><input id="career_availability_time" name="career_availability_time" type="time" step="60" required /></div>
-
-            <div class="field full">
-              <label>Experience Level</label>
-              <div class="repeat-list" id="aExperienceList">
-                <div class="repeat-row paired"><select name="experienceLevel[]"><option value="">Select level</option><option>Entry</option><option>Junior</option><option>Mid</option><option>Advanced</option><option>Expert</option></select><input type="text" name="experienceDetail[]" placeholder="Add experience detail" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
-              </div>
-              <button type="button" class="btn-small" id="addExp">Add +</button>
+      <section class="section-block contact-hub">
+        <div class="hub-page">
+          <section class="hero" aria-labelledby="career-title">
+            <span class="hero__eyebrow">Gabriel Services Careers</span>
+            <div>
+              <h2 id="career-title" class="hero__title">Career Application</h2>
+              <p class="hero__text">Complete the full application below to share your experience, skills, projects, education, and availability with our hiring team.</p>
             </div>
+          </section>
 
-            <div class="field full">
-              <label>Languages</label>
-              <div class="repeat-list" id="aLanguagesList">
-                <div class="repeat-row paired"><select name="languageLevel[]"><option value="">Select level</option><option>Beginner</option><option>Elementary</option><option>Intermediate</option><option>Advance</option><option>Advance Professional</option><option>Native</option></select><input type="text" name="languageDetail[]" placeholder="Add language" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
-              </div>
-              <button type="button" class="btn-small" id="addLang">Add +</button>
-            </div>
+          <section class="layout">
+            <div class="panel">
+              <div class="panel__body">
+                <div class="panel__head">
+                  <div>
+                    <h3 class="panel__title">Applicant Workspace</h3>
+                    <p class="panel__subtitle">This page now contains the full career application form only.</p>
+                  </div>
+                  <span class="mode-badge">Career Summary</span>
+                </div>
 
-            <div class="field full">
-              <label>Skills</label>
-              <div class="repeat-list" id="aSkillsList">
-                <div class="repeat-row paired"><select name="skillLevel[]"><option value="">Select level</option><option>Entry</option><option>Junior</option><option>Mid</option><option>Advanced</option><option>Expert</option></select><input type="text" name="skillDetail[]" placeholder="Add skill detail" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
-              </div>
-              <button type="button" class="btn-small" id="addSkill">Add +</button>
-            </div>
+                <form id="careerForm" class="site-form" method="post" novalidate>
+                  <section class="form-block">
+                    <div>
+                      <h4 class="form-block__title">Career Application Form</h4>
+                      <p class="form-block__text">Complete your details and share your profile for review.</p>
+                    </div>
+                    <div class="grid grid--2">
+                      <div class="field"><label for="careerFullName">Full Name</label><input id="careerFullName" name="full_name" type="text" autocomplete="name" required /></div>
+                      <div class="field"><label for="careerEmail">Email Address</label><input id="careerEmail" name="email_address" type="email" autocomplete="email" required /></div>
+                      <div class="field"><label for="careerCountryCode">Country Code</label><input id="careerCountryCode" name="country_code" type="text" placeholder="+1" required /></div>
+                      <div class="field"><label for="careerNumber">Contact Number</label><input id="careerNumber" name="contact_number" type="tel" autocomplete="tel-national" required /></div>
+                      <div class="field"><label for="careerCity">City</label><input id="careerCity" name="city" type="text" autocomplete="address-level2" required /></div>
+                      <div class="field"><label for="careerState">State / Province</label><input id="careerState" name="state_province" type="text" autocomplete="address-level1" required /></div>
+                      <div class="field"><label for="careerZip">Country Zip Code</label><input id="careerZip" name="country_zip_code" type="text" autocomplete="postal-code" required /></div>
+                      <div class="field"><label for="careerAvailability">Availability</label><input id="careerAvailability" name="availability" type="datetime-local" required /></div>
+                    </div>
+                  </section>
 
-            <div class="field full">
-              <label>Projects</label>
-              <div class="repeat-list" id="aProjectsList">
-                <div class="repeat-row simple"><input type="text" name="projects[]" placeholder="Describe project" /><button type="button" class="btn-small remove" data-remove>- Remove</button></div>
+                  <section class="form-block">
+                    <div>
+                      <h4 class="form-block__title">Area of Interest</h4>
+                      <p class="form-block__text">Select one or more service areas.</p>
+                    </div>
+                    <div class="check-grid">
+                      <label class="check-card"><input type="checkbox" name="career_interest[]" value="Logistics Operations" /><span>Logistics Operations</span></label>
+                      <label class="check-card"><input type="checkbox" name="career_interest[]" value="Administrative Back Office" /><span>Administrative Back Office</span></label>
+                      <label class="check-card"><input type="checkbox" name="career_interest[]" value="Customer Relations" /><span>Customer Relations</span></label>
+                      <label class="check-card"><input type="checkbox" name="career_interest[]" value="IT Support" /><span>IT Support</span></label>
+                    </div>
+                  </section>
+
+                  <section class="form-block">
+                    <div>
+                      <h4 class="form-block__title">Experience and Profile</h4>
+                      <p class="form-block__text">Add experience, languages, skills, projects, and education.</p>
+                    </div>
+                    <div class="dynamic">
+                      <div class="field">
+                        <label for="careerExperienceInput">Experience Level</label>
+                        <div class="dynamic__entry dynamic__entry--triple">
+                          <input id="careerExperienceInput" type="text" placeholder="Add experience area" />
+                          <select id="careerExperienceLevel">
+                            <option value="">Select level</option><option value="Entry">Entry</option><option value="Junior">Junior</option><option value="Mid">Mid</option><option value="Advanced">Advanced</option><option value="Expert">Expert</option>
+                          </select>
+                          <button type="button" id="careerExperienceAdd" class="btn btn--soft">Add</button>
+                        </div>
+                        <ul id="careerExperienceList" class="pill-list" aria-label="Career experience"></ul>
+                        <input type="hidden" id="careerExperienceHidden" name="experience_items" />
+                      </div>
+
+                      <div class="field">
+                        <label for="careerLanguageInput">Languages</label>
+                        <div class="dynamic__entry dynamic__entry--triple">
+                          <input id="careerLanguageInput" type="text" placeholder="Add a language" />
+                          <select id="careerLanguageLevel">
+                            <option value="">Select level</option><option value="Beginner">Beginner</option><option value="Elementary">Elementary</option><option value="Intermediate">Intermediate</option><option value="Advance">Advance</option><option value="Advance Professional">Advance Professional</option><option value="Native">Native</option>
+                          </select>
+                          <button type="button" id="careerLanguageAdd" class="btn btn--soft">Add</button>
+                        </div>
+                        <ul id="careerLanguagesList" class="pill-list" aria-label="Career languages"></ul>
+                        <input type="hidden" id="careerLanguagesHidden" name="languages" />
+                      </div>
+
+                      <div class="field">
+                        <label for="careerSkillInput">Skills</label>
+                        <div class="dynamic__entry dynamic__entry--triple">
+                          <input id="careerSkillInput" type="text" placeholder="Add a skill" />
+                          <select id="careerSkillLevel">
+                            <option value="">Select level</option><option value="Entry">Entry</option><option value="Junior">Junior</option><option value="Mid">Mid</option><option value="Advanced">Advanced</option><option value="Expert">Expert</option>
+                          </select>
+                          <button type="button" id="careerSkillAdd" class="btn btn--soft">Add</button>
+                        </div>
+                        <ul id="careerSkillsList" class="pill-list" aria-label="Career skills"></ul>
+                        <input type="hidden" id="careerSkillsHidden" name="skills" />
+                      </div>
+
+                      <div class="field">
+                        <label for="careerProjectInput">Projects</label>
+                        <div class="dynamic__entry">
+                          <input id="careerProjectInput" type="text" placeholder="Add a project" />
+                          <button type="button" id="careerProjectAdd" class="btn btn--soft">Add</button>
+                        </div>
+                        <ul id="careerProjectsList" class="pill-list" aria-label="Career projects"></ul>
+                        <input type="hidden" id="careerProjectsHidden" name="projects" />
+                      </div>
+
+                      <div class="field">
+                        <label for="careerEducationInput">Education</label>
+                        <div class="dynamic__entry dynamic__entry--triple">
+                          <input id="careerEducationInput" type="text" placeholder="Add school, program, or certificate" />
+                          <select id="careerEducationLevel">
+                            <option value="">Select level</option><option value="Grammar School">Grammar School</option><option value="Some High School">Some High School</option><option value="High School">High School</option><option value="Some College">Some College</option><option value="Associate Degree">Associate Degree</option><option value="Bachelor">Bachelor</option><option value="Masters">Masters</option><option value="PhD">PhD</option>
+                          </select>
+                          <button type="button" id="careerEducationAdd" class="btn btn--soft">Add</button>
+                        </div>
+                        <ul id="careerEducationList" class="pill-list" aria-label="Career education"></ul>
+                        <input type="hidden" id="careerEducationHidden" name="education_items" />
+                      </div>
+
+                      <div class="field"><label for="careerResumeLink">Resume or Profile Link</label><input id="careerResumeLink" name="resume_or_profile_link" type="url" placeholder="https://" /></div>
+                    </div>
+                  </section>
+
+                  <div class="secure-actions">
+                    <button type="submit" class="btn btn--primary">Submit Career Summary</button>
+                    <button type="button" class="btn btn--ghost" data-clear-form="career">Clear Form</button>
+                  </div>
+                  <p id="careerFormStatus" class="status-note" aria-live="polite"></p>
+                </form>
               </div>
-              <button type="button" class="btn-small" data-add-simple="aProjectsList" data-name="projects[]" data-ph="Describe project">Add +</button>
             </div>
-          </div>
-          <button class="btn-submit" type="submit">Submit Application</button>
-        </form>
+          </section>
+        </div>
       </section>
     </main>
 
@@ -142,50 +232,7 @@
       </div>
     </footer>
 
-    <script>
-      function createPairedRow(selectName, inputName, options, placeholder) {
-        const row = document.createElement('div');
-        row.className = 'repeat-row paired';
-        row.innerHTML = `<select name="${selectName}"><option value="">Select level</option>${options.map((o) => `<option>${o}</option>`).join('')}</select><input type="text" name="${inputName}" placeholder="${placeholder}" /><button type="button" class="btn-small remove" data-remove>- Remove</button>`;
-        return row;
-      }
-
-      const addButtons = {
-        addExp: { list: 'aExperienceList', fn: () => createPairedRow('experienceLevel[]', 'experienceDetail[]', ['Entry', 'Junior', 'Mid', 'Advanced', 'Expert'], 'Add experience detail') },
-        addLang: { list: 'aLanguagesList', fn: () => createPairedRow('languageLevel[]', 'languageDetail[]', ['Beginner', 'Elementary', 'Intermediate', 'Advance', 'Advance Professional', 'Native'], 'Add language') },
-        addSkill: { list: 'aSkillsList', fn: () => createPairedRow('skillLevel[]', 'skillDetail[]', ['Entry', 'Junior', 'Mid', 'Advanced', 'Expert'], 'Add skill detail') }
-      };
-
-      Object.keys(addButtons).forEach((id) => {
-        const btn = document.getElementById(id);
-        if (btn) {
-          btn.addEventListener('click', () => {
-            const { list, fn } = addButtons[id];
-            document.getElementById(list).appendChild(fn());
-          });
-        }
-      });
-
-      document.addEventListener('click', (e) => {
-        const t = e.target;
-        if (t.matches('[data-remove], .remove')) {
-          const row = t.closest('.repeat-row');
-          if (!row) return;
-          const list = row.parentElement;
-          if (list.children.length > 1) row.remove();
-          else row.querySelectorAll('input, select').forEach((el) => (el.tagName === 'SELECT' ? (el.selectedIndex = 0) : (el.value = '')));
-        }
-
-        if (t.hasAttribute('data-add-simple')) {
-          const list = document.getElementById(t.getAttribute('data-add-simple'));
-          if (!list) return;
-          const row = document.createElement('div');
-          row.className = 'repeat-row simple';
-          row.innerHTML = `<input type="text" name="${t.getAttribute('data-name')}" placeholder="${t.getAttribute('data-ph') || 'Add item'}" /><button type="button" class="btn-small remove" data-remove>- Remove</button>`;
-          list.appendChild(row);
-        }
-      });
-    </script>
+    <script src="./careers-form.js"></script>
     <script type="module" src="../page-style-switcher.js"></script>
     <script src="../site.config.js"></script>
     <script data-cfasync="false" type="module" crossorigin="anonymous" src="../main.js"></script>

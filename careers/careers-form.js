@@ -86,8 +86,11 @@
   }
 
   [
-    { type: 'simple', inputId: 'contactRemoteSkillInput', addBtnId: 'contactRemoteSkillAdd', listId: 'contactRemoteSkillsList', hiddenId: 'contactRemoteSkillsHidden' },
-    { type: 'pair', inputId: 'contactLanguageInput', selectId: 'contactLanguageLevel', addBtnId: 'contactLanguageAdd', listId: 'contactLanguagesList', hiddenId: 'contactLanguagesHidden' }
+    { type: 'pair', inputId: 'careerExperienceInput', selectId: 'careerExperienceLevel', addBtnId: 'careerExperienceAdd', listId: 'careerExperienceList', hiddenId: 'careerExperienceHidden' },
+    { type: 'pair', inputId: 'careerLanguageInput', selectId: 'careerLanguageLevel', addBtnId: 'careerLanguageAdd', listId: 'careerLanguagesList', hiddenId: 'careerLanguagesHidden' },
+    { type: 'pair', inputId: 'careerSkillInput', selectId: 'careerSkillLevel', addBtnId: 'careerSkillAdd', listId: 'careerSkillsList', hiddenId: 'careerSkillsHidden' },
+    { type: 'simple', inputId: 'careerProjectInput', addBtnId: 'careerProjectAdd', listId: 'careerProjectsList', hiddenId: 'careerProjectsHidden' },
+    { type: 'pair', inputId: 'careerEducationInput', selectId: 'careerEducationLevel', addBtnId: 'careerEducationAdd', listId: 'careerEducationList', hiddenId: 'careerEducationHidden' }
   ].forEach(function (config) {
     if (config.type === 'simple') setupSimpleList(config);
     else setupPairList(config);
@@ -105,24 +108,26 @@
     root.querySelectorAll(selector).forEach(function (item) { item.checked = false; });
   }
 
-  function clearContactForm() {
-    var form = root.querySelector('#contactForm');
+  function clearCareerForm() {
+    var form = root.querySelector('#careerForm');
     if (!form) return;
     form.reset();
-    clearPills('contactRemoteSkillsList', 'contactRemoteSkillsHidden');
-    clearPills('contactLanguagesList', 'contactLanguagesHidden');
-    var status = root.querySelector('#formStatus');
+    clearPills('careerExperienceList', 'careerExperienceHidden');
+    clearPills('careerLanguagesList', 'careerLanguagesHidden');
+    clearPills('careerSkillsList', 'careerSkillsHidden');
+    clearPills('careerProjectsList', 'careerProjectsHidden');
+    clearPills('careerEducationList', 'careerEducationHidden');
+    clearCheckboxGroup('input[name="career_interest[]"]');
+    var status = root.querySelector('#careerFormStatus');
     if (status) {
       status.textContent = '';
       status.dataset.state = '';
     }
-    clearCheckboxGroup('input[name="contact_interest[]"]');
-    clearCheckboxGroup('input[name="remote_interest[]"]');
   }
 
   root.querySelectorAll('[data-clear-form]').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      if (btn.getAttribute('data-clear-form') === 'contact') clearContactForm();
+      if (btn.getAttribute('data-clear-form') === 'career') clearCareerForm();
     });
   });
 
@@ -134,17 +139,16 @@
     return '';
   }
 
-  var contactForm = root.querySelector('#contactForm');
-  if (contactForm) {
-    contactForm.addEventListener('submit', function (event) {
-      var status = root.querySelector('#formStatus');
+  var form = root.querySelector('#careerForm');
+  if (form) {
+    form.addEventListener('submit', function (event) {
+      var status = root.querySelector('#careerFormStatus');
       var message = validateForm(
-        ['contactFullName', 'contactEmail', 'contactCountryCode', 'contactNumber', 'contactCity', 'contactState', 'contactZip', 'bestTimeToContact', 'contactExperienceLevel', 'contactEducation'],
-        'Please complete all required contact and inquiry fields.'
+        ['careerFullName', 'careerEmail', 'careerCountryCode', 'careerNumber', 'careerCity', 'careerState', 'careerZip', 'careerAvailability'],
+        'Please complete all required application fields.'
       );
-      if (!message) {
-        var interestCount = getCheckedValues('input[name="contact_interest[]"]').length + getCheckedValues('input[name="remote_interest[]"]').length;
-        if (!interestCount) message = 'Please select at least one area of interest.';
+      if (!message && !getCheckedValues('input[name="career_interest[]"]').length) {
+        message = 'Please select at least one career area of interest.';
       }
       if (message) {
         event.preventDefault();
@@ -155,7 +159,7 @@
         return;
       }
       if (status) {
-        status.textContent = 'Contact inquiry is ready for secure submission.';
+        status.textContent = 'Career application is ready for secure submission.';
         status.dataset.state = 'review';
       }
     });
