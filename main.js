@@ -35,6 +35,8 @@ function initNavToggle() {
       'aria-label',
       expanded ? EN_MESSAGES.nav.closeNavigationMenu : EN_MESSAGES.nav.openNavigationMenu
     );
+    navToggle.textContent = expanded ? '\u2715' : '\u2630';
+    navToggle.classList.toggle('is-active', expanded);
   };
   const closeNav = () => {
     setNavToggleA11y(false);
