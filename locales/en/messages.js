@@ -39,5 +39,3 @@ export const EN_MESSAGES = {
     required: 'Please complete the human verification challenge before submitting.'
   }
 };
-
-export const EN_MESSAGES = MESSAGES.en;

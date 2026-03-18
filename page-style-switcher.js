@@ -14,18 +14,24 @@ import { EN_MESSAGES } from './locales/en/messages.js';
     return THEMES.includes(stored) ? stored : 'wallstreet';
   };
 
+  const getAlternateTheme = (theme) => (theme === 'wallstreet' ? 'time' : 'wallstreet');
+
   const applyTheme = (theme) => {
+    const currentLabel = labels[theme] || labels.wallstreet;
+    const alternateTheme = getAlternateTheme(theme);
+    const alternateLabel = labels[alternateTheme] || labels.time;
+
     root.setAttribute('data-editorial-theme', theme);
-    const label = labels[theme] || labels.wallstreet;
-    button.textContent = label;
-    button.setAttribute('aria-label', `${labels.ariaPrefix} ${label}`);
+    button.textContent = `${currentLabel} · ${alternateLabel}`;
+    button.setAttribute('aria-label', `${labels.ariaPrefix} ${currentLabel}. Activate ${alternateLabel} next.`);
+    button.setAttribute('title', `Current: ${currentLabel}. Click to activate ${alternateLabel}.`);
   };
 
   let currentTheme = getStoredTheme();
   applyTheme(currentTheme);
 
   button.addEventListener('click', () => {
-    currentTheme = currentTheme === 'wallstreet' ? 'time' : 'wallstreet';
+    currentTheme = getAlternateTheme(currentTheme);
     localStorage.setItem(STORAGE_KEY, currentTheme);
     applyTheme(currentTheme);
   });
