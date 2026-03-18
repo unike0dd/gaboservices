@@ -8,33 +8,10 @@
   var contactPanel = root.querySelector('#contactModePanel');
   var careerPanel = root.querySelector('#careerModePanel');
   var currentModeBadge = root.querySelector('#currentModeBadge');
-  var summaryDrawer = root.querySelector('#summaryDrawer');
-  var summaryDrawerOverlay = root.querySelector('#summaryDrawerOverlay');
-  var summaryDrawerToggle = root.querySelector('#summaryDrawerToggle');
-  var summaryDrawerClose = root.querySelector('#summaryDrawerClose');
   var openModeButtons = root.querySelectorAll('[data-open-mode]');
-  var summaryDrawerTitle = root.querySelector('#summaryDrawerTitle');
-  var summaryDrawerDescription = root.querySelector('#summaryDrawerDescription');
-  var summaryName = root.querySelector('#summaryName');
-  var summaryEmail = root.querySelector('#summaryEmail');
-  var summaryLocation = root.querySelector('#summaryLocation');
-  var summaryInterest = root.querySelector('#summaryInterest');
-  var summaryItems = root.querySelector('#summaryItems');
-  var summaryTime = root.querySelector('#summaryTime');
 
-  function safeValue(value, fallback) { return value && value.trim() ? value.trim() : fallback; }
   function getCheckedValues(selector) {
     return Array.from(root.querySelectorAll(selector + ':checked')).map(function (el) { return el.value; });
-  }
-
-  function setSummaryDrawer(open) {
-    if (!summaryDrawer || !summaryDrawerOverlay || !summaryDrawerToggle) return;
-    summaryDrawer.classList.toggle('is-open', open);
-    summaryDrawer.setAttribute('aria-hidden', open ? 'false' : 'true');
-    summaryDrawerToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    summaryDrawerToggle.textContent = open ? 'Close live summary workspace' : 'Open live summary workspace';
-    summaryDrawerOverlay.hidden = !open;
-    document.body.classList.toggle('summary-drawer-open', open);
   }
 
   function setMode(nextMode) {
@@ -46,42 +23,21 @@
     modeCareerBtn.classList.toggle('is-active', !isContact);
     modeContactBtn.setAttribute('aria-selected', isContact ? 'true' : 'false');
     modeCareerBtn.setAttribute('aria-selected', isContact ? 'false' : 'true');
-    var label = isContact ? 'Contact Summary' : 'Career Summary';
-    currentModeBadge.textContent = label;
-    if (summaryDrawerTitle) summaryDrawerTitle.textContent = label;
-    if (summaryDrawerDescription) {
-      summaryDrawerDescription.textContent = isContact
-        ? 'Review the active contact details while you fill out the form.'
-        : 'Review the active career profile details while you fill out the form.';
-    }
-    updateSummary();
+    currentModeBadge.textContent = isContact ? 'Contact Summary' : 'Career Summary';
   }
 
-  modeContactBtn.addEventListener('click', function () { setMode('contact'); setSummaryDrawer(true); });
-  modeCareerBtn.addEventListener('click', function () { setMode('career'); setSummaryDrawer(true); });
+  modeContactBtn.addEventListener('click', function () { setMode('contact'); });
+  modeCareerBtn.addEventListener('click', function () { setMode('career'); });
   openModeButtons.forEach(function (btn) {
     btn.addEventListener('click', function () {
       var nextMode = btn.getAttribute('data-open-mode') === 'career' ? 'career' : 'contact';
       setMode(nextMode);
-      setSummaryDrawer(true);
     });
-  });
-  if (summaryDrawerToggle) {
-    summaryDrawerToggle.addEventListener('click', function () {
-      var isOpen = summaryDrawer && summaryDrawer.classList.contains('is-open');
-      setSummaryDrawer(!isOpen);
-    });
-  }
-  if (summaryDrawerClose) summaryDrawerClose.addEventListener('click', function () { setSummaryDrawer(false); });
-  if (summaryDrawerOverlay) summaryDrawerOverlay.addEventListener('click', function () { setSummaryDrawer(false); });
-  document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape') setSummaryDrawer(false);
   });
 
   function updateHidden(listEl, hiddenEl) {
     var values = Array.from(listEl.querySelectorAll('.pill')).map(function (item) { return item.getAttribute('data-value') || ''; });
     hiddenEl.value = JSON.stringify(values);
-    updateSummary();
   }
 
   function createPill(listEl, hiddenEl, value) {
@@ -158,68 +114,6 @@
     else setupPairList(config);
   });
 
-  function getListItemsText(listSelector) {
-    var items = Array.from(root.querySelectorAll(listSelector + ' .pill')).map(function (item) { return item.getAttribute('data-value'); });
-    return items.length ? items.join(', ') : '';
-  }
-
-  function updateSummary() {
-    if (mode === 'contact') {
-      var contactName = root.querySelector('#contactFullName').value;
-      var contactEmail = root.querySelector('#contactEmail').value;
-      var contactCity = root.querySelector('#contactCity').value;
-      var contactState = root.querySelector('#contactState').value;
-      var contactZip = root.querySelector('#contactZip').value;
-      var contactTime = root.querySelector('#bestTimeToContact').value;
-      var contactInterest = getCheckedValues('input[name="contact_interest[]"]');
-      var remoteInterest = getCheckedValues('input[name="remote_interest[]"]');
-      var contactSkills = getListItemsText('#contactRemoteSkillsList');
-      var contactLanguages = getListItemsText('#contactLanguagesList');
-      var contactExp = root.querySelector('#contactExperienceLevel').value;
-      var contactEdu = root.querySelector('#contactEducation').value;
-      summaryName.textContent = safeValue(contactName, 'Not provided yet');
-      summaryEmail.textContent = safeValue(contactEmail, 'Not provided yet');
-      summaryLocation.textContent = safeValue([contactCity, contactState, contactZip].filter(Boolean).join(', '), 'Not provided yet');
-      var allContactInterest = contactInterest.concat(remoteInterest.filter(function (item) { return contactInterest.indexOf(item) === -1; }));
-      summaryInterest.textContent = allContactInterest.length ? allContactInterest.join(', ') : 'None selected';
-      var contactItemParts = [];
-      if (contactSkills) contactItemParts.push('Skills: ' + contactSkills);
-      if (contactLanguages) contactItemParts.push('Languages: ' + contactLanguages);
-      if (contactExp) contactItemParts.push('Experience: ' + contactExp);
-      if (contactEdu) contactItemParts.push('Education: ' + contactEdu);
-      summaryItems.textContent = contactItemParts.length ? contactItemParts.join(' | ') : 'No items added yet';
-      summaryTime.textContent = safeValue(contactTime, 'Not provided yet');
-    } else {
-      var careerName = root.querySelector('#careerFullName').value;
-      var careerEmail = root.querySelector('#careerEmail').value;
-      var careerCity = root.querySelector('#careerCity').value;
-      var careerState = root.querySelector('#careerState').value;
-      var careerZip = root.querySelector('#careerZip').value;
-      var careerTime = root.querySelector('#careerAvailability').value;
-      var careerInterest = getCheckedValues('input[name="career_interest[]"]');
-      var expItems = getListItemsText('#careerExperienceList');
-      var langItems = getListItemsText('#careerLanguagesList');
-      var skillItems = getListItemsText('#careerSkillsList');
-      var projectItems = getListItemsText('#careerProjectsList');
-      var eduItems = getListItemsText('#careerEducationList');
-      summaryName.textContent = safeValue(careerName, 'Not provided yet');
-      summaryEmail.textContent = safeValue(careerEmail, 'Not provided yet');
-      summaryLocation.textContent = safeValue([careerCity, careerState, careerZip].filter(Boolean).join(', '), 'Not provided yet');
-      summaryInterest.textContent = careerInterest.length ? careerInterest.join(', ') : 'None selected';
-      var careerItemParts = [];
-      if (expItems) careerItemParts.push('Experience: ' + expItems);
-      if (langItems) careerItemParts.push('Languages: ' + langItems);
-      if (skillItems) careerItemParts.push('Skills: ' + skillItems);
-      if (projectItems) careerItemParts.push('Projects: ' + projectItems);
-      if (eduItems) careerItemParts.push('Education: ' + eduItems);
-      summaryItems.textContent = careerItemParts.length ? careerItemParts.join(' | ') : 'No items added yet';
-      summaryTime.textContent = safeValue(careerTime, 'Not provided yet');
-    }
-  }
-
-  root.addEventListener('input', updateSummary);
-  root.addEventListener('change', updateSummary);
-
   function clearPills(listId, hiddenId) {
     var list = root.querySelector('#' + listId);
     var hidden = root.querySelector('#' + hiddenId);
@@ -227,7 +121,11 @@
     list.innerHTML = '';
     hidden.value = '';
   }
-  function clearCheckboxGroup(selector) { root.querySelectorAll(selector).forEach(function (item) { item.checked = false; }); }
+
+  function clearCheckboxGroup(selector) {
+    root.querySelectorAll(selector).forEach(function (item) { item.checked = false; });
+  }
+
   function clearContactForm() {
     root.querySelector('#contactForm').reset();
     clearPills('contactRemoteSkillsList', 'contactRemoteSkillsHidden');
@@ -237,8 +135,8 @@
     status.dataset.state = '';
     clearCheckboxGroup('input[name="contact_interest[]"]');
     clearCheckboxGroup('input[name="remote_interest[]"]');
-    updateSummary();
   }
+
   function clearCareerForm() {
     root.querySelector('#joinForm').reset();
     clearPills('careerExperienceList', 'careerExperienceHidden');
@@ -250,7 +148,6 @@
     status.textContent = '';
     status.dataset.state = '';
     clearCheckboxGroup('input[name="career_interest[]"]');
-    updateSummary();
   }
 
   root.querySelectorAll('[data-clear-form]').forEach(function (btn) {
@@ -302,6 +199,5 @@
     status.dataset.state = 'review';
   });
 
-  updateSummary();
   setMode(mode);
 })();
