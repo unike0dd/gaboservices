@@ -136,10 +136,6 @@ main li + li {
   display: none;
 }
 
-
-.nav-close-floating {
-  display: none;
-}
 .nav-chat-trigger {
   border: 0;
   background: transparent;
@@ -1549,10 +1545,6 @@ textarea[data-security-state='review'] {
   }
 
 
-  .nav-close-floating {
-    display: none !important;
-  }
-
   .nav-links {
     display: flex;
     position: static;
@@ -1627,28 +1619,6 @@ textarea[data-security-state='review'] {
     display: none;
   }
 
-
-  .nav-close-floating {
-    display: inline-flex !important;
-    align-items: center;
-    position: fixed;
-    top: 0.9rem;
-    right: 0.9rem;
-    z-index: 4100;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: color-mix(in oklab, var(--bg) 90%, white 10%);
-    color: var(--text);
-    font: inherit;
-    font-weight: 600;
-    min-height: 44px;
-    padding: 0.5rem 0.85rem;
-    cursor: pointer;
-  }
-
-  .nav-close-floating[hidden] {
-    display: none;
-  }
 
   .nav-links {
     display: flex;

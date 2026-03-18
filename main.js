@@ -43,20 +43,11 @@ function initNavToggle() {
   navBackdrop.hidden = true;
   document.body.appendChild(navBackdrop);
 
-  const navCloseBtn = document.createElement('button');
-  navCloseBtn.type = 'button';
-  navCloseBtn.className = 'nav-close-floating';
-  navCloseBtn.setAttribute('aria-label', EN_MESSAGES.nav.closeNavigationMenu);
-  navCloseBtn.textContent = '✕';
-  navCloseBtn.hidden = true;
-  document.body.appendChild(navCloseBtn);
-
   const closeNav = () => {
     setNavToggleA11y(false);
     primaryNav.classList.remove('open');
     document.body.classList.remove('nav-open');
     navBackdrop.hidden = true;
-    navCloseBtn.hidden = true;
   };
 
   const openNav = () => {
@@ -64,7 +55,6 @@ function initNavToggle() {
     primaryNav.classList.add('open');
     document.body.classList.add('nav-open');
     navBackdrop.hidden = false;
-    navCloseBtn.hidden = false;
   };
 
   setNavToggleA11y(false);
@@ -78,7 +68,6 @@ function initNavToggle() {
     openNav();
   });
 
-  navCloseBtn.addEventListener('click', closeNav);
   navBackdrop.addEventListener('click', closeNav);
 
   primaryNav.addEventListener('click', (event) => {
