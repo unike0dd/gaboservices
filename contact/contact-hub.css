@@ -145,3 +145,27 @@ body.summary-drawer-open { overflow: hidden; }
   .contact-hub .summary-drawer { width: 100vw; padding: 12px; }
   .contact-hub .summary-drawer-toggle { right: 12px; left: 12px; bottom: 12px; }
 }
+
+
+.contact-hero--compact {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  padding-top: 0;
+  padding-bottom: 12px;
+}
+.contact-hero--compact h1 {
+  max-width: none;
+  font-size: calc(var(--h1-size) + 3px);
+  white-space: nowrap;
+}
+.contact-hero--compact .lead {
+  max-width: none;
+  white-space: nowrap;
+}
+.contact-hub .hub-page { padding-top: 0; }
+.contact-hub .panel__body { padding-top: 8px; }
+@media (max-width: 1024px) {
+  .contact-hero--compact h1,
+  .contact-hero--compact .lead { white-space: normal; }
+}
