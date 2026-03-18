@@ -30,7 +30,7 @@
     modeCareerBtn.classList.toggle('is-active', !isContact);
     modeContactBtn.setAttribute('aria-selected', isContact ? 'true' : 'false');
     modeCareerBtn.setAttribute('aria-selected', isContact ? 'false' : 'true');
-    var label = isContact ? 'Contact / Inquiry' : 'Career / Job Application';
+    var label = isContact ? 'Contact Summary' : 'Career Summary';
     currentModeBadge.textContent = label;
     summaryMode.textContent = label;
     updateSummary();
