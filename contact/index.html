@@ -27,7 +27,7 @@
     <meta name="twitter:image" content="https://www.gabo.services/assets/og-cover.svg" />
     <link rel="stylesheet" href="../styles.css" />
     <link rel="stylesheet" href="../responsive.css" />
-    <link rel="stylesheet" href="./contact-hub.css?v=20260318a" />
+    <link rel="stylesheet" href="./contact-hub.css?v=20260318b" />
   </head>
   <body data-page-key="contact">
     <header class="site-header">
@@ -316,8 +316,19 @@
               </div>
             </div>
 
-            <aside class="summary">
+            <button type="button" id="summaryDrawerToggle" class="summary-drawer-toggle" aria-expanded="false" aria-controls="summaryDrawer">Open live summary</button>
+
+            <div id="summaryDrawerOverlay" class="summary-drawer-overlay" hidden></div>
+            <aside id="summaryDrawer" class="summary summary-drawer" aria-hidden="true" aria-labelledby="summaryDrawerTitle">
               <section class="summary-card">
+                <div class="summary-card__head">
+                  <div>
+                    <p class="summary-kicker">Live summary</p>
+                    <h3 id="summaryDrawerTitle">Contact Summary</h3>
+                  </div>
+                  <button type="button" id="summaryDrawerClose" class="summary-drawer-close" aria-label="Close live summary">×</button>
+                </div>
+                <p id="summaryDrawerDescription" class="summary-note">Review the active contact details while you fill out the form.</p>
                 <div class="summary-list">
                   <div class="summary-row"><span class="summary-label">Full Name</span><span id="summaryName" class="summary-value">Not provided yet</span></div>
                   <div class="summary-row"><span class="summary-label">Email</span><span id="summaryEmail" class="summary-value">Not provided yet</span></div>
@@ -357,7 +368,7 @@
       </div>
     </footer>
 
-    <script src="./contact-hub.js?v=20260318a"></script>
+    <script src="./contact-hub.js?v=20260318b"></script>
     <script type="module" src="../page-style-switcher.js"></script>
     <script src="../site.config.js"></script>
     <script data-cfasync="false" type="module" crossorigin="anonymous" src="../main.js"></script>
