@@ -12,6 +12,7 @@
   var summaryDrawerOverlay = root.querySelector('#summaryDrawerOverlay');
   var summaryDrawerToggle = root.querySelector('#summaryDrawerToggle');
   var summaryDrawerClose = root.querySelector('#summaryDrawerClose');
+  var openModeButtons = root.querySelectorAll('[data-open-mode]');
   var summaryDrawerTitle = root.querySelector('#summaryDrawerTitle');
   var summaryDrawerDescription = root.querySelector('#summaryDrawerDescription');
   var summaryName = root.querySelector('#summaryName');
@@ -31,7 +32,7 @@
     summaryDrawer.classList.toggle('is-open', open);
     summaryDrawer.setAttribute('aria-hidden', open ? 'false' : 'true');
     summaryDrawerToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    summaryDrawerToggle.textContent = open ? 'Close live summary' : 'Open live summary';
+    summaryDrawerToggle.textContent = open ? 'Close live summary workspace' : 'Open live summary workspace';
     summaryDrawerOverlay.hidden = !open;
     document.body.classList.toggle('summary-drawer-open', open);
   }
@@ -58,6 +59,13 @@
 
   modeContactBtn.addEventListener('click', function () { setMode('contact'); setSummaryDrawer(true); });
   modeCareerBtn.addEventListener('click', function () { setMode('career'); setSummaryDrawer(true); });
+  openModeButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var nextMode = btn.getAttribute('data-open-mode') === 'career' ? 'career' : 'contact';
+      setMode(nextMode);
+      setSummaryDrawer(true);
+    });
+  });
   if (summaryDrawerToggle) {
     summaryDrawerToggle.addEventListener('click', function () {
       var isOpen = summaryDrawer && summaryDrawer.classList.contains('is-open');
