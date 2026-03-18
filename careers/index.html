@@ -110,6 +110,117 @@
             </div>
           </section>
 
+          <section class="layout">
+            <div class="panel">
+              <div class="panel__body">
+                <form id="careerForm" class="site-form" method="post" novalidate>
+                  <section class="form-block">
+                    <div class="grid grid--2">
+                      <div class="field"><label for="careerFullName">Full Name</label><input id="careerFullName" name="full_name" type="text" autocomplete="name" required /></div>
+                      <div class="field"><label for="careerEmail">Email Address</label><input id="careerEmail" name="email_address" type="email" autocomplete="email" required /></div>
+                      <div class="field"><label for="careerCountryCode">Country Code</label><input id="careerCountryCode" name="country_code" type="text" placeholder="+1" required /></div>
+                      <div class="field"><label for="careerNumber">Contact Number</label><input id="careerNumber" name="contact_number" type="tel" autocomplete="tel-national" required /></div>
+                      <div class="field"><label for="careerCity">City</label><input id="careerCity" name="city" type="text" autocomplete="address-level2" required /></div>
+                      <div class="field"><label for="careerState">State / Province</label><input id="careerState" name="state_province" type="text" autocomplete="address-level1" required /></div>
+                      <div class="field"><label for="careerZip">Country Zip Code</label><input id="careerZip" name="country_zip_code" type="text" autocomplete="postal-code" required /></div>
+                      <div class="field"><label for="careerAvailability">Availability</label><input id="careerAvailability" name="availability" type="datetime-local" required /></div>
+                    </div>
+                  </section>
+
+                  <section class="form-block">
+                    <div>
+                      <h4 class="form-block__title">Area of Interest</h4>
+                      <p class="form-block__text">Select one or more service areas.</p>
+                    </div>
+                    <div class="check-grid">
+                      <label class="check-card"><input type="checkbox" name="career_interest[]" value="Logistics Operations" /><span>Logistics Operations</span></label>
+                      <label class="check-card"><input type="checkbox" name="career_interest[]" value="Administrative Back Office" /><span>Administrative Back Office</span></label>
+                      <label class="check-card"><input type="checkbox" name="career_interest[]" value="Customer Relations" /><span>Customer Relations</span></label>
+                      <label class="check-card"><input type="checkbox" name="career_interest[]" value="IT Support" /><span>IT Support</span></label>
+                    </div>
+                  </section>
+
+                  <section class="form-block">
+                    <div>
+                      <h4 class="form-block__title">Experience and Profile</h4>
+                      <p class="form-block__text">Add experience, languages, skills, projects, and education.</p>
+                    </div>
+                    <div class="dynamic">
+                      <div class="field">
+                        <label for="careerExperienceInput">Experience Level</label>
+                        <div class="dynamic__entry dynamic__entry--triple">
+                          <input id="careerExperienceInput" type="text" placeholder="Add experience area" />
+                          <select id="careerExperienceLevel">
+                            <option value="">Select level</option><option value="Entry">Entry</option><option value="Junior">Junior</option><option value="Mid">Mid</option><option value="Advanced">Advanced</option><option value="Expert">Expert</option>
+                          </select>
+                          <button type="button" id="careerExperienceAdd" class="btn btn--soft">Add</button>
+                        </div>
+                        <ul id="careerExperienceList" class="pill-list" aria-label="Career experience"></ul>
+                        <input type="hidden" id="careerExperienceHidden" name="experience_items" />
+                      </div>
+
+                      <div class="field">
+                        <label for="careerLanguageInput">Languages</label>
+                        <div class="dynamic__entry dynamic__entry--triple">
+                          <input id="careerLanguageInput" type="text" placeholder="Add a language" />
+                          <select id="careerLanguageLevel">
+                            <option value="">Select level</option><option value="Beginner">Beginner</option><option value="Elementary">Elementary</option><option value="Intermediate">Intermediate</option><option value="Advance">Advance</option><option value="Advance Professional">Advance Professional</option><option value="Native">Native</option>
+                          </select>
+                          <button type="button" id="careerLanguageAdd" class="btn btn--soft">Add</button>
+                        </div>
+                        <ul id="careerLanguagesList" class="pill-list" aria-label="Career languages"></ul>
+                        <input type="hidden" id="careerLanguagesHidden" name="languages" />
+                      </div>
+
+                      <div class="field">
+                        <label for="careerSkillInput">Skills</label>
+                        <div class="dynamic__entry dynamic__entry--triple">
+                          <input id="careerSkillInput" type="text" placeholder="Add a skill" />
+                          <select id="careerSkillLevel">
+                            <option value="">Select level</option><option value="Entry">Entry</option><option value="Junior">Junior</option><option value="Mid">Mid</option><option value="Advanced">Advanced</option><option value="Expert">Expert</option>
+                          </select>
+                          <button type="button" id="careerSkillAdd" class="btn btn--soft">Add</button>
+                        </div>
+                        <ul id="careerSkillsList" class="pill-list" aria-label="Career skills"></ul>
+                        <input type="hidden" id="careerSkillsHidden" name="skills" />
+                      </div>
+
+                      <div class="field">
+                        <label for="careerProjectInput">Projects</label>
+                        <div class="dynamic__entry">
+                          <input id="careerProjectInput" type="text" placeholder="Add a project" />
+                          <button type="button" id="careerProjectAdd" class="btn btn--soft">Add</button>
+                        </div>
+                        <ul id="careerProjectsList" class="pill-list" aria-label="Career projects"></ul>
+                        <input type="hidden" id="careerProjectsHidden" name="projects" />
+                      </div>
+
+                      <div class="field">
+                        <label for="careerEducationInput">Education</label>
+                        <div class="dynamic__entry dynamic__entry--triple">
+                          <input id="careerEducationInput" type="text" placeholder="Add school, program, or certificate" />
+                          <select id="careerEducationLevel">
+                            <option value="">Select level</option><option value="Grammar School">Grammar School</option><option value="Some High School">Some High School</option><option value="High School">High School</option><option value="Some College">Some College</option><option value="Associate Degree">Associate Degree</option><option value="Bachelor">Bachelor</option><option value="Masters">Masters</option><option value="PhD">PhD</option>
+                          </select>
+                          <button type="button" id="careerEducationAdd" class="btn btn--soft">Add</button>
+                        </div>
+                        <ul id="careerEducationList" class="pill-list" aria-label="Career education"></ul>
+                        <input type="hidden" id="careerEducationHidden" name="education_items" />
+                      </div>
+
+                      <div class="field"><label for="careerResumeLink">Resume or Profile Link</label><input id="careerResumeLink" name="resume_or_profile_link" type="url" placeholder="https://" /></div>
+                    </div>
+                  </section>
+
+                  <div class="secure-actions">
+                    <button type="submit" class="btn btn--primary">Submit Application</button>
+                    <button type="button" class="btn btn--ghost" data-clear-form="career">Clear Form</button>
+                  </div>
+                  <p id="careerFormStatus" class="status-note" aria-live="polite"></p>
+                </form>
+              </div>
+            </div>
+          </section>
         </div>
       </section>
     </main>
@@ -138,6 +249,7 @@
       </div>
     </footer>
 
+    <script src="./careers-form.js"></script>
     <script type="module" src="../page-style-switcher.js"></script>
     <script src="../site.config.js"></script>
     <script data-cfasync="false" type="module" crossorigin="anonymous" src="../main.js"></script>
