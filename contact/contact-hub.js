@@ -8,7 +8,6 @@
   var contactPanel = root.querySelector('#contactModePanel');
   var careerPanel = root.querySelector('#careerModePanel');
   var currentModeBadge = root.querySelector('#currentModeBadge');
-  var summaryMode = root.querySelector('#summaryMode');
   var summaryName = root.querySelector('#summaryName');
   var summaryEmail = root.querySelector('#summaryEmail');
   var summaryLocation = root.querySelector('#summaryLocation');
@@ -32,7 +31,6 @@
     modeCareerBtn.setAttribute('aria-selected', isContact ? 'false' : 'true');
     var label = isContact ? 'Contact Summary' : 'Career Summary';
     currentModeBadge.textContent = label;
-    summaryMode.textContent = label;
     updateSummary();
   }
 

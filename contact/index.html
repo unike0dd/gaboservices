@@ -78,12 +78,12 @@
 
             <div class="switcher" role="tablist" aria-label="Form mode switcher">
               <button type="button" id="modeContactBtn" class="switcher__btn is-active" role="tab" aria-selected="true" aria-controls="contactModePanel" data-mode="contact">
-                <span class="switcher__title">Contact / Inquiry</span>
+                <span class="switcher__title">Contact Summary</span>
                 <p class="switcher__desc">For general inquiries and remote assistant interest.</p>
               </button>
 
               <button type="button" id="modeCareerBtn" class="switcher__btn" role="tab" aria-selected="false" aria-controls="careerModePanel" data-mode="career">
-                <span class="switcher__title">Career / Job Application</span>
+                <span class="switcher__title">Career Summary</span>
                 <p class="switcher__desc">For applicants sharing experience, skills, and availability.</p>
               </button>
             </div>
@@ -195,7 +195,7 @@
                     </section>
 
                     <div class="secure-actions">
-                      <button type="submit" class="btn btn--primary">Request Information Inquire</button>
+                      <button type="submit" class="btn btn--primary">Submit Contact Summary</button>
                       <button type="button" class="btn btn--ghost" data-clear-form="contact">Clear Form</button>
                     </div>
                     <p id="formStatus" class="status-note" aria-live="polite"></p>
@@ -307,7 +307,7 @@
                     </section>
 
                     <div class="secure-actions">
-                      <button type="submit" class="btn btn--primary">Submit Application</button>
+                      <button type="submit" class="btn btn--primary">Submit Career Summary</button>
                       <button type="button" class="btn btn--ghost" data-clear-form="career">Clear Form</button>
                     </div>
                     <p id="joinFormStatus" class="status-note" aria-live="polite"></p>
@@ -318,9 +318,7 @@
 
             <aside class="summary">
               <section class="summary-card">
-                <h3>Live Summary</h3>
                 <div class="summary-list">
-                  <div class="summary-row"><span class="summary-label">Mode</span><span id="summaryMode" class="summary-value">Contact Summary</span></div>
                   <div class="summary-row"><span class="summary-label">Full Name</span><span id="summaryName" class="summary-value">Not provided yet</span></div>
                   <div class="summary-row"><span class="summary-label">Email</span><span id="summaryEmail" class="summary-value">Not provided yet</span></div>
                   <div class="summary-row"><span class="summary-label">Location</span><span id="summaryLocation" class="summary-value">Not provided yet</span></div>
@@ -328,14 +326,6 @@
                   <div class="summary-row"><span class="summary-label">Skills / Profile Items</span><span id="summaryItems" class="summary-value">No items added yet</span></div>
                   <div class="summary-row"><span class="summary-label">Preferred Time / Availability</span><span id="summaryTime" class="summary-value">Not provided yet</span></div>
                 </div>
-              </section>
-
-              <section class="summary-card">
-                <h3>What this page improves</h3>
-                <p class="summary-note">One page instead of separate crowded sections.</p>
-                <p class="summary-note">Switch between inquiry and application without reloading.</p>
-                <p class="summary-note">Users can see a running summary while filling the form.</p>
-                <p class="summary-note">Dynamic list entries keep skills, languages, projects, and education structured.</p>
               </section>
             </aside>
           </section>
