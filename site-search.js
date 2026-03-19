@@ -242,7 +242,8 @@ const initSearchRoot = (root, index) => {
   }
 
   input.addEventListener('focus', () => {
-    setPanelState(true);
+    const query = input.value.trim();
+    setPanelState(Boolean(query));
     renderResults(input.value);
   });
 

@@ -2813,8 +2813,7 @@ select {
   z-index: 180;
 }
 
-.site-search-shell.has-results .site-search-results--header,
-.site-search-form--header:focus-within .site-search-results--header {
+.site-search-shell.has-results .site-search-results--header {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
