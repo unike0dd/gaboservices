@@ -72,6 +72,8 @@ All of the following can be implemented without paid services and without adding
    - Added `https://challenges.cloudflare.com` to script/connect/frame directives in `_headers` to align contact-form challenge loading with the site-wide policy.
 6. **Scoped static asset CORS retained**
    - `/assets/*` keeps explicit `Access-Control-Allow-Origin: https://www.gabo.services` for strict origin control on static asset reads.
+7. **YouTube privacy-enhanced embed readiness added**
+   - `frame-src` now includes `https://www.youtube-nocookie.com` so HTML5/video content strategy can expand without loosening the rest of the CSP baseline.
 
 ### Compliance Mapping (practical)
 
