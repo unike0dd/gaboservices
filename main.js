@@ -1,13 +1,44 @@
 import { initAdaptiveLayout } from './adaptive-layout.js';
 import { initChatbotControls } from './chatbot/chatbot-controls.js';
 import { initFabControls } from './fab-controls.js';
+import { SITE_METADATA_DEFAULTS } from './site-metadata-defaults.js';
 import { initSiteGovernance } from './site-governance.js';
 import { initSiteSearch } from './site-search.js';
 import { EN_MESSAGES } from './locales/en/messages.js';
 
 const activeLocale = 'en';
 
-const getMetadata = () => window.SITE_METADATA || {};
+const getMetadata = () => {
+  const siteMetadata = window.SITE_METADATA || {};
+  return {
+    ...SITE_METADATA_DEFAULTS,
+    ...siteMetadata,
+    seo: {
+      ...SITE_METADATA_DEFAULTS.seo,
+      ...(siteMetadata.seo || {}),
+      structuredData: {
+        ...SITE_METADATA_DEFAULTS.seo.structuredData,
+        ...(siteMetadata.seo?.structuredData || {})
+      }
+    },
+    security: {
+      ...SITE_METADATA_DEFAULTS.security,
+      ...(siteMetadata.security || {})
+    },
+    media: {
+      ...SITE_METADATA_DEFAULTS.media,
+      ...(siteMetadata.media || {}),
+      allowedEmbeds: {
+        ...SITE_METADATA_DEFAULTS.media.allowedEmbeds,
+        ...(siteMetadata.media?.allowedEmbeds || {})
+      }
+    },
+    voiceSearch: {
+      ...SITE_METADATA_DEFAULTS.voiceSearch,
+      ...(siteMetadata.voiceSearch || {})
+    }
+  };
+};
 
 const getLocalizedValue = (value) => {
   if (value && typeof value === 'object' && value[activeLocale]) return value[activeLocale];

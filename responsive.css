@@ -347,3 +347,123 @@ body {
     max-width: 100%;
   }
 }
+
+
+/* Services page responsive fixes */
+body[data-page-key="services"] .cards-grid > .info-card,
+body[data-page-key="services"] .pricing-cta-panel,
+body[data-page-key="services"] .service-matrix-section,
+body[data-page-key="services"] .engagement-options__inner {
+  min-width: 0;
+}
+
+body[data-page-key="services"] .service-card-link {
+  width: fit-content;
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+
+body[data-page-key="services"] .cta-row > .btn {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  body[data-page-key="services"] .hero-editorial,
+  body[data-page-key="services"] .section-block {
+    overflow-x: clip;
+  }
+
+  body[data-page-key="services"] .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  body[data-page-key="services"] .info-card,
+  body[data-page-key="services"] .matrix-panel,
+  body[data-page-key="services"] .pricing-cta-panel {
+    padding: clamp(1rem, 2.8vw, 1.4rem);
+  }
+
+  body[data-page-key="services"] .service-card-link,
+  body[data-page-key="services"] .cta-row > .btn,
+  body[data-page-key="services"] .pricing-cta-panel .cta-row > .btn {
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+  }
+
+  body[data-page-key="services"] .pricing-cta-panel .cta-row {
+    gap: 0.75rem;
+  }
+
+  body[data-page-key="services"] .service-matrix-table th,
+  body[data-page-key="services"] .service-matrix-table td {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 680px) {
+  body[data-page-key="services"] .page-main {
+    width: min(100vw, 100%);
+  }
+
+  body[data-page-key="services"] .hero-editorial {
+    padding-top: 2.5rem;
+    padding-bottom: 2.75rem;
+  }
+
+  body[data-page-key="services"] .page-main h1,
+  body[data-page-key="services"] .page-main h2,
+  body[data-page-key="services"] .page-main h3,
+  body[data-page-key="services"] .page-main p,
+  body[data-page-key="services"] .page-main li,
+  body[data-page-key="services"] .page-main a {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  body[data-page-key="services"] .section-block {
+    margin-block: 2.8rem;
+  }
+
+  body[data-page-key="services"] .page-main .lead,
+  body[data-page-key="services"] .page-main p,
+  body[data-page-key="services"] .page-main li {
+    text-wrap: pretty;
+  }
+
+  body[data-page-key="services"] .cards-grid h3 {
+    font-size: clamp(1.4rem, 5vw, 1.8rem);
+  }
+
+  body[data-page-key="services"] .cta-row {
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 420px) {
+  body[data-page-key="services"] .page-main,
+  body[data-page-key="services"] .container {
+    width: 100%;
+  }
+
+  body[data-page-key="services"] .info-card,
+  body[data-page-key="services"] .matrix-panel,
+  body[data-page-key="services"] .pricing-cta-panel {
+    padding: 0.9rem;
+    border-radius: 0.9rem;
+  }
+
+  body[data-page-key="services"] .page-main h1 {
+    font-size: clamp(2rem, 9vw, 2.45rem);
+  }
+
+  body[data-page-key="services"] .page-main h2 {
+    font-size: clamp(1.55rem, 7vw, 2rem);
+  }
+
+  body[data-page-key="services"] .service-card-link,
+  body[data-page-key="services"] .page-main .btn {
+    width: 100%;
+  }
+}
