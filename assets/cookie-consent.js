@@ -4,6 +4,7 @@ import { EN_MESSAGES } from '../locales/en/messages.js';
   'use strict';
 
   var STORAGE_KEY = 'gs_cookie_consent_v1';
+  var CLOUDFLARE_BEACON_SELECTOR = 'script[src*="static.cloudflareinsights.com/beacon.min.js"]';
 
   function nowISO() { try { return new Date().toISOString(); } catch { return ''; } }
   function readConsent() { try { var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : null; } catch { return null; } }
@@ -24,7 +25,17 @@ import { EN_MESSAGES } from '../locales/en/messages.js';
     if (marketing) marketing.checked = !!consent.marketing;
   }
 
-  function applyConsent(consent) { if (!consent) return; }
+  function removeCloudflareBeacon() {
+    var scripts = document.querySelectorAll(CLOUDFLARE_BEACON_SELECTOR);
+    scripts.forEach(function (script) { script.remove(); });
+    if (window.__cfBeacon) window.__cfBeacon = undefined;
+  }
+
+  function applyConsent(consent) {
+    if (!consent || !consent.analytics) {
+      removeCloudflareBeacon();
+    }
+  }
 
   function saveFromForm() {
     var form = formEl();
@@ -56,7 +67,7 @@ import { EN_MESSAGES } from '../locales/en/messages.js';
     wireUI();
     var consent = readConsent();
     if (consent) { setFormFromConsent(consent); applyConsent(consent); setStatus(t('loaded')); }
-    else { setStatus(t('empty')); }
+    else { applyConsent({ analytics: false }); setStatus(t('empty')); }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
