@@ -93,48 +93,49 @@ main li + li {
 .editorial-toggle {
   justify-self: start;
   display: inline-flex;
-  align-items: stretch;
+  align-items: center;
   gap: 0.35rem;
   border: 1px solid #000;
   background: #000;
   color: #fff;
   border-radius: 999px;
-  padding: 0.3rem;
-  min-height: 44px;
-}
-.editorial-toggle__option {
-  border: 0;
-  background: transparent;
-  border-radius: 999px;
   padding: 0.42rem 0.88rem;
   font-size: 0.78rem;
-  line-height: 1;
   cursor: pointer;
-  transition: transform 180ms ease, opacity 180ms ease, filter 180ms ease, background-color 180ms ease, color 180ms ease;
+  min-height: 44px;
 }
-.editorial-toggle__option:focus-visible {
+.editorial-toggle:focus-visible {
   outline: 2px solid rgba(255, 255, 255, 0.72);
   outline-offset: 2px;
 }
-.editorial-toggle__option--news {
+.editorial-toggle__label {
+  display: inline-block;
+  line-height: 1;
+  transition: transform 180ms ease, opacity 180ms ease, filter 180ms ease;
+  pointer-events: auto;
+}
+.editorial-toggle__label--news {
   color: #5ba3ff;
   font-family: 'Merriweather', Georgia, serif;
   font-weight: 700;
   letter-spacing: 0.01em;
 }
-.editorial-toggle__option--magazine {
+.editorial-toggle__label--magazine {
   color: #ff6b6b;
   font-family: 'Libre Baskerville', 'Times New Roman', serif;
   font-weight: 700;
   letter-spacing: 0.03em;
 }
-.editorial-toggle__option.is-active {
-  background: rgba(255, 255, 255, 0.08);
+.editorial-toggle__separator {
+  color: rgba(255, 255, 255, 0.62);
+}
+.editorial-toggle[data-current-theme='wallstreet'] .editorial-toggle__label--news,
+.editorial-toggle[data-current-theme='time'] .editorial-toggle__label--magazine {
   transform: scale(1.02);
   filter: brightness(1.12);
 }
-.editorial-toggle[data-current-theme='wallstreet'] .editorial-toggle__option--magazine,
-.editorial-toggle[data-current-theme='time'] .editorial-toggle__option--news {
+.editorial-toggle[data-current-theme='wallstreet'] .editorial-toggle__label--magazine,
+.editorial-toggle[data-current-theme='time'] .editorial-toggle__label--news {
   opacity: 0.9;
 }
 .nav-links {

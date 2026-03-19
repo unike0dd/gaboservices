@@ -13,6 +13,8 @@ export const EN_MESSAGES = {
   editorialTheme: {
     wallstreet: 'News Cut',
     time: 'Magazine Cut',
+    wallstreetShort: 'News',
+    timeShort: 'Mags',
     ariaPrefix: 'Switch landing and navigation look.'
   },
   chatbot: {
