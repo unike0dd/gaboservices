@@ -1,6 +1,7 @@
 const governance = (() => {
   const ABSOLUTE_URL_PATTERN = /^https?:\/\//i;
 
+  const hasSiteMetadata = () => Boolean(window.SITE_METADATA && typeof window.SITE_METADATA === 'object');
   const getMetadata = () => Object.freeze(window.SITE_METADATA || {});
   const getSeo = () => Object.freeze(getMetadata().seo || {});
   const getSecurity = () => Object.freeze(getMetadata().security || {});
@@ -98,7 +99,7 @@ const governance = (() => {
       findings.push('Missing Twitter card tag.');
     }
 
-    if (!security.cspProfile) {
+    if (hasSiteMetadata() && !security.cspProfile) {
       findings.push('No CSP profile declared in site config.');
     }
 
