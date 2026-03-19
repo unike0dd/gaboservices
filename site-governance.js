@@ -1,8 +1,39 @@
+import { SITE_METADATA_DEFAULTS } from './site-metadata-defaults.js';
+
 const governance = (() => {
   const ABSOLUTE_URL_PATTERN = /^https?:\/\//i;
 
-  const hasSiteMetadata = () => Boolean(window.SITE_METADATA && typeof window.SITE_METADATA === 'object');
-  const getMetadata = () => Object.freeze(window.SITE_METADATA || {});
+  const getMetadata = () => {
+    const siteMetadata = window.SITE_METADATA || {};
+    return Object.freeze({
+      ...SITE_METADATA_DEFAULTS,
+      ...siteMetadata,
+      seo: Object.freeze({
+        ...SITE_METADATA_DEFAULTS.seo,
+        ...(siteMetadata.seo || {}),
+        structuredData: Object.freeze({
+          ...SITE_METADATA_DEFAULTS.seo.structuredData,
+          ...(siteMetadata.seo?.structuredData || {})
+        })
+      }),
+      security: Object.freeze({
+        ...SITE_METADATA_DEFAULTS.security,
+        ...(siteMetadata.security || {})
+      }),
+      media: Object.freeze({
+        ...SITE_METADATA_DEFAULTS.media,
+        ...(siteMetadata.media || {}),
+        allowedEmbeds: Object.freeze({
+          ...SITE_METADATA_DEFAULTS.media.allowedEmbeds,
+          ...(siteMetadata.media?.allowedEmbeds || {})
+        })
+      }),
+      voiceSearch: Object.freeze({
+        ...SITE_METADATA_DEFAULTS.voiceSearch,
+        ...(siteMetadata.voiceSearch || {})
+      })
+    });
+  };
   const getSeo = () => Object.freeze(getMetadata().seo || {});
   const getSecurity = () => Object.freeze(getMetadata().security || {});
   const getMedia = () => Object.freeze(getMetadata().media || {});
@@ -118,9 +149,13 @@ const governance = (() => {
     return findings;
   };
 
+  let initialized = false;
+
   const init = () => {
+    if (initialized) return [];
+    initialized = true;
     syncSeoTags();
-    syncStructuredData();
+    injectStructuredData();
     return runSelfAudit();
   };
 
