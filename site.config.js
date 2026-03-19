@@ -37,7 +37,7 @@ window.SITE_METADATA = {
     }
   },
   voiceSearch: {
-    enabled: false,
+    enabled: true,
     lang: 'en-US',
     requiresConsent: true,
     browserApi: 'webkitSpeechRecognition|SpeechRecognition'

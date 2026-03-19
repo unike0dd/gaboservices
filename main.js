@@ -2,6 +2,7 @@ import { initAdaptiveLayout } from './adaptive-layout.js';
 import { initChatbotControls } from './chatbot/chatbot-controls.js';
 import { initFabControls } from './fab-controls.js';
 import { initSiteGovernance } from './site-governance.js';
+import { initSiteSearch } from './site-search.js';
 import { EN_MESSAGES } from './locales/en/messages.js';
 
 const metadata = window.SITE_METADATA || {};
@@ -97,6 +98,7 @@ function initFormStatus() {
 
 document.addEventListener('DOMContentLoaded', () => {
   initSiteGovernance();
+  initSiteSearch();
   initAdaptiveLayout();
   initChatbotControls();
   initFabControls();
