@@ -22,7 +22,12 @@ import { EN_MESSAGES } from './locales/en/messages.js';
     const alternateLabel = labels[alternateTheme] || labels.time;
 
     root.setAttribute('data-editorial-theme', theme);
-    button.textContent = `${currentLabel} · ${alternateLabel}`;
+    button.dataset.currentTheme = theme;
+    button.innerHTML = `
+      <span class="editorial-toggle__label editorial-toggle__label--news">${labels.wallstreet}</span>
+      <span class="editorial-toggle__separator" aria-hidden="true">·</span>
+      <span class="editorial-toggle__label editorial-toggle__label--magazine">${labels.time}</span>
+    `;
     button.setAttribute('aria-label', `${labels.ariaPrefix} ${currentLabel}. Activate ${alternateLabel} next.`);
     button.setAttribute('title', `Current: ${currentLabel}. Click to activate ${alternateLabel}.`);
   };
