@@ -149,7 +149,11 @@ const governance = (() => {
     return findings;
   };
 
+  let initialized = false;
+
   const init = () => {
+    if (initialized) return [];
+    initialized = true;
     syncSeoTags();
     injectStructuredData();
     return runSelfAudit();
