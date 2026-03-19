@@ -14,7 +14,7 @@ const getLocalizedValue = (value) => {
   return typeof value === 'string' ? value : '';
 };
 
-function syncSiteMetadata() {
+function syncPageMetadata() {
   const metadata = getMetadata();
   const localizedName = getLocalizedValue(metadata.name);
   if (localizedName) document.title = localizedName;
@@ -102,7 +102,7 @@ function initFormStatus() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  syncSiteMetadata();
+  syncPageMetadata();
   initSiteGovernance();
   initSiteSearch();
   initAdaptiveLayout();
