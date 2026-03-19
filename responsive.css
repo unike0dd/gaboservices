@@ -40,6 +40,15 @@ iframe {
     align-items: stretch;
   }
 
+  .site-search-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .site-search-controls .btn {
+    width: 100%;
+  }
+
   .btn {
     text-align: center;
   }
