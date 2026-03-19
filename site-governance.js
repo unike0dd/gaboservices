@@ -130,7 +130,7 @@ const governance = (() => {
       findings.push('Missing Twitter card tag.');
     }
 
-    if (!security.cspProfile) {
+    if (hasSiteMetadata() && !security.cspProfile) {
       findings.push('No CSP profile declared in site config.');
     }
 
