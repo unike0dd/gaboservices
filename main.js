@@ -5,24 +5,28 @@ import { initSiteGovernance } from './site-governance.js';
 import { initSiteSearch } from './site-search.js';
 import { EN_MESSAGES } from './locales/en/messages.js';
 
-const metadata = window.SITE_METADATA || {};
 const activeLocale = 'en';
+
+const getMetadata = () => window.SITE_METADATA || {};
 
 const getLocalizedValue = (value) => {
   if (value && typeof value === 'object' && value[activeLocale]) return value[activeLocale];
   return typeof value === 'string' ? value : '';
 };
 
-const localizedName = getLocalizedValue(metadata.name);
-if (localizedName) document.title = localizedName;
+function syncPageMetadata() {
+  const metadata = getMetadata();
+  const localizedName = getLocalizedValue(metadata.name);
+  if (localizedName) document.title = localizedName;
 
-const metaDescription = document.querySelector('meta[name="description"]');
-const localizedDescription = getLocalizedValue(metadata.description);
-if (metaDescription && localizedDescription) {
-  metaDescription.setAttribute('content', localizedDescription);
+  const metaDescription = document.querySelector('meta[name="description"]');
+  const localizedDescription = getLocalizedValue(metadata.description);
+  if (metaDescription && localizedDescription) {
+    metaDescription.setAttribute('content', localizedDescription);
+  }
+
+  document.documentElement.lang = activeLocale;
 }
-
-document.documentElement.lang = activeLocale;
 
 function initNavToggle() {
   const navToggle = document.getElementById('navToggle');
@@ -98,6 +102,7 @@ function initFormStatus() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  syncPageMetadata();
   initSiteGovernance();
   initSiteSearch();
   initAdaptiveLayout();
