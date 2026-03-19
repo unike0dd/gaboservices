@@ -69,14 +69,10 @@ const governance = (() => {
     const seo = getSeo();
     if (!seo.structuredData || cspBlocksInlineStructuredData()) return;
 
-    const existing = document.querySelector('script[data-governance-schema="organization"]');
-    if (existing) existing.remove();
+    const script = document.querySelector('script[data-governance-schema="organization"]');
+    if (!script) return;
 
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.dataset.governanceSchema = 'organization';
     script.textContent = JSON.stringify(seo.structuredData);
-    document.head.appendChild(script);
   };
 
   const runSelfAudit = () => {
@@ -123,7 +119,7 @@ const governance = (() => {
 
   const init = () => {
     syncSeoTags();
-    injectStructuredData();
+    syncStructuredData();
     return runSelfAudit();
   };
 
