@@ -11,7 +11,7 @@ This implementation adds an on-site search experience that lets visitors:
 ## How it works
 
 1. `index.html` renders a search panel on the homepage.
-2. `site-search.js` contains a curated index of site destinations.
+2. `locales/en/build-site-search-content.mjs` contains the generated English search corpus and the runtime voice/text search logic used by the site.
 3. As the visitor types or speaks, the script scores likely matches.
 4. The user can click any result, or submit the form to open the top result.
 
@@ -24,7 +24,8 @@ This implementation adds an on-site search experience that lets visitors:
 
 ## How to expand it
 
-- Add more destinations to the `SEARCH_INDEX` array in `site-search.js`.
+- Rebuild the generated English search corpus with `node locales/en/build-site-search-content.mjs` after updating page copy.
+- That single locale script now stores both the generated English search entries and the website runtime logic that powers voice and text search.
 - If a global site search page is added later, this component can send the recognized query there instead of navigating straight to the best local result.
 - If analytics are desired, track search phrases only after reviewing privacy requirements and retention rules.
 
