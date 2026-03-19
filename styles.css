@@ -86,7 +86,7 @@ main li + li {
   background: color-mix(in oklab, var(--bg) 88%, transparent);
   border-bottom: 1px solid var(--border);
 }
-.nav-wrap { display:flex; align-items:center; justify-content:space-between; padding: var(--adaptive-nav-wrap-padding-y, .8rem) 0; gap: var(--adaptive-nav-gap, 1rem); }
+.nav-wrap { display:flex; align-items:center; justify-content:space-between; padding: var(--adaptive-nav-wrap-padding-y, .8rem) 0; gap: var(--adaptive-nav-gap, 1rem); position: relative; }
 .brand-stack { display: grid; gap: 0.2rem; }
 .brand { font-weight: 800; font-size: 24px; color: var(--text); text-decoration: none; }
 .brand-subtitle { margin: 0; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; }
@@ -1624,6 +1624,12 @@ textarea[data-security-state='review'] {
     min-width: 0;
   }
 
+  .site-search-shell {
+    order: 2;
+    margin-left: auto;
+    flex: 1 1 100%;
+  }
+
   .actions {
     order: 3;
     flex-basis: 100%;
@@ -1642,10 +1648,23 @@ textarea[data-security-state='review'] {
   }
 
   #navToggle {
-    order: 2;
+    order: 3;
     margin-left: auto;
     margin-right: 0.25rem;
     align-self: flex-start;
+  }
+
+
+
+  .site-search-inline-controls {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+
+  .site-search-panel--header {
+    top: calc(100% + 0.5rem);
+    right: 0;
+    width: 100%;
+    min-width: 0;
   }
 
   .nav-toggle {
@@ -2639,7 +2658,7 @@ select {
   width: min(100%, 24rem);
 }
 
-.site-search-form {
+.site-search-panel {
   display: grid;
   gap: 0.5rem;
 }
@@ -2649,8 +2668,17 @@ select {
   align-items: start;
 }
 
-.site-search-label {
-  font-weight: 700;
+.site-search-panel--header {
+  position: absolute;
+  top: calc(100% + 0.65rem);
+  right: 0;
+  width: 100%;
+  min-width: 22rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: color-mix(in oklab, var(--bg) 96%, white 4%);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+  z-index: 220;
 }
 
 .site-search-label--sr-only {
@@ -2678,9 +2706,9 @@ select {
 }
 
 .site-search-input {
-  flex: 1 1 18rem;
+  width: 100%;
   min-height: 48px;
-  border-radius: 0.85rem;
+  border-radius: 999px;
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.92);
   padding: 0.85rem 1rem;
@@ -2722,6 +2750,8 @@ select {
   padding: 0;
   display: grid;
   gap: 0.8rem;
+  max-height: min(50vh, 24rem);
+  overflow-y: auto;
 }
 
 .site-search-results--header {
