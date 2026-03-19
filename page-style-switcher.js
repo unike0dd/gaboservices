@@ -14,12 +14,6 @@ import { EN_MESSAGES } from './locales/en/messages.js';
     return THEMES.includes(stored) ? stored : 'wallstreet';
   };
 
-  const optionMarkup = `
-    <span class="editorial-toggle__label editorial-toggle__label--news" data-editorial-theme-option="wallstreet" role="button" aria-hidden="true">${labels.wallstreetShort}</span>
-    <span class="editorial-toggle__separator" aria-hidden="true">,</span>
-    <span class="editorial-toggle__label editorial-toggle__label--magazine" data-editorial-theme-option="time" role="button" aria-hidden="true">${labels.timeShort}</span>
-  `;
-
   const applyTheme = (theme) => {
     const currentTheme = THEMES.includes(theme) ? theme : 'wallstreet';
     const currentLabel = currentTheme === 'wallstreet' ? labels.wallstreet : labels.time;
@@ -27,9 +21,10 @@ import { EN_MESSAGES } from './locales/en/messages.js';
 
     root.setAttribute('data-editorial-theme', currentTheme);
     button.dataset.currentTheme = currentTheme;
-    button.innerHTML = optionMarkup;
+    button.dataset.nextTheme = currentTheme === 'wallstreet' ? 'time' : 'wallstreet';
+    button.textContent = currentTheme === 'wallstreet' ? labels.wallstreetShort : labels.timeShort;
     button.setAttribute('aria-label', `${labels.ariaPrefix} ${currentLabel}. Activate ${alternateLabel} next.`);
-    button.setAttribute('title', `Current: ${currentLabel}. Click News for ${labels.wallstreet}; click Mags for ${labels.time}.`);
+    button.setAttribute('title', `Current: ${currentLabel}. Click to switch to ${alternateLabel}.`);
   };
 
   const activateTheme = (theme) => {
@@ -38,13 +33,7 @@ import { EN_MESSAGES } from './locales/en/messages.js';
     applyTheme(resolvedTheme);
   };
 
-  button.addEventListener('click', (event) => {
-    const target = event.target instanceof Element ? event.target.closest('[data-editorial-theme-option]') : null;
-    if (target instanceof HTMLElement) {
-      activateTheme(target.dataset.editorialThemeOption || 'wallstreet');
-      return;
-    }
-
+  button.addEventListener('click', () => {
     const nextTheme = button.dataset.currentTheme === 'time' ? 'wallstreet' : 'time';
     activateTheme(nextTheme);
   });
