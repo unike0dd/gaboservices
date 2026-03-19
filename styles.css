@@ -94,49 +94,36 @@ main li + li {
   justify-self: start;
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  justify-content: center;
   border: 1px solid #000;
   background: #000;
-  color: #fff;
+  color: #5ba3ff;
   border-radius: 999px;
-  padding: 0.42rem 0.88rem;
-  font-size: 0.78rem;
+  padding: 0.42rem 1rem;
+  font-size: 0.84rem;
+  font-weight: 700;
   cursor: pointer;
   min-height: 44px;
+  min-width: 7rem;
+  transition: transform 180ms ease, box-shadow 180ms ease, color 180ms ease, background-color 180ms ease, border-color 180ms ease;
 }
 .editorial-toggle:focus-visible {
   outline: 2px solid rgba(255, 255, 255, 0.72);
   outline-offset: 2px;
 }
-.editorial-toggle__label {
-  display: inline-block;
-  line-height: 1;
-  transition: transform 180ms ease, opacity 180ms ease, filter 180ms ease;
-  pointer-events: auto;
+.editorial-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
 }
-.editorial-toggle__label--news {
+.editorial-toggle[data-current-theme='wallstreet'] {
   color: #5ba3ff;
   font-family: 'Merriweather', Georgia, serif;
-  font-weight: 700;
   letter-spacing: 0.01em;
 }
-.editorial-toggle__label--magazine {
+.editorial-toggle[data-current-theme='time'] {
   color: #ff6b6b;
   font-family: 'Libre Baskerville', 'Times New Roman', serif;
-  font-weight: 700;
   letter-spacing: 0.03em;
-}
-.editorial-toggle__separator {
-  color: rgba(255, 255, 255, 0.62);
-}
-.editorial-toggle[data-current-theme='wallstreet'] .editorial-toggle__label--news,
-.editorial-toggle[data-current-theme='time'] .editorial-toggle__label--magazine {
-  transform: scale(1.02);
-  filter: brightness(1.12);
-}
-.editorial-toggle[data-current-theme='wallstreet'] .editorial-toggle__label--magazine,
-.editorial-toggle[data-current-theme='time'] .editorial-toggle__label--news {
-  opacity: 0.9;
 }
 .nav-links {
   list-style: none;
@@ -1653,8 +1640,8 @@ textarea[data-security-state='review'] {
   }
 
   nav {
-    position: relative;
-    order: 4;
+    position: static;
+    order: 2;
     margin-left: auto;
     margin-right: 0.25rem;
     align-self: flex-start;
@@ -1690,6 +1677,7 @@ textarea[data-security-state='review'] {
   .nav-links {
     display: flex;
     position: fixed;
+    inset: 0 0 0 auto;
     top: 0;
     right: 0;
     flex-direction: column;
@@ -1711,7 +1699,8 @@ textarea[data-security-state='review'] {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: transform .3s ease, opacity .2s ease;
+    transition: transform .3s ease, opacity .2s ease, visibility .2s ease;
+    will-change: transform;
     z-index: 4000;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -2663,43 +2652,20 @@ select {
   .section-block { margin-block: 64px; }
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 .site-search-shell {
   position: relative;
   margin-left: auto;
-  flex: 0 1 28rem;
-}
-
-.site-search-inline-form {
-  margin: 0;
-}
-
-.site-search-bar {
-  display: grid;
-}
-
-.site-search-inline-controls {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
-  gap: 0.55rem;
-  align-items: center;
+  width: min(100%, 24rem);
 }
 
 .site-search-panel {
   display: grid;
-  gap: 1.25rem;
-  padding: 1rem;
+  gap: 0.5rem;
+}
+
+.site-search-form--header {
+  position: relative;
+  align-items: start;
 }
 
 .site-search-panel--header {
@@ -2715,9 +2681,28 @@ select {
   z-index: 220;
 }
 
-.site-search-form {
-  display: grid;
-  gap: 0.85rem;
+.site-search-label--sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.site-search-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.site-search-controls--header {
+  flex-wrap: nowrap;
+  justify-content: flex-end;
 }
 
 .site-search-input {
@@ -2730,10 +2715,14 @@ select {
   font: inherit;
 }
 
-.site-search-submit,
-.site-search-voice-btn {
-  min-width: 5.5rem;
-  border-radius: 999px;
+.site-search-input--header {
+  min-width: 0;
+  box-shadow: 0 8px 18px rgba(17, 17, 17, 0.08);
+}
+
+.site-search-voice-btn--header {
+  padding-inline: 0.9rem;
+  white-space: nowrap;
 }
 
 .site-search-voice-btn[data-listening='true'] {
@@ -2748,6 +2737,13 @@ select {
   font-size: 0.95rem;
 }
 
+.site-search-status--header {
+  min-height: 1.2rem;
+  font-size: 0.78rem;
+  text-align: right;
+  color: rgba(17, 17, 17, 0.72);
+}
+
 .site-search-results {
   list-style: none;
   margin: 0;
@@ -2758,6 +2754,30 @@ select {
   overflow-y: auto;
 }
 
+.site-search-results--header {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  right: 0;
+  width: min(100vw - 2rem, 24rem);
+  padding: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: color-mix(in oklab, var(--card) 92%, white 8%);
+  box-shadow: 0 18px 34px rgba(15, 23, 42, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity 180ms ease, transform 180ms ease;
+  z-index: 180;
+}
+
+.site-search-shell.has-results .site-search-results--header,
+.site-search-form--header:focus-within .site-search-results--header {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
 .site-search-result__link {
   display: grid;
   gap: 0.2rem;
@@ -2766,7 +2786,7 @@ select {
   border-radius: 0.9rem;
   text-decoration: none;
   color: var(--text);
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.88);
 }
 
 .site-search-result__summary {

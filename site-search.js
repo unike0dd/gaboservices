@@ -152,11 +152,31 @@ const createResultItem = (entry) => {
   return item;
 };
 
-export function initSiteSearch() {
-  const root = ensureSearchRoot();
-  const voiceConfig = window.SITE_METADATA?.voiceSearch || {};
-  if (!root) return;
+const createHeaderSearch = () => {
+  const navWrap = document.querySelector('.site-header .nav-wrap');
+  if (!navWrap || navWrap.querySelector('[data-site-search]')) return;
 
+  const shell = document.createElement('div');
+  shell.className = 'site-search-shell';
+  shell.dataset.siteSearch = '';
+  shell.dataset.voiceLang = 'en-US';
+  shell.innerHTML = `
+    <form class="site-search-form site-search-form--header" data-site-search-form>
+      <label class="site-search-label site-search-label--sr-only" for="siteSearchInputHeader">Voice or text search</label>
+      <div class="site-search-controls site-search-controls--header">
+        <input id="siteSearchInputHeader" class="site-search-input site-search-input--header" type="search" name="site-search" placeholder="Voice or text search" autocomplete="off" data-site-search-input />
+        <button type="button" class="btn site-search-voice-btn site-search-voice-btn--header" data-voice-search-trigger aria-pressed="false">Voice</button>
+      </div>
+      <p class="site-search-status site-search-status--header" data-site-search-status aria-live="polite"></p>
+      <ul class="site-search-results site-search-results--header" data-site-search-results aria-label="Search results"></ul>
+    </form>
+  `;
+
+  navWrap.appendChild(shell);
+};
+
+const initSearchRoot = (root, index) => {
+  const voiceConfig = window.SITE_METADATA?.voiceSearch || {};
   const form = root.querySelector('[data-site-search-form]');
   const input = root.querySelector('[data-site-search-input]');
   const voiceButton = root.querySelector('[data-voice-search-trigger]');
@@ -164,6 +184,10 @@ export function initSiteSearch() {
   const status = root.querySelector('[data-site-search-status]');
   const panel = root.querySelector('[data-site-search-panel]');
   if (!form || !input || !voiceButton || !results || !status || !panel) return;
+
+  if (!input.id) input.id = `siteSearchInput${index}`;
+  const label = form.querySelector('.site-search-label');
+  if (label) label.setAttribute('for', input.id);
 
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   let recognition = null;
@@ -179,21 +203,22 @@ export function initSiteSearch() {
   const renderResults = (query) => {
     const matches = searchEntries(query);
     results.replaceChildren();
+    root.classList.toggle('has-results', matches.length > 0 && Boolean(query.trim()));
 
     if (!query.trim()) {
-      status.textContent = 'Use voice or text search to jump to the right page.';
+      status.textContent = 'Use voice or text to search.';
       return matches;
     }
 
     if (!matches.length) {
-      status.textContent = `No pages matched “${query}”. Try service names like logistics, IT support, pricing, or contact.`;
+      status.textContent = `No pages matched “${query}”. Try logistics, IT support, pricing, or contact.`;
       return matches;
     }
 
     matches.forEach((entry) => {
       results.appendChild(createResultItem(entry));
     });
-    status.textContent = `${matches.length} result${matches.length === 1 ? '' : 's'} found for “${query}”.`;
+    status.textContent = `${matches.length} result${matches.length === 1 ? '' : 's'} for “${query}”.`;
     return matches;
   };
 
@@ -208,7 +233,7 @@ export function initSiteSearch() {
   if (!voiceConfig.enabled) {
     voiceButton.disabled = true;
     voiceButton.setAttribute('aria-disabled', 'true');
-    status.textContent = 'Voice search is currently disabled in site configuration. Type your search instead.';
+    status.textContent = 'Voice search is disabled. Type your search instead.';
   } else if (SpeechRecognition) {
     recognition = new SpeechRecognition();
     recognition.lang = voiceConfig.lang || root.dataset.voiceLang || 'en-US';
@@ -216,20 +241,20 @@ export function initSiteSearch() {
     recognition.maxAlternatives = 1;
 
     recognition.addEventListener('start', () => {
-      setListeningState(true, 'Listening for a search phrase…');
+      setListeningState(true, 'Listening for your search…');
     });
 
     recognition.addEventListener('result', (event) => {
       const transcript = event.results?.[0]?.[0]?.transcript?.trim() || '';
       input.value = transcript;
       renderResults(transcript);
-      setListeningState(false, transcript ? `Voice search captured: “${transcript}”.` : 'Voice search completed.');
+      setListeningState(false, transcript ? `Voice search captured “${transcript}”.` : 'Voice search completed.');
     });
 
     recognition.addEventListener('error', (event) => {
       const message = event.error === 'not-allowed'
-        ? 'Microphone access was denied. Allow microphone access in the browser to use voice search.'
-        : 'Voice search was unavailable. You can still search by typing.';
+        ? 'Microphone access was denied. Allow microphone access to use voice search.'
+        : 'Voice search was unavailable. You can still type your search.';
       setListeningState(false, message);
     });
 
@@ -280,5 +305,10 @@ export function initSiteSearch() {
   });
 
   renderResults('');
-  setPanelState(false);
+};
+
+export function initSiteSearch() {
+  createHeaderSearch();
+  const roots = [...document.querySelectorAll('[data-site-search]')];
+  roots.forEach((root, index) => initSearchRoot(root, index));
 }
