@@ -49,9 +49,25 @@ const governance = (() => {
     }
   };
 
-  const syncStructuredData = () => {
+  const cspBlocksInlineStructuredData = () => {
+    const policy = document
+      .querySelector('meta[http-equiv="Content-Security-Policy"]')
+      ?.getAttribute('content');
+
+    if (!policy) return false;
+
+    const scriptSrcElemMatch = policy.match(/script-src-elem\s+([^;]+)/i);
+    const scriptSrcMatch = policy.match(/script-src\s+([^;]+)/i);
+    const sourceText = scriptSrcElemMatch?.[1] || scriptSrcMatch?.[1] || '';
+
+    if (!sourceText) return false;
+
+    return !/('unsafe-inline'|'nonce-[^']+'|'sha(256|384|512)-[^']+')/i.test(sourceText);
+  };
+
+  const injectStructuredData = () => {
     const seo = getSeo();
-    if (!seo.structuredData) return;
+    if (!seo.structuredData || cspBlocksInlineStructuredData()) return;
 
     const script = document.querySelector('script[data-governance-schema="organization"]');
     if (!script) return;
@@ -62,8 +78,8 @@ const governance = (() => {
   const runSelfAudit = () => {
     const findings = [];
     const security = getSecurity();
-    const voiceSearch = getVoiceSearch();
     const media = getMedia();
+    const voiceSearch = getVoiceSearch();
 
     if (!document.querySelector('meta[name="description"]')) {
       findings.push('Missing meta description.');

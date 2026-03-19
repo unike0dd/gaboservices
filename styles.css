@@ -86,8 +86,8 @@ main li + li {
   background: color-mix(in oklab, var(--bg) 88%, transparent);
   border-bottom: 1px solid var(--border);
 }
-.nav-wrap { display:flex; align-items:center; justify-content:space-between; padding: var(--adaptive-nav-wrap-padding-y, .8rem) 0; gap: var(--adaptive-nav-gap, 1rem); position: relative; }
-.brand-stack { display: grid; gap: 0.2rem; }
+.nav-wrap { display:flex; align-items:center; justify-content:flex-start; padding: var(--adaptive-nav-wrap-padding-y, .8rem) 0; gap: var(--adaptive-nav-gap, 1rem); position: relative; }
+.brand-stack { display: grid; gap: 0.2rem; flex: 1 1 0; min-width: 0; }
 .brand { font-weight: 800; font-size: 24px; color: var(--text); text-decoration: none; }
 .brand-subtitle { margin: 0; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; }
 .editorial-toggle {
@@ -155,6 +155,21 @@ main li + li {
   text-underline-offset: 0.18rem;
 }
 
+@media (min-width: 901px) {
+  .nav-wrap > nav {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .nav-wrap > .site-search-shell {
+    margin-left: auto;
+  }
+
+  .nav-links {
+    font-size: 0.96rem;
+  }
+}
 
 .nav-chat-trigger {
   border: 0;
@@ -2671,9 +2686,12 @@ select {
 }
 
 .site-search-shell {
+  --site-search-control-height: 2.5rem;
+  --site-search-control-font-size: 0.96rem;
   position: relative;
-  margin-left: auto;
-  width: min(100%, 24rem);
+  margin-left: 0;
+  flex: 0 0 auto;
+  width: min(100%, 20rem);
 }
 
 .site-search-panel {
@@ -2725,12 +2743,14 @@ select {
 
 .site-search-input {
   width: 100%;
-  min-height: 48px;
+  min-height: var(--site-search-control-height);
+  height: var(--site-search-control-height);
   border-radius: 999px;
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.92);
-  padding: 0.85rem 1rem;
+  padding: 0 0.95rem;
   font: inherit;
+  font-size: var(--site-search-control-font-size);
 }
 
 .site-search-input--header {
@@ -2739,7 +2759,11 @@ select {
 }
 
 .site-search-voice-btn--header {
-  padding-inline: 0.9rem;
+  min-height: var(--site-search-control-height);
+  height: var(--site-search-control-height);
+  padding: 0 1rem;
+  font-size: var(--site-search-control-font-size);
+  line-height: 1;
   white-space: nowrap;
 }
 
