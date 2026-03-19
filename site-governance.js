@@ -34,6 +34,11 @@ const governance = (() => {
       })
     });
   };
+  const hasSiteMetadata = () => {
+    const siteMetadata = window.SITE_METADATA;
+    return !!siteMetadata && typeof siteMetadata === 'object' && !Array.isArray(siteMetadata);
+  };
+
   const getSeo = () => Object.freeze(getMetadata().seo || {});
   const getSecurity = () => Object.freeze(getMetadata().security || {});
   const getMedia = () => Object.freeze(getMetadata().media || {});
