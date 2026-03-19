@@ -38,20 +38,10 @@ const governance = (() => {
       })
     });
   };
-  const hasSiteMetadata = () => Object.keys(window.SITE_METADATA || {}).length > 0;
   const getSeo = () => Object.freeze(getMetadata().seo || {});
   const getSecurity = () => Object.freeze(getMetadata().security || {});
   const getMedia = () => Object.freeze(getMetadata().media || {});
   const getVoiceSearch = () => Object.freeze(getMetadata().voiceSearch || {});
-  const hasSiteMetadata = () => {
-    const siteMetadata = window.SITE_METADATA;
-    return Boolean(siteMetadata && typeof siteMetadata === 'object' && Object.keys(siteMetadata).length);
-  };
-
-  const hasSiteMetadata = () => {
-    const siteMetadata = window.SITE_METADATA;
-    return Boolean(siteMetadata && typeof siteMetadata === 'object' && Object.keys(siteMetadata).length);
-  };
 
   const setMetaContent = (selector, content) => {
     if (!content) return;
