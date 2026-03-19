@@ -119,7 +119,7 @@ const governance = (() => {
 
   const init = () => {
     syncSeoTags();
-    syncStructuredData();
+    injectStructuredData();
     return runSelfAudit();
   };
 
