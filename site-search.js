@@ -1,65 +1,6 @@
-const SEARCH_INDEX = [
-  {
-    title: 'About Gabriel Services',
-    url: '/about/',
-    description: 'Learn about the company, operating model, and delivery philosophy.',
-    keywords: ['about', 'company', 'overview', 'who we are', 'gabriel services']
-  },
-  {
-    title: 'Services Overview',
-    url: '/services/',
-    description: 'Explore logistics, IT, administrative, and customer operations services.',
-    keywords: ['services', 'solutions', 'support', 'operations', 'business services']
-  },
-  {
-    title: 'Logistics Operations',
-    url: '/services/logistics-operations/',
-    description: 'Dispatch coordination, movement tracking, and execution support.',
-    keywords: ['logistics', 'dispatch', 'tracking', 'fleet', 'movement']
-  },
-  {
-    title: 'Administrative Back Office',
-    url: '/services/administrative-backoffice/',
-    description: 'Documentation, scheduling, process administration, and data upkeep.',
-    keywords: ['administrative', 'back office', 'documentation', 'scheduling', 'operations support']
-  },
-  {
-    title: 'Customer Relations',
-    url: '/services/customer-relations/',
-    description: 'Customer communication, follow-up handling, and service continuity.',
-    keywords: ['customer', 'relations', 'support desk', 'communications', 'follow-up']
-  },
-  {
-    title: 'IT Support',
-    url: '/services/it-support/',
-    description: 'Ticket coordination, issue triage, and business system support.',
-    keywords: ['it', 'technical support', 'help desk', 'ticketing', 'triage']
-  },
-  {
-    title: 'Pricing',
-    url: '/services/#pricing',
-    description: 'Review engagement options and commercial structure.',
-    keywords: ['pricing', 'plans', 'cost', 'engagement options', 'quote']
-  },
-  {
-    title: 'Careers',
-    url: '/careers/',
-    description: 'Review open opportunities and application guidance.',
-    keywords: ['careers', 'jobs', 'apply', 'employment']
-  },
-  {
-    title: 'Contact',
-    url: '/contact/',
-    description: 'Reach the team for consultations and support requests.',
-    keywords: ['contact', 'consultation', 'reach us', 'support request']
-  },
-  {
-    title: 'Learning',
-    url: '/learning/',
-    description: 'Browse learning resources and operational guidance.',
-    keywords: ['learning', 'resources', 'guides', 'knowledge base']
-  }
-];
+import { EN_SITE_SEARCH_CONTENT } from './locales/en/site-search-content.js';
+
+const SEARCH_INDEX = EN_SITE_SEARCH_CONTENT;
 
 const normalize = (value) => value.toLowerCase().trim();
 
@@ -67,12 +8,23 @@ const scoreEntry = (entry, query) => {
   const normalizedQuery = normalize(query);
   if (!normalizedQuery) return 0;
 
-  const haystack = [entry.title, entry.description, ...(entry.keywords || [])]
-    .join(' ')
-    .toLowerCase();
+  const searchFields = [
+    entry.title,
+    entry.pageTitle,
+    entry.sectionTitle,
+    entry.description,
+    entry.content,
+    ...(entry.keywords || [])
+  ];
 
-  if (entry.title.toLowerCase() === normalizedQuery) return 120;
-  if (entry.title.toLowerCase().includes(normalizedQuery)) return 90;
+  const haystack = searchFields.join(' ').toLowerCase();
+
+  if (entry.title.toLowerCase() === normalizedQuery) return 150;
+  if (entry.sectionTitle?.toLowerCase() === normalizedQuery) return 130;
+  if (entry.pageTitle?.toLowerCase() === normalizedQuery) return 120;
+  if (entry.title.toLowerCase().includes(normalizedQuery)) return 100;
+  if (entry.sectionTitle?.toLowerCase().includes(normalizedQuery)) return 95;
+  if (entry.pageTitle?.toLowerCase().includes(normalizedQuery)) return 90;
   if (entry.keywords?.some((keyword) => keyword.toLowerCase() === normalizedQuery)) return 80;
   if (haystack.includes(normalizedQuery)) return 60;
 
@@ -81,12 +33,24 @@ const scoreEntry = (entry, query) => {
   return tokenHits ? tokenHits * 10 : 0;
 };
 
-const searchEntries = (query) => SEARCH_INDEX
-  .map((entry) => ({ entry, score: scoreEntry(entry, query) }))
-  .filter(({ score }) => score > 0)
-  .sort((left, right) => right.score - left.score)
-  .slice(0, 5)
-  .map(({ entry }) => entry);
+const dedupeEntries = (entries) => {
+  const seen = new Set();
+  return entries.filter((entry) => {
+    const key = `${entry.url}::${entry.title}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+};
+
+const searchEntries = (query) => dedupeEntries(
+  SEARCH_INDEX
+    .map((entry) => ({ entry, score: scoreEntry(entry, query) }))
+    .filter(({ score }) => score > 0)
+    .sort((left, right) => right.score - left.score)
+    .slice(0, 5)
+    .map(({ entry }) => entry)
+);
 
 const buildSearchMarkup = () => `
   <div class="site-search-bar">
@@ -141,13 +105,21 @@ const createResultItem = (entry) => {
   link.href = entry.url;
 
   const title = document.createElement('strong');
-  title.textContent = entry.title;
+  title.textContent = entry.sectionTitle || entry.title;
 
   const summary = document.createElement('span');
   summary.className = 'site-search-result__summary';
   summary.textContent = entry.description;
 
   link.append(title, summary);
+
+  if (entry.sectionTitle && entry.pageTitle && entry.pageTitle !== entry.sectionTitle) {
+    const meta = document.createElement('span');
+    meta.className = 'site-search-result__summary';
+    meta.textContent = `Page: ${entry.pageTitle}`;
+    link.appendChild(meta);
+  }
+
   item.appendChild(link);
   return item;
 };
@@ -167,8 +139,10 @@ const createHeaderSearch = () => {
         <input id="siteSearchInputHeader" class="site-search-input site-search-input--header" type="search" name="site-search" placeholder="Voice or text search" autocomplete="off" data-site-search-input />
         <button type="button" class="btn site-search-voice-btn site-search-voice-btn--header" data-voice-search-trigger aria-pressed="false">Voice</button>
       </div>
-      <p class="site-search-status site-search-status--header" data-site-search-status aria-live="polite"></p>
-      <ul class="site-search-results site-search-results--header" data-site-search-results aria-label="Search results"></ul>
+      <div class="site-search-panel site-search-panel--header" data-site-search-panel hidden>
+        <p class="site-search-status site-search-status--header" data-site-search-status aria-live="polite"></p>
+        <ul class="site-search-results site-search-results--header" data-site-search-results aria-label="Search results"></ul>
+      </div>
     </form>
   `;
 
@@ -206,12 +180,12 @@ const initSearchRoot = (root, index) => {
     root.classList.toggle('has-results', matches.length > 0 && Boolean(query.trim()));
 
     if (!query.trim()) {
-      status.textContent = 'Use voice or text to search.';
+      status.textContent = 'Use voice or text to search across all indexed website pages.';
       return matches;
     }
 
     if (!matches.length) {
-      status.textContent = `No pages matched “${query}”. Try logistics, IT support, pricing, or contact.`;
+      status.textContent = `No pages matched “${query}”. Try logistics, IT support, pricing, privacy, or contact.`;
       return matches;
     }
 
@@ -308,6 +282,7 @@ const initSearchRoot = (root, index) => {
 };
 
 export function initSiteSearch() {
+  ensureSearchRoot();
   createHeaderSearch();
   const roots = [...document.querySelectorAll('[data-site-search]')];
   roots.forEach((root, index) => initSearchRoot(root, index));
