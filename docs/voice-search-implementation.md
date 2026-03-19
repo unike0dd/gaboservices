@@ -24,7 +24,8 @@ This implementation adds an on-site search experience that lets visitors:
 
 ## How to expand it
 
-- Add more destinations to the `SEARCH_INDEX` array in `site-search.js`.
+- Rebuild the generated English search corpus with `node locales/en/build-site-search-content.mjs` after updating page copy.
+- The generator scans all major site HTML pages, extracts page-level and section-level content, and writes aligned URL entries to `locales/en/site-search-content.js`.
 - If a global site search page is added later, this component can send the recognized query there instead of navigating straight to the best local result.
 - If analytics are desired, track search phrases only after reviewing privacy requirements and retention rules.
 
