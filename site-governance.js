@@ -1,11 +1,11 @@
 const governance = (() => {
-  const metadata = Object.freeze(window.SITE_METADATA || {});
-  const seo = Object.freeze(metadata.seo || {});
-  const security = Object.freeze(metadata.security || {});
-  const media = Object.freeze(metadata.media || {});
-  const voiceSearch = Object.freeze(metadata.voiceSearch || {});
-
   const ABSOLUTE_URL_PATTERN = /^https?:\/\//i;
+
+  const getMetadata = () => Object.freeze(window.SITE_METADATA || {});
+  const getSeo = () => Object.freeze(getMetadata().seo || {});
+  const getSecurity = () => Object.freeze(getMetadata().security || {});
+  const getMedia = () => Object.freeze(getMetadata().media || {});
+  const getVoiceSearch = () => Object.freeze(getMetadata().voiceSearch || {});
 
   const setMetaContent = (selector, content) => {
     if (!content) return;
@@ -20,6 +20,7 @@ const governance = (() => {
   };
 
   const syncSeoTags = () => {
+    const seo = getSeo();
     const title = seo.title || document.title;
     const description = seo.description || '';
     const canonicalUrl = seo.canonicalUrl || '';
@@ -48,21 +49,21 @@ const governance = (() => {
     }
   };
 
-  const injectStructuredData = () => {
+  const syncStructuredData = () => {
+    const seo = getSeo();
     if (!seo.structuredData) return;
 
-    const existing = document.querySelector('script[data-governance-schema="organization"]');
-    if (existing) existing.remove();
+    const script = document.querySelector('script[data-governance-schema="organization"]');
+    if (!script) return;
 
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.dataset.governanceSchema = 'organization';
     script.textContent = JSON.stringify(seo.structuredData);
-    document.head.appendChild(script);
   };
 
   const runSelfAudit = () => {
     const findings = [];
+    const security = getSecurity();
+    const voiceSearch = getVoiceSearch();
+    const media = getMedia();
 
     if (!document.querySelector('meta[name="description"]')) {
       findings.push('Missing meta description.');
@@ -102,13 +103,20 @@ const governance = (() => {
 
   const init = () => {
     syncSeoTags();
-    injectStructuredData();
+    syncStructuredData();
     return runSelfAudit();
   };
 
   return Object.freeze({
     init,
-    config: Object.freeze({ seo, security, media, voiceSearch })
+    get config() {
+      return Object.freeze({
+        seo: getSeo(),
+        security: getSecurity(),
+        media: getMedia(),
+        voiceSearch: getVoiceSearch()
+      });
+    }
   });
 })();
 
