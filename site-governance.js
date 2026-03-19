@@ -117,9 +117,13 @@ const governance = (() => {
     return findings;
   };
 
+  let initialized = false;
+
   const init = () => {
+    if (initialized) return [];
+    initialized = true;
     syncSeoTags();
-    syncStructuredData();
+    injectStructuredData();
     return runSelfAudit();
   };
 
