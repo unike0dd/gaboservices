@@ -141,3 +141,7 @@ if (SpeechRecognition) {
 - User uploads require stronger controls than static linked media.
 - Voice search depends on browser support and user consent.
 - YouTube support requires matching CSP/header updates before deployment.
+
+## External voice assistant discoverability
+
+If the goal is for someone on Google, Siri, Alexa, or another external platform to find the site by speaking, that is a separate SEO/content-discovery problem from the on-site microphone search UI. We can improve eligibility with strong technical SEO, schema, FAQ content, location/business listings, and answer-focused copy, but we cannot directly control which site a third-party assistant chooses to return or read aloud.

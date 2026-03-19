@@ -31,3 +31,23 @@ This implementation adds an on-site search experience that lets visitors:
 ## Important caveat
 
 This feature makes the website **searchable by voice for end users inside the site UI**. It does **not** by itself make the site discoverable in external voice assistants like Siri, Alexa, or Google Assistant. For that broader discoverability, you would also improve structured data, SEO content, FAQs, business profile data, and answer-oriented copy.
+
+## External voice discovery: what is and is not under our control
+
+### Mostly under our control
+
+We can strongly improve the odds that voice assistants and spoken Google queries choose the site by improving:
+- page quality and crawlability,
+- structured data / schema coverage,
+- FAQ-style question-and-answer content,
+- local/business profile completeness,
+- fast mobile performance,
+- clear headings and concise answer blocks.
+
+### Not fully under our control
+
+We cannot force Google, Siri, Alexa, Bing, or other assistants to speak or rank the site for a given query. External voice results are chosen by each platform's ranking, relevance, location, device, language, personalization, and answer-extraction systems.
+
+### Practical takeaway
+
+So the answer is: **partly under our control, but not fully**. We control the site's readiness and quality signals; the external platform controls final voice-result selection.
