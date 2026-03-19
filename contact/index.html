@@ -122,19 +122,30 @@
                         </div>
                       </div>
 
-                      <div class="grid grid--2">
-                        <div class="field">
-                          <label for="contactExperienceLevel">Experience Level</label>
-                          <select id="contactExperienceLevel" name="experience_level" required>
+                      <div class="field">
+                        <label for="contactExperienceInput">Experience Level</label>
+                        <div class="dynamic__entry dynamic__entry--triple">
+                          <input id="contactExperienceInput" type="text" placeholder="Add experience area" />
+                          <select id="contactExperienceLevel">
                             <option value="">Select level</option><option value="Entry">Entry</option><option value="Junior">Junior</option><option value="Mid">Mid</option><option value="Advanced">Advanced</option><option value="Expert">Expert</option>
                           </select>
+                          <button type="button" id="contactExperienceAdd" class="btn btn--soft">Add</button>
                         </div>
-                        <div class="field">
-                          <label for="contactEducation">Education</label>
-                          <select id="contactEducation" name="education" required>
+                        <ul id="contactExperienceList" class="pill-list" aria-label="Contact experience"></ul>
+                        <input type="hidden" id="contactExperienceHidden" name="experience_level" />
+                      </div>
+
+                      <div class="field">
+                        <label for="contactEducationInput">Education</label>
+                        <div class="dynamic__entry dynamic__entry--triple">
+                          <input id="contactEducationInput" type="text" placeholder="Add school, program, or certificate" />
+                          <select id="contactEducationLevel">
                             <option value="">Select education</option><option value="Grammar School">Grammar School</option><option value="Some High School">Some High School</option><option value="High School">High School</option><option value="Some College">Some College</option><option value="Associate Degree">Associate Degree</option><option value="Bachelor">Bachelor</option><option value="Masters">Masters</option><option value="Doctorate">Doctorate</option>
                           </select>
+                          <button type="button" id="contactEducationAdd" class="btn btn--soft">Add</button>
                         </div>
+                        <ul id="contactEducationList" class="pill-list" aria-label="Contact education"></ul>
+                        <input type="hidden" id="contactEducationHidden" name="education" />
                       </div>
 
                       <div class="field">

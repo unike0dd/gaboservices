@@ -87,7 +87,9 @@
 
   [
     { type: 'simple', inputId: 'contactRemoteSkillInput', addBtnId: 'contactRemoteSkillAdd', listId: 'contactRemoteSkillsList', hiddenId: 'contactRemoteSkillsHidden' },
-    { type: 'pair', inputId: 'contactLanguageInput', selectId: 'contactLanguageLevel', addBtnId: 'contactLanguageAdd', listId: 'contactLanguagesList', hiddenId: 'contactLanguagesHidden' }
+    { type: 'pair', inputId: 'contactExperienceInput', selectId: 'contactExperienceLevel', addBtnId: 'contactExperienceAdd', listId: 'contactExperienceList', hiddenId: 'contactExperienceHidden' },
+    { type: 'pair', inputId: 'contactLanguageInput', selectId: 'contactLanguageLevel', addBtnId: 'contactLanguageAdd', listId: 'contactLanguagesList', hiddenId: 'contactLanguagesHidden' },
+    { type: 'pair', inputId: 'contactEducationInput', selectId: 'contactEducationLevel', addBtnId: 'contactEducationAdd', listId: 'contactEducationList', hiddenId: 'contactEducationHidden' }
   ].forEach(function (config) {
     if (config.type === 'simple') setupSimpleList(config);
     else setupPairList(config);
@@ -110,7 +112,9 @@
     if (!form) return;
     form.reset();
     clearPills('contactRemoteSkillsList', 'contactRemoteSkillsHidden');
+    clearPills('contactExperienceList', 'contactExperienceHidden');
     clearPills('contactLanguagesList', 'contactLanguagesHidden');
+    clearPills('contactEducationList', 'contactEducationHidden');
     var status = root.querySelector('#formStatus');
     if (status) {
       status.textContent = '';
@@ -139,9 +143,15 @@
     contactForm.addEventListener('submit', function (event) {
       var status = root.querySelector('#formStatus');
       var message = validateForm(
-        ['contactFullName', 'contactEmail', 'contactCountryCode', 'contactNumber', 'contactCity', 'contactState', 'contactZip', 'bestTimeToContact', 'contactExperienceLevel', 'contactEducation'],
+        ['contactFullName', 'contactEmail', 'contactCountryCode', 'contactNumber', 'contactCity', 'contactState', 'contactZip', 'bestTimeToContact'],
         'Please complete all required contact and inquiry fields.'
       );
+      if (!message && !root.querySelector('#contactExperienceHidden').value.trim()) {
+        message = 'Please add at least one experience item.';
+      }
+      if (!message && !root.querySelector('#contactEducationHidden').value.trim()) {
+        message = 'Please add at least one education item.';
+      }
       if (!message) {
         var interestCount = getCheckedValues('input[name="contact_interest[]"]').length + getCheckedValues('input[name="remote_interest[]"]').length;
         if (!interestCount) message = 'Please select at least one area of interest.';
