@@ -89,18 +89,19 @@ const searchEntries = (query) => SEARCH_INDEX
   .map(({ entry }) => entry);
 
 const buildSearchMarkup = () => `
-  <button type="button" class="site-search-launcher btn" data-site-search-toggle aria-expanded="false" aria-controls="siteSearchPanel">Voice or text search</button>
-  <div class="site-search-panel site-search-panel--header" id="siteSearchPanel" data-site-search-panel hidden>
-    <form class="site-search-form" data-site-search-form>
-      <label class="site-search-label" for="siteSearchInput">Voice or text search</label>
-      <div class="site-search-controls">
-        <input id="siteSearchInput" class="site-search-input" type="search" name="site-search" placeholder="Search services, pricing, contact, careers…" autocomplete="off" data-site-search-input />
-        <button type="button" class="btn site-search-voice-btn" data-voice-search-trigger aria-pressed="false">Voice search</button>
-        <button type="submit" class="btn primary">Open top result</button>
-      </div>
+  <div class="site-search-bar">
+    <label class="site-search-label sr-only" for="siteSearchInput">Voice or text search</label>
+    <div class="site-search-inline-controls">
+      <input id="siteSearchInput" class="site-search-input" type="search" name="site-search" placeholder="Voice or text search" autocomplete="off" data-site-search-input />
+      <button type="button" class="btn site-search-voice-btn" data-voice-search-trigger aria-pressed="false" aria-label="Start voice search">Voice</button>
+      <button type="submit" class="btn primary site-search-submit">Search</button>
+    </div>
+  </div>
+  <div class="site-search-panel site-search-panel--header" data-site-search-panel hidden>
+    <div class="site-search-form">
       <p class="site-search-status" data-site-search-status aria-live="polite"></p>
       <ul class="site-search-results" data-site-search-results aria-label="Search results"></ul>
-    </form>
+    </div>
   </div>
 `;
 
@@ -115,7 +116,13 @@ const ensureSearchRoot = () => {
   root.className = 'site-search-shell';
   root.dataset.siteSearch = '';
   root.dataset.voiceLang = document.documentElement.lang === 'en' ? 'en-US' : document.documentElement.lang;
-  root.innerHTML = buildSearchMarkup();
+
+  const form = document.createElement('form');
+  form.className = 'site-search-inline-form';
+  form.dataset.siteSearchForm = '';
+  form.innerHTML = buildSearchMarkup();
+  root.appendChild(form);
+
   const nav = headerWrap.querySelector('nav');
   if (nav) {
     nav.insertAdjacentElement('beforebegin', root);
@@ -155,9 +162,8 @@ export function initSiteSearch() {
   const voiceButton = root.querySelector('[data-voice-search-trigger]');
   const results = root.querySelector('[data-site-search-results]');
   const status = root.querySelector('[data-site-search-status]');
-  const toggleButton = root.querySelector('[data-site-search-toggle]');
   const panel = root.querySelector('[data-site-search-panel]');
-  if (!form || !input || !voiceButton || !results || !status || !toggleButton || !panel) return;
+  if (!form || !input || !voiceButton || !results || !status || !panel) return;
 
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   let recognition = null;
@@ -167,9 +173,7 @@ export function initSiteSearch() {
   const setPanelState = (open) => {
     isOpen = open;
     root.dataset.open = String(open);
-    toggleButton.setAttribute('aria-expanded', String(open));
     panel.hidden = !open;
-    if (open) window.requestAnimationFrame(() => input.focus());
   };
 
   const renderResults = (query) => {
@@ -197,7 +201,7 @@ export function initSiteSearch() {
     isListening = listening;
     voiceButton.setAttribute('aria-pressed', String(listening));
     voiceButton.dataset.listening = String(listening);
-    voiceButton.textContent = listening ? 'Listening…' : 'Voice search';
+    voiceButton.textContent = listening ? 'Listening…' : 'Voice';
     if (message) status.textContent = message;
   };
 
@@ -238,8 +242,9 @@ export function initSiteSearch() {
     status.textContent = 'Voice search is not supported in this browser. Type your search instead.';
   }
 
-  toggleButton.addEventListener('click', () => {
-    setPanelState(!isOpen);
+  input.addEventListener('focus', () => {
+    setPanelState(true);
+    renderResults(input.value);
   });
 
   document.addEventListener('click', (event) => {
@@ -252,6 +257,7 @@ export function initSiteSearch() {
   });
 
   input.addEventListener('input', () => {
+    setPanelState(true);
     renderResults(input.value);
   });
 
