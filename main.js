@@ -39,6 +39,7 @@ function initNavToggle() {
     );
     navToggle.textContent = expanded ? '\u2715' : '\u2630';
     navToggle.classList.toggle('is-active', expanded);
+    primaryNav.setAttribute('aria-hidden', String(!expanded));
   };
   const closeNav = () => {
     setNavToggleA11y(false);
