@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; connect-src 'self'; img-src 'self' data:; style-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Cookies Consent | Gabriel Services</title>
   <meta name="description" content="Cookie consent and cookie preference controls for the Gabriel Services website." />
   <link rel="stylesheet" href="/assets/legal.css" />
@@ -118,9 +120,10 @@
     <section class="card">
       <h2>5. Third-party technologies</h2>
       <p>
-        Some website features may rely on third-party providers such as security verification, analytics, embedded media,
-        or external scheduling/contact tools. When those providers place cookies or similar identifiers, their own privacy
-        notices may also apply.
+        Some website features may rely on third-party providers such as security verification, embedded media,
+        or external scheduling/contact tools. Optional analytics technologies are currently disabled by default unless a
+        future consent-based implementation is explicitly enabled. When third-party providers place cookies or similar
+        identifiers, their own privacy notices may also apply.
       </p>
     </section>
 
@@ -157,6 +160,6 @@
       </div>
     </footer>
 
-  <script type="module" src="/assets/cookie-consent.js"></script>
+  <script data-cfasync="false" type="module" crossorigin="anonymous" src="/assets/cookie-consent.js"></script>
 </body>
 </html>
