@@ -6,15 +6,13 @@ import { EN_MESSAGES } from './locales/en/messages.js';
   const labels = EN_MESSAGES.editorialTheme;
 
   const root = document.documentElement;
-  const button = document.getElementById('editorialThemeBtn');
-  if (!button) return;
 
   const getStoredTheme = () => {
     const stored = localStorage.getItem(STORAGE_KEY);
     return THEMES.includes(stored) ? stored : 'wallstreet';
   };
 
-  const applyTheme = (theme) => {
+  const applyTheme = (theme, button) => {
     const currentTheme = THEMES.includes(theme) ? theme : 'wallstreet';
     const currentLabel = currentTheme === 'wallstreet' ? labels.wallstreet : labels.time;
     const alternateLabel = currentTheme === 'wallstreet' ? labels.time : labels.wallstreet;
@@ -27,28 +25,39 @@ import { EN_MESSAGES } from './locales/en/messages.js';
     button.setAttribute('title', `Current: ${currentLabel}. Click to switch to ${alternateLabel}.`);
   };
 
-  const activateTheme = (theme) => {
+  const activateTheme = (button, theme) => {
     const resolvedTheme = THEMES.includes(theme) ? theme : 'wallstreet';
     localStorage.setItem(STORAGE_KEY, resolvedTheme);
-    applyTheme(resolvedTheme);
+    applyTheme(resolvedTheme, button);
   };
 
-  button.addEventListener('click', () => {
-    const nextTheme = button.dataset.currentTheme === 'time' ? 'wallstreet' : 'time';
-    activateTheme(nextTheme);
-  });
+  const init = () => {
+    const button = document.getElementById('editorialThemeBtn');
+    if (!button) return;
 
-  button.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
-      event.preventDefault();
-      activateTheme('time');
-    }
+    button.addEventListener('click', () => {
+      const nextTheme = button.dataset.currentTheme === 'time' ? 'wallstreet' : 'time';
+      activateTheme(button, nextTheme);
+    });
 
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
-      event.preventDefault();
-      activateTheme('wallstreet');
-    }
-  });
+    button.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+        event.preventDefault();
+        activateTheme(button, 'time');
+      }
 
-  applyTheme(getStoredTheme());
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        activateTheme(button, 'wallstreet');
+      }
+    });
+
+    applyTheme(getStoredTheme(), button);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
 })();
