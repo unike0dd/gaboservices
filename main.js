@@ -3,7 +3,7 @@ import { initChatbotControls } from './chatbot/chatbot-controls.js';
 import { initFabControls } from './fab-controls.js';
 import { SITE_METADATA_DEFAULTS } from './site-metadata-defaults.js';
 import { initSiteGovernance } from './site-governance.js';
-import { initSiteSearch } from './site-search.js';
+import { initSiteSearch } from './locales/en/build-site-search-content.mjs';
 import { EN_MESSAGES } from './locales/en/messages.js';
 
 const activeLocale = 'en';
