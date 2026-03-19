@@ -157,6 +157,7 @@ export function initChatbotControls() {
 
   const fabToggle = document.getElementById('fabMainToggle');
   const fabMenu = document.getElementById('fabQuickMenu');
+  let lastTrigger = null;
 
   const setFabOpenState = (isOpen) => {
     if (!fabMenu || !fabToggle) return;
@@ -172,6 +173,9 @@ export function initChatbotControls() {
     }
 
     document.body.classList.remove('chat-open');
+    if (lastTrigger instanceof HTMLElement) {
+      lastTrigger.focus();
+    }
   };
 
   const closeChat = () => {
@@ -192,6 +196,7 @@ export function initChatbotControls() {
       if (chatFrame.src === 'about:blank') {
         chatFrame.src = configuredChatbotEmbedUrl;
       }
+      lastTrigger = trigger;
       setFabOpenState(false);
       setOpenState(true);
     });
