@@ -39,6 +39,11 @@ const governance = (() => {
   const getMedia = () => Object.freeze(getMetadata().media || {});
   const getVoiceSearch = () => Object.freeze(getMetadata().voiceSearch || {});
 
+  const hasSiteMetadata = () => {
+    const siteMetadata = window.SITE_METADATA;
+    return Boolean(siteMetadata && typeof siteMetadata === 'object' && Object.keys(siteMetadata).length);
+  };
+
   const setMetaContent = (selector, content) => {
     if (!content) return;
     const node = document.querySelector(selector);
