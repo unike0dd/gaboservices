@@ -28,7 +28,7 @@ body {
   line-height: 1.55;
 }
 
-.wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+.wrap { width: min(95vw, var(--max)); max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
 
 a { color: var(--link); text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -68,10 +68,10 @@ a:hover { text-decoration: underline; }
   background: color-mix(in oklab, var(--bg) 82%, #ffffff);
 }
 
-.legal-main { padding: 26px var(--pad) 42px; }
+.legal-main { padding: 26px var(--pad) 42px; width: min(95vw, var(--max)); }
 h1 { margin: 10px 0 6px; font-size: 2rem; }
 h2 { margin: 0 0 10px; font-size: 1.15rem; }
-p { margin: 10px 0; color: var(--fg); }
+p { margin: 10px 0; color: var(--fg); text-align: justify; text-wrap: pretty; hyphens: auto; }
 .meta { color: var(--muted); margin-bottom: 18px; }
 .fineprint { color: var(--muted); font-size: .92rem; }
 
@@ -85,7 +85,7 @@ p { margin: 10px 0; color: var(--fg); }
 }
 
 ul { margin: 10px 0 0 18px; color: var(--fg); }
-li { margin: 6px 0; }
+li { margin: 6px 0; text-align: justify; hyphens: auto; }
 
 .site-footer {
   border-top: 1px solid var(--footer-border);
@@ -231,5 +231,9 @@ li { margin: 6px 0; }
 
   .th, .td {
     border-right: 0;
+  }
+
+  .btn-row .btn {
+    width: 100%;
   }
 }
