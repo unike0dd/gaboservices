@@ -86,7 +86,7 @@ main li + li {
   background: color-mix(in oklab, var(--bg) 88%, transparent);
   border-bottom: 1px solid var(--border);
 }
-.nav-wrap { display:flex; align-items:center; justify-content:space-between; padding: var(--adaptive-nav-wrap-padding-y, .8rem) 0; gap: var(--adaptive-nav-gap, 1rem); }
+.nav-wrap { display:flex; align-items:center; justify-content:space-between; padding: var(--adaptive-nav-wrap-padding-y, .8rem) 0; gap: var(--adaptive-nav-gap, 1rem); position: relative; }
 .brand-stack { display: grid; gap: 0.2rem; }
 .brand { font-weight: 800; font-size: 24px; color: var(--text); text-decoration: none; }
 .brand-subtitle { margin: 0; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; }
@@ -1637,6 +1637,11 @@ textarea[data-security-state='review'] {
     min-width: 0;
   }
 
+  .site-search-shell {
+    order: 2;
+    margin-left: auto;
+  }
+
   .actions {
     order: 3;
     flex-basis: 100%;
@@ -1648,17 +1653,25 @@ textarea[data-security-state='review'] {
 
   nav {
     position: relative;
-    order: 2;
+    order: 4;
     margin-left: auto;
     margin-right: 0.25rem;
     align-self: flex-start;
   }
 
   #navToggle {
-    order: 2;
+    order: 3;
     margin-left: auto;
     margin-right: 0.25rem;
     align-self: flex-start;
+  }
+
+
+
+  .site-search-panel--header {
+    top: calc(100% + 0.65rem);
+    right: -0.25rem;
+    width: min(96vw, 32rem);
   }
 
   .nav-toggle {
@@ -2644,20 +2657,31 @@ select {
   .section-block { margin-block: 64px; }
 }
 
+.site-search-shell {
+  position: relative;
+  margin-left: auto;
+}
+
+.site-search-launcher {
+  min-width: max-content;
+}
+
 .site-search-panel {
   display: grid;
   gap: 1.25rem;
   padding: 1.35rem;
 }
 
-.site-search-panel__eyebrow {
-  text-indent: 0;
-  margin-bottom: 0.35rem;
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--primary);
-  font-weight: 700;
+.site-search-panel--header {
+  position: absolute;
+  top: calc(100% + 0.85rem);
+  right: 0;
+  width: min(42rem, calc(100vw - 2rem));
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: color-mix(in oklab, var(--bg) 94%, white 6%);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.2);
+  z-index: 220;
 }
 
 .site-search-form {
@@ -2704,6 +2728,8 @@ select {
   padding: 0;
   display: grid;
   gap: 0.8rem;
+  max-height: min(50vh, 24rem);
+  overflow-y: auto;
 }
 
 .site-search-result__link {

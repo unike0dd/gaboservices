@@ -40,6 +40,12 @@ iframe {
     align-items: stretch;
   }
 
+  .site-search-panel--header {
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+
   .site-search-controls {
     flex-direction: column;
     align-items: stretch;

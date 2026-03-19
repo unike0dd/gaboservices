@@ -37,7 +37,7 @@ const SEARCH_INDEX = [
   },
   {
     title: 'Pricing',
-    url: '/pricing/',
+    url: '/services/#pricing',
     description: 'Review engagement options and commercial structure.',
     keywords: ['pricing', 'plans', 'cost', 'engagement options', 'quote']
   },
@@ -88,6 +88,43 @@ const searchEntries = (query) => SEARCH_INDEX
   .slice(0, 5)
   .map(({ entry }) => entry);
 
+const buildSearchMarkup = () => `
+  <button type="button" class="site-search-launcher btn" data-site-search-toggle aria-expanded="false" aria-controls="siteSearchPanel">Voice or text search</button>
+  <div class="site-search-panel site-search-panel--header" id="siteSearchPanel" data-site-search-panel hidden>
+    <form class="site-search-form" data-site-search-form>
+      <label class="site-search-label" for="siteSearchInput">Voice or text search</label>
+      <div class="site-search-controls">
+        <input id="siteSearchInput" class="site-search-input" type="search" name="site-search" placeholder="Search services, pricing, contact, careers…" autocomplete="off" data-site-search-input />
+        <button type="button" class="btn site-search-voice-btn" data-voice-search-trigger aria-pressed="false">Voice search</button>
+        <button type="submit" class="btn primary">Open top result</button>
+      </div>
+      <p class="site-search-status" data-site-search-status aria-live="polite"></p>
+      <ul class="site-search-results" data-site-search-results aria-label="Search results"></ul>
+    </form>
+  </div>
+`;
+
+const ensureSearchRoot = () => {
+  const existing = document.querySelector('[data-site-search]');
+  if (existing) return existing;
+
+  const headerWrap = document.querySelector('.site-header .nav-wrap');
+  if (!headerWrap) return null;
+
+  const root = document.createElement('div');
+  root.className = 'site-search-shell';
+  root.dataset.siteSearch = '';
+  root.dataset.voiceLang = document.documentElement.lang === 'en' ? 'en-US' : document.documentElement.lang;
+  root.innerHTML = buildSearchMarkup();
+  const nav = headerWrap.querySelector('nav');
+  if (nav) {
+    nav.insertAdjacentElement('beforebegin', root);
+  } else {
+    headerWrap.appendChild(root);
+  }
+  return root;
+};
+
 const createResultItem = (entry) => {
   const item = document.createElement('li');
   item.className = 'site-search-result';
@@ -109,7 +146,7 @@ const createResultItem = (entry) => {
 };
 
 export function initSiteSearch() {
-  const root = document.querySelector('[data-site-search]');
+  const root = ensureSearchRoot();
   const voiceConfig = window.SITE_METADATA?.voiceSearch || {};
   if (!root) return;
 
@@ -118,18 +155,29 @@ export function initSiteSearch() {
   const voiceButton = root.querySelector('[data-voice-search-trigger]');
   const results = root.querySelector('[data-site-search-results]');
   const status = root.querySelector('[data-site-search-status]');
-  if (!form || !input || !voiceButton || !results || !status) return;
+  const toggleButton = root.querySelector('[data-site-search-toggle]');
+  const panel = root.querySelector('[data-site-search-panel]');
+  if (!form || !input || !voiceButton || !results || !status || !toggleButton || !panel) return;
 
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   let recognition = null;
   let isListening = false;
+  let isOpen = false;
+
+  const setPanelState = (open) => {
+    isOpen = open;
+    root.dataset.open = String(open);
+    toggleButton.setAttribute('aria-expanded', String(open));
+    panel.hidden = !open;
+    if (open) window.requestAnimationFrame(() => input.focus());
+  };
 
   const renderResults = (query) => {
     const matches = searchEntries(query);
     results.replaceChildren();
 
     if (!query.trim()) {
-      status.textContent = 'Search by typing or use the microphone to search the website by voice.';
+      status.textContent = 'Use voice or text search to jump to the right page.';
       return matches;
     }
 
@@ -190,17 +238,32 @@ export function initSiteSearch() {
     status.textContent = 'Voice search is not supported in this browser. Type your search instead.';
   }
 
+  toggleButton.addEventListener('click', () => {
+    setPanelState(!isOpen);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return;
+    if (!event.target.closest('[data-site-search]') && isOpen) setPanelState(false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && isOpen) setPanelState(false);
+  });
+
   input.addEventListener('input', () => {
     renderResults(input.value);
   });
 
   form.addEventListener('submit', (event) => {
+    setPanelState(true);
     event.preventDefault();
     const matches = renderResults(input.value);
     if (matches[0]) window.location.href = matches[0].url;
   });
 
   voiceButton.addEventListener('click', () => {
+    setPanelState(true);
     if (!recognition) return;
     if (isListening) {
       recognition.stop();
@@ -211,4 +274,5 @@ export function initSiteSearch() {
   });
 
   renderResults('');
+  setPanelState(false);
 }
