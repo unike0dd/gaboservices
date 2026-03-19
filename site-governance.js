@@ -49,18 +49,30 @@ const governance = (() => {
     }
   };
 
+  const cspBlocksInlineStructuredData = () => {
+    const policy = document
+      .querySelector('meta[http-equiv="Content-Security-Policy"]')
+      ?.getAttribute('content');
+
+    if (!policy) return false;
+
+    const scriptSrcElemMatch = policy.match(/script-src-elem\s+([^;]+)/i);
+    const scriptSrcMatch = policy.match(/script-src\s+([^;]+)/i);
+    const sourceText = scriptSrcElemMatch?.[1] || scriptSrcMatch?.[1] || '';
+
+    if (!sourceText) return false;
+
+    return !/('unsafe-inline'|'nonce-[^']+'|'sha(256|384|512)-[^']+')/i.test(sourceText);
+  };
+
   const injectStructuredData = () => {
     const seo = getSeo();
-    if (!seo.structuredData) return;
+    if (!seo.structuredData || cspBlocksInlineStructuredData()) return;
 
-    const existing = document.querySelector('script[data-governance-schema="organization"]');
-    if (existing) existing.remove();
+    const script = document.querySelector('script[data-governance-schema="organization"]');
+    if (!script) return;
 
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.dataset.governanceSchema = 'organization';
     script.textContent = JSON.stringify(seo.structuredData);
-    document.head.appendChild(script);
   };
 
   const runSelfAudit = () => {
@@ -107,7 +119,7 @@ const governance = (() => {
 
   const init = () => {
     syncSeoTags();
-    injectStructuredData();
+    syncStructuredData();
     return runSelfAudit();
   };
 
