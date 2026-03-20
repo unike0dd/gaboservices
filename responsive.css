@@ -28,23 +28,9 @@ iframe {
   }
 
   .site-search-shell {
-    order: 3;
+    order: 0;
     width: 100%;
     margin-left: 0;
-  }
-
-  .site-search-controls--header {
-    justify-content: stretch;
-  }
-
-  .site-search-status--header {
-    text-align: left;
-  }
-
-  .site-search-results--header {
-    width: 100%;
-    left: 0;
-    right: auto;
   }
 
   .brand-stack {
@@ -55,23 +41,23 @@ iframe {
     width: min(86vw, 340px);
   }
 
+  .nav-links .site-search-shell {
+    width: 100%;
+    margin-bottom: 0.6rem;
+  }
+
   .cta-row {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .site-search-panel--header {
-    left: 0;
-    right: 0;
-    width: 100%;
+  .gs-inline-search__controls {
+    grid-template-columns: minmax(0, 1fr) auto;
   }
 
-  .site-search-inline-controls {
-    grid-template-columns: 1fr;
-  }
-
-  .site-search-inline-controls .btn {
-    width: 100%;
+  .gs-search-modal__panel {
+    width: min(100% - 1rem, 42rem);
+    margin: 0.5rem auto;
   }
 
   .btn {
@@ -176,6 +162,12 @@ iframe {
     width: 100vw;
     border-left: 0;
     padding-top: 5rem;
+  }
+
+  .nav-links .gs-inline-search__input,
+  .nav-links .gs-inline-search__voice,
+  .nav-links a {
+    font-size: 0.95rem;
   }
 
   .actions .ghost,
