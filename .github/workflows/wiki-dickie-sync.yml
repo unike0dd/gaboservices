@@ -1,0 +1,35 @@
+name: Wiki Dickie Sync
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Generate nonce
+        id: nonce
+        run: echo "value=$(openssl rand -hex 24)" >> "$GITHUB_OUTPUT"
+
+      - name: Generate and sync private bundles
+        env:
+          WIKI_DICKIE: ${{ secrets.WIKI_DICKIE }}
+          NONCE: ${{ steps.nonce.outputs.value }}
+        run: |
+          set -euo pipefail
+          test -n "$WIKI_DICKIE"
+          node scripts/wiki-dickie-sync.mjs --sync

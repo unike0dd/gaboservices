@@ -1,0 +1,2723 @@
+{
+  "wikiId": "WIKI_DICKIE",
+  "locale": "en",
+  "generatedAt": "2026-03-20T09:04:49.404Z",
+  "siteBaseUrl": "https://www.gabo.services",
+  "workerUrl": "https://wikie-dickie.rulathemtodos.workers.dev/",
+  "pageCount": 13,
+  "chunkCount": 55,
+  "uiMessages": [
+    {
+      "id": "en-1",
+      "locale": "en",
+      "value": "Open navigation menu"
+    },
+    {
+      "id": "en-2",
+      "locale": "en",
+      "value": "Close navigation menu"
+    },
+    {
+      "id": "en-3",
+      "locale": "en",
+      "value": "Submitting..."
+    },
+    {
+      "id": "en-4",
+      "locale": "en",
+      "value": "Careers"
+    },
+    {
+      "id": "en-5",
+      "locale": "en",
+      "value": "Contact"
+    },
+    {
+      "id": "en-6",
+      "locale": "en",
+      "value": "Chatbot"
+    },
+    {
+      "id": "en-7",
+      "locale": "en",
+      "value": "Open quick actions"
+    },
+    {
+      "id": "en-8",
+      "locale": "en",
+      "value": "News Cut"
+    },
+    {
+      "id": "en-9",
+      "locale": "en",
+      "value": "Magazine Cut"
+    },
+    {
+      "id": "en-10",
+      "locale": "en",
+      "value": "News"
+    },
+    {
+      "id": "en-11",
+      "locale": "en",
+      "value": "Mags"
+    },
+    {
+      "id": "en-12",
+      "locale": "en",
+      "value": "Switch landing and navigation look."
+    },
+    {
+      "id": "en-13",
+      "locale": "en",
+      "value": "Chatbot panel"
+    },
+    {
+      "id": "en-14",
+      "locale": "en",
+      "value": "Close"
+    },
+    {
+      "id": "en-15",
+      "locale": "en",
+      "value": "Close chatbot"
+    },
+    {
+      "id": "en-16",
+      "locale": "en",
+      "value": "Gabriel chatbot"
+    },
+    {
+      "id": "en-17",
+      "locale": "en",
+      "value": "Chat assistant is temporarily unavailable. Please use contact form instead."
+    },
+    {
+      "id": "en-18",
+      "locale": "en",
+      "value": "Saved. Your preferences were updated."
+    },
+    {
+      "id": "en-19",
+      "locale": "en",
+      "value": "Preferences could not be saved (storage blocked). You can still manage cookies in your browser."
+    },
+    {
+      "id": "en-20",
+      "locale": "en",
+      "value": "All optional cookies were accepted."
+    },
+    {
+      "id": "en-21",
+      "locale": "en",
+      "value": "All optional cookies were rejected."
+    },
+    {
+      "id": "en-22",
+      "locale": "en",
+      "value": "Your current preferences are loaded."
+    },
+    {
+      "id": "en-23",
+      "locale": "en",
+      "value": "No saved preferences yet. Choose your settings and save."
+    },
+    {
+      "id": "en-24",
+      "locale": "en",
+      "value": "Human verification is unavailable. Please refresh and try again."
+    },
+    {
+      "id": "en-25",
+      "locale": "en",
+      "value": "Cloudflare security check"
+    },
+    {
+      "id": "en-26",
+      "locale": "en",
+      "value": "Human verification complete."
+    },
+    {
+      "id": "en-27",
+      "locale": "en",
+      "value": "Verification expired. Please complete the challenge again."
+    },
+    {
+      "id": "en-28",
+      "locale": "en",
+      "value": "Verification failed. Please retry the challenge."
+    },
+    {
+      "id": "en-29",
+      "locale": "en",
+      "value": "Please complete the human verification challenge before submitting."
+    }
+  ],
+  "pages": [
+    {
+      "locale": "en",
+      "sourceFile": "index.html",
+      "pageType": "home",
+      "path": "/",
+      "slug": "home",
+      "url": "https://www.gabo.services/",
+      "title": "Gabriel Services",
+      "metaDescription": "",
+      "summary": "Outsource, Delivered Scale support with expert teams, measurable service levels, and precision-driven delivery across logistics, IT, and customer operations. Execution-first coverage built for dispatch workflows, customer touchpoints, and technical continuity.",
+      "bodyText": "Outsource, Delivered Scale support with expert teams, measurable service levels, and precision-driven delivery across logistics, IT, and customer operations. Execution-first coverage built for dispatch workflows, customer touchpoints, and technical continuity. Gabriel Services is an operational support partner for companies that need reliable daily execution across logistics coordination, administrative workflows, customer communications, and IT request handling. Our teams combine measurable service discipline with practical implementation, helping businesses protect response quality, maintain organized processes, and scale support without adding internal friction. Dispatch coordination, movement tracking, and execution support aligned to delivery timelines. Documentation, scheduling, process administration, and data upkeep for operational clarity. Customer communication, follow-up handling, and service continuity across day-to-day interactions. Ticket coordination, issue triage, and practical technical support for core business systems. Businesses choose Gabriel Services for reliability under pressure, clear communication rhythm, structured follow-through, and adaptable support models that adjust as priorities evolve. Book a consultation to map workflows, define service coverage, and build a practical execution plan around your current operational priorities. © 2026 Gabriel Services Home About Services Careers Contact",
+      "headings": [
+        "Professional services for logistics, IT, and customer operations.",
+        "Operational support for modern businesses",
+        "Service areas built for daily execution",
+        "Why businesses work with Gabriel Services",
+        "Start with the support you need",
+        "Logistics Operations",
+        "Administrative Back Office",
+        "Customer Operations",
+        "IT Support",
+        "Company",
+        "Support",
+        "Legal"
+      ],
+      "ctas": [
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Schedule a consultation"
+        },
+        {
+          "href": "https://www.gabo.services/services/",
+          "label": "Explore services"
+        },
+        {
+          "href": "https://www.gabo.services/services/logistics-operations/",
+          "label": "Explore service"
+        },
+        {
+          "href": "https://www.gabo.services/services/administrative-backoffice/",
+          "label": "Explore service"
+        },
+        {
+          "href": "https://www.gabo.services/services/customer-relations/",
+          "label": "Explore service"
+        },
+        {
+          "href": "https://www.gabo.services/services/it-support/",
+          "label": "Explore service"
+        },
+        {
+          "href": "https://www.gabo.services/contact/",
+          "label": "Request consultation"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        }
+      ],
+      "internalLinks": [
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Gabriel Services"
+        },
+        {
+          "href": "https://www.gabo.services/#home",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Schedule a consultation"
+        },
+        {
+          "href": "https://www.gabo.services/services/",
+          "label": "Explore services"
+        },
+        {
+          "href": "https://www.gabo.services/services/logistics-operations/",
+          "label": "Explore service"
+        },
+        {
+          "href": "https://www.gabo.services/services/administrative-backoffice/",
+          "label": "Explore service"
+        },
+        {
+          "href": "https://www.gabo.services/services/customer-relations/",
+          "label": "Explore service"
+        },
+        {
+          "href": "https://www.gabo.services/services/it-support/",
+          "label": "Explore service"
+        },
+        {
+          "href": "https://www.gabo.services/contact/",
+          "label": "Request consultation"
+        },
+        {
+          "href": "https://www.gabo.services/services/#pricing",
+          "label": "View engagement options"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/learning",
+          "label": "Learning"
+        },
+        {
+          "href": "https://www.gabo.services/sitemap.xml",
+          "label": "Sitemap"
+        },
+        {
+          "href": "https://www.gabo.services/legal/terms.html",
+          "label": "T&C"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/legal/privacy-gdpr.html",
+          "label": "Privacy and GDPR"
+        }
+      ],
+      "formDetails": {
+        "labels": [],
+        "placeholders": [],
+        "options": []
+      },
+      "tags": [
+        "home",
+        "professional services for logistics, it, and customer operations.",
+        "operational support for modern businesses",
+        "service areas built for daily execution"
+      ],
+      "intent": "careers"
+    },
+    {
+      "locale": "en",
+      "sourceFile": "about/index.html",
+      "pageType": "about",
+      "path": "/about/",
+      "slug": "about",
+      "url": "https://www.gabo.services/about/",
+      "title": "Gabriel Services",
+      "metaDescription": "",
+      "summary": "Outsource, Delivered Gabriel Services helps businesses stay organized, responsive, and operationally strong through practical support across logistics, administration, customer operations, and IT. Gabriel Services was built to give growing companies a dependable operational partner that understands the pace and pressure of daily business execution.",
+      "bodyText": "Outsource, Delivered Gabriel Services helps businesses stay organized, responsive, and operationally strong through practical support across logistics, administration, customer operations, and IT. Gabriel Services was built to give growing companies a dependable operational partner that understands the pace and pressure of daily business execution. Our team brings direct experience in customer service, logistics coordination, administrative back-office support, IT triage, and day-to-day business operations. This cross-functional foundation helps us support workflows end-to-end instead of treating each request as an isolated task. As companies scale, small unmanaged details can quickly become expensive operational issues. We reduce that risk through consistent execution, transparent communication, and disciplined follow-up across recurring workflows. Our approach is built on reliability, steady communication rhythm, practical execution, and cost-conscious service delivery so businesses can maintain momentum with confidence. © 2026 Gabriel Services Home About Services Careers Contact",
+      "headings": [
+        "About Gabriel Services",
+        "Who we are",
+        "What we bring to daily operations",
+        "How we support growing businesses",
+        "Our operating approach",
+        "Company",
+        "Support",
+        "Legal"
+      ],
+      "ctas": [
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Explore services"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Schedule a consultation"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        }
+      ],
+      "internalLinks": [
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Gabriel Services"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Explore services"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Schedule a consultation"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/learning",
+          "label": "Learning"
+        },
+        {
+          "href": "https://www.gabo.services/sitemap.xml",
+          "label": "Sitemap"
+        },
+        {
+          "href": "https://www.gabo.services/legal/terms.html",
+          "label": "T&C"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/legal/privacy-gdpr.html",
+          "label": "Privacy and GDPR"
+        }
+      ],
+      "formDetails": {
+        "labels": [],
+        "placeholders": [],
+        "options": []
+      },
+      "tags": [
+        "about",
+        "about gabriel services",
+        "who we are",
+        "what we bring to daily operations"
+      ],
+      "intent": "careers"
+    },
+    {
+      "locale": "en",
+      "sourceFile": "services/index.html",
+      "pageType": "services",
+      "path": "/services/",
+      "slug": "services",
+      "url": "https://www.gabo.services/services/",
+      "title": "Gabriel Services",
+      "metaDescription": "",
+      "summary": "Outsource, Delivered Gabriel Services provides flexible operational support across logistics, administrative back office, customer operations, and IT support. Dispatch management, shipment follow-up, and coordination support for continuous movement.",
+      "bodyText": "Outsource, Delivered Gabriel Services provides flexible operational support across logistics, administrative back office, customer operations, and IT support. Dispatch management, shipment follow-up, and coordination support for continuous movement. Structured documentation, schedule handling, and process coordination for daily control. Customer-facing communication, issue routing, and post-service follow-up continuity. Technical request triage, resolution tracking, and practical platform support. A quick view to understand how each service line supports execution priorities. Pricing is structured around business needs, workflow complexity, coverage level, and the operational volume involved. Ideal for variable needs, workload spikes, and last-minute requests. Ideal for recurring tasks and constant operational continuity. Ideal for defined scopes and focused execution. For dedicated remote support that keeps individuals and teams aligned, responsive, and productive across daily operational needs. Pricing depends on service scope, coordination depth, support hours, communication rhythm, and the reporting requirements your team expects across daily operations. Final pricing is influenced by workflow complexity, business volume, required support hours, communication requirements, and any system or process requirements involved in day-to-day delivery. Tell us what your team needs, and we will prepare a consultation-focused scope aligned to your operational goals. © 2026 Gabriel Services Home About Services Careers Contact Hourly 4-hour block 8-hour block Part time Full time Daily Weekly Monthly By project Short term Milestone based Structured support Multilingual communication Steady follow-up Practical, cost-conscious operations",
+      "headings": [
+        "Services",
+        "Professional support across key business functions",
+        "Service matrix",
+        "Pricing & engagement options",
+        "How we support execution",
+        "Logistics Operations",
+        "Administrative Back Office",
+        "Customer Operations",
+        "IT Support",
+        "On demand",
+        "Continuous coverage",
+        "Project based",
+        "Professional Individual and Team Remote Assistance",
+        "How pricing works",
+        "What affects pricing",
+        "Request a tailored scope",
+        "Company",
+        "Support",
+        "Legal"
+      ],
+      "ctas": [
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/contact/",
+          "label": "Discuss your workflow"
+        },
+        {
+          "href": "https://www.gabo.services/services/logistics-operations/",
+          "label": "Explore service"
+        },
+        {
+          "href": "https://www.gabo.services/services/administrative-backoffice/",
+          "label": "Explore service"
+        },
+        {
+          "href": "https://www.gabo.services/services/customer-relations/",
+          "label": "Explore service"
+        },
+        {
+          "href": "https://www.gabo.services/services/it-support/",
+          "label": "Explore service"
+        },
+        {
+          "href": "https://www.gabo.services/contact/",
+          "label": "Request a consultation"
+        },
+        {
+          "href": "https://www.gabo.services/contact/",
+          "label": "Request support"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        }
+      ],
+      "internalLinks": [
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Gabriel Services"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/contact/",
+          "label": "Discuss your workflow"
+        },
+        {
+          "href": "https://www.gabo.services/services/logistics-operations/",
+          "label": "Explore service"
+        },
+        {
+          "href": "https://www.gabo.services/services/administrative-backoffice/",
+          "label": "Explore service"
+        },
+        {
+          "href": "https://www.gabo.services/services/customer-relations/",
+          "label": "Explore service"
+        },
+        {
+          "href": "https://www.gabo.services/services/it-support/",
+          "label": "Explore service"
+        },
+        {
+          "href": "https://www.gabo.services/contact/",
+          "label": "Request a consultation"
+        },
+        {
+          "href": "https://www.gabo.services/contact/",
+          "label": "Describe your needs"
+        },
+        {
+          "href": "https://www.gabo.services/contact/",
+          "label": "Request support"
+        },
+        {
+          "href": "https://www.gabo.services/services/#pricing",
+          "label": "View engagement options"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/learning",
+          "label": "Learning"
+        },
+        {
+          "href": "https://www.gabo.services/sitemap.xml",
+          "label": "Sitemap"
+        },
+        {
+          "href": "https://www.gabo.services/legal/terms.html",
+          "label": "T&C"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/legal/privacy-gdpr.html",
+          "label": "Privacy and GDPR"
+        }
+      ],
+      "formDetails": {
+        "labels": [],
+        "placeholders": [],
+        "options": []
+      },
+      "tags": [
+        "services",
+        "professional support across key business functions",
+        "service matrix"
+      ],
+      "intent": "careers"
+    },
+    {
+      "locale": "en",
+      "sourceFile": "services/logistics-operations/index.html",
+      "pageType": "service-detail",
+      "path": "/services/logistics-operations/",
+      "slug": "services-logistics-operations",
+      "url": "https://www.gabo.services/services/logistics-operations/",
+      "title": "Logistics Operations | Gabriel Services",
+      "metaDescription": "",
+      "summary": "Outsource, Delivered Logistics Operations provides reliable execution coverage for coordination-heavy daily workflows. We help manage communication, follow-up, and documentation across moving parts so operations stay organized, visible, and on track.",
+      "bodyText": "Outsource, Delivered Logistics Operations provides reliable execution coverage for coordination-heavy daily workflows. We help manage communication, follow-up, and documentation across moving parts so operations stay organized, visible, and on track. The result is steadier execution with fewer gaps across the logistics process. This service is designed for businesses that need dependable coordination across active logistics operations. We help maintain communication flow, improve follow-through, and strengthen alignment across the daily tasks that keep logistics activity moving. We begin by reviewing your workflow, operational priorities, and communication requirements. The work is then aligned to your process so logistics tasks are handled with clearer coordination, better updates, and more dependable follow-through. © 2026 Gabriel Services Home About Services Careers Contact Coordination Dispatch Delivery follow-up Escalation Communications Documentation Tracking Escalation Communication and follow-up Fewer communication gaps Better delivery visibility More consistent operational follow-up Stronger daily execution",
+      "headings": [
+        "Logistics Operations",
+        "Service overview",
+        "What this covers",
+        "Typical workflows",
+        "Business outcomes",
+        "How engagement works",
+        "Related services",
+        "Company",
+        "Support",
+        "Legal"
+      ],
+      "ctas": [
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/services/it-support",
+          "label": "IT Support"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        }
+      ],
+      "internalLinks": [
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Gabriel Services"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/services/administrative-backoffice",
+          "label": "Administrative Backoffice"
+        },
+        {
+          "href": "https://www.gabo.services/services/customer-relations",
+          "label": "Customer Relations"
+        },
+        {
+          "href": "https://www.gabo.services/services/it-support",
+          "label": "IT Support"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/learning",
+          "label": "Learning"
+        },
+        {
+          "href": "https://www.gabo.services/sitemap.xml",
+          "label": "Sitemap"
+        },
+        {
+          "href": "https://www.gabo.services/legal/terms.html",
+          "label": "T&C"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/legal/privacy-gdpr.html",
+          "label": "Privacy and GDPR"
+        }
+      ],
+      "formDetails": {
+        "labels": [],
+        "placeholders": [],
+        "options": []
+      },
+      "tags": [
+        "service-detail",
+        "logistics operations",
+        "service overview",
+        "what this covers"
+      ],
+      "intent": "careers"
+    },
+    {
+      "locale": "en",
+      "sourceFile": "services/administrative-backoffice/index.html",
+      "pageType": "service-detail",
+      "path": "/services/administrative-backoffice/",
+      "slug": "services-administrative-backoffice",
+      "url": "https://www.gabo.services/services/administrative-backoffice/",
+      "title": "Administrative Backoffice | Gabriel Services",
+      "metaDescription": "",
+      "summary": "Outsource, Delivered Administrative Backoffice provides structured coverage for recurring administrative work that keeps business operations steady. We help manage documentation flow, coordination routines, and follow-up activity so internal processes remain organized, consistent, and dependable over time.",
+      "bodyText": "Outsource, Delivered Administrative Backoffice provides structured coverage for recurring administrative work that keeps business operations steady. We help manage documentation flow, coordination routines, and follow-up activity so internal processes remain organized, consistent, and dependable over time. The result is stronger day-to-day continuity across routine business functions. This service is designed for businesses that need dependable coverage across routine administrative operations. We help reduce task buildup, maintain internal order, and keep recurring workflows moving with greater consistency and clarity. We begin by reviewing your workflow, recurring priorities, and communication rhythm. The work is then aligned to your internal process so administrative tasks are tracked, organized, and followed through with greater consistency and control. © 2026 Gabriel Services Home About Services Careers Contact Documentation Scheduling Reporting Operational follow-up Internal coordination Administrative continuity Document preparation and organization Record upkeep and maintenance Internal request handling Calendar and coordination Recurring administrative follow-through Stronger operational organization Less administrative backlog Better internal continuity More consistent day-to-day execution",
+      "headings": [
+        "Administrative Backoffice",
+        "Service overview",
+        "What this covers",
+        "Typical workflows",
+        "Business outcomes",
+        "How engagement works",
+        "Related services",
+        "Company",
+        "Support",
+        "Legal"
+      ],
+      "ctas": [
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/services/it-support",
+          "label": "IT Support"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        }
+      ],
+      "internalLinks": [
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Gabriel Services"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/services/logistics-operations",
+          "label": "Logistics Operations"
+        },
+        {
+          "href": "https://www.gabo.services/services/customer-relations",
+          "label": "Customer Relations"
+        },
+        {
+          "href": "https://www.gabo.services/services/it-support",
+          "label": "IT Support"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/learning",
+          "label": "Learning"
+        },
+        {
+          "href": "https://www.gabo.services/sitemap.xml",
+          "label": "Sitemap"
+        },
+        {
+          "href": "https://www.gabo.services/legal/terms.html",
+          "label": "T&C"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/legal/privacy-gdpr.html",
+          "label": "Privacy and GDPR"
+        }
+      ],
+      "formDetails": {
+        "labels": [],
+        "placeholders": [],
+        "options": []
+      },
+      "tags": [
+        "service-detail",
+        "administrative backoffice",
+        "service overview",
+        "what this covers"
+      ],
+      "intent": "careers"
+    },
+    {
+      "locale": "en",
+      "sourceFile": "services/customer-relations/index.html",
+      "pageType": "service-detail",
+      "path": "/services/customer-relations/",
+      "slug": "services-customer-relations",
+      "url": "https://www.gabo.services/services/customer-relations/",
+      "title": "Customer Relations | Gabriel Services",
+      "metaDescription": "",
+      "summary": "Outsource, Delivered Customer Relations provides structured coverage for customer communication, after-sales continuity, and ongoing follow-up. We help businesses remain responsive, organized, and professional across day-to-day interactions while reducing communication pressure on internal teams.",
+      "bodyText": "Outsource, Delivered Customer Relations provides structured coverage for customer communication, after-sales continuity, and ongoing follow-up. We help businesses remain responsive, organized, and professional across day-to-day interactions while reducing communication pressure on internal teams. The result is a more consistent customer experience backed by clear and dependable follow-through. This service is designed for businesses that need reliable communication across the customer journey. We help maintain message continuity, strengthen after-sales follow-up, and keep client-facing communication clear, timely, and well coordinated. We begin by reviewing your communication workflow, response priorities, and follow-up expectations. The work is then aligned to your process so customer interactions are managed with greater consistency, visibility, and operational clarity. © 2026 Gabriel Services Home About Services Careers Contact Customer communication After-sales follow-up Case updates Response continuity Ticket tracking follow-up Communication flow Inbound and outbound message follow-up Customer status updates Service continuity communication After-sales communication Tracking and escalation More consistent client communication Stronger customer experience Fewer missed or delayed follow-ups Better continuity across customer interactions",
+      "headings": [
+        "Customer Relations",
+        "Service overview",
+        "What this covers",
+        "Typical workflows",
+        "Business outcomes",
+        "How engagement works",
+        "Related services",
+        "Company",
+        "Support",
+        "Legal"
+      ],
+      "ctas": [
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/services/it-support",
+          "label": "IT Support"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        }
+      ],
+      "internalLinks": [
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Gabriel Services"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/services/logistics-operations",
+          "label": "Logistics Operations"
+        },
+        {
+          "href": "https://www.gabo.services/services/administrative-backoffice",
+          "label": "Administrative Backoffice"
+        },
+        {
+          "href": "https://www.gabo.services/services/it-support",
+          "label": "IT Support"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/learning",
+          "label": "Learning"
+        },
+        {
+          "href": "https://www.gabo.services/sitemap.xml",
+          "label": "Sitemap"
+        },
+        {
+          "href": "https://www.gabo.services/legal/terms.html",
+          "label": "T&C"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/legal/privacy-gdpr.html",
+          "label": "Privacy and GDPR"
+        }
+      ],
+      "formDetails": {
+        "labels": [],
+        "placeholders": [],
+        "options": []
+      },
+      "tags": [
+        "service-detail",
+        "customer relations",
+        "service overview",
+        "what this covers"
+      ],
+      "intent": "careers"
+    },
+    {
+      "locale": "en",
+      "sourceFile": "services/it-support/index.html",
+      "pageType": "service-detail",
+      "path": "/services/it-support/",
+      "slug": "services-it-support",
+      "url": "https://www.gabo.services/services/it-support/",
+      "title": "IT Support | Gabriel Services",
+      "metaDescription": "",
+      "summary": "Outsource, Delivered IT Support provides reliable day-to-day coverage for routine internal technical needs. We help organize request intake, maintain visibility across open issues, and keep communication moving clearly throughout the process.",
+      "bodyText": "Outsource, Delivered IT Support provides reliable day-to-day coverage for routine internal technical needs. We help organize request intake, maintain visibility across open issues, and keep communication moving clearly throughout the process. The result is practical, dependable execution that helps teams stay responsive without adding unnecessary complexity. This service is designed for businesses that need structured day-to-day coverage for common internal technical requests. We help keep ticket flow organized, maintain communication continuity, and improve follow-up so routine technical operations remain stable and well coordinated. We begin by reviewing your workflow, request priorities, and communication needs. The work is then aligned to your internal process so routine technical requests are handled with clear follow-up, stronger visibility, and consistent coordination. © 2026 Gabriel Services Home About Services Careers Contact Help desk Ticketing User coordination and follow-up Troubleshooting Communication Ticket and documentation handling Triage Request follow-up and coordination More reliable operational flow Better visibility across open requests Cleaner follow-up and coordination Less friction in routine technical activity",
+      "headings": [
+        "IT Support",
+        "Service overview",
+        "What this covers",
+        "Typical workflows",
+        "Business outcomes",
+        "How engagement works",
+        "Related services",
+        "Company",
+        "Support",
+        "Legal"
+      ],
+      "ctas": [
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        }
+      ],
+      "internalLinks": [
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Gabriel Services"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/services/logistics-operations",
+          "label": "Logistics Operations"
+        },
+        {
+          "href": "https://www.gabo.services/services/administrative-backoffice",
+          "label": "Administrative Backoffice"
+        },
+        {
+          "href": "https://www.gabo.services/services/customer-relations",
+          "label": "Customer Relations"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/learning",
+          "label": "Learning"
+        },
+        {
+          "href": "https://www.gabo.services/sitemap.xml",
+          "label": "Sitemap"
+        },
+        {
+          "href": "https://www.gabo.services/legal/terms.html",
+          "label": "T&C"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/legal/privacy-gdpr.html",
+          "label": "Privacy and GDPR"
+        }
+      ],
+      "formDetails": {
+        "labels": [],
+        "placeholders": [],
+        "options": []
+      },
+      "tags": [
+        "service-detail",
+        "it support",
+        "service overview",
+        "what this covers"
+      ],
+      "intent": "careers"
+    },
+    {
+      "locale": "en",
+      "sourceFile": "contact/index.html",
+      "pageType": "contact",
+      "path": "/contact/",
+      "slug": "contact",
+      "url": "https://www.gabo.services/contact/",
+      "title": "Gabriel Services",
+      "metaDescription": "",
+      "summary": "Outsource, Delivered Reach our team for support, onboarding, project discussions, or partnership inquiries. Select one or more service areas.",
+      "bodyText": "Outsource, Delivered Reach our team for support, onboarding, project discussions, or partnership inquiries. Select one or more service areas. Add relevant skills, languages, and preferred service area. Select one or more areas for remote assistant inquiry. © 2026 Gabriel Services Home About Services Careers Contact",
+      "headings": [
+        "Contact",
+        "Company",
+        "Support",
+        "Legal"
+      ],
+      "ctas": [
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        }
+      ],
+      "internalLinks": [
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Gabriel Services"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/learning",
+          "label": "Learning"
+        },
+        {
+          "href": "https://www.gabo.services/sitemap.xml",
+          "label": "Sitemap"
+        },
+        {
+          "href": "https://www.gabo.services/legal/terms.html",
+          "label": "T&C"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/legal/privacy-gdpr.html",
+          "label": "Privacy and GDPR"
+        }
+      ],
+      "formDetails": {
+        "labels": [
+          "Full Name",
+          "Email Address",
+          "Country Code",
+          "Contact Number",
+          "City",
+          "State / Province",
+          "Space / Suite / Apt",
+          "Country Zip Code",
+          "Best Time to Contact You",
+          "Message",
+          "Logistics Operations",
+          "Administrative Back Office",
+          "Customer Relations",
+          "IT Support",
+          "Skills",
+          "Logistics Operations",
+          "Administrative Back Office",
+          "Customer Relations",
+          "IT Support",
+          "Experience Level",
+          "Education",
+          "Languages"
+        ],
+        "placeholders": [
+          "+1",
+          "Suite 210",
+          "Share your request, support need, or project details.",
+          "Add a skill",
+          "Add experience area",
+          "Add school, program, or certificate",
+          "Add a language"
+        ],
+        "options": [
+          "Select level",
+          "Entry",
+          "Junior",
+          "Mid",
+          "Advanced",
+          "Expert",
+          "Select education",
+          "Grammar School",
+          "Some High School",
+          "High School",
+          "Some College",
+          "Associate Degree",
+          "Bachelor",
+          "Masters",
+          "Doctorate",
+          "Select level",
+          "Beginner",
+          "Elementary",
+          "Intermediate",
+          "Advance",
+          "Advance Professional",
+          "Native"
+        ]
+      },
+      "tags": [
+        "contact",
+        "company",
+        "support"
+      ],
+      "intent": "careers"
+    },
+    {
+      "locale": "en",
+      "sourceFile": "careers/index.html",
+      "pageType": "careers",
+      "path": "/careers/",
+      "slug": "careers",
+      "url": "https://www.gabo.services/careers/",
+      "title": "Gabriel Services | Careers",
+      "metaDescription": "",
+      "summary": "Outsource, Delivered Apply to support operations, customer communications, and delivery workflows with our team. Complete the full application below to share your experience, skills, projects, education, and availability with our hiring team.",
+      "bodyText": "Outsource, Delivered Apply to support operations, customer communications, and delivery workflows with our team. Complete the full application below to share your experience, skills, projects, education, and availability with our hiring team. Select one or more service areas. Add experience, languages, skills, projects, and education. © 2026 Gabriel Services Home About Services Careers Contact",
+      "headings": [
+        "Careers",
+        "Career Application",
+        "Company",
+        "Support",
+        "Legal"
+      ],
+      "ctas": [
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        }
+      ],
+      "internalLinks": [
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Gabriel Services"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/learning",
+          "label": "Learning"
+        },
+        {
+          "href": "https://www.gabo.services/sitemap.xml",
+          "label": "Sitemap"
+        },
+        {
+          "href": "https://www.gabo.services/legal/terms.html",
+          "label": "T&C"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/legal/privacy-gdpr.html",
+          "label": "Privacy and GDPR"
+        }
+      ],
+      "formDetails": {
+        "labels": [
+          "Full Name",
+          "Email Address",
+          "Country Code",
+          "Contact Number",
+          "City",
+          "State / Province",
+          "Country Zip Code",
+          "Availability",
+          "Logistics Operations",
+          "Administrative Back Office",
+          "Customer Relations",
+          "IT Support",
+          "Experience Level",
+          "Languages",
+          "Skills",
+          "Projects",
+          "Education",
+          "Resume or Profile Link"
+        ],
+        "placeholders": [
+          "+1",
+          "Add experience area",
+          "Add a language",
+          "Add a skill",
+          "Add a project",
+          "Add school, program, or certificate",
+          "https://"
+        ],
+        "options": [
+          "Select level",
+          "Entry",
+          "Junior",
+          "Mid",
+          "Advanced",
+          "Expert",
+          "Select level",
+          "Beginner",
+          "Elementary",
+          "Intermediate",
+          "Advance",
+          "Advance Professional",
+          "Native",
+          "Select level",
+          "Entry",
+          "Junior",
+          "Mid",
+          "Advanced",
+          "Expert",
+          "Select level",
+          "Grammar School",
+          "Some High School",
+          "High School",
+          "Some College",
+          "Associate Degree",
+          "Bachelor",
+          "Masters",
+          "PhD"
+        ]
+      },
+      "tags": [
+        "careers",
+        "career application",
+        "company"
+      ],
+      "intent": "careers"
+    },
+    {
+      "locale": "en",
+      "sourceFile": "learning/index.html",
+      "pageType": "learning",
+      "path": "/learning/",
+      "slug": "learning",
+      "url": "https://www.gabo.services/learning/",
+      "title": "Learning | Gabriel Services",
+      "metaDescription": "",
+      "summary": "Outsource, Delivered Explore our English service guidance for operations and support workflows. Dispatch coordination, movement tracking, and execution support aligned to delivery timelines.",
+      "bodyText": "Outsource, Delivered Explore our English service guidance for operations and support workflows. Dispatch coordination, movement tracking, and execution support aligned to delivery timelines. Documentation, scheduling, process administration, and data upkeep for operational clarity. Customer communication, follow-up handling, and service continuity across day-to-day interactions. Ticket coordination, issue triage, and practical technical support for core business systems. © 2026 Gabriel Services Home About Services Careers Contact",
+      "headings": [
+        "Learning",
+        "Operations and Support Learning Tracks",
+        "Logistics Operations",
+        "Administrative Back Office",
+        "Customer Operations",
+        "IT Support",
+        "Company",
+        "Support",
+        "Legal"
+      ],
+      "ctas": [
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/services/logistics-operations/",
+          "label": "Open logistics learning"
+        },
+        {
+          "href": "https://www.gabo.services/services/administrative-backoffice/",
+          "label": "Open administrative learning"
+        },
+        {
+          "href": "https://www.gabo.services/services/customer-relations/",
+          "label": "Open customer learning"
+        },
+        {
+          "href": "https://www.gabo.services/services/it-support/",
+          "label": "Open IT learning"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        }
+      ],
+      "internalLinks": [
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Gabriel Services"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/services/logistics-operations/",
+          "label": "Open logistics learning"
+        },
+        {
+          "href": "https://www.gabo.services/services/administrative-backoffice/",
+          "label": "Open administrative learning"
+        },
+        {
+          "href": "https://www.gabo.services/services/customer-relations/",
+          "label": "Open customer learning"
+        },
+        {
+          "href": "https://www.gabo.services/services/it-support/",
+          "label": "Open IT learning"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/learning",
+          "label": "Learning"
+        },
+        {
+          "href": "https://www.gabo.services/sitemap.xml",
+          "label": "Sitemap"
+        },
+        {
+          "href": "https://www.gabo.services/legal/terms.html",
+          "label": "T&C"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/legal/privacy-gdpr.html",
+          "label": "Privacy and GDPR"
+        }
+      ],
+      "formDetails": {
+        "labels": [],
+        "placeholders": [],
+        "options": []
+      },
+      "tags": [
+        "learning",
+        "operations and support learning tracks",
+        "logistics operations"
+      ],
+      "intent": "careers"
+    },
+    {
+      "locale": "en",
+      "sourceFile": "legal/terms.html",
+      "pageType": "legal",
+      "path": "/legal/terms.html",
+      "slug": "legal-terms-html",
+      "url": "https://www.gabo.services/legal/terms.html",
+      "title": "Terms and Conditions | Gabriel Services",
+      "metaDescription": "",
+      "summary": "Effective date: March 18, 2026 These Terms and Conditions govern your access to and use of the Gabriel Services website, related landing pages, contact forms, and any pre-contractual exchanges carried out through this site. By using this website, you agree to these terms.",
+      "bodyText": "Effective date: March 18, 2026 These Terms and Conditions govern your access to and use of the Gabriel Services website, related landing pages, contact forms, and any pre-contractual exchanges carried out through this site. By using this website, you agree to these terms. If you do not agree, please do not use the website. Gabriel Services provides business support and outsourcing-related information, including service descriptions, contact options, recruitment information, and proposal intake forms. Information on this website is provided for general business and informational purposes and does not automatically create a contractual relationship. If you submit an application, CV, or supporting information through the careers page or by email, you confirm that the information submitted is accurate and that you are authorized to share it. Submission of an application does not guarantee employment, an interview, or a response within a specific timeframe. Unless otherwise stated, the content on this website, including text, branding, layouts, graphics, and original materials, is owned by or licensed to Gabriel Services and is protected by applicable intellectual property laws. You may view, download, or print limited portions for internal informational use only. This website may contain third-party services, embedded tools, verification widgets, maps, analytics, or links to external websites. Gabriel Services is not responsible for the content, availability, or privacy practices of third-party services. Your use of those services may be subject to separate terms and policies. By contacting Gabriel Services through website forms, email, or phone details published on this site, you agree that communications may be used to respond to your request, manage a potential business relationship, assess a job application, or meet security and legal obligations. This website is provided on an “as is” and “as available” basis. While Gabriel Services aims to keep information accurate and current, we do not guarantee that the website will always be available, uninterrupted, secure, complete, or free of errors. To the fullest extent permitted by law, all implied warranties are excluded. To the fullest extent permitted by law, Gabriel Services shall not be liable for indirect, incidental, consequential, special, or punitive damages arising out of or related to your use of, or inability to use, this website. Nothing in these terms excludes liability that cannot be excluded under applicable law. Personal data handling and cookie preferences are governed by our Privacy and GDPR page and our Cookies Consent page. Those notices form an integral part of your use of this website. These terms are governed by the laws applicable to the jurisdiction in which the relevant Gabriel Services contracting entity is established, unless mandatory consumer or data-protection law requires otherwise. Gabriel Services may update these Terms and Conditions from time to time. The latest version will be published on this page together with its effective date. For legal or privacy questions, please use the contact details published on the Contact page. © 2026 Gabriel Services You agree to use this website lawfully, responsibly, and in a way that does not harm the website, its users, or Gabriel Services. You must not attempt unauthorized access, interfere with security features, distribute malware, or misuse forms, chat tools, or email addresses shown on the site. You must not copy, scrape, or republish substantial parts of the website for commercial use without prior written authorization. Descriptions of services, industries, pricing indications, timelines, and availability are illustrative unless expressly confirmed in writing. Any quotation, scope, service-level commitment, or commercial term becomes binding only when accepted by both parties in a separate written agreement. Gabriel Services may update, suspend, or discontinue parts of the website or service descriptions without prior notice.",
+      "headings": [
+        "Terms and Conditions",
+        "1. About Gabriel Services",
+        "2. Website use",
+        "3. Service information and proposals",
+        "4. Recruitment and candidate submissions",
+        "5. Intellectual property",
+        "6. Third-party tools and links",
+        "7. Acceptable communications",
+        "8. Disclaimer",
+        "9. Limitation of liability",
+        "10. Privacy and cookies",
+        "11. Governing law",
+        "12. Changes to these terms",
+        "Company",
+        "Support",
+        "Legal"
+      ],
+      "ctas": [
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        }
+      ],
+      "internalLinks": [
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Gabriel Services"
+        },
+        {
+          "href": "https://www.gabo.services/legal/terms.html",
+          "label": "T&C"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/legal/privacy-gdpr.html",
+          "label": "Privacy and GDPR"
+        },
+        {
+          "href": "https://www.gabo.services/legal/privacy-gdpr.html",
+          "label": "Privacy and GDPR"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/learning",
+          "label": "Learning"
+        },
+        {
+          "href": "https://www.gabo.services/sitemap.xml",
+          "label": "Sitemap"
+        },
+        {
+          "href": "https://www.gabo.services/legal/terms.html",
+          "label": "T&C"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/legal/privacy-gdpr.html",
+          "label": "Privacy and GDPR"
+        }
+      ],
+      "formDetails": {
+        "labels": [],
+        "placeholders": [],
+        "options": []
+      },
+      "tags": [
+        "legal",
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
+      ],
+      "intent": "careers"
+    },
+    {
+      "locale": "en",
+      "sourceFile": "legal/cookies.html",
+      "pageType": "legal",
+      "path": "/legal/cookies.html",
+      "slug": "legal-cookies-html",
+      "url": "https://www.gabo.services/legal/cookies.html",
+      "title": "Cookies Consent | Gabriel Services",
+      "metaDescription": "",
+      "summary": "Effective date: March 18, 2026 This page explains how Gabriel Services uses cookies and similar technologies on this website, and how you can manage your consent preferences. Cookies are small text files stored on your device when you visit a website.",
+      "bodyText": "Effective date: March 18, 2026 This page explains how Gabriel Services uses cookies and similar technologies on this website, and how you can manage your consent preferences. Cookies are small text files stored on your device when you visit a website. Similar technologies such as local storage, pixels, and scripts may be used for related purposes. You can use the controls below to save your preferences on this device. Strictly necessary cookies remain active because the website relies on them for essential functionality and security. Choose your settings and save your preference. If you disable strictly necessary cookies, parts of the website may stop working correctly. Device-level or browser-level settings may override preferences saved on this page. Some website features may rely on third-party providers such as security verification, embedded media, or external scheduling/contact tools. Optional analytics technologies are currently disabled by default unless a future consent-based implementation is explicitly enabled. When third-party providers place cookies or similar identifiers, their own privacy notices may also apply. We may update this cookie notice and preference experience to reflect changes in law, technology, or website functionality. The latest version will remain available on this page. © 2026 Gabriel Services",
+      "headings": [
+        "Cookies Consent",
+        "1. What cookies are",
+        "2. How we use cookies",
+        "3. Manage your preferences",
+        "4. Browser controls",
+        "5. Third-party technologies",
+        "6. Updates to this page",
+        "Company",
+        "Support",
+        "Legal"
+      ],
+      "ctas": [
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        }
+      ],
+      "internalLinks": [
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Gabriel Services"
+        },
+        {
+          "href": "https://www.gabo.services/legal/terms.html",
+          "label": "T&C"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/legal/privacy-gdpr.html",
+          "label": "Privacy and GDPR"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/learning",
+          "label": "Learning"
+        },
+        {
+          "href": "https://www.gabo.services/sitemap.xml",
+          "label": "Sitemap"
+        },
+        {
+          "href": "https://www.gabo.services/legal/terms.html",
+          "label": "T&C"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/legal/privacy-gdpr.html",
+          "label": "Privacy and GDPR"
+        }
+      ],
+      "formDetails": {
+        "labels": [
+          "Strictly necessary — required for the website to operate and cannot be turned off here.",
+          "Preferences — remembers non-essential website choices.",
+          "Analytics — helps us understand usage and improve the website.",
+          "Marketing — supports campaign attribution and third-party promotional features when used."
+        ],
+        "placeholders": [],
+        "options": []
+      },
+      "tags": [
+        "legal",
+        "cookies consent",
+        "1. what cookies are",
+        "2. how we use cookies"
+      ],
+      "intent": "careers"
+    },
+    {
+      "locale": "en",
+      "sourceFile": "legal/privacy-gdpr.html",
+      "pageType": "legal",
+      "path": "/legal/privacy-gdpr.html",
+      "slug": "legal-privacy-gdpr-html",
+      "url": "https://www.gabo.services/legal/privacy-gdpr.html",
+      "title": "Privacy and GDPR | Gabriel Services",
+      "metaDescription": "",
+      "summary": "Effective date: March 18, 2026 Gabriel Services is committed to handling personal data lawfully, transparently, and securely. This notice explains what personal data we may collect through this website, why we use it, how long we keep it, and what rights individuals may have under applicable privacy laws, including the General Data Protection Regulation (GDPR) where it applies.",
+      "bodyText": "Effective date: March 18, 2026 Gabriel Services is committed to handling personal data lawfully, transparently, and securely. This notice explains what personal data we may collect through this website, why we use it, how long we keep it, and what rights individuals may have under applicable privacy laws, including the General Data Protection Regulation (GDPR) where it applies. Personal data may be shared on a need-to-know basis with hosting providers, cloud infrastructure providers, security and anti-abuse services, analytics providers only when an optional, consent-based analytics feature is explicitly enabled, recruitment support tools, and professional advisers. We may also disclose data where required to comply with law, enforce rights, or protect the website, our users, or the public. If personal data is transferred outside the country or region where it was collected, Gabriel Services will seek to use appropriate safeguards where required by law, such as contractual protections or reliance on recognized adequacy mechanisms. Subject to applicable law, you may have the right to request access to your personal data, rectification, erasure, restriction, portability, or objection to certain processing. Where processing is based on consent, you may withdraw that consent at any time for future processing. You may also have the right to lodge a complaint with a competent supervisory authority. Gabriel Services applies reasonable technical and organizational measures designed to reduce the risk of loss, misuse, unauthorized access, disclosure, or alteration of personal data. No internet transmission or storage environment can be guaranteed to be completely secure. For information about cookies, local storage, and optional consent preferences, please review our Cookies Consent page. To make a privacy request or ask a question about this notice, please use the contact details provided on our Contact page and clearly identify your request so it can be handled efficiently. We may update this privacy notice from time to time to reflect changes in our processing activities, legal requirements, or operational practices. The latest version and effective date will remain published here. © 2026 Gabriel Services Identity and contact details, such as name, email address, phone number, company name, and role. Inquiry and correspondence information submitted through forms, email, chatbot, or other contact channels. Recruitment information, such as CVs, cover letters, work history, and related application materials. Technical and usage information, such as IP address, browser type, device characteristics, security logs, and website interaction data. Responding to inquiries, requests for proposals, support needs, or commercial conversations. Evaluating job applications and managing recruitment processes. Operating, securing, and improving the website and its forms, chatbot, and verification mechanisms. Complying with legal, regulatory, contractual, and record-keeping obligations. Protecting against fraud, abuse, unauthorized access, and other security threats. Consent: where you choose to submit certain information or accept optional cookies. Pre-contractual steps: where processing is necessary to discuss services or prepare a proposal at your request. Legitimate interests: for website administration, information security, service improvement, and business communications, provided such interests are not overridden by your rights. Legal obligation: where retention or disclosure is required by applicable law or regulatory requirements. Inquiry and commercial correspondence is retained only for as long as needed to respond, follow up, and maintain reasonable business records. Recruitment records are retained for the duration of the recruitment process and a limited period afterward, unless a longer retention period is required or permitted by law. Security, audit, and technical logs may be retained for operational resilience, fraud prevention, and legal compliance.",
+      "headings": [
+        "Privacy and GDPR",
+        "1. Categories of personal data",
+        "2. Purposes of processing",
+        "3. Lawful bases under GDPR",
+        "4. Data sharing",
+        "5. International transfers",
+        "6. Retention",
+        "7. Data subject rights",
+        "8. Security measures",
+        "9. Cookies and website technologies",
+        "10. Contact and requests",
+        "11. Changes to this notice",
+        "Company",
+        "Support",
+        "Legal"
+      ],
+      "ctas": [
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        }
+      ],
+      "internalLinks": [
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Gabriel Services"
+        },
+        {
+          "href": "https://www.gabo.services/legal/terms.html",
+          "label": "T&C"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/legal/privacy-gdpr.html",
+          "label": "Privacy and GDPR"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/",
+          "label": "Home"
+        },
+        {
+          "href": "https://www.gabo.services/about",
+          "label": "About"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Services"
+        },
+        {
+          "href": "https://www.gabo.services/careers",
+          "label": "Careers"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/learning",
+          "label": "Learning"
+        },
+        {
+          "href": "https://www.gabo.services/sitemap.xml",
+          "label": "Sitemap"
+        },
+        {
+          "href": "https://www.gabo.services/legal/terms.html",
+          "label": "T&C"
+        },
+        {
+          "href": "https://www.gabo.services/legal/cookies.html",
+          "label": "Cookies Consent"
+        },
+        {
+          "href": "https://www.gabo.services/legal/privacy-gdpr.html",
+          "label": "Privacy and GDPR"
+        }
+      ],
+      "formDetails": {
+        "labels": [],
+        "placeholders": [],
+        "options": []
+      },
+      "tags": [
+        "legal",
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
+      ],
+      "intent": "careers"
+    }
+  ],
+  "chunks": [
+    {
+      "id": "home#1",
+      "pagePath": "/",
+      "url": "https://www.gabo.services/",
+      "locale": "en",
+      "text": "Outsource, Delivered Scale support with expert teams, measurable service levels, and precision-driven delivery across logistics, IT, and customer operations. Execution-first coverage built for dispatch workflows, customer touchpoints, and technical continuity. Gabriel Services is an operational support partner for companies that need reliable daily execution across logistics coordination, administrative workflows, customer communications, and IT request handling.",
+      "intent": "careers",
+      "tags": [
+        "home",
+        "professional services for logistics, it, and customer operations.",
+        "operational support for modern businesses",
+        "service areas built for daily execution"
+      ]
+    },
+    {
+      "id": "home#2",
+      "pagePath": "/",
+      "url": "https://www.gabo.services/",
+      "locale": "en",
+      "text": "Our teams combine measurable service discipline with practical implementation, helping businesses protect response quality, maintain organized processes, and scale support without adding internal friction. Dispatch coordination, movement tracking, and execution support aligned to delivery timelines. Documentation, scheduling, process administration, and data upkeep for operational clarity.",
+      "intent": "careers",
+      "tags": [
+        "home",
+        "professional services for logistics, it, and customer operations.",
+        "operational support for modern businesses",
+        "service areas built for daily execution"
+      ]
+    },
+    {
+      "id": "home#3",
+      "pagePath": "/",
+      "url": "https://www.gabo.services/",
+      "locale": "en",
+      "text": "Customer communication, follow-up handling, and service continuity across day-to-day interactions. Ticket coordination, issue triage, and practical technical support for core business systems. Businesses choose Gabriel Services for reliability under pressure, clear communication rhythm, structured follow-through, and adaptable support models that adjust as priorities evolve.",
+      "intent": "careers",
+      "tags": [
+        "home",
+        "professional services for logistics, it, and customer operations.",
+        "operational support for modern businesses",
+        "service areas built for daily execution"
+      ]
+    },
+    {
+      "id": "home#4",
+      "pagePath": "/",
+      "url": "https://www.gabo.services/",
+      "locale": "en",
+      "text": "Book a consultation to map workflows, define service coverage, and build a practical execution plan around your current operational priorities. © 2026 Gabriel Services Home About Services Careers Contact",
+      "intent": "careers",
+      "tags": [
+        "home",
+        "professional services for logistics, it, and customer operations.",
+        "operational support for modern businesses",
+        "service areas built for daily execution"
+      ]
+    },
+    {
+      "id": "about#1",
+      "pagePath": "/about/",
+      "url": "https://www.gabo.services/about/",
+      "locale": "en",
+      "text": "Outsource, Delivered Gabriel Services helps businesses stay organized, responsive, and operationally strong through practical support across logistics, administration, customer operations, and IT. Gabriel Services was built to give growing companies a dependable operational partner that understands the pace and pressure of daily business execution. Our team brings direct experience in customer service, logistics coordination, administrative back-office support, IT triage, and day-to-day business operations.",
+      "intent": "careers",
+      "tags": [
+        "about",
+        "about gabriel services",
+        "who we are",
+        "what we bring to daily operations"
+      ]
+    },
+    {
+      "id": "about#2",
+      "pagePath": "/about/",
+      "url": "https://www.gabo.services/about/",
+      "locale": "en",
+      "text": "This cross-functional foundation helps us support workflows end-to-end instead of treating each request as an isolated task. As companies scale, small unmanaged details can quickly become expensive operational issues. We reduce that risk through consistent execution, transparent communication, and disciplined follow-up across recurring workflows.",
+      "intent": "careers",
+      "tags": [
+        "about",
+        "about gabriel services",
+        "who we are",
+        "what we bring to daily operations"
+      ]
+    },
+    {
+      "id": "about#3",
+      "pagePath": "/about/",
+      "url": "https://www.gabo.services/about/",
+      "locale": "en",
+      "text": "Our approach is built on reliability, steady communication rhythm, practical execution, and cost-conscious service delivery so businesses can maintain momentum with confidence. © 2026 Gabriel Services Home About Services Careers Contact",
+      "intent": "careers",
+      "tags": [
+        "about",
+        "about gabriel services",
+        "who we are",
+        "what we bring to daily operations"
+      ]
+    },
+    {
+      "id": "services#1",
+      "pagePath": "/services/",
+      "url": "https://www.gabo.services/services/",
+      "locale": "en",
+      "text": "Outsource, Delivered Gabriel Services provides flexible operational support across logistics, administrative back office, customer operations, and IT support. Dispatch management, shipment follow-up, and coordination support for continuous movement. Structured documentation, schedule handling, and process coordination for daily control.",
+      "intent": "careers",
+      "tags": [
+        "services",
+        "professional support across key business functions",
+        "service matrix"
+      ]
+    },
+    {
+      "id": "services#2",
+      "pagePath": "/services/",
+      "url": "https://www.gabo.services/services/",
+      "locale": "en",
+      "text": "Customer-facing communication, issue routing, and post-service follow-up continuity. Technical request triage, resolution tracking, and practical platform support. A quick view to understand how each service line supports execution priorities.",
+      "intent": "careers",
+      "tags": [
+        "services",
+        "professional support across key business functions",
+        "service matrix"
+      ]
+    },
+    {
+      "id": "services#3",
+      "pagePath": "/services/",
+      "url": "https://www.gabo.services/services/",
+      "locale": "en",
+      "text": "Pricing is structured around business needs, workflow complexity, coverage level, and the operational volume involved. Ideal for variable needs, workload spikes, and last-minute requests. Ideal for recurring tasks and constant operational continuity.",
+      "intent": "careers",
+      "tags": [
+        "services",
+        "professional support across key business functions",
+        "service matrix"
+      ]
+    },
+    {
+      "id": "services#4",
+      "pagePath": "/services/",
+      "url": "https://www.gabo.services/services/",
+      "locale": "en",
+      "text": "Ideal for defined scopes and focused execution. For dedicated remote support that keeps individuals and teams aligned, responsive, and productive across daily operational needs. Pricing depends on service scope, coordination depth, support hours, communication rhythm, and the reporting requirements your team expects across daily operations.",
+      "intent": "careers",
+      "tags": [
+        "services",
+        "professional support across key business functions",
+        "service matrix"
+      ]
+    },
+    {
+      "id": "services#5",
+      "pagePath": "/services/",
+      "url": "https://www.gabo.services/services/",
+      "locale": "en",
+      "text": "Final pricing is influenced by workflow complexity, business volume, required support hours, communication requirements, and any system or process requirements involved in day-to-day delivery. Tell us what your team needs, and we will prepare a consultation-focused scope aligned to your operational goals. © 2026 Gabriel Services Home About Services Careers Contact Hourly 4-hour block 8-hour block Part time Full time Daily Weekly Monthly By project Short term Milestone based Structured support Multilingual communication Steady follow-up Practical, cost-conscious operations",
+      "intent": "careers",
+      "tags": [
+        "services",
+        "professional support across key business functions",
+        "service matrix"
+      ]
+    },
+    {
+      "id": "services-logistics-operations#1",
+      "pagePath": "/services/logistics-operations/",
+      "url": "https://www.gabo.services/services/logistics-operations/",
+      "locale": "en",
+      "text": "Outsource, Delivered Logistics Operations provides reliable execution coverage for coordination-heavy daily workflows. We help manage communication, follow-up, and documentation across moving parts so operations stay organized, visible, and on track. The result is steadier execution with fewer gaps across the logistics process.",
+      "intent": "careers",
+      "tags": [
+        "service-detail",
+        "logistics operations",
+        "service overview",
+        "what this covers"
+      ]
+    },
+    {
+      "id": "services-logistics-operations#2",
+      "pagePath": "/services/logistics-operations/",
+      "url": "https://www.gabo.services/services/logistics-operations/",
+      "locale": "en",
+      "text": "This service is designed for businesses that need dependable coordination across active logistics operations. We help maintain communication flow, improve follow-through, and strengthen alignment across the daily tasks that keep logistics activity moving. We begin by reviewing your workflow, operational priorities, and communication requirements.",
+      "intent": "careers",
+      "tags": [
+        "service-detail",
+        "logistics operations",
+        "service overview",
+        "what this covers"
+      ]
+    },
+    {
+      "id": "services-logistics-operations#3",
+      "pagePath": "/services/logistics-operations/",
+      "url": "https://www.gabo.services/services/logistics-operations/",
+      "locale": "en",
+      "text": "The work is then aligned to your process so logistics tasks are handled with clearer coordination, better updates, and more dependable follow-through. © 2026 Gabriel Services Home About Services Careers Contact Coordination Dispatch Delivery follow-up Escalation Communications Documentation Tracking Escalation Communication and follow-up Fewer communication gaps Better delivery visibility More consistent operational follow-up Stronger daily execution",
+      "intent": "careers",
+      "tags": [
+        "service-detail",
+        "logistics operations",
+        "service overview",
+        "what this covers"
+      ]
+    },
+    {
+      "id": "services-administrative-backoffice#1",
+      "pagePath": "/services/administrative-backoffice/",
+      "url": "https://www.gabo.services/services/administrative-backoffice/",
+      "locale": "en",
+      "text": "Outsource, Delivered Administrative Backoffice provides structured coverage for recurring administrative work that keeps business operations steady. We help manage documentation flow, coordination routines, and follow-up activity so internal processes remain organized, consistent, and dependable over time. The result is stronger day-to-day continuity across routine business functions.",
+      "intent": "careers",
+      "tags": [
+        "service-detail",
+        "administrative backoffice",
+        "service overview",
+        "what this covers"
+      ]
+    },
+    {
+      "id": "services-administrative-backoffice#2",
+      "pagePath": "/services/administrative-backoffice/",
+      "url": "https://www.gabo.services/services/administrative-backoffice/",
+      "locale": "en",
+      "text": "This service is designed for businesses that need dependable coverage across routine administrative operations. We help reduce task buildup, maintain internal order, and keep recurring workflows moving with greater consistency and clarity. We begin by reviewing your workflow, recurring priorities, and communication rhythm.",
+      "intent": "careers",
+      "tags": [
+        "service-detail",
+        "administrative backoffice",
+        "service overview",
+        "what this covers"
+      ]
+    },
+    {
+      "id": "services-administrative-backoffice#3",
+      "pagePath": "/services/administrative-backoffice/",
+      "url": "https://www.gabo.services/services/administrative-backoffice/",
+      "locale": "en",
+      "text": "The work is then aligned to your internal process so administrative tasks are tracked, organized, and followed through with greater consistency and control. © 2026 Gabriel Services Home About Services Careers Contact Documentation Scheduling Reporting Operational follow-up Internal coordination Administrative continuity Document preparation and organization Record upkeep and maintenance Internal request handling Calendar and coordination Recurring administrative follow-through Stronger operational organization Less administrative backlog Better internal continuity More consistent day-to-day execution",
+      "intent": "careers",
+      "tags": [
+        "service-detail",
+        "administrative backoffice",
+        "service overview",
+        "what this covers"
+      ]
+    },
+    {
+      "id": "services-customer-relations#1",
+      "pagePath": "/services/customer-relations/",
+      "url": "https://www.gabo.services/services/customer-relations/",
+      "locale": "en",
+      "text": "Outsource, Delivered Customer Relations provides structured coverage for customer communication, after-sales continuity, and ongoing follow-up. We help businesses remain responsive, organized, and professional across day-to-day interactions while reducing communication pressure on internal teams. The result is a more consistent customer experience backed by clear and dependable follow-through.",
+      "intent": "careers",
+      "tags": [
+        "service-detail",
+        "customer relations",
+        "service overview",
+        "what this covers"
+      ]
+    },
+    {
+      "id": "services-customer-relations#2",
+      "pagePath": "/services/customer-relations/",
+      "url": "https://www.gabo.services/services/customer-relations/",
+      "locale": "en",
+      "text": "This service is designed for businesses that need reliable communication across the customer journey. We help maintain message continuity, strengthen after-sales follow-up, and keep client-facing communication clear, timely, and well coordinated. We begin by reviewing your communication workflow, response priorities, and follow-up expectations.",
+      "intent": "careers",
+      "tags": [
+        "service-detail",
+        "customer relations",
+        "service overview",
+        "what this covers"
+      ]
+    },
+    {
+      "id": "services-customer-relations#3",
+      "pagePath": "/services/customer-relations/",
+      "url": "https://www.gabo.services/services/customer-relations/",
+      "locale": "en",
+      "text": "The work is then aligned to your process so customer interactions are managed with greater consistency, visibility, and operational clarity. © 2026 Gabriel Services Home About Services Careers Contact Customer communication After-sales follow-up Case updates Response continuity Ticket tracking follow-up Communication flow Inbound and outbound message follow-up Customer status updates Service continuity communication After-sales communication Tracking and escalation More consistent client communication Stronger customer experience Fewer missed or delayed follow-ups Better continuity across customer interactions",
+      "intent": "careers",
+      "tags": [
+        "service-detail",
+        "customer relations",
+        "service overview",
+        "what this covers"
+      ]
+    },
+    {
+      "id": "services-it-support#1",
+      "pagePath": "/services/it-support/",
+      "url": "https://www.gabo.services/services/it-support/",
+      "locale": "en",
+      "text": "Outsource, Delivered IT Support provides reliable day-to-day coverage for routine internal technical needs. We help organize request intake, maintain visibility across open issues, and keep communication moving clearly throughout the process. The result is practical, dependable execution that helps teams stay responsive without adding unnecessary complexity.",
+      "intent": "careers",
+      "tags": [
+        "service-detail",
+        "it support",
+        "service overview",
+        "what this covers"
+      ]
+    },
+    {
+      "id": "services-it-support#2",
+      "pagePath": "/services/it-support/",
+      "url": "https://www.gabo.services/services/it-support/",
+      "locale": "en",
+      "text": "This service is designed for businesses that need structured day-to-day coverage for common internal technical requests. We help keep ticket flow organized, maintain communication continuity, and improve follow-up so routine technical operations remain stable and well coordinated. We begin by reviewing your workflow, request priorities, and communication needs.",
+      "intent": "careers",
+      "tags": [
+        "service-detail",
+        "it support",
+        "service overview",
+        "what this covers"
+      ]
+    },
+    {
+      "id": "services-it-support#3",
+      "pagePath": "/services/it-support/",
+      "url": "https://www.gabo.services/services/it-support/",
+      "locale": "en",
+      "text": "The work is then aligned to your internal process so routine technical requests are handled with clear follow-up, stronger visibility, and consistent coordination. © 2026 Gabriel Services Home About Services Careers Contact Help desk Ticketing User coordination and follow-up Troubleshooting Communication Ticket and documentation handling Triage Request follow-up and coordination More reliable operational flow Better visibility across open requests Cleaner follow-up and coordination Less friction in routine technical activity",
+      "intent": "careers",
+      "tags": [
+        "service-detail",
+        "it support",
+        "service overview",
+        "what this covers"
+      ]
+    },
+    {
+      "id": "contact#1",
+      "pagePath": "/contact/",
+      "url": "https://www.gabo.services/contact/",
+      "locale": "en",
+      "text": "Outsource, Delivered Reach our team for support, onboarding, project discussions, or partnership inquiries. Select one or more service areas. Add relevant skills, languages, and preferred service area.",
+      "intent": "careers",
+      "tags": [
+        "contact",
+        "company",
+        "support"
+      ]
+    },
+    {
+      "id": "contact#2",
+      "pagePath": "/contact/",
+      "url": "https://www.gabo.services/contact/",
+      "locale": "en",
+      "text": "Select one or more areas for remote assistant inquiry. © 2026 Gabriel Services Home About Services Careers Contact",
+      "intent": "careers",
+      "tags": [
+        "contact",
+        "company",
+        "support"
+      ]
+    },
+    {
+      "id": "careers#1",
+      "pagePath": "/careers/",
+      "url": "https://www.gabo.services/careers/",
+      "locale": "en",
+      "text": "Outsource, Delivered Apply to support operations, customer communications, and delivery workflows with our team. Complete the full application below to share your experience, skills, projects, education, and availability with our hiring team. Select one or more service areas.",
+      "intent": "careers",
+      "tags": [
+        "careers",
+        "career application",
+        "company"
+      ]
+    },
+    {
+      "id": "careers#2",
+      "pagePath": "/careers/",
+      "url": "https://www.gabo.services/careers/",
+      "locale": "en",
+      "text": "Add experience, languages, skills, projects, and education. © 2026 Gabriel Services Home About Services Careers Contact",
+      "intent": "careers",
+      "tags": [
+        "careers",
+        "career application",
+        "company"
+      ]
+    },
+    {
+      "id": "learning#1",
+      "pagePath": "/learning/",
+      "url": "https://www.gabo.services/learning/",
+      "locale": "en",
+      "text": "Outsource, Delivered Explore our English service guidance for operations and support workflows. Dispatch coordination, movement tracking, and execution support aligned to delivery timelines. Documentation, scheduling, process administration, and data upkeep for operational clarity.",
+      "intent": "careers",
+      "tags": [
+        "learning",
+        "operations and support learning tracks",
+        "logistics operations"
+      ]
+    },
+    {
+      "id": "learning#2",
+      "pagePath": "/learning/",
+      "url": "https://www.gabo.services/learning/",
+      "locale": "en",
+      "text": "Customer communication, follow-up handling, and service continuity across day-to-day interactions. Ticket coordination, issue triage, and practical technical support for core business systems. © 2026 Gabriel Services Home About Services Careers Contact",
+      "intent": "careers",
+      "tags": [
+        "learning",
+        "operations and support learning tracks",
+        "logistics operations"
+      ]
+    },
+    {
+      "id": "legal-terms-html#1",
+      "pagePath": "/legal/terms.html",
+      "url": "https://www.gabo.services/legal/terms.html",
+      "locale": "en",
+      "text": "Effective date: March 18, 2026 These Terms and Conditions govern your access to and use of the Gabriel Services website, related landing pages, contact forms, and any pre-contractual exchanges carried out through this site. By using this website, you agree to these terms. If you do not agree, please do not use the website.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
+      ]
+    },
+    {
+      "id": "legal-terms-html#2",
+      "pagePath": "/legal/terms.html",
+      "url": "https://www.gabo.services/legal/terms.html",
+      "locale": "en",
+      "text": "Gabriel Services provides business support and outsourcing-related information, including service descriptions, contact options, recruitment information, and proposal intake forms. Information on this website is provided for general business and informational purposes and does not automatically create a contractual relationship. If you submit an application, CV, or supporting information through the careers page or by email, you confirm that the information submitted is accurate and that you are authorized to share it.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
+      ]
+    },
+    {
+      "id": "legal-terms-html#3",
+      "pagePath": "/legal/terms.html",
+      "url": "https://www.gabo.services/legal/terms.html",
+      "locale": "en",
+      "text": "Submission of an application does not guarantee employment, an interview, or a response within a specific timeframe. Unless otherwise stated, the content on this website, including text, branding, layouts, graphics, and original materials, is owned by or licensed to Gabriel Services and is protected by applicable intellectual property laws. You may view, download, or print limited portions for internal informational use only.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
+      ]
+    },
+    {
+      "id": "legal-terms-html#4",
+      "pagePath": "/legal/terms.html",
+      "url": "https://www.gabo.services/legal/terms.html",
+      "locale": "en",
+      "text": "This website may contain third-party services, embedded tools, verification widgets, maps, analytics, or links to external websites. Gabriel Services is not responsible for the content, availability, or privacy practices of third-party services. Your use of those services may be subject to separate terms and policies.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
+      ]
+    },
+    {
+      "id": "legal-terms-html#5",
+      "pagePath": "/legal/terms.html",
+      "url": "https://www.gabo.services/legal/terms.html",
+      "locale": "en",
+      "text": "By contacting Gabriel Services through website forms, email, or phone details published on this site, you agree that communications may be used to respond to your request, manage a potential business relationship, assess a job application, or meet security and legal obligations. This website is provided on an “as is” and “as available” basis. While Gabriel Services aims to keep information accurate and current, we do not guarantee that the website will always be available, uninterrupted, secure, complete, or free of errors.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
+      ]
+    },
+    {
+      "id": "legal-terms-html#6",
+      "pagePath": "/legal/terms.html",
+      "url": "https://www.gabo.services/legal/terms.html",
+      "locale": "en",
+      "text": "To the fullest extent permitted by law, all implied warranties are excluded. To the fullest extent permitted by law, Gabriel Services shall not be liable for indirect, incidental, consequential, special, or punitive damages arising out of or related to your use of, or inability to use, this website. Nothing in these terms excludes liability that cannot be excluded under applicable law.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
+      ]
+    },
+    {
+      "id": "legal-terms-html#7",
+      "pagePath": "/legal/terms.html",
+      "url": "https://www.gabo.services/legal/terms.html",
+      "locale": "en",
+      "text": "Personal data handling and cookie preferences are governed by our Privacy and GDPR page and our Cookies Consent page. Those notices form an integral part of your use of this website. These terms are governed by the laws applicable to the jurisdiction in which the relevant Gabriel Services contracting entity is established, unless mandatory consumer or data-protection law requires otherwise.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
+      ]
+    },
+    {
+      "id": "legal-terms-html#8",
+      "pagePath": "/legal/terms.html",
+      "url": "https://www.gabo.services/legal/terms.html",
+      "locale": "en",
+      "text": "Gabriel Services may update these Terms and Conditions from time to time. The latest version will be published on this page together with its effective date. For legal or privacy questions, please use the contact details published on the Contact page.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
+      ]
+    },
+    {
+      "id": "legal-terms-html#9",
+      "pagePath": "/legal/terms.html",
+      "url": "https://www.gabo.services/legal/terms.html",
+      "locale": "en",
+      "text": "© 2026 Gabriel Services You agree to use this website lawfully, responsibly, and in a way that does not harm the website, its users, or Gabriel Services. You must not attempt unauthorized access, interfere with security features, distribute malware, or misuse forms, chat tools, or email addresses shown on the site. You must not copy, scrape, or republish substantial parts of the website for commercial use without prior written authorization.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
+      ]
+    },
+    {
+      "id": "legal-terms-html#10",
+      "pagePath": "/legal/terms.html",
+      "url": "https://www.gabo.services/legal/terms.html",
+      "locale": "en",
+      "text": "Descriptions of services, industries, pricing indications, timelines, and availability are illustrative unless expressly confirmed in writing. Any quotation, scope, service-level commitment, or commercial term becomes binding only when accepted by both parties in a separate written agreement. Gabriel Services may update, suspend, or discontinue parts of the website or service descriptions without prior notice.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
+      ]
+    },
+    {
+      "id": "legal-cookies-html#1",
+      "pagePath": "/legal/cookies.html",
+      "url": "https://www.gabo.services/legal/cookies.html",
+      "locale": "en",
+      "text": "Effective date: March 18, 2026 This page explains how Gabriel Services uses cookies and similar technologies on this website, and how you can manage your consent preferences. Cookies are small text files stored on your device when you visit a website. Similar technologies such as local storage, pixels, and scripts may be used for related purposes.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "cookies consent",
+        "1. what cookies are",
+        "2. how we use cookies"
+      ]
+    },
+    {
+      "id": "legal-cookies-html#2",
+      "pagePath": "/legal/cookies.html",
+      "url": "https://www.gabo.services/legal/cookies.html",
+      "locale": "en",
+      "text": "You can use the controls below to save your preferences on this device. Strictly necessary cookies remain active because the website relies on them for essential functionality and security. Choose your settings and save your preference.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "cookies consent",
+        "1. what cookies are",
+        "2. how we use cookies"
+      ]
+    },
+    {
+      "id": "legal-cookies-html#3",
+      "pagePath": "/legal/cookies.html",
+      "url": "https://www.gabo.services/legal/cookies.html",
+      "locale": "en",
+      "text": "If you disable strictly necessary cookies, parts of the website may stop working correctly. Device-level or browser-level settings may override preferences saved on this page. Some website features may rely on third-party providers such as security verification, embedded media, or external scheduling/contact tools.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "cookies consent",
+        "1. what cookies are",
+        "2. how we use cookies"
+      ]
+    },
+    {
+      "id": "legal-cookies-html#4",
+      "pagePath": "/legal/cookies.html",
+      "url": "https://www.gabo.services/legal/cookies.html",
+      "locale": "en",
+      "text": "Optional analytics technologies are currently disabled by default unless a future consent-based implementation is explicitly enabled. When third-party providers place cookies or similar identifiers, their own privacy notices may also apply. We may update this cookie notice and preference experience to reflect changes in law, technology, or website functionality.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "cookies consent",
+        "1. what cookies are",
+        "2. how we use cookies"
+      ]
+    },
+    {
+      "id": "legal-cookies-html#5",
+      "pagePath": "/legal/cookies.html",
+      "url": "https://www.gabo.services/legal/cookies.html",
+      "locale": "en",
+      "text": "The latest version will remain available on this page. © 2026 Gabriel Services",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "cookies consent",
+        "1. what cookies are",
+        "2. how we use cookies"
+      ]
+    },
+    {
+      "id": "legal-privacy-gdpr-html#1",
+      "pagePath": "/legal/privacy-gdpr.html",
+      "url": "https://www.gabo.services/legal/privacy-gdpr.html",
+      "locale": "en",
+      "text": "Effective date: March 18, 2026 Gabriel Services is committed to handling personal data lawfully, transparently, and securely. This notice explains what personal data we may collect through this website, why we use it, how long we keep it, and what rights individuals may have under applicable privacy laws, including the General Data Protection Regulation (GDPR) where it applies. Personal data may be shared on a need-to-know basis with hosting providers, cloud infrastructure providers, security and anti-abuse services, analytics providers only when an optional, consent-based analytics feature is explicitly enabled, recruitment support tools, and professional advisers.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
+      ]
+    },
+    {
+      "id": "legal-privacy-gdpr-html#2",
+      "pagePath": "/legal/privacy-gdpr.html",
+      "url": "https://www.gabo.services/legal/privacy-gdpr.html",
+      "locale": "en",
+      "text": "We may also disclose data where required to comply with law, enforce rights, or protect the website, our users, or the public. If personal data is transferred outside the country or region where it was collected, Gabriel Services will seek to use appropriate safeguards where required by law, such as contractual protections or reliance on recognized adequacy mechanisms. Subject to applicable law, you may have the right to request access to your personal data, rectification, erasure, restriction, portability, or objection to certain processing.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
+      ]
+    },
+    {
+      "id": "legal-privacy-gdpr-html#3",
+      "pagePath": "/legal/privacy-gdpr.html",
+      "url": "https://www.gabo.services/legal/privacy-gdpr.html",
+      "locale": "en",
+      "text": "Where processing is based on consent, you may withdraw that consent at any time for future processing. You may also have the right to lodge a complaint with a competent supervisory authority. Gabriel Services applies reasonable technical and organizational measures designed to reduce the risk of loss, misuse, unauthorized access, disclosure, or alteration of personal data.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
+      ]
+    },
+    {
+      "id": "legal-privacy-gdpr-html#4",
+      "pagePath": "/legal/privacy-gdpr.html",
+      "url": "https://www.gabo.services/legal/privacy-gdpr.html",
+      "locale": "en",
+      "text": "No internet transmission or storage environment can be guaranteed to be completely secure. For information about cookies, local storage, and optional consent preferences, please review our Cookies Consent page. To make a privacy request or ask a question about this notice, please use the contact details provided on our Contact page and clearly identify your request so it can be handled efficiently.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
+      ]
+    },
+    {
+      "id": "legal-privacy-gdpr-html#5",
+      "pagePath": "/legal/privacy-gdpr.html",
+      "url": "https://www.gabo.services/legal/privacy-gdpr.html",
+      "locale": "en",
+      "text": "We may update this privacy notice from time to time to reflect changes in our processing activities, legal requirements, or operational practices. The latest version and effective date will remain published here. © 2026 Gabriel Services Identity and contact details, such as name, email address, phone number, company name, and role.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
+      ]
+    },
+    {
+      "id": "legal-privacy-gdpr-html#6",
+      "pagePath": "/legal/privacy-gdpr.html",
+      "url": "https://www.gabo.services/legal/privacy-gdpr.html",
+      "locale": "en",
+      "text": "Inquiry and correspondence information submitted through forms, email, chatbot, or other contact channels. Recruitment information, such as CVs, cover letters, work history, and related application materials. Technical and usage information, such as IP address, browser type, device characteristics, security logs, and website interaction data.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
+      ]
+    },
+    {
+      "id": "legal-privacy-gdpr-html#7",
+      "pagePath": "/legal/privacy-gdpr.html",
+      "url": "https://www.gabo.services/legal/privacy-gdpr.html",
+      "locale": "en",
+      "text": "Responding to inquiries, requests for proposals, support needs, or commercial conversations. Evaluating job applications and managing recruitment processes. Operating, securing, and improving the website and its forms, chatbot, and verification mechanisms.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
+      ]
+    },
+    {
+      "id": "legal-privacy-gdpr-html#8",
+      "pagePath": "/legal/privacy-gdpr.html",
+      "url": "https://www.gabo.services/legal/privacy-gdpr.html",
+      "locale": "en",
+      "text": "Complying with legal, regulatory, contractual, and record-keeping obligations. Protecting against fraud, abuse, unauthorized access, and other security threats. Consent: where you choose to submit certain information or accept optional cookies.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
+      ]
+    },
+    {
+      "id": "legal-privacy-gdpr-html#9",
+      "pagePath": "/legal/privacy-gdpr.html",
+      "url": "https://www.gabo.services/legal/privacy-gdpr.html",
+      "locale": "en",
+      "text": "Pre-contractual steps: where processing is necessary to discuss services or prepare a proposal at your request. Legitimate interests: for website administration, information security, service improvement, and business communications, provided such interests are not overridden by your rights. Legal obligation: where retention or disclosure is required by applicable law or regulatory requirements.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
+      ]
+    },
+    {
+      "id": "legal-privacy-gdpr-html#10",
+      "pagePath": "/legal/privacy-gdpr.html",
+      "url": "https://www.gabo.services/legal/privacy-gdpr.html",
+      "locale": "en",
+      "text": "Inquiry and commercial correspondence is retained only for as long as needed to respond, follow up, and maintain reasonable business records. Recruitment records are retained for the duration of the recruitment process and a limited period afterward, unless a longer retention period is required or permitted by law. Security, audit, and technical logs may be retained for operational resilience, fraud prevention, and legal compliance.",
+      "intent": "careers",
+      "tags": [
+        "legal",
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
+      ]
+    }
+  ],
+  "scanReport": {
+    "pagesScanned": 13,
+    "chunksScanned": 55,
+    "suspiciousFindings": 0
+  }
+}
