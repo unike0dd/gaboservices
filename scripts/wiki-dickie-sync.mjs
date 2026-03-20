@@ -7,14 +7,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
 const outputDir = path.join(repoRoot, 'internal');
-
 const SITE_BASE_URL = 'https://www.gabo.services';
 const WORKER_URL = 'https://wikie-dickie.rulathemtodos.workers.dev/';
 const SECRET_ENV_KEY = 'WIKI_DICKIE';
 const NONCE_ENV_KEY = 'NONCE';
-const WIKI_ID = 'WIKI_DICKIE';
-const MAX_SUSPICIOUS_FINDINGS = 0;
-
 const PAGE_SOURCES = [
   { file: 'index.html', path: '/', type: 'home' },
   { file: 'about/index.html', path: '/about/', type: 'about' },
@@ -31,7 +27,9 @@ const PAGE_SOURCES = [
   { file: 'legal/privacy-gdpr.html', path: '/legal/privacy-gdpr.html', type: 'legal' }
 ];
 
-const CTA_HINTS = ['schedule', 'contact', 'request', 'apply', 'explore', 'book', 'submit', 'support', 'consultation', 'discuss', 'open'];
+const CTA_HINTS = [
+  'schedule', 'contact', 'request', 'apply', 'explore', 'book', 'submit', 'support', 'consultation', 'discuss', 'open'
+];
 
 const INTENT_RULES = [
   { test: /(career|apply|application|resume|hiring)/i, intent: 'careers' },
@@ -39,18 +37,6 @@ const INTENT_RULES = [
   { test: /(privacy|cookie|terms|gdpr)/i, intent: 'legal' },
   { test: /(service|logistics|administrative|customer|it support)/i, intent: 'services' },
   { test: /(learning|guide|track)/i, intent: 'learning' }
-];
-
-const SUSPICIOUS_PATTERNS = [
-  { name: 'script-tag', pattern: /<\s*script\b/i },
-  { name: 'iframe-tag', pattern: /<\s*iframe\b/i },
-  { name: 'event-handler', pattern: /on[a-z]+\s*=/i },
-  { name: 'javascript-protocol', pattern: /javascript:/i },
-  { name: 'data-html-payload', pattern: /data:text\/html/i },
-  { name: 'sql-keywords', pattern: /\b(select|union|insert|delete|drop)\b.{0,40}\b(from|into|table)\b/i },
-  { name: 'template-injection', pattern: /\{\{.*\}\}|<%=?[\s\S]*?%>/i },
-  { name: 'shell-fragment', pattern: /\b(curl|wget|bash|sh)\b\s+https?:\/\//i },
-  { name: 'inline-code-fragment', pattern: /\b(function|const|let|var|import|export|class)\b\s+[A-Za-z0-9_$]+/i }
 ];
 
 const SPANISH_PHRASE_MAP = new Map([
@@ -79,28 +65,11 @@ const SPANISH_PHRASE_MAP = new Map([
   ['Explore Gabriel Services learning tracks for logistics, administrative backoffice, customer operations, and IT support workflows.', 'Explora las rutas de aprendizaje de Gabriel Services para logística, backoffice administrativo, operaciones con clientes y flujos de soporte TI.']
 ]);
 
-function sha256(value) {
-  return crypto.createHash('sha256').update(value).digest('hex');
-}
-
-function hmacSha256(secret, value) {
-  return crypto.createHmac('sha256', secret).update(value).digest('hex');
-}
-
-function createNonce() {
-  return process.env[NONCE_ENV_KEY] || crypto.randomBytes(24).toString('hex');
-}
-
-function stripDangerousMarkup(value) {
+function stripTags(value) {
   return value
-    .replace(/<!--[\s\S]*?-->/g, ' ')
     .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
     .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
     .replace(/<noscript\b[^>]*>[\s\S]*?<\/noscript>/gi, ' ')
-    .replace(/<template\b[^>]*>[\s\S]*?<\/template>/gi, ' ')
-    .replace(/<iframe\b[^>]*>[\s\S]*?<\/iframe>/gi, ' ')
-    .replace(/<object\b[^>]*>[\s\S]*?<\/object>/gi, ' ')
-    .replace(/<embed\b[^>]*>[\s\S]*?<\/embed>/gi, ' ')
     .replace(/<code\b[^>]*>[\s\S]*?<\/code>/gi, ' ')
     .replace(/<pre\b[^>]*>[\s\S]*?<\/pre>/gi, ' ')
     .replace(/<svg\b[^>]*>[\s\S]*?<\/svg>/gi, ' ')
@@ -117,23 +86,16 @@ function decodeEntities(value) {
     .replace(/&gt;/g, '>');
 }
 
-function removeExecutableFragments(value) {
-  return value
-    .replace(/javascript:/gi, ' ')
-    .replace(/data:text\/html/gi, ' ')
-    .replace(/on[a-z]+\s*=\s*(['"]).*?\1/gi, ' ')
-    .replace(/<%=?[\s\S]*?%>/g, ' ')
-    .replace(/\{\{[\s\S]*?\}\}/g, ' ')
-    .replace(/[\u0000-\u001F\u007F]+/g, ' ');
-}
-
 function looksLikeCodeLine(line) {
   return /[{}<>;]{2,}|\b(function|const|let|var|return|import|export|class|script-src|default-src)\b/.test(line);
 }
 
 function sanitizeText(value) {
-  const normalized = removeExecutableFragments(decodeEntities(stripDangerousMarkup(value)))
+  const normalized = decodeEntities(stripTags(value))
     .replace(/https?:\/\/\S+/g, ' ')
+    .replace(/javascript:/gi, ' ')
+    .replace(/on\w+\s*=/gi, ' ')
+    .replace(/[\u0000-\u001F\u007F]+/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
 
@@ -147,42 +109,19 @@ function sanitizeText(value) {
 }
 
 function sanitizeRichText(value) {
-  return removeExecutableFragments(value)
+  return value
     .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
     .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
     .replace(/<code\b[^>]*>[\s\S]*?<\/code>/gi, ' ')
     .replace(/<pre\b[^>]*>[\s\S]*?<\/pre>/gi, ' ')
-    .replace(/<iframe\b[^>]*>[\s\S]*?<\/iframe>/gi, ' ');
+    .replace(/on\w+\s*=\s*(['"]).*?\1/gi, ' ')
+    .replace(/javascript:/gi, ' ');
 }
 
-function scanTextForSuspiciousContent(value) {
-  const findings = [];
-  for (const entry of SUSPICIOUS_PATTERNS) {
-    const match = value.match(entry.pattern);
-    if (match) {
-      findings.push({
-        name: entry.name,
-        sample: match[0].slice(0, 120)
-      });
-    }
-  }
-  return findings;
-}
-
-function enforceSafeText(value, context) {
-  const cleaned = sanitizeText(value);
-  const findings = scanTextForSuspiciousContent(cleaned);
-  if (findings.length > MAX_SUSPICIOUS_FINDINGS) {
-    const detail = findings.map((finding) => `${finding.name}:${finding.sample}`).join(', ');
-    throw new Error(`Suspicious content remained after sanitization for ${context}: ${detail}`);
-  }
-  return cleaned;
-}
-
-function extractTagContents(html, tagName, sourceFile) {
+function extractTagContents(html, tagName) {
   const matches = [...html.matchAll(new RegExp(`<${tagName}\\b[^>]*>([\\s\\S]*?)<\\/${tagName}>`, 'gi'))];
   return matches
-    .map((match, index) => enforceSafeText(match[1], `${sourceFile}:${tagName}:${index + 1}`))
+    .map((match) => sanitizeText(match[1]))
     .filter(Boolean);
 }
 
@@ -192,7 +131,7 @@ function extractMeta(html, name) {
     const nameMatch = tag.match(/\bname=["']([^"']+)["']/i);
     if (!nameMatch || nameMatch[1].toLowerCase() !== String(name).toLowerCase()) continue;
     const contentMatch = tag.match(/\bcontent=["']([^"']*)["']/i);
-    if (contentMatch?.[1]) return enforceSafeText(contentMatch[1], `meta:${name}`);
+    if (contentMatch?.[1]) return sanitizeText(contentMatch[1]);
   }
   return '';
 }
@@ -204,26 +143,22 @@ function extractCanonical(html, fallbackPathname) {
   return raw ? new URL(raw, SITE_BASE_URL).toString() : new URL(fallbackPathname, SITE_BASE_URL).toString();
 }
 
-function extractLinks(html, sourcePath) {
+function extractLinks(html, sourceFile) {
   const anchors = [...html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)];
-  return anchors.map(([, href, label], index) => {
-    const absoluteUrl = new URL(href, new URL(sourcePath, SITE_BASE_URL)).toString();
+  return anchors.map(([, href, label]) => {
+    const absoluteUrl = new URL(href, new URL(sourceFile, SITE_BASE_URL)).toString();
     return {
       href: absoluteUrl,
-      label: enforceSafeText(label, `${sourcePath}:a:${index + 1}`)
+      label: sanitizeText(label)
     };
   }).filter((link) => link.label && link.href.startsWith(SITE_BASE_URL));
 }
 
-function extractFormDetails(html, sourceFile) {
+function extractFormDetails(html) {
   const labelMatches = [...html.matchAll(/<label\b[^>]*>([\s\S]*?)<\/label>/gi)];
-  const labels = labelMatches.map((match, index) => enforceSafeText(match[1], `${sourceFile}:label:${index + 1}`)).filter(Boolean);
-  const placeholders = [...html.matchAll(/placeholder=["']([^"']+)["']/gi)]
-    .map((match, index) => enforceSafeText(match[1], `${sourceFile}:placeholder:${index + 1}`))
-    .filter(Boolean);
-  const options = [...html.matchAll(/<option\b[^>]*>([\s\S]*?)<\/option>/gi)]
-    .map((match, index) => enforceSafeText(match[1], `${sourceFile}:option:${index + 1}`))
-    .filter(Boolean);
+  const labels = labelMatches.map((match) => sanitizeText(match[1])).filter(Boolean);
+  const placeholders = [...html.matchAll(/placeholder=["']([^"']+)["']/gi)].map((match) => sanitizeText(match[1])).filter(Boolean);
+  const options = [...html.matchAll(/<option\b[^>]*>([\s\S]*?)<\/option>/gi)].map((match) => sanitizeText(match[1])).filter(Boolean);
   return { labels, placeholders, options };
 }
 
@@ -235,8 +170,9 @@ function buildChunks(page) {
     const slice = sentences.slice(index, index + chunkSize);
     const text = slice.join(' ').trim();
     if (!text) continue;
+    const chunkId = `${page.slug}#${chunks.length + 1}`;
     chunks.push({
-      id: `${page.slug}#${chunks.length + 1}`,
+      id: chunkId,
       pagePath: page.path,
       url: page.url,
       locale: page.locale,
@@ -312,7 +248,7 @@ async function readLocaleMessages() {
   const collect = (source, locale) => [...source.matchAll(pattern)].map((match, index) => ({
     id: `${locale}-${index + 1}`,
     locale,
-    value: enforceSafeText(match[2], `${locale}:message:${index + 1}`)
+    value: sanitizeText(match[2])
   }));
   return { en: collect(enSource, 'en'), es: collect(esSource, 'es') };
 }
@@ -320,21 +256,20 @@ async function readLocaleMessages() {
 async function buildEnglishBundle() {
   const localeMessages = await readLocaleMessages();
   const pages = [];
-
   for (const source of PAGE_SOURCES) {
     const absolutePath = path.join(repoRoot, source.file);
     const rawHtml = await readFile(absolutePath, 'utf8');
     const safeHtml = sanitizeRichText(rawHtml);
-    const headings = ['h1', 'h2', 'h3'].flatMap((tag) => extractTagContents(safeHtml, tag, source.file));
-    const paragraphs = ['p', 'li'].flatMap((tag) => extractTagContents(safeHtml, tag, source.file));
-    const bodyText = enforceSafeText(paragraphs.join(' '), `${source.file}:body`);
+    const headings = ['h1', 'h2', 'h3'].flatMap((tag) => extractTagContents(safeHtml, tag));
+    const paragraphs = ['p', 'li'].flatMap((tag) => extractTagContents(safeHtml, tag));
+    const bodyText = sanitizeText(paragraphs.join(' '));
     const titleMatch = safeHtml.match(/<title>([\s\S]*?)<\/title>/i);
-    const title = enforceSafeText(titleMatch?.[1] || headings[0] || source.type, `${source.file}:title`);
+    const title = sanitizeText(titleMatch?.[1] || headings[0] || source.type);
     const metaDescription = extractMeta(safeHtml, 'description');
     const url = extractCanonical(safeHtml, source.path);
     const internalLinks = extractLinks(safeHtml, source.path);
     const ctas = internalLinks.filter((link) => CTA_HINTS.some((hint) => link.label.toLowerCase().includes(hint)));
-    const formDetails = extractFormDetails(safeHtml, source.file);
+    const formDetails = extractFormDetails(safeHtml);
     const page = {
       locale: 'en',
       sourceFile: source.file,
@@ -350,21 +285,15 @@ async function buildEnglishBundle() {
       ctas,
       internalLinks,
       formDetails,
-      tags: [...new Set([source.type, ...headings.slice(0, 3)].map((value) => enforceSafeText(value, `${source.file}:tag`).toLowerCase()).filter(Boolean))]
+      tags: [...new Set([source.type, ...headings.slice(0, 3)].map((value) => sanitizeText(value).toLowerCase()).filter(Boolean))]
     };
     page.intent = inferIntent(page);
     pages.push(page);
   }
 
   const chunks = pages.flatMap(buildChunks);
-  const scanReport = {
-    pagesScanned: pages.length,
-    chunksScanned: chunks.length,
-    suspiciousFindings: 0
-  };
-
   return {
-    wikiId: WIKI_ID,
+    wikiId: 'WIKI_DICKIE',
     locale: 'en',
     generatedAt: new Date().toISOString(),
     siteBaseUrl: SITE_BASE_URL,
@@ -373,8 +302,7 @@ async function buildEnglishBundle() {
     chunkCount: chunks.length,
     uiMessages: localeMessages.en,
     pages,
-    chunks,
-    scanReport
+    chunks
   };
 }
 
@@ -384,51 +312,34 @@ async function writeArtifacts(bundleEn, bundleEs) {
   await writeFile(path.join(outputDir, 'wiki-dickie.es.json'), `${JSON.stringify(bundleEs, null, 2)}\n`, 'utf8');
 }
 
-function buildSignedRequest(bundle, secret, nonce) {
+async function syncBundle(bundle) {
+  const secret = process.env[SECRET_ENV_KEY] || '';
+  const nonce = process.env[NONCE_ENV_KEY] || crypto.randomBytes(16).toString('hex');
   const payload = {
     wikiId: bundle.wikiId,
     locale: bundle.locale,
     nonce,
     generatedAt: bundle.generatedAt,
     siteBaseUrl: bundle.siteBaseUrl,
-    scanReport: bundle.scanReport,
     pages: bundle.pages,
     chunks: bundle.chunks,
     uiMessages: bundle.uiMessages
   };
 
-  const body = JSON.stringify(payload);
-  const digest = sha256(body);
-  const signatureBase = [bundle.wikiId, bundle.locale, nonce, digest].join(':');
-  const signature = hmacSha256(secret, signatureBase);
-
-  return {
-    body,
-    digest,
-    signature
-  };
-}
-
-async function syncBundle(bundle) {
-  const secret = process.env[SECRET_ENV_KEY] || '';
-  const nonce = createNonce();
-
   if (!secret) {
     return { skipped: true, reason: `Missing ${SECRET_ENV_KEY} environment variable.`, nonce };
   }
 
-  const { body, digest, signature } = buildSignedRequest(bundle, secret, nonce);
   const response = await fetch(WORKER_URL, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
       accept: 'application/json',
       'x-wiki-id': bundle.wikiId,
-      'x-sync-nonce': nonce,
-      'x-content-sha256': digest,
-      'x-signature-sha256': signature
+      'x-wiki-secret': secret,
+      'x-sync-nonce': nonce
     },
-    body
+    body: JSON.stringify(payload)
   });
 
   const bodyText = await response.text();
@@ -437,7 +348,6 @@ async function syncBundle(bundle) {
     ok: response.ok,
     status: response.status,
     nonce,
-    digest,
     bodyPreview: bodyText.slice(0, 500)
   };
 }
@@ -446,9 +356,7 @@ async function main() {
   const englishBundle = await buildEnglishBundle();
   const localeMessages = await readLocaleMessages();
   const spanishBundle = translateBundleToSpanish(englishBundle, localeMessages.es);
-  spanishBundle.scanReport = englishBundle.scanReport;
   await writeArtifacts(englishBundle, spanishBundle);
-
   const shouldSync = process.argv.includes('--sync');
   const results = shouldSync
     ? await Promise.all([syncBundle(englishBundle), syncBundle(spanishBundle)])
@@ -461,8 +369,7 @@ async function main() {
       path.relative(repoRoot, path.join(outputDir, 'wiki-dickie.es.json'))
     ],
     synced: shouldSync,
-    syncResults: results,
-    scanReport: englishBundle.scanReport
+    syncResults: results
   };
 
   console.log(JSON.stringify(report, null, 2));

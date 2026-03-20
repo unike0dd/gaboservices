@@ -1,7 +1,7 @@
 {
   "wikiId": "WIKI_DICKIE",
   "locale": "es",
-  "generatedAt": "2026-03-20T09:04:49.404Z",
+  "generatedAt": "2026-03-20T08:41:26.513Z",
   "siteBaseUrl": "https://www.gabo.services",
   "workerUrl": "https://wikie-dickie.rulathemtodos.workers.dev/",
   "pageCount": 13,
@@ -2715,11 +2715,6 @@
       ]
     }
   ],
-  "scanReport": {
-    "pagesScanned": 13,
-    "chunksScanned": 55,
-    "suspiciousFindings": 0
-  },
   "generatedFromLocale": "en",
   "translationStatus": "machine-assisted-seed"
 }
