@@ -2,6 +2,7 @@ import { SITE_METADATA_DEFAULTS } from './site-metadata-defaults.js';
 
 const governance = (() => {
   const ABSOLUTE_URL_PATTERN = /^https?:\/\//i;
+
   const hasSiteMetadata = () => {
     const siteMetadata = window.SITE_METADATA;
     return Boolean(siteMetadata && typeof siteMetadata === 'object' && Object.keys(siteMetadata).length);
@@ -9,6 +10,7 @@ const governance = (() => {
 
   const getMetadata = () => {
     const siteMetadata = window.SITE_METADATA || {};
+
     return Object.freeze({
       ...SITE_METADATA_DEFAULTS,
       ...siteMetadata,
