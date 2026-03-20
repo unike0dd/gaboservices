@@ -162,9 +162,6 @@ main li + li {
     transform: translateX(-50%);
   }
 
-  .nav-wrap > .site-search-shell {
-    margin-left: auto;
-  }
 
   .nav-links {
     font-size: 0.96rem;
@@ -1639,11 +1636,6 @@ textarea[data-security-state='review'] {
     min-width: 0;
   }
 
-  .site-search-shell {
-    order: 2;
-    margin-left: auto;
-    flex: 1 1 100%;
-  }
 
   .actions {
     order: 3;
@@ -1669,18 +1661,6 @@ textarea[data-security-state='review'] {
     align-self: flex-start;
   }
 
-
-
-  .site-search-inline-controls {
-    grid-template-columns: minmax(0, 1fr) auto auto;
-  }
-
-  .site-search-panel--header {
-    top: calc(100% + 0.5rem);
-    right: 0;
-    width: 100%;
-    min-width: 0;
-  }
 
   .nav-toggle {
     width: 2.7rem;
