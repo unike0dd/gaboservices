@@ -29,6 +29,12 @@ body {
   transition: background 350ms ease, color 350ms ease;
 }
 
+p, li, h1, h2, h3, h4, h5, h6, a, span, button, label {
+  hyphens: manual;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
 h1,
 h2,
 h3,
@@ -2518,7 +2524,7 @@ select {
   text-indent: 0;
   text-align: justify;
   text-wrap: pretty;
-  hyphens: auto;
+  hyphens: manual;
 }
 
 .page-main small,

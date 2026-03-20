@@ -387,7 +387,7 @@ body[data-page-key="services"] .cta-row > .btn {
   body[data-page-key="services"] .page-main p,
   body[data-page-key="services"] .page-main li,
   body[data-page-key="services"] .page-main a {
-    overflow-wrap: anywhere;
+    overflow-wrap: normal;
     word-break: normal;
   }
 
