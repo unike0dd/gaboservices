@@ -7,12 +7,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
 const outputDir = path.join(repoRoot, 'internal');
-
 const SITE_BASE_URL = 'https://www.gabo.services';
 const WORKER_URL = 'https://wikie-dickie.rulathemtodos.workers.dev/';
 const SECRET_ENV_KEY = 'WIKI_DICKIE';
 const NONCE_ENV_KEY = 'NONCE';
-
 const PAGE_SOURCES = [
   { file: 'index.html', path: '/', type: 'home' },
   { file: 'about/index.html', path: '/about/', type: 'about' },
@@ -258,7 +256,6 @@ async function readLocaleMessages() {
 async function buildEnglishBundle() {
   const localeMessages = await readLocaleMessages();
   const pages = [];
-
   for (const source of PAGE_SOURCES) {
     const absolutePath = path.join(repoRoot, source.file);
     const rawHtml = await readFile(absolutePath, 'utf8');
@@ -295,7 +292,6 @@ async function buildEnglishBundle() {
   }
 
   const chunks = pages.flatMap(buildChunks);
-
   return {
     wikiId: 'WIKI_DICKIE',
     locale: 'en',
@@ -361,7 +357,6 @@ async function main() {
   const localeMessages = await readLocaleMessages();
   const spanishBundle = translateBundleToSpanish(englishBundle, localeMessages.es);
   await writeArtifacts(englishBundle, spanishBundle);
-
   const shouldSync = process.argv.includes('--sync');
   const results = shouldSync
     ? await Promise.all([syncBundle(englishBundle), syncBundle(spanishBundle)])
