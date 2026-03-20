@@ -143,7 +143,7 @@
     contactForm.addEventListener('submit', function (event) {
       var status = root.querySelector('#formStatus');
       var message = validateForm(
-        ['contactFullName', 'contactEmail', 'contactCountryCode', 'contactNumber', 'contactCity', 'contactState', 'contactZip', 'bestTimeToContact'],
+        ['contactFullName', 'contactEmail', 'contactCountryCode', 'contactNumber', 'contactCity', 'contactState', 'contactZip', 'bestTimeToContact', 'contactMessage'],
         'Please complete all required contact and inquiry fields.'
       );
       if (!message && !root.querySelector('#contactExperienceHidden').value.trim()) {

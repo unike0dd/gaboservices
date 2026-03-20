@@ -40,7 +40,6 @@ const governance = (() => {
       })
     });
   };
-
   const getSeo = () => Object.freeze(getMetadata().seo || {});
   const getSecurity = () => Object.freeze(getMetadata().security || {});
   const getMedia = () => Object.freeze(getMetadata().media || {});

@@ -3,7 +3,6 @@ import { initChatbotControls } from './chatbot/chatbot-controls.js';
 import { initFabControls } from './fab-controls.js';
 import { SITE_METADATA_DEFAULTS } from './site-metadata-defaults.js';
 import { initSiteGovernance } from './site-governance.js';
-import { initSiteSearch } from './site-search.js';
 import { EN_MESSAGES } from './locales/en/messages.js';
 
 const activeLocale = 'en';
@@ -135,7 +134,6 @@ function initFormStatus() {
 document.addEventListener('DOMContentLoaded', () => {
   syncPageMetadata();
   initSiteGovernance();
-  initSiteSearch();
   initAdaptiveLayout();
   initChatbotControls();
   initFabControls();
