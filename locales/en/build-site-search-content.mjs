@@ -2827,7 +2827,259 @@ export const searchEntries = (query) => dedupeEntries(
     .map(({ entry }) => entry)
 );
 
-export function initSiteSearch() {}
+const buildSearchMarkup = () => `
+  <section class="gs-inline-search" aria-label="Site search">
+    <form class="gs-inline-search__form" data-site-search-form role="search" aria-label="Site search">
+      <label class="site-search-label site-search-label--sr-only" for="siteSearchInput">Search the site</label>
+      <div class="gs-inline-search__controls">
+        <input id="siteSearchInput" class="gs-inline-search__input" type="search" name="site-search" placeholder="Search" autocomplete="off" enterkeyhint="search" data-site-search-input />
+        <button type="button" class="gs-inline-search__voice" data-voice-search-trigger aria-pressed="false" aria-label="Start voice search" title="Voice search">🎤</button>
+      </div>
+    </form>
+  </section>
+  <div class="gs-search-modal" data-site-search-panel hidden>
+    <div class="gs-search-modal__backdrop" data-site-search-backdrop></div>
+    <div class="gs-search-modal__panel" role="dialog" aria-modal="true" aria-labelledby="gsSearchModalTitle">
+      <h2 id="gsSearchModalTitle" class="site-search-label--sr-only">Search results</h2>
+      <div class="gs-search-modal__header">
+        <form class="gs-search-modal__form" data-site-search-modal-form role="search" aria-label="Search again">
+          <label class="site-search-label site-search-label--sr-only" for="siteSearchModalInput">Search the site</label>
+          <div class="gs-search-modal__controls">
+            <input id="siteSearchModalInput" class="gs-search-modal__input" type="search" name="site-search-modal" placeholder="Search" autocomplete="off" enterkeyhint="search" data-site-search-modal-input />
+            <button type="button" class="gs-search-modal__voice" data-site-search-modal-voice aria-pressed="false" aria-label="Start voice search" title="Voice search">🎤</button>
+            <button class="gs-search-modal__submit" type="submit">Search</button>
+          </div>
+        </form>
+        <button class="gs-search-modal__close" data-site-search-close type="button" aria-label="Close search results">×</button>
+      </div>
+      <p class="gs-search-modal__status" data-site-search-status aria-live="polite"></p>
+      <div class="gs-search-modal__results" data-site-search-results aria-live="polite">
+        <p class="gs-search-modal__empty">Results will appear here.</p>
+      </div>
+    </div>
+  </div>
+`;
+
+const ensureSearchRoot = () => {
+  let root = document.querySelector('[data-site-search]');
+  if (!root) {
+    const headerWrap = document.querySelector('.site-header .nav-wrap');
+    if (!headerWrap) return null;
+
+    root = document.createElement('div');
+    root.className = 'site-search-shell';
+    root.dataset.siteSearch = '';
+    root.dataset.voiceLang = document.documentElement.lang === 'en' ? 'en-US' : document.documentElement.lang || 'en-US';
+    root.innerHTML = buildSearchMarkup();
+    headerWrap.appendChild(root);
+  }
+
+  const nav = document.querySelector('.site-header nav');
+  const navLinks = document.getElementById('primaryNav');
+  const mobileQuery = window.matchMedia('(max-width: 900px)');
+
+  const placeSearch = () => {
+    if (!nav || !navLinks || !root) return;
+    if (mobileQuery.matches) {
+      navLinks.prepend(root);
+      root.dataset.searchPlacement = 'drawer';
+    } else {
+      nav.insertAdjacentElement('beforebegin', root);
+      root.dataset.searchPlacement = 'header';
+    }
+  };
+
+  placeSearch();
+  if (!root.dataset.searchPlacementBound) {
+    mobileQuery.addEventListener('change', placeSearch);
+    root.dataset.searchPlacementBound = 'true';
+  }
+
+  return root;
+};
+
+const createResultItemMarkup = (entry) => {
+  const title = escapeHtml(entry.sectionTitle || entry.title || 'Untitled');
+  const description = escapeHtml(entry.description || '');
+  const url = escapeHtml(entry.url || '/');
+  const pageMeta = entry.sectionTitle && entry.pageTitle && entry.pageTitle !== entry.sectionTitle
+    ? `<p class="gs-search-modal__path">Page: ${escapeHtml(entry.pageTitle)}</p>`
+    : `<p class="gs-search-modal__path">${url}</p>`;
+
+  return `
+    <li class="gs-search-modal__item">
+      <a class="gs-search-modal__link" href="${url}">${title}</a>
+      ${pageMeta}
+      <p class="gs-search-modal__text">${description}</p>
+    </li>
+  `;
+};
+
+const initSearchRoot = (root) => {
+  const voiceConfig = window.SITE_METADATA?.voiceSearch || {};
+  const form = root.querySelector('[data-site-search-form]');
+  const modalForm = root.querySelector('[data-site-search-modal-form]');
+  const input = root.querySelector('[data-site-search-input]');
+  const modalInput = root.querySelector('[data-site-search-modal-input]');
+  const voiceButton = root.querySelector('[data-voice-search-trigger]');
+  const modalVoiceButton = root.querySelector('[data-site-search-modal-voice]');
+  const results = root.querySelector('[data-site-search-results]');
+  const status = root.querySelector('[data-site-search-status]');
+  const panel = root.querySelector('[data-site-search-panel]');
+  const closeButton = root.querySelector('[data-site-search-close]');
+  const backdrop = root.querySelector('[data-site-search-backdrop]');
+  if (!form || !modalForm || !input || !modalInput || !voiceButton || !modalVoiceButton || !results || !status || !panel || !closeButton || !backdrop) return;
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let recognition = null;
+  let isListening = false;
+  let lastFocusedElement = null;
+
+  const syncInputs = (value) => {
+    input.value = value;
+    modalInput.value = value;
+  };
+
+  const renderDefaultState = () => {
+    results.innerHTML = '<p class="gs-search-modal__empty">Results will appear here.</p>';
+  };
+
+  const openPanel = () => {
+    if (!panel.hidden) return;
+    lastFocusedElement = document.activeElement;
+    panel.hidden = false;
+    document.body.classList.add('gs-search-modal-open');
+    modalInput.focus();
+  };
+
+  const closePanel = () => {
+    panel.hidden = true;
+    document.body.classList.remove('gs-search-modal-open');
+    if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+      lastFocusedElement.focus();
+    }
+  };
+
+  const renderResults = (query) => {
+    const trimmedQuery = String(query || '').trim();
+    const matches = searchEntries(trimmedQuery);
+
+    if (!trimmedQuery) {
+      status.textContent = 'Please enter a search term.';
+      renderDefaultState();
+      return matches;
+    }
+
+    if (!matches.length) {
+      status.textContent = `No results found for “${trimmedQuery}”.`;
+      results.innerHTML = `<p class="gs-search-modal__empty">No results found for “${escapeHtml(trimmedQuery)}”.</p>`;
+      return matches;
+    }
+
+    status.textContent = `${matches.length} result${matches.length === 1 ? '' : 's'} found.`;
+    results.innerHTML = `<ul class="gs-search-modal__list">${matches.map(createResultItemMarkup).join('')}</ul>`;
+    return matches;
+  };
+
+  const performSearch = (rawQuery) => {
+    const query = String(rawQuery || '');
+    syncInputs(query);
+    openPanel();
+    return renderResults(query);
+  };
+
+  const setListeningState = (isActive, message) => {
+    isListening = isActive;
+    [voiceButton, modalVoiceButton].forEach((button) => {
+      button.classList.toggle('is-listening', isActive);
+      button.setAttribute('aria-pressed', String(isActive));
+    });
+    if (message) status.textContent = message;
+  };
+
+  if (!voiceConfig.enabled || !SpeechRecognition) {
+    const voiceUnavailableMessage = !voiceConfig.enabled
+      ? 'Voice search is disabled. Type your search instead.'
+      : 'Voice search is not supported in this browser. Type your search instead.';
+    [voiceButton, modalVoiceButton].forEach((button) => {
+      button.disabled = true;
+      button.setAttribute('aria-disabled', 'true');
+      button.title = 'Voice search unavailable';
+    });
+    status.textContent = voiceUnavailableMessage;
+  } else {
+    recognition = new SpeechRecognition();
+    recognition.lang = voiceConfig.lang || root.dataset.voiceLang || 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.addEventListener('start', () => {
+      setListeningState(true, 'Listening... speak now.');
+    });
+
+    recognition.addEventListener('result', (event) => {
+      const transcript = event.results?.[0]?.[0]?.transcript?.trim() || '';
+      syncInputs(transcript);
+      status.textContent = transcript
+        ? `Voice captured. Searching for “${transcript}”.`
+        : 'Voice captured. Searching now.';
+      performSearch(transcript);
+    });
+
+    recognition.addEventListener('end', () => {
+      setListeningState(false);
+    });
+
+    recognition.addEventListener('error', (event) => {
+      const message = event.error === 'not-allowed'
+        ? 'Microphone access was denied. Allow microphone access to use voice search.'
+        : 'Voice search was unavailable or interrupted.';
+      setListeningState(false, message);
+    });
+  }
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    performSearch(input.value);
+  });
+
+  modalForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    performSearch(modalInput.value);
+  });
+
+  [voiceButton, modalVoiceButton].forEach((button) => {
+    button.addEventListener('click', () => {
+      openPanel();
+      if (!recognition) return;
+      if (isListening) {
+        recognition.stop();
+        setListeningState(false, 'Voice search stopped.');
+        return;
+      }
+      try {
+        recognition.start();
+      } catch (error) {
+        setListeningState(false, 'Voice search could not start. Please try again.');
+      }
+    });
+  });
+
+  closeButton.addEventListener('click', closePanel);
+  backdrop.addEventListener('click', closePanel);
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !panel.hidden) closePanel();
+  });
+
+  renderDefaultState();
+};
+
+export function initSiteSearch() {
+  if (typeof document === 'undefined') return;
+  const root = ensureSearchRoot();
+  if (root) initSearchRoot(root);
+}
 
 const HTML_FILES = [
   'index.html',

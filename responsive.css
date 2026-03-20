@@ -27,6 +27,11 @@ iframe {
     align-items: center;
   }
 
+  .site-search-shell {
+    order: 0;
+    width: 100%;
+    margin-left: 0;
+  }
 
   .brand-stack {
     max-width: min(70vw, 460px);
@@ -36,12 +41,24 @@ iframe {
     width: min(86vw, 340px);
   }
 
+  .nav-links .site-search-shell {
+    width: 100%;
+    margin-bottom: 0.6rem;
+  }
 
   .cta-row {
     flex-direction: column;
     align-items: stretch;
   }
 
+  .gs-inline-search__controls {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .gs-search-modal__panel {
+    width: min(100% - 1rem, 42rem);
+    margin: 0.5rem auto;
+  }
 
   .btn {
     text-align: center;
@@ -147,6 +164,11 @@ iframe {
     padding-top: 5rem;
   }
 
+  .nav-links .gs-inline-search__input,
+  .nav-links .gs-inline-search__voice,
+  .nav-links a {
+    font-size: 0.95rem;
+  }
 
   .actions .ghost,
   .editorial-toggle,
