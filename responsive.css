@@ -27,25 +27,6 @@ iframe {
     align-items: center;
   }
 
-  .site-search-shell {
-    order: 3;
-    width: 100%;
-    margin-left: 0;
-  }
-
-  .site-search-controls--header {
-    justify-content: stretch;
-  }
-
-  .site-search-status--header {
-    text-align: left;
-  }
-
-  .site-search-results--header {
-    width: 100%;
-    left: 0;
-    right: auto;
-  }
 
   .brand-stack {
     max-width: min(70vw, 460px);
@@ -55,24 +36,12 @@ iframe {
     width: min(86vw, 340px);
   }
 
+
   .cta-row {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .site-search-panel--header {
-    left: 0;
-    right: 0;
-    width: 100%;
-  }
-
-  .site-search-inline-controls {
-    grid-template-columns: 1fr;
-  }
-
-  .site-search-inline-controls .btn {
-    width: 100%;
-  }
 
   .btn {
     text-align: center;
@@ -177,6 +146,7 @@ iframe {
     border-left: 0;
     padding-top: 5rem;
   }
+
 
   .actions .ghost,
   .editorial-toggle,
