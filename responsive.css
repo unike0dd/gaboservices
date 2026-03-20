@@ -27,12 +27,6 @@ iframe {
     align-items: center;
   }
 
-  .site-search-shell {
-    order: 0;
-    width: 100%;
-    margin-left: 0;
-  }
-
   .brand-stack {
     max-width: min(70vw, 460px);
   }
@@ -41,23 +35,9 @@ iframe {
     width: min(86vw, 340px);
   }
 
-  .nav-links .site-search-shell {
-    width: 100%;
-    margin-bottom: 0.6rem;
-  }
-
   .cta-row {
     flex-direction: column;
     align-items: stretch;
-  }
-
-  .gs-inline-search__controls {
-    grid-template-columns: minmax(0, 1fr) auto;
-  }
-
-  .gs-search-modal__panel {
-    width: min(100% - 1rem, 42rem);
-    margin: 0.5rem auto;
   }
 
   .btn {
@@ -148,7 +128,6 @@ iframe {
   .brand-subtitle {
     font-size: 0.7rem;
   }
-
 
   .nav-wrap {
     gap: 0.45rem;
@@ -293,7 +272,6 @@ body {
   height: min(var(--adaptive-chat-height), 78vh);
 }
 
-
 @media (min-width: 901px) and (max-width: 1120px) {
   .brand {
     font-size: 1.25rem;
@@ -339,7 +317,6 @@ body {
     max-width: 100%;
   }
 }
-
 
 /* Services page responsive fixes */
 body[data-page-key="services"] .cards-grid > .info-card,

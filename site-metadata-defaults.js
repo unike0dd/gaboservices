@@ -35,11 +35,5 @@ export const SITE_METADATA_DEFAULTS = Object.freeze({
       html5Video: true,
       youtube: true
     }
-  },
-  voiceSearch: {
-    enabled: true,
-    lang: 'en-US',
-    requiresConsent: true,
-    browserApi: 'webkitSpeechRecognition|SpeechRecognition'
   }
 });
