@@ -35,11 +35,5 @@ window.SITE_METADATA = {
       html5Video: true,
       youtube: true
     }
-  },
-  voiceSearch: {
-    enabled: true,
-    lang: 'en-US',
-    requiresConsent: true,
-    browserApi: 'webkitSpeechRecognition|SpeechRecognition'
   }
 };

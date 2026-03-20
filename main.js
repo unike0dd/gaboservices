@@ -31,10 +31,6 @@ const getMetadata = () => {
         ...SITE_METADATA_DEFAULTS.media.allowedEmbeds,
         ...(siteMetadata.media?.allowedEmbeds || {})
       }
-    },
-    voiceSearch: {
-      ...SITE_METADATA_DEFAULTS.voiceSearch,
-      ...(siteMetadata.voiceSearch || {})
     }
   };
 };

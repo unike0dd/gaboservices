@@ -33,17 +33,12 @@ const governance = (() => {
           ...SITE_METADATA_DEFAULTS.media.allowedEmbeds,
           ...(siteMetadata.media?.allowedEmbeds || {})
         })
-      }),
-      voiceSearch: Object.freeze({
-        ...SITE_METADATA_DEFAULTS.voiceSearch,
-        ...(siteMetadata.voiceSearch || {})
       })
     });
   };
   const getSeo = () => Object.freeze(getMetadata().seo || {});
   const getSecurity = () => Object.freeze(getMetadata().security || {});
   const getMedia = () => Object.freeze(getMetadata().media || {});
-  const getVoiceSearch = () => Object.freeze(getMetadata().voiceSearch || {});
 
   const setMetaContent = (selector, content) => {
     if (!content) return;
@@ -117,7 +112,6 @@ const governance = (() => {
     const findings = [];
     const security = getSecurity();
     const media = getMedia();
-    const voiceSearch = getVoiceSearch();
 
     if (!document.querySelector('meta[name="description"]')) {
       findings.push('Missing meta description.');
@@ -138,10 +132,6 @@ const governance = (() => {
 
     if (hasSiteMetadata() && !security.cspProfile) {
       findings.push('No CSP profile declared in site config.');
-    }
-
-    if (voiceSearch.enabled && !voiceSearch.lang) {
-      findings.push('Voice search is enabled, but no language code is configured.');
     }
 
     if (media.allowedEmbeds?.youtube && !security.allowlistedFrameHosts?.includes('https://www.youtube-nocookie.com')) {
@@ -171,8 +161,7 @@ const governance = (() => {
       return Object.freeze({
         seo: getSeo(),
         security: getSecurity(),
-        media: getMedia(),
-        voiceSearch: getVoiceSearch()
+        media: getMedia()
       });
     }
   });
