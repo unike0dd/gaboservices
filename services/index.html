@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en">
-    <head>
+  <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="author" content="Gabriel Services" />
@@ -20,7 +20,7 @@
     <meta property="og:url" content="https://www.gabo.services/services/" />
     <meta property="og:image" content="https://www.gabo.services/assets/og-cover.svg" />
     <meta property="og:locale" content="en_US" />
-        <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Gabriel Services" />
     <meta name="twitter:description" content="Business services for logistics, IT, admin, and customer relations." />
     <meta name="twitter:image" content="https://www.gabo.services/assets/og-cover.svg" />
@@ -29,6 +29,636 @@
     <script src="../site.config.js"></script>
     <script data-cfasync="false" type="module" crossorigin="anonymous" src="../page-style-switcher.js"></script>
     <script data-cfasync="false" type="module" crossorigin="anonymous" src="../main.js"></script>
+    <style>
+      body[data-page-key='services'] {
+        background:
+          radial-gradient(circle at top right, rgba(91, 33, 182, 0.07), transparent 28%),
+          linear-gradient(180deg, #f7f8fb 0%, #edf1f6 100%);
+      }
+
+      .services-main {
+        width: min(100%, 1180px);
+        margin: 0 auto;
+        padding: 1.25rem 1rem 7rem;
+      }
+
+      .services-shell {
+        --bg: #eef2f7;
+        --shell: #f7f8fb;
+        --card: #ffffff;
+        --card-soft: #f8f9fc;
+        --text: #111827;
+        --muted: #5b6473;
+        --line: #d8dee7;
+        --line-soft: #e9edf3;
+        --accent: #5b21b6;
+        --accent-soft: #ede9fe;
+        --accent-soft-2: #f5f3ff;
+        --active: #0a0a0f;
+        --active-text: #ffffff;
+        --success: #16a34a;
+        --shadow: 0 12px 34px rgba(17, 24, 39, 0.07);
+        --radius-xl: 28px;
+        --radius-lg: 20px;
+        --radius-md: 16px;
+        --tap: 48px;
+        --safe-bottom: env(safe-area-inset-bottom, 0px);
+        background: var(--shell);
+        border: 1px solid #cfd6e0;
+        border-radius: var(--radius-xl);
+        padding: 1.125rem;
+        box-shadow: var(--shadow);
+        color: var(--text);
+      }
+
+      .services-shell * {
+        box-sizing: border-box;
+      }
+
+      .services-page-kicker,
+      .services-detail-kicker,
+      .services-tag,
+      .services-stat-label,
+      .services-mobile-label {
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .services-page-kicker {
+        display: inline-flex;
+        align-items: center;
+        min-height: 34px;
+        padding: 0 14px;
+        border-radius: 999px;
+        background: #e9edf2;
+        color: #324154;
+        font-size: 0.92rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .services-shell h1,
+      .services-shell h2,
+      .services-shell h3,
+      .services-shell .services-compare-name,
+      .services-shell .services-detail-title {
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        letter-spacing: -0.03em;
+      }
+
+      .services-hero {
+        display: grid;
+        gap: 1rem;
+        margin-bottom: 1.25rem;
+        padding-bottom: 1.25rem;
+        border-bottom: 1px solid rgba(207, 214, 224, 0.9);
+      }
+
+      .services-hero-grid {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .services-hero-copy {
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .services-hero h1 {
+        margin: 0;
+        font-size: clamp(2.2rem, 6vw, 4.5rem);
+        line-height: 0.98;
+        text-wrap: balance;
+      }
+
+      .services-hero .lead,
+      .services-section-head p,
+      .services-detail-text,
+      .services-compare-copy,
+      .services-stat-value,
+      .services-mode-item span,
+      .services-editorial-note p,
+      .services-hero-meta p {
+        color: var(--muted);
+      }
+
+      .services-hero .lead {
+        margin: 0;
+        max-width: 68ch;
+        font-size: 1.04rem;
+        line-height: 1.72;
+        text-wrap: pretty;
+      }
+
+      .services-hero .cta-row {
+        margin-top: 0.3rem;
+      }
+
+      .services-hero .btn,
+      .services-mobile-button {
+        min-height: var(--tap);
+        border-radius: 12px;
+      }
+
+      .services-hero-meta {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.9rem;
+      }
+
+      .services-hero-meta article,
+      .services-quick-item,
+      .services-mode-item,
+      .services-compare-item,
+      .services-editorial-note {
+        border: 1px solid var(--line-soft);
+        background: var(--card-soft);
+        border-radius: var(--radius-md);
+        padding: 0.95rem 1rem;
+      }
+
+      .services-hero-meta h2,
+      .services-stat-value {
+        margin: 0;
+        font-size: 1.05rem;
+      }
+
+      .services-stat-label,
+      .services-mobile-label {
+        display: block;
+        margin-bottom: 0.35rem;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+
+      .services-section {
+        margin-top: 1.25rem;
+      }
+
+      .services-section-head {
+        display: grid;
+        gap: 0.35rem;
+        margin-bottom: 0.85rem;
+      }
+
+      .services-section-head h2 {
+        margin: 0;
+        font-size: clamp(1.45rem, 3.2vw, 2rem);
+        line-height: 1.08;
+      }
+
+      .services-section-head p {
+        margin: 0;
+        font-size: 0.96rem;
+      }
+
+      .services-rail {
+        display: flex;
+        gap: 0.75rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 0.2rem;
+        scrollbar-width: none;
+      }
+
+      .services-rail::-webkit-scrollbar,
+      .services-compare-filters::-webkit-scrollbar {
+        display: none;
+      }
+
+      .services-card {
+        min-width: min(84vw, 320px);
+        scroll-snap-align: start;
+        border: 1px solid #cfd6e0;
+        border-radius: var(--radius-lg);
+        background: transparent;
+        color: var(--text);
+        padding: 1.1rem;
+        text-align: left;
+        cursor: pointer;
+        transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+      }
+
+      .services-card:hover,
+      .services-card:focus-visible,
+      .services-tab:hover,
+      .services-tab:focus-visible,
+      .services-filter:hover,
+      .services-filter:focus-visible {
+        transform: translateY(-1px);
+        outline: none;
+      }
+
+      .services-card:hover,
+      .services-card:focus-visible {
+        background: #fbfcfe;
+        border-color: #b8c1cf;
+      }
+
+      .services-card.is-active,
+      .services-filter.is-active {
+        background: var(--active);
+        border-color: var(--active);
+        color: var(--active-text);
+      }
+
+      .services-card-title {
+        margin: 0 0 0.45rem;
+        font-size: 1.15rem;
+        line-height: 1.2;
+      }
+
+      .services-card-text {
+        margin: 0 0 0.85rem;
+        font-size: 0.95rem;
+        opacity: 0.92;
+      }
+
+      .services-card-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      .services-card.is-active .services-card-link {
+        color: #d7ccff;
+      }
+
+      .services-detail-layout {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .services-detail-card,
+      .services-compare-card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+      }
+
+      .services-detail-card {
+        overflow: hidden;
+      }
+
+      .services-detail-body,
+      .services-compare-card {
+        padding: 1.1rem;
+      }
+
+      .services-detail-body {
+        transition: opacity 0.18s ease, transform 0.18s ease;
+      }
+
+      .services-detail-body.is-swapping {
+        opacity: 0.5;
+        transform: translateY(4px);
+      }
+
+      .services-detail-kicker {
+        display: inline-flex;
+        align-items: center;
+        min-height: 30px;
+        padding: 0 12px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 0.82rem;
+        font-weight: 700;
+        margin-bottom: 0.8rem;
+      }
+
+      .services-detail-title {
+        margin: 0 0 0.5rem;
+        font-size: clamp(1.8rem, 4vw, 2.3rem);
+        line-height: 1.05;
+      }
+
+      .services-detail-text {
+        margin: 0 0 1rem;
+        font-size: 0.99rem;
+        line-height: 1.65;
+      }
+
+      .services-tabs {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .services-tab,
+      .services-filter {
+        min-height: var(--tap);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fff;
+        color: var(--text);
+        padding: 0 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+      }
+
+      .services-tab.is-active {
+        background: var(--accent-soft-2);
+        color: var(--accent);
+        border-color: #d7ccff;
+      }
+
+      .services-mode-panel {
+        min-height: 220px;
+      }
+
+      .services-mode-list,
+      .services-quick-grid,
+      .services-compare-grid {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .services-mode-item strong {
+        display: block;
+        margin-bottom: 0.3rem;
+        font-size: 0.94rem;
+      }
+
+      .services-quick-item {
+        background: var(--card-soft);
+      }
+
+      .services-stat-value {
+        font-size: 0.98rem;
+        font-weight: 700;
+      }
+
+      .services-compare-filters {
+        display: flex;
+        gap: 0.5rem;
+        overflow-x: auto;
+        padding-bottom: 0.2rem;
+        margin-bottom: 0.9rem;
+        scrollbar-width: none;
+      }
+
+      .services-compare-item.is-selected {
+        background: #f7f3ff;
+        border-color: #d9cfff;
+      }
+
+      .services-compare-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.75rem;
+        align-items: flex-start;
+        margin-bottom: 0.65rem;
+      }
+
+      .services-compare-name {
+        margin: 0;
+        color: var(--accent);
+        font-size: 1.1rem;
+        line-height: 1.2;
+      }
+
+      .services-check {
+        display: inline-block;
+        width: 18px;
+        height: 10px;
+        border-left: 5px solid var(--success);
+        border-bottom: 5px solid var(--success);
+        transform: rotate(-45deg);
+        border-radius: 1px;
+        flex: 0 0 auto;
+        margin-top: 0.25rem;
+      }
+
+      .services-compare-copy {
+        margin: 0;
+        font-size: 0.95rem;
+        line-height: 1.62;
+      }
+
+      .services-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.8rem;
+      }
+
+      .services-tag {
+        display: inline-flex;
+        align-items: center;
+        min-height: 30px;
+        padding: 0 10px;
+        border-radius: 999px;
+        background: #f4f6fa;
+        color: #334155;
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+
+      .services-desktop-table {
+        display: none;
+        margin-top: 1rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .services-desktop-table table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .services-desktop-table th,
+      .services-desktop-table td {
+        padding: 14px;
+        text-align: left;
+        border-right: 1px solid var(--line-soft);
+        border-bottom: 1px solid var(--line-soft);
+        vertical-align: middle;
+      }
+
+      .services-desktop-table th:last-child,
+      .services-desktop-table td:last-child {
+        border-right: 0;
+      }
+
+      .services-desktop-table tbody tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .services-desktop-table thead th {
+        background: #f8f7fc;
+        font-size: 0.92rem;
+        font-weight: 800;
+      }
+
+      .services-desktop-table tbody tr.is-selected {
+        background: #f7f3ff;
+      }
+
+      .services-table-service {
+        color: var(--accent);
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .services-table-check {
+        text-align: center;
+        width: 120px;
+        min-width: 120px;
+      }
+
+      .services-editorial-note {
+        display: grid;
+        gap: 0.4rem;
+      }
+
+      .services-editorial-note h2 {
+        margin: 0;
+        font-size: 1.15rem;
+      }
+
+      .services-editorial-note p {
+        margin: 0;
+        line-height: 1.62;
+      }
+
+      .services-mobile-action {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: calc(12px + var(--safe-bottom));
+        z-index: 20;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(207, 214, 224, 0.9);
+        border-radius: 18px;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+        backdrop-filter: blur(14px);
+      }
+
+      .services-mobile-service {
+        display: block;
+        font-weight: 800;
+        font-size: 0.97rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .services-mobile-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 16px;
+        background: var(--active);
+        color: #fff;
+        font-weight: 800;
+        border: 1px solid var(--active);
+        white-space: nowrap;
+      }
+
+      .services-fade-in {
+        animation: servicesFadeUp 0.24s ease;
+      }
+
+      @keyframes servicesFadeUp {
+        from {
+          opacity: 0.45;
+          transform: translateY(6px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (min-width: 760px) {
+        .services-main {
+          padding: 1.5rem 1.25rem 2rem;
+        }
+
+        .services-shell {
+          padding: 1.6rem;
+        }
+
+        .services-hero-grid {
+          grid-template-columns: 1.25fr 0.85fr;
+          align-items: start;
+        }
+
+        .services-rail {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          overflow: visible;
+        }
+
+        .services-card {
+          min-width: 0;
+        }
+
+        .services-detail-layout {
+          grid-template-columns: 1.2fr 0.8fr;
+        }
+
+        .services-desktop-table {
+          display: block;
+        }
+
+        .services-mobile-action {
+          display: none;
+        }
+      }
+
+      @media (min-width: 1040px) {
+        .services-shell {
+          padding: 1.75rem;
+        }
+
+        .services-rail {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 680px) {
+        .services-hero-meta {
+          grid-template-columns: 1fr;
+        }
+
+        .services-tabs {
+          grid-template-columns: 1fr;
+        }
+
+        .services-hero .cta-row,
+        .services-hero .cta-row .btn {
+          width: 100%;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        .services-shell *,
+        .services-shell *::before,
+        .services-shell *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
   </head>
   <body data-page-key="services">
     <header class="site-header">
@@ -50,114 +680,143 @@
         </nav>
       </div>
     </header>
+
     <main class="container editorial-page page-main services-main">
-      <section class="hero-editorial services-hero-modular">
-        <h1>Services</h1>
-        <p class="lead">Gabriel Services provides flexible operational support across logistics, administrative back office, customer operations, and IT support.</p>
-        <div class="cta-row"><a class="btn primary" href="../contact/">Discuss your workflow</a></div>
-      </section>
-
-      <section class="section-block">
-        <h2>Professional support across key business functions</h2>
-        <div class="cards-grid">
-          <article class="info-card">
-            <h3>Logistics Operations</h3>
-            <p>Dispatch management, shipment follow-up, and coordination support for continuous movement.</p>
-            <a class="service-card-link" data-service-link="logistics" href="/services/logistics-operations/">Explore service</a>
-          </article>
-          <article class="info-card">
-            <h3>Administrative Back Office</h3>
-            <p>Structured documentation, schedule handling, and process coordination for daily control.</p>
-            <a class="service-card-link" data-service-link="admin" href="/services/administrative-backoffice/">Explore service</a>
-          </article>
-          <article class="info-card">
-            <h3>Customer Operations</h3>
-            <p>Customer-facing communication, issue routing, and post-service follow-up continuity.</p>
-            <a class="service-card-link" data-service-link="customer" href="/services/customer-relations/">Explore service</a>
-          </article>
-          <article class="info-card">
-            <h3>IT Support</h3>
-            <p>Technical request triage, resolution tracking, and practical platform support.</p>
-            <a class="service-card-link" data-service-link="it" href="/services/it-support/">Explore service</a>
-          </article>
-        </div>
-      </section>
-
-      <section class="section-block service-matrix-section" aria-labelledby="service-matrix-title">
-        <h2 id="service-matrix-title">Service matrix</h2>
-        <p>A quick view to understand how each service line supports execution priorities.</p>
-        <div class="table-scroll matrix-panel" role="region" aria-label="Service capabilities matrix" tabindex="0">
-          <table class="service-matrix-table">
-            <thead><tr><th scope="col">Function</th><th scope="col">Logistics</th><th scope="col">Customer operations</th><th scope="col">Administrative back office</th><th scope="col">IT support</th></tr></thead>
-            <tbody>
-              <tr><th scope="row">Operational support</th><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr><tr><th scope="row">Follow-up cadence</th><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
-              <tr><th scope="row">Documentation</th><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr><tr><th scope="row">Coordination</th><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
-              <tr><th scope="row">Customer continuity</th><td>-</td><td>✓</td><td>-</td><td>✓</td></tr><tr><th scope="row">Dispatch support</th><td>✓</td><td>-</td><td>-</td><td>-</td></tr>
-              <tr><th scope="row">Scheduling</th><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr><tr><th scope="row">Reporting</th><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="section-block engagement-options" id="pricing" aria-labelledby="engagement-options-title">
-        <div class="engagement-options__inner">
-          <div class="engagement-options__header"><h2 id="engagement-options-title">Pricing & engagement options</h2></div>
-          <p class="section-intro">Pricing is structured around business needs, workflow complexity, coverage level, and the operational volume involved.</p>
-          <div class="cards-grid pricing-grid">
-            <article class="info-card">
-              <h3>On demand</h3>
-              <p>Ideal for variable needs, workload spikes, and last-minute requests.</p>
-              <ul class="engagement-card__list">
-                <li>Hourly</li>
-                <li>4-hour block</li>
-                <li>8-hour block</li>
-              </ul>
-            </article>
-            <article class="info-card">
-              <h3>Continuous coverage</h3>
-              <p>Ideal for recurring tasks and constant operational continuity.</p>
-              <ul class="engagement-card__list">
-                <li>Part time</li>
-                <li>Full time</li>
-                <li>Daily</li>
-                <li>Weekly</li>
-                <li>Monthly</li>
-              </ul>
-            </article>
-            <article class="info-card">
-              <h3>Project based</h3>
-              <p>Ideal for defined scopes and focused execution.</p>
-              <ul class="engagement-card__list">
-                <li>By project</li>
-                <li>Short term</li>
-                <li>Milestone based</li>
-              </ul>
-            </article>
-            <article class="info-card">
-              <h3>Professional Individual and Team Remote Assistance</h3>
-              <p>For dedicated remote support that keeps individuals and teams aligned, responsive, and productive across daily operational needs.</p>
-            </article>
+      <section class="services-shell">
+        <section class="services-hero" aria-labelledby="services-page-title">
+          <span class="services-page-kicker">Gabriel Services</span>
+          <div class="services-hero-grid">
+            <div class="services-hero-copy">
+              <h1 id="services-page-title">Services Hub</h1>
+              <p class="lead">
+                A cleaner editorial layout for comparing operational support lines with stronger margins,
+                balanced spacing, magazine-style hierarchy, and a more guided mobile-first reading flow.
+              </p>
+              <div class="cta-row">
+                <a class="btn primary" href="../contact/">Discuss your workflow</a>
+              </div>
+            </div>
+            <div class="services-hero-meta" aria-label="Services page highlights">
+              <article>
+                <span class="services-stat-label">Reading mode</span>
+                <p class="services-stat-value">News and magazine-inspired layout with improved whitespace.</p>
+              </article>
+              <article>
+                <span class="services-stat-label">Built for</span>
+                <p class="services-stat-value">Fast selection, quick comparison, and clearer service fit on mobile.</p>
+              </article>
+            </div>
           </div>
-          <div class="wide-reading pricing-copy-stack">
-            <h3>How pricing works</h3>
-            <p>Pricing depends on service scope, coordination depth, support hours, communication rhythm, and the reporting requirements your team expects across daily operations.</p>
-            <h3>What affects pricing</h3>
-            <p>Final pricing is influenced by workflow complexity, business volume, required support hours, communication requirements, and any system or process requirements involved in day-to-day delivery.</p>
-          </div>
-          <div class="info-card cta-panel pricing-cta-panel">
-            <h3>Request a tailored scope</h3>
-            <p>Tell us what your team needs, and we will prepare a consultation-focused scope aligned to your operational goals.</p>
-            <div class="cta-row"><a class="btn primary" href="../contact/">Request a consultation</a><a class="btn" href="../contact/">Describe your needs</a></div>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="section-block">
-        <h2>How we support execution</h2>
-        <ul><li>Structured support</li><li>Multilingual communication</li><li>Steady follow-up</li><li>Practical, cost-conscious operations</li></ul>
-        <div class="cta-row"><a class="btn primary" href="../contact/">Request support</a><a class="btn" href="#pricing">View engagement options</a></div>
+        <section class="services-section" aria-labelledby="services-choose-title">
+          <div class="services-section-head">
+            <h2 id="services-choose-title">Choose a service</h2>
+            <p>Tap or click a service card to update the breakdown, quick view, and engagement comparison below.</p>
+          </div>
+          <div class="services-rail" id="serviceRail"></div>
+        </section>
+
+        <section class="services-section services-detail-layout" aria-labelledby="services-detail-title-static">
+          <article class="services-detail-card">
+            <div class="services-detail-body" id="detailBody">
+              <span class="services-detail-kicker" id="detailKicker">Operations and movement</span>
+              <h2 class="services-detail-title" id="detailTitle">Logistics Operations</h2>
+              <p class="services-detail-text" id="detailText">
+                Coordination-focused operational assistance for moving parts, status tracking, follow-up, and execution visibility.
+              </p>
+
+              <div class="services-tabs" id="modeTabs" aria-label="Service breakdown mode">
+                <button type="button" class="services-tab is-active" data-mode="coverage">Coverage</button>
+                <button type="button" class="services-tab" data-mode="fit">Best fit</button>
+                <button type="button" class="services-tab" data-mode="engagement">Engagement</button>
+              </div>
+
+              <div class="services-mode-panel" id="modePanel"></div>
+            </div>
+          </article>
+
+          <aside class="services-detail-card">
+            <div class="services-detail-body">
+              <div class="services-section-head">
+                <h2 id="services-detail-title-static">Quick view</h2>
+                <p>Fast summary of the currently selected service line.</p>
+              </div>
+              <div class="services-quick-grid">
+                <div class="services-quick-item">
+                  <span class="services-stat-label">Selected service</span>
+                  <div class="services-stat-value" id="quickService">Logistics Operations</div>
+                </div>
+                <div class="services-quick-item">
+                  <span class="services-stat-label">Best for</span>
+                  <div class="services-stat-value" id="quickBestFor">Coordination-heavy daily operations</div>
+                </div>
+                <div class="services-quick-item">
+                  <span class="services-stat-label">Most common rhythm</span>
+                  <div class="services-stat-value" id="quickRhythm">Recurring coordination and follow-up</div>
+                </div>
+                <div class="services-quick-item">
+                  <span class="services-stat-label">Engagement availability</span>
+                  <div class="services-stat-value" id="quickAvailability">Hourly, Project, Monthly / Ongoing</div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="services-section">
+          <article class="services-compare-card">
+            <div class="services-section-head">
+              <h2>Compare by engagement model</h2>
+              <p>Switch the model to compare services in a clearer flow without forcing a crowded mobile table.</p>
+            </div>
+
+            <div class="services-compare-filters" id="compareFilters">
+              <button type="button" class="services-filter is-active" data-compare="hourly">Hourly</button>
+              <button type="button" class="services-filter" data-compare="project">Project</button>
+              <button type="button" class="services-filter" data-compare="monthly">Monthly / Ongoing</button>
+            </div>
+
+            <div class="services-compare-grid" id="compareGrid"></div>
+
+            <div class="services-desktop-table">
+              <table aria-label="Services comparison table">
+                <thead>
+                  <tr>
+                    <th>Service</th>
+                    <th>What it covers</th>
+                    <th class="services-table-check">Hourly</th>
+                    <th class="services-table-check">Project</th>
+                    <th class="services-table-check">Monthly / Ongoing</th>
+                  </tr>
+                </thead>
+                <tbody id="desktopCompareBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section class="services-section" aria-labelledby="services-editorial-title">
+          <div class="services-editorial-note">
+            <h2 id="services-editorial-title">Editorial treatment applied to the services page</h2>
+            <p>
+              This update uses roomier margins, quieter dividers, serif headlines, stronger spacing rhythm,
+              mobile-first selection panels, and an interface that feels closer to a magazine or news feature
+              than a dense utility grid.
+            </p>
+          </div>
+        </section>
       </section>
     </main>
+
+    <div class="services-mobile-action" id="mobileAction">
+      <div class="services-mobile-meta">
+        <span class="services-mobile-label">Selected service</span>
+        <span class="services-mobile-service" id="mobileActionService">Logistics Operations</span>
+      </div>
+      <a class="services-mobile-button" href="../contact/">Request info</a>
+    </div>
+
     <footer class="site-footer">
       <div class="container footer-grid">
         <div class="footer-column">
@@ -183,5 +842,451 @@
       </div>
     </footer>
 
+    <script>
+      (() => {
+        const services = [
+          {
+            id: 'logistics',
+            short: 'Logistics Operations',
+            buttonText: 'Dispatch, coordination, shipment visibility, status follow-up.',
+            kicker: 'Operations and movement',
+            title: 'Logistics Operations',
+            text: 'Coordination-focused operational assistance for moving parts, status tracking, follow-up, and execution visibility.',
+            href: '/services/logistics-operations/',
+            coverage: [
+              {
+                title: 'Core coverage',
+                text: 'Dispatch coordination, shipment follow-up, movement visibility, communication handoffs, and status updates.'
+              },
+              {
+                title: 'Operational focus',
+                text: 'Keeps moving parts organized so execution stays visible, timely, and easier to manage.'
+              },
+              {
+                title: 'Typical use',
+                text: 'Strong fit for logistics workflows that rely on steady coordination and follow-up.'
+              }
+            ],
+            fit: [
+              {
+                title: 'Best for',
+                text: 'Coordination-heavy daily operations with multiple moving parts.'
+              },
+              {
+                title: 'Works well when',
+                text: 'You need clearer status flow, fewer missed follow-ups, and steadier execution visibility.'
+              },
+              {
+                title: 'Useful for',
+                text: 'Dispatch teams, shipment oversight, follow-up lanes, and operational support.'
+              }
+            ],
+            engagement: [
+              {
+                title: 'Hourly',
+                text: 'Overflow work, urgent handling, short support windows.'
+              },
+              {
+                title: 'Project',
+                text: 'Setups, cleanup, rollout assistance, process improvement tasks.'
+              },
+              {
+                title: 'Monthly / Ongoing',
+                text: 'Part-time, full-time, or recurring support coverage.'
+              }
+            ],
+            bestFor: 'Coordination-heavy daily operations',
+            rhythm: 'Recurring coordination and follow-up',
+            covers: 'Dispatch follow-up, shipment visibility, coordination, status updates',
+            compare: {
+              hourly: 'Best for overflow coordination, urgent updates, and short operational support blocks.',
+              project: 'Best for rollouts, cleanup work, setup support, and process improvement efforts.',
+              monthly: 'Best for recurring logistics coordination and steady operational continuity.'
+            },
+            tags: ['Status visibility', 'Coordination', 'Follow-up'],
+            availability: {
+              hourly: true,
+              project: true,
+              monthly: true
+            }
+          },
+          {
+            id: 'admin',
+            short: 'Administrative Back Office',
+            buttonText: 'Documentation, scheduling, organized workflows, follow-up.',
+            kicker: 'Structure and back office',
+            title: 'Administrative Back Office',
+            text: 'Organized administrative support for documentation flow, scheduling, recurring tasks, and structured internal coordination.',
+            href: '/services/administrative-backoffice/',
+            coverage: [
+              {
+                title: 'Core coverage',
+                text: 'Documentation handling, scheduling, record updates, back-office support, and routine administrative flow.'
+              },
+              {
+                title: 'Operational focus',
+                text: 'Reduces clutter in internal workflows by keeping admin tasks structured and easier to follow.'
+              },
+              {
+                title: 'Typical use',
+                text: 'Strong fit for teams that need orderly support behind the scenes.'
+              }
+            ],
+            fit: [
+              {
+                title: 'Best for',
+                text: 'Process-driven administrative work and recurring support tasks.'
+              },
+              {
+                title: 'Works well when',
+                text: 'You need cleaner organization, better documentation flow, and stronger routine follow-through.'
+              },
+              {
+                title: 'Useful for',
+                text: 'Scheduling, records, internal workflows, and organized back-office execution.'
+              }
+            ],
+            engagement: [
+              {
+                title: 'Hourly',
+                text: 'Task batches, routine support, temporary admin overflow.'
+              },
+              {
+                title: 'Project',
+                text: 'Workflow setup, file cleanup, records organization.'
+              },
+              {
+                title: 'Monthly / Ongoing',
+                text: 'Recurring back-office assistance or dedicated support.'
+              }
+            ],
+            bestFor: 'Process-driven administrative work',
+            rhythm: 'Routine task flow and structured follow-up',
+            covers: 'Documentation, scheduling, back-office workflows, organized follow-up',
+            compare: {
+              hourly: 'Best for routine task batches, administrative overflow, and short support windows.',
+              project: 'Best for file cleanup, setup work, documentation organization, and workflow refinement.',
+              monthly: 'Best for recurring administrative continuity and consistent back-office support.'
+            },
+            tags: ['Documentation', 'Scheduling', 'Workflow'],
+            availability: {
+              hourly: true,
+              project: true,
+              monthly: true
+            }
+          },
+          {
+            id: 'it',
+            short: 'IT Support',
+            buttonText: 'Ticket flow, issue tracking, platform coordination, user support.',
+            kicker: 'Technical continuity',
+            title: 'IT Support',
+            text: 'Practical technical support for request flow, issue coordination, user assistance, and platform continuity.',
+            href: '/services/it-support/',
+            coverage: [
+              {
+                title: 'Core coverage',
+                text: 'Ticket handling, issue follow-up, platform coordination, user support requests, and resolution tracking.'
+              },
+              {
+                title: 'Operational focus',
+                text: 'Keeps technical support flow visible so requests are easier to track and manage.'
+              },
+              {
+                title: 'Typical use',
+                text: 'Strong fit for businesses that need clearer support continuity and request flow.'
+              }
+            ],
+            fit: [
+              {
+                title: 'Best for',
+                text: 'Technical request handling, user support, and platform continuity.'
+              },
+              {
+                title: 'Works well when',
+                text: 'You need steadier response paths, better tracking, and more reliable support coordination.'
+              },
+              {
+                title: 'Useful for',
+                text: 'Tickets, troubleshooting flow, technical coordination, and practical support coverage.'
+              }
+            ],
+            engagement: [
+              {
+                title: 'Hourly',
+                text: 'Troubleshooting, urgent requests, short technical support tasks.'
+              },
+              {
+                title: 'Project',
+                text: 'Migration help, setup, cleanup, support initiatives.'
+              },
+              {
+                title: 'Monthly / Ongoing',
+                text: 'Recurring technical assistance or dedicated support lane.'
+              }
+            ],
+            bestFor: 'Technical request handling and continuity',
+            rhythm: 'Ticket flow and platform support continuity',
+            covers: 'Ticket flow, issue tracking, platform coordination, user support',
+            compare: {
+              hourly: 'Best for urgent troubleshooting, user requests, and short technical support needs.',
+              project: 'Best for migrations, setup work, cleanup efforts, and support initiatives.',
+              monthly: 'Best for recurring technical continuity and steady support coverage.'
+            },
+            tags: ['Tickets', 'Troubleshooting', 'Continuity'],
+            availability: {
+              hourly: true,
+              project: true,
+              monthly: true
+            }
+          },
+          {
+            id: 'customer',
+            short: 'Customer Relations',
+            buttonText: 'Customer communication, follow-up, response tracking, continuity.',
+            kicker: 'Communication and experience',
+            title: 'Customer Relations',
+            text: 'Customer-facing assistance focused on message handling, response continuity, follow-up, and service visibility.',
+            href: '/services/customer-relations/',
+            coverage: [
+              {
+                title: 'Core coverage',
+                text: 'Customer communication, follow-up, response handling, continuity support, and service tracking.'
+              },
+              {
+                title: 'Operational focus',
+                text: 'Keeps customer communication clearer, steadier, and easier to manage.'
+              },
+              {
+                title: 'Typical use',
+                text: 'Strong fit for businesses that want more consistent response flow and follow-up.'
+              }
+            ],
+            fit: [
+              {
+                title: 'Best for',
+                text: 'Ongoing customer communication and response continuity.'
+              },
+              {
+                title: 'Works well when',
+                text: 'You need steadier message handling, better follow-up, and more visible service communication.'
+              },
+              {
+                title: 'Useful for',
+                text: 'Customer support flow, relationship continuity, and response coverage.'
+              }
+            ],
+            engagement: [
+              {
+                title: 'Hourly',
+                text: 'Peak coverage, message handling, response support.'
+              },
+              {
+                title: 'Project',
+                text: 'Campaign assistance, backlog cleanup, recovery efforts.'
+              },
+              {
+                title: 'Monthly / Ongoing',
+                text: 'Recurring customer operations or team extension.'
+              }
+            ],
+            bestFor: 'Ongoing customer communication and follow-up',
+            rhythm: 'Response continuity and message flow',
+            covers: 'Customer communication, follow-up, response tracking, service continuity',
+            compare: {
+              hourly: 'Best for peak periods, quick response help, and message handling coverage.',
+              project: 'Best for backlog cleanup, service recovery, and campaign support work.',
+              monthly: 'Best for recurring customer communication continuity and team extension.'
+            },
+            tags: ['Responses', 'Follow-up', 'Continuity'],
+            availability: {
+              hourly: true,
+              project: true,
+              monthly: true
+            }
+          }
+        ];
+
+        const state = {
+          activeService: 'logistics',
+          activeMode: 'coverage',
+          activeCompare: 'hourly'
+        };
+
+        const serviceRail = document.getElementById('serviceRail');
+        const detailBody = document.getElementById('detailBody');
+        const detailKicker = document.getElementById('detailKicker');
+        const detailTitle = document.getElementById('detailTitle');
+        const detailText = document.getElementById('detailText');
+        const modeTabs = document.getElementById('modeTabs');
+        const modePanel = document.getElementById('modePanel');
+        const quickService = document.getElementById('quickService');
+        const quickBestFor = document.getElementById('quickBestFor');
+        const quickRhythm = document.getElementById('quickRhythm');
+        const quickAvailability = document.getElementById('quickAvailability');
+        const compareFilters = document.getElementById('compareFilters');
+        const compareGrid = document.getElementById('compareGrid');
+        const desktopCompareBody = document.getElementById('desktopCompareBody');
+        const mobileActionService = document.getElementById('mobileActionService');
+
+        const getServiceById = (id) => services.find((service) => service.id === id) || services[0];
+
+        const getCheck = (enabled) => (enabled ? '<span class="services-check" aria-label="Included"></span>' : '');
+
+        function renderServiceRail() {
+          serviceRail.innerHTML = services
+            .map((service) => {
+              const activeClass = service.id === state.activeService ? 'services-card is-active' : 'services-card';
+              return `
+                <button type="button" class="${activeClass}" data-service="${service.id}" aria-pressed="${service.id === state.activeService}">
+                  <h3 class="services-card-title">${service.short}</h3>
+                  <p class="services-card-text">${service.buttonText}</p>
+                  <span class="services-card-link">Explore service →</span>
+                </button>
+              `;
+            })
+            .join('');
+
+          serviceRail.querySelectorAll('.services-card').forEach((card) => {
+            card.addEventListener('click', () => {
+              const nextId = card.getAttribute('data-service');
+              if (nextId === state.activeService) return;
+              state.activeService = nextId;
+              animateDetailSwap();
+              renderAll();
+              card.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+            });
+          });
+        }
+
+        function animateDetailSwap() {
+          detailBody.classList.add('is-swapping');
+          window.setTimeout(() => detailBody.classList.remove('is-swapping'), 180);
+        }
+
+        function renderModeTabs() {
+          modeTabs.querySelectorAll('.services-tab').forEach((tab) => {
+            const active = tab.getAttribute('data-mode') === state.activeMode;
+            tab.classList.toggle('is-active', active);
+            tab.setAttribute('aria-pressed', String(active));
+          });
+        }
+
+        function renderModePanel() {
+          const current = getServiceById(state.activeService);
+          const list = current[state.activeMode];
+          modePanel.className = 'services-mode-panel services-fade-in';
+          modePanel.innerHTML = `
+            <div class="services-mode-list">
+              ${list
+                .map(
+                  (item) => `
+                    <div class="services-mode-item">
+                      <strong>${item.title}</strong>
+                      <span>${item.text}</span>
+                    </div>
+                  `
+                )
+                .join('')}
+            </div>
+          `;
+        }
+
+        function renderDetail() {
+          const current = getServiceById(state.activeService);
+          detailKicker.textContent = current.kicker;
+          detailTitle.textContent = current.title;
+          detailText.textContent = current.text;
+          quickService.textContent = current.short;
+          quickBestFor.textContent = current.bestFor;
+          quickRhythm.textContent = current.rhythm;
+          quickAvailability.textContent = 'Hourly, Project, Monthly / Ongoing';
+          mobileActionService.textContent = current.short;
+          renderModeTabs();
+          renderModePanel();
+        }
+
+        function renderCompareFilters() {
+          compareFilters.querySelectorAll('.services-filter').forEach((filter) => {
+            const active = filter.getAttribute('data-compare') === state.activeCompare;
+            filter.classList.toggle('is-active', active);
+            filter.setAttribute('aria-pressed', String(active));
+          });
+        }
+
+        function renderCompareGrid() {
+          compareGrid.innerHTML = services
+            .map((service) => {
+              const selected = service.id === state.activeService ? 'services-compare-item is-selected services-fade-in' : 'services-compare-item services-fade-in';
+              const copy = service.compare[state.activeCompare];
+              return `
+                <article class="${selected}">
+                  <div class="services-compare-top">
+                    <h3 class="services-compare-name">${service.short}</h3>
+                    ${getCheck(service.availability[state.activeCompare])}
+                  </div>
+                  <p class="services-compare-copy">${copy}</p>
+                  <div class="services-tags">
+                    ${service.tags.map((tag) => `<span class="services-tag">${tag}</span>`).join('')}
+                  </div>
+                </article>
+              `;
+            })
+            .join('');
+        }
+
+        function renderDesktopTable() {
+          desktopCompareBody.innerHTML = services
+            .map(
+              (service) => `
+                <tr class="${service.id === state.activeService ? 'is-selected' : ''}">
+                  <td class="services-table-service">${service.short}</td>
+                  <td>${service.covers}</td>
+                  <td class="services-table-check">${getCheck(service.availability.hourly)}</td>
+                  <td class="services-table-check">${getCheck(service.availability.project)}</td>
+                  <td class="services-table-check">${getCheck(service.availability.monthly)}</td>
+                </tr>
+              `
+            )
+            .join('');
+        }
+
+        function bindModeTabs() {
+          modeTabs.querySelectorAll('.services-tab').forEach((tab) => {
+            tab.addEventListener('click', () => {
+              const nextMode = tab.getAttribute('data-mode');
+              if (nextMode === state.activeMode) return;
+              state.activeMode = nextMode;
+              renderModeTabs();
+              renderModePanel();
+            });
+          });
+        }
+
+        function bindCompareFilters() {
+          compareFilters.querySelectorAll('.services-filter').forEach((filter) => {
+            filter.addEventListener('click', () => {
+              const nextCompare = filter.getAttribute('data-compare');
+              if (nextCompare === state.activeCompare) return;
+              state.activeCompare = nextCompare;
+              renderCompareFilters();
+              renderCompareGrid();
+            });
+          });
+        }
+
+        function renderAll() {
+          renderServiceRail();
+          renderDetail();
+          renderCompareFilters();
+          renderCompareGrid();
+          renderDesktopTable();
+        }
+
+        renderAll();
+        bindModeTabs();
+        bindCompareFilters();
+      })();
+    </script>
   </body>
 </html>
