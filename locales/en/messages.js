@@ -10,6 +10,17 @@ export const EN_MESSAGES = {
     chatbot: 'Chatbot',
     openQuickActions: 'Open quick actions'
   },
+  mobileBottomNav: {
+    ariaLabel: 'Mobile bottom navigation',
+    home: 'Home',
+    services: 'Services',
+    contact: 'Contact',
+    careers: 'Careers',
+    logistics: 'Logistics',
+    admin: 'Admin',
+    it: 'IT',
+    customerRelations: 'Customer Relations'
+  },
   editorialTheme: {
     wallstreet: 'News Cut',
     time: 'Magazine Cut',

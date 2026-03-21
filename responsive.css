@@ -157,14 +157,12 @@ iframe {
     min-height: 44px;
   }
 
-  .fab-main {
-    width: 3rem;
-    height: 3rem;
+  body {
+    padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 1rem);
   }
 
-  .fab-item {
-    min-width: 9.2rem;
-    padding: .6rem .8rem;
+  .mobile-bottom-nav {
+    display: flex;
   }
 
   .chat-panel {
