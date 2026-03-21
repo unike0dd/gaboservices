@@ -137,7 +137,6 @@
       .services-compare-copy,
       .services-stat-value,
       .services-mode-item span,
-      .services-editorial-note p,
       .services-hero-meta p {
         color: var(--muted);
       }
@@ -169,8 +168,7 @@
       .services-hero-meta article,
       .services-quick-item,
       .services-mode-item,
-      .services-compare-item,
-      .services-editorial-note {
+      .services-compare-item {
         border: 1px solid var(--line-soft);
         background: var(--card-soft);
         border-radius: var(--radius-md);
@@ -515,21 +513,6 @@
         min-width: 120px;
       }
 
-      .services-editorial-note {
-        display: grid;
-        gap: 0.4rem;
-      }
-
-      .services-editorial-note h2 {
-        margin: 0;
-        font-size: 1.15rem;
-      }
-
-      .services-editorial-note p {
-        margin: 0;
-        line-height: 1.62;
-      }
-
       .services-mobile-action {
         position: fixed;
         left: 12px;
@@ -687,23 +670,23 @@
           <span class="services-page-kicker">Gabriel Services</span>
           <div class="services-hero-grid">
             <div class="services-hero-copy">
-              <h1 id="services-page-title">Services Hub</h1>
+              <h1 id="services-page-title">Services</h1>
               <p class="lead">
-                A cleaner editorial layout for comparing operational support lines with stronger margins,
-                balanced spacing, magazine-style hierarchy, and a more guided mobile-first reading flow.
+                Explore logistics, IT, administrative, and customer support services with a clear overview of coverage,
+                fit, and engagement options.
               </p>
               <div class="cta-row">
-                <a class="btn primary" href="../contact/">Discuss your workflow</a>
+                <a class="btn primary" href="../contact/">Request info</a>
               </div>
             </div>
             <div class="services-hero-meta" aria-label="Services page highlights">
               <article>
-                <span class="services-stat-label">Reading mode</span>
-                <p class="services-stat-value">News and magazine-inspired layout with improved whitespace.</p>
+                <span class="services-stat-label">How to use</span>
+                <p class="services-stat-value">Review services, compare engagement models, and choose the support line that fits your needs.</p>
               </article>
               <article>
-                <span class="services-stat-label">Built for</span>
-                <p class="services-stat-value">Fast selection, quick comparison, and clearer service fit on mobile.</p>
+                <span class="services-stat-label">Support model</span>
+                <p class="services-stat-value">Designed for quick review on desktop or mobile with straightforward service comparison.</p>
               </article>
             </div>
           </div>
@@ -794,17 +777,6 @@
               </table>
             </div>
           </article>
-        </section>
-
-        <section class="services-section" aria-labelledby="services-editorial-title">
-          <div class="services-editorial-note">
-            <h2 id="services-editorial-title">Editorial treatment applied to the services page</h2>
-            <p>
-              This update uses roomier margins, quieter dividers, serif headlines, stronger spacing rhythm,
-              mobile-first selection panels, and an interface that feels closer to a magazine or news feature
-              than a dense utility grid.
-            </p>
-          </div>
         </section>
       </section>
     </main>
