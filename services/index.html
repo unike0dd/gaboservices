@@ -137,7 +137,6 @@
       .services-compare-copy,
       .services-stat-value,
       .services-mode-item span,
-      .services-editorial-note p,
       .services-hero-meta p {
         color: var(--muted);
       }
@@ -169,8 +168,7 @@
       .services-hero-meta article,
       .services-quick-item,
       .services-mode-item,
-      .services-compare-item,
-      .services-editorial-note {
+      .services-compare-item {
         border: 1px solid var(--line-soft);
         background: var(--card-soft);
         border-radius: var(--radius-md);
@@ -229,15 +227,20 @@
 
       .services-card {
         min-width: min(84vw, 320px);
+        min-height: 188px;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 0.7rem;
+        align-content: start;
         scroll-snap-align: start;
         border: 1px solid #cfd6e0;
-        border-radius: var(--radius-lg);
+        border-radius: 22px;
         background: transparent;
         color: var(--text);
-        padding: 1.1rem;
+        padding: 1rem 1rem 1.05rem;
         text-align: left;
         cursor: pointer;
-        transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
       }
 
       .services-card:hover,
@@ -254,6 +257,7 @@
       .services-card:focus-visible {
         background: #fbfcfe;
         border-color: #b8c1cf;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
       }
 
       .services-card.is-active,
@@ -264,14 +268,15 @@
       }
 
       .services-card-title {
-        margin: 0 0 0.45rem;
-        font-size: 1.15rem;
-        line-height: 1.2;
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.15;
       }
 
       .services-card-text {
-        margin: 0 0 0.85rem;
-        font-size: 0.95rem;
+        margin: 0;
+        font-size: 0.88rem;
+        line-height: 1.5;
         opacity: 0.92;
       }
 
@@ -279,7 +284,8 @@
         display: inline-flex;
         align-items: center;
         gap: 0.35rem;
-        font-size: 0.9rem;
+        margin-top: auto;
+        font-size: 0.88rem;
         font-weight: 700;
       }
 
@@ -515,21 +521,6 @@
         min-width: 120px;
       }
 
-      .services-editorial-note {
-        display: grid;
-        gap: 0.4rem;
-      }
-
-      .services-editorial-note h2 {
-        margin: 0;
-        font-size: 1.15rem;
-      }
-
-      .services-editorial-note p {
-        margin: 0;
-        line-height: 1.62;
-      }
-
       .services-mobile-action {
         position: fixed;
         left: 12px;
@@ -601,11 +592,14 @@
         .services-rail {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 0.9rem;
           overflow: visible;
         }
 
         .services-card {
           min-width: 0;
+          min-height: 172px;
+          padding: 0.95rem 1rem 1rem;
         }
 
         .services-detail-layout {
@@ -628,6 +622,11 @@
 
         .services-rail {
           grid-template-columns: repeat(4, minmax(0, 1fr));
+          align-items: stretch;
+        }
+
+        .services-card {
+          min-height: 164px;
         }
       }
 
@@ -687,23 +686,23 @@
           <span class="services-page-kicker">Gabriel Services</span>
           <div class="services-hero-grid">
             <div class="services-hero-copy">
-              <h1 id="services-page-title">Services Hub</h1>
+              <h1 id="services-page-title">Services</h1>
               <p class="lead">
-                A cleaner editorial layout for comparing operational support lines with stronger margins,
-                balanced spacing, magazine-style hierarchy, and a more guided mobile-first reading flow.
+                Explore logistics, IT, administrative, and customer support services with a clear overview of coverage,
+                fit, and engagement options.
               </p>
               <div class="cta-row">
-                <a class="btn primary" href="../contact/">Discuss your workflow</a>
+                <a class="btn primary" href="../contact/">Request info</a>
               </div>
             </div>
             <div class="services-hero-meta" aria-label="Services page highlights">
               <article>
-                <span class="services-stat-label">Reading mode</span>
-                <p class="services-stat-value">News and magazine-inspired layout with improved whitespace.</p>
+                <span class="services-stat-label">How to use</span>
+                <p class="services-stat-value">Review services, compare engagement models, and choose the support line that fits your needs.</p>
               </article>
               <article>
-                <span class="services-stat-label">Built for</span>
-                <p class="services-stat-value">Fast selection, quick comparison, and clearer service fit on mobile.</p>
+                <span class="services-stat-label">Support model</span>
+                <p class="services-stat-value">Designed for quick review on desktop or mobile with straightforward service comparison.</p>
               </article>
             </div>
           </div>
@@ -794,17 +793,6 @@
               </table>
             </div>
           </article>
-        </section>
-
-        <section class="services-section" aria-labelledby="services-editorial-title">
-          <div class="services-editorial-note">
-            <h2 id="services-editorial-title">Editorial treatment applied to the services page</h2>
-            <p>
-              This update uses roomier margins, quieter dividers, serif headlines, stronger spacing rhythm,
-              mobile-first selection panels, and an interface that feels closer to a magazine or news feature
-              than a dense utility grid.
-            </p>
-          </div>
         </section>
       </section>
     </main>
