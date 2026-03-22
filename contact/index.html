@@ -29,7 +29,7 @@
     <script src="../site.config.js"></script>
     <script data-cfasync="false" type="module" crossorigin="anonymous" src="../page-style-switcher.js"></script>
     <script data-cfasync="false" type="module" crossorigin="anonymous" src="../main.js"></script>
-    <link rel="stylesheet" href="../contact/contact-hub.css?v=20260319b" />
+    <link rel="stylesheet" href="../contact/contact-hub.css?v=20260322a" />
   </head>
   <body data-page-key="contact">
     <header class="site-header">
@@ -54,132 +54,181 @@
     <main class="container editorial-page page-main">
       <section class="hero-editorial contact-hero contact-hero--compact">
         <h1>Contact</h1>
-        <p class="lead">Reach our team for support, onboarding, project discussions, or partnership inquiries.</p>
+        <p class="lead">Start with a quick inquiry, then add optional details if you want a more tailored follow-up.</p>
       </section>
 
       <section class="section-block contact-hub contact-form-section">
         <div class="hub-page">
-          <section class="hero" aria-labelledby="contact-title">
+          <section class="hero contact-hero-shell" aria-labelledby="contact-title">
             <div>
-              <p class="hero__eyebrow">Start the conversation</p>
-              <h2 id="contact-title" class="hero__title">Contact Gabriel Services</h2>
-              <p class="hero__text">Connect with our team to plan onboarding, request operational support, explore service coverage, or discuss a partnership that helps your business move faster with dependable execution.</p>
+              <p class="hero__eyebrow">Simple first step</p>
+              <h2 id="contact-title" class="hero__title">Tell us what support you need</h2>
+              <p class="hero__text">Use the quick inquiry form to share your team, main workflow pressure, and service interest. If you want a more detailed follow-up, open the extended intake and add staffing, skills, or scheduling context.</p>
+            </div>
+            <div class="contact-proof-strip" aria-label="Contact page proof strip">
+              <article class="contact-proof-item">
+                <span class="contact-proof-item__label">Step 1</span>
+                <strong>Quick inquiry in minutes</strong>
+              </article>
+              <article class="contact-proof-item">
+                <span class="contact-proof-item__label">Step 2</span>
+                <strong>Optional extended intake</strong>
+              </article>
+              <article class="contact-proof-item">
+                <span class="contact-proof-item__label">Step 3</span>
+                <strong>Consultation with clear next steps</strong>
+              </article>
             </div>
           </section>
 
           <section class="layout">
             <div class="panel">
               <div class="panel__body">
+                <div class="panel__head panel__head--stacked">
+                  <div>
+                    <h3 class="panel__title">Quick inquiry</h3>
+                    <p class="panel__subtitle">Start with the essential contact and service information. This is the only section required for submission.</p>
+                  </div>
+                  <span class="mode-badge">Fast intake</span>
+                </div>
 
                 <form id="contactForm" class="site-form" method="post" novalidate>
-                  <section class="form-block">
-
+                  <section class="form-block form-block--primary">
                     <div class="grid grid--2">
-                      <div class="field"><label for="contactFullName">Full Name</label><input id="contactFullName" name="full_name" type="text" autocomplete="name" required /></div>
-                      <div class="field"><label for="contactEmail">Email Address</label><input id="contactEmail" name="email_address" type="email" autocomplete="email" required /></div>
-                      <div class="field"><label for="contactCountryCode">Country Code</label><input id="contactCountryCode" name="country_code" type="text" placeholder="+1" required /></div>
-                      <div class="field"><label for="contactNumber">Contact Number</label><input id="contactNumber" name="contact_number" type="tel" autocomplete="tel-national" required /></div>
-                      <div class="field"><label for="contactCity">City</label><input id="contactCity" name="city" type="text" autocomplete="address-level2" required /></div>
-                      <div class="field"><label for="contactState">State / Province</label><input id="contactState" name="state_province" type="text" autocomplete="address-level1" required /></div>
-                      <div class="field"><label for="contactSpace">Space / Suite / Apt</label><input id="contactSpace" name="space" type="text" autocomplete="address-line2" placeholder="Suite 210" /></div>
-                      <div class="field"><label for="contactZip">Country Zip Code</label><input id="contactZip" name="country_zip_code" type="text" autocomplete="postal-code" required /></div>
-                      <div class="field"><label for="bestTimeToContact">Best Time to Contact You</label><input id="bestTimeToContact" name="best_time_to_contact" type="datetime-local" required /></div>
+                      <div class="field"><label for="contactFullName">Full name</label><input id="contactFullName" name="full_name" type="text" autocomplete="name" required /></div>
+                      <div class="field"><label for="contactEmail">Work email</label><input id="contactEmail" name="email_address" type="email" autocomplete="email" required /></div>
+                      <div class="field"><label for="contactCompany">Company / Team</label><input id="contactCompany" name="company_team" type="text" autocomplete="organization" required /></div>
+                      <div class="field"><label for="contactNumber">Contact number</label><input id="contactNumber" name="contact_number" type="tel" autocomplete="tel-national" required /></div>
                     </div>
 
                     <div class="field">
-                      <label for="contactMessage">Message</label>
-                      <textarea id="contactMessage" name="message" rows="5" placeholder="Share your request, support need, or project details." required></textarea>
+                      <label for="contactPrimaryNeed">Primary workflow pressure</label>
+                      <select id="contactPrimaryNeed" name="primary_need" required>
+                        <option value="">Select the main need</option>
+                        <option value="Logistics coordination">Logistics coordination</option>
+                        <option value="Administrative workflow support">Administrative workflow support</option>
+                        <option value="Customer operations support">Customer operations support</option>
+                        <option value="IT support coverage">IT support coverage</option>
+                        <option value="Multi-function operational support">Multi-function operational support</option>
+                      </select>
+                    </div>
+
+                    <div class="field">
+                      <span class="label">Service interest</span>
+                      <p class="field-help">Choose one or more areas so we route the inquiry to the right team.</p>
+                      <div class="check-grid">
+                        <label class="check-card"><input type="checkbox" name="contact_interest[]" value="Logistics Operations" /><span>Logistics Operations</span></label>
+                        <label class="check-card"><input type="checkbox" name="contact_interest[]" value="Administrative Back Office" /><span>Administrative Back Office</span></label>
+                        <label class="check-card"><input type="checkbox" name="contact_interest[]" value="Customer Relations" /><span>Customer Relations</span></label>
+                        <label class="check-card"><input type="checkbox" name="contact_interest[]" value="IT Support" /><span>IT Support</span></label>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label for="contactMessage">What do you need help with?</label>
+                      <textarea id="contactMessage" name="message" rows="5" placeholder="Share the workflow, bottleneck, or coverage gap you want to solve." required></textarea>
                     </div>
                   </section>
 
-                  <section class="form-block">
-                    <div>
-                      <h4 class="form-block__title">Area of Interest</h4>
-                      <p class="form-block__text">Select one or more service areas.</p>
+                  <details class="contact-details-accordion">
+                    <summary>
+                      <span>Optional extended intake</span>
+                      <span class="contact-details-accordion__hint">Add scheduling, location, or remote assistant requirements</span>
+                    </summary>
+
+                    <div class="contact-details-accordion__body">
+                      <section class="form-block">
+                        <div>
+                          <h4 class="form-block__title">Planning and routing details</h4>
+                          <p class="form-block__text">Only fill out what helps us tailor the follow-up conversation.</p>
+                        </div>
+
+                        <div class="grid grid--2">
+                          <div class="field"><label for="contactCountryCode">Country code</label><input id="contactCountryCode" name="country_code" type="text" placeholder="+1" /></div>
+                          <div class="field"><label for="bestTimeToContact">Best time to contact you</label><input id="bestTimeToContact" name="best_time_to_contact" type="datetime-local" /></div>
+                          <div class="field"><label for="contactCity">City</label><input id="contactCity" name="city" type="text" autocomplete="address-level2" /></div>
+                          <div class="field"><label for="contactState">State / Province</label><input id="contactState" name="state_province" type="text" autocomplete="address-level1" /></div>
+                          <div class="field"><label for="contactSpace">Space / Suite / Apt</label><input id="contactSpace" name="space" type="text" autocomplete="address-line2" placeholder="Suite 210" /></div>
+                          <div class="field"><label for="contactZip">ZIP / Postal code</label><input id="contactZip" name="country_zip_code" type="text" autocomplete="postal-code" /></div>
+                        </div>
+                      </section>
+
+                      <section class="form-block">
+                        <div>
+                          <h4 class="form-block__title">Remote assistant or specialist intake</h4>
+                          <p class="form-block__text">Use this only if you want to describe staffing, skills, or talent requirements in more detail.</p>
+                        </div>
+
+                        <div class="dynamic">
+                          <div class="field">
+                            <label for="contactRemoteSkillInput">Skills needed</label>
+                            <div class="dynamic__entry">
+                              <input id="contactRemoteSkillInput" type="text" placeholder="Add a skill" />
+                              <button type="button" id="contactRemoteSkillAdd" class="btn btn--soft">Add</button>
+                            </div>
+                            <ul id="contactRemoteSkillsList" class="pill-list" aria-label="Remote assistant skills"></ul>
+                            <input type="hidden" id="contactRemoteSkillsHidden" name="remote_assistant_skills" />
+                          </div>
+
+                          <div class="field">
+                            <span class="label">Remote assistant interest</span>
+                            <p class="field-help">Optional service areas for staffing or assistant support.</p>
+                            <div class="check-grid">
+                              <label class="check-card"><input type="checkbox" name="remote_interest[]" value="Logistics Operations" /><span>Logistics Operations</span></label>
+                              <label class="check-card"><input type="checkbox" name="remote_interest[]" value="Administrative Back Office" /><span>Administrative Back Office</span></label>
+                              <label class="check-card"><input type="checkbox" name="remote_interest[]" value="Customer Relations" /><span>Customer Relations</span></label>
+                              <label class="check-card"><input type="checkbox" name="remote_interest[]" value="IT Support" /><span>IT Support</span></label>
+                            </div>
+                          </div>
+
+                          <div class="grid grid--2">
+                            <div class="field">
+                              <label for="contactExperienceInput">Experience needed</label>
+                              <div class="dynamic__entry dynamic__entry--triple">
+                                <input id="contactExperienceInput" type="text" placeholder="Add experience area" />
+                                <select id="contactExperienceLevel">
+                                  <option value="">Select level</option><option value="Entry">Entry</option><option value="Junior">Junior</option><option value="Mid">Mid</option><option value="Advanced">Advanced</option><option value="Expert">Expert</option>
+                                </select>
+                                <button type="button" id="contactExperienceAdd" class="btn btn--soft">Add</button>
+                              </div>
+                              <ul id="contactExperienceList" class="pill-list" aria-label="Contact experience"></ul>
+                              <input type="hidden" id="contactExperienceHidden" name="experience_level" />
+                            </div>
+
+                            <div class="field">
+                              <label for="contactLanguageInput">Languages needed</label>
+                              <div class="dynamic__entry dynamic__entry--triple">
+                                <input id="contactLanguageInput" type="text" placeholder="Add a language" />
+                                <select id="contactLanguageLevel">
+                                  <option value="">Select level</option><option value="Beginner">Beginner</option><option value="Elementary">Elementary</option><option value="Intermediate">Intermediate</option><option value="Advance">Advance</option><option value="Advance Professional">Advance Professional</option><option value="Native">Native</option>
+                                </select>
+                                <button type="button" id="contactLanguageAdd" class="btn btn--soft">Add</button>
+                              </div>
+                              <ul id="contactLanguagesList" class="pill-list" aria-label="Contact languages"></ul>
+                              <input type="hidden" id="contactLanguagesHidden" name="languages" />
+                            </div>
+                          </div>
+
+                          <div class="field">
+                            <label for="contactEducationInput">Education or certification preference</label>
+                            <div class="dynamic__entry dynamic__entry--triple">
+                              <input id="contactEducationInput" type="text" placeholder="Add school, program, or certificate" />
+                              <select id="contactEducationLevel">
+                                <option value="">Select education</option><option value="Grammar School">Grammar School</option><option value="Some High School">Some High School</option><option value="High School">High School</option><option value="Some College">Some College</option><option value="Associate Degree">Associate Degree</option><option value="Bachelor">Bachelor</option><option value="Masters">Masters</option><option value="Doctorate">Doctorate</option>
+                              </select>
+                              <button type="button" id="contactEducationAdd" class="btn btn--soft">Add</button>
+                            </div>
+                            <ul id="contactEducationList" class="pill-list" aria-label="Contact education"></ul>
+                            <input type="hidden" id="contactEducationHidden" name="education" />
+                          </div>
+                        </div>
+                      </section>
                     </div>
-
-                    <div class="check-grid">
-                      <label class="check-card"><input type="checkbox" name="contact_interest[]" value="Logistics Operations" /><span>Logistics Operations</span></label>
-                      <label class="check-card"><input type="checkbox" name="contact_interest[]" value="Administrative Back Office" /><span>Administrative Back Office</span></label>
-                      <label class="check-card"><input type="checkbox" name="contact_interest[]" value="Customer Relations" /><span>Customer Relations</span></label>
-                      <label class="check-card"><input type="checkbox" name="contact_interest[]" value="IT Support" /><span>IT Support</span></label>
-                    </div>
-                  </section>
-
-                  <section class="form-block">
-                    <div>
-                      <h4 class="form-block__title">Inquiry About Remote Assistant</h4>
-                      <p class="form-block__text">Add relevant skills, languages, and preferred service area.</p>
-                    </div>
-
-                    <div class="dynamic">
-                      <div class="field">
-                        <label for="contactRemoteSkillInput">Skills</label>
-                        <div class="dynamic__entry">
-                          <input id="contactRemoteSkillInput" type="text" placeholder="Add a skill" />
-                          <button type="button" id="contactRemoteSkillAdd" class="btn btn--soft">Add</button>
-                        </div>
-                        <ul id="contactRemoteSkillsList" class="pill-list" aria-label="Remote assistant skills"></ul>
-                        <input type="hidden" id="contactRemoteSkillsHidden" name="remote_assistant_skills" />
-                      </div>
-
-                      <div class="divider"></div>
-
-                      <div class="field">
-                        <span class="label">Area of Interest</span>
-                        <p class="field-help">Select one or more areas for remote assistant inquiry.</p>
-                        <div class="check-grid">
-                          <label class="check-card"><input type="checkbox" name="remote_interest[]" value="Logistics Operations" /><span>Logistics Operations</span></label>
-                          <label class="check-card"><input type="checkbox" name="remote_interest[]" value="Administrative Back Office" /><span>Administrative Back Office</span></label>
-                          <label class="check-card"><input type="checkbox" name="remote_interest[]" value="Customer Relations" /><span>Customer Relations</span></label>
-                          <label class="check-card"><input type="checkbox" name="remote_interest[]" value="IT Support" /><span>IT Support</span></label>
-                        </div>
-                      </div>
-
-                      <div class="field">
-                        <label for="contactExperienceInput">Experience Level</label>
-                        <div class="dynamic__entry dynamic__entry--triple">
-                          <input id="contactExperienceInput" type="text" placeholder="Add experience area" />
-                          <select id="contactExperienceLevel">
-                            <option value="">Select level</option><option value="Entry">Entry</option><option value="Junior">Junior</option><option value="Mid">Mid</option><option value="Advanced">Advanced</option><option value="Expert">Expert</option>
-                          </select>
-                          <button type="button" id="contactExperienceAdd" class="btn btn--soft">Add</button>
-                        </div>
-                        <ul id="contactExperienceList" class="pill-list" aria-label="Contact experience"></ul>
-                        <input type="hidden" id="contactExperienceHidden" name="experience_level" />
-                      </div>
-
-                      <div class="field">
-                        <label for="contactEducationInput">Education</label>
-                        <div class="dynamic__entry dynamic__entry--triple">
-                          <input id="contactEducationInput" type="text" placeholder="Add school, program, or certificate" />
-                          <select id="contactEducationLevel">
-                            <option value="">Select education</option><option value="Grammar School">Grammar School</option><option value="Some High School">Some High School</option><option value="High School">High School</option><option value="Some College">Some College</option><option value="Associate Degree">Associate Degree</option><option value="Bachelor">Bachelor</option><option value="Masters">Masters</option><option value="Doctorate">Doctorate</option>
-                          </select>
-                          <button type="button" id="contactEducationAdd" class="btn btn--soft">Add</button>
-                        </div>
-                        <ul id="contactEducationList" class="pill-list" aria-label="Contact education"></ul>
-                        <input type="hidden" id="contactEducationHidden" name="education" />
-                      </div>
-
-                      <div class="field">
-                        <label for="contactLanguageInput">Languages</label>
-                        <div class="dynamic__entry dynamic__entry--triple">
-                          <input id="contactLanguageInput" type="text" placeholder="Add a language" />
-                          <select id="contactLanguageLevel">
-                            <option value="">Select level</option><option value="Beginner">Beginner</option><option value="Elementary">Elementary</option><option value="Intermediate">Intermediate</option><option value="Advance">Advance</option><option value="Advance Professional">Advance Professional</option><option value="Native">Native</option>
-                          </select>
-                          <button type="button" id="contactLanguageAdd" class="btn btn--soft">Add</button>
-                        </div>
-                        <ul id="contactLanguagesList" class="pill-list" aria-label="Contact languages"></ul>
-                        <input type="hidden" id="contactLanguagesHidden" name="languages" />
-                      </div>
-                    </div>
-                  </section>
+                  </details>
 
                   <div class="secure-actions">
-                    <button type="submit" class="btn btn--primary">Submit Contact Summary</button>
-                    <button type="button" class="btn btn--ghost" data-clear-form="contact">Clear Form</button>
+                    <button type="submit" class="btn btn--primary">Submit quick inquiry</button>
+                    <button type="button" class="btn btn--ghost" data-clear-form="contact">Clear form</button>
                   </div>
                   <p id="formStatus" class="status-note" aria-live="polite"></p>
                 </form>
@@ -213,6 +262,6 @@
         <p class="footer-copy">© 2026 Gabriel Services</p>
       </div>
     </footer>
-    <script src="../contact/contact-hub.js?v=20260319a"></script>
+    <script src="../contact/contact-hub.js?v=20260322a"></script>
   </body>
 </html>

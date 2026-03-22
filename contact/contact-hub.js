@@ -122,6 +122,8 @@
     }
     clearCheckboxGroup('input[name="contact_interest[]"]');
     clearCheckboxGroup('input[name="remote_interest[]"]');
+    var accordion = root.querySelector('.contact-details-accordion');
+    if (accordion) accordion.open = false;
   }
 
   root.querySelectorAll('[data-clear-form]').forEach(function (btn) {
@@ -130,32 +132,32 @@
     });
   });
 
-  function validateForm(requiredIds, emptyMessage) {
-    for (var i = 0; i < requiredIds.length; i++) {
-      var field = root.querySelector('#' + requiredIds[i]);
-      if (!field || !field.value.trim()) return emptyMessage;
-    }
-    return '';
+  function isBlank(id) {
+    var field = root.querySelector('#' + id);
+    return !field || !field.value.trim();
   }
 
   var contactForm = root.querySelector('#contactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', function (event) {
       var status = root.querySelector('#formStatus');
-      var message = validateForm(
-        ['contactFullName', 'contactEmail', 'contactCountryCode', 'contactNumber', 'contactCity', 'contactState', 'contactZip', 'bestTimeToContact', 'contactMessage'],
-        'Please complete all required contact and inquiry fields.'
-      );
-      if (!message && !root.querySelector('#contactExperienceHidden').value.trim()) {
-        message = 'Please add at least one experience item.';
+      var message = '';
+
+      if (
+        isBlank('contactFullName') ||
+        isBlank('contactEmail') ||
+        isBlank('contactCompany') ||
+        isBlank('contactNumber') ||
+        isBlank('contactPrimaryNeed') ||
+        isBlank('contactMessage')
+      ) {
+        message = 'Please complete the quick inquiry fields before submitting.';
       }
-      if (!message && !root.querySelector('#contactEducationHidden').value.trim()) {
-        message = 'Please add at least one education item.';
+
+      if (!message && !getCheckedValues('input[name="contact_interest[]"]').length) {
+        message = 'Please select at least one service interest.';
       }
-      if (!message) {
-        var interestCount = getCheckedValues('input[name="contact_interest[]"]').length + getCheckedValues('input[name="remote_interest[]"]').length;
-        if (!interestCount) message = 'Please select at least one area of interest.';
-      }
+
       if (message) {
         event.preventDefault();
         if (status) {
@@ -164,8 +166,9 @@
         }
         return;
       }
+
       if (status) {
-        status.textContent = 'Contact inquiry is ready for secure submission.';
+        status.textContent = 'Quick inquiry is ready for secure submission.';
         status.dataset.state = 'review';
       }
     });
