@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; connect-src 'self'; img-src 'self' data:; style-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src 'self' https://con-artist.rulathemtodos.workers.dev; img-src 'self' data:; style-src 'self'; font-src 'self' data:; frame-src https://con-artist.rulathemtodos.workers.dev; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Privacy and GDPR | Gabriel Services</title>
   <meta name="description" content="Privacy and GDPR information describing how Gabriel Services handles personal data, lawful bases, retention, and data subject rights." />
   <link rel="stylesheet" href="/assets/legal.css" />
+  <script src="/site.config.js"></script>
+  <script data-cfasync="false" type="module" crossorigin="anonymous" src="/legal/legal-chatbot-entry.js"></script>
 </head>
 <body>
   <header class="legal-header">

@@ -77,8 +77,20 @@ function ensureMobileChatLauncher() {
   trigger.setAttribute('data-chat-trigger', '');
   trigger.setAttribute('aria-label', 'Open Gabo io chat');
   trigger.innerHTML = `
-    <span class="mobile-chat-launcher__icon" aria-hidden="true">🤖</span>
-    <span class="mobile-chat-launcher__label">Gabo io</span>
+    <span class="mobile-chat-launcher__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        <path d="M12 3v2" />
+        <path d="M8 4.5 6.5 3" />
+        <path d="M16 4.5 17.5 3" />
+        <path d="M7 9.5A3.5 3.5 0 0 1 10.5 6h3A3.5 3.5 0 0 1 17 9.5v4A3.5 3.5 0 0 1 13.5 17h-3A3.5 3.5 0 0 1 7 13.5z" />
+        <path d="M9.25 10.5h.01" />
+        <path d="M14.75 10.5h.01" />
+        <path d="M9.5 13.5c.7.67 1.5 1 2.5 1s1.8-.33 2.5-1" />
+        <path d="M9 17v1.25A1.75 1.75 0 0 0 10.75 20H11" />
+        <path d="M15 17v1.25A1.75 1.75 0 0 1 13.25 20H13" />
+      </svg>
+    </span>
+    <span class="mobile-chat-launcher__label">Chat</span>
   `;
 
   document.body.appendChild(trigger);
@@ -130,8 +142,10 @@ function ensureChatPanelMarkup() {
   return { chatOverlay, chatPanel, chatFrame };
 }
 
-export function initChatbotControls() {
-  initFabControls();
+export function initChatbotControls({ includeSiteFabNav = true } = {}) {
+  if (includeSiteFabNav) {
+    initFabControls();
+  }
   ensureFabChatTrigger();
   ensureMobileChatLauncher();
 
