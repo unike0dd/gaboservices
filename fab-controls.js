@@ -1,6 +1,7 @@
 import { EN_MESSAGES } from './locales/en/messages.js';
 
 const MOBILE_QUERY = '(max-width: 900px)';
+const DESKTOP_QUERY = '(min-width: 901px)';
 
 const SERVICE_LINKS = [
   { key: 'logistics', href: '/services/logistics-operations/', label: EN_MESSAGES.mobileBottomNav.logistics },
@@ -8,6 +9,31 @@ const SERVICE_LINKS = [
   { key: 'it', href: '/services/it-support/', label: EN_MESSAGES.mobileBottomNav.it },
   { key: 'customer', href: '/services/customer-relations/', label: EN_MESSAGES.mobileBottomNav.customerRelations }
 ];
+
+function ensureDesktopFabNav() {
+  let wrapper = document.getElementById('fabWrapper');
+  if (wrapper) return wrapper;
+
+  wrapper = document.createElement('div');
+  wrapper.id = 'fabWrapper';
+  wrapper.className = 'fab-wrapper';
+  wrapper.innerHTML = `
+    <div class="fab-menu" id="fabQuickMenu">
+      <a class="fab-item" data-page="contact" href="/contact" aria-label="${EN_MESSAGES.mobileBottomNav.contact}">
+        <span class="fab-item-icon" aria-hidden="true">✉️</span>
+        <span>${EN_MESSAGES.mobileBottomNav.contact}</span>
+      </a>
+      <a class="fab-item" data-page="services" href="/services" aria-label="${EN_MESSAGES.mobileBottomNav.services}">
+        <span class="fab-item-icon" aria-hidden="true">🧭</span>
+        <span>${EN_MESSAGES.mobileBottomNav.services}</span>
+      </a>
+    </div>
+    <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="true" aria-controls="fabQuickMenu">Quick actions</button>
+  `;
+
+  document.body.appendChild(wrapper);
+  return wrapper;
+}
 
 function ensureMobileBottomNav() {
   let wrapper = document.getElementById('mobileBottomNav');
@@ -70,6 +96,7 @@ function syncServiceLinks(wrapper) {
 }
 
 export function initFabControls() {
+  const desktopWrapper = ensureDesktopFabNav();
   const wrapper = ensureMobileBottomNav();
   if (!wrapper || wrapper.dataset.navBound === 'true') {
     if (wrapper) syncActiveState(wrapper);
@@ -77,6 +104,29 @@ export function initFabControls() {
   }
 
   wrapper.dataset.navBound = 'true';
+  if (desktopWrapper && desktopWrapper.dataset.navBound !== 'true') {
+    desktopWrapper.dataset.navBound = 'true';
+    const fabToggle = desktopWrapper.querySelector('#fabMainToggle');
+    const fabMenu = desktopWrapper.querySelector('#fabQuickMenu');
+    const desktopQuery = window.matchMedia(DESKTOP_QUERY);
+
+    const setDesktopFabOpen = (isOpen) => {
+      if (!fabToggle || !fabMenu) return;
+      fabToggle.setAttribute('aria-expanded', String(isOpen));
+      fabMenu.hidden = !isOpen;
+    };
+
+    setDesktopFabOpen(desktopQuery.matches);
+
+    fabToggle?.addEventListener('click', () => {
+      const isOpen = fabToggle.getAttribute('aria-expanded') === 'true';
+      setDesktopFabOpen(!isOpen);
+    });
+
+    desktopQuery.addEventListener('change', (event) => {
+      setDesktopFabOpen(event.matches);
+    });
+  }
   syncActiveState(wrapper);
   syncServiceLinks(wrapper);
 

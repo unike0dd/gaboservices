@@ -55,8 +55,29 @@ function syncPageMetadata() {
   document.documentElement.lang = activeLocale;
 }
 
+function ensureNavToggle() {
+  let navToggle = document.getElementById('navToggle');
+  if (navToggle) return navToggle;
+
+  const navWrap = document.querySelector('.nav-wrap');
+  const nav = navWrap?.querySelector('nav');
+  if (!navWrap || !nav) return null;
+
+  navToggle = document.createElement('button');
+  navToggle.id = 'navToggle';
+  navToggle.type = 'button';
+  navToggle.className = 'nav-toggle';
+  navToggle.setAttribute('aria-controls', 'primaryNav');
+  navToggle.setAttribute('aria-expanded', 'false');
+  navToggle.setAttribute('aria-label', EN_MESSAGES.nav.openNavigationMenu);
+  navToggle.textContent = '\u2630';
+
+  navWrap.insertBefore(navToggle, nav);
+  return navToggle;
+}
+
 function initNavToggle() {
-  const navToggle = document.getElementById('navToggle');
+  const navToggle = ensureNavToggle();
   const primaryNav = document.getElementById('primaryNav');
   if (!navToggle || !primaryNav) return;
 
