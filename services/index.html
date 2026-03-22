@@ -489,14 +489,16 @@
       .services-desktop-table {
         display: none;
         margin-top: 1rem;
+        padding-inline: 7px;
         border: 1px solid var(--line);
         border-radius: var(--radius-lg);
-        overflow: hidden;
+        overflow-x: auto;
         background: #fff;
       }
 
       .services-desktop-table table {
         width: 100%;
+        min-width: 1080px;
         border-collapse: collapse;
       }
 
@@ -512,6 +514,16 @@
       .services-desktop-table th:last-child,
       .services-desktop-table td:last-child {
         border-right: 0;
+      }
+
+      .services-desktop-table th:first-child,
+      .services-desktop-table td:first-child {
+        padding-left: 21px;
+      }
+
+      .services-desktop-table th:last-child,
+      .services-desktop-table td:last-child {
+        padding-right: 21px;
       }
 
       .services-desktop-table tbody tr:last-child td {
@@ -531,7 +543,12 @@
       .services-table-service {
         color: var(--accent);
         font-weight: 800;
+        min-width: 240px;
         white-space: nowrap;
+      }
+
+      .services-table-copy {
+        min-width: 220px;
       }
 
       .services-table-check {
@@ -770,6 +787,8 @@
                   <tr>
                     <th>Service</th>
                     <th>What it covers</th>
+                    <th>Best for</th>
+                    <th>Typical rhythm</th>
                     <th class="services-table-check">Hourly</th>
                     <th class="services-table-check">Project</th>
                     <th class="services-table-check">Monthly / Ongoing</th>
@@ -1212,7 +1231,9 @@
               (service) => `
                 <tr class="${service.id === state.activeService ? 'is-selected' : ''}">
                   <td class="services-table-service">${service.short}</td>
-                  <td>${service.covers}</td>
+                  <td class="services-table-copy">${service.covers}</td>
+                  <td class="services-table-copy">${service.bestFor}</td>
+                  <td class="services-table-copy">${service.rhythm}</td>
                   <td class="services-table-check">${getCheck(service.availability.hourly)}</td>
                   <td class="services-table-check">${getCheck(service.availability.project)}</td>
                   <td class="services-table-check">${getCheck(service.availability.monthly)}</td>
