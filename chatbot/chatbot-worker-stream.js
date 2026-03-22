@@ -53,18 +53,5 @@ export function resolveWorkerTargets(siteMetadata = window.SITE_METADATA || {}, 
   };
 }
 
-export async function openDirectWorkerStream({ payload, signal, headers = {}, gatewayUrl = DEFAULT_WORKER_BASE_URL } = {}) {
-  const streamUrl = buildWorkerChatStreamUrl(gatewayUrl);
-  return fetch(streamUrl, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      accept: 'text/event-stream',
-      ...headers
-    },
-    body: JSON.stringify(payload || {}),
-    signal
-  });
-}
 
 export const CHATBOT_STREAM_BRIDGE_NAME = 'chatbot-worker-stream.js';
