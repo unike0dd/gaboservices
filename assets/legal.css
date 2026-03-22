@@ -28,7 +28,7 @@ body {
   line-height: 1.55;
 }
 
-.wrap { width: min(95vw, var(--max)); max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+.wrap { width: min(100%, var(--max)); max-width: var(--max); margin: 0; padding: 0 var(--pad); }
 
 a { color: var(--link); text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -76,13 +76,21 @@ p { margin: 10px 0; color: var(--fg); text-align: justify; text-wrap: pretty; hy
 .fineprint { color: var(--muted); font-size: .92rem; }
 
 .card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 18px 18px;
-  margin: 14px 0;
-  box-shadow: var(--shadow);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  padding: 0 0 18px;
+  margin: 0 0 18px;
+  box-shadow: none;
 }
+
+.card:last-of-type {
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
 
 ul { margin: 10px 0 0 18px; color: var(--fg); }
 li { margin: 6px 0; text-align: justify; hyphens: none; overflow-wrap: normal; word-break: normal; }
