@@ -1,35 +1,5 @@
-import { initFabControls } from '../fab-controls.js';
 import { resolveWorkerTargets, CHATBOT_STREAM_BRIDGE_NAME } from './chatbot-worker-stream.js';
 import { EN_MESSAGES } from '../locales/en/messages.js';
-class ChatbotTinyGuard {
-  constructor() {
-    this.signatures = [
-      /<script/gi,
-      /on\w+\s*=/gi,
-      /javascript:/gi,
-      /<iframe/gi,
-      /\b(select|union|drop|insert|delete|update)\b/gi,
-      /\{\{.*\}\}/g,
-      /<\/?[a-z][^>]*>/gi
-    ];
-  }
-
-  sanitize(rawValue) {
-    return rawValue.replace(/[<>`]/g, '').replace(/javascript:/gi, '').trim();
-  }
-
-  score(value) {
-    return this.signatures.reduce((acc, regex) => {
-      regex.lastIndex = 0;
-      return acc + (regex.test(value) ? 1 : 0);
-    }, 0);
-  }
-
-  validateSignal(signal) {
-    const cleaned = this.sanitize(signal);
-    return this.score(cleaned) < 2;
-  }
-}
 
 function buildChatPanelMarkup() {
   return `
@@ -65,7 +35,6 @@ function ensureFabChatTrigger() {
   fabMenu.appendChild(action);
 }
 
-
 function ensureMobileChatLauncher() {
   let trigger = document.getElementById('mobileChatLauncher');
   if (trigger) return trigger;
@@ -98,15 +67,17 @@ function ensureMobileChatLauncher() {
 }
 
 async function probeGatewayAvailability(gatewayUrl) {
-  if (!gatewayUrl) return false;
+  if (!gatewayUrl) return { healthy: false, checked: false };
 
+  let gatewayOrigin;
   try {
-    const gatewayOrigin = new URL(gatewayUrl, window.location.href).origin;
-    if (gatewayOrigin !== window.location.origin) {
-      return true;
-    }
+    gatewayOrigin = new URL(gatewayUrl, window.location.href).origin;
   } catch {
-    return false;
+    return { healthy: false, checked: false };
+  }
+
+  if (gatewayOrigin !== window.location.origin) {
+    return { healthy: true, checked: false };
   }
 
   const candidates = ['/api/health', '/health'];
@@ -114,15 +85,14 @@ async function probeGatewayAvailability(gatewayUrl) {
     try {
       const url = new URL(route, gatewayUrl).toString();
       const response = await fetch(url, { method: 'GET', credentials: 'omit', cache: 'no-store' });
-      if (response.ok) return true;
+      if (response.ok) return { healthy: true, checked: true };
     } catch {
       // noop: try the next health endpoint candidate.
     }
   }
 
-  return false;
+  return { healthy: false, checked: true };
 }
-
 
 function ensureChatPanelMarkup() {
   let chatOverlay = document.getElementById('chatOverlay');
@@ -142,14 +112,10 @@ function ensureChatPanelMarkup() {
   return { chatOverlay, chatPanel, chatFrame };
 }
 
-export function initChatbotControls({ includeSiteFabNav = true } = {}) {
-  if (includeSiteFabNav) {
-    initFabControls();
-  }
+export function initChatbotControls() {
   ensureFabChatTrigger();
   ensureMobileChatLauncher();
 
-  const guard = new ChatbotTinyGuard();
   const chatTriggers = [...document.querySelectorAll('[data-chat-trigger]')];
   if (!chatTriggers.length) return;
 
@@ -172,23 +138,13 @@ export function initChatbotControls({ includeSiteFabNav = true } = {}) {
   chatStatus.setAttribute('aria-live', 'polite');
   chatPanel.querySelector('.chat-panel-head')?.insertAdjacentElement('afterend', chatStatus);
 
-  probeGatewayAvailability(configuredGatewayUrl).then((healthy) => {
+  probeGatewayAvailability(configuredGatewayUrl).then(({ healthy, checked }) => {
     gatewayHealthy = healthy;
-    if (healthy) return;
+    if (healthy || !checked) return;
 
     chatStatus.hidden = false;
     chatStatus.textContent = EN_MESSAGES.chatbot.unavailable;
   });
-
-  const chatbotHoneypot = document.createElement('input');
-  chatbotHoneypot.type = 'text';
-  chatbotHoneypot.className = 'hp-field';
-  chatbotHoneypot.name = 'chatbot_company_website';
-  chatbotHoneypot.tabIndex = -1;
-  chatbotHoneypot.autocomplete = 'off';
-  chatbotHoneypot.setAttribute('aria-hidden', 'true');
-  chatbotHoneypot.style.cssText = 'position:absolute;left:-10000px;opacity:0;pointer-events:none;';
-  chatPanel.appendChild(chatbotHoneypot);
 
   const fabToggle = document.getElementById('fabMainToggle');
   const fabMenu = document.getElementById('fabQuickMenu');
@@ -219,9 +175,7 @@ export function initChatbotControls({ includeSiteFabNav = true } = {}) {
   };
 
   chatTriggers.forEach((trigger) => {
-    trigger.addEventListener('click', (event) => {
-      const signal = `${trigger.getAttribute('aria-label') || ''} ${trigger.textContent || ''} ${trigger.className || ''}`;
-      if (!guard.validateSignal(signal) || chatbotHoneypot.value.trim().length > 0 || event.isTrusted === false) return;
+    trigger.addEventListener('click', () => {
       if (!gatewayHealthy) {
         chatStatus.hidden = false;
         chatStatus.textContent = EN_MESSAGES.chatbot.unavailable;

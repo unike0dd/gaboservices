@@ -710,7 +710,8 @@
           <ul id="primaryNav" class="nav-links">
             <li><a href="../">Home</a></li>
             <li><a href="../about">About</a></li>
-            <li><a href="../services">Services</a></li>
+            <li><a href="../services" aria-current="page">Services</a></li>
+            <li><a href="../learning">Learning</a></li>
             <li><a href="../careers">Careers</a></li>
             <li><a href="../contact">Contact</a></li>
           </ul>
@@ -770,6 +771,11 @@
               </div>
 
               <div class="services-mode-panel" id="modePanel"></div>
+
+              <div class="cta-row">
+                <a class="btn primary" id="detailServiceCta" href="/services/logistics-operations/">Open service page</a>
+                <a class="btn ghost" href="/contact">Request info</a>
+              </div>
             </div>
           </article>
 
@@ -816,7 +822,7 @@
         <span class="services-mobile-label">Selected service</span>
         <span class="services-mobile-service" id="mobileActionService">Logistics Operations</span>
       </div>
-      <a class="services-mobile-button" href="../contact/">Request info</a>
+      <a class="services-mobile-button" id="mobileActionButton" href="/services/logistics-operations/">Open service page</a>
     </div>
 
     <footer class="site-footer">
@@ -1130,6 +1136,8 @@
         const compareGrid = document.getElementById('compareGrid');
         const desktopCompareBody = document.getElementById('desktopCompareBody');
         const mobileActionService = document.getElementById('mobileActionService');
+        const detailServiceCta = document.getElementById('detailServiceCta');
+        const mobileActionButton = document.getElementById('mobileActionButton');
 
         const getServiceById = (id) => services.find((service) => service.id === id) || services[0];
 
@@ -1140,24 +1148,36 @@
             .map((service) => {
               const activeClass = service.id === state.activeService ? 'services-card is-active' : 'services-card';
               return `
-                <button type="button" class="${activeClass}" data-service="${service.id}" aria-pressed="${service.id === state.activeService}">
+                <article class="${activeClass}" data-service="${service.id}" aria-pressed="${service.id === state.activeService}" role="button" tabindex="0">
                   <span class="services-card-kicker">${service.cardKicker}</span>
                   <h3 class="services-card-title">${service.short}</h3>
                   <p class="services-card-text">${service.buttonText}</p>
-                  <span class="services-card-link">Explore service</span>
-                </button>
+                  <a class="services-card-link" data-service-link="${service.id}" href="${service.href}">Open service page</a>
+                </article>
               `;
             })
             .join('');
 
           serviceRail.querySelectorAll('.services-card').forEach((card) => {
-            card.addEventListener('click', () => {
+            const activateCard = () => {
               const nextId = card.getAttribute('data-service');
               if (nextId === state.activeService) return;
               state.activeService = nextId;
               animateDetailSwap();
               renderAll();
               card.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+            };
+
+            card.addEventListener('click', (event) => {
+              if (event.target instanceof Element && event.target.closest('.services-card-link')) return;
+              activateCard();
+            });
+
+            card.addEventListener('keydown', (event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                activateCard();
+              }
             });
           });
         }
@@ -1201,6 +1221,8 @@
           detailTitle.textContent = current.title;
           detailText.textContent = current.text;
           mobileActionService.textContent = current.short;
+          if (detailServiceCta) detailServiceCta.setAttribute('href', current.href);
+          if (mobileActionButton) mobileActionButton.setAttribute('href', current.href);
           renderModeTabs();
           renderModePanel();
         }

@@ -59,6 +59,10 @@ function ensureMobileBottomNav() {
         ${SERVICE_LINKS.map((item) => `<a class="mobile-bottom-nav__service-item" data-service-link="${item.key}" href="${item.href}">${item.label}</a>`).join('')}
       </div>
     </button>
+    <a class="mobile-bottom-nav__item" data-page="learning" href="/learning" aria-label="Learning">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5a2.5 2.5 0 0 0-2.5-2.5H4z"></path><path d="M4 5.5V19a2 2 0 0 0 2 2h11.5"></path><path d="M8 7h8"></path><path d="M8 11h8"></path></svg>
+      <span>Learning</span>
+    </a>
     <a class="mobile-bottom-nav__item" data-page="contact" href="/contact" aria-label="${EN_MESSAGES.mobileBottomNav.contact}">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2h-2.828a2 2 0 0 1-1.414-.586l-4.414-4.414a2 2 0 0 0-2.828 0L2.828 18.414A2 2 0 0 1 1.414 19H0v-4a2 2 0 0 1 2-2h.172a2 2 0 0 0 1.414-.586l4.414-4.414a2 2 0 0 1 2.828 0l4.414 4.414a2 2 0 0 0 1.414.586H19a2 2 0 0 1 2 2z"></path></svg>
       <span>${EN_MESSAGES.mobileBottomNav.contact}</span>
@@ -99,7 +103,10 @@ export function initFabControls() {
   const desktopWrapper = ensureDesktopFabNav();
   const wrapper = ensureMobileBottomNav();
   if (!wrapper || wrapper.dataset.navBound === 'true') {
-    if (wrapper) syncActiveState(wrapper);
+    if (wrapper) {
+      syncActiveState(wrapper);
+      syncServiceLinks(wrapper);
+    }
     return;
   }
 

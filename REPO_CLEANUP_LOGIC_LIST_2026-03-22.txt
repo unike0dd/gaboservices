@@ -1,0 +1,200 @@
+REPOSITORY CLEANUP LOGIC LIST
+Date: 2026-03-22
+Scope: Static repo review focused on what should be removed, deleted, consolidated, simplified, or improved.
+Excluded from this pass: turnstile-submit-gate.js
+
+======================================================================
+1. REMOVE / DELETE CANDIDATES
+======================================================================
+
+A. LIKELY SAFE DELETE AFTER ONE FINAL OWNERSHIP CHECK
+
+File: images/default-image.svg
+Why:
+- The asset exists in the repo but no HTML, CSS, JS, metadata config, or sitemap entry currently points to it.
+Logic:
+- If nothing in the runtime or deployment process consumes the file, it is dead weight.
+Action:
+- Delete it unless an external publishing flow depends on it.
+
+B. DELETE AS A BUNDLE IF THE SYNC WORKFLOW IS NO LONGER NEEDED
+
+Files:
+- scripts/wiki-dickie-sync.mjs
+- internal/wiki-dickie.en.json
+- internal/wiki-dickie.es.json
+- .github/workflows/wiki-dickie-sync.yml
+Why:
+- This is a tooling pipeline, not website runtime code.
+Logic:
+- If the wiki-dickie sync job is no longer part of the operating model, then the script, generated JSON snapshots, and workflow should be retired together instead of being left half-alive.
+Action:
+- Verify whether the workflow still has business value. If not, remove the entire bundle in one change.
+
+C. DELETE ONLY IF THE PRODUCT DIRECTION STAYS ENGLISH-ONLY
+
+File: locales/es/messages.js
+Why:
+- Spanish strings exist, but current runtime usage is centered on English, and the Spanish pack does not appear to be wired into active locale switching.
+Logic:
+- Dormant i18n files create maintenance debt when the product is not actually multilingual yet.
+Action:
+- Either fully implement multilingual runtime support or delete the Spanish pack until that feature is real.
+
+======================================================================
+2. IMPROVE / CONSOLIDATE CANDIDATES
+======================================================================
+
+A. CONSOLIDATE DUPLICATED FORM LOGIC
+
+Files:
+- contact/contact-hub.js
+- careers/careers-form.js
+Problem:
+- The two files carry overlapping helper logic for selection pills, state resets, validation flow, and submit-status handling.
+Logic:
+- Duplicate business logic increases drift, creates double maintenance, and raises the chance that one form gets fixes the other one misses.
+Improvement:
+- Extract one shared configurable form engine or helper module, then keep only page-specific field rules in the page-level scripts.
+Expected result:
+- Fewer bugs, easier testing, and faster future changes across both form experiences.
+
+B. CONSOLIDATE DUPLICATED METADATA NORMALIZATION
+
+Files:
+- main.js
+- site-governance.js
+Problem:
+- Both files rebuild or merge site metadata from the same sources.
+Logic:
+- Metadata normalization should have one canonical owner; otherwise defaults, fallbacks, and merge rules can diverge over time.
+Improvement:
+- Move the metadata merge into one shared helper and import it where needed.
+Expected result:
+- Single-source-of-truth metadata behavior.
+
+C. SIMPLIFY FAB / MOBILE-NAV INITIALIZATION OWNERSHIP
+
+Files:
+- main.js
+- chatbot/chatbot-controls.js
+- fab-controls.js
+Problem:
+- initFabControls() can be invoked through more than one path.
+Logic:
+- Even if the current dataset guard prevents visible breakage, double-init patterns are unnecessary complexity and can cause future regressions.
+Improvement:
+- Choose one module as the only owner of FAB/mobile-nav startup and let all other modules depend on that ownership model.
+Expected result:
+- Clearer startup order and less side-effect coupling.
+
+D. MAKE SERVICES DATA EITHER FUNCTIONAL OR SMALLER
+
+File: services/index.html
+Problem:
+- Service objects include href values, but the current rendering path does not appear to use those URLs.
+Logic:
+- Inert properties make the data model misleading. They suggest an interaction model that the page does not actually provide.
+Improvement:
+- Either wire href into actual service-card navigation or CTA behavior, or remove the property from the data structure.
+Expected result:
+- Cleaner content model with no misleading fields.
+
+E. SIMPLIFY LOW-VALUE CHATBOT GUARD / PROBE LOGIC
+
+File: chatbot/chatbot-controls.js
+Problems:
+- ChatbotTinyGuard appears to validate site-controlled trigger text or attributes rather than defending against a clearly separate threat path.
+- Gateway availability probing appears to degrade into a permissive path for cross-origin endpoints, which weakens the value of the probe.
+Logic:
+- If a protective layer does not materially change risk or behavior, it should be simplified, documented, or removed.
+Improvement:
+- Decide whether the trigger guard solves a real abuse case.
+- Remove it if it does not.
+- Replace pseudo-health checks with a documented real probe strategy or a simpler fail-open UX.
+Expected result:
+- Chatbot controls that are easier to reason about and maintain.
+
+F. IMPROVE DISCOVERABILITY WHERE THE PAGE EXISTS BUT IS WEAKLY SURFACED
+
+File: learning/index.html
+Problem:
+- The page is available and appears in supporting navigation or sitemap paths, but it is not strongly surfaced in primary navigation.
+Logic:
+- If Learning is strategic, weak discoverability is a product problem; if it is not strategic, the current page may not justify its maintenance cost.
+Improvement:
+- Make an explicit decision:
+  * promote it into primary navigation and cross-linking, or
+  * keep it intentionally secondary, or
+  * remove or archive it if it is not serving a product purpose.
+Expected result:
+- The page's visibility matches its actual business importance.
+
+======================================================================
+3. KEEP, BUT VERIFY BEFORE TOUCHING
+======================================================================
+
+File: CNAME
+Why kept:
+- It may be required by the hosting or deployment setup even though runtime files do not reference it.
+Action:
+- Verify hosting requirements before any change.
+
+Files:
+- legal/terms.html
+- legal/cookies.html
+- legal/privacy-gdpr.html
+Why kept:
+- They are linked and have clear compliance value.
+Action:
+- Do not treat them as removal candidates. Review only for discoverability or maintenance if needed.
+
+======================================================================
+4. LOGIC-FIRST ORDER OF OPERATIONS
+======================================================================
+
+Phase 1 - Confirm ownership before deleting anything
+1. Verify whether images/default-image.svg has any external dependency.
+2. Verify whether the wiki-dickie sync workflow is still intentionally used.
+3. Decide whether multilingual support is truly planned in the near term.
+4. Preserve the Turnstile file outside this cleanup pass.
+
+Phase 2 - Remove items with the lowest product risk
+1. Delete images/default-image.svg if no owner claims it.
+2. Delete the wiki-dickie workflow, script, and JSON bundle if they are obsolete.
+3. Delete locales/es/messages.js only if the multilingual roadmap is not active.
+
+Phase 3 - Reduce code duplication
+1. Merge the shared logic across contact/contact-hub.js and careers/careers-form.js.
+2. Create one metadata normalization helper for main.js and site-governance.js.
+3. Remove duplicate FAB initialization responsibility across startup modules.
+
+Phase 4 - Tighten product logic
+1. Either activate href in services/index.html or delete the field.
+2. Simplify or remove low-value chatbot guard logic and replace weak probing with an intentional availability strategy.
+3. Decide whether learning/index.html should be promoted, kept secondary, archived, or removed.
+
+======================================================================
+5. SHORT LIST BY FILE
+======================================================================
+
+Remove / delete candidates
+- images/default-image.svg
+- scripts/wiki-dickie-sync.mjs
+- internal/wiki-dickie.en.json
+- internal/wiki-dickie.es.json
+- .github/workflows/wiki-dickie-sync.yml
+- locales/es/messages.js (only if English-only remains the product direction)
+
+Improve / consolidate candidates
+- contact/contact-hub.js
+- careers/careers-form.js
+- main.js
+- site-governance.js
+- chatbot/chatbot-controls.js
+- fab-controls.js
+- services/index.html
+- learning/index.html
+
+Excluded from this pass
+- turnstile-submit-gate.js
