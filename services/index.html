@@ -106,6 +106,22 @@
         letter-spacing: -0.03em;
       }
 
+      .services-shell h1,
+      .services-shell h2,
+      .services-shell h3,
+      .services-shell p,
+      .services-shell li,
+      .services-shell a,
+      .services-shell span {
+        color: inherit;
+      }
+
+      .services-shell p,
+      .services-shell li {
+        text-indent: 0;
+        text-align: left;
+      }
+
       .services-hero {
         display: grid;
         gap: 1rem;
@@ -212,12 +228,10 @@
       }
 
       .services-rail {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
         gap: 0.75rem;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        padding-bottom: 0.2rem;
-        scrollbar-width: none;
+        align-items: stretch;
       }
 
       .services-rail::-webkit-scrollbar,
@@ -226,20 +240,22 @@
       }
 
       .services-card {
-        min-width: min(84vw, 320px);
-        min-height: 188px;
+        position: relative;
+        min-width: 0;
+        min-height: 0;
         display: grid;
-        grid-template-rows: auto 1fr auto;
-        gap: 0.7rem;
+        grid-template-rows: auto auto 1fr auto;
+        gap: 0.6rem;
         align-content: start;
         scroll-snap-align: start;
         border: 1px solid #cfd6e0;
         border-radius: 22px;
-        background: transparent;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 248, 252, 0.94));
         color: var(--text);
-        padding: 1rem 1rem 1.05rem;
+        padding: 1rem 1rem 0.95rem;
         text-align: left;
         cursor: pointer;
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
         transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
       }
 
@@ -257,27 +273,55 @@
       .services-card:focus-visible {
         background: #fbfcfe;
         border-color: #b8c1cf;
-        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+        box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
       }
 
       .services-card.is-active,
       .services-filter.is-active {
-        background: var(--active);
+        background: linear-gradient(180deg, #0a0a0f 0%, #11131a 100%);
         border-color: var(--active);
         color: var(--active-text);
+        box-shadow: 0 18px 36px rgba(10, 10, 15, 0.2);
+      }
+
+      .services-card-kicker {
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        min-height: 26px;
+        padding: 0 0.55rem;
+        border-radius: 999px;
+        background: #eef2ff;
+        color: #4338ca;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .services-card.is-active .services-card-kicker {
+        background: rgba(255, 255, 255, 0.12);
+        color: #d7ccff;
       }
 
       .services-card-title {
         margin: 0;
-        font-size: 1rem;
-        line-height: 1.15;
+        min-height: 2.35em;
+        font-size: 0.98rem;
+        line-height: 1.12;
+        text-wrap: balance;
       }
 
       .services-card-text {
         margin: 0;
-        font-size: 0.88rem;
-        line-height: 1.5;
-        opacity: 0.92;
+        font-size: 0.84rem;
+        line-height: 1.45;
+        opacity: 0.88;
+        text-wrap: pretty;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
 
       .services-card-link {
@@ -285,8 +329,14 @@
         align-items: center;
         gap: 0.35rem;
         margin-top: auto;
-        font-size: 0.88rem;
+        padding-top: 0.2rem;
+        font-size: 0.83rem;
         font-weight: 700;
+      }
+
+      .services-card-link::after {
+        content: '↗';
+        font-size: 0.9em;
       }
 
       .services-card.is-active .services-card-link {
@@ -590,16 +640,14 @@
         }
 
         .services-rail {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 0.9rem;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 0.8rem;
           overflow: visible;
         }
 
         .services-card {
-          min-width: 0;
-          min-height: 172px;
-          padding: 0.95rem 1rem 1rem;
+          min-height: 148px;
+          padding: 0.95rem 1rem 0.95rem;
         }
 
         .services-detail-layout {
@@ -620,17 +668,16 @@
           padding: 1.75rem;
         }
 
-        .services-rail {
-          grid-template-columns: repeat(4, minmax(0, 1fr));
-          align-items: stretch;
-        }
-
         .services-card {
-          min-height: 164px;
+          min-height: 156px;
         }
       }
 
       @media (max-width: 680px) {
+        .services-rail {
+          grid-template-columns: 1fr;
+        }
+
         .services-hero-meta {
           grid-template-columns: 1fr;
         }
@@ -836,7 +883,8 @@
           {
             id: 'logistics',
             short: 'Logistics Operations',
-            buttonText: 'Dispatch, coordination, shipment visibility, status follow-up.',
+            cardKicker: 'Operations',
+            buttonText: 'Dispatch coordination, shipment visibility, and status follow-up.',
             kicker: 'Operations and movement',
             title: 'Logistics Operations',
             text: 'Coordination-focused operational assistance for moving parts, status tracking, follow-up, and execution visibility.',
@@ -901,7 +949,8 @@
           {
             id: 'admin',
             short: 'Administrative Back Office',
-            buttonText: 'Documentation, scheduling, organized workflows, follow-up.',
+            cardKicker: 'Back office',
+            buttonText: 'Documentation flow, scheduling, and organized follow-up.',
             kicker: 'Structure and back office',
             title: 'Administrative Back Office',
             text: 'Organized administrative support for documentation flow, scheduling, recurring tasks, and structured internal coordination.',
@@ -966,7 +1015,8 @@
           {
             id: 'it',
             short: 'IT Support',
-            buttonText: 'Ticket flow, issue tracking, platform coordination, user support.',
+            cardKicker: 'Technology',
+            buttonText: 'Ticket flow, issue tracking, and user support coordination.',
             kicker: 'Technical continuity',
             title: 'IT Support',
             text: 'Practical technical support for request flow, issue coordination, user assistance, and platform continuity.',
@@ -1031,7 +1081,8 @@
           {
             id: 'customer',
             short: 'Customer Relations',
-            buttonText: 'Customer communication, follow-up, response tracking, continuity.',
+            cardKicker: 'Experience',
+            buttonText: 'Customer communication, response tracking, and continuity.',
             kicker: 'Communication and experience',
             title: 'Customer Relations',
             text: 'Customer-facing assistance focused on message handling, response continuity, follow-up, and service visibility.',
@@ -1127,9 +1178,10 @@
               const activeClass = service.id === state.activeService ? 'services-card is-active' : 'services-card';
               return `
                 <button type="button" class="${activeClass}" data-service="${service.id}" aria-pressed="${service.id === state.activeService}">
+                  <span class="services-card-kicker">${service.cardKicker}</span>
                   <h3 class="services-card-title">${service.short}</h3>
                   <p class="services-card-text">${service.buttonText}</p>
-                  <span class="services-card-link">Explore service →</span>
+                  <span class="services-card-link">Explore service</span>
                 </button>
               `;
             })
