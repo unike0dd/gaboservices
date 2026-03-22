@@ -36,5 +36,57 @@
       }
       return '';
     }
+    clearCheckboxGroup('input[name="contact_interest[]"]');
+    clearCheckboxGroup('input[name="remote_interest[]"]');
+    var accordion = root.querySelector('.contact-details-accordion');
+    if (accordion) accordion.open = false;
+  }
+
+  root.querySelectorAll('[data-clear-form]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (btn.getAttribute('data-clear-form') === 'contact') clearContactForm();
+    });
   });
+
+  function isBlank(id) {
+    var field = root.querySelector('#' + id);
+    return !field || !field.value.trim();
+  }
+
+  var contactForm = root.querySelector('#contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', function (event) {
+      var status = root.querySelector('#formStatus');
+      var message = '';
+
+      if (
+        isBlank('contactFullName') ||
+        isBlank('contactEmail') ||
+        isBlank('contactCompany') ||
+        isBlank('contactNumber') ||
+        isBlank('contactPrimaryNeed') ||
+        isBlank('contactMessage')
+      ) {
+        message = 'Please complete the quick inquiry fields before submitting.';
+      }
+
+      if (!message && !getCheckedValues('input[name="contact_interest[]"]').length) {
+        message = 'Please select at least one service interest.';
+      }
+
+      if (message) {
+        event.preventDefault();
+        if (status) {
+          status.textContent = message;
+          status.dataset.state = 'blocked';
+        }
+        return;
+      }
+
+      if (status) {
+        status.textContent = 'Quick inquiry is ready for secure submission.';
+        status.dataset.state = 'review';
+      }
+    });
+  }
 })();
