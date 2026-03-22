@@ -182,7 +182,6 @@
       }
 
       .services-hero-meta article,
-      .services-quick-item,
       .services-mode-item,
       .services-compare-item {
         border: 1px solid var(--line-soft);
@@ -405,7 +404,6 @@
       }
 
       .services-mode-list,
-      .services-quick-grid,
       .services-compare-grid {
         display: grid;
         gap: 0.75rem;
@@ -415,10 +413,6 @@
         display: block;
         margin-bottom: 0.3rem;
         font-size: 0.94rem;
-      }
-
-      .services-quick-item {
-        background: var(--card-soft);
       }
 
       .services-stat-value {
@@ -625,10 +619,6 @@
           padding: 0.95rem 1rem 0.95rem;
         }
 
-        .services-detail-layout {
-          grid-template-columns: 1.2fr 0.8fr;
-        }
-
         .services-desktop-table {
           display: block;
         }
@@ -733,12 +723,12 @@
         <section class="services-section" aria-labelledby="services-choose-title">
           <div class="services-section-head">
             <h2 id="services-choose-title">Choose a service</h2>
-            <p>Tap or click a service card to update the breakdown, quick view, and engagement comparison below.</p>
+            <p>Tap or click a service card to update the breakdown and engagement comparison below.</p>
           </div>
           <div class="services-rail" id="serviceRail"></div>
         </section>
 
-        <section class="services-section services-detail-layout" aria-labelledby="services-detail-title-static">
+        <section class="services-section services-detail-layout" aria-labelledby="detailTitle">
           <article class="services-detail-card">
             <div class="services-detail-body" id="detailBody">
               <span class="services-detail-kicker" id="detailKicker">Operations and movement</span>
@@ -757,32 +747,6 @@
             </div>
           </article>
 
-          <aside class="services-detail-card">
-            <div class="services-detail-body">
-              <div class="services-section-head">
-                <h2 id="services-detail-title-static">Quick view</h2>
-                <p>Fast summary of the currently selected service line.</p>
-              </div>
-              <div class="services-quick-grid">
-                <div class="services-quick-item">
-                  <span class="services-stat-label">Selected service</span>
-                  <div class="services-stat-value" id="quickService">Logistics Operations</div>
-                </div>
-                <div class="services-quick-item">
-                  <span class="services-stat-label">Best for</span>
-                  <div class="services-stat-value" id="quickBestFor">Coordination-heavy daily operations</div>
-                </div>
-                <div class="services-quick-item">
-                  <span class="services-stat-label">Most common rhythm</span>
-                  <div class="services-stat-value" id="quickRhythm">Recurring coordination and follow-up</div>
-                </div>
-                <div class="services-quick-item">
-                  <span class="services-stat-label">Engagement availability</span>
-                  <div class="services-stat-value" id="quickAvailability">Hourly, Project, Monthly / Ongoing</div>
-                </div>
-              </div>
-            </div>
-          </aside>
         </section>
 
         <section class="services-section">
@@ -1134,10 +1098,6 @@
         const detailText = document.getElementById('detailText');
         const modeTabs = document.getElementById('modeTabs');
         const modePanel = document.getElementById('modePanel');
-        const quickService = document.getElementById('quickService');
-        const quickBestFor = document.getElementById('quickBestFor');
-        const quickRhythm = document.getElementById('quickRhythm');
-        const quickAvailability = document.getElementById('quickAvailability');
         const compareFilters = document.getElementById('compareFilters');
         const compareGrid = document.getElementById('compareGrid');
         const desktopCompareBody = document.getElementById('desktopCompareBody');
@@ -1212,10 +1172,6 @@
           detailKicker.textContent = current.kicker;
           detailTitle.textContent = current.title;
           detailText.textContent = current.text;
-          quickService.textContent = current.short;
-          quickBestFor.textContent = current.bestFor;
-          quickRhythm.textContent = current.rhythm;
-          quickAvailability.textContent = 'Hourly, Project, Monthly / Ongoing';
           mobileActionService.textContent = current.short;
           renderModeTabs();
           renderModePanel();
