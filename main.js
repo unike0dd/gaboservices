@@ -2,47 +2,12 @@ import { initAdaptiveLayout } from './adaptive-layout.js';
 import { initChatbotControls } from './chatbot/chatbot-controls.js';
 import { initFabControls } from './fab-controls.js';
 import { initAnalyticsConsentGuard } from './analytics-consent-guard.js';
-import { SITE_METADATA_DEFAULTS } from './site-metadata-defaults.js';
 import { initSiteGovernance } from './site-governance.js';
+import { ACTIVE_LOCALE, getLocalizedValue, getSiteMetadata } from './site-metadata.js';
 import { EN_MESSAGES } from './locales/en/messages.js';
 
-const activeLocale = 'en';
-
-const getMetadata = () => {
-  const siteMetadata = window.SITE_METADATA || {};
-  return {
-    ...SITE_METADATA_DEFAULTS,
-    ...siteMetadata,
-    seo: {
-      ...SITE_METADATA_DEFAULTS.seo,
-      ...(siteMetadata.seo || {}),
-      structuredData: {
-        ...SITE_METADATA_DEFAULTS.seo.structuredData,
-        ...(siteMetadata.seo?.structuredData || {})
-      }
-    },
-    security: {
-      ...SITE_METADATA_DEFAULTS.security,
-      ...(siteMetadata.security || {})
-    },
-    media: {
-      ...SITE_METADATA_DEFAULTS.media,
-      ...(siteMetadata.media || {}),
-      allowedEmbeds: {
-        ...SITE_METADATA_DEFAULTS.media.allowedEmbeds,
-        ...(siteMetadata.media?.allowedEmbeds || {})
-      }
-    }
-  };
-};
-
-const getLocalizedValue = (value) => {
-  if (value && typeof value === 'object' && value[activeLocale]) return value[activeLocale];
-  return typeof value === 'string' ? value : '';
-};
-
 function syncPageMetadata() {
-  const metadata = getMetadata();
+  const metadata = getSiteMetadata();
   const localizedName = getLocalizedValue(metadata.name);
   if (localizedName) document.title = localizedName;
 
@@ -52,11 +17,32 @@ function syncPageMetadata() {
     metaDescription.setAttribute('content', localizedDescription);
   }
 
-  document.documentElement.lang = activeLocale;
+  document.documentElement.lang = ACTIVE_LOCALE;
+}
+
+function ensureNavToggle() {
+  let navToggle = document.getElementById('navToggle');
+  if (navToggle) return navToggle;
+
+  const navWrap = document.querySelector('.nav-wrap');
+  const nav = navWrap?.querySelector('nav');
+  if (!navWrap || !nav) return null;
+
+  navToggle = document.createElement('button');
+  navToggle.id = 'navToggle';
+  navToggle.type = 'button';
+  navToggle.className = 'nav-toggle';
+  navToggle.setAttribute('aria-controls', 'primaryNav');
+  navToggle.setAttribute('aria-expanded', 'false');
+  navToggle.setAttribute('aria-label', EN_MESSAGES.nav.openNavigationMenu);
+  navToggle.textContent = '\u2630';
+
+  navWrap.insertBefore(navToggle, nav);
+  return navToggle;
 }
 
 function initNavToggle() {
-  const navToggle = document.getElementById('navToggle');
+  const navToggle = ensureNavToggle();
   const primaryNav = document.getElementById('primaryNav');
   if (!navToggle || !primaryNav) return;
 
@@ -68,7 +54,7 @@ function initNavToggle() {
       'aria-label',
       expanded ? EN_MESSAGES.nav.closeNavigationMenu : EN_MESSAGES.nav.openNavigationMenu
     );
-    navToggle.textContent = expanded ? '\u2715' : '\u2630';
+    navToggle.textContent = expanded ? '✕' : '☰';
     navToggle.classList.toggle('is-active', expanded);
     primaryNav.setAttribute('aria-hidden', String(!expanded));
   };
@@ -134,8 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
   syncPageMetadata();
   initSiteGovernance();
   initAdaptiveLayout();
-  initChatbotControls();
   initFabControls();
+  initChatbotControls();
   initNavToggle();
   initFormStatus();
 });

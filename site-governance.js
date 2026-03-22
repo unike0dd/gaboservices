@@ -1,4 +1,4 @@
-import { SITE_METADATA_DEFAULTS } from './site-metadata-defaults.js';
+import { getFrozenSiteMetadata } from './site-metadata.js';
 
 const governance = (() => {
   const ABSOLUTE_URL_PATTERN = /^https?:\/\//i;
@@ -8,34 +8,7 @@ const governance = (() => {
     return Boolean(siteMetadata && typeof siteMetadata === 'object' && Object.keys(siteMetadata).length);
   };
 
-  const getMetadata = () => {
-    const siteMetadata = window.SITE_METADATA || {};
-
-    return Object.freeze({
-      ...SITE_METADATA_DEFAULTS,
-      ...siteMetadata,
-      seo: Object.freeze({
-        ...SITE_METADATA_DEFAULTS.seo,
-        ...(siteMetadata.seo || {}),
-        structuredData: Object.freeze({
-          ...SITE_METADATA_DEFAULTS.seo.structuredData,
-          ...(siteMetadata.seo?.structuredData || {})
-        })
-      }),
-      security: Object.freeze({
-        ...SITE_METADATA_DEFAULTS.security,
-        ...(siteMetadata.security || {})
-      }),
-      media: Object.freeze({
-        ...SITE_METADATA_DEFAULTS.media,
-        ...(siteMetadata.media || {}),
-        allowedEmbeds: Object.freeze({
-          ...SITE_METADATA_DEFAULTS.media.allowedEmbeds,
-          ...(siteMetadata.media?.allowedEmbeds || {})
-        })
-      })
-    });
-  };
+  const getMetadata = () => getFrozenSiteMetadata();
   const getSeo = () => Object.freeze(getMetadata().seo || {});
   const getSecurity = () => Object.freeze(getMetadata().security || {});
   const getMedia = () => Object.freeze(getMetadata().media || {});

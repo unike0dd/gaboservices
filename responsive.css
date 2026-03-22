@@ -50,7 +50,8 @@ iframe {
 
   .chat-panel {
     width: min(96vw, 420px);
-    right: 2vw;
+    right: auto;
+    left: 2vw;
     bottom: 6rem;
   }
 
@@ -144,6 +145,7 @@ iframe {
   .nav-links {
     width: 100vw;
     border-left: 0;
+    border-radius: 0;
     padding-top: 5rem;
   }
 
@@ -178,9 +180,10 @@ iframe {
 
   .chat-panel {
     left: 2vw;
-    right: 2vw;
-    width: auto;
-    bottom: 5.8rem;
+    right: auto;
+    width: min(92vw, 25rem);
+    max-width: calc(100vw - 4vw);
+    bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 1.1rem);
   }
 
   .service-hero-accordion {
@@ -443,5 +446,18 @@ body[data-page-key="services"] .cta-row > .btn {
   body[data-page-key="services"] .service-card-link,
   body[data-page-key="services"] .page-main .btn {
     width: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  .fab-wrapper {
+    display: none;
+  }
+}
+
+@media (min-width: 901px) {
+  .mobile-chat-launcher,
+  .mobile-bottom-nav {
+    display: none !important;
   }
 }

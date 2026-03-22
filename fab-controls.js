@@ -1,6 +1,7 @@
 import { EN_MESSAGES } from './locales/en/messages.js';
 
 const MOBILE_QUERY = '(max-width: 900px)';
+const DESKTOP_QUERY = '(min-width: 901px)';
 
 const SERVICE_LINKS = [
   { key: 'logistics', href: '/services/logistics-operations/', label: EN_MESSAGES.mobileBottomNav.logistics },
@@ -8,6 +9,31 @@ const SERVICE_LINKS = [
   { key: 'it', href: '/services/it-support/', label: EN_MESSAGES.mobileBottomNav.it },
   { key: 'customer', href: '/services/customer-relations/', label: EN_MESSAGES.mobileBottomNav.customerRelations }
 ];
+
+function ensureDesktopFabNav() {
+  let wrapper = document.getElementById('fabWrapper');
+  if (wrapper) return wrapper;
+
+  wrapper = document.createElement('div');
+  wrapper.id = 'fabWrapper';
+  wrapper.className = 'fab-wrapper';
+  wrapper.innerHTML = `
+    <div class="fab-menu" id="fabQuickMenu">
+      <a class="fab-item" data-page="contact" href="/contact" aria-label="${EN_MESSAGES.mobileBottomNav.contact}">
+        <span class="fab-item-icon" aria-hidden="true">✉️</span>
+        <span>${EN_MESSAGES.mobileBottomNav.contact}</span>
+      </a>
+      <a class="fab-item" data-page="services" href="/services" aria-label="${EN_MESSAGES.mobileBottomNav.services}">
+        <span class="fab-item-icon" aria-hidden="true">🧭</span>
+        <span>${EN_MESSAGES.mobileBottomNav.services}</span>
+      </a>
+    </div>
+    <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="true" aria-controls="fabQuickMenu">Quick actions</button>
+  `;
+
+  document.body.appendChild(wrapper);
+  return wrapper;
+}
 
 function ensureMobileBottomNav() {
   let wrapper = document.getElementById('mobileBottomNav');
@@ -33,6 +59,10 @@ function ensureMobileBottomNav() {
         ${SERVICE_LINKS.map((item) => `<a class="mobile-bottom-nav__service-item" data-service-link="${item.key}" href="${item.href}">${item.label}</a>`).join('')}
       </div>
     </button>
+    <a class="mobile-bottom-nav__item" data-page="learning" href="/learning" aria-label="Learning">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5a2.5 2.5 0 0 0-2.5-2.5H4z"></path><path d="M4 5.5V19a2 2 0 0 0 2 2h11.5"></path><path d="M8 7h8"></path><path d="M8 11h8"></path></svg>
+      <span>Learning</span>
+    </a>
     <a class="mobile-bottom-nav__item" data-page="contact" href="/contact" aria-label="${EN_MESSAGES.mobileBottomNav.contact}">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2h-2.828a2 2 0 0 1-1.414-.586l-4.414-4.414a2 2 0 0 0-2.828 0L2.828 18.414A2 2 0 0 1 1.414 19H0v-4a2 2 0 0 1 2-2h.172a2 2 0 0 0 1.414-.586l4.414-4.414a2 2 0 0 1 2.828 0l4.414 4.414a2 2 0 0 0 1.414.586H19a2 2 0 0 1 2 2z"></path></svg>
       <span>${EN_MESSAGES.mobileBottomNav.contact}</span>
@@ -70,13 +100,40 @@ function syncServiceLinks(wrapper) {
 }
 
 export function initFabControls() {
+  const desktopWrapper = ensureDesktopFabNav();
   const wrapper = ensureMobileBottomNav();
   if (!wrapper || wrapper.dataset.navBound === 'true') {
-    if (wrapper) syncActiveState(wrapper);
+    if (wrapper) {
+      syncActiveState(wrapper);
+      syncServiceLinks(wrapper);
+    }
     return;
   }
 
   wrapper.dataset.navBound = 'true';
+  if (desktopWrapper && desktopWrapper.dataset.navBound !== 'true') {
+    desktopWrapper.dataset.navBound = 'true';
+    const fabToggle = desktopWrapper.querySelector('#fabMainToggle');
+    const fabMenu = desktopWrapper.querySelector('#fabQuickMenu');
+    const desktopQuery = window.matchMedia(DESKTOP_QUERY);
+
+    const setDesktopFabOpen = (isOpen) => {
+      if (!fabToggle || !fabMenu) return;
+      fabToggle.setAttribute('aria-expanded', String(isOpen));
+      fabMenu.hidden = !isOpen;
+    };
+
+    setDesktopFabOpen(desktopQuery.matches);
+
+    fabToggle?.addEventListener('click', () => {
+      const isOpen = fabToggle.getAttribute('aria-expanded') === 'true';
+      setDesktopFabOpen(!isOpen);
+    });
+
+    desktopQuery.addEventListener('change', (event) => {
+      setDesktopFabOpen(event.matches);
+    });
+  }
   syncActiveState(wrapper);
   syncServiceLinks(wrapper);
 

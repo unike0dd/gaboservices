@@ -118,7 +118,7 @@ body.summary-drawer-open { overflow: hidden; }
 .contact-hub .summary-row { display: grid; gap: 4px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
 .contact-hub .summary-row:last-child { padding-bottom: 0; border-bottom: 0; }
 .contact-hub .summary-label { color: var(--muted); font-size: 0.88rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
-.contact-hub .summary-value { font-size: 0.98rem; font-weight: 600; word-break: normal; overflow-wrap: normal; hyphens: manual; text-align: justify; }
+.contact-hub .summary-value { font-size: 0.98rem; font-weight: 600; word-break: normal; overflow-wrap: normal; hyphens: none; text-align: justify; }
 .contact-hub .summary-note { margin: 0 0 16px; color: var(--muted); font-size: 0.93rem; }
 .contact-hub .divider { height: 1px; background: var(--line); margin: 2px 0; }
 @media (max-width: 1080px) {

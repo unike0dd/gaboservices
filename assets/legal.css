@@ -71,7 +71,7 @@ a:hover { text-decoration: underline; }
 .legal-main { padding: 26px var(--pad) 42px; width: min(95vw, var(--max)); }
 h1 { margin: 10px 0 6px; font-size: 2rem; }
 h2 { margin: 0 0 10px; font-size: 1.15rem; }
-p { margin: 10px 0; color: var(--fg); text-align: justify; text-wrap: pretty; hyphens: manual; overflow-wrap: normal; word-break: normal; }
+p { margin: 10px 0; color: var(--fg); text-align: justify; text-wrap: pretty; hyphens: none; overflow-wrap: normal; word-break: normal; }
 .meta { color: var(--muted); margin-bottom: 18px; }
 .fineprint { color: var(--muted); font-size: .92rem; }
 
@@ -85,7 +85,7 @@ p { margin: 10px 0; color: var(--fg); text-align: justify; text-wrap: pretty; hy
 }
 
 ul { margin: 10px 0 0 18px; color: var(--fg); }
-li { margin: 6px 0; text-align: justify; hyphens: manual; overflow-wrap: normal; word-break: normal; }
+li { margin: 6px 0; text-align: justify; hyphens: none; overflow-wrap: normal; word-break: normal; }
 
 .site-footer {
   border-top: 1px solid var(--footer-border);
