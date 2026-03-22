@@ -10,6 +10,19 @@ export const ES_MESSAGES = {
     chatbot: 'Chatbot',
     openQuickActions: 'Abrir acciones rápidas'
   },
+
+  mobileBottomNav: {
+    ariaLabel: 'Navegación inferior móvil',
+    home: 'Inicio',
+    about: 'Acerca',
+    services: 'Servicios',
+    contact: 'Contacto',
+    careers: 'Carreras',
+    logistics: 'Logística',
+    admin: 'Admin',
+    it: 'IT',
+    customerRelations: 'Relación con clientes'
+  },
   editorialTheme: {
     wallstreet: 'Corte Noticias',
     time: 'Corte Revista',

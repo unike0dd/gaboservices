@@ -13,6 +13,7 @@ export const EN_MESSAGES = {
   mobileBottomNav: {
     ariaLabel: 'Mobile bottom navigation',
     home: 'Home',
+    about: 'About',
     services: 'Services',
     contact: 'Contact',
     careers: 'Careers',
