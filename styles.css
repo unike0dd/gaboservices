@@ -2935,6 +2935,7 @@ select {
 }
 
 .hero-grid--revamp {
+  grid-template-columns: minmax(0, 1fr);
   align-items: stretch;
 }
 
