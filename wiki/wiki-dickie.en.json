@@ -1,11 +1,11 @@
 {
   "wikiId": "WIKI_DICKIE",
   "locale": "en",
-  "generatedAt": "2026-03-20T08:41:26.513Z",
+  "generatedAt": "2026-03-22T07:40:19.214Z",
   "siteBaseUrl": "https://www.gabo.services",
   "workerUrl": "https://wikie-dickie.rulathemtodos.workers.dev/",
   "pageCount": 13,
-  "chunkCount": 55,
+  "chunkCount": 56,
   "uiMessages": [
     {
       "id": "en-1",
@@ -45,110 +45,160 @@
     {
       "id": "en-8",
       "locale": "en",
-      "value": "News Cut"
+      "value": "Mobile bottom navigation"
     },
     {
       "id": "en-9",
       "locale": "en",
-      "value": "Magazine Cut"
+      "value": "Home"
     },
     {
       "id": "en-10",
       "locale": "en",
-      "value": "News"
+      "value": "About"
     },
     {
       "id": "en-11",
       "locale": "en",
-      "value": "Mags"
+      "value": "Services"
     },
     {
       "id": "en-12",
       "locale": "en",
-      "value": "Switch landing and navigation look."
+      "value": "Contact"
     },
     {
       "id": "en-13",
       "locale": "en",
-      "value": "Chatbot panel"
+      "value": "Careers"
     },
     {
       "id": "en-14",
       "locale": "en",
-      "value": "Close"
+      "value": "Logistics"
     },
     {
       "id": "en-15",
       "locale": "en",
-      "value": "Close chatbot"
+      "value": "Admin"
     },
     {
       "id": "en-16",
       "locale": "en",
-      "value": "Gabriel chatbot"
+      "value": "IT"
     },
     {
       "id": "en-17",
       "locale": "en",
-      "value": "Chat assistant is temporarily unavailable. Please use contact form instead."
+      "value": "Customer Relations"
     },
     {
       "id": "en-18",
       "locale": "en",
-      "value": "Saved. Your preferences were updated."
+      "value": "News Cut"
     },
     {
       "id": "en-19",
       "locale": "en",
-      "value": "Preferences could not be saved (storage blocked). You can still manage cookies in your browser."
+      "value": "Magazine Cut"
     },
     {
       "id": "en-20",
       "locale": "en",
-      "value": "All optional cookies were accepted."
+      "value": "News"
     },
     {
       "id": "en-21",
       "locale": "en",
-      "value": "All optional cookies were rejected."
+      "value": "Mags"
     },
     {
       "id": "en-22",
       "locale": "en",
-      "value": "Your current preferences are loaded."
+      "value": "Switch landing and navigation look."
     },
     {
       "id": "en-23",
       "locale": "en",
-      "value": "No saved preferences yet. Choose your settings and save."
+      "value": "Chatbot panel"
     },
     {
       "id": "en-24",
       "locale": "en",
-      "value": "Human verification is unavailable. Please refresh and try again."
+      "value": "Close"
     },
     {
       "id": "en-25",
       "locale": "en",
-      "value": "Cloudflare security check"
+      "value": "Close chatbot"
     },
     {
       "id": "en-26",
       "locale": "en",
-      "value": "Human verification complete."
+      "value": "Gabriel chatbot"
     },
     {
       "id": "en-27",
       "locale": "en",
-      "value": "Verification expired. Please complete the challenge again."
+      "value": "Chat assistant is temporarily unavailable. Please use contact form instead."
     },
     {
       "id": "en-28",
       "locale": "en",
-      "value": "Verification failed. Please retry the challenge."
+      "value": "Saved. Your preferences were updated."
     },
     {
       "id": "en-29",
+      "locale": "en",
+      "value": "Preferences could not be saved (storage blocked). You can still manage cookies in your browser."
+    },
+    {
+      "id": "en-30",
+      "locale": "en",
+      "value": "All optional cookies were accepted."
+    },
+    {
+      "id": "en-31",
+      "locale": "en",
+      "value": "All optional cookies were rejected."
+    },
+    {
+      "id": "en-32",
+      "locale": "en",
+      "value": "Your current preferences are loaded."
+    },
+    {
+      "id": "en-33",
+      "locale": "en",
+      "value": "No saved preferences yet. Choose your settings and save."
+    },
+    {
+      "id": "en-34",
+      "locale": "en",
+      "value": "Human verification is unavailable. Please refresh and try again."
+    },
+    {
+      "id": "en-35",
+      "locale": "en",
+      "value": "Cloudflare security check"
+    },
+    {
+      "id": "en-36",
+      "locale": "en",
+      "value": "Human verification complete."
+    },
+    {
+      "id": "en-37",
+      "locale": "en",
+      "value": "Verification expired. Please complete the challenge again."
+    },
+    {
+      "id": "en-38",
+      "locale": "en",
+      "value": "Verification failed. Please retry the challenge."
+    },
+    {
+      "id": "en-39",
       "locale": "en",
       "value": "Please complete the human verification challenge before submitting."
     }
@@ -163,10 +213,11 @@
       "url": "https://www.gabo.services/",
       "title": "Gabriel Services",
       "metaDescription": "",
-      "summary": "Outsource, Delivered Scale support with expert teams, measurable service levels, and precision-driven delivery across logistics, IT, and customer operations. Execution-first coverage built for dispatch workflows, customer touchpoints, and technical continuity.",
-      "bodyText": "Outsource, Delivered Scale support with expert teams, measurable service levels, and precision-driven delivery across logistics, IT, and customer operations. Execution-first coverage built for dispatch workflows, customer touchpoints, and technical continuity. Gabriel Services is an operational support partner for companies that need reliable daily execution across logistics coordination, administrative workflows, customer communications, and IT request handling. Our teams combine measurable service discipline with practical implementation, helping businesses protect response quality, maintain organized processes, and scale support without adding internal friction. Dispatch coordination, movement tracking, and execution support aligned to delivery timelines. Documentation, scheduling, process administration, and data upkeep for operational clarity. Customer communication, follow-up handling, and service continuity across day-to-day interactions. Ticket coordination, issue triage, and practical technical support for core business systems. Businesses choose Gabriel Services for reliability under pressure, clear communication rhythm, structured follow-through, and adaptable support models that adjust as priorities evolve. Book a consultation to map workflows, define service coverage, and build a practical execution plan around your current operational priorities. © 2026 Gabriel Services Home About Services Careers Contact",
+      "summary": "Outsource, Delivered Operational support for execution-heavy businesses Gabriel Services supports logistics-led and service-heavy teams with process-aligned help across logistics coordination, back-office workflow management, customer operations, and IT support. Why teams switch Built for Logistics-led and service-heavy teams Operating model Process-aligned support with documented handoffs Trust signal Security-conscious delivery with clear communication rhythm Gabriel Services is an operational support partner for companies that need reliable daily execution across logistics coordination, administrative workflows, customer communications, and IT request handling.",
+      "bodyText": "Outsource, Delivered Operational support for execution-heavy businesses Gabriel Services supports logistics-led and service-heavy teams with process-aligned help across logistics coordination, back-office workflow management, customer operations, and IT support. Why teams switch Built for Logistics-led and service-heavy teams Operating model Process-aligned support with documented handoffs Trust signal Security-conscious delivery with clear communication rhythm Gabriel Services is an operational support partner for companies that need reliable daily execution across logistics coordination, administrative workflows, customer communications, and IT request handling. Our teams combine measurable service discipline with practical implementation, helping businesses protect response quality, maintain organized processes, and scale support without adding internal friction. Dispatch coordination, movement tracking, and execution support aligned to delivery timelines. Documentation, scheduling, process administration, and data upkeep for operational clarity. Customer communication, follow-up handling, and service continuity across day-to-day interactions. Ticket coordination, issue triage, and practical technical support for core business systems. Businesses choose Gabriel Services for reliability under pressure, clear communication rhythm, structured follow-through, and adaptable support models that adjust as priorities evolve. Book a consultation to map workflows, define service coverage, and build a practical execution plan around your current operational priorities. © 2026 Gabriel Services Home About Services Careers Contact Clear communication rhythm for active workflows Documented follow-through across logistics, admin, CX, and IT Human-led support with modern governance and security discipline",
       "headings": [
-        "Professional services for logistics, IT, and customer operations.",
+        "Faster response, cleaner workflows, and reliable day-to-day execution.",
+        "Operational rigor without adding internal drag.",
         "Operational support for modern businesses",
         "Service areas built for daily execution",
         "Why businesses work with Gabriel Services",
@@ -186,11 +237,7 @@
         },
         {
           "href": "https://www.gabo.services/contact",
-          "label": "Schedule a consultation"
-        },
-        {
-          "href": "https://www.gabo.services/services/",
-          "label": "Explore services"
+          "label": "Book a consultation"
         },
         {
           "href": "https://www.gabo.services/services/logistics-operations/",
@@ -244,11 +291,11 @@
         },
         {
           "href": "https://www.gabo.services/contact",
-          "label": "Schedule a consultation"
+          "label": "Book a consultation"
         },
         {
           "href": "https://www.gabo.services/services/",
-          "label": "Explore services"
+          "label": "See service coverage"
         },
         {
           "href": "https://www.gabo.services/services/logistics-operations/",
@@ -322,9 +369,9 @@
       },
       "tags": [
         "home",
-        "professional services for logistics, it, and customer operations.",
-        "operational support for modern businesses",
-        "service areas built for daily execution"
+        "faster response, cleaner workflows, and reliable day-to-day execution.",
+        "operational rigor without adding internal drag.",
+        "operational support for modern businesses"
       ],
       "intent": "careers"
     },
@@ -463,25 +510,13 @@
       "url": "https://www.gabo.services/services/",
       "title": "Gabriel Services",
       "metaDescription": "",
-      "summary": "Outsource, Delivered Gabriel Services provides flexible operational support across logistics, administrative back office, customer operations, and IT support. Dispatch management, shipment follow-up, and coordination support for continuous movement.",
-      "bodyText": "Outsource, Delivered Gabriel Services provides flexible operational support across logistics, administrative back office, customer operations, and IT support. Dispatch management, shipment follow-up, and coordination support for continuous movement. Structured documentation, schedule handling, and process coordination for daily control. Customer-facing communication, issue routing, and post-service follow-up continuity. Technical request triage, resolution tracking, and practical platform support. A quick view to understand how each service line supports execution priorities. Pricing is structured around business needs, workflow complexity, coverage level, and the operational volume involved. Ideal for variable needs, workload spikes, and last-minute requests. Ideal for recurring tasks and constant operational continuity. Ideal for defined scopes and focused execution. For dedicated remote support that keeps individuals and teams aligned, responsive, and productive across daily operational needs. Pricing depends on service scope, coordination depth, support hours, communication rhythm, and the reporting requirements your team expects across daily operations. Final pricing is influenced by workflow complexity, business volume, required support hours, communication requirements, and any system or process requirements involved in day-to-day delivery. Tell us what your team needs, and we will prepare a consultation-focused scope aligned to your operational goals. © 2026 Gabriel Services Home About Services Careers Contact Hourly 4-hour block 8-hour block Part time Full time Daily Weekly Monthly By project Short term Milestone based Structured support Multilingual communication Steady follow-up Practical, cost-conscious operations",
+      "summary": "Outsource, Delivered Explore logistics, IT, administrative, and customer support services with a clear overview of coverage, fit, and engagement options. Review services, compare engagement models, and choose the support line that fits your needs.",
+      "bodyText": "Outsource, Delivered Explore logistics, IT, administrative, and customer support services with a clear overview of coverage, fit, and engagement options. Review services, compare engagement models, and choose the support line that fits your needs. Designed for quick review on desktop or mobile with straightforward service comparison. Tap or click a service card to update the breakdown and engagement comparison below. Coordination-focused operational assistance for moving parts, status tracking, follow-up, and execution visibility. Switch the model to compare services in a clearer flow without forcing a crowded mobile table. © 2026 Gabriel Services Home About Services Learning Careers Contact",
       "headings": [
         "Services",
-        "Professional support across key business functions",
-        "Service matrix",
-        "Pricing & engagement options",
-        "How we support execution",
+        "Choose a service",
         "Logistics Operations",
-        "Administrative Back Office",
-        "Customer Operations",
-        "IT Support",
-        "On demand",
-        "Continuous coverage",
-        "Project based",
-        "Professional Individual and Team Remote Assistance",
-        "How pricing works",
-        "What affects pricing",
-        "Request a tailored scope",
+        "Compare by engagement model",
         "Company",
         "Support",
         "Legal"
@@ -493,31 +528,19 @@
         },
         {
           "href": "https://www.gabo.services/contact/",
-          "label": "Discuss your workflow"
+          "label": "Request info"
         },
         {
           "href": "https://www.gabo.services/services/logistics-operations/",
-          "label": "Explore service"
+          "label": "Open service page"
         },
         {
-          "href": "https://www.gabo.services/services/administrative-backoffice/",
-          "label": "Explore service"
+          "href": "https://www.gabo.services/contact",
+          "label": "Request info"
         },
         {
-          "href": "https://www.gabo.services/services/customer-relations/",
-          "label": "Explore service"
-        },
-        {
-          "href": "https://www.gabo.services/services/it-support/",
-          "label": "Explore service"
-        },
-        {
-          "href": "https://www.gabo.services/contact/",
-          "label": "Request a consultation"
-        },
-        {
-          "href": "https://www.gabo.services/contact/",
-          "label": "Request support"
+          "href": "https://www.gabo.services/services/logistics-operations/",
+          "label": "Open service page"
         },
         {
           "href": "https://www.gabo.services/contact",
@@ -542,6 +565,10 @@
           "label": "Services"
         },
         {
+          "href": "https://www.gabo.services/learning",
+          "label": "Learning"
+        },
+        {
           "href": "https://www.gabo.services/careers",
           "label": "Careers"
         },
@@ -551,39 +578,19 @@
         },
         {
           "href": "https://www.gabo.services/contact/",
-          "label": "Discuss your workflow"
+          "label": "Request info"
         },
         {
           "href": "https://www.gabo.services/services/logistics-operations/",
-          "label": "Explore service"
+          "label": "Open service page"
         },
         {
-          "href": "https://www.gabo.services/services/administrative-backoffice/",
-          "label": "Explore service"
+          "href": "https://www.gabo.services/contact",
+          "label": "Request info"
         },
         {
-          "href": "https://www.gabo.services/services/customer-relations/",
-          "label": "Explore service"
-        },
-        {
-          "href": "https://www.gabo.services/services/it-support/",
-          "label": "Explore service"
-        },
-        {
-          "href": "https://www.gabo.services/contact/",
-          "label": "Request a consultation"
-        },
-        {
-          "href": "https://www.gabo.services/contact/",
-          "label": "Describe your needs"
-        },
-        {
-          "href": "https://www.gabo.services/contact/",
-          "label": "Request support"
-        },
-        {
-          "href": "https://www.gabo.services/services/#pricing",
-          "label": "View engagement options"
+          "href": "https://www.gabo.services/services/logistics-operations/",
+          "label": "Open service page"
         },
         {
           "href": "https://www.gabo.services/",
@@ -633,8 +640,8 @@
       },
       "tags": [
         "services",
-        "professional support across key business functions",
-        "service matrix"
+        "choose a service",
+        "logistics operations"
       ],
       "intent": "careers"
     },
@@ -1155,10 +1162,12 @@
       "url": "https://www.gabo.services/contact/",
       "title": "Gabriel Services",
       "metaDescription": "",
-      "summary": "Outsource, Delivered Reach our team for support, onboarding, project discussions, or partnership inquiries. Select one or more service areas.",
-      "bodyText": "Outsource, Delivered Reach our team for support, onboarding, project discussions, or partnership inquiries. Select one or more service areas. Add relevant skills, languages, and preferred service area. Select one or more areas for remote assistant inquiry. © 2026 Gabriel Services Home About Services Careers Contact",
+      "summary": "Outsource, Delivered Start with a quick inquiry, then add optional details if you want a more tailored follow-up. Simple first step Use the quick inquiry form to share your team, main workflow pressure, and service interest.",
+      "bodyText": "Outsource, Delivered Start with a quick inquiry, then add optional details if you want a more tailored follow-up. Simple first step Use the quick inquiry form to share your team, main workflow pressure, and service interest. If you want a more detailed follow-up, open the extended intake and add staffing, skills, or scheduling context. Start with the essential contact and service information. This is the only section required for submission. Choose one or more areas so we route the inquiry to the right team. Only fill out what helps us tailor the follow-up conversation. Use this only if you want to describe staffing, skills, or talent requirements in more detail. Optional service areas for staffing or assistant support. © 2026 Gabriel Services Home About Services Careers Contact",
       "headings": [
         "Contact",
+        "Tell us what support you need",
+        "Quick inquiry",
         "Company",
         "Support",
         "Legal"
@@ -1241,45 +1250,59 @@
       ],
       "formDetails": {
         "labels": [
-          "Full Name",
-          "Email Address",
-          "Country Code",
-          "Contact Number",
+          "Full name",
+          "Work email",
+          "Company / Team",
+          "Contact number",
+          "Primary workflow pressure",
+          "Logistics Operations",
+          "Administrative Back Office",
+          "Customer Relations",
+          "IT Support",
+          "What do you need help with?",
+          "Country code",
+          "Best time to contact you",
           "City",
           "State / Province",
           "Space / Suite / Apt",
-          "Country Zip Code",
-          "Best Time to Contact You",
-          "Message",
+          "ZIP / Postal code",
+          "Skills needed",
           "Logistics Operations",
           "Administrative Back Office",
           "Customer Relations",
           "IT Support",
-          "Skills",
-          "Logistics Operations",
-          "Administrative Back Office",
-          "Customer Relations",
-          "IT Support",
-          "Experience Level",
-          "Education",
-          "Languages"
+          "Experience needed",
+          "Languages needed",
+          "Education or certification preference"
         ],
         "placeholders": [
+          "Share the workflow, bottleneck, or coverage gap you want to solve.",
           "+1",
           "Suite 210",
-          "Share your request, support need, or project details.",
           "Add a skill",
           "Add experience area",
-          "Add school, program, or certificate",
-          "Add a language"
+          "Add a language",
+          "Add school, program, or certificate"
         ],
         "options": [
+          "Select the main need",
+          "Logistics coordination",
+          "Administrative workflow support",
+          "Customer operations support",
+          "IT support coverage",
           "Select level",
           "Entry",
           "Junior",
           "Mid",
           "Advanced",
           "Expert",
+          "Select level",
+          "Beginner",
+          "Elementary",
+          "Intermediate",
+          "Advance",
+          "Advance Professional",
+          "Native",
           "Select education",
           "Grammar School",
           "Some High School",
@@ -1288,20 +1311,13 @@
           "Associate Degree",
           "Bachelor",
           "Masters",
-          "Doctorate",
-          "Select level",
-          "Beginner",
-          "Elementary",
-          "Intermediate",
-          "Advance",
-          "Advance Professional",
-          "Native"
+          "Doctorate"
         ]
       },
       "tags": [
         "contact",
-        "company",
-        "support"
+        "tell us what support you need",
+        "quick inquiry"
       ],
       "intent": "careers"
     },
@@ -1476,8 +1492,8 @@
       "url": "https://www.gabo.services/learning/",
       "title": "Learning | Gabriel Services",
       "metaDescription": "",
-      "summary": "Outsource, Delivered Explore our English service guidance for operations and support workflows. Dispatch coordination, movement tracking, and execution support aligned to delivery timelines.",
-      "bodyText": "Outsource, Delivered Explore our English service guidance for operations and support workflows. Dispatch coordination, movement tracking, and execution support aligned to delivery timelines. Documentation, scheduling, process administration, and data upkeep for operational clarity. Customer communication, follow-up handling, and service continuity across day-to-day interactions. Ticket coordination, issue triage, and practical technical support for core business systems. © 2026 Gabriel Services Home About Services Careers Contact",
+      "summary": "Outsource, Delivered Explore our English service guidance for operations and support workflows. Use these learning tracks to understand each support lane before you request service coverage, compare options, or contact the team.",
+      "bodyText": "Outsource, Delivered Explore our English service guidance for operations and support workflows. Use these learning tracks to understand each support lane before you request service coverage, compare options, or contact the team. Dispatch coordination, movement tracking, and execution support aligned to delivery timelines. Documentation, scheduling, process administration, and data upkeep for operational clarity. Customer communication, follow-up handling, and service continuity across day-to-day interactions. Ticket coordination, issue triage, and practical technical support for core business systems. © 2026 Gabriel Services Home About Services Learning Careers Contact",
       "headings": [
         "Learning",
         "Operations and Support Learning Tracks",
@@ -1533,12 +1549,24 @@
           "label": "Services"
         },
         {
+          "href": "https://www.gabo.services/learning",
+          "label": "Learning"
+        },
+        {
           "href": "https://www.gabo.services/careers",
           "label": "Careers"
         },
         {
           "href": "https://www.gabo.services/contact",
           "label": "Contact"
+        },
+        {
+          "href": "https://www.gabo.services/services",
+          "label": "Compare services"
+        },
+        {
+          "href": "https://www.gabo.services/contact",
+          "label": "Ask about onboarding"
         },
         {
           "href": "https://www.gabo.services/services/logistics-operations/",
@@ -1960,13 +1988,13 @@
       "pagePath": "/",
       "url": "https://www.gabo.services/",
       "locale": "en",
-      "text": "Outsource, Delivered Scale support with expert teams, measurable service levels, and precision-driven delivery across logistics, IT, and customer operations. Execution-first coverage built for dispatch workflows, customer touchpoints, and technical continuity. Gabriel Services is an operational support partner for companies that need reliable daily execution across logistics coordination, administrative workflows, customer communications, and IT request handling.",
+      "text": "Outsource, Delivered Operational support for execution-heavy businesses Gabriel Services supports logistics-led and service-heavy teams with process-aligned help across logistics coordination, back-office workflow management, customer operations, and IT support. Why teams switch Built for Logistics-led and service-heavy teams Operating model Process-aligned support with documented handoffs Trust signal Security-conscious delivery with clear communication rhythm Gabriel Services is an operational support partner for companies that need reliable daily execution across logistics coordination, administrative workflows, customer communications, and IT request handling. Our teams combine measurable service discipline with practical implementation, helping businesses protect response quality, maintain organized processes, and scale support without adding internal friction.",
       "intent": "careers",
       "tags": [
         "home",
-        "professional services for logistics, it, and customer operations.",
-        "operational support for modern businesses",
-        "service areas built for daily execution"
+        "faster response, cleaner workflows, and reliable day-to-day execution.",
+        "operational rigor without adding internal drag.",
+        "operational support for modern businesses"
       ]
     },
     {
@@ -1974,13 +2002,13 @@
       "pagePath": "/",
       "url": "https://www.gabo.services/",
       "locale": "en",
-      "text": "Our teams combine measurable service discipline with practical implementation, helping businesses protect response quality, maintain organized processes, and scale support without adding internal friction. Dispatch coordination, movement tracking, and execution support aligned to delivery timelines. Documentation, scheduling, process administration, and data upkeep for operational clarity.",
+      "text": "Dispatch coordination, movement tracking, and execution support aligned to delivery timelines. Documentation, scheduling, process administration, and data upkeep for operational clarity. Customer communication, follow-up handling, and service continuity across day-to-day interactions.",
       "intent": "careers",
       "tags": [
         "home",
-        "professional services for logistics, it, and customer operations.",
-        "operational support for modern businesses",
-        "service areas built for daily execution"
+        "faster response, cleaner workflows, and reliable day-to-day execution.",
+        "operational rigor without adding internal drag.",
+        "operational support for modern businesses"
       ]
     },
     {
@@ -1988,13 +2016,13 @@
       "pagePath": "/",
       "url": "https://www.gabo.services/",
       "locale": "en",
-      "text": "Customer communication, follow-up handling, and service continuity across day-to-day interactions. Ticket coordination, issue triage, and practical technical support for core business systems. Businesses choose Gabriel Services for reliability under pressure, clear communication rhythm, structured follow-through, and adaptable support models that adjust as priorities evolve.",
+      "text": "Ticket coordination, issue triage, and practical technical support for core business systems. Businesses choose Gabriel Services for reliability under pressure, clear communication rhythm, structured follow-through, and adaptable support models that adjust as priorities evolve. Book a consultation to map workflows, define service coverage, and build a practical execution plan around your current operational priorities.",
       "intent": "careers",
       "tags": [
         "home",
-        "professional services for logistics, it, and customer operations.",
-        "operational support for modern businesses",
-        "service areas built for daily execution"
+        "faster response, cleaner workflows, and reliable day-to-day execution.",
+        "operational rigor without adding internal drag.",
+        "operational support for modern businesses"
       ]
     },
     {
@@ -2002,13 +2030,13 @@
       "pagePath": "/",
       "url": "https://www.gabo.services/",
       "locale": "en",
-      "text": "Book a consultation to map workflows, define service coverage, and build a practical execution plan around your current operational priorities. © 2026 Gabriel Services Home About Services Careers Contact",
+      "text": "© 2026 Gabriel Services Home About Services Careers Contact Clear communication rhythm for active workflows Documented follow-through across logistics, admin, CX, and IT Human-led support with modern governance and security discipline",
       "intent": "careers",
       "tags": [
         "home",
-        "professional services for logistics, it, and customer operations.",
-        "operational support for modern businesses",
-        "service areas built for daily execution"
+        "faster response, cleaner workflows, and reliable day-to-day execution.",
+        "operational rigor without adding internal drag.",
+        "operational support for modern businesses"
       ]
     },
     {
@@ -2058,12 +2086,12 @@
       "pagePath": "/services/",
       "url": "https://www.gabo.services/services/",
       "locale": "en",
-      "text": "Outsource, Delivered Gabriel Services provides flexible operational support across logistics, administrative back office, customer operations, and IT support. Dispatch management, shipment follow-up, and coordination support for continuous movement. Structured documentation, schedule handling, and process coordination for daily control.",
+      "text": "Outsource, Delivered Explore logistics, IT, administrative, and customer support services with a clear overview of coverage, fit, and engagement options. Review services, compare engagement models, and choose the support line that fits your needs. Designed for quick review on desktop or mobile with straightforward service comparison.",
       "intent": "careers",
       "tags": [
         "services",
-        "professional support across key business functions",
-        "service matrix"
+        "choose a service",
+        "logistics operations"
       ]
     },
     {
@@ -2071,12 +2099,12 @@
       "pagePath": "/services/",
       "url": "https://www.gabo.services/services/",
       "locale": "en",
-      "text": "Customer-facing communication, issue routing, and post-service follow-up continuity. Technical request triage, resolution tracking, and practical platform support. A quick view to understand how each service line supports execution priorities.",
+      "text": "Tap or click a service card to update the breakdown and engagement comparison below. Coordination-focused operational assistance for moving parts, status tracking, follow-up, and execution visibility. Switch the model to compare services in a clearer flow without forcing a crowded mobile table.",
       "intent": "careers",
       "tags": [
         "services",
-        "professional support across key business functions",
-        "service matrix"
+        "choose a service",
+        "logistics operations"
       ]
     },
     {
@@ -2084,38 +2112,12 @@
       "pagePath": "/services/",
       "url": "https://www.gabo.services/services/",
       "locale": "en",
-      "text": "Pricing is structured around business needs, workflow complexity, coverage level, and the operational volume involved. Ideal for variable needs, workload spikes, and last-minute requests. Ideal for recurring tasks and constant operational continuity.",
+      "text": "© 2026 Gabriel Services Home About Services Learning Careers Contact",
       "intent": "careers",
       "tags": [
         "services",
-        "professional support across key business functions",
-        "service matrix"
-      ]
-    },
-    {
-      "id": "services#4",
-      "pagePath": "/services/",
-      "url": "https://www.gabo.services/services/",
-      "locale": "en",
-      "text": "Ideal for defined scopes and focused execution. For dedicated remote support that keeps individuals and teams aligned, responsive, and productive across daily operational needs. Pricing depends on service scope, coordination depth, support hours, communication rhythm, and the reporting requirements your team expects across daily operations.",
-      "intent": "careers",
-      "tags": [
-        "services",
-        "professional support across key business functions",
-        "service matrix"
-      ]
-    },
-    {
-      "id": "services#5",
-      "pagePath": "/services/",
-      "url": "https://www.gabo.services/services/",
-      "locale": "en",
-      "text": "Final pricing is influenced by workflow complexity, business volume, required support hours, communication requirements, and any system or process requirements involved in day-to-day delivery. Tell us what your team needs, and we will prepare a consultation-focused scope aligned to your operational goals. © 2026 Gabriel Services Home About Services Careers Contact Hourly 4-hour block 8-hour block Part time Full time Daily Weekly Monthly By project Short term Milestone based Structured support Multilingual communication Steady follow-up Practical, cost-conscious operations",
-      "intent": "careers",
-      "tags": [
-        "services",
-        "professional support across key business functions",
-        "service matrix"
+        "choose a service",
+        "logistics operations"
       ]
     },
     {
@@ -2291,12 +2293,12 @@
       "pagePath": "/contact/",
       "url": "https://www.gabo.services/contact/",
       "locale": "en",
-      "text": "Outsource, Delivered Reach our team for support, onboarding, project discussions, or partnership inquiries. Select one or more service areas. Add relevant skills, languages, and preferred service area.",
+      "text": "Outsource, Delivered Start with a quick inquiry, then add optional details if you want a more tailored follow-up. Simple first step Use the quick inquiry form to share your team, main workflow pressure, and service interest. If you want a more detailed follow-up, open the extended intake and add staffing, skills, or scheduling context.",
       "intent": "careers",
       "tags": [
         "contact",
-        "company",
-        "support"
+        "tell us what support you need",
+        "quick inquiry"
       ]
     },
     {
@@ -2304,12 +2306,38 @@
       "pagePath": "/contact/",
       "url": "https://www.gabo.services/contact/",
       "locale": "en",
-      "text": "Select one or more areas for remote assistant inquiry. © 2026 Gabriel Services Home About Services Careers Contact",
+      "text": "Start with the essential contact and service information. This is the only section required for submission. Choose one or more areas so we route the inquiry to the right team.",
       "intent": "careers",
       "tags": [
         "contact",
-        "company",
-        "support"
+        "tell us what support you need",
+        "quick inquiry"
+      ]
+    },
+    {
+      "id": "contact#3",
+      "pagePath": "/contact/",
+      "url": "https://www.gabo.services/contact/",
+      "locale": "en",
+      "text": "Only fill out what helps us tailor the follow-up conversation. Use this only if you want to describe staffing, skills, or talent requirements in more detail. Optional service areas for staffing or assistant support.",
+      "intent": "careers",
+      "tags": [
+        "contact",
+        "tell us what support you need",
+        "quick inquiry"
+      ]
+    },
+    {
+      "id": "contact#4",
+      "pagePath": "/contact/",
+      "url": "https://www.gabo.services/contact/",
+      "locale": "en",
+      "text": "© 2026 Gabriel Services Home About Services Careers Contact",
+      "intent": "careers",
+      "tags": [
+        "contact",
+        "tell us what support you need",
+        "quick inquiry"
       ]
     },
     {
@@ -2343,7 +2371,7 @@
       "pagePath": "/learning/",
       "url": "https://www.gabo.services/learning/",
       "locale": "en",
-      "text": "Outsource, Delivered Explore our English service guidance for operations and support workflows. Dispatch coordination, movement tracking, and execution support aligned to delivery timelines. Documentation, scheduling, process administration, and data upkeep for operational clarity.",
+      "text": "Outsource, Delivered Explore our English service guidance for operations and support workflows. Use these learning tracks to understand each support lane before you request service coverage, compare options, or contact the team. Dispatch coordination, movement tracking, and execution support aligned to delivery timelines.",
       "intent": "careers",
       "tags": [
         "learning",
@@ -2356,7 +2384,20 @@
       "pagePath": "/learning/",
       "url": "https://www.gabo.services/learning/",
       "locale": "en",
-      "text": "Customer communication, follow-up handling, and service continuity across day-to-day interactions. Ticket coordination, issue triage, and practical technical support for core business systems. © 2026 Gabriel Services Home About Services Careers Contact",
+      "text": "Documentation, scheduling, process administration, and data upkeep for operational clarity. Customer communication, follow-up handling, and service continuity across day-to-day interactions. Ticket coordination, issue triage, and practical technical support for core business systems.",
+      "intent": "careers",
+      "tags": [
+        "learning",
+        "operations and support learning tracks",
+        "logistics operations"
+      ]
+    },
+    {
+      "id": "learning#3",
+      "pagePath": "/learning/",
+      "url": "https://www.gabo.services/learning/",
+      "locale": "en",
+      "text": "© 2026 Gabriel Services Home About Services Learning Careers Contact",
       "intent": "careers",
       "tags": [
         "learning",
