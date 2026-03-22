@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const outputDir = path.join(repoRoot, 'internal');
+const outputDir = path.join(repoRoot, 'wiki');
 const SITE_BASE_URL = 'https://www.gabo.services';
 const WORKER_URL = 'https://wikie-dickie.rulathemtodos.workers.dev/';
 const SECRET_ENV_KEY = 'WIKI_DICKIE';
