@@ -277,7 +277,7 @@
 
       .services-card.is-active,
       .services-filter.is-active {
-        background: var(--active);
+        background: linear-gradient(180deg, #0a0a0f 0%, #11131a 100%);
         border-color: var(--active);
         color: var(--active-text);
         box-shadow: 0 18px 36px rgba(10, 10, 15, 0.2);
@@ -307,6 +307,11 @@
         padding-top: 0.2rem;
         font-size: 0.85rem;
         font-weight: 700;
+      }
+
+      .services-card-link::after {
+        content: '↗';
+        font-size: 0.9em;
       }
 
       .services-card.is-active .services-card-link {
@@ -853,7 +858,8 @@
           {
             id: 'logistics',
             short: 'Logistics Operations',
-            buttonText: 'Dispatch, coordination, shipment visibility, status follow-up.',
+            cardKicker: 'Operations',
+            buttonText: 'Dispatch coordination, shipment visibility, and status follow-up.',
             kicker: 'Operations and movement',
             title: 'Logistics Operations',
             text: 'Coordination-focused operational assistance for moving parts, status tracking, follow-up, and execution visibility.',
@@ -918,7 +924,8 @@
           {
             id: 'admin',
             short: 'Administrative Back Office',
-            buttonText: 'Documentation, scheduling, organized workflows, follow-up.',
+            cardKicker: 'Back office',
+            buttonText: 'Documentation flow, scheduling, and organized follow-up.',
             kicker: 'Structure and back office',
             title: 'Administrative Back Office',
             text: 'Organized administrative support for documentation flow, scheduling, recurring tasks, and structured internal coordination.',
@@ -983,7 +990,8 @@
           {
             id: 'it',
             short: 'IT Support',
-            buttonText: 'Ticket flow, issue tracking, platform coordination, user support.',
+            cardKicker: 'Technology',
+            buttonText: 'Ticket flow, issue tracking, and user support coordination.',
             kicker: 'Technical continuity',
             title: 'IT Support',
             text: 'Practical technical support for request flow, issue coordination, user assistance, and platform continuity.',
@@ -1048,7 +1056,8 @@
           {
             id: 'customer',
             short: 'Customer Relations',
-            buttonText: 'Customer communication, follow-up, response tracking, continuity.',
+            cardKicker: 'Experience',
+            buttonText: 'Customer communication, response tracking, and continuity.',
             kicker: 'Communication and experience',
             title: 'Customer Relations',
             text: 'Customer-facing assistance focused on message handling, response continuity, follow-up, and service visibility.',
@@ -1144,9 +1153,10 @@
               const activeClass = service.id === state.activeService ? 'services-card is-active' : 'services-card';
               return `
                 <button type="button" class="${activeClass}" data-service="${service.id}" aria-pressed="${service.id === state.activeService}">
+                  <span class="services-card-kicker">${service.cardKicker}</span>
                   <h3 class="services-card-title">${service.short}</h3>
                   <p class="services-card-text">${service.buttonText}</p>
-                  <span class="services-card-link">Explore service →</span>
+                  <span class="services-card-link">Explore service</span>
                 </button>
               `;
             })
