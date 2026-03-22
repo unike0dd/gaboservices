@@ -2657,8 +2657,8 @@ select {
 }
 
 .page-main {
-  margin-inline: auto;
-  width: min(95vw, var(--reading-max));
+  margin-inline: 0;
+  width: min(100%, var(--reading-max));
 }
 
 .page-main h1 {
@@ -2683,11 +2683,12 @@ select {
   font-size: var(--lead-size);
   line-height: 1.58;
   font-weight: 400;
-  max-width: 42ch;
+  max-width: 56rem;
   margin: 0;
   text-indent: 0;
   text-align: justify;
   text-wrap: pretty;
+  hyphens: none;
 }
 
 .page-main p,
@@ -2774,6 +2775,33 @@ select {
 
 .wide-reading p { text-align: justify; }
 
+.info-card,
+.form-panel,
+.matrix-panel,
+.cta-panel {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+}
+
+.cards-grid {
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  justify-content: start;
+}
+
+.cards-grid > * {
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
+  padding-bottom: 1.5rem;
+}
+
+.cards-grid > *:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
 .service-matrix-table th,
 .service-matrix-table td {
   padding: 14px 16px;
@@ -2838,18 +2866,18 @@ select {
 
 .page-main > * {
   width: min(100%, var(--reading-max));
-  margin-inline: auto;
+  margin-inline: 0;
 }
 
 .page-main .cards-grid,
 .page-main .cta-row {
   width: min(100%, var(--reading-max));
-  margin-inline: auto;
+  margin-inline: 0;
 }
 
 .page-main .cards-grid > * {
   width: 100%;
-  margin-inline: auto;
+  margin-inline: 0;
 }
 
 .page-main .info-card,
@@ -2885,7 +2913,7 @@ select {
 .service-detail-page > p,
 .service-detail-page > h1 {
   width: min(100%, 72rem);
-  margin-inline: auto;
+  margin-inline: 0;
 }
 
 .related-services {

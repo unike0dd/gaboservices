@@ -38,7 +38,7 @@
 
       .services-main {
         width: min(calc(100vw - 40px), 1180px);
-        margin: 0 auto 0 max(20px, env(safe-area-inset-left, 0px));
+        margin: 0 0 0 max(20px, env(safe-area-inset-left, 0px));
         padding: 1.25rem 0 7rem;
       }
 
@@ -119,7 +119,8 @@
       .services-shell p,
       .services-shell li {
         text-indent: 0;
-        text-align: left;
+        text-align: justify;
+        hyphens: none;
       }
 
       .services-hero {
@@ -246,15 +247,16 @@
         gap: 0.65rem;
         align-content: start;
         scroll-snap-align: start;
-        border: 1px solid #cfd6e0;
-        border-radius: 22px;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(246, 248, 252, 0.96));
+        border: 0;
+        border-bottom: 1px solid #cfd6e0;
+        border-radius: 0;
+        background: transparent;
         color: var(--text);
-        padding: 1rem 1rem 0.95rem;
+        padding: 0 0 1rem;
         text-align: left;
         cursor: pointer;
-        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
-        transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: none;
+        transition: transform 0.2s ease, color 0.2s ease;
       }
 
       .services-card:hover,
@@ -269,17 +271,17 @@
 
       .services-card:hover,
       .services-card:focus-visible {
-        background: #fbfcfe;
+        background: transparent;
         border-color: #b8c1cf;
-        box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+        box-shadow: none;
       }
 
       .services-card.is-active,
       .services-filter.is-active {
-        background: linear-gradient(180deg, #0a0a0f 0%, #11131a 100%);
+        background: transparent;
         border-color: var(--active);
-        color: var(--active-text);
-        box-shadow: 0 18px 36px rgba(10, 10, 15, 0.2);
+        color: var(--active);
+        box-shadow: none;
       }
 
       .services-card-title {
@@ -324,10 +326,11 @@
 
       .services-detail-card,
       .services-compare-card {
-        background: var(--card);
-        border: 1px solid var(--line);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow);
+        background: transparent;
+        border: 0;
+        border-top: 1px solid var(--line);
+        border-radius: 0;
+        box-shadow: none;
       }
 
       .services-detail-card {
