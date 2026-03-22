@@ -1504,15 +1504,22 @@ textarea[data-security-state='review'] {
   box-shadow: 0 -10px 28px rgba(15, 23, 42, 0.14);
   display: none;
   align-items: center;
-  justify-content: space-around;
-  gap: 0.35rem;
+  justify-content: flex-start;
+  gap: 0.2rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
   z-index: 320;
+  scrollbar-width: none;
+}
+
+.mobile-bottom-nav::-webkit-scrollbar {
+  display: none;
 }
 
 .mobile-bottom-nav__item {
   position: relative;
-  flex: 1 1 0;
-  min-width: 0;
+  flex: 0 0 4.6rem;
+  min-width: 4.6rem;
   border: 0;
   background: transparent;
   color: var(--muted);
@@ -1610,6 +1617,45 @@ textarea[data-security-state='review'] {
   border-radius: 0.75rem;
 }
 
+.mobile-chat-launcher {
+  position: fixed;
+  left: var(--nav-fab-offset-x);
+  bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 0.8rem);
+  min-height: 44px;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid color-mix(in oklab, var(--primary) 28%, #ffffff);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--primary) 92%, #0b1020 8%);
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.24);
+  display: none;
+  align-items: center;
+  gap: 0.45rem;
+  z-index: 330;
+}
+
+.mobile-chat-launcher__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  font-size: 1rem;
+}
+
+.mobile-chat-launcher__label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.mobile-chat-launcher:hover,
+.mobile-chat-launcher:focus-visible {
+  transform: translateY(-1px);
+  outline: none;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.28);
+}
+
 .chat-overlay[hidden] {
   display: none !important;
 }
@@ -1657,6 +1703,7 @@ textarea[data-security-state='review'] {
 @media (min-width: 901px) {
   nav {
     position: relative;
+    display: block;
   }
 
   .nav-toggle {
@@ -1702,20 +1749,12 @@ textarea[data-security-state='review'] {
   }
 
   nav {
-    position: static;
-    order: 2;
-    margin-left: auto;
-    margin-right: 0.25rem;
-    align-self: flex-start;
+    display: none;
   }
 
   #navToggle {
-    order: 3;
-    margin-left: auto;
-    margin-right: 0.25rem;
-    align-self: flex-start;
+    display: none !important;
   }
-
 
   .nav-toggle {
     width: 2.7rem;

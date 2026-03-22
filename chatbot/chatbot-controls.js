@@ -65,6 +65,26 @@ function ensureFabChatTrigger() {
   fabMenu.appendChild(action);
 }
 
+
+function ensureMobileChatLauncher() {
+  let trigger = document.getElementById('mobileChatLauncher');
+  if (trigger) return trigger;
+
+  trigger = document.createElement('button');
+  trigger.id = 'mobileChatLauncher';
+  trigger.className = 'mobile-chat-launcher';
+  trigger.type = 'button';
+  trigger.setAttribute('data-chat-trigger', '');
+  trigger.setAttribute('aria-label', 'Open Gabo io chat');
+  trigger.innerHTML = `
+    <span class="mobile-chat-launcher__icon" aria-hidden="true">🤖</span>
+    <span class="mobile-chat-launcher__label">Gabo io</span>
+  `;
+
+  document.body.appendChild(trigger);
+  return trigger;
+}
+
 async function probeGatewayAvailability(gatewayUrl) {
   if (!gatewayUrl) return false;
 
@@ -113,6 +133,7 @@ function ensureChatPanelMarkup() {
 export function initChatbotControls() {
   initFabControls();
   ensureFabChatTrigger();
+  ensureMobileChatLauncher();
 
   const guard = new ChatbotTinyGuard();
   const chatTriggers = [...document.querySelectorAll('[data-chat-trigger]')];

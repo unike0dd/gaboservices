@@ -182,7 +182,6 @@
       }
 
       .services-hero-meta article,
-      .services-quick-item,
       .services-mode-item,
       .services-compare-item {
         border: 1px solid var(--line-soft);
@@ -405,7 +404,6 @@
       }
 
       .services-mode-list,
-      .services-quick-grid,
       .services-compare-grid {
         display: grid;
         gap: 0.75rem;
@@ -415,10 +413,6 @@
         display: block;
         margin-bottom: 0.3rem;
         font-size: 0.94rem;
-      }
-
-      .services-quick-item {
-        background: var(--card-soft);
       }
 
       .services-stat-value {
@@ -495,14 +489,16 @@
       .services-desktop-table {
         display: none;
         margin-top: 1rem;
+        padding-inline: 7px;
         border: 1px solid var(--line);
         border-radius: var(--radius-lg);
-        overflow: hidden;
+        overflow-x: auto;
         background: #fff;
       }
 
       .services-desktop-table table {
         width: 100%;
+        min-width: 1080px;
         border-collapse: collapse;
       }
 
@@ -518,6 +514,16 @@
       .services-desktop-table th:last-child,
       .services-desktop-table td:last-child {
         border-right: 0;
+      }
+
+      .services-desktop-table th:first-child,
+      .services-desktop-table td:first-child {
+        padding-left: 21px;
+      }
+
+      .services-desktop-table th:last-child,
+      .services-desktop-table td:last-child {
+        padding-right: 21px;
       }
 
       .services-desktop-table tbody tr:last-child td {
@@ -537,7 +543,12 @@
       .services-table-service {
         color: var(--accent);
         font-weight: 800;
+        min-width: 240px;
         white-space: nowrap;
+      }
+
+      .services-table-copy {
+        min-width: 220px;
       }
 
       .services-table-check {
@@ -625,10 +636,6 @@
           padding: 0.95rem 1rem 0.95rem;
         }
 
-        .services-detail-layout {
-          grid-template-columns: 1.2fr 0.8fr;
-        }
-
         .services-desktop-table {
           display: block;
         }
@@ -689,7 +696,6 @@
           <p class="brand-subtitle">Outsource, Delivered</p>
           <button id="editorialThemeBtn" class="editorial-toggle" type="button" aria-live="polite">News Cut</button>
         </div>
-        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">☰</button>
         <nav>
           <ul id="primaryNav" class="nav-links">
             <li><a href="../">Home</a></li>
@@ -733,12 +739,12 @@
         <section class="services-section" aria-labelledby="services-choose-title">
           <div class="services-section-head">
             <h2 id="services-choose-title">Choose a service</h2>
-            <p>Tap or click a service card to update the breakdown, quick view, and engagement comparison below.</p>
+            <p>Tap or click a service card to update the breakdown and engagement comparison below.</p>
           </div>
           <div class="services-rail" id="serviceRail"></div>
         </section>
 
-        <section class="services-section services-detail-layout" aria-labelledby="services-detail-title-static">
+        <section class="services-section services-detail-layout" aria-labelledby="detailTitle">
           <article class="services-detail-card">
             <div class="services-detail-body" id="detailBody">
               <span class="services-detail-kicker" id="detailKicker">Operations and movement</span>
@@ -757,32 +763,6 @@
             </div>
           </article>
 
-          <aside class="services-detail-card">
-            <div class="services-detail-body">
-              <div class="services-section-head">
-                <h2 id="services-detail-title-static">Quick view</h2>
-                <p>Fast summary of the currently selected service line.</p>
-              </div>
-              <div class="services-quick-grid">
-                <div class="services-quick-item">
-                  <span class="services-stat-label">Selected service</span>
-                  <div class="services-stat-value" id="quickService">Logistics Operations</div>
-                </div>
-                <div class="services-quick-item">
-                  <span class="services-stat-label">Best for</span>
-                  <div class="services-stat-value" id="quickBestFor">Coordination-heavy daily operations</div>
-                </div>
-                <div class="services-quick-item">
-                  <span class="services-stat-label">Most common rhythm</span>
-                  <div class="services-stat-value" id="quickRhythm">Recurring coordination and follow-up</div>
-                </div>
-                <div class="services-quick-item">
-                  <span class="services-stat-label">Engagement availability</span>
-                  <div class="services-stat-value" id="quickAvailability">Hourly, Project, Monthly / Ongoing</div>
-                </div>
-              </div>
-            </div>
-          </aside>
         </section>
 
         <section class="services-section">
@@ -806,6 +786,8 @@
                   <tr>
                     <th>Service</th>
                     <th>What it covers</th>
+                    <th>Best for</th>
+                    <th>Typical rhythm</th>
                     <th class="services-table-check">Hourly</th>
                     <th class="services-table-check">Project</th>
                     <th class="services-table-check">Monthly / Ongoing</th>
@@ -1134,10 +1116,6 @@
         const detailText = document.getElementById('detailText');
         const modeTabs = document.getElementById('modeTabs');
         const modePanel = document.getElementById('modePanel');
-        const quickService = document.getElementById('quickService');
-        const quickBestFor = document.getElementById('quickBestFor');
-        const quickRhythm = document.getElementById('quickRhythm');
-        const quickAvailability = document.getElementById('quickAvailability');
         const compareFilters = document.getElementById('compareFilters');
         const compareGrid = document.getElementById('compareGrid');
         const desktopCompareBody = document.getElementById('desktopCompareBody');
@@ -1212,10 +1190,6 @@
           detailKicker.textContent = current.kicker;
           detailTitle.textContent = current.title;
           detailText.textContent = current.text;
-          quickService.textContent = current.short;
-          quickBestFor.textContent = current.bestFor;
-          quickRhythm.textContent = current.rhythm;
-          quickAvailability.textContent = 'Hourly, Project, Monthly / Ongoing';
           mobileActionService.textContent = current.short;
           renderModeTabs();
           renderModePanel();
@@ -1256,7 +1230,9 @@
               (service) => `
                 <tr class="${service.id === state.activeService ? 'is-selected' : ''}">
                   <td class="services-table-service">${service.short}</td>
-                  <td>${service.covers}</td>
+                  <td class="services-table-copy">${service.covers}</td>
+                  <td class="services-table-copy">${service.bestFor}</td>
+                  <td class="services-table-copy">${service.rhythm}</td>
                   <td class="services-table-check">${getCheck(service.availability.hourly)}</td>
                   <td class="services-table-check">${getCheck(service.availability.project)}</td>
                   <td class="services-table-check">${getCheck(service.availability.monthly)}</td>

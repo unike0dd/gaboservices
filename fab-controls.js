@@ -22,6 +22,10 @@ function ensureMobileBottomNav() {
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
       <span>${EN_MESSAGES.mobileBottomNav.home}</span>
     </a>
+    <a class="mobile-bottom-nav__item" data-page="about" href="/about" aria-label="${EN_MESSAGES.mobileBottomNav.about}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8h.01M11 12h1v4h1M4 12a8 8 0 1 0 16 0 8 8 0 0 0-16 0z"></path></svg>
+      <span>${EN_MESSAGES.mobileBottomNav.about}</span>
+    </a>
     <button class="mobile-bottom-nav__item mobile-bottom-nav__trigger" data-page="services" id="servicesTrigger" type="button" aria-expanded="false" aria-controls="servicesMenu" aria-label="${EN_MESSAGES.mobileBottomNav.services}">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h7"></path></svg>
       <span>${EN_MESSAGES.mobileBottomNav.services}</span>
