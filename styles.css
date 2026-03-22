@@ -1492,74 +1492,123 @@ textarea[data-security-state='review'] {
   pointer-events: none;
 }
 
-.fab-wrapper {
+.mobile-bottom-nav {
   position: fixed;
-  right: var(--nav-fab-offset-x);
-  bottom: var(--nav-fab-offset-y);
-  display: flex;
-  flex-direction: column;
-  align-items: end;
-  gap: 0.6rem;
-  z-index: 260;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
+  padding: 0.45rem max(1rem, env(safe-area-inset-left, 0px)) calc(0.45rem + env(safe-area-inset-bottom, 0px)) max(1rem, env(safe-area-inset-right, 0px));
+  background: rgba(255, 255, 255, 0.98);
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -10px 28px rgba(15, 23, 42, 0.14);
+  display: none;
+  align-items: center;
+  justify-content: space-around;
+  gap: 0.35rem;
+  z-index: 320;
 }
 
-.fab-main,
-.fab-item {
-  width: 3.4rem;
-  height: 3.4rem;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--primary);
-  color: #fff;
-  display: inline-flex;
+.mobile-bottom-nav__item {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.25rem;
+  min-height: 52px;
+  padding: 0.35rem 0.25rem;
+  font: inherit;
+  font-size: 0.72rem;
+  line-height: 1.1;
   cursor: pointer;
+}
+
+.mobile-bottom-nav__item svg {
+  width: 1.6rem;
+  height: 1.6rem;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mobile-bottom-nav__item.active,
+.mobile-bottom-nav__item[aria-expanded='true'] {
+  color: var(--primary);
+}
+
+.mobile-bottom-nav__services-menu {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.9rem);
+  transform: translateX(-50%) scale(0.96);
+  min-width: min(14rem, calc(100vw - 2rem));
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0.95rem;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.18);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  overflow: hidden;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+}
+
+.mobile-bottom-nav__services-menu.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) scale(1);
+}
+
+.mobile-bottom-nav__services-menu::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -0.55rem;
+  width: 1rem;
+  height: 1rem;
+  background: var(--card);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.mobile-bottom-nav__service-item {
+  position: relative;
+  display: block;
+  padding: 0.9rem 1rem;
+  color: var(--text);
   text-decoration: none;
-  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.25);
+  text-align: left;
+  background: transparent;
+  z-index: 1;
 }
 
-.fab-hamburger {
-  font-size: 1.35rem;
-  font-weight: 700;
-  line-height: 1;
+.mobile-bottom-nav__service-item + .mobile-bottom-nav__service-item {
+  border-top: 1px solid var(--border);
 }
 
-.fab-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  align-items: flex-end;
+.mobile-bottom-nav__service-item:hover,
+.mobile-bottom-nav__service-item:focus-visible {
+  background: color-mix(in oklab, var(--primary) 10%, #ffffff);
+  color: var(--primary);
+  outline: none;
 }
 
-.fab-menu[hidden] {
-  display: none;
-}
-
-.fab-item {
-  width: auto;
-  min-width: 10rem;
-  border-radius: 999px;
-  padding: .65rem .9rem;
-  height: auto;
-  justify-content: flex-start;
-  gap: .55rem;
-}
-
-.fab-item-icon {
-  display: inline-flex;
-  width: 1.3rem;
-  justify-content: center;
-  font-size: 1rem;
-  line-height: 1;
-}
-
-.fab-main:focus-visible,
-.fab-item:focus-visible {
+.mobile-bottom-nav__item:focus-visible {
   outline: 3px solid color-mix(in oklab, var(--primary) 30%, #ffffff);
-  outline-offset: 2px;
+  outline-offset: -2px;
+  border-radius: 0.75rem;
 }
-
 
 .chat-overlay[hidden] {
   display: none !important;

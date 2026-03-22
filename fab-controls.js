@@ -1,128 +1,117 @@
 import { EN_MESSAGES } from './locales/en/messages.js';
 
-function ensureQuickActionsFab() {
-  let wrapper = document.getElementById('quickActionsFab');
+const MOBILE_QUERY = '(max-width: 900px)';
+
+const SERVICE_LINKS = [
+  { key: 'logistics', href: '/services/logistics-operations/', label: EN_MESSAGES.mobileBottomNav.logistics },
+  { key: 'admin', href: '/services/administrative-backoffice/', label: EN_MESSAGES.mobileBottomNav.admin },
+  { key: 'it', href: '/services/it-support/', label: EN_MESSAGES.mobileBottomNav.it },
+  { key: 'customer', href: '/services/customer-relations/', label: EN_MESSAGES.mobileBottomNav.customerRelations }
+];
+
+function ensureMobileBottomNav() {
+  let wrapper = document.getElementById('mobileBottomNav');
   if (wrapper) return wrapper;
 
-  wrapper = document.createElement('div');
-  wrapper.id = 'quickActionsFab';
-  wrapper.className = 'fab-wrapper';
+  wrapper = document.createElement('nav');
+  wrapper.id = 'mobileBottomNav';
+  wrapper.className = 'mobile-bottom-nav';
+  wrapper.setAttribute('aria-label', EN_MESSAGES.mobileBottomNav.ariaLabel);
   wrapper.innerHTML = `
-    <div id="fabQuickMenu" class="fab-menu" hidden>
-      <a class="fab-item" href="/careers" data-fab-link="careers">
-        <span class="fab-item-icon" aria-hidden="true">💼</span>
-        <span>${EN_MESSAGES.fab.careers}</span>
-      </a>
-      <a class="fab-item" href="/contact" data-fab-link="contact">
-        <span class="fab-item-icon" aria-hidden="true">☎️</span>
-        <span>${EN_MESSAGES.fab.contact}</span>
-      </a>
-      <button class="fab-item" type="button" data-chat-trigger>
-        <span class="fab-item-icon" aria-hidden="true">🤖</span>
-        <span>${EN_MESSAGES.fab.chatbot}</span>
-      </button>
-    </div>
-    <button id="fabMainToggle" class="fab-main fab-hamburger" type="button" aria-expanded="false" aria-haspopup="menu" aria-controls="fabQuickMenu" aria-label="${EN_MESSAGES.fab.openQuickActions}">☰</button>
+    <a class="mobile-bottom-nav__item" data-page="home" href="/" aria-label="${EN_MESSAGES.mobileBottomNav.home}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+      <span>${EN_MESSAGES.mobileBottomNav.home}</span>
+    </a>
+    <button class="mobile-bottom-nav__item mobile-bottom-nav__trigger" data-page="services" id="servicesTrigger" type="button" aria-expanded="false" aria-controls="servicesMenu" aria-label="${EN_MESSAGES.mobileBottomNav.services}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h7"></path></svg>
+      <span>${EN_MESSAGES.mobileBottomNav.services}</span>
+      <div class="mobile-bottom-nav__services-menu" id="servicesMenu" hidden>
+        ${SERVICE_LINKS.map((item) => `<a class="mobile-bottom-nav__service-item" data-service-link="${item.key}" href="${item.href}">${item.label}</a>`).join('')}
+      </div>
+    </button>
+    <a class="mobile-bottom-nav__item" data-page="contact" href="/contact" aria-label="${EN_MESSAGES.mobileBottomNav.contact}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2h-2.828a2 2 0 0 1-1.414-.586l-4.414-4.414a2 2 0 0 0-2.828 0L2.828 18.414A2 2 0 0 1 1.414 19H0v-4a2 2 0 0 1 2-2h.172a2 2 0 0 0 1.414-.586l4.414-4.414a2 2 0 0 1 2.828 0l4.414 4.414a2 2 0 0 0 1.414.586H19a2 2 0 0 1 2 2z"></path></svg>
+      <span>${EN_MESSAGES.mobileBottomNav.contact}</span>
+    </a>
+    <a class="mobile-bottom-nav__item" data-page="careers" href="/careers" aria-label="${EN_MESSAGES.mobileBottomNav.careers}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 13.255A23.931 23.931 0 0 1 12 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2m4 6h.01M5 20h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z"></path></svg>
+      <span>${EN_MESSAGES.mobileBottomNav.careers}</span>
+    </a>
   `;
 
   document.body.appendChild(wrapper);
-
-  const navCareers = document.querySelector('#primaryNav a[href*="careers"]');
-  const navContact = document.querySelector('#primaryNav a[href*="contact"]');
-  const fabCareers = wrapper.querySelector('[data-fab-link="careers"]');
-  const fabContact = wrapper.querySelector('[data-fab-link="contact"]');
-  if (navCareers && fabCareers) fabCareers.setAttribute('href', navCareers.getAttribute('href'));
-  if (navContact && fabContact) fabContact.setAttribute('href', navContact.getAttribute('href'));
-
   return wrapper;
 }
 
+function syncActiveState(wrapper) {
+  const pageKey = document.body.dataset.pageKey || 'home';
+  const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
+  wrapper.querySelectorAll('.mobile-bottom-nav__item[data-page]').forEach((item) => {
+    const isServicesRoute = item.dataset.page === 'services' && pathname.startsWith('/services');
+    item.classList.toggle('active', item.dataset.page === pageKey || isServicesRoute);
+  });
+}
+
+function syncServiceLinks(wrapper) {
+  const linkMap = new Map(
+    [...document.querySelectorAll('[data-service-link]')]
+      .filter((link) => link instanceof HTMLAnchorElement)
+      .map((link) => [link.dataset.serviceLink, link.getAttribute('href')])
+  );
+
+  wrapper.querySelectorAll('.mobile-bottom-nav__service-item').forEach((link) => {
+    const href = linkMap.get(link.dataset.serviceLink);
+    if (href) link.setAttribute('href', href);
+  });
+}
+
 export function initFabControls() {
-  const wrapper = ensureQuickActionsFab();
-  if (!wrapper || wrapper.dataset.fabBound === 'true') return;
-  wrapper.dataset.fabBound = 'true';
+  const wrapper = ensureMobileBottomNav();
+  if (!wrapper || wrapper.dataset.navBound === 'true') {
+    if (wrapper) syncActiveState(wrapper);
+    return;
+  }
 
-  const fabToggle = document.getElementById('fabMainToggle');
-  const fabMenu = document.getElementById('fabQuickMenu');
-  if (!fabToggle || !fabMenu) return;
+  wrapper.dataset.navBound = 'true';
+  syncActiveState(wrapper);
+  syncServiceLinks(wrapper);
 
-  const getMenuActions = () => [...fabMenu.querySelectorAll('.fab-item')];
+  const servicesTrigger = wrapper.querySelector('#servicesTrigger');
+  const servicesMenu = wrapper.querySelector('#servicesMenu');
+  const mobileQuery = window.matchMedia(MOBILE_QUERY);
 
-  const focusMenuAction = (targetIndex = 0) => {
-    const actions = getMenuActions();
-    if (!actions.length) return;
-    const index = Math.min(Math.max(targetIndex, 0), actions.length - 1);
-    actions[index].focus();
+  if (!servicesTrigger || !servicesMenu) return;
+
+  const setMenuOpen = (isOpen) => {
+    servicesTrigger.setAttribute('aria-expanded', String(isOpen));
+    servicesMenu.hidden = !isOpen;
+    servicesMenu.classList.toggle('open', isOpen);
   };
 
-  const setFabOpenState = (isOpen) => {
-    fabMenu.hidden = !isOpen;
-    fabToggle.setAttribute('aria-expanded', String(isOpen));
-    if (isOpen) {
-      requestAnimationFrame(() => focusMenuAction(0));
-      return;
-    }
-    fabToggle.focus();
-  };
+  setMenuOpen(false);
 
-  setFabOpenState(false);
-
-  fabToggle.addEventListener('click', () => {
-    const currentlyOpen = fabToggle.getAttribute('aria-expanded') === 'true';
-    setFabOpenState(!currentlyOpen);
-  });
-
-  fabMenu.addEventListener('click', (event) => {
-    const action = event.target.closest('.fab-item');
-    if (!action) return;
-    setFabOpenState(false);
-  });
-
-  fabMenu.addEventListener('keydown', (event) => {
-    const actions = getMenuActions();
-    if (!actions.length) return;
-
-    const currentIndex = actions.indexOf(document.activeElement);
-    if (event.key === 'Escape') {
-      event.preventDefault();
-      setFabOpenState(false);
+  servicesTrigger.addEventListener('click', (event) => {
+    const clickedServiceLink = event.target instanceof Element ? event.target.closest('.mobile-bottom-nav__service-item') : null;
+    if (clickedServiceLink) {
+      setMenuOpen(false);
       return;
     }
 
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-      event.preventDefault();
-      if (currentIndex === -1) {
-        focusMenuAction(0);
-        return;
-      }
-      const delta = event.key === 'ArrowDown' ? 1 : -1;
-      const nextIndex = (currentIndex + delta + actions.length) % actions.length;
-      focusMenuAction(nextIndex);
-      return;
-    }
-
-    if (event.key === 'Home') {
-      event.preventDefault();
-      focusMenuAction(0);
-      return;
-    }
-
-    if (event.key === 'End') {
-      event.preventDefault();
-      focusMenuAction(actions.length - 1);
-    }
+    event.stopPropagation();
+    const isOpen = servicesTrigger.getAttribute('aria-expanded') === 'true';
+    setMenuOpen(!isOpen);
   });
 
   document.addEventListener('click', (event) => {
-    const fabWrapper = document.getElementById('quickActionsFab');
-    if (!fabWrapper || fabMenu.hidden) return;
-    if (!fabWrapper.contains(event.target)) setFabOpenState(false);
+    if (!(event.target instanceof Element)) return;
+    if (!wrapper.contains(event.target)) setMenuOpen(false);
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      setFabOpenState(false);
-    }
+    if (event.key === 'Escape') setMenuOpen(false);
   });
 
+  mobileQuery.addEventListener('change', (event) => {
+    if (!event.matches) setMenuOpen(false);
+  });
 }
