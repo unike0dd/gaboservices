@@ -126,10 +126,10 @@ main li + li {
   font-family: 'Merriweather', Georgia, serif;
   letter-spacing: 0.01em;
 }
-.editorial-toggle[data-current-theme='time'] {
-  color: #ff6b6b;
-  font-family: 'Libre Baskerville', 'Times New Roman', serif;
-  letter-spacing: 0.03em;
+.editorial-toggle[aria-disabled='true'] {
+  cursor: default;
+  opacity: 0.9;
+  box-shadow: none;
 }
 .nav-links {
   list-style: none;
@@ -988,25 +988,12 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
   background: linear-gradient(155deg, #f3f0e7, #e7e0cf);
 }
 
-:root[data-editorial-theme='time'] .service-carousel-toggle {
-  background: #fff1f1;
-}
-
-:root[data-editorial-theme='time'] .services-hero-accordion {
-  background: linear-gradient(155deg, #f8ecec, #efdcdd);
-}
-
 :root[data-editorial-theme='wallstreet'] .service-carousel-toggle.is-current,
 :root[data-editorial-theme='wallstreet'] .service-carousel-toggle:hover,
 :root[data-editorial-theme='wallstreet'] .service-carousel-toggle:focus-visible {
   background: #e8f0ff;
 }
 
-:root[data-editorial-theme='time'] .service-carousel-toggle.is-current,
-:root[data-editorial-theme='time'] .service-carousel-toggle:hover,
-:root[data-editorial-theme='time'] .service-carousel-toggle:focus-visible {
-  background: #ffe3e4;
-}
 
 
 
@@ -2267,33 +2254,6 @@ body[data-page-key="careers"] .join-form > label:nth-of-type(-n + 3) {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.14);
 }
 
-:root[data-editorial-theme='time'] {
-  --bg: #fff4f4;
-  --text: #2b0f15;
-  --heading-color: #b11116;
-  --card: rgba(255, 255, 255, 0.95);
-  --primary: #b11116;
-  --border: rgba(177, 17, 22, 0.3);
-  --footer-bg: color-mix(in oklab, #000000 82%, var(--primary));
-  --footer-fg: #fff4f4;
-  --footer-border: color-mix(in oklab, #fff4f4 24%, transparent);
-}
-
-:root[data-editorial-theme='time'] body {
-  font-family: 'Libre Baskerville', 'Times New Roman', serif;
-  background: radial-gradient(circle at top, #fff8f8, #ffe4e4 45%, #ffd4d4);
-  animation: none;
-}
-
-:root[data-editorial-theme='time'] .brand {
-  color: #b11116;
-  letter-spacing: 0.04em;
-}
-
-:root[data-editorial-theme='time'] .site-header {
-  border-bottom: 3px solid #b11116;
-}
-
 /* Week 4 performance + accessibility refinements */
 .section {
   content-visibility: auto;
@@ -3122,4 +3082,79 @@ select {
     justify-content: center;
     text-align: center;
   }
+}
+
+
+/* Global cardless editorial layout */
+.card,
+.price-card,
+.info-card,
+.form-panel,
+.matrix-panel,
+.cta-panel,
+.contact-form,
+.secure-repeatable,
+.proof-item,
+.chat-panel {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding-inline: 0;
+}
+
+.card,
+.price-card,
+.info-card,
+.form-panel,
+.matrix-panel,
+.cta-panel,
+.secure-repeatable,
+.proof-item {
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 72%, transparent);
+  padding-block: 0 1.5rem;
+}
+
+.cards-grid > :last-child,
+.engagement-options__grid > :last-child,
+.pricing-grid > :last-child,
+.proof-strip > :last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.service-card {
+  min-height: 0;
+  padding: 1.35rem 0;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 72%, transparent);
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.service-card::before,
+.service-card::after {
+  display: none;
+}
+
+.service-card:hover,
+.service-card:focus-within,
+.service-card.active {
+  transform: none;
+  border-color: color-mix(in oklab, var(--border) 72%, transparent);
+  box-shadow: none;
+}
+
+.services-hero-accordion,
+.chat-panel {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.services-hero-accordion {
+  padding-inline: 0;
 }

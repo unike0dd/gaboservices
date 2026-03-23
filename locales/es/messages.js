@@ -24,11 +24,9 @@ export const ES_MESSAGES = {
     customerRelations: 'Relación con clientes'
   },
   editorialTheme: {
-    wallstreet: 'Corte Noticias',
-    time: 'Corte Revista',
-    wallstreetShort: 'Noticias',
-    timeShort: 'Revista',
-    ariaPrefix: 'Cambiar la apariencia de la página principal y la navegación.'
+    wallstreet: 'Corte Wall Street Journal',
+    wallstreetShort: 'WSJ',
+    ariaPrefix: 'La tipografía Wall Street Journal está activa en esta página.'
   },
   chatbot: {
     panelAriaLabel: 'Panel del chatbot',
