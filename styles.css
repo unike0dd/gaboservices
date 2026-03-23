@@ -3083,3 +3083,78 @@ select {
     text-align: center;
   }
 }
+
+
+/* Global cardless editorial layout */
+.card,
+.price-card,
+.info-card,
+.form-panel,
+.matrix-panel,
+.cta-panel,
+.contact-form,
+.secure-repeatable,
+.proof-item,
+.chat-panel {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding-inline: 0;
+}
+
+.card,
+.price-card,
+.info-card,
+.form-panel,
+.matrix-panel,
+.cta-panel,
+.secure-repeatable,
+.proof-item {
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 72%, transparent);
+  padding-block: 0 1.5rem;
+}
+
+.cards-grid > :last-child,
+.engagement-options__grid > :last-child,
+.pricing-grid > :last-child,
+.proof-strip > :last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.service-card {
+  min-height: 0;
+  padding: 1.35rem 0;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 72%, transparent);
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.service-card::before,
+.service-card::after {
+  display: none;
+}
+
+.service-card:hover,
+.service-card:focus-within,
+.service-card.active {
+  transform: none;
+  border-color: color-mix(in oklab, var(--border) 72%, transparent);
+  box-shadow: none;
+}
+
+.services-hero-accordion,
+.chat-panel {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.services-hero-accordion {
+  padding-inline: 0;
+}
