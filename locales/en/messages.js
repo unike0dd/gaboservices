@@ -23,11 +23,9 @@ export const EN_MESSAGES = {
     customerRelations: 'Customer Relations'
   },
   editorialTheme: {
-    wallstreet: 'News Cut',
-    time: 'Magazine Cut',
-    wallstreetShort: 'News',
-    timeShort: 'Mags',
-    ariaPrefix: 'Switch landing and navigation look.'
+    wallstreet: 'Wall Street Journal Cut',
+    wallstreetShort: 'WSJ',
+    ariaPrefix: 'Wall Street Journal typography is active for this page.'
   },
   chatbot: {
     panelAriaLabel: 'Chatbot panel',
