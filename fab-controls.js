@@ -10,28 +10,49 @@ const SERVICE_LINKS = [
   { key: 'customer', href: '/services/customer-relations/', label: EN_MESSAGES.mobileBottomNav.customerRelations }
 ];
 
+function buildDesktopFabMarkup() {
+  return `
+    <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="false" aria-controls="fabOverlay">☰ Quick actions</button>
+    <div class="fab-overlay" id="fabOverlay" hidden>
+      <div class="fab-backdrop" data-fab-dismiss></div>
+      <aside class="fab-sheet" role="dialog" aria-modal="true" aria-label="Quick actions menu">
+        <div class="fab-sheet-head">
+          <strong>Quick actions</strong>
+          <div class="fab-sheet-actions">
+            <button class="fab-dismiss" type="button" data-fab-dismiss>Close</button>
+            <button class="fab-dismiss fab-dismiss--icon" type="button" data-fab-dismiss aria-label="Close quick actions menu">✕</button>
+          </div>
+        </div>
+        <div class="fab-menu" id="fabQuickMenu">
+          <a class="fab-item" data-page="contact" href="/contact" aria-label="${EN_MESSAGES.mobileBottomNav.contact}">
+            <span class="fab-item-icon" aria-hidden="true">✉️</span>
+            <span>${EN_MESSAGES.mobileBottomNav.contact}</span>
+          </a>
+          <a class="fab-item" data-page="services" href="/services" aria-label="${EN_MESSAGES.mobileBottomNav.services}">
+            <span class="fab-item-icon" aria-hidden="true">🧭</span>
+            <span>${EN_MESSAGES.mobileBottomNav.services}</span>
+          </a>
+        </div>
+      </aside>
+    </div>
+  `;
+}
+
 function ensureDesktopFabNav() {
   let wrapper = document.getElementById('fabWrapper');
-  if (wrapper) return wrapper;
+  if (!wrapper) {
+    wrapper = document.createElement('div');
+    wrapper.id = 'fabWrapper';
+    wrapper.className = 'fab-wrapper';
+    document.body.appendChild(wrapper);
+  }
 
-  wrapper = document.createElement('div');
-  wrapper.id = 'fabWrapper';
-  wrapper.className = 'fab-wrapper';
-  wrapper.innerHTML = `
-    <div class="fab-menu" id="fabQuickMenu">
-      <a class="fab-item" data-page="contact" href="/contact" aria-label="${EN_MESSAGES.mobileBottomNav.contact}">
-        <span class="fab-item-icon" aria-hidden="true">✉️</span>
-        <span>${EN_MESSAGES.mobileBottomNav.contact}</span>
-      </a>
-      <a class="fab-item" data-page="services" href="/services" aria-label="${EN_MESSAGES.mobileBottomNav.services}">
-        <span class="fab-item-icon" aria-hidden="true">🧭</span>
-        <span>${EN_MESSAGES.mobileBottomNav.services}</span>
-      </a>
-    </div>
-    <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="true" aria-controls="fabQuickMenu">Quick actions</button>
-  `;
+  const hasCurrentMarkup = wrapper.querySelector('#fabMainToggle') && wrapper.querySelector('#fabOverlay');
+  if (!hasCurrentMarkup) {
+    wrapper.innerHTML = buildDesktopFabMarkup();
+    wrapper.dataset.navBound = 'false';
+  }
 
-  document.body.appendChild(wrapper);
   return wrapper;
 }
 
@@ -114,24 +135,42 @@ export function initFabControls() {
   if (desktopWrapper && desktopWrapper.dataset.navBound !== 'true') {
     desktopWrapper.dataset.navBound = 'true';
     const fabToggle = desktopWrapper.querySelector('#fabMainToggle');
-    const fabMenu = desktopWrapper.querySelector('#fabQuickMenu');
+    const fabOverlay = desktopWrapper.querySelector('#fabOverlay');
     const desktopQuery = window.matchMedia(DESKTOP_QUERY);
 
     const setDesktopFabOpen = (isOpen) => {
-      if (!fabToggle || !fabMenu) return;
+      if (!fabToggle || !fabOverlay) return;
       fabToggle.setAttribute('aria-expanded', String(isOpen));
-      fabMenu.hidden = !isOpen;
+      fabToggle.textContent = isOpen ? '✕ Close actions' : '☰ Quick actions';
+      fabOverlay.hidden = !isOpen;
+      document.body.classList.toggle('fab-open', isOpen);
     };
 
-    setDesktopFabOpen(desktopQuery.matches);
+    setDesktopFabOpen(false);
 
     fabToggle?.addEventListener('click', () => {
       const isOpen = fabToggle.getAttribute('aria-expanded') === 'true';
       setDesktopFabOpen(!isOpen);
     });
 
+    desktopWrapper.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      if (target.closest('[data-fab-dismiss]')) {
+        setDesktopFabOpen(false);
+        return;
+      }
+
+      if (target.closest('.fab-item')) setDesktopFabOpen(false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setDesktopFabOpen(false);
+    });
+
     desktopQuery.addEventListener('change', (event) => {
-      setDesktopFabOpen(event.matches);
+      if (!event.matches) setDesktopFabOpen(false);
     });
   }
   syncActiveState(wrapper);
