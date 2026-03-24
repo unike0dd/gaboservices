@@ -2684,6 +2684,19 @@ select {
   padding-bottom: 84px;
 }
 
+.about-hero-centered {
+  text-align: center;
+}
+
+.about-hero-centered h1,
+.about-hero-centered .lead {
+  margin-inline: auto;
+}
+
+.about-hero-centered h1 {
+  max-width: 18ch;
+}
+
 .section-block {
   margin-block: clamp(3rem, 6vw, 5.5rem);
 }
