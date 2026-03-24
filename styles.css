@@ -96,41 +96,6 @@ main li + li {
 .brand-stack { display: grid; gap: 0.2rem; flex: 1 1 0; min-width: 0; }
 .brand { font-weight: 800; font-size: 24px; color: var(--text); text-decoration: none; }
 .brand-subtitle { margin: 0; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; }
-.editorial-toggle {
-  justify-self: start;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #000;
-  background: #000;
-  color: #5ba3ff;
-  border-radius: 999px;
-  padding: 0.42rem 1rem;
-  font-size: 0.84rem;
-  font-weight: 700;
-  cursor: pointer;
-  min-height: 44px;
-  min-width: 7rem;
-  transition: transform 180ms ease, box-shadow 180ms ease, color 180ms ease, background-color 180ms ease, border-color 180ms ease;
-}
-.editorial-toggle:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.72);
-  outline-offset: 2px;
-}
-.editorial-toggle:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
-}
-.editorial-toggle[data-current-theme='wallstreet'] {
-  color: #5ba3ff;
-  font-family: 'Merriweather', Georgia, serif;
-  letter-spacing: 0.01em;
-}
-.editorial-toggle[aria-disabled='true'] {
-  cursor: default;
-  opacity: 0.9;
-  box-shadow: none;
-}
 .nav-links {
   list-style: none;
   display: none;

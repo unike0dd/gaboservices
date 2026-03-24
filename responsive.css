@@ -156,7 +156,6 @@ iframe {
   }
 
   .actions .ghost,
-  .editorial-toggle,
   .btn,
   .nav-toggle,
   .nav-links a {
@@ -294,11 +293,6 @@ body {
     font-size: 0.74rem;
   }
 
-  .editorial-toggle {
-    padding-inline: 0.6rem;
-    font-size: 0.74rem;
-  }
-
   .nav-links {
     gap: 0.7rem;
   }
@@ -313,10 +307,6 @@ body {
     letter-spacing: 0.06em;
   }
 
-  .editorial-toggle {
-    font-size: 0.74rem;
-    padding: 0.24rem 0.62rem;
-  }
 }
 
 @media (max-width: 480px) {
@@ -324,10 +314,6 @@ body {
     letter-spacing: 0.05em;
   }
 
-  .editorial-toggle {
-    width: fit-content;
-    max-width: 100%;
-  }
 }
 
 /* Services page responsive fixes */
