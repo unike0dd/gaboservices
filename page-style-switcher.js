@@ -14,7 +14,7 @@ import { EN_MESSAGES } from './locales/en/messages.js';
 
     button.dataset.currentTheme = 'wallstreet';
     button.dataset.nextTheme = 'wallstreet';
-    button.textContent = labels.wallstreetShort;
+    button.textContent = "";
     button.setAttribute('aria-label', `${labels.ariaPrefix} ${labels.wallstreet}.`);
     button.setAttribute('title', `Current: ${labels.wallstreet}.`);
     button.setAttribute('aria-disabled', 'true');
