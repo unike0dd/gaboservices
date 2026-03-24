@@ -2694,7 +2694,9 @@ select {
 }
 
 .about-hero-centered h1 {
-  max-width: 18ch;
+  max-width: none;
+  white-space: nowrap;
+  text-wrap: nowrap;
 }
 
 .section-block {
