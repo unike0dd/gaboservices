@@ -449,12 +449,6 @@ body[data-page-key="services"] .cta-row > .btn {
   }
 }
 
-@media (max-width: 900px) {
-  .fab-wrapper {
-    display: none;
-  }
-}
-
 @media (min-width: 901px) {
   .mobile-chat-launcher,
   .mobile-bottom-nav {
