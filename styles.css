@@ -148,7 +148,6 @@ main li + li {
   z-index: 92;
   min-width: 12rem;
 }
-.nav-links.open { display: flex; }
 .nav-links a {
   color: var(--text);
   text-decoration: none;
@@ -188,61 +187,8 @@ main li + li {
 .actions .ghost.active { background: var(--text); color: var(--bg); border-color: var(--text); }
 .ghost,
 .btn,
-.nav-links a,
-.nav-toggle {
+.nav-links a {
   min-height: 44px;
-}
-.nav-toggle {
-  --nav-toggle-accent: #f59e0b;
-  position: relative;
-  width: 2.85rem;
-  height: 2.85rem;
-  border-radius: 999px;
-  border: 2px solid color-mix(in oklab, var(--nav-toggle-accent) 82%, white 18%);
-  background: var(--primary);
-  color: #fff;
-  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.3), 0 10px 24px rgba(15, 23, 42, 0.24);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  line-height: 1;
-  z-index: 4101;
-  transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease;
-}
-
-.nav-toggle:hover,
-.nav-toggle:focus-visible {
-  transform: translateY(-1px) scale(1.02);
-  box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.35), 0 14px 28px rgba(15, 23, 42, 0.28);
-  outline: none;
-}
-
-.nav-toggle::before {
-  content: '';
-  position: absolute;
-  inset: 6px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.26);
-  pointer-events: none;
-}
-
-body.nav-open .nav-toggle {
-  background: #16253d;
-  border-color: color-mix(in oklab, var(--nav-toggle-accent) 86%, white 14%);
-  box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.38), 0 18px 30px rgba(15, 23, 42, 0.3);
-}
-
-body.nav-open .nav-toggle::after {
-  content: '\2192';
-  position: absolute;
-  right: -0.72rem;
-  bottom: -1rem;
-  color: var(--nav-toggle-accent);
-  font-size: 2.4rem;
-  line-height: 1;
-  text-shadow: 0 3px 10px rgba(15, 23, 42, 0.2);
-  pointer-events: none;
 }
 .hero { padding: 5rem 0 3rem; }
 .hero p { font-size: clamp(1.05rem, 1rem + 0.8vw, 1.75rem); }
@@ -1588,6 +1534,16 @@ textarea[data-security-state='review'] {
   transform: translateX(-50%) rotate(45deg);
 }
 
+.mobile-bottom-nav__menu-heading {
+  margin: 0;
+  padding: 0.5rem 1rem 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--text) 62%, #ffffff);
+}
+
 .mobile-bottom-nav__service-item {
   position: relative;
   display: block;
@@ -1845,10 +1801,6 @@ textarea[data-security-state='review'] {
     display: block;
   }
 
-  .nav-toggle {
-    display: none;
-  }
-
   .nav-links {
     display: flex;
     position: static;
@@ -1887,76 +1839,12 @@ textarea[data-security-state='review'] {
     margin-left: auto;
   }
 
-  nav {
-    display: block;
-  }
-
-  .nav-toggle {
-    display: inline-flex;
-    order: 2;
-    margin-left: auto;
-    align-items: center;
-    justify-content: center;
-    width: 2.7rem;
-    height: 2.7rem;
-    font-size: 1rem;
-    z-index: 230;
-  }
+  nav { display: none; }
 
   .nav-links {
-    display: flex;
-    position: fixed;
-    inset: 0 0 0 auto;
-    top: 0;
-    right: 0;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.35rem;
-    width: min(86vw, 340px);
-    max-width: 100%;
-    height: 100dvh;
-    margin: 0;
-    padding: 5.3rem 1rem 1.4rem;
-    border-radius: 1.2rem 0 0 1.2rem;
-    border-left: 1px solid color-mix(in oklab, var(--nav-toggle-accent) 28%, var(--border));
-    border-top: 0;
-    border-right: 0;
-    border-bottom: 0;
-    background: color-mix(in oklab, var(--bg) 90%, white 10%);
-    box-shadow: -18px 0 42px rgba(15, 23, 42, 0.3);
-    transform: translateX(106%);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: transform .3s ease, opacity .2s ease, visibility .2s ease;
-    will-change: transform;
-    z-index: 4000;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-  }
-  .nav-links.open {
-    transform: translateX(0);
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
+    display: none;
   }
 
-  .nav-links a {
-    width: 100%;
-    padding: 0.62rem 0.72rem;
-    border-radius: 0.6rem;
-  }
-
-  .nav-links a:hover,
-  .nav-links a:focus-visible {
-    background: color-mix(in oklab, var(--primary) 15%, transparent);
-    outline: none;
-  }
-
-  body.nav-open {
-    overflow: hidden;
-    touch-action: none;
-  }
 }
 
 body.fab-open {

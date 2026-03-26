@@ -4,6 +4,12 @@ const MOBILE_QUERY = '(max-width: 900px)';
 const DESKTOP_QUERY = '(min-width: 901px)';
 
 const SERVICE_LINKS = [
+  { key: 'home', href: '/', label: EN_MESSAGES.mobileBottomNav.home },
+  { key: 'about', href: '/about', label: EN_MESSAGES.mobileBottomNav.about },
+  { key: 'services-root', href: '/services', label: EN_MESSAGES.mobileBottomNav.services },
+  { key: 'learning', href: '/learning', label: 'Learning' },
+  { key: 'contact', href: '/contact', label: EN_MESSAGES.mobileBottomNav.contact },
+  { key: 'careers', href: '/careers', label: EN_MESSAGES.mobileBottomNav.careers },
   { key: 'logistics', href: '/services/logistics-operations/', label: EN_MESSAGES.mobileBottomNav.logistics },
   { key: 'admin', href: '/services/administrative-backoffice/', label: EN_MESSAGES.mobileBottomNav.admin },
   { key: 'it', href: '/services/it-support/', label: EN_MESSAGES.mobileBottomNav.it },
@@ -12,7 +18,7 @@ const SERVICE_LINKS = [
 
 function buildDesktopFabMarkup() {
   return `
-    <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="false" aria-controls="fabOverlay">☰ Quick actions</button>
+    <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="false" aria-controls="fabOverlay">Quick actions</button>
     <div class="fab-overlay" id="fabOverlay" hidden>
       <div class="fab-backdrop" data-fab-dismiss></div>
       <aside class="fab-sheet" role="dialog" aria-modal="true" aria-label="Quick actions menu">
@@ -74,7 +80,10 @@ function ensureMobileBottomNav() {
         <span>${EN_MESSAGES.mobileBottomNav.services}</span>
       </button>
       <div class="mobile-bottom-nav__services-menu" id="servicesMenu" hidden>
-        ${SERVICE_LINKS.map((item) => `<a class="mobile-bottom-nav__service-item" data-service-link="${item.key}" href="${item.href}">${item.label}</a>`).join('')}
+        <p class="mobile-bottom-nav__menu-heading">Menu</p>
+        ${SERVICE_LINKS.slice(0, 6).map((item) => `<a class="mobile-bottom-nav__service-item" data-service-link="${item.key}" href="${item.href}">${item.label}</a>`).join('')}
+        <p class="mobile-bottom-nav__menu-heading">Service Lines</p>
+        ${SERVICE_LINKS.slice(6).map((item) => `<a class="mobile-bottom-nav__service-item" data-service-link="${item.key}" href="${item.href}">${item.label}</a>`).join('')}
       </div>
     </div>
     <a class="mobile-bottom-nav__item" data-page="learning" href="/learning" aria-label="Learning">
@@ -138,7 +147,7 @@ export function initFabControls() {
     const setDesktopFabOpen = (isOpen) => {
       if (!fabToggle || !fabOverlay) return;
       fabToggle.setAttribute('aria-expanded', String(isOpen));
-      fabToggle.textContent = isOpen ? '✕ Close actions' : '☰ Quick actions';
+      fabToggle.textContent = isOpen ? '✕ Close actions' : 'Quick actions';
       fabOverlay.hidden = !isOpen;
       document.body.classList.toggle('fab-open', isOpen);
     };
