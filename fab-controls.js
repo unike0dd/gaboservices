@@ -68,13 +68,15 @@ function ensureMobileBottomNav() {
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8h.01M11 12h1v4h1M4 12a8 8 0 1 0 16 0 8 8 0 0 0-16 0z"></path></svg>
       <span>${EN_MESSAGES.mobileBottomNav.about}</span>
     </a>
-    <button class="mobile-bottom-nav__item mobile-bottom-nav__trigger" data-page="services" id="servicesTrigger" type="button" aria-expanded="false" aria-controls="servicesMenu" aria-label="${EN_MESSAGES.mobileBottomNav.services}">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h7"></path></svg>
-      <span>${EN_MESSAGES.mobileBottomNav.services}</span>
+    <div class="mobile-bottom-nav__services">
+      <button class="mobile-bottom-nav__item mobile-bottom-nav__trigger" data-page="services" id="servicesTrigger" type="button" aria-expanded="false" aria-controls="servicesMenu" aria-label="${EN_MESSAGES.mobileBottomNav.services}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h7"></path></svg>
+        <span>${EN_MESSAGES.mobileBottomNav.services}</span>
+      </button>
       <div class="mobile-bottom-nav__services-menu" id="servicesMenu" hidden>
         ${SERVICE_LINKS.map((item) => `<a class="mobile-bottom-nav__service-item" data-service-link="${item.key}" href="${item.href}">${item.label}</a>`).join('')}
       </div>
-    </button>
+    </div>
     <a class="mobile-bottom-nav__item" data-page="learning" href="/learning" aria-label="Learning">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5a2.5 2.5 0 0 0-2.5-2.5H4z"></path><path d="M4 5.5V19a2 2 0 0 0 2 2h11.5"></path><path d="M8 7h8"></path><path d="M8 11h8"></path></svg>
       <span>Learning</span>
@@ -186,15 +188,14 @@ export function initFabControls() {
   setMenuOpen(false);
 
   servicesTrigger.addEventListener('click', (event) => {
-    const clickedServiceLink = event.target instanceof Element ? event.target.closest('.mobile-bottom-nav__service-item') : null;
-    if (clickedServiceLink) {
-      setMenuOpen(false);
-      return;
-    }
-
     event.stopPropagation();
     const isOpen = servicesTrigger.getAttribute('aria-expanded') === 'true';
     setMenuOpen(!isOpen);
+  });
+
+  servicesMenu.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return;
+    if (event.target.closest('.mobile-bottom-nav__service-item')) setMenuOpen(false);
   });
 
   document.addEventListener('click', (event) => {
