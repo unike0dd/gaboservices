@@ -2702,6 +2702,10 @@ select {
   margin: 0 0 20px;
 }
 
+.section-title-center {
+  text-align: center;
+}
+
 .page-main .lead {
   font-size: var(--lead-size);
   line-height: 1.58;
