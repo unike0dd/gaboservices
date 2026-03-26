@@ -2670,6 +2670,12 @@ select {
   margin-block: clamp(3rem, 6vw, 5.5rem);
 }
 
+@media (min-width: 768px) {
+  .md-center {
+    text-align: center;
+  }
+}
+
 .cta-row {
   margin-top: 34px;
   width: 100%;
