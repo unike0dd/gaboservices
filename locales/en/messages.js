@@ -1,7 +1,5 @@
 export const EN_MESSAGES = {
   nav: {
-    openNavigationMenu: 'Open navigation menu',
-    closeNavigationMenu: 'Close navigation menu',
     submitting: 'Submitting...'
   },
   fab: {

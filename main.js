@@ -20,88 +20,6 @@ function syncPageMetadata() {
   document.documentElement.lang = ACTIVE_LOCALE;
 }
 
-function ensureNavToggle() {
-  let navToggle = document.getElementById('navToggle');
-  if (navToggle) return navToggle;
-
-  const navWrap = document.querySelector('.nav-wrap');
-  const nav = navWrap?.querySelector('nav');
-  if (!navWrap || !nav) return null;
-
-  navToggle = document.createElement('button');
-  navToggle.id = 'navToggle';
-  navToggle.type = 'button';
-  navToggle.className = 'nav-toggle';
-  navToggle.setAttribute('aria-controls', 'primaryNav');
-  navToggle.setAttribute('aria-expanded', 'false');
-  navToggle.setAttribute('aria-label', EN_MESSAGES.nav.openNavigationMenu);
-  navToggle.textContent = '\u2630';
-
-  navWrap.insertBefore(navToggle, nav);
-  return navToggle;
-}
-
-function initNavToggle() {
-  const navToggle = ensureNavToggle();
-  const primaryNav = document.getElementById('primaryNav');
-  if (!navToggle || !primaryNav) return;
-
-  const desktopQuery = window.matchMedia('(min-width: 901px)');
-
-  const setNavToggleA11y = (expanded) => {
-    navToggle.setAttribute('aria-expanded', String(expanded));
-    navToggle.setAttribute(
-      'aria-label',
-      expanded ? EN_MESSAGES.nav.closeNavigationMenu : EN_MESSAGES.nav.openNavigationMenu
-    );
-    navToggle.textContent = expanded ? '✕' : '☰';
-    navToggle.classList.toggle('is-active', expanded);
-    primaryNav.setAttribute('aria-hidden', String(!expanded));
-  };
-  const closeNav = () => {
-    setNavToggleA11y(false);
-    primaryNav.classList.remove('open');
-    document.body.classList.remove('nav-open');
-  };
-
-  const openNav = () => {
-    setNavToggleA11y(true);
-    primaryNav.classList.add('open');
-    document.body.classList.add('nav-open');
-  };
-
-  setNavToggleA11y(false);
-
-  navToggle.addEventListener('click', () => {
-    const expanded = navToggle.getAttribute('aria-expanded') === 'true';
-    if (expanded) {
-      closeNav();
-      return;
-    }
-    openNav();
-  });
-
-  primaryNav.addEventListener('click', (event) => {
-    if (event.target instanceof Element && event.target.closest('a')) {
-      closeNav();
-    }
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeNav();
-  });
-
-  document.addEventListener('click', (event) => {
-    if (!(event.target instanceof Element)) return;
-    const isInsideNav = event.target.closest('#primaryNav') || event.target.closest('#navToggle');
-    if (!isInsideNav && primaryNav.classList.contains('open')) closeNav();
-  });
-
-  desktopQuery.addEventListener('change', (event) => {
-    if (event.matches) closeNav();
-  });
-}
-
 function initFormStatus() {
   const forms = [...document.querySelectorAll('form')];
   forms.forEach((form) => {
@@ -122,6 +40,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initAdaptiveLayout();
   initFabControls();
   initChatbotControls();
-  initNavToggle();
   initFormStatus();
 });
