@@ -1502,7 +1502,7 @@ textarea[data-security-state='review'] {
   left: 50%;
   bottom: calc(100% + 0.9rem);
   transform: translateX(-50%) scale(0.96);
-  min-width: min(14rem, calc(100vw - 2rem));
+  min-width: min(17rem, calc(100vw - 1.25rem));
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 0.95rem;
@@ -1693,7 +1693,7 @@ textarea[data-security-state='review'] {
 }
 .mobile-chat-launcher {
   position: fixed;
-  left: max(0.9rem, calc(var(--nav-fab-offset-x) - 0.15rem), env(safe-area-inset-left, 0px));
+  right: max(0.9rem, calc(var(--nav-fab-offset-x) - 0.15rem), env(safe-area-inset-right, 0px));
   bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 0.7rem);
   width: 3.4rem;
   height: 3.4rem;
