@@ -164,7 +164,7 @@ iframe {
   }
 
   body {
-    padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 1rem);
+    padding-bottom: calc(var(--nav-height, 0px) + env(safe-area-inset-bottom, 0px) + 1rem);
   }
 
   .mobile-bottom-nav {
@@ -175,7 +175,7 @@ iframe {
     width: 3.15rem;
     height: 3.15rem;
     left: max(0.75rem, env(safe-area-inset-left, 0px));
-    bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 0.65rem);
+    bottom: calc(var(--nav-height, 0px) + env(safe-area-inset-bottom, 0px) + 0.65rem);
   }
 
   .chat-panel {
@@ -183,7 +183,7 @@ iframe {
     right: auto;
     width: min(92vw, 25rem);
     max-width: calc(100vw - 4vw);
-    bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 1.1rem);
+    bottom: calc(var(--nav-height, 0px) + env(safe-area-inset-bottom, 0px) + 1.1rem);
   }
 
   .service-hero-accordion {
@@ -446,12 +446,6 @@ body[data-page-key="services"] .cta-row > .btn {
   body[data-page-key="services"] .service-card-link,
   body[data-page-key="services"] .page-main .btn {
     width: 100%;
-  }
-}
-
-@media (max-width: 900px) {
-  .fab-wrapper {
-    display: none;
   }
 }
 
