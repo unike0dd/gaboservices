@@ -4,12 +4,6 @@ const MOBILE_QUERY = '(max-width: 900px)';
 const DESKTOP_QUERY = '(min-width: 901px)';
 
 const SERVICE_LINKS = [
-  { key: 'home', href: '/', label: EN_MESSAGES.mobileBottomNav.home },
-  { key: 'about', href: '/about', label: EN_MESSAGES.mobileBottomNav.about },
-  { key: 'services-root', href: '/services', label: EN_MESSAGES.mobileBottomNav.services },
-  { key: 'learning', href: '/learning', label: 'Learning' },
-  { key: 'contact', href: '/contact', label: EN_MESSAGES.mobileBottomNav.contact },
-  { key: 'careers', href: '/careers', label: EN_MESSAGES.mobileBottomNav.careers },
   { key: 'logistics', href: '/services/logistics-operations/', label: EN_MESSAGES.mobileBottomNav.logistics },
   { key: 'admin', href: '/services/administrative-backoffice/', label: EN_MESSAGES.mobileBottomNav.admin },
   { key: 'it', href: '/services/it-support/', label: EN_MESSAGES.mobileBottomNav.it },
@@ -80,10 +74,8 @@ function ensureMobileBottomNav() {
         <span>${EN_MESSAGES.mobileBottomNav.services}</span>
       </button>
       <div class="mobile-bottom-nav__services-menu" id="servicesMenu" hidden>
-        <p class="mobile-bottom-nav__menu-heading">Menu</p>
-        ${SERVICE_LINKS.slice(0, 6).map((item) => `<a class="mobile-bottom-nav__service-item" data-service-link="${item.key}" href="${item.href}">${item.label}</a>`).join('')}
-        <p class="mobile-bottom-nav__menu-heading">Service Lines</p>
-        ${SERVICE_LINKS.slice(6).map((item) => `<a class="mobile-bottom-nav__service-item" data-service-link="${item.key}" href="${item.href}">${item.label}</a>`).join('')}
+        <p class="mobile-bottom-nav__menu-heading">${EN_MESSAGES.mobileBottomNav.services}</p>
+        ${SERVICE_LINKS.map((item) => `<a class="mobile-bottom-nav__service-item" data-service-link="${item.key}" href="${item.href}">${item.label}</a>`).join('')}
       </div>
     </div>
     <a class="mobile-bottom-nav__item" data-page="learning" href="/learning" aria-label="Learning">
@@ -93,10 +85,6 @@ function ensureMobileBottomNav() {
     <a class="mobile-bottom-nav__item" data-page="contact" href="/contact" aria-label="${EN_MESSAGES.mobileBottomNav.contact}">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2h-2.828a2 2 0 0 1-1.414-.586l-4.414-4.414a2 2 0 0 0-2.828 0L2.828 18.414A2 2 0 0 1 1.414 19H0v-4a2 2 0 0 1 2-2h.172a2 2 0 0 0 1.414-.586l4.414-4.414a2 2 0 0 1 2.828 0l4.414 4.414a2 2 0 0 0 1.414.586H19a2 2 0 0 1 2 2z"></path></svg>
       <span>${EN_MESSAGES.mobileBottomNav.contact}</span>
-    </a>
-    <a class="mobile-bottom-nav__item" data-page="careers" href="/careers" aria-label="${EN_MESSAGES.mobileBottomNav.careers}">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 13.255A23.931 23.931 0 0 1 12 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2m4 6h.01M5 20h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z"></path></svg>
-      <span>${EN_MESSAGES.mobileBottomNav.careers}</span>
     </a>
   `;
 

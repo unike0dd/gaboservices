@@ -14,10 +14,9 @@ export const EN_MESSAGES = {
     about: 'About',
     services: 'Services',
     contact: 'Contact',
-    careers: 'Careers',
     logistics: 'Logistics',
-    admin: 'Admin',
-    it: 'IT',
+    admin: 'Admin BackOffice',
+    it: 'IT Support',
     customerRelations: 'Customer Relations'
   },
   editorialTheme: {
