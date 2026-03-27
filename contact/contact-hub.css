@@ -63,6 +63,9 @@ body.summary-drawer-open { overflow: hidden; }
 .contact-hub .grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .contact-hub .grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .contact-hub .field { display: grid; gap: 8px; min-width: 0; }
+.contact-hub .field--full { grid-column: 1 / -1; }
+.contact-hub .field--full.contact-number-inline { display: grid; gap: var(--space-3); grid-template-columns: minmax(130px, 180px) minmax(0, 1fr); }
+.contact-hub .contact-number-inline > .field { align-content: start; }
 .contact-hub .field label,
 .contact-hub .field .label { font-size: 0.95rem; font-weight: 700; }
 .contact-hub .field input,
@@ -144,6 +147,7 @@ body.summary-drawer-open { overflow: hidden; }
   .contact-hub .workspace-intro,
   .contact-hub .grid--2,
   .contact-hub .grid--3,
+  .contact-hub .field--full.contact-number-inline,
   .contact-hub .check-grid,
   .contact-hub .dynamic__entry,
   .contact-hub .dynamic__entry--triple { grid-template-columns: 1fr; }
