@@ -7,9 +7,9 @@
     formId: 'contactForm',
     statusId: 'formStatus',
     clearKey: 'contact',
-    requiredIds: ['contactFullName', 'contactEmail', 'contactCountryCode', 'contactNumber', 'contactCity', 'contactState', 'contactZip', 'bestTimeToContact', 'contactMessage'],
-    emptyMessage: 'Please complete all required contact and inquiry fields.',
-    readyMessage: 'Contact inquiry is ready for secure submission.',
+    requiredIds: ['contactFullName', 'contactEmail', 'contactCompany', 'contactNumber', 'contactPrimaryNeed', 'contactMessage'],
+    emptyMessage: 'Please complete the quick inquiry fields before submitting.',
+    readyMessage: 'Quick inquiry is ready for secure submission.',
     listConfigs: [
       { type: 'simple', inputId: 'contactRemoteSkillInput', addBtnId: 'contactRemoteSkillAdd', listId: 'contactRemoteSkillsList', hiddenId: 'contactRemoteSkillsHidden' },
       { type: 'pair', inputId: 'contactExperienceInput', selectId: 'contactExperienceLevel', addBtnId: 'contactExperienceAdd', listId: 'contactExperienceList', hiddenId: 'contactExperienceHidden' },
@@ -24,20 +24,18 @@
     ],
     clearCheckboxSelectors: ['input[name="contact_interest[]"]', 'input[name="remote_interest[]"]'],
     extraValidation: function (context) {
-      if (!root.querySelector('#contactExperienceHidden').value.trim()) {
-        return 'Please add at least one experience item.';
-      }
-      if (!root.querySelector('#contactEducationHidden').value.trim()) {
-        return 'Please add at least one education item.';
-      }
-      var interestCount = context.getCheckedValues('input[name="contact_interest[]"]').length + context.getCheckedValues('input[name="remote_interest[]"]').length;
-      if (!interestCount) {
-        return 'Please select at least one area of interest.';
+      if (!context.getCheckedValues('input[name="contact_interest[]"]').length) {
+        return 'Please select at least one service interest.';
       }
       return '';
     }
   });
 
-  var accordion = root.querySelector('.contact-details-accordion');
-  if (accordion) accordion.open = false;
+  root.querySelectorAll('[data-clear-form]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (btn.getAttribute('data-clear-form') !== 'contact') return;
+      var accordion = root.querySelector('.contact-details-accordion');
+      if (accordion) accordion.open = false;
+    });
+  });
 })();
