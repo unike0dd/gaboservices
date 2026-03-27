@@ -63,6 +63,7 @@ body.summary-drawer-open { overflow: hidden; }
 .contact-hub .grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .contact-hub .grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .contact-hub .field { display: grid; gap: 8px; min-width: 0; }
+.contact-hub .field--full { grid-column: 1 / -1; }
 .contact-hub .field label,
 .contact-hub .field .label { font-size: 0.95rem; font-weight: 700; }
 .contact-hub .field input,
@@ -290,6 +291,10 @@ body.summary-drawer-open { overflow: hidden; }
 
 .contact-hub .field-help--service-interest {
   font-size: calc(0.9rem + 3px);
+}
+.contact-hub .field--service-interest > .label,
+.contact-hub .field--service-interest > .field-help {
+  text-align: center;
 }
 
 .contact-details-accordion__body {

@@ -7,7 +7,7 @@
     formId: 'contactForm',
     statusId: 'formStatus',
     clearKey: 'contact',
-    requiredIds: ['contactFullName', 'contactEmail', 'contactCompany', 'contactNumber', 'contactMessage'],
+    requiredIds: ['contactFirstName', 'contactLastName', 'contactCompany', 'contactNumber', 'contactMessage'],
     emptyMessage: 'Please complete the quick inquiry fields before submitting.',
     readyMessage: 'Quick inquiry is ready for secure submission.',
     listConfigs: [

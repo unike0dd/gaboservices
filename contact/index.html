@@ -72,15 +72,26 @@
                 <form id="contactForm" class="site-form" method="post" novalidate>
                   <section class="form-block form-block--primary">
                     <div class="grid grid--2">
-                      <div class="field"><label for="contactFullName">Full name</label><input id="contactFullName" name="full_name" type="text" autocomplete="name" required /></div>
-                      <div class="field"><label for="contactEmail">Work email</label><input id="contactEmail" name="email_address" type="email" autocomplete="email" required /></div>
-                      <div class="field"><label for="contactCompany">Company</label><input id="contactCompany" name="company_team" type="text" autocomplete="organization" required /></div>
-                      <div class="field"><label for="contactNumber">Contact number</label><input id="contactNumber" name="contact_number" type="tel" autocomplete="tel-national" required /></div>
+                      <div class="field"><label for="contactFirstName">Name</label><input id="contactFirstName" name="first_name" type="text" autocomplete="given-name" required /></div>
+                      <div class="field"><label for="contactLastName">Last name</label><input id="contactLastName" name="last_name" type="text" autocomplete="family-name" required /></div>
+                      <div class="field">
+                        <label for="contactCountryCode">Country code</label>
+                        <input id="contactCountryCode" name="country_code" type="text" inputmode="numeric" maxlength="5" size="5" placeholder="+1" />
+                      </div>
+                      <div class="field">
+                        <label for="contactNumber">Contact number</label>
+                        <input id="contactNumber" name="contact_number" type="tel" autocomplete="tel-national" inputmode="numeric" maxlength="20" size="20" required />
+                      </div>
+                      <div class="field field--full"><label for="contactCompany">Company name</label><input id="contactCompany" name="company_team" type="text" autocomplete="organization" required /></div>
+                      <div class="field field--full">
+                        <label for="contactMessage">Comment</label>
+                        <textarea id="contactMessage" name="message" rows="5" placeholder="Add your comment." required></textarea>
+                      </div>
                     </div>
 
-                    <div class="field">
+                    <div class="field field--service-interest">
                       <span class="label">Service interest</span>
-                      <p class="field-help field-help--service-interest">Choose one or more areas so we route the inquiry to the right team.</p>
+                      <p class="field-help field-help--service-interest">Choose the requirements that covers your operations</p>
                       <div class="check-grid">
                         <label class="check-card"><input type="checkbox" name="contact_interest[]" value="Logistics Operations" /><span>Logistics Operations</span></label>
                         <label class="check-card"><input type="checkbox" name="contact_interest[]" value="Administrative Back Office" /><span>Administrative Back Office</span></label>
@@ -92,15 +103,10 @@
                   </section>
 
                       <section class="form-block">
-                        <div class="field"><label for="contactCountryCode">Country code</label><input id="contactCountryCode" name="country_code" type="text" placeholder="+1" /></div>
                         <div class="field"><label for="bestTimeToContact">Best time to contact you</label><input id="bestTimeToContact" name="best_time_to_contact" type="datetime-local" /></div>
                         <div class="field"><label for="contactCity">City</label><input id="contactCity" name="city" type="text" autocomplete="address-level2" /></div>
                         <div class="field"><label for="contactState">State / Province</label><input id="contactState" name="state_province" type="text" autocomplete="address-level1" /></div>
                         <div class="field"><label for="contactZip">ZIP / Postal code</label><input id="contactZip" name="country_zip_code" type="text" autocomplete="postal-code" /></div>
-                        <div class="field">
-                          <label for="contactMessage">What do you need help with?</label>
-                          <textarea id="contactMessage" name="message" rows="5" placeholder="A quick sumary of what you would like us to do." required></textarea>
-                        </div>
                       </section>
 
                       <section class="form-block">
