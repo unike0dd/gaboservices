@@ -31,11 +31,4 @@
     }
   });
 
-  root.querySelectorAll('[data-clear-form]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      if (btn.getAttribute('data-clear-form') !== 'contact') return;
-      var accordion = root.querySelector('.contact-details-accordion');
-      if (accordion) accordion.open = false;
-    });
-  });
 })();

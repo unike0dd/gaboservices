@@ -95,26 +95,23 @@
                     </div>
                   </section>
 
-                  <details class="contact-details-accordion">
-                    <summary>
-                      <span>Optional extended intake</span>
-                      <span class="contact-details-accordion__hint contact-details-accordion__hint--extended">Add scheduling, location, or remote assistant requirements</span>
-                    </summary>
-
-                    <div class="contact-details-accordion__body">
+                  <section class="form-block">
+                    <div>
+                      <h4 class="form-block__title">Extended intake details</h4>
+                      <p class="form-block__text">Add scheduling, location, or remote assistant requirements.</p>
+                    </div>
+                  </section>
                       <section class="form-block">
                         <div>
                           <h4 class="form-block__title">Planning and routing details</h4>
                           <p class="form-block__text">Only fill out what helps us tailor the follow-up conversation.</p>
                         </div>
 
-                        <div class="grid grid--2">
-                          <div class="field"><label for="contactCountryCode">Country code</label><input id="contactCountryCode" name="country_code" type="text" placeholder="+1" /></div>
-                          <div class="field"><label for="bestTimeToContact">Best time to contact you</label><input id="bestTimeToContact" name="best_time_to_contact" type="datetime-local" /></div>
-                          <div class="field"><label for="contactCity">City</label><input id="contactCity" name="city" type="text" autocomplete="address-level2" /></div>
-                          <div class="field"><label for="contactState">State / Province</label><input id="contactState" name="state_province" type="text" autocomplete="address-level1" /></div>
-                          <div class="field"><label for="contactZip">ZIP / Postal code</label><input id="contactZip" name="country_zip_code" type="text" autocomplete="postal-code" /></div>
-                        </div>
+                        <div class="field"><label for="contactCountryCode">Country code</label><input id="contactCountryCode" name="country_code" type="text" placeholder="+1" /></div>
+                        <div class="field"><label for="bestTimeToContact">Best time to contact you</label><input id="bestTimeToContact" name="best_time_to_contact" type="datetime-local" /></div>
+                        <div class="field"><label for="contactCity">City</label><input id="contactCity" name="city" type="text" autocomplete="address-level2" /></div>
+                        <div class="field"><label for="contactState">State / Province</label><input id="contactState" name="state_province" type="text" autocomplete="address-level1" /></div>
+                        <div class="field"><label for="contactZip">ZIP / Postal code</label><input id="contactZip" name="country_zip_code" type="text" autocomplete="postal-code" /></div>
                       </section>
 
                       <section class="form-block">
@@ -145,32 +142,30 @@
                             </div>
                           </div>
 
-                          <div class="grid grid--2">
-                            <div class="field">
-                              <label for="contactExperienceInput">Experience needed</label>
-                              <div class="dynamic__entry dynamic__entry--triple">
-                                <input id="contactExperienceInput" type="text" placeholder="Add experience area" />
-                                <select id="contactExperienceLevel">
-                                  <option value="">Select level</option><option value="Entry">Entry</option><option value="Junior">Junior</option><option value="Mid">Mid</option><option value="Advanced">Advanced</option><option value="Expert">Expert</option>
-                                </select>
-                                <button type="button" id="contactExperienceAdd" class="btn btn--soft">Add</button>
-                              </div>
-                              <ul id="contactExperienceList" class="pill-list" aria-label="Contact experience"></ul>
-                              <input type="hidden" id="contactExperienceHidden" name="experience_level" />
+                          <div class="field">
+                            <label for="contactExperienceInput">Experience needed</label>
+                            <div class="dynamic__entry dynamic__entry--triple">
+                              <input id="contactExperienceInput" type="text" placeholder="Add experience area" />
+                              <select id="contactExperienceLevel">
+                                <option value="">Select level</option><option value="Entry">Entry</option><option value="Junior">Junior</option><option value="Mid">Mid</option><option value="Advanced">Advanced</option><option value="Expert">Expert</option>
+                              </select>
+                              <button type="button" id="contactExperienceAdd" class="btn btn--soft">Add</button>
                             </div>
+                            <ul id="contactExperienceList" class="pill-list" aria-label="Contact experience"></ul>
+                            <input type="hidden" id="contactExperienceHidden" name="experience_level" />
+                          </div>
 
-                            <div class="field">
-                              <label for="contactLanguageInput">Languages needed</label>
-                              <div class="dynamic__entry dynamic__entry--triple">
-                                <input id="contactLanguageInput" type="text" placeholder="Add a language" />
-                                <select id="contactLanguageLevel">
-                                  <option value="">Select level</option><option value="Beginner">Beginner</option><option value="Elementary">Elementary</option><option value="Intermediate">Intermediate</option><option value="Advance">Advance</option><option value="Advance Professional">Advance Professional</option><option value="Native">Native</option>
-                                </select>
-                                <button type="button" id="contactLanguageAdd" class="btn btn--soft">Add</button>
-                              </div>
-                              <ul id="contactLanguagesList" class="pill-list" aria-label="Contact languages"></ul>
-                              <input type="hidden" id="contactLanguagesHidden" name="languages" />
+                          <div class="field">
+                            <label for="contactLanguageInput">Languages needed</label>
+                            <div class="dynamic__entry dynamic__entry--triple">
+                              <input id="contactLanguageInput" type="text" placeholder="Add a language" />
+                              <select id="contactLanguageLevel">
+                                <option value="">Select level</option><option value="Beginner">Beginner</option><option value="Elementary">Elementary</option><option value="Intermediate">Intermediate</option><option value="Advance">Advance</option><option value="Advance Professional">Advance Professional</option><option value="Native">Native</option>
+                              </select>
+                              <button type="button" id="contactLanguageAdd" class="btn btn--soft">Add</button>
                             </div>
+                            <ul id="contactLanguagesList" class="pill-list" aria-label="Contact languages"></ul>
+                            <input type="hidden" id="contactLanguagesHidden" name="languages" />
                           </div>
 
                           <div class="field">
@@ -187,8 +182,6 @@
                           </div>
                         </div>
                       </section>
-                    </div>
-                  </details>
 
                   <div class="secure-actions">
                     <button type="submit" class="btn btn--primary">Submit quick inquiry</button>
