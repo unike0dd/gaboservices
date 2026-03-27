@@ -104,22 +104,7 @@
                       </section>
 
                       <section class="form-block">
-                        <div>
-                          <h4 class="form-block__title">Remote assistant or specialist intake</h4>
-                          <p class="form-block__text">Use this only if you want to describe staffing, skills, or talent requirements in more detail.</p>
-                        </div>
-
                         <div class="dynamic">
-                          <div class="field">
-                            <label for="contactRemoteSkillInput">Skills needed</label>
-                            <div class="dynamic__entry">
-                              <input id="contactRemoteSkillInput" type="text" placeholder="Add a skill" />
-                              <button type="button" id="contactRemoteSkillAdd" class="btn btn--soft">Add</button>
-                            </div>
-                            <ul id="contactRemoteSkillsList" class="pill-list" aria-label="Remote assistant skills"></ul>
-                            <input type="hidden" id="contactRemoteSkillsHidden" name="remote_assistant_skills" />
-                          </div>
-
                           <div class="field">
                             <span class="label">Remote assistant interest</span>
                             <p class="field-help">Optional service areas for staffing or assistant support.</p>
@@ -129,6 +114,16 @@
                               <label class="check-card"><input type="checkbox" name="remote_interest[]" value="Customer Relations" /><span>Customer Relations</span></label>
                               <label class="check-card"><input type="checkbox" name="remote_interest[]" value="IT Support" /><span>IT Support</span></label>
                             </div>
+                          </div>
+
+                          <div class="field">
+                            <label for="contactRemoteSkillInput">Skills needed</label>
+                            <div class="dynamic__entry">
+                              <input id="contactRemoteSkillInput" type="text" placeholder="Add a skill" />
+                              <button type="button" id="contactRemoteSkillAdd" class="btn btn--soft">Add</button>
+                            </div>
+                            <ul id="contactRemoteSkillsList" class="pill-list" aria-label="Remote assistant skills"></ul>
+                            <input type="hidden" id="contactRemoteSkillsHidden" name="remote_assistant_skills" />
                           </div>
 
                           <div class="field">
