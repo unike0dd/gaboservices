@@ -89,6 +89,14 @@
                       </div>
                     </div>
 
+                    <div class="grid grid--2">
+                      <div class="field"><label for="contactCountryCode">Country code</label><input id="contactCountryCode" name="country_code" type="text" placeholder="+1" /></div>
+                      <div class="field"><label for="bestTimeToContact">Best time to contact you</label><input id="bestTimeToContact" name="best_time_to_contact" type="datetime-local" /></div>
+                      <div class="field"><label for="contactCity">City</label><input id="contactCity" name="city" type="text" autocomplete="address-level2" /></div>
+                      <div class="field"><label for="contactState">State / Province</label><input id="contactState" name="state_province" type="text" autocomplete="address-level1" /></div>
+                      <div class="field"><label for="contactZip">ZIP / Postal code</label><input id="contactZip" name="country_zip_code" type="text" autocomplete="postal-code" /></div>
+                    </div>
+
                     <div class="field">
                       <label for="contactMessage">What do you need help with?</label>
                       <textarea id="contactMessage" name="message" rows="5" placeholder="Share the workflow, bottleneck, or coverage gap you want to solve." required></textarea>
@@ -101,16 +109,6 @@
                     </summary>
 
                     <div class="contact-details-accordion__body">
-                      <section class="form-block">
-                        <div class="grid grid--2">
-                          <div class="field"><label for="contactCountryCode">Country code</label><input id="contactCountryCode" name="country_code" type="text" placeholder="+1" /></div>
-                          <div class="field"><label for="bestTimeToContact">Best time to contact you</label><input id="bestTimeToContact" name="best_time_to_contact" type="datetime-local" /></div>
-                          <div class="field"><label for="contactCity">City</label><input id="contactCity" name="city" type="text" autocomplete="address-level2" /></div>
-                          <div class="field"><label for="contactState">State / Province</label><input id="contactState" name="state_province" type="text" autocomplete="address-level1" /></div>
-                          <div class="field"><label for="contactZip">ZIP / Postal code</label><input id="contactZip" name="country_zip_code" type="text" autocomplete="postal-code" /></div>
-                        </div>
-                      </section>
-
                       <section class="form-block">
                         <div>
                           <h4 class="form-block__title">Add Your Remote Assistant Choice</h4>
