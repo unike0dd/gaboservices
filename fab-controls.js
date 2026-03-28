@@ -4,11 +4,10 @@ const MOBILE_QUERY = '(max-width: 900px)';
 const DESKTOP_QUERY = '(min-width: 901px)';
 
 const SERVICE_LINKS = [
-  { key: 'logistics', href: '/services/logistics-operations/', label: EN_MESSAGES.mobileBottomNav.logistics },
-  { key: 'admin', href: '/services/administrative-backoffice/', label: EN_MESSAGES.mobileBottomNav.admin },
-  { key: 'it', href: '/services/it-support/', label: EN_MESSAGES.mobileBottomNav.it },
-  { key: 'customer', href: '/services/customer-relations/', label: EN_MESSAGES.mobileBottomNav.customerRelations },
-  { key: 'learning', href: '/learning', label: EN_MESSAGES.mobileBottomNav.learning }
+  { key: 'logistics', href: '/services/logistics-operations/', label: 'Logistics' },
+  { key: 'admin', href: '/services/administrative-backoffice/', label: 'Admin BackOffice' },
+  { key: 'it', href: '/services/it-support/', label: 'IT Support' },
+  { key: 'customer', href: '/services/customer-relations/', label: 'Customer Relation' }
 ];
 
 function buildDesktopFabMarkup() {
@@ -177,6 +176,7 @@ export function initFabControls() {
     servicesTrigger.setAttribute('aria-expanded', String(isOpen));
     servicesMenu.hidden = !isOpen;
     servicesMenu.classList.toggle('open', isOpen);
+    wrapper.querySelector('.mobile-bottom-nav__services')?.classList.toggle('is-open', isOpen);
   };
 
   setMenuOpen(false);

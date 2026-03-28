@@ -1467,6 +1467,11 @@ textarea[data-security-state='review'] {
   position: relative;
   flex: 1 1 0;
   min-width: clamp(3.4rem, 18vw, 4.4rem);
+  transition: transform 0.18s ease;
+}
+
+.mobile-bottom-nav__services.is-open {
+  transform: translateY(-0.45rem);
 }
 
 .mobile-bottom-nav__services .mobile-bottom-nav__item {
@@ -1494,7 +1499,7 @@ textarea[data-security-state='review'] {
   position: absolute;
   left: 50%;
   top: auto;
-  bottom: calc(100% + 0.9rem);
+  bottom: calc(100% + 1rem);
   transform: translateX(-50%) scale(0.96);
   min-width: min(15rem, calc(100vw - 1rem));
   background: var(--card);
