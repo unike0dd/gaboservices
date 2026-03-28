@@ -17,7 +17,8 @@ export const EN_MESSAGES = {
     logistics: 'Logistics',
     admin: 'Admin BackOffice',
     it: 'IT Support',
-    customerRelations: 'Customer Relations'
+    customerRelations: 'Customer Relations',
+    learning: 'Learning'
   },
   editorialTheme: {
     wallstreet: 'Wall Street Journal Cut',
