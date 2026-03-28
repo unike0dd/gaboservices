@@ -1,14 +1,6 @@
 import { EN_MESSAGES } from './locales/en/messages.js';
 
-const MOBILE_QUERY = '(max-width: 900px)';
 const DESKTOP_QUERY = '(min-width: 901px)';
-
-const SERVICE_LINKS = [
-  { key: 'logistics', href: '/services/logistics-operations/', label: 'Logistics' },
-  { key: 'admin', href: '/services/administrative-backoffice/', label: 'Admin BackOffice' },
-  { key: 'it', href: '/services/it-support/', label: 'IT Support' },
-  { key: 'customer', href: '/services/customer-relations/', label: 'Customer Relation' }
-];
 
 function buildDesktopFabMarkup() {
   return `
@@ -51,157 +43,47 @@ function ensureDesktopFabNav() {
   return wrapper;
 }
 
-function ensureMobileBottomNav() {
-  let wrapper = document.getElementById('mobileBottomNav');
-  if (wrapper) return wrapper;
-
-  wrapper = document.createElement('nav');
-  wrapper.id = 'mobileBottomNav';
-  wrapper.className = 'mobile-bottom-nav';
-  wrapper.setAttribute('aria-label', EN_MESSAGES.mobileBottomNav.ariaLabel);
-  wrapper.innerHTML = `
-    <a class="mobile-bottom-nav__item" data-page="home" href="/" aria-label="${EN_MESSAGES.mobileBottomNav.home}">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
-      <span>${EN_MESSAGES.mobileBottomNav.home}</span>
-    </a>
-    <a class="mobile-bottom-nav__item" data-page="about" href="/about" aria-label="${EN_MESSAGES.mobileBottomNav.about}">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8h.01M11 12h1v4h1M4 12a8 8 0 1 0 16 0 8 8 0 0 0-16 0z"></path></svg>
-      <span>${EN_MESSAGES.mobileBottomNav.about}</span>
-    </a>
-    <div class="mobile-bottom-nav__services">
-      <button class="mobile-bottom-nav__item mobile-bottom-nav__trigger" data-page="services" id="servicesTrigger" type="button" aria-expanded="false" aria-controls="servicesMenu" aria-label="${EN_MESSAGES.mobileBottomNav.services}">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h7"></path></svg>
-        <span>${EN_MESSAGES.mobileBottomNav.services}</span>
-      </button>
-      <div class="mobile-bottom-nav__services-menu" id="servicesMenu" hidden>
-        <p class="mobile-bottom-nav__menu-heading">${EN_MESSAGES.mobileBottomNav.services}</p>
-        ${SERVICE_LINKS.map((item) => `<a class="mobile-bottom-nav__service-item" data-service-link="${item.key}" href="${item.href}">${item.label}</a>`).join('')}
-      </div>
-    </div>
-    <a class="mobile-bottom-nav__item" data-page="contact" href="/contact" aria-label="${EN_MESSAGES.mobileBottomNav.contact}">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2h-2.828a2 2 0 0 1-1.414-.586l-4.414-4.414a2 2 0 0 0-2.828 0L2.828 18.414A2 2 0 0 1 1.414 19H0v-4a2 2 0 0 1 2-2h.172a2 2 0 0 0 1.414-.586l4.414-4.414a2 2 0 0 1 2.828 0l4.414 4.414a2 2 0 0 0 1.414.586H19a2 2 0 0 1 2 2z"></path></svg>
-      <span>${EN_MESSAGES.mobileBottomNav.contact}</span>
-    </a>
-  `;
-
-  document.body.appendChild(wrapper);
-  return wrapper;
-}
-
-function syncActiveState(wrapper) {
-  const pageKey = document.body.dataset.pageKey || 'home';
-  const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
-  wrapper.querySelectorAll('.mobile-bottom-nav__item[data-page]').forEach((item) => {
-    const isServicesRoute = item.dataset.page === 'services' && pathname.startsWith('/services');
-    item.classList.toggle('active', item.dataset.page === pageKey || isServicesRoute);
-  });
-}
-
-function syncServiceLinks(wrapper) {
-  const linkMap = new Map(
-    [...document.querySelectorAll('[data-service-link]')]
-      .filter((link) => link instanceof HTMLAnchorElement)
-      .map((link) => [link.dataset.serviceLink, link.getAttribute('href')])
-  );
-
-  wrapper.querySelectorAll('.mobile-bottom-nav__service-item').forEach((link) => {
-    const href = linkMap.get(link.dataset.serviceLink);
-    if (href) link.setAttribute('href', href);
-  });
-}
-
 export function initFabControls() {
   const desktopWrapper = ensureDesktopFabNav();
-  const wrapper = ensureMobileBottomNav();
-  if (!wrapper || wrapper.dataset.navBound === 'true') {
-    if (wrapper) {
-      syncActiveState(wrapper);
-      syncServiceLinks(wrapper);
-    }
-    return;
-  }
+  if (!desktopWrapper || desktopWrapper.dataset.navBound === 'true') return;
 
-  wrapper.dataset.navBound = 'true';
-  if (desktopWrapper && desktopWrapper.dataset.navBound !== 'true') {
-    desktopWrapper.dataset.navBound = 'true';
-    const fabToggle = desktopWrapper.querySelector('#fabMainToggle');
-    const fabOverlay = desktopWrapper.querySelector('#fabOverlay');
-    const desktopQuery = window.matchMedia(DESKTOP_QUERY);
+  desktopWrapper.dataset.navBound = 'true';
+  const fabToggle = desktopWrapper.querySelector('#fabMainToggle');
+  const fabOverlay = desktopWrapper.querySelector('#fabOverlay');
+  const desktopQuery = window.matchMedia(DESKTOP_QUERY);
 
-    const setDesktopFabOpen = (isOpen) => {
-      if (!fabToggle || !fabOverlay) return;
-      fabToggle.setAttribute('aria-expanded', String(isOpen));
-      fabToggle.textContent = isOpen ? '✕ Close actions' : 'Quick actions';
-      fabOverlay.hidden = !isOpen;
-      document.body.classList.toggle('fab-open', isOpen);
-    };
-
-    setDesktopFabOpen(false);
-
-    fabToggle?.addEventListener('click', () => {
-      const isOpen = fabToggle.getAttribute('aria-expanded') === 'true';
-      setDesktopFabOpen(!isOpen);
-    });
-
-    desktopWrapper.addEventListener('click', (event) => {
-      const target = event.target;
-      if (!(target instanceof Element)) return;
-
-      if (target.closest('[data-fab-dismiss]')) {
-        setDesktopFabOpen(false);
-        return;
-      }
-
-      if (target.closest('.fab-item')) setDesktopFabOpen(false);
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') setDesktopFabOpen(false);
-    });
-
-    desktopQuery.addEventListener('change', (event) => {
-      if (!event.matches) setDesktopFabOpen(false);
-    });
-  }
-  syncActiveState(wrapper);
-  syncServiceLinks(wrapper);
-
-  const servicesTrigger = wrapper.querySelector('#servicesTrigger');
-  const servicesMenu = wrapper.querySelector('#servicesMenu');
-  const mobileQuery = window.matchMedia(MOBILE_QUERY);
-
-  if (!servicesTrigger || !servicesMenu) return;
-
-  const setMenuOpen = (isOpen) => {
-    servicesTrigger.setAttribute('aria-expanded', String(isOpen));
-    servicesMenu.hidden = !isOpen;
-    servicesMenu.classList.toggle('open', isOpen);
-    wrapper.querySelector('.mobile-bottom-nav__services')?.classList.toggle('is-open', isOpen);
+  const setDesktopFabOpen = (isOpen) => {
+    if (!fabToggle || !fabOverlay) return;
+    fabToggle.setAttribute('aria-expanded', String(isOpen));
+    fabToggle.textContent = isOpen ? '✕ Close actions' : 'Quick actions';
+    fabOverlay.hidden = !isOpen;
+    document.body.classList.toggle('fab-open', isOpen);
   };
 
-  setMenuOpen(false);
+  setDesktopFabOpen(false);
 
-  servicesTrigger.addEventListener('click', (event) => {
-    event.stopPropagation();
-    const isOpen = servicesTrigger.getAttribute('aria-expanded') === 'true';
-    setMenuOpen(!isOpen);
+  fabToggle?.addEventListener('click', () => {
+    const isOpen = fabToggle.getAttribute('aria-expanded') === 'true';
+    setDesktopFabOpen(!isOpen);
   });
 
-  servicesMenu.addEventListener('click', (event) => {
-    if (!(event.target instanceof Element)) return;
-    if (event.target.closest('.mobile-bottom-nav__service-item')) setMenuOpen(false);
-  });
+  desktopWrapper.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
 
-  document.addEventListener('click', (event) => {
-    if (!(event.target instanceof Element)) return;
-    if (!wrapper.contains(event.target)) setMenuOpen(false);
+    if (target.closest('[data-fab-dismiss]')) {
+      setDesktopFabOpen(false);
+      return;
+    }
+
+    if (target.closest('.fab-item')) setDesktopFabOpen(false);
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') setMenuOpen(false);
+    if (event.key === 'Escape') setDesktopFabOpen(false);
   });
 
-  mobileQuery.addEventListener('change', (event) => {
-    if (!event.matches) setMenuOpen(false);
+  desktopQuery.addEventListener('change', (event) => {
+    if (!event.matches) setDesktopFabOpen(false);
   });
 }

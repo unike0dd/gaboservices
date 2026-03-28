@@ -9,31 +9,6 @@ iframe {
 }
 
 @media (max-width: 900px) {
-  body {
-    padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 0.9rem);
-  }
-
-  .mobile-bottom-nav {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.05rem;
-  }
-
-  .mobile-bottom-nav__item {
-    min-width: clamp(3.2rem, 15vw, 4.2rem);
-    font-size: clamp(0.54rem, calc(1.3vw * var(--mobile-nav-label-scale, 1)), 0.7rem);
-  }
-
-  .mobile-bottom-nav__item svg {
-    width: clamp(0.9rem, calc((100vw / 27) * var(--mobile-nav-icon-scale, 1)), 1.2rem);
-    height: clamp(0.9rem, calc((100vw / 27) * var(--mobile-nav-icon-scale, 1)), 1.2rem);
-  }
-
-  .mobile-bottom-nav__services-menu {
-    min-width: min(18rem, calc(100vw - 1rem));
-    max-width: calc(100vw - 0.75rem);
-  }
-
   .mobile-chat-launcher {
     display: inline-flex;
     right: max(0.9rem, var(--nav-fab-offset-x), env(safe-area-inset-right, 0px));
@@ -468,8 +443,7 @@ body[data-page-key="services"] .cta-row > .btn {
 }
 
 @media (min-width: 901px) {
-  .mobile-chat-launcher,
-  .mobile-bottom-nav {
+  .mobile-chat-launcher {
     display: none !important;
   }
 }

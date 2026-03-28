@@ -1,6 +1,7 @@
 import { initAdaptiveLayout } from './adaptive-layout.js';
 import { initChatbotControls } from './chatbot/chatbot-controls.js';
 import { initFabControls } from './fab-controls.js';
+import { initMobileNav } from './assets/mobile-nav.js';
 import { initAnalyticsConsentGuard } from './analytics-consent-guard.js';
 import { initSiteGovernance } from './site-governance.js';
 import { ACTIVE_LOCALE, getLocalizedValue, getSiteMetadata } from './site-metadata.js';
@@ -38,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
   syncPageMetadata();
   initSiteGovernance();
   initAdaptiveLayout();
+  initMobileNav();
   initFabControls();
   initChatbotControls();
   initFormStatus();
