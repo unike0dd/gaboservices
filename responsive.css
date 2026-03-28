@@ -10,7 +10,8 @@ iframe {
 
 @media (max-width: 900px) {
   .mobile-chat-launcher {
-    display: inline-flex;
+    left: calc(max(0px, env(safe-area-inset-left, 0px)) + 45px);
+    bottom: calc(max(0px, env(safe-area-inset-bottom, 0px)) + 45px);
   }
 
   .service-card {
@@ -173,8 +174,8 @@ iframe {
   .mobile-chat-launcher {
     width: 3.15rem;
     height: 3.15rem;
-    right: max(0.75rem, env(safe-area-inset-right, 0px));
-    bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 0.65rem);
+    left: calc(max(0px, env(safe-area-inset-left, 0px)) + 45px);
+    bottom: calc(max(0px, env(safe-area-inset-bottom, 0px)) + 45px);
   }
 
   .chat-panel {

@@ -226,8 +226,8 @@ li { margin: 6px 0; text-align: justify; hyphens: none; overflow-wrap: normal; w
 
 .mobile-chat-launcher {
   position: fixed;
-  left: max(0.75rem, env(safe-area-inset-left, 0px));
-  bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+  left: calc(max(0px, env(safe-area-inset-left, 0px)) + 45px);
+  bottom: calc(max(0px, env(safe-area-inset-bottom, 0px)) + 45px);
   width: 3.15rem;
   height: 3.15rem;
   padding: 0;
@@ -236,7 +236,7 @@ li { margin: 6px 0; text-align: justify; hyphens: none; overflow-wrap: normal; w
   background: #ffffff;
   color: var(--link);
   box-shadow: 0 12px 24px rgba(15, 23, 42, 0.18);
-  display: none;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   z-index: 30;
@@ -345,10 +345,6 @@ li { margin: 6px 0; text-align: justify; hyphens: none; overflow-wrap: normal; w
 @media (max-width: 640px) {
   body {
     padding-bottom: calc(3.15rem + 1.5rem + env(safe-area-inset-bottom, 0px));
-  }
-
-  .mobile-chat-launcher {
-    display: inline-flex;
   }
 
   .legal-header .wrap {
