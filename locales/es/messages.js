@@ -22,11 +22,6 @@ export const ES_MESSAGES = {
     customerRelations: 'Relación con clientes',
     learning: 'Aprendizaje'
   },
-  editorialTheme: {
-    wallstreet: 'Corte Wall Street Journal',
-    wallstreetShort: 'WSJ',
-    ariaPrefix: 'La tipografía Wall Street Journal está activa en esta página.'
-  },
   chatbot: {
     panelAriaLabel: 'Panel del chatbot',
     close: 'Cerrar',
@@ -42,12 +37,4 @@ export const ES_MESSAGES = {
     loaded: 'Se cargaron tus preferencias actuales.',
     empty: 'Aún no hay preferencias guardadas. Elige tu configuración y guarda.'
   },
-  turnstile: {
-    unavailable: 'La verificación humana no está disponible. Actualiza la página e inténtalo de nuevo.',
-    securityCheckAriaLabel: 'Verificación de seguridad de Cloudflare',
-    complete: 'Verificación humana completada.',
-    expired: 'La verificación expiró. Completa el desafío nuevamente.',
-    failed: 'La verificación falló. Intenta el desafío otra vez.',
-    required: 'Completa el desafío de verificación humana antes de enviar.'
-  }
 };
