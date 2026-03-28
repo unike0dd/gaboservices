@@ -7,7 +7,8 @@ const SERVICE_LINKS = [
   { key: 'logistics', href: '/services/logistics-operations/', label: EN_MESSAGES.mobileBottomNav.logistics },
   { key: 'admin', href: '/services/administrative-backoffice/', label: EN_MESSAGES.mobileBottomNav.admin },
   { key: 'it', href: '/services/it-support/', label: EN_MESSAGES.mobileBottomNav.it },
-  { key: 'customer', href: '/services/customer-relations/', label: EN_MESSAGES.mobileBottomNav.customerRelations }
+  { key: 'customer', href: '/services/customer-relations/', label: EN_MESSAGES.mobileBottomNav.customerRelations },
+  { key: 'learning', href: '/learning', label: EN_MESSAGES.mobileBottomNav.learning }
 ];
 
 function buildDesktopFabMarkup() {
