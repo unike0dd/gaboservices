@@ -1451,8 +1451,8 @@ textarea[data-security-state='review'] {
 
 .mobile-bottom-nav__item {
   position: relative;
-  flex: 0 0 4.6rem;
-  min-width: 4.6rem;
+  flex: 1 1 0;
+  min-width: clamp(3.4rem, 18vw, 4.4rem);
   border: 0;
   background: transparent;
   color: var(--muted);
@@ -1462,18 +1462,18 @@ textarea[data-security-state='review'] {
   align-items: center;
   justify-content: center;
   gap: 0.25rem;
-  min-height: 52px;
-  padding: 0.35rem 0.25rem;
+  min-height: 48px;
+  padding: 0.3rem 0.2rem;
   font: inherit;
-  font-size: 0.72rem;
+  font-size: clamp(0.58rem, 1.55vw, 0.7rem);
   line-height: 1.1;
   cursor: pointer;
 }
 
 .mobile-bottom-nav__services {
   position: relative;
-  flex: 0 0 4.6rem;
-  min-width: 4.6rem;
+  flex: 1 1 0;
+  min-width: clamp(3.4rem, 18vw, 4.4rem);
 }
 
 .mobile-bottom-nav__services .mobile-bottom-nav__item {
@@ -1483,8 +1483,8 @@ textarea[data-security-state='review'] {
 }
 
 .mobile-bottom-nav__item svg {
-  width: 1.6rem;
-  height: 1.6rem;
+  width: clamp(1rem, 3.9vw, 1.3rem);
+  height: clamp(1rem, 3.9vw, 1.3rem);
   stroke: currentColor;
   stroke-width: 2;
   fill: none;
@@ -1500,18 +1500,25 @@ textarea[data-security-state='review'] {
 .mobile-bottom-nav__services-menu {
   position: absolute;
   left: 50%;
+  top: auto;
   bottom: calc(100% + 0.9rem);
   transform: translateX(-50%) scale(0.96);
-  min-width: min(17rem, calc(100vw - 1.25rem));
+  transform-origin: bottom center;
+  min-width: min(15rem, calc(100vw - 1rem));
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 0.95rem;
   box-shadow: 0 18px 38px rgba(15, 23, 42, 0.18);
+  display: grid;
+  grid-auto-flow: row;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  overflow: hidden;
+  max-height: min(20rem, calc(100vh - var(--nav-height) - env(safe-area-inset-bottom, 0px) - 1.5rem));
+  overflow-y: auto;
+  overscroll-behavior: contain;
   transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+  z-index: 10;
 }
 
 .mobile-bottom-nav__services-menu.open {
@@ -1547,12 +1554,14 @@ textarea[data-security-state='review'] {
 .mobile-bottom-nav__service-item {
   position: relative;
   display: block;
-  padding: 0.9rem 1rem;
+  padding: 0.78rem 0.9rem;
   color: var(--text);
   text-decoration: none;
   text-align: left;
   background: transparent;
   z-index: 1;
+  font-size: 0.9rem;
+  line-height: 1.2;
 }
 
 .mobile-bottom-nav__service-item + .mobile-bottom-nav__service-item {
