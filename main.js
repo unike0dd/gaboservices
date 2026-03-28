@@ -1,5 +1,4 @@
 import { initAdaptiveLayout } from './adaptive-layout.js';
-import { initChatbotControls } from './chatbot/chatbot-controls.js';
 import { initFabControls } from './fab-controls.js';
 import { initMobileNav } from './assets/mobile-nav.js';
 import { initAnalyticsConsentGuard } from './analytics-consent-guard.js';
@@ -41,6 +40,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initAdaptiveLayout();
   initMobileNav();
   initFabControls();
-  initChatbotControls();
   initFormStatus();
 });
