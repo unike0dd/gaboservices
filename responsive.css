@@ -11,6 +11,7 @@ iframe {
 @media (max-width: 900px) {
   .mobile-chat-launcher {
     display: inline-flex;
+    right: calc(max(0.9rem, var(--nav-fab-offset-x), env(safe-area-inset-right, 0px)) + 45px);
   }
 
   .service-card {
@@ -173,7 +174,7 @@ iframe {
   .mobile-chat-launcher {
     width: 3.15rem;
     height: 3.15rem;
-    right: max(0.75rem, env(safe-area-inset-right, 0px));
+    right: calc(max(0.75rem, env(safe-area-inset-right, 0px)) + 45px);
     bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 0.65rem);
   }
 
