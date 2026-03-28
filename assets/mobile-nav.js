@@ -12,7 +12,7 @@ const ROUTES = {
     { key: 'logistics', label: 'Logistics', href: '/services/logistics-operations/' },
     { key: 'admin', label: 'Admin BackOffice', href: '/services/administrative-backoffice/' },
     { key: 'it', label: 'IT Support', href: '/services/it-support/' },
-    { key: 'customer', label: 'Customer Relations', href: '/services/customer-relations/' },
+    { key: 'customerRelations', label: 'Customer Relations', href: '/services/customer-relations/' },
     { key: 'learning', label: 'Learning', href: '/learning/' }
   ]
 };

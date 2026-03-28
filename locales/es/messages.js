@@ -19,7 +19,8 @@ export const ES_MESSAGES = {
     logistics: 'Logística',
     admin: 'Admin',
     it: 'IT',
-    customerRelations: 'Relación con clientes'
+    customerRelations: 'Relación con clientes',
+    learning: 'Aprendizaje'
   },
   editorialTheme: {
     wallstreet: 'Corte Wall Street Journal',
