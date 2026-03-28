@@ -13,6 +13,7 @@ export const EN_MESSAGES = {
     home: 'Home',
     about: 'About',
     services: 'Services',
+    careers: 'Careers',
     contact: 'Contact',
     logistics: 'Logistics',
     admin: 'Admin BackOffice',
