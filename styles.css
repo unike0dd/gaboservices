@@ -1707,7 +1707,7 @@ textarea[data-security-state='review'] {
 .mobile-chat-launcher {
   position: fixed;
   right: max(0.9rem, calc(var(--nav-fab-offset-x) - 0.15rem), env(safe-area-inset-right, 0px));
-  bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 0.7rem);
+  bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 45px);
   width: 3.4rem;
   height: 3.4rem;
   min-height: 44px;
@@ -1720,7 +1720,8 @@ textarea[data-security-state='review'] {
   display: none;
   align-items: center;
   justify-content: center;
-  z-index: 330;
+  z-index: 3500;
+  pointer-events: auto;
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
 }
 
