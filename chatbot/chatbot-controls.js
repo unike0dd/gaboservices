@@ -1,6 +1,10 @@
 import { resolveWorkerTargets, CHATBOT_STREAM_BRIDGE_NAME } from './chatbot-worker-stream.js';
 import { EN_MESSAGES } from '../locales/en/messages.js';
 
+function getChatbotMountRoot() {
+  return document.getElementById('chatbot-root') || document.body;
+}
+
 function buildChatPanelMarkup() {
   return `
     <div id="chatOverlay" class="chat-overlay" hidden>
@@ -62,7 +66,7 @@ function ensureMobileChatLauncher() {
     <span class="mobile-chat-launcher__label">Chat</span>
   `;
 
-  document.body.appendChild(trigger);
+  getChatbotMountRoot().appendChild(trigger);
   return trigger;
 }
 
@@ -102,7 +106,7 @@ function ensureChatPanelMarkup() {
   if (!chatOverlay || !chatPanel || !chatFrame) {
     const wrapper = document.createElement('div');
     wrapper.innerHTML = buildChatPanelMarkup();
-    document.body.append(...wrapper.children);
+    getChatbotMountRoot().append(...wrapper.children);
 
     chatOverlay = document.getElementById('chatOverlay');
     chatPanel = document.getElementById('chatPanel');
@@ -130,13 +134,16 @@ export function initChatbotControls() {
   chatFrame.dataset.streamBridge = CHATBOT_STREAM_BRIDGE_NAME;
 
   let gatewayHealthy = true;
-  const chatStatus = document.createElement('p');
-  chatStatus.className = 'chat-status';
-  chatStatus.id = 'chatStatus';
-  chatStatus.hidden = true;
-  chatStatus.setAttribute('role', 'status');
-  chatStatus.setAttribute('aria-live', 'polite');
-  chatPanel.querySelector('.chat-panel-head')?.insertAdjacentElement('afterend', chatStatus);
+  let chatStatus = chatPanel.querySelector('#chatStatus');
+  if (!(chatStatus instanceof HTMLElement)) {
+    chatStatus = document.createElement('p');
+    chatStatus.className = 'chat-status';
+    chatStatus.id = 'chatStatus';
+    chatStatus.hidden = true;
+    chatStatus.setAttribute('role', 'status');
+    chatStatus.setAttribute('aria-live', 'polite');
+    chatPanel.querySelector('.chat-panel-head')?.insertAdjacentElement('afterend', chatStatus);
+  }
 
   probeGatewayAvailability(configuredGatewayUrl).then(({ healthy, checked }) => {
     gatewayHealthy = healthy;
