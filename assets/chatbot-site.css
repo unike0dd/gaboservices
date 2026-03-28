@@ -3,7 +3,7 @@
   --mobile-safe-bottom: max(env(safe-area-inset-bottom), 8px);
   --chatbot-left: clamp(12px, 3.5vw, 18px);
   --chatbot-size: clamp(48px, 6.8svh, 60px);
-  --chatbot-gap-above-nav: clamp(10px, 1.6svh, 16px);
+  --chatbot-gap-above-nav: 15px;
   --chatbot-bottom: calc(var(--mobile-nav-height) + var(--mobile-safe-bottom) + var(--chatbot-gap-above-nav));
 }
 
