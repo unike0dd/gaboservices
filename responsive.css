@@ -10,6 +10,7 @@ iframe {
 
 @media (max-width: 900px) {
   .mobile-chat-launcher {
+    display: inline-flex;
     left: calc(max(0px, env(safe-area-inset-left, 0px)) + 45px);
     bottom: calc(max(0px, env(safe-area-inset-bottom, 0px)) + 45px);
   }
