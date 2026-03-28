@@ -92,6 +92,7 @@ main li + li {
   background: color-mix(in oklab, var(--bg) 88%, transparent);
   border-bottom: 1px solid var(--border);
 }
+
 .nav-wrap { display:flex; align-items:center; justify-content:flex-start; padding: var(--adaptive-nav-wrap-padding-y, .8rem) 0; gap: var(--adaptive-nav-gap, 1rem); position: relative; }
 .brand-stack { display: grid; gap: 0.2rem; flex: 1 1 0; min-width: 0; }
 .brand { font-weight: 800; font-size: 24px; color: var(--text); text-decoration: none; }
@@ -738,7 +739,6 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
     box-shadow .28s ease;
 }
 
-
 #serviceCards .service-card:hover .service-card-trigger,
 #serviceCards .service-card:focus-within .service-card-trigger,
 #serviceCards .service-card.is-carousel-focus .service-card-trigger,
@@ -829,7 +829,6 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
   align-items: flex-start;
   gap: 0.7rem;
 }
-
 
 .service-card h3 {
   margin: 0;
@@ -940,9 +939,6 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
   background: #e8f0ff;
 }
 
-
-
-
 .service-definitions {
   display: grid;
   gap: 1rem;
@@ -966,7 +962,6 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
 .service-definition-item p {
   margin: 0;
 }
-
 
 .service-detail {
   border: 1px solid var(--border);
@@ -1060,12 +1055,10 @@ h1 { font-size: clamp(1.9rem, 1.2rem + 2.3vw, 2.375rem); margin: .3rem 0 1rem; m
   color: var(--primary);
 }
 
-
 .operational-grid {
   display: grid;
   gap: 1.15rem;
 }
-
 
 .service-matrix-section h2 {
   font-size: 30px;
@@ -1500,6 +1493,7 @@ textarea[data-security-state='review'] {
 .mobile-bottom-nav__services-menu {
   position: absolute;
   left: 50%;
+  top: auto;
   bottom: calc(100% + 0.9rem);
   transform: translateX(-50%) scale(0.96);
   min-width: min(15rem, calc(100vw - 1rem));
@@ -1507,11 +1501,16 @@ textarea[data-security-state='review'] {
   border: 1px solid var(--border);
   border-radius: 0.95rem;
   box-shadow: 0 18px 38px rgba(15, 23, 42, 0.18);
+  display: grid;
+  grid-auto-flow: row;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  overflow: hidden;
+  max-height: min(20rem, calc(100vh - var(--nav-height) - env(safe-area-inset-bottom, 0px) - 1.5rem));
+  overflow-y: auto;
+  overscroll-behavior: contain;
   transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+  z-index: 10;
 }
 
 .mobile-bottom-nav__services-menu.open {
@@ -1870,7 +1869,6 @@ body.fab-open {
     z-index: 3000;
   }
 }
-
 
 .service-detail-page > h1,
 .service-detail-page > p,
@@ -3073,7 +3071,6 @@ select {
     text-align: center;
   }
 }
-
 
 /* Global cardless editorial layout */
 .card,
