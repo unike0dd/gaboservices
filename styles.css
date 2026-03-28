@@ -1433,6 +1433,7 @@ textarea[data-security-state='review'] {
   justify-content: flex-start;
   gap: 0.2rem;
   overflow-x: auto;
+  overflow-y: visible;
   overscroll-behavior-x: contain;
   z-index: 320;
   scrollbar-width: none;
@@ -1471,7 +1472,7 @@ textarea[data-security-state='review'] {
 }
 
 .mobile-bottom-nav__services.is-open {
-  transform: translateY(-0.45rem);
+  transform: translateY(-0.7rem);
 }
 
 .mobile-bottom-nav__services .mobile-bottom-nav__item {
@@ -1499,13 +1500,14 @@ textarea[data-security-state='review'] {
   position: absolute;
   left: 50%;
   top: auto;
-  bottom: calc(100% + 1rem);
-  transform: translateX(-50%) scale(0.96);
-  min-width: min(15rem, calc(100vw - 1rem));
+  bottom: calc(100% + 0.9rem);
+  transform: translateX(-50%) translateY(10px) scale(0.96);
+  min-width: min(18rem, calc(100vw - 1rem));
+  width: max-content;
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 0.95rem;
-  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.18);
+  border-radius: 1rem;
+  box-shadow: 0 22px 44px rgba(15, 23, 42, 0.24);
   display: grid;
   grid-auto-flow: row;
   opacity: 0;
@@ -1522,7 +1524,7 @@ textarea[data-security-state='review'] {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%) scale(1);
+  transform: translateX(-50%) translateY(0) scale(1);
 }
 
 .mobile-bottom-nav__services-menu::after {
@@ -1540,8 +1542,8 @@ textarea[data-security-state='review'] {
 
 .mobile-bottom-nav__menu-heading {
   margin: 0;
-  padding: 0.5rem 1rem 0.35rem;
-  font-size: 0.68rem;
+  padding: 0.6rem 1rem 0.42rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1551,18 +1553,23 @@ textarea[data-security-state='review'] {
 .mobile-bottom-nav__service-item {
   position: relative;
   display: block;
-  padding: 0.78rem 0.9rem;
+  padding: 0.88rem 1rem;
   color: var(--text);
   text-decoration: none;
   text-align: left;
   background: transparent;
   z-index: 1;
-  font-size: 0.9rem;
+  font-size: 0.98rem;
+  font-weight: 600;
   line-height: 1.2;
 }
 
 .mobile-bottom-nav__service-item + .mobile-bottom-nav__service-item {
   border-top: 1px solid var(--border);
+}
+
+.mobile-bottom-nav__service-item:active {
+  transform: scale(0.995);
 }
 
 .mobile-bottom-nav__service-item:hover,

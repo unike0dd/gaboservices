@@ -30,7 +30,8 @@ iframe {
   }
 
   .mobile-bottom-nav__services-menu {
-    min-width: min(16rem, calc(100vw - 1rem));
+    min-width: min(18rem, calc(100vw - 1rem));
+    max-width: calc(100vw - 0.75rem);
   }
 
   .mobile-chat-launcher {
