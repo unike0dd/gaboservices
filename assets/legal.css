@@ -349,6 +349,8 @@ li { margin: 6px 0; text-align: justify; hyphens: none; overflow-wrap: normal; w
 
   .mobile-chat-launcher {
     display: inline-flex;
+    left: calc(max(0px, env(safe-area-inset-left, 0px)) + 45px);
+    bottom: calc(max(0px, env(safe-area-inset-bottom, 0px)) + 45px);
   }
 
   .legal-header .wrap {
