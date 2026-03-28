@@ -74,6 +74,8 @@ All of the following can be implemented without paid services and without adding
    - `/assets/*` keeps explicit `Access-Control-Allow-Origin: https://www.gabo.services` for strict origin control on static asset reads.
 7. **YouTube privacy-enhanced embed readiness added**
    - `frame-src` now includes `https://www.youtube-nocookie.com` so HTML5/video content strategy can expand without loosening the rest of the CSP baseline.
+8. **CSP header duplication removed**
+   - Kept a single authoritative `Content-Security-Policy` entry in `_headers` to avoid policy drift from duplicated report-only declarations.
 
 ### Compliance Mapping (practical)
 
