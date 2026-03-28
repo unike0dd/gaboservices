@@ -1458,7 +1458,7 @@ textarea[data-security-state='review'] {
   min-height: 48px;
   padding: 0.3rem 0.2rem;
   font: inherit;
-  font-size: clamp(0.58rem, 1.55vw, 0.7rem);
+  font-size: clamp(0.58rem, calc(1.45vw * var(--mobile-nav-label-scale, 1)), 0.74rem);
   line-height: 1.1;
   cursor: pointer;
 }
@@ -1467,6 +1467,11 @@ textarea[data-security-state='review'] {
   position: relative;
   flex: 1 1 0;
   min-width: clamp(3.4rem, 18vw, 4.4rem);
+  transition: transform 0.18s ease;
+}
+
+.mobile-bottom-nav__services.is-open {
+  transform: translateY(-0.45rem);
 }
 
 .mobile-bottom-nav__services .mobile-bottom-nav__item {
@@ -1476,8 +1481,8 @@ textarea[data-security-state='review'] {
 }
 
 .mobile-bottom-nav__item svg {
-  width: clamp(1rem, 3.9vw, 1.3rem);
-  height: clamp(1rem, 3.9vw, 1.3rem);
+  width: clamp(0.95rem, calc((100vw / 25) * var(--mobile-nav-icon-scale, 1)), 1.35rem);
+  height: clamp(0.95rem, calc((100vw / 25) * var(--mobile-nav-icon-scale, 1)), 1.35rem);
   stroke: currentColor;
   stroke-width: 2;
   fill: none;
@@ -1494,7 +1499,7 @@ textarea[data-security-state='review'] {
   position: absolute;
   left: 50%;
   top: auto;
-  bottom: calc(100% + 0.9rem);
+  bottom: calc(100% + 1rem);
   transform: translateX(-50%) scale(0.96);
   min-width: min(15rem, calc(100vw - 1rem));
   background: var(--card);

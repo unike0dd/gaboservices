@@ -21,12 +21,12 @@ iframe {
 
   .mobile-bottom-nav__item {
     min-width: clamp(3.2rem, 15vw, 4.2rem);
-    font-size: clamp(0.54rem, 1.35vw, 0.68rem);
+    font-size: clamp(0.54rem, calc(1.3vw * var(--mobile-nav-label-scale, 1)), 0.7rem);
   }
 
   .mobile-bottom-nav__item svg {
-    width: clamp(0.95rem, 2.4vw, 1.2rem);
-    height: clamp(0.95rem, 2.4vw, 1.2rem);
+    width: clamp(0.9rem, calc((100vw / 27) * var(--mobile-nav-icon-scale, 1)), 1.2rem);
+    height: clamp(0.9rem, calc((100vw / 27) * var(--mobile-nav-icon-scale, 1)), 1.2rem);
   }
 
   .mobile-bottom-nav__services-menu {
