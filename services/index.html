@@ -237,6 +237,126 @@
         align-items: stretch;
       }
 
+      .services-choose-marquee {
+        display: grid;
+        gap: 0.9rem;
+      }
+
+      .services-columns-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.7rem;
+      }
+
+      .services-column-window {
+        position: relative;
+        overflow: hidden;
+        min-height: 344px;
+        border: 1px solid var(--line-soft);
+        border-radius: 14px;
+        background: linear-gradient(180deg, #fbfcff 0%, #f3f6fb 100%);
+      }
+
+      .services-column-track {
+        position: absolute;
+        inset: 0;
+        will-change: transform;
+      }
+
+      .services-scroll-card {
+        width: calc(100% - 1rem);
+        margin: 0.5rem;
+        padding: 0.9rem 0.85rem;
+        border: 1px solid #dde3ec;
+        border-radius: 12px;
+        background: #ffffff;
+        display: grid;
+        gap: 0.45rem;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .services-scroll-card:focus-visible {
+        outline: 2px solid #5b21b6;
+        outline-offset: 2px;
+      }
+
+      .services-scroll-card small {
+        color: #5b6473;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 700;
+        font-size: 0.72rem;
+      }
+
+      .services-scroll-card strong {
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        line-height: 1.15;
+        font-size: 1.15rem;
+      }
+
+      .services-scroll-card p {
+        margin: 0;
+        color: #4b5563;
+        font-size: 0.92rem;
+        line-height: 1.45;
+        text-align: left;
+      }
+
+      .services-scroll-card.is-active {
+        border-color: #5b21b6;
+        background: #f5f3ff;
+      }
+
+      .services-flapline {
+        border-top: 1px solid #d3dbe7;
+        border-bottom: 1px solid #d3dbe7;
+        padding: 1rem 0.45rem 0.85rem;
+        text-align: center;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(241, 244, 250, 0.96) 52%, rgba(252, 253, 255, 0.98) 100%);
+      }
+
+      .services-flap-kicker {
+        margin: 0;
+        font-size: 0.74rem;
+        text-transform: uppercase;
+        letter-spacing: 0.19em;
+        color: #5b6473;
+        font-weight: 700;
+      }
+
+      .services-flap-title {
+        margin: 0.45rem 0 0;
+        min-height: 1.12em;
+        font-size: clamp(1.7rem, 4.6vw, 3.1rem);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-family: 'Courier New', Courier, monospace;
+        color: #0f172a;
+      }
+
+      .services-flap-text {
+        margin: 0.45rem auto 0;
+        max-width: 65ch;
+        font-size: 0.96rem;
+        color: #4b5563;
+        text-align: center;
+      }
+
+      .services-flap-link {
+        display: inline-flex;
+        margin-top: 0.75rem;
+        min-height: 42px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        background: #0f172a;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 0 1rem;
+        font-weight: 700;
+      }
+
       .services-rail::-webkit-scrollbar,
       .services-compare-filters::-webkit-scrollbar {
         display: none;
@@ -637,6 +757,10 @@
           overflow: visible;
         }
 
+        .services-column-window {
+          min-height: 364px;
+        }
+
         .services-card {
           min-height: 148px;
           padding: 0.95rem 1rem 0.95rem;
@@ -676,6 +800,14 @@
           grid-template-columns: 1fr;
         }
 
+        .services-columns-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .services-column-window {
+          min-height: 278px;
+        }
+
         .services-hero-meta {
           grid-template-columns: 1fr;
         }
@@ -684,9 +816,19 @@
           grid-template-columns: 1fr;
         }
 
+        .services-flap-title {
+          font-size: clamp(1.5rem, 8.4vw, 2.35rem);
+        }
+
         .services-hero .cta-row,
         .services-hero .cta-row .btn {
           width: 100%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .services-columns-grid {
+          grid-template-columns: 1fr;
         }
       }
 
@@ -747,7 +889,21 @@
             <h2 id="services-choose-title">Choose a service</h2>
             <p>Tap or click a service card to update the breakdown and engagement comparison below.</p>
           </div>
-          <div class="services-rail" id="serviceRail"></div>
+          <div class="services-choose-marquee" id="servicesChooseMarquee">
+            <div class="services-columns-grid" aria-label="Services recurring motion columns">
+              <div class="services-column-window"><div class="services-column-track" id="chooseCol1"></div></div>
+              <div class="services-column-window"><div class="services-column-track" id="chooseCol2"></div></div>
+              <div class="services-column-window"><div class="services-column-track" id="chooseCol3"></div></div>
+              <div class="services-column-window"><div class="services-column-track" id="chooseCol4"></div></div>
+            </div>
+
+            <div class="services-flapline" aria-live="polite">
+              <p class="services-flap-kicker">Service spotlight (updates every 5 seconds)</p>
+              <h3 class="services-flap-title" id="chooseFlapTitle">LOGISTICS OPERATIONS</h3>
+              <p class="services-flap-text" id="chooseFlapText">Dispatch coordination, shipment visibility, and status follow-up.</p>
+              <a class="services-flap-link" id="chooseFlapLink" href="/services/logistics-operations/">Open service page ↗</a>
+            </div>
+          </div>
         </section>
 
         <section class="services-section services-detail-layout" aria-labelledby="detailTitle">
@@ -1120,7 +1276,16 @@
           activeCompare: 'hourly'
         };
 
-        const serviceRail = document.getElementById('serviceRail');
+        const servicesChooseMarquee = document.getElementById('servicesChooseMarquee');
+        const chooseColumns = [
+          document.getElementById('chooseCol1'),
+          document.getElementById('chooseCol2'),
+          document.getElementById('chooseCol3'),
+          document.getElementById('chooseCol4')
+        ];
+        const chooseFlapTitle = document.getElementById('chooseFlapTitle');
+        const chooseFlapText = document.getElementById('chooseFlapText');
+        const chooseFlapLink = document.getElementById('chooseFlapLink');
         const detailBody = document.getElementById('detailBody');
         const detailKicker = document.getElementById('detailKicker');
         const detailTitle = document.getElementById('detailTitle');
@@ -1135,45 +1300,170 @@
         const mobileActionButton = document.getElementById('mobileActionButton');
 
         const getServiceById = (id) => services.find((service) => service.id === id) || services[0];
+        const isReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         const getCheck = (enabled) => (enabled ? '<span class="services-check" aria-label="Included"></span>' : '');
+        const SCROLL_REPEAT_COUNT = 10;
+        const FLAP_DURATION = 5000;
+        const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-';
+        let flapIndex = 0;
+        let flapTimer = null;
 
-        function renderServiceRail() {
-          serviceRail.innerHTML = services
-            .map((service) => {
-              const activeClass = service.id === state.activeService ? 'services-card is-active' : 'services-card';
-              return `
-                <article class="${activeClass}" data-service="${service.id}" aria-pressed="${service.id === state.activeService}" role="button" tabindex="0">
-                  <span class="services-card-kicker">${service.cardKicker}</span>
-                  <h3 class="services-card-title">${service.short}</h3>
-                  <p class="services-card-text">${service.buttonText}</p>
-                  <a class="services-card-link" data-service-link="${service.id}" href="${service.href}">Open service page</a>
-                </article>
-              `;
-            })
-            .join('');
+        function makeScrollCard(service) {
+          return `
+            <article class="services-scroll-card" data-service="${service.id}" aria-pressed="false" role="button" tabindex="0">
+              <small>${service.cardKicker}</small>
+              <strong>${service.short}</strong>
+              <p>${service.buttonText}</p>
+            </article>
+          `;
+        }
 
-          serviceRail.querySelectorAll('.services-card').forEach((card) => {
-            const activateCard = () => {
-              const nextId = card.getAttribute('data-service');
-              if (nextId === state.activeService) return;
-              state.activeService = nextId;
-              animateDetailSwap();
-              renderAll();
-              card.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-            };
-
-            card.addEventListener('click', (event) => {
-              if (event.target instanceof Element && event.target.closest('.services-card-link')) return;
-              activateCard();
+        function fillChooseColumn(track, shift) {
+          const rotated = services.slice(shift).concat(services.slice(0, shift));
+          let html = '';
+          for (let i = 0; i < SCROLL_REPEAT_COUNT; i += 1) {
+            rotated.forEach((service) => {
+              html += makeScrollCard(service);
             });
+          }
+          track.innerHTML = html;
+        }
 
-            card.addEventListener('keydown', (event) => {
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                activateCard();
+        function setupChooseScroller() {
+          chooseColumns.forEach((track, index) => fillChooseColumn(track, index));
+
+          if (isReduceMotion) return;
+          const columns = chooseColumns.map((track, index) => ({
+            track,
+            y: 0,
+            speed: 0.28 + index * 0.04,
+            dir: index % 2 === 0 ? 1 : -1
+          }));
+
+          const getCardUnit = (track) => {
+            const card = track.querySelector('.services-scroll-card');
+            if (!card) return 180;
+            const style = window.getComputedStyle(card);
+            const mb = parseFloat(style.marginBottom) || 0;
+            return card.offsetHeight + mb;
+          };
+
+          const animateColumns = () => {
+            columns.forEach((column) => {
+              const unit = getCardUnit(column.track);
+              const loopHeight = unit * services.length;
+              column.y += column.speed * column.dir;
+
+              if (column.dir === 1 && column.y >= loopHeight) column.y -= loopHeight;
+              if (column.dir === -1 && column.y <= -loopHeight) column.y += loopHeight;
+
+              column.track.style.transform = `translateY(${-column.y}px)`;
+            });
+            window.requestAnimationFrame(animateColumns);
+          };
+
+          window.requestAnimationFrame(animateColumns);
+        }
+
+        function randomScrambleChar() {
+          return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+        }
+
+        function scrambleText(el, target, speed = 45, done) {
+          if (isReduceMotion) {
+            el.textContent = target;
+            if (typeof done === 'function') done();
+            return;
+          }
+
+          let step = 0;
+          clearInterval(el._timer);
+          el._timer = setInterval(() => {
+            let output = '';
+            for (let i = 0; i < target.length; i += 1) {
+              const char = target[i];
+              if (char === ' ' || char === '-') {
+                output += char;
+              } else if (i < step) {
+                output += target[i];
+              } else {
+                output += randomScrambleChar();
               }
+            }
+
+            el.textContent = output;
+            step += 1;
+            if (step > target.length + 1) {
+              clearInterval(el._timer);
+              el.textContent = target;
+              if (typeof done === 'function') done();
+            }
+          }, speed);
+        }
+
+        function renderActiveScrollerCards() {
+          chooseColumns.forEach((track) => {
+            track.querySelectorAll('.services-scroll-card').forEach((card) => {
+              const isActive = card.getAttribute('data-service') === state.activeService;
+              card.classList.toggle('is-active', isActive);
+              card.setAttribute('aria-pressed', String(isActive));
             });
+          });
+        }
+
+        function setFlapServiceByIndex(index, shouldScramble = true) {
+          const safeIndex = ((index % services.length) + services.length) % services.length;
+          const service = services[safeIndex];
+          flapIndex = safeIndex;
+          chooseFlapText.textContent = service.buttonText;
+          chooseFlapLink.setAttribute('href', service.href);
+          chooseFlapLink.textContent = 'Open service page ↗';
+          if (shouldScramble) {
+            scrambleText(chooseFlapTitle, service.short.toUpperCase(), 52);
+          } else {
+            chooseFlapTitle.textContent = service.short.toUpperCase();
+          }
+        }
+
+        function startFlapRotation() {
+          setFlapServiceByIndex(flapIndex, false);
+          clearInterval(flapTimer);
+          flapTimer = setInterval(() => {
+            flapIndex = (flapIndex + 1) % services.length;
+            setFlapServiceByIndex(flapIndex, true);
+          }, FLAP_DURATION);
+        }
+
+        function bindChooseMarquee() {
+          if (!servicesChooseMarquee) return;
+          const activateFromCard = (card) => {
+            if (!(card instanceof Element)) return;
+            const nextId = card.getAttribute('data-service');
+            if (!nextId || nextId === state.activeService) return;
+            const nextIndex = services.findIndex((service) => service.id === nextId);
+            state.activeService = nextId;
+            animateDetailSwap();
+            setFlapServiceByIndex(nextIndex, true);
+            renderAll();
+          };
+
+          servicesChooseMarquee.addEventListener('click', (event) => {
+            const target = event.target;
+            if (!(target instanceof Element)) return;
+            const card = target.closest('.services-scroll-card');
+            if (card) activateFromCard(card);
+          });
+
+          servicesChooseMarquee.addEventListener('keydown', (event) => {
+            const target = event.target;
+            if (!(target instanceof Element)) return;
+            const card = target.closest('.services-scroll-card');
+            if (!card) return;
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              activateFromCard(card);
+            }
           });
         }
 
@@ -1294,13 +1584,16 @@
         }
 
         function renderAll() {
-          renderServiceRail();
+          renderActiveScrollerCards();
           renderDetail();
           renderCompareFilters();
           renderCompareGrid();
           renderDesktopTable();
         }
 
+        setupChooseScroller();
+        bindChooseMarquee();
+        startFlapRotation();
         renderAll();
         bindModeTabs();
         bindCompareFilters();
