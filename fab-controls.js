@@ -4,7 +4,7 @@ const DESKTOP_QUERY = '(min-width: 901px)';
 
 function buildDesktopFabMarkup() {
   return `
-    <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="false" aria-controls="fabOverlay">Quick actions</button>
+    <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="false" aria-controls="fabOverlay">☰</button>
     <div class="fab-overlay" id="fabOverlay" hidden>
       <div class="fab-backdrop" data-fab-dismiss></div>
       <aside class="fab-sheet" role="dialog" aria-modal="true" aria-label="Quick actions menu">
@@ -55,7 +55,7 @@ export function initFabControls() {
   const setDesktopFabOpen = (isOpen) => {
     if (!fabToggle || !fabOverlay) return;
     fabToggle.setAttribute('aria-expanded', String(isOpen));
-    fabToggle.textContent = isOpen ? '✕ Close actions' : 'Quick actions';
+    fabToggle.textContent = isOpen ? '✕ Close actions' : '☰';
     fabOverlay.hidden = !isOpen;
     document.body.classList.toggle('fab-open', isOpen);
   };
