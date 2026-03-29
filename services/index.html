@@ -270,6 +270,10 @@
         will-change: transform;
       }
 
+      .column-set {
+        display: grid;
+      }
+
       .services-scroll-card {
         width: calc(100% - 1rem);
         margin: 0.5rem;
@@ -1327,13 +1331,21 @@
 
         function fillChooseColumn(track, shift) {
           const rotated = services.slice(shift).concat(services.slice(0, shift));
-          let html = '';
-          for (let i = 0; i < SCROLL_REPEAT_COUNT; i += 1) {
-            rotated.forEach((service) => {
-              html += makeScrollCard(service);
-            });
-          }
-          track.innerHTML = html;
+          const buildSet = () => {
+            let html = '';
+            for (let i = 0; i < SCROLL_REPEAT_COUNT; i += 1) {
+              rotated.forEach((service) => {
+                html += makeScrollCard(service);
+              });
+            }
+            return html;
+          };
+
+          const setHtml = buildSet();
+          track.innerHTML = `
+            <div class="column-set">${setHtml}</div>
+            <div class="column-set" aria-hidden="true">${setHtml}</div>
+          `;
         }
 
         function setupChooseScroller() {
@@ -1345,27 +1357,39 @@
           if (isReduceMotion) return;
           const columns = chooseColumns.map((track, index) => ({
             track,
+            set: track.querySelector('.column-set'),
             y: 0,
             speed: 0.28 + Math.floor(index / 2) * 0.08,
             dir: index < 2 ? 1 : -1
           }));
+          const loopHeights = new WeakMap();
 
-          const getCardUnit = (track) => {
-            const card = track.querySelector('.services-scroll-card');
-            if (!card) return 180;
-            const style = window.getComputedStyle(card);
-            const mb = parseFloat(style.marginBottom) || 0;
-            return card.offsetHeight + mb;
+          const getLoopHeight = (column) => {
+            const set = column.set || column.track.querySelector('.column-set');
+            if (!set) return 0;
+            const measured = set.offsetHeight;
+            if (measured > 0) {
+              loopHeights.set(column.track, measured);
+              column.set = set;
+            }
+            return measured || loopHeights.get(column.track) || 0;
           };
+
+          columns.forEach((column, index) => {
+            const loopHeight = getLoopHeight(column);
+            if (!loopHeight) return;
+            column.y = (loopHeight * (index + 1)) / (columns.length + 1);
+            column.track.style.transform = `translateY(${-column.y}px)`;
+          });
 
           const animateColumns = () => {
             columns.forEach((column) => {
-              const unit = getCardUnit(column.track);
-              const loopHeight = unit * services.length;
+              const loopHeight = getLoopHeight(column);
+              if (!loopHeight) return;
               column.y += column.speed * column.dir;
 
-              if (column.dir === 1 && column.y >= loopHeight) column.y -= loopHeight;
-              if (column.dir === -1 && column.y <= -loopHeight) column.y += loopHeight;
+              if (column.y >= loopHeight) column.y -= loopHeight;
+              if (column.y < 0) column.y += loopHeight;
 
               column.track.style.transform = `translateY(${-column.y}px)`;
             });
