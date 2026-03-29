@@ -39,7 +39,7 @@ body.has-mobile-nav {
   padding: var(--mobile-nav-padding-y) max(var(--mobile-nav-padding-x), env(safe-area-inset-left)) var(--mobile-safe-bottom) max(var(--mobile-nav-padding-x), env(safe-area-inset-right));
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   align-items: center;
   width: 100%;
   border-top: 1px solid var(--border);
