@@ -227,7 +227,7 @@ li { margin: 6px 0; text-align: justify; hyphens: none; overflow-wrap: normal; w
 .mobile-chat-launcher {
   position: fixed;
   left: max(0.75rem, env(safe-area-inset-left, 0px));
-  bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+  bottom: calc(max(0.75rem, env(safe-area-inset-bottom, 0px)) + 7px);
   width: 3.15rem;
   height: 3.15rem;
   padding: 0;
@@ -310,6 +310,12 @@ li { margin: 6px 0; text-align: justify; hyphens: none; overflow-wrap: normal; w
   gap: 0.75rem;
   border-bottom: 1px solid var(--line);
   padding: 0.6rem 0.8rem;
+  color: var(--link);
+}
+
+.chat-panel-head strong,
+.chat-panel-head .ghost {
+  color: inherit;
 }
 
 .chat-panel-actions {
@@ -350,7 +356,7 @@ li { margin: 6px 0; text-align: justify; hyphens: none; overflow-wrap: normal; w
   .mobile-chat-launcher {
     display: inline-flex;
     left: calc(max(0px, env(safe-area-inset-left, 0px)) + 45px);
-    bottom: calc(max(0px, env(safe-area-inset-bottom, 0px)) + 45px);
+    bottom: calc(max(0px, env(safe-area-inset-bottom, 0px)) + 52px);
   }
 
   .legal-header .wrap {
