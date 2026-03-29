@@ -1337,14 +1337,17 @@
         }
 
         function setupChooseScroller() {
-          chooseColumns.forEach((track, index) => fillChooseColumn(track, index));
+          chooseColumns.forEach((track, index) => {
+            const sourceIndex = index % 2 === 0 ? index : index - 1;
+            fillChooseColumn(track, sourceIndex);
+          });
 
           if (isReduceMotion) return;
           const columns = chooseColumns.map((track, index) => ({
             track,
             y: 0,
-            speed: 0.28 + index * 0.04,
-            dir: index % 2 === 0 ? 1 : -1
+            speed: 0.28 + Math.floor(index / 2) * 0.08,
+            dir: index < 2 ? 1 : -1
           }));
 
           const getCardUnit = (track) => {
