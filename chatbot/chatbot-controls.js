@@ -1,5 +1,6 @@
 import { resolveWorkerTargets, CHATBOT_STREAM_BRIDGE_NAME } from './chatbot-worker-stream.js';
 import { EN_MESSAGES } from '../locales/en/messages.js';
+import { ensureDesktopFabNav } from '../fab-controls.js';
 
 const DESKTOP_QUERY = '(min-width: 901px)';
 
@@ -25,6 +26,7 @@ function buildChatPanelMarkup() {
 }
 
 function ensureFabChatTrigger() {
+  ensureDesktopFabNav();
   const fabMenu = document.getElementById('fabQuickMenu');
   if (!fabMenu) return null;
 
