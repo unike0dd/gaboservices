@@ -316,6 +316,15 @@
         background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(241, 244, 250, 0.96) 52%, rgba(252, 253, 255, 0.98) 100%);
       }
 
+      .services-flap-kicker {
+        margin: 0;
+        font-size: 0.74rem;
+        text-transform: uppercase;
+        letter-spacing: 0.19em;
+        color: #5b6473;
+        font-weight: 700;
+      }
+
       .services-flap-title {
         margin: 0.45rem 0 0;
         min-height: 1.12em;
@@ -891,7 +900,7 @@
             <div class="services-flapline" aria-live="polite">
               <h3 class="services-flap-title" id="chooseFlapTitle">LOGISTICS OPERATIONS</h3>
               <p class="services-flap-text" id="chooseFlapText">Dispatch coordination, shipment visibility, and status follow-up.</p>
-              <a class="services-flap-link" id="chooseFlapLink" href="/services/logistics-operations/">LOGISTICS OPERATIONS</a>
+              <a class="services-flap-link" id="chooseFlapLink" href="/services/logistics-operations/">Open service page ↗</a>
             </div>
           </div>
         </section>
@@ -1408,7 +1417,7 @@
           flapIndex = safeIndex;
           chooseFlapText.textContent = service.buttonText;
           chooseFlapLink.setAttribute('href', service.href);
-          chooseFlapLink.textContent = service.short.toUpperCase();
+          chooseFlapLink.textContent = 'Open service page ↗';
           if (shouldScramble) {
             scrambleText(chooseFlapTitle, service.short.toUpperCase(), 52);
           } else {
