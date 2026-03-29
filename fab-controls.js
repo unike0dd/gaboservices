@@ -24,6 +24,10 @@ function buildDesktopFabMarkup() {
             <span class="fab-item-icon" aria-hidden="true">💼</span>
             <span>${EN_MESSAGES.fab.careers}</span>
           </a>
+          <a class="fab-item" data-page="careers" href="/careers" aria-label="${EN_MESSAGES.fab.careers}">
+            <span class="fab-item-icon" aria-hidden="true">💼</span>
+            <span>${EN_MESSAGES.fab.careers}</span>
+          </a>
         </div>
       </aside>
     </div>

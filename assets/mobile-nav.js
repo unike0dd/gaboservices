@@ -6,6 +6,7 @@ const ROUTES = {
     { key: 'about', label: 'About', href: '/about/' },
     { key: 'services', label: 'Services', href: null },
     { key: 'careers', label: 'Careers', href: '/careers/' },
+    { key: 'chatbot', label: 'Chat', href: null, action: 'chat' },
     { key: 'contact', label: 'Contact', href: '/contact/' }
   ],
   services: [
@@ -22,7 +23,8 @@ const ICONS = {
   about: '<circle cx="12" cy="12" r="9"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path>',
   services: '<rect x="4" y="5" width="16" height="4" rx="1.5"></rect><rect x="4" y="10" width="16" height="4" rx="1.5"></rect><rect x="4" y="15" width="16" height="4" rx="1.5"></rect>',
   careers: '<path d="M3 8h18v11H3z"></path><path d="M8 8V6h8v2"></path><path d="M3 13h18"></path>',
-  contact: '<path d="M4 7h16v10H4z"></path><path d="m4 8 8 6 8-6"></path>'
+  contact: '<path d="M4 7h16v10H4z"></path><path d="m4 8 8 6 8-6"></path>',
+  chatbot: '<path d="M4 5h16v11a2 2 0 0 1-2 2H9l-5 3v-3H6a2 2 0 0 1-2-2z"></path><path d="M9 10h.01"></path><path d="M12 10h.01"></path><path d="M15 10h.01"></path>'
 };
 
 function iconMarkup(key) {
@@ -67,6 +69,10 @@ function buildMarkup(activePage) {
                   </div>
                 </div>
               `;
+            }
+
+            if (item.action === 'chat') {
+              return `<button class="mobile-nav__item" type="button" data-mobile-item="${item.key}" data-chat-trigger>${iconMarkup(item.key)}<span class="mobile-nav__label">${item.label}</span></button>`;
             }
 
             const activeClass = activePage === item.key ? ' is-active' : '';
