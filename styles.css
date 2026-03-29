@@ -1629,6 +1629,12 @@ textarea[data-security-state='review'] {
   align-items: center;
   border-bottom: 1px solid var(--border);
   padding: 0.6rem 0.8rem;
+  color: var(--primary);
+}
+
+.chat-panel-head strong,
+.chat-panel-head .ghost {
+  color: inherit;
 }
 
 .chat-panel-actions {
