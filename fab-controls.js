@@ -16,9 +16,13 @@ function buildDesktopFabMarkup() {
           </div>
         </div>
         <div class="fab-menu" id="fabQuickMenu">
-          <a class="fab-item" data-page="contact" href="/contact" aria-label="${EN_MESSAGES.mobileBottomNav.contact}">
+          <a class="fab-item" data-page="contact" href="/contact" aria-label="${EN_MESSAGES.fab.contact}">
             <span class="fab-item-icon" aria-hidden="true">✉️</span>
-            <span>${EN_MESSAGES.mobileBottomNav.contact}</span>
+            <span>${EN_MESSAGES.fab.contact}</span>
+          </a>
+          <a class="fab-item" data-page="careers" href="/careers" aria-label="${EN_MESSAGES.fab.careers}">
+            <span class="fab-item-icon" aria-hidden="true">💼</span>
+            <span>${EN_MESSAGES.fab.careers}</span>
           </a>
           <a class="fab-item" data-page="services" href="/services" aria-label="${EN_MESSAGES.mobileBottomNav.services}">
             <span class="fab-item-icon" aria-hidden="true">🧭</span>

@@ -1,6 +1,8 @@
 import { resolveWorkerTargets, CHATBOT_STREAM_BRIDGE_NAME } from './chatbot-worker-stream.js';
 import { EN_MESSAGES } from '../locales/en/messages.js';
 
+const DESKTOP_QUERY = '(min-width: 901px)';
+
 function getChatbotMountRoot() {
   return document.getElementById('chatbot-root') || document.body;
 }
@@ -24,19 +26,36 @@ function buildChatPanelMarkup() {
 
 function ensureFabChatTrigger() {
   const fabMenu = document.getElementById('fabQuickMenu');
-  if (!fabMenu) return;
-  if (fabMenu.querySelector('[data-chat-trigger]')) return;
+  if (!fabMenu) return null;
 
-  const action = document.createElement('button');
+  let action = fabMenu.querySelector('[data-chat-trigger][data-chat-trigger-context="desktop-fab"]');
+  if (action) return action;
+
+  action = document.createElement('button');
   action.className = 'fab-item';
   action.type = 'button';
   action.setAttribute('data-chat-trigger', '');
+  action.setAttribute('data-chat-trigger-context', 'desktop-fab');
   action.innerHTML = `
     <span class="fab-item-icon" aria-hidden="true">🤖</span>
     <span>${EN_MESSAGES.fab.chatbot}</span>
   `;
 
   fabMenu.appendChild(action);
+  return action;
+}
+
+function syncChatbotLaunchersForViewport(desktopQuery) {
+  const isDesktop = desktopQuery.matches;
+  const fabChatTrigger = document.querySelector('[data-chat-trigger][data-chat-trigger-context="desktop-fab"]');
+
+  if (isDesktop) {
+    ensureFabChatTrigger();
+  } else if (fabChatTrigger) {
+    fabChatTrigger.remove();
+  }
+
+  ensureMobileChatLauncher();
 }
 
 function ensureMobileChatLauncher() {
@@ -117,11 +136,10 @@ function ensureChatPanelMarkup() {
 }
 
 export function initChatbotControls() {
-  ensureFabChatTrigger();
-  ensureMobileChatLauncher();
+  const desktopQuery = window.matchMedia(DESKTOP_QUERY);
+  syncChatbotLaunchersForViewport(desktopQuery);
 
-  const chatTriggers = [...document.querySelectorAll('[data-chat-trigger]')];
-  if (!chatTriggers.length) return;
+  if (!document.querySelector('[data-chat-trigger]')) return;
 
   const { chatOverlay, chatPanel, chatFrame } = ensureChatPanelMarkup();
   if (!chatOverlay || !chatPanel || !chatFrame) return;
@@ -181,21 +199,29 @@ export function initChatbotControls() {
     setOpenState(false);
   };
 
-  chatTriggers.forEach((trigger) => {
-    trigger.addEventListener('click', () => {
-      if (!gatewayHealthy) {
-        chatStatus.hidden = false;
-        chatStatus.textContent = EN_MESSAGES.chatbot.unavailable;
-        return;
-      }
+  const openChatFromTrigger = (trigger) => {
+    if (!gatewayHealthy) {
+      chatStatus.hidden = false;
+      chatStatus.textContent = EN_MESSAGES.chatbot.unavailable;
+      return;
+    }
 
-      if (chatFrame.src === 'about:blank') {
-        chatFrame.src = configuredChatbotEmbedUrl;
-      }
-      lastTrigger = trigger;
-      setFabOpenState(false);
-      setOpenState(true);
-    });
+    if (chatFrame.src === 'about:blank') {
+      chatFrame.src = configuredChatbotEmbedUrl;
+    }
+    lastTrigger = trigger;
+    setFabOpenState(false);
+    setOpenState(true);
+  };
+
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+
+    const trigger = target.closest('[data-chat-trigger]');
+    if (!(trigger instanceof HTMLElement)) return;
+
+    openChatFromTrigger(trigger);
   });
 
   chatPanel.querySelectorAll('[data-chat-dismiss]').forEach((button) => {
@@ -219,6 +245,10 @@ export function initChatbotControls() {
   chatOverlay.addEventListener('click', closeFromOverlay);
   chatOverlay.addEventListener('touchstart', closeFromOverlay, { passive: true });
   chatOverlay.addEventListener('pointerdown', closeFromOverlay);
+
+  desktopQuery.addEventListener('change', () => {
+    syncChatbotLaunchersForViewport(desktopQuery);
+  });
 
   document.addEventListener('keydown', (event) => {
     if ((event.key === 'Escape' || event.key === 'Esc') && !chatOverlay.hidden) {
