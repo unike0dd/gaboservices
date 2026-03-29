@@ -891,7 +891,7 @@
             <div class="services-flapline" aria-live="polite">
               <h3 class="services-flap-title" id="chooseFlapTitle">LOGISTICS OPERATIONS</h3>
               <p class="services-flap-text" id="chooseFlapText">Dispatch coordination, shipment visibility, and status follow-up.</p>
-              <a class="services-flap-link" id="chooseFlapLink" href="/services/logistics-operations/">Open service page ↗</a>
+              <a class="services-flap-link" id="chooseFlapLink" href="/services/logistics-operations/">LOGISTICS OPERATIONS</a>
             </div>
           </div>
         </section>
@@ -1408,7 +1408,7 @@
           flapIndex = safeIndex;
           chooseFlapText.textContent = service.buttonText;
           chooseFlapLink.setAttribute('href', service.href);
-          chooseFlapLink.textContent = 'Open service page ↗';
+          chooseFlapLink.textContent = service.short.toUpperCase();
           if (shouldScramble) {
             scrambleText(chooseFlapTitle, service.short.toUpperCase(), 52);
           } else {
