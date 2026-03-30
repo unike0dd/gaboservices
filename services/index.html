@@ -1481,7 +1481,7 @@
           flapIndex = safeIndex;
           chooseFlapText.textContent = service.buttonText;
           chooseFlapLink.setAttribute('href', service.href);
-          setOpenServicePageLabel(chooseFlapLink);
+          chooseFlapLink.textContent = OPEN_SERVICE_PAGE_LABEL;
           if (shouldScramble) {
             scrambleText(chooseFlapTitle, service.short.toUpperCase(), 52);
           } else {
@@ -1571,11 +1571,11 @@
           mobileActionService.textContent = current.short;
           if (detailServiceCta) {
             detailServiceCta.setAttribute('href', current.href);
-            setOpenServicePageLabel(detailServiceCta);
+            detailServiceCta.textContent = OPEN_SERVICE_PAGE_LABEL;
           }
           if (mobileActionButton) {
             mobileActionButton.setAttribute('href', current.href);
-            setOpenServicePageLabel(mobileActionButton);
+            mobileActionButton.textContent = OPEN_SERVICE_PAGE_LABEL;
           }
           renderModeTabs();
           renderModePanel();
