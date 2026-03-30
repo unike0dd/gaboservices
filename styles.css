@@ -3031,3 +3031,89 @@ select {
 .services-hero-accordion {
   padding-inline: 0;
 }
+
+.center-band {
+  position: relative;
+  z-index: 3;
+  margin: 14px 0 0;
+  padding: 0;
+}
+
+.center-box {
+  text-align: center;
+  padding: 20px 18px 16px;
+}
+
+.center-title {
+  min-height: 1.15em;
+  margin: 0;
+  font-size: clamp(36px, 4.5vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  color: #081b3c;
+  font-family: "Courier New", monospace;
+}
+
+.center-text {
+  max-width: 980px;
+  min-height: 2.8em;
+  margin: 14px auto 0;
+  font-size: clamp(16px, 1.5vw, 24px);
+  line-height: 1.45;
+  color: #30455f;
+}
+
+.center-button-wrap {
+  min-height: 58px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.center-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 240px;
+  min-height: 48px;
+  padding: 14px 20px;
+  border: 1px solid #0b1f45;
+  background: #0b1f45;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+  line-height: 1.2;
+  font-weight: 700;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition:
+    opacity .35s ease,
+    transform .35s ease,
+    background .25s ease,
+    color .25s ease,
+    border-color .25s ease;
+}
+
+.center-link:hover {
+  background: #16305f;
+  border-color: #16305f;
+  color: #ffffff;
+}
+
+.center-link.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+@media (max-width: 720px) {
+  .center-link {
+    min-width: 220px;
+    font-size: 15px;
+  }
+}
