@@ -96,7 +96,286 @@
         <p>Gabriel Services strengthens execution through dependable operational assistance that fits into your business processes and communication flow. We reduce friction, improve visibility, and increase consistency across daily operations.</p>
       </section>
 
+      <section class="section-block wide-reading">
+        <p>The result is stronger follow-through, better day-to-day performance, and more time for your business to focus on growth.</p>
+        <div class="services-flapline" aria-live="polite">
+          <h2 class="services-flap-title" id="chooseFlapTitle">LOGISTICS OPERATIONS</h2>
+          <p class="services-flap-text" id="chooseFlapText">Dispatch coordination, shipment visibility, and status follow-up.</p>
+          <a class="services-flap-link" id="chooseFlapLink" href="/services/logistics-operations/" aria-label="Open service page ↗">Open service page ↗</a>
+        </div>
+      </section>
+
+      <section class="center-band" aria-live="polite">
+        <div class="divider"></div>
+
+        <div class="center-box">
+          <p class="center-kicker">Mid center services</p>
+          <h2 class="center-title" id="centerTitle">LOGISTICS</h2>
+          <p class="center-text" id="centerText">
+            Dispatch coordination, shipment visibility, and status follow-up.
+          </p>
+          <div class="center-button-wrap">
+            <a id="centerLink" class="center-link show" href="/services/logistics-operations/" aria-label="Open service page ↗">
+              Open service page ↗
+            </a>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+      </section>
     </main>
+    <style>
+      .center-band {
+        position: relative;
+        z-index: 3;
+        margin: 14px 0 0;
+        padding: 0;
+        background: #efeff2;
+      }
+
+      .divider {
+        position: relative;
+        height: 22px;
+        margin: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.95) 0%,
+          rgba(219, 223, 231, 0.95) 16%,
+          rgba(188, 194, 205, 0.98) 50%,
+          rgba(225, 228, 234, 0.98) 84%,
+          rgba(255, 255, 255, 0.98) 100%
+        );
+        border-top: 1px solid #d8dde5;
+        border-bottom: 1px solid #bcc4d0;
+        box-shadow:
+          inset 0 2px 3px rgba(255, 255, 255, 0.95),
+          inset 0 -3px 5px rgba(120, 130, 145, 0.28),
+          0 1px 0 rgba(255, 255, 255, 0.75);
+      }
+
+      .center-box {
+        text-align: center;
+        padding: 20px 18px 16px;
+        background: #efeff2;
+      }
+
+      .center-kicker {
+        margin: 0 0 10px;
+        font-size: 14px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #5a6780;
+      }
+
+      .center-title {
+        min-height: 1.15em;
+        margin: 0;
+        font-size: clamp(36px, 4.5vw, 72px);
+        line-height: 1;
+        letter-spacing: -0.05em;
+        text-transform: uppercase;
+        color: #081b3c;
+        font-family: "Courier New", monospace;
+      }
+
+      .center-text {
+        max-width: 980px;
+        min-height: 2.8em;
+        margin: 14px auto 0;
+        font-size: clamp(16px, 1.5vw, 24px);
+        line-height: 1.45;
+        color: #30455f;
+      }
+
+      .center-button-wrap {
+        min-height: 58px;
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: visible;
+      }
+
+      .center-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 240px;
+        min-height: 48px;
+        padding: 14px 20px;
+        border: 1px solid #0b1f45;
+        background: #0b1f45;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 16px;
+        line-height: 1.2;
+        font-weight: 700;
+        white-space: nowrap;
+        opacity: 0;
+        transform: translateY(10px);
+        pointer-events: none;
+        transition:
+          opacity 0.35s ease,
+          transform 0.35s ease,
+          background 0.25s ease,
+          color 0.25s ease,
+          border-color 0.25s ease;
+      }
+
+      .center-link:hover {
+        background: #16305f;
+        border-color: #16305f;
+        color: #ffffff;
+      }
+
+      .center-link.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      @media (max-width: 720px) {
+        .center-link {
+          min-width: 220px;
+          font-size: 15px;
+        }
+      }
+    </style>
+    <script>
+      (() => {
+        const services = [
+          {
+            center: 'LOGISTICS',
+            text: 'Dispatch coordination, shipment visibility, and status follow-up.',
+            link: '/services/logistics-operations/'
+          },
+          {
+            center: 'ADMIN BACKOFFICE',
+            text: 'Documentation flow, scheduling, and organized follow-up.',
+            link: '/services/administrative-backoffice/'
+          },
+          {
+            center: 'IT SUPPORT',
+            text: 'Ticket flow, issue tracking, and user support coordination.',
+            link: '/services/it-support/'
+          },
+          {
+            center: 'CUSTOMER RELATIONS',
+            text: 'Customer communication, response tracking, and continuity.',
+            link: '/services/customer-relations/'
+          }
+        ];
+
+        const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const WORD_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        const OPEN_SERVICE_PAGE_LABEL = 'Open service page ↗';
+        const TITLE_SPEED = 45;
+        const TEXT_SPEED = 18;
+        const DURATION = 4200;
+
+        const centerTitle = document.getElementById('centerTitle');
+        const centerText = document.getElementById('centerText');
+        const centerLink = document.getElementById('centerLink');
+
+        if (!centerTitle || !centerText || !centerLink) return;
+
+        let activeIndex = 0;
+        let rotationTimer = null;
+
+        function randomFrom(source) {
+          return source[Math.floor(Math.random() * source.length)];
+        }
+
+        function scrambleTitle(el, target, speed = 45) {
+          return new Promise((resolve) => {
+            let step = 0;
+            clearInterval(el._timer);
+
+            el._timer = setInterval(() => {
+              let output = '';
+
+              for (let i = 0; i < target.length; i++) {
+                const ch = target[i];
+
+                if (ch === ' ' || ch === '-' || ch === '&') {
+                  output += ch;
+                } else if (i < step) {
+                  output += target[i];
+                } else {
+                  output += randomFrom(LETTERS);
+                }
+              }
+
+              el.textContent = output;
+              step++;
+
+              if (step > target.length + 2) {
+                clearInterval(el._timer);
+                el.textContent = target;
+                resolve();
+              }
+            }, speed);
+          });
+        }
+
+        function scrambleWords(el, target, speed = 18) {
+          return new Promise((resolve) => {
+            let step = 0;
+            const chars = target.split('');
+            clearInterval(el._timer);
+
+            el._timer = setInterval(() => {
+              const output = chars.map((ch, i) => {
+                if (' .,;:!?-–—↗/&'.includes(ch)) return ch;
+                if (i < step) return target[i];
+                return randomFrom(WORD_CHARS);
+              }).join('');
+
+              el.textContent = output;
+              step += 2;
+
+              if (step >= target.length + 4) {
+                clearInterval(el._timer);
+                el.textContent = target;
+                resolve();
+              }
+            }, speed);
+          });
+        }
+
+        async function setService(index) {
+          const item = services[index];
+          if (!item) return;
+
+          centerLink.classList.remove('show');
+          centerLink.href = item.link;
+          centerLink.textContent = OPEN_SERVICE_PAGE_LABEL;
+
+          await Promise.all([
+            scrambleTitle(centerTitle, item.center, TITLE_SPEED),
+            scrambleWords(centerText, item.text, TEXT_SPEED)
+          ]);
+
+          centerLink.classList.add('show');
+        }
+
+        function startRotation() {
+          clearInterval(rotationTimer);
+          setService(activeIndex);
+
+          rotationTimer = setInterval(() => {
+            activeIndex = (activeIndex + 1) % services.length;
+            setService(activeIndex);
+          }, DURATION);
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', startRotation, { once: true });
+        } else {
+          startRotation();
+        }
+      })();
+    </script>
     <footer class="site-footer">
       <div class="container footer-grid">
         <div class="footer-column">
