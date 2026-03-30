@@ -247,6 +247,7 @@
       .services-choose-marquee {
         display: grid;
         gap: 0.9rem;
+        overflow: visible;
       }
 
       .services-columns-grid {
@@ -325,6 +326,7 @@
         padding: 1rem 0.45rem 0.85rem;
         text-align: center;
         background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(241, 244, 250, 0.96) 52%, rgba(252, 253, 255, 0.98) 100%);
+        overflow: visible;
       }
 
       .services-flap-kicker {
@@ -361,14 +363,23 @@
         align-items: center;
         justify-content: center;
         width: fit-content;
+        min-width: 240px;
         border: 1px solid #0f172a;
         border-radius: 10px;
         background: #0f172a;
-        color: #ffffff;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff;
         text-decoration: none;
-        padding: 0 1rem;
+        padding: 10px 16px;
         font-weight: 700;
-        line-height: 1.1;
+        font-size: 16px;
+        line-height: 1.25;
+        white-space: nowrap;
+        overflow: visible;
+        text-indent: 0;
+        text-transform: none;
+        opacity: 1;
+        visibility: visible;
       }
 
       .services-flap-link:hover,
@@ -920,7 +931,7 @@
             <div class="services-flapline" aria-live="polite">
               <h3 class="services-flap-title" id="chooseFlapTitle">LOGISTICS OPERATIONS</h3>
               <p class="services-flap-text" id="chooseFlapText">Dispatch coordination, shipment visibility, and status follow-up.</p>
-              <a class="services-flap-link" id="chooseFlapLink" href="/services/logistics-operations/">Open service page ↗</a>
+              <a class="services-flap-link" id="chooseFlapLink" href="/services/logistics-operations/" aria-label="Open service page ↗">Open service page ↗</a>
             </div>
           </div>
         </section>
@@ -1322,6 +1333,14 @@
         const getServiceById = (id) => services.find((service) => service.id === id) || services[0];
         const OPEN_SERVICE_PAGE_LABEL = 'Open service page ↗';
         const isReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        function setOpenServicePageLabel(el) {
+          if (!el) return;
+          el.textContent = OPEN_SERVICE_PAGE_LABEL;
+          if (el instanceof Element) {
+            el.setAttribute('aria-label', OPEN_SERVICE_PAGE_LABEL);
+          }
+        }
 
         const getCheck = (enabled) => (enabled ? '<span class="services-check" aria-label="Included"></span>' : '');
         const SCROLL_REPEAT_COUNT = 10;
