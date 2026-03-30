@@ -943,7 +943,7 @@
               <div class="services-mode-panel" id="modePanel"></div>
 
               <div class="cta-row">
-                <a class="btn primary" id="detailServiceCta" href="/services/logistics-operations/">Open service page</a>
+                <a class="btn primary" id="detailServiceCta" href="/services/logistics-operations/">Open service page ↗</a>
                 <a class="btn ghost" href="/contact">Request info</a>
               </div>
             </div>
@@ -992,7 +992,7 @@
         <span class="services-mobile-label">Selected service</span>
         <span class="services-mobile-service" id="mobileActionService">Logistics Operations</span>
       </div>
-      <a class="services-mobile-button" id="mobileActionButton" href="/services/logistics-operations/">Open service page</a>
+      <a class="services-mobile-button" id="mobileActionButton" href="/services/logistics-operations/">Open service page ↗</a>
     </div>
 
     <footer class="site-footer">
@@ -1320,6 +1320,7 @@
         const mobileActionButton = document.getElementById('mobileActionButton');
 
         const getServiceById = (id) => services.find((service) => service.id === id) || services[0];
+        const OPEN_SERVICE_PAGE_LABEL = 'Open service page ↗';
         const isReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         const getCheck = (enabled) => (enabled ? '<span class="services-check" aria-label="Included"></span>' : '');
@@ -1461,7 +1462,7 @@
           flapIndex = safeIndex;
           chooseFlapText.textContent = service.buttonText;
           chooseFlapLink.setAttribute('href', service.href);
-          chooseFlapLink.textContent = 'Open service page ↗';
+          chooseFlapLink.textContent = OPEN_SERVICE_PAGE_LABEL;
           if (shouldScramble) {
             scrambleText(chooseFlapTitle, service.short.toUpperCase(), 52);
           } else {
@@ -1549,8 +1550,14 @@
           detailTitle.textContent = current.title;
           detailText.textContent = current.text;
           mobileActionService.textContent = current.short;
-          if (detailServiceCta) detailServiceCta.setAttribute('href', current.href);
-          if (mobileActionButton) mobileActionButton.setAttribute('href', current.href);
+          if (detailServiceCta) {
+            detailServiceCta.setAttribute('href', current.href);
+            detailServiceCta.textContent = OPEN_SERVICE_PAGE_LABEL;
+          }
+          if (mobileActionButton) {
+            mobileActionButton.setAttribute('href', current.href);
+            mobileActionButton.textContent = OPEN_SERVICE_PAGE_LABEL;
+          }
           renderModeTabs();
           renderModePanel();
         }
