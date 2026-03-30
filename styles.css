@@ -2199,6 +2199,40 @@ main.editorial-page {
   padding-bottom: 86px;
 }
 
+body[data-page-key="home"] .home-intro-band {
+  margin-block: 28px 0;
+  padding: 26px 24px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--card) 72%, white);
+}
+
+body[data-page-key="home"] .home-intro-band .lead {
+  max-width: 54rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+body[data-page-key="home"] .hero-editorial {
+  padding-top: 28px;
+  padding-bottom: 72px;
+}
+
+body[data-page-key="home"] .hero-editorial h3 {
+  margin: 0 0 16px;
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+body[data-page-key="home"] .info-card ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.65rem;
+}
+
 .hero-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
