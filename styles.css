@@ -2807,6 +2807,37 @@ select {
   gap: 1.1rem;
 }
 
+.hero-focus-stack {
+  display: grid;
+  gap: 0.45rem;
+  text-align: center;
+  justify-items: center;
+}
+
+.hero-focus-stack__title,
+.hero-focus-stack__pillars,
+.hero-focus-stack__context {
+  margin: 0;
+  max-width: none;
+}
+
+.hero-focus-stack__title {
+  font-size: clamp(2.1rem, 3.3vw, 2.85rem);
+}
+
+.hero-focus-stack__pillars {
+  display: flex;
+  justify-content: center;
+  gap: clamp(1.2rem, 4vw, 4.5rem);
+  width: 100%;
+  text-transform: lowercase;
+}
+
+.hero-focus-stack__context {
+  max-width: 54ch;
+}
+
+
 .hero-kicker {
   display: inline-flex;
   align-items: center;
