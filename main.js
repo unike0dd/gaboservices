@@ -164,6 +164,97 @@ function initCenterServicesRotation() {
   startRotation();
 }
 
+function initHomeHeroFlipCard() {
+  const items = [
+    { title: 'Clearer', text: 'Workflow follow-through and team coordination' },
+    { title: 'Faster', text: 'Daily response across recurring operational needs' },
+    { title: 'Stronger', text: 'Support across logistics, admin, IT, and customer relations' },
+    { title: 'Better', text: 'Operational visibility without enterprise complexity' }
+  ];
+
+  const inner = document.getElementById('opsHeroFlipInner');
+  const card = document.getElementById('opsHeroFlipCard');
+  const frontTitle = document.getElementById('opsHeroFrontTitle');
+  const frontText = document.getElementById('opsHeroFrontText');
+  const backTitle = document.getElementById('opsHeroBackTitle');
+  const backText = document.getElementById('opsHeroBackText');
+  const dots = [...document.querySelectorAll('#opsHeroFlipDots span')];
+
+  if (!inner || !card || !frontTitle || !frontText || !backTitle || !backText) return;
+
+  let currentIndex = 0;
+  let showingFront = true;
+  let timer = null;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function setSide(side, item) {
+    if (side === 'front') {
+      frontTitle.textContent = item.title;
+      frontText.textContent = item.text;
+      return;
+    }
+
+    backTitle.textContent = item.title;
+    backText.textContent = item.text;
+  }
+
+  function setDots(index) {
+    dots.forEach((dot, dotIndex) => {
+      dot.classList.toggle('is-active', dotIndex === index);
+    });
+  }
+
+  function flipNext() {
+    const nextIndex = (currentIndex + 1) % items.length;
+    const targetSide = showingFront ? 'back' : 'front';
+    setSide(targetSide, items[nextIndex]);
+    inner.classList.toggle('is-flipped');
+    showingFront = !showingFront;
+    currentIndex = nextIndex;
+    setDots(currentIndex);
+  }
+
+  function stopFlip() {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+  }
+
+  function startFlip() {
+    stopFlip();
+    if (!reduceMotion.matches) {
+      timer = setInterval(flipNext, 4000);
+    }
+  }
+
+  setSide('front', items[0]);
+  setSide('back', items[1]);
+  setDots(0);
+  startFlip();
+
+  card.addEventListener('mouseenter', stopFlip);
+  card.addEventListener('mouseleave', startFlip);
+  card.addEventListener('focusin', stopFlip);
+  card.addEventListener('focusout', startFlip);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopFlip();
+    } else {
+      startFlip();
+    }
+  });
+
+  reduceMotion.addEventListener('change', () => {
+    if (reduceMotion.matches) {
+      stopFlip();
+    } else {
+      startFlip();
+    }
+  });
+}
+
 initAnalyticsConsentGuard();
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -173,5 +264,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
   initFabControls();
   initFormStatus();
+  initHomeHeroFlipCard();
   initCenterServicesRotation();
 });
