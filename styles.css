@@ -3303,11 +3303,11 @@ select {
   justify-self: end;
   width: min(100%, 470px);
   padding: clamp(1.1rem, 2vw, 1.6rem);
-  border: 1px solid rgba(23, 50, 92, 0.12);
+  border: 0;
   border-radius: 28px;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 24px 60px rgba(23, 50, 92, 0.1);
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
 }
 
 .ops-hero__panel--flip {
