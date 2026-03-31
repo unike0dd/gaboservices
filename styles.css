@@ -2201,10 +2201,10 @@ main.editorial-page {
 
 body[data-page-key="home"] .home-intro-band {
   margin-block: 28px 0;
-  padding: 26px 24px;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  background: color-mix(in srgb, var(--card) 72%, white);
+  padding: 10px 0 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 body[data-page-key="home"] .home-intro-band .lead {
@@ -3151,27 +3151,16 @@ select {
 
 .ops-hero {
   position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at top left, rgba(23, 50, 92, 0.08), transparent 32%),
-    radial-gradient(circle at 85% 20%, rgba(23, 50, 92, 0.06), transparent 24%),
-    linear-gradient(180deg, #f6f3ed 0%, #f4f1ea 100%);
+  overflow: visible;
+  background: transparent;
   color: #17325c;
-  border-radius: 28px;
+  border-radius: 0;
   margin: 0 0 clamp(2rem, 4vw, 3rem);
-  padding: clamp(1.75rem, 4vw, 3.5rem) clamp(1rem, 2.8vw, 2rem);
+  padding: clamp(1rem, 3vw, 2.25rem) 0;
 }
 
 .ops-hero::before {
-  content: "";
-  position: absolute;
-  inset: auto -8% -18% auto;
-  width: min(42vw, 560px);
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, rgba(23, 50, 92, 0.16), rgba(23, 50, 92, 0.04) 42%, transparent 68%);
-  filter: blur(8px);
-  pointer-events: none;
+  content: none;
 }
 
 .ops-hero__wrap {
@@ -3303,11 +3292,11 @@ select {
   justify-self: end;
   width: min(100%, 470px);
   padding: clamp(1.1rem, 2vw, 1.6rem);
-  border: 1px solid rgba(23, 50, 92, 0.12);
+  border: 0;
   border-radius: 28px;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 24px 60px rgba(23, 50, 92, 0.1);
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
 }
 
 .ops-hero__panel--flip {
@@ -3429,7 +3418,7 @@ select {
 
 @media (max-width: 640px) {
   .ops-hero {
-    padding: 1.25rem 1rem 2.1rem;
+    padding: 1.25rem 0 2.1rem;
   }
 
   .ops-hero__eyebrow {
