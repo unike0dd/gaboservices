@@ -929,11 +929,6 @@
               <div class="services-column-window"><div class="services-column-track" id="chooseCol4"></div></div>
             </div>
 
-            <div class="services-flapline" aria-live="polite">
-              <h2 class="services-flap-title" id="chooseFlapTitle">LOGISTICS OPERATIONS</h2>
-              <p class="services-flap-text" id="chooseFlapText">Dispatch coordination, shipment visibility, and status follow-up.</p>
-              <a class="services-flap-link" id="chooseFlapLink" href="/services/logistics-operations/" aria-label="Open service page ↗">Open service page ↗</a>
-            </div>
           </div>
         </section>
 
@@ -1315,9 +1310,6 @@
           document.getElementById('chooseCol2'),
           document.getElementById('chooseCol4')
         ];
-        const chooseFlapTitle = document.getElementById('chooseFlapTitle');
-        const chooseFlapText = document.getElementById('chooseFlapText');
-        const chooseFlapLink = document.getElementById('chooseFlapLink');
         const detailBody = document.getElementById('detailBody');
         const detailKicker = document.getElementById('detailKicker');
         const detailTitle = document.getElementById('detailTitle');
@@ -1345,10 +1337,7 @@
 
         const getCheck = (enabled) => (enabled ? '<span class="services-check" aria-label="Included"></span>' : '');
         const SCROLL_REPEAT_COUNT = 10;
-        const FLAP_DURATION = 5000;
         const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-';
-        let flapIndex = 0;
-        let flapTimer = null;
 
         function makeScrollCard(service) {
           return `
@@ -1476,28 +1465,6 @@
           });
         }
 
-        function setFlapServiceByIndex(index, shouldScramble = true) {
-          const safeIndex = ((index % services.length) + services.length) % services.length;
-          const service = services[safeIndex];
-          flapIndex = safeIndex;
-          chooseFlapText.textContent = service.buttonText;
-          chooseFlapLink.setAttribute('href', service.href);
-          chooseFlapLink.textContent = OPEN_SERVICE_PAGE_LABEL;
-          if (shouldScramble) {
-            scrambleText(chooseFlapTitle, service.short.toUpperCase(), 52);
-          } else {
-            chooseFlapTitle.textContent = service.short.toUpperCase();
-          }
-        }
-
-        function startFlapRotation() {
-          setFlapServiceByIndex(flapIndex, false);
-          clearInterval(flapTimer);
-          flapTimer = setInterval(() => {
-            flapIndex = (flapIndex + 1) % services.length;
-            setFlapServiceByIndex(flapIndex, true);
-          }, FLAP_DURATION);
-        }
 
         function bindChooseMarquee() {
           if (!servicesChooseMarquee) return;
@@ -1505,10 +1472,8 @@
             if (!(card instanceof Element)) return;
             const nextId = card.getAttribute('data-service');
             if (!nextId || nextId === state.activeService) return;
-            const nextIndex = services.findIndex((service) => service.id === nextId);
             state.activeService = nextId;
             animateDetailSwap();
-            setFlapServiceByIndex(nextIndex, true);
             renderAll();
           };
 
@@ -1663,7 +1628,6 @@
 
         setupChooseScroller();
         bindChooseMarquee();
-        startFlapRotation();
         renderAll();
         bindModeTabs();
         bindCompareFilters();
