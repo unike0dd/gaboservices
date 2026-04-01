@@ -14,13 +14,31 @@ function buildChatPanelMarkup() {
     <div id="chatOverlay" class="chat-overlay" hidden>
       <aside id="chatPanel" class="chat-panel" aria-label="${EN_MESSAGES.chatbot.panelAriaLabel}" role="dialog" aria-modal="true">
         <div class="chat-panel-head">
-          <strong>Gabo io</strong>
+          <div class="chat-panel-heading">
+            <strong>${EN_MESSAGES.chatbot.panelTitle}</strong>
+            <p>${EN_MESSAGES.chatbot.panelSubtitle}</p>
+          </div>
           <div class="chat-panel-actions">
+            <label class="chat-toggle" for="chatSecureMode">
+              <input id="chatSecureMode" type="checkbox" checked />
+              <span>${EN_MESSAGES.chatbot.secureMode}</span>
+            </label>
             <button class="ghost" type="button" data-chat-dismiss>${EN_MESSAGES.chatbot.close}</button>
             <button id="chatClose" class="ghost" type="button" data-chat-dismiss aria-label="${EN_MESSAGES.chatbot.closeChatbot}">✕</button>
           </div>
         </div>
+        <div class="chat-trust-strip" role="note" aria-label="Trust and compliance status">
+          <span class="chat-trust-pill">${EN_MESSAGES.chatbot.encryptedSession}</span>
+          <span class="chat-trust-pill">${EN_MESSAGES.chatbot.auditLogging}</span>
+          <span class="chat-trust-pill">${EN_MESSAGES.chatbot.policyMode}</span>
+        </div>
+        <p class="chat-clarify-loop" role="note">${EN_MESSAGES.chatbot.clarifyLoop}</p>
         <iframe id="chatFrame" title="${EN_MESSAGES.chatbot.iframeTitle}" src="about:blank"></iframe>
+        <div class="chat-badge-row" aria-label="Message guidance badges">
+          <span class="chat-badge">${EN_MESSAGES.chatbot.actionable}</span>
+          <span class="chat-badge">${EN_MESSAGES.chatbot.needsApproval}</span>
+          <span class="chat-badge">${EN_MESSAGES.chatbot.complianceImpact}</span>
+        </div>
       </aside>
     </div>
   `;
@@ -149,10 +167,25 @@ export function initChatbotControls() {
 
   const workerTargets = resolveWorkerTargets(window.SITE_METADATA || {}, window.location.origin);
   const configuredGatewayUrl = workerTargets.gatewayUrl;
-  const configuredChatbotEmbedUrl = workerTargets.embedUrl;
+  const configuredChatbotEmbedUrl = new URL(workerTargets.embedUrl);
+  configuredChatbotEmbedUrl.searchParams.set('policyMode', 'ops-cybersec');
 
   chatFrame.dataset.gatewayUrl = configuredGatewayUrl;
   chatFrame.dataset.streamBridge = CHATBOT_STREAM_BRIDGE_NAME;
+  chatFrame.dataset.chatbotEmbedUrl = configuredChatbotEmbedUrl.toString();
+  const secureModeInput = chatPanel.querySelector('#chatSecureMode');
+  if (secureModeInput instanceof HTMLInputElement) {
+    chatFrame.dataset.secureMode = secureModeInput.checked ? 'true' : 'false';
+    secureModeInput.addEventListener('change', () => {
+      chatFrame.dataset.secureMode = secureModeInput.checked ? 'true' : 'false';
+      const secureEmbedUrl = new URL(chatFrame.dataset.chatbotEmbedUrl || configuredChatbotEmbedUrl.toString());
+      secureEmbedUrl.searchParams.set('secureMode', secureModeInput.checked ? 'strict' : 'balanced');
+      chatFrame.dataset.chatbotEmbedUrl = secureEmbedUrl.toString();
+      if (chatFrame.src !== 'about:blank') {
+        chatFrame.src = secureEmbedUrl.toString();
+      }
+    });
+  }
 
   let gatewayHealthy = true;
   let chatStatus = chatPanel.querySelector('#chatStatus');
@@ -188,10 +221,12 @@ export function initChatbotControls() {
     chatOverlay.hidden = !isOpen;
     if (isOpen) {
       document.body.classList.add('chat-open');
+      document.dispatchEvent(new CustomEvent('chatbot:open'));
       return;
     }
 
     document.body.classList.remove('chat-open');
+    document.dispatchEvent(new CustomEvent('chatbot:close'));
     if (lastTrigger instanceof HTMLElement) {
       lastTrigger.focus();
     }
@@ -206,11 +241,12 @@ export function initChatbotControls() {
     if (!gatewayHealthy) {
       chatStatus.hidden = false;
       chatStatus.textContent = EN_MESSAGES.chatbot.unavailable;
+      document.dispatchEvent(new CustomEvent('chatbot:unavailable'));
       return;
     }
 
     if (chatFrame.src === 'about:blank') {
-      chatFrame.src = configuredChatbotEmbedUrl;
+      chatFrame.src = chatFrame.dataset.chatbotEmbedUrl || configuredChatbotEmbedUrl.toString();
     }
     closeMobileMenu();
     lastTrigger = trigger;
@@ -255,6 +291,28 @@ export function initChatbotControls() {
   chatOverlay.addEventListener('click', closeFromOverlay);
   chatOverlay.addEventListener('touchstart', closeFromOverlay, { passive: true });
   chatOverlay.addEventListener('pointerdown', closeFromOverlay);
+  chatOverlay.addEventListener('keydown', (event) => {
+    if (event.key !== 'Tab') return;
+    const focusableElements = chatOverlay.querySelectorAll(
+      'button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])'
+    );
+    const focusable = [...focusableElements].filter((element) => !element.hasAttribute('disabled'));
+    if (!focusable.length) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    const active = document.activeElement;
+
+    if (event.shiftKey && active === first) {
+      event.preventDefault();
+      last.focus();
+      return;
+    }
+    if (!event.shiftKey && active === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
 
   desktopQuery.addEventListener('change', () => {
     syncChatbotLaunchersForViewport(desktopQuery);
