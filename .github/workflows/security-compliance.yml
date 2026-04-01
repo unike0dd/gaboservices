@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   secret-scan:
+    name: Security + JS Syntax Guardrails
     name: Secret Scan (Gitleaks)
     runs-on: ubuntu-latest
     env:
