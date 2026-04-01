@@ -50,6 +50,27 @@ function resetElementEffects(element) {
   element.style.pointerEvents = '';
 }
 
+function releaseFocusBeforeHide(element) {
+  if (!(element instanceof HTMLElement)) return;
+  const activeElement = document.activeElement;
+  if (!(activeElement instanceof HTMLElement)) return;
+  if (!element.contains(activeElement)) return;
+
+  activeElement.blur();
+
+  const fallbackTarget =
+    document.querySelector('[data-menu-toggle], .hamburger, .menu-toggle, #fabMainToggle') ||
+    document.querySelector('main, [role="main"], body');
+
+  if (fallbackTarget instanceof HTMLElement) {
+    if (!fallbackTarget.hasAttribute('tabindex')) {
+      fallbackTarget.setAttribute('tabindex', '-1');
+      fallbackTarget.dataset.focusFallback = 'true';
+    }
+    fallbackTarget.focus({ preventScroll: true });
+  }
+}
+
 export function closeMobileMenu() {
   const docEl = document.documentElement;
   const body = document.body;
@@ -67,6 +88,7 @@ export function closeMobileMenu() {
 
   document.querySelectorAll(MENU_PANEL_SELECTORS).forEach((panel) => {
     if (!(panel instanceof HTMLElement)) return;
+    releaseFocusBeforeHide(panel);
     panel.classList.remove('is-open', 'open', 'active', 'is-active', 'is-visible');
     panel.setAttribute('aria-hidden', 'true');
     panel.removeAttribute('inert');
@@ -78,6 +100,7 @@ export function closeMobileMenu() {
 
   document.querySelectorAll(BACKDROP_SELECTORS).forEach((backdrop) => {
     if (!(backdrop instanceof HTMLElement)) return;
+    releaseFocusBeforeHide(backdrop);
     backdrop.classList.remove('is-open', 'open', 'active', 'is-active', 'is-visible');
     if (backdrop.id === 'chatOverlay') return;
     backdrop.setAttribute('aria-hidden', 'true');
@@ -116,4 +139,11 @@ export function closeMobileMenu() {
     body.style.width = '';
     body.style.pointerEvents = '';
   }
+
+  document.querySelectorAll('[data-focus-fallback="true"]').forEach((node) => {
+    if (node instanceof HTMLElement) {
+      node.removeAttribute('tabindex');
+      node.removeAttribute('data-focus-fallback');
+    }
+  });
 }
