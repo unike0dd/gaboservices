@@ -1718,14 +1718,16 @@ body.fab-open {
 @media (max-width: 900px) {
   .fab-wrapper {
     right: max(var(--nav-fab-offset-x), env(safe-area-inset-right, 0px));
-    bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 0.9rem);
+    bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 5.15rem);
     z-index: 3200;
   }
 
   .fab-sheet {
-    right: max(var(--nav-fab-offset-x), env(safe-area-inset-right, 0px));
-    bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 5rem);
-    width: min(20rem, calc(100vw - 1.2rem));
+    left: max(0.6rem, env(safe-area-inset-left, 0px));
+    right: max(0.6rem, env(safe-area-inset-right, 0px));
+    bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 9.1rem);
+    width: auto;
+    max-width: none;
   }
 
   .chat-overlay {

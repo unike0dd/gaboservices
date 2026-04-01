@@ -68,15 +68,15 @@ function ensureFabChatTrigger() {
 
 function syncChatbotLaunchersForViewport(desktopQuery) {
   const isDesktop = desktopQuery.matches;
-  const fabChatTrigger = document.querySelector('[data-chat-trigger][data-chat-trigger-context="desktop-fab"]');
 
-  if (isDesktop) {
-    ensureFabChatTrigger();
-  } else if (fabChatTrigger) {
-    fabChatTrigger.remove();
+  // Keep chatbot reachable from FAB on every viewport and add the dedicated
+  // mobile launcher only on non-desktop screens.
+  ensureFabChatTrigger();
+
+  const mobileLauncher = ensureMobileChatLauncher();
+  if (mobileLauncher) {
+    mobileLauncher.hidden = isDesktop;
   }
-
-  ensureMobileChatLauncher();
 }
 
 function ensureMobileChatLauncher() {

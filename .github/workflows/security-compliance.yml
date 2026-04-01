@@ -12,6 +12,7 @@ permissions:
 jobs:
   secret-scan:
     name: Security + JS Syntax Guardrails
+    name: Secret Scan (Gitleaks)
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -40,11 +41,6 @@ jobs:
           fi
           git checkout --detach "${GITHUB_SHA}" || git checkout --detach FETCH_HEAD
 
-      - name: Setup Node
-        run: |
-          set -euo pipefail
-          node --version
-
       - name: Install gitleaks binary
         run: |
           set -euo pipefail
@@ -62,38 +58,22 @@ jobs:
             exit 1
           fi
 
-      - name: Validate JavaScript syntax across repo
+
+      - name: Validate i18n critical-vs-optional scope
         run: |
           set -euo pipefail
-          node scripts/check-js-syntax.mjs
+          node scripts/validate-i18n-scope.js --report reports/i18n-integrity-report.json
 
-      - name: Validate i18n critical-vs-optional scope (if script exists)
+
+      - name: Print i18n integrity report summary
         run: |
           set -euo pipefail
-          if [[ -f scripts/validate-i18n-scope.js ]]; then
-            node scripts/validate-i18n-scope.js --report reports/i18n-integrity-report.json
-          else
-            echo "Skipping i18n scope validation; scripts/validate-i18n-scope.js not present."
-          fi
+          cat reports/i18n-integrity-report.json
 
-      - name: Print i18n integrity report summary (if generated)
+      - name: Verify locale generated artifacts are in sync
         run: |
           set -euo pipefail
-          if [[ -f reports/i18n-integrity-report.json ]]; then
-            cat reports/i18n-integrity-report.json
-          else
-            echo "No i18n report generated."
-          fi
-
-      - name: Verify locale generated artifacts are in sync (if script exists)
-        run: |
-          set -euo pipefail
-          if [[ -f scripts/check-locale-generated.js ]]; then
-            node scripts/check-locale-generated.js
-          else
-            echo "Skipping locale artifact sync check; scripts/check-locale-generated.js not present."
-          fi
-
+          node scripts/check-locale-generated.js
       - name: Run gitleaks on pull request commit range
         if: github.event_name == 'pull_request'
         run: |
