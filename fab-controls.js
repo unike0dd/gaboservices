@@ -55,8 +55,7 @@ export function setDesktopFabOpenState(isOpen) {
 
   fabMenu.hidden = false;
   fabToggle.setAttribute('aria-expanded', String(isOpen));
-  const compactLabel = window.matchMedia('(max-width: 900px)').matches;
-  fabToggle.textContent = isOpen ? (compactLabel ? '✕' : '✕ Close actions') : '☰';
+  fabToggle.textContent = isOpen ? '✕ Close actions' : '☰';
   fabOverlay.hidden = !isOpen;
   document.body.classList.toggle('fab-open', isOpen);
   fabOverlay.style.opacity = isOpen ? '1' : '0';
