@@ -20,11 +20,11 @@
   width: var(--chatbot-size);
   height: var(--chatbot-size);
   min-height: 44px;
-  z-index: 3000;
+  z-index: 3500;
 }
 
 #chatbot-root .chat-overlay {
-  z-index: 3000;
+  z-index: 3500;
 }
 
 #chatbot-root .chat-panel {

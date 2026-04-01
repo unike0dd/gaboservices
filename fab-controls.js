@@ -1,4 +1,5 @@
 import { EN_MESSAGES } from './locales/en/messages.js';
+import { closeMobileMenu } from './assets/mobile-menu-state.js';
 
 const DESKTOP_QUERY = '(min-width: 901px)';
 
@@ -54,10 +55,16 @@ export function initFabControls() {
 
   const setDesktopFabOpen = (isOpen) => {
     if (!fabToggle || !fabOverlay) return;
+    if (isOpen) {
+      closeMobileMenu();
+    }
     fabToggle.setAttribute('aria-expanded', String(isOpen));
     fabToggle.textContent = isOpen ? '✕ Close actions' : '☰';
     fabOverlay.hidden = !isOpen;
     document.body.classList.toggle('fab-open', isOpen);
+    fabOverlay.style.opacity = isOpen ? '1' : '0';
+    fabOverlay.style.visibility = isOpen ? 'visible' : 'hidden';
+    fabOverlay.style.pointerEvents = isOpen ? 'auto' : 'none';
   };
 
   setDesktopFabOpen(false);
