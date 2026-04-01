@@ -58,55 +58,500 @@
         <h2 class="section-title-center">Operational support for growing businesses</h2>
       </section>
       <section class="ops-hero" aria-labelledby="opsHeroTitle">
-        <div class="ops-hero__wrap">
-          <div class="ops-hero__content">
-            <h1 class="ops-hero__title" id="opsHeroTitle">
-              Hire outstanding
-              <span class="soft">operational support</span>
-            </h1>
-          
-            <p class="ops-hero__lead">
-              Reliable execution that strengthens day-to-day performance.
-            </p>
-            <ul class="ops-hero__pills" aria-label="Core outcomes">
-              <li class="ops-hero__pill">Improve efficiency</li>
-              <li class="ops-hero__pill">Build consistency</li>
-              <li class="ops-hero__pill">Increase visibility</li>
-            </ul>
-            <p class="ops-hero__text">
-              So you can focus on growth, leadership, and the priorities that move your business forward.
-            </p>
-            <div class="ops-hero__actions">
-              <a class="ops-hero__btn ops-hero__btn--primary" href="./contact">Schedule Consultation</a>
-              <a class="ops-hero__btn ops-hero__btn--secondary" href="./services/">Explore Services</a>
-            </div>
-          </div>
-         
-          <aside class="ops-hero__panel ops-hero__panel--flip" aria-label="Service value summary">
-            <p class="ops-hero__panel-label">What this gives your business</p>
-            <div class="ops-hero__flip-card" id="opsHeroFlipCard">
-              <div class="ops-hero__flip-inner" id="opsHeroFlipInner">
-                <article class="ops-hero__flip-face ops-hero__flip-face--front">
-                  <strong class="ops-hero__flip-title" id="opsHeroFrontTitle">Clearer</strong>
-                  <p class="ops-hero__flip-text" id="opsHeroFrontText">
-                    Workflow follow-through and team coordination
-                  </p>
-                </article>
-                <article class="ops-hero__flip-face ops-hero__flip-face--back">
-                  <strong class="ops-hero__flip-title" id="opsHeroBackTitle">Faster</strong>
-                  <p class="ops-hero__flip-text" id="opsHeroBackText">
-                    Daily response across recurring operational needs
-                  </p>
-                </article>
-              </div>
-            </div>
-            <div class="ops-hero__flip-dots" id="opsHeroFlipDots" aria-hidden="true"></div>
-            <p class="ops-hero__panel-note">
-              Execution-focused support aligned with your workflows, communication cadence, and measurable outcomes.
-            </p>
-          </aside>
+  <style>
+    :root{
+      --hero-bg:#f4f1ea;
+      --hero-ink:#17325c;
+      --hero-ink-soft:#35527a;
+      --hero-line:rgba(23,50,92,.14);
+      --hero-card:rgba(255,255,255,.70);
+      --hero-shadow:0 24px 60px rgba(23,50,92,.10);
+      --hero-shadow-soft:0 12px 30px rgba(23,50,92,.08);
+      --hero-radius:28px;
+      --hero-max:1280px;
+    }
+
+    .ops-hero{
+      position:relative;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at top left, rgba(23,50,92,.08), transparent 32%),
+        radial-gradient(circle at 85% 20%, rgba(23,50,92,.06), transparent 24%),
+        linear-gradient(180deg, #f6f3ed 0%, var(--hero-bg) 100%);
+      color:var(--hero-ink);
+      min-height:100svh;
+      padding:clamp(2rem, 4vw, 4rem) 1.25rem 7.5rem;
+    }
+
+    .ops-hero::before{
+      content:"";
+      position:absolute;
+      inset:auto -8% -18% auto;
+      width:min(42vw, 560px);
+      aspect-ratio:1 / 1;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 35% 35%, rgba(23,50,92,.16), rgba(23,50,92,.04) 42%, transparent 68%);
+      filter:blur(8px);
+      pointer-events:none;
+    }
+
+    .ops-hero__shell{
+      position:relative;
+      z-index:1;
+      max-width:var(--hero-max);
+      margin:0 auto;
+    }
+
+    .ops-hero__topline{
+      margin:0 0 clamp(1.1rem, 2vw, 1.8rem);
+      font-family:ui-serif, Georgia, Cambria, "Times New Roman", serif;
+      font-weight:700;
+      font-size:clamp(1.7rem, 2.8vw, 3rem);
+      line-height:1.08;
+      letter-spacing:-.025em;
+      color:var(--hero-ink);
+      text-align:center;
+      text-wrap:balance;
+    }
+
+    .ops-hero__wrap{
+      display:grid;
+      grid-template-columns:minmax(0, 1.08fr) minmax(300px, .92fr);
+      gap:clamp(1.5rem, 3vw, 3rem);
+      align-items:start;
+    }
+
+    .ops-hero__content{
+      max-width:780px;
+      padding-top:3.7rem;
+    }
+
+    .ops-hero__title{
+      margin:0;
+      max-width:11ch;
+      font-family:ui-serif, Georgia, Cambria, "Times New Roman", serif;
+      font-weight:700;
+      font-size:clamp(3.1rem, 7vw, 5.7rem);
+      line-height:.95;
+      letter-spacing:-.04em;
+      text-wrap:balance;
+    }
+
+    .ops-hero__title .soft{
+      display:block;
+      color:var(--hero-ink-soft);
+    }
+
+    .ops-hero__lead{
+      max-width:23ch;
+      margin:1.15rem 0 0;
+      font-family:ui-serif, Georgia, Cambria, "Times New Roman", serif;
+      font-weight:700;
+      font-size:clamp(1.4rem, 2.5vw, 2.45rem);
+      line-height:1.08;
+      letter-spacing:-.02em;
+      color:var(--hero-ink);
+      text-wrap:balance;
+    }
+
+    .ops-hero__pills{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      width:100%;
+      gap:.8rem;
+      margin:1.45rem 0 1.25rem;
+      padding:0;
+      list-style:none;
+    }
+
+    .ops-hero__pill{
+      padding:.72rem 1rem;
+      border:1px solid rgba(23,50,92,.16);
+      border-radius:999px;
+      background:rgba(255,255,255,.72);
+      box-shadow:var(--hero-shadow-soft);
+      font:700 clamp(.96rem, 1.6vw, 1.08rem)/1.05 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--hero-ink);
+      white-space:normal;
+      text-align:center;
+    }
+
+    .ops-hero__text{
+      max-width:42rem;
+      margin:0;
+      font:500 clamp(1.05rem, 1.6vw, 1.2rem)/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:#28446e;
+      text-wrap:pretty;
+    }
+
+    .ops-hero__actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.9rem;
+      margin-top:1.65rem;
+    }
+
+    .ops-hero__btn{
+      appearance:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:54px;
+      padding:0 1.2rem;
+      border-radius:16px;
+      border:1px solid transparent;
+      text-decoration:none;
+      font:700 1rem/1 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      transition:transform .22s ease, box-shadow .22s ease, background-color .22s ease, border-color .22s ease;
+    }
+
+    .ops-hero__btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .ops-hero__btn--primary{
+      background:var(--hero-ink);
+      color:#fff;
+      box-shadow:0 16px 30px rgba(23,50,92,.18);
+    }
+
+    .ops-hero__btn--secondary{
+      background:rgba(255,255,255,.68);
+      color:var(--hero-ink);
+      border-color:rgba(23,50,92,.14);
+      box-shadow:var(--hero-shadow-soft);
+    }
+
+    .ops-hero__panel{
+      justify-self:end;
+      width:min(100%, 470px);
+      padding:clamp(1.1rem, 2vw, 1.6rem);
+      border:1px solid rgba(23,50,92,.12);
+      border-radius:var(--hero-radius);
+      background:transparent;
+      backdrop-filter:none;
+      box-shadow:none;
+      margin-top:0;
+    }
+
+    .ops-hero__panel--flip{
+      display:flex;
+      flex-direction:column;
+      gap:1rem;
+    }
+
+    .ops-hero__panel-label{
+      margin:0;
+      font:700 .9rem/1.1 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--hero-ink-soft);
+    }
+
+    .ops-hero__flip-card{
+      position:relative;
+      width:100%;
+      height:240px;
+      perspective:1400px;
+    }
+
+    .ops-hero__flip-inner{
+      position:relative;
+      width:100%;
+      height:100%;
+    }
+
+    .ops-hero__flip-face{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:flex-start;
+      padding:1.35rem;
+      border:1px solid rgba(23,50,92,.18);
+      border-radius:22px;
+      background:transparent;
+      box-shadow:none;
+      opacity:0;
+      transform:translateY(10px);
+      pointer-events:none;
+      transition:opacity .45s ease, transform .45s ease;
+    }
+
+    .ops-hero__flip-face.is-active{
+      opacity:1;
+      transform:translateY(0);
+      pointer-events:auto;
+    }
+
+    .ops-hero__flip-title{
+      display:block;
+      margin:0 0 .65rem;
+      font-family:ui-serif, Georgia, Cambria, "Times New Roman", serif;
+      font-size:clamp(1.8rem, 2.8vw, 2.35rem);
+      line-height:1;
+      letter-spacing:-.03em;
+      color:var(--hero-ink);
+    }
+
+    .ops-hero__flip-text{
+      margin:0;
+      max-width:24ch;
+      font:600 clamp(1rem, 1.4vw, 1.08rem)/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:#34527d;
+      text-wrap:pretty;
+    }
+
+    .ops-hero__flip-dots{
+      display:flex;
+      gap:.45rem;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .ops-hero__flip-dots span{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:rgba(23,50,92,.18);
+      transition:transform .25s ease, background-color .25s ease;
+    }
+
+    .ops-hero__flip-dots span.is-active{
+      background:var(--hero-ink);
+      transform:scale(1.15);
+    }
+
+    .ops-hero__panel-note{
+      margin:0;
+      padding-top:1rem;
+      border-top:1px solid rgba(23,50,92,.12);
+      font:500 1rem/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:#29456f;
+    }
+
+    @media (max-width: 980px){
+      .ops-hero{
+        min-height:auto;
+      }
+
+      .ops-hero__topline{
+        text-align:left;
+        font-size:clamp(1.45rem, 5vw, 2.2rem);
+      }
+
+      .ops-hero__wrap{
+        grid-template-columns:1fr;
+      }
+
+      .ops-hero__content{
+        max-width:100%;
+        padding-top:0;
+      }
+
+      .ops-hero__panel{
+        justify-self:start;
+        width:100%;
+        max-width:560px;
+      }
+
+      .ops-hero__flip-card{
+        height:220px;
+      }
+    }
+
+    @media (max-width: 640px){
+      .ops-hero{
+        padding-inline:1rem;
+        padding-top:1.25rem;
+        padding-bottom:7.5rem;
+      }
+
+      .ops-hero__topline{
+        margin-bottom:1rem;
+      }
+
+      .ops-hero__title{
+        max-width:100%;
+        font-size:clamp(2.5rem, 13vw, 4rem);
+        line-height:.98;
+      }
+
+      .ops-hero__lead{
+        font-size:clamp(1.2rem, 7vw, 1.8rem);
+        line-height:1.12;
+      }
+
+      .ops-hero__pills{
+        grid-template-columns:1fr;
+        gap:.6rem;
+      }
+
+      .ops-hero__actions{
+        flex-direction:column;
+      }
+
+      .ops-hero__btn{
+        width:100%;
+      }
+
+      .ops-hero__flip-card{
+        height:250px;
+      }
+
+      .ops-hero__flip-face{
+        padding:1.15rem;
+      }
+
+      .ops-hero__flip-text{
+        max-width:100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .ops-hero__flip-inner,
+      .ops-hero__btn{
+        transition:none;
+      }
+    }
+  </style>
+
+  <div class="ops-hero__shell">
+    <p class="ops-hero__topline">Operational support for growing businesses</p>
+
+    <div class="ops-hero__wrap">
+      <div class="ops-hero__content">
+        <h1 class="ops-hero__title" id="opsHeroTitle">
+          Hire outstanding
+          <span class="soft">operational support</span>
+        </h1>
+
+        <p class="ops-hero__lead">
+          Reliable execution that strengthens day-to-day performance.
+        </p>
+
+        <ul class="ops-hero__pills" aria-label="Core outcomes">
+          <li class="ops-hero__pill">Improve efficiency</li>
+          <li class="ops-hero__pill">Build consistency</li>
+          <li class="ops-hero__pill">Increase visibility</li>
+        </ul>
+
+        <p class="ops-hero__text">
+          So you can focus on growth, leadership, and the priorities that move your business forward.
+        </p>
+
+        <div class="ops-hero__actions">
+          <a class="ops-hero__btn ops-hero__btn--primary" href="/contact/">Schedule Consultation</a>
+          <a class="ops-hero__btn ops-hero__btn--secondary" href="/services/">Explore Services</a>
         </div>
-      </section>
+      </div>
+
+      <aside class="ops-hero__panel ops-hero__panel--flip" aria-label="Service value summary">
+        <p class="ops-hero__panel-label">What this gives your business</p>
+
+        <div class="ops-hero__flip-card" id="opsHeroFlipCard">
+          <div class="ops-hero__flip-inner" id="opsHeroFlipInner">
+            <article class="ops-hero__flip-face is-active" data-index="0">
+              <strong class="ops-hero__flip-title">Clearer</strong>
+              <p class="ops-hero__flip-text">Workflow follow-through and team coordination</p>
+            </article>
+            <article class="ops-hero__flip-face" data-index="1">
+              <strong class="ops-hero__flip-title">Faster</strong>
+              <p class="ops-hero__flip-text">Daily response across recurring operational needs</p>
+            </article>
+            <article class="ops-hero__flip-face" data-index="2">
+              <strong class="ops-hero__flip-title">Stronger</strong>
+              <p class="ops-hero__flip-text">Support across logistics, admin, IT, and customer relations</p>
+            </article>
+            <article class="ops-hero__flip-face" data-index="3">
+              <strong class="ops-hero__flip-title">Better</strong>
+              <p class="ops-hero__flip-text">Operational visibility without enterprise complexity</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="ops-hero__flip-dots" id="opsHeroFlipDots" aria-hidden="true">
+          <span class="is-active"></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <p class="ops-hero__panel-note">
+          Execution-focused support aligned with your workflows, communication cadence, and measurable outcomes.
+        </p>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const card = document.getElementById("opsHeroFlipCard");
+      const slides = Array.from(document.querySelectorAll("#opsHeroFlipInner .ops-hero__flip-face"));
+      const dots = Array.from(document.querySelectorAll("#opsHeroFlipDots span"));
+
+      if (!card || !slides.length || !dots.length) return;
+
+      let currentIndex = 0;
+      let timer = null;
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      function setSlide(index) {
+        slides.forEach(function (slide, i) {
+          slide.classList.toggle("is-active", i === index);
+        });
+        dots.forEach(function (dot, i) {
+          dot.classList.toggle("is-active", i === index);
+        });
+      }
+
+      function showNext() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        setSlide(currentIndex);
+      }
+
+      function startFlip() {
+        stopFlip();
+        if (!reduceMotion.matches) {
+          timer = setInterval(showNext, 4000);
+        }
+      }
+
+      function stopFlip() {
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      setSlide(0);
+      startFlip();
+
+      card.addEventListener("mouseenter", stopFlip);
+      card.addEventListener("mouseleave", startFlip);
+
+      if (typeof reduceMotion.addEventListener === "function") {
+        reduceMotion.addEventListener("change", function () {
+          if (reduceMotion.matches) {
+            stopFlip();
+          } else {
+            startFlip();
+          }
+        });
+      } else if (typeof reduceMotion.addListener === "function") {
+        reduceMotion.addListener(function () {
+          if (reduceMotion.matches) {
+            stopFlip();
+          } else {
+            startFlip();
+          }
+        });
+      }
+    });
+  </script>
+</section>
 
       <section class="section-block wide-reading">
         <h2>Are these challenges slowing your business down?</h2>
