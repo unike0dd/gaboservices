@@ -1,6 +1,6 @@
 import { resolveWorkerTargets, CHATBOT_STREAM_BRIDGE_NAME } from './chatbot-worker-stream.js';
 import { EN_MESSAGES } from '../locales/en/messages.js';
-import { ensureDesktopFabNav } from '../fab-controls.js';
+import { ensureDesktopFabNav, setDesktopFabOpenState } from '../fab-controls.js';
 import { closeMobileMenu } from '../assets/mobile-menu-state.js';
 
 const DESKTOP_QUERY = '(min-width: 901px)';
@@ -68,15 +68,15 @@ function ensureFabChatTrigger() {
 
 function syncChatbotLaunchersForViewport(desktopQuery) {
   const isDesktop = desktopQuery.matches;
-  const fabChatTrigger = document.querySelector('[data-chat-trigger][data-chat-trigger-context="desktop-fab"]');
 
-  if (isDesktop) {
-    ensureFabChatTrigger();
-  } else if (fabChatTrigger) {
-    fabChatTrigger.remove();
+  // Keep chatbot reachable from FAB on every viewport and add the dedicated
+  // mobile launcher only on non-desktop screens.
+  ensureFabChatTrigger();
+
+  const mobileLauncher = ensureMobileChatLauncher();
+  if (mobileLauncher) {
+    mobileLauncher.hidden = isDesktop;
   }
-
-  ensureMobileChatLauncher();
 }
 
 function ensureMobileChatLauncher() {
@@ -213,8 +213,7 @@ export function initChatbotControls() {
 
   const setFabOpenState = (isOpen) => {
     if (!fabMenu || !fabToggle) return;
-    fabMenu.hidden = !isOpen;
-    fabToggle.setAttribute('aria-expanded', String(isOpen));
+    setDesktopFabOpenState(isOpen);
   };
 
   const setOpenState = (isOpen) => {
