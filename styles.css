@@ -3344,10 +3344,10 @@ select {
   justify-content: center;
   align-items: flex-start;
   padding: 1.35rem;
-  border: 1px solid rgba(23, 50, 92, 0.12);
+  border: 1px solid rgba(23, 50, 92, 0.14);
   border-radius: 22px;
-  background: rgba(255, 255, 255, 0.82);
-  box-shadow: 0 14px 34px rgba(23, 50, 92, 0.1);
+  background: transparent;
+  box-shadow: none;
   backface-visibility: hidden;
 }
 
