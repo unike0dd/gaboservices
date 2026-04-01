@@ -29,8 +29,15 @@ function initFormStatus() {
       status.textContent = EN_MESSAGES.nav.submitting;
       status.dataset.state = 'review';
     });
-  });
+  };
+
+  if (typeof reduceMotion.addEventListener === 'function') {
+    reduceMotion.addEventListener('change', handleMotionChange);
+  } else if (typeof reduceMotion.addListener === 'function') {
+    reduceMotion.addListener(handleMotionChange);
+  }
 }
+
 
 function initCenterServicesRotation() {
   const services = [
@@ -178,9 +185,18 @@ function initHomeHeroFlipCard() {
   const frontText = document.getElementById('opsHeroFrontText');
   const backTitle = document.getElementById('opsHeroBackTitle');
   const backText = document.getElementById('opsHeroBackText');
-  const dots = [...document.querySelectorAll('#opsHeroFlipDots span')];
+  const dotsWrap = document.getElementById('opsHeroFlipDots');
 
-  if (!inner || !card || !frontTitle || !frontText || !backTitle || !backText) return;
+  if (!inner || !card || !frontTitle || !frontText || !backTitle || !backText || !dotsWrap) return;
+
+  dotsWrap.innerHTML = '';
+  const dots = items.map((_, index) => {
+    const dot = document.createElement('span');
+    dot.setAttribute('role', 'presentation');
+    dot.dataset.heroIndex = String(index);
+    dotsWrap.appendChild(dot);
+    return dot;
+  });
 
   let currentIndex = 0;
   let showingFront = true;
@@ -233,10 +249,21 @@ function initHomeHeroFlipCard() {
   setDots(0);
   startFlip();
 
-  card.addEventListener('mouseenter', stopFlip);
-  card.addEventListener('mouseleave', startFlip);
   card.addEventListener('focusin', stopFlip);
   card.addEventListener('focusout', startFlip);
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      stopFlip();
+      currentIndex = index;
+      setSide('front', items[currentIndex]);
+      setSide('back', items[(currentIndex + 1) % items.length]);
+      inner.classList.remove('is-flipped');
+      showingFront = true;
+      setDots(currentIndex);
+      startFlip();
+    });
+  });
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
@@ -246,14 +273,21 @@ function initHomeHeroFlipCard() {
     }
   });
 
-  reduceMotion.addEventListener('change', () => {
+  const handleMotionChange = () => {
     if (reduceMotion.matches) {
       stopFlip();
     } else {
       startFlip();
     }
-  });
+  };
+
+  if (typeof reduceMotion.addEventListener === 'function') {
+    reduceMotion.addEventListener('change', handleMotionChange);
+  } else if (typeof reduceMotion.addListener === 'function') {
+    reduceMotion.addListener(handleMotionChange);
+  }
 }
+
 
 initAnalyticsConsentGuard();
 
