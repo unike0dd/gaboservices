@@ -112,6 +112,7 @@
     }
 
     .ops-hero__wrap{
+      --hero-content-offset:clamp(4.5rem, 6.5vw, 5.9rem);
       display:grid;
       grid-template-columns:minmax(0, 1.08fr) minmax(300px, .92fr);
       gap:clamp(1.5rem, 3vw, 3rem);
@@ -120,7 +121,7 @@
 
     .ops-hero__content{
       max-width:780px;
-      padding-top:3.7rem;
+      padding-top:var(--hero-content-offset);
     }
 
     .ops-hero__title{
@@ -339,6 +340,7 @@
       }
 
       .ops-hero__wrap{
+        --hero-content-offset:0;
         grid-template-columns:1fr;
       }
 
