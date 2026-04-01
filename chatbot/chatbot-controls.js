@@ -151,12 +151,10 @@ export function initChatbotControls() {
   const workerTargets = resolveWorkerTargets(window.SITE_METADATA || {}, window.location.origin);
   const configuredGatewayUrl = workerTargets.gatewayUrl;
   const configuredChatbotEmbedUrl = new URL(workerTargets.embedUrl);
-  configuredChatbotEmbedUrl.searchParams.set('policyMode', 'ops-cybersec');
 
   chatFrame.dataset.gatewayUrl = configuredGatewayUrl;
   chatFrame.dataset.streamBridge = CHATBOT_STREAM_BRIDGE_NAME;
   chatFrame.dataset.chatbotEmbedUrl = configuredChatbotEmbedUrl.toString();
-  chatFrame.dataset.secureMode = 'true';
 
   let gatewayHealthy = true;
   let chatStatus = chatPanel.querySelector('#chatStatus');
