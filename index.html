@@ -74,10 +74,7 @@
     .ops-hero{
       position:relative;
       overflow:hidden;
-      background:
-        radial-gradient(circle at top left, rgba(23,50,92,.08), transparent 32%),
-        radial-gradient(circle at 85% 20%, rgba(23,50,92,.06), transparent 24%),
-        linear-gradient(180deg, #f6f3ed 0%, var(--hero-bg) 100%);
+      background:transparent;
       color:var(--hero-ink);
       min-height:100svh;
       padding:clamp(2rem, 4vw, 4rem) 1.25rem 7.5rem;
@@ -90,8 +87,7 @@
       width:min(42vw, 560px);
       aspect-ratio:1 / 1;
       border-radius:50%;
-      background:
-        radial-gradient(circle at 35% 35%, rgba(23,50,92,.16), rgba(23,50,92,.04) 42%, transparent 68%);
+      background:transparent;
       filter:blur(8px);
       pointer-events:none;
     }
@@ -167,10 +163,10 @@
 
     .ops-hero__pill{
       padding:.72rem 1rem;
-      border:1px solid rgba(23,50,92,.16);
+      border:0;
       border-radius:999px;
-      background:rgba(255,255,255,.72);
-      box-shadow:var(--hero-shadow-soft);
+      background:transparent;
+      box-shadow:none;
       font:700 clamp(.96rem, 1.6vw, 1.08rem)/1.05 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       color:var(--hero-ink);
       white-space:normal;
@@ -217,10 +213,10 @@
     }
 
     .ops-hero__btn--secondary{
-      background:rgba(255,255,255,.68);
+      background:transparent;
       color:var(--hero-ink);
-      border-color:rgba(23,50,92,.14);
-      box-shadow:var(--hero-shadow-soft);
+      border-color:rgba(23,50,92,.2);
+      box-shadow:none;
     }
 
     .ops-hero__panel{
@@ -270,8 +266,8 @@
       justify-content:center;
       align-items:flex-start;
       padding:1.35rem;
-      border:1px solid rgba(23,50,92,.14);
-      border-radius:22px;
+      border:0;
+      border-radius:0;
       background:transparent;
       box-shadow:none;
       opacity:0;
@@ -327,7 +323,7 @@
     .ops-hero__panel-note{
       margin:0;
       padding-top:1rem;
-      border-top:1px solid rgba(23,50,92,.12);
+      border-top:0;
       font:500 1rem/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       color:#29456f;
     }
