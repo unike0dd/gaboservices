@@ -1,6 +1,7 @@
 import { resolveWorkerTargets, CHATBOT_STREAM_BRIDGE_NAME } from './chatbot-worker-stream.js';
 import { EN_MESSAGES } from '../locales/en/messages.js';
 import { ensureDesktopFabNav } from '../fab-controls.js';
+import { closeMobileMenu } from '../assets/mobile-menu-state.js';
 
 const DESKTOP_QUERY = '(min-width: 901px)';
 
@@ -211,6 +212,7 @@ export function initChatbotControls() {
     if (chatFrame.src === 'about:blank') {
       chatFrame.src = configuredChatbotEmbedUrl;
     }
+    closeMobileMenu();
     lastTrigger = trigger;
     setFabOpenState(false);
     setOpenState(true);
@@ -223,7 +225,13 @@ export function initChatbotControls() {
     const trigger = target.closest('[data-chat-trigger]');
     if (!(trigger instanceof HTMLElement)) return;
 
-    openChatFromTrigger(trigger);
+    event.preventDefault();
+    closeMobileMenu();
+    requestAnimationFrame(() => {
+      window.setTimeout(() => {
+        openChatFromTrigger(trigger);
+      }, 80);
+    });
   });
 
   chatPanel.querySelectorAll('[data-chat-dismiss]').forEach((button) => {

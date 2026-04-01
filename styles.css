@@ -1445,6 +1445,17 @@ textarea[data-security-state='review'] {
   position: fixed;
   inset: 0;
   z-index: 341;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.fab-overlay[hidden] {
+  display: block !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .fab-backdrop {
@@ -1708,7 +1719,7 @@ body.fab-open {
   .fab-wrapper {
     right: max(var(--nav-fab-offset-x), env(safe-area-inset-right, 0px));
     bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 0.9rem);
-    z-index: 3001;
+    z-index: 3200;
   }
 
   .fab-sheet {
@@ -1718,7 +1729,7 @@ body.fab-open {
   }
 
   .chat-overlay {
-    z-index: 3000;
+    z-index: 3500;
   }
 }
 
