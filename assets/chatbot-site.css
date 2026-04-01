@@ -53,12 +53,17 @@
 }
 
 #chatbot-root .chat-panel-head {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 58px;
+  padding: 0.55rem 0.7rem;
+  background: #000;
   color: var(--chatbot-text-soft);
   border-bottom-color: color-mix(in oklab, var(--chatbot-accent) 18%, white 82%);
   background: #f8fafc;
 }
 
-#chatbot-root .chat-panel-head strong,
 #chatbot-root .chat-panel-head .ghost {
   color: inherit;
 }
