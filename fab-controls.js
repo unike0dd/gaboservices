@@ -17,11 +17,11 @@ function buildDesktopFabMarkup() {
           </div>
         </div>
         <div class="fab-menu" id="fabQuickMenu">
-          <a class="fab-item" data-page="contact" href="/contact" aria-label="${EN_MESSAGES.fab.contact}">
+          <a class="fab-item" data-page="contact" href="/contact/" aria-label="${EN_MESSAGES.fab.contact}">
             <span class="fab-item-icon" aria-hidden="true">✉️</span>
             <span>${EN_MESSAGES.fab.contact}</span>
           </a>
-          <a class="fab-item" data-page="careers" href="/careers" aria-label="${EN_MESSAGES.fab.careers}">
+          <a class="fab-item" data-page="careers" href="/careers/" aria-label="${EN_MESSAGES.fab.careers}">
             <span class="fab-item-icon" aria-hidden="true">💼</span>
             <span>${EN_MESSAGES.fab.careers}</span>
           </a>
@@ -29,6 +29,38 @@ function buildDesktopFabMarkup() {
       </aside>
     </div>
   `;
+}
+
+function getDesktopFabElements() {
+  const wrapper = document.getElementById('fabWrapper');
+  if (!wrapper) return null;
+
+  const fabToggle = wrapper.querySelector('#fabMainToggle');
+  const fabOverlay = wrapper.querySelector('#fabOverlay');
+  const fabMenu = wrapper.querySelector('#fabQuickMenu');
+  if (!fabToggle || !fabOverlay || !fabMenu) return null;
+
+  return { wrapper, fabToggle, fabOverlay, fabMenu };
+}
+
+export function setDesktopFabOpenState(isOpen) {
+  const elements = getDesktopFabElements();
+  if (!elements) return;
+
+  const { fabToggle, fabOverlay, fabMenu } = elements;
+
+  if (isOpen) {
+    closeMobileMenu();
+  }
+
+  fabMenu.hidden = false;
+  fabToggle.setAttribute('aria-expanded', String(isOpen));
+  fabToggle.textContent = isOpen ? '✕ Close actions' : '☰';
+  fabOverlay.hidden = !isOpen;
+  document.body.classList.toggle('fab-open', isOpen);
+  fabOverlay.style.opacity = isOpen ? '1' : '0';
+  fabOverlay.style.visibility = isOpen ? 'visible' : 'hidden';
+  fabOverlay.style.pointerEvents = isOpen ? 'auto' : 'none';
 }
 
 export function ensureDesktopFabNav() {
@@ -50,28 +82,13 @@ export function initFabControls() {
 
   desktopWrapper.dataset.navBound = 'true';
   const fabToggle = desktopWrapper.querySelector('#fabMainToggle');
-  const fabOverlay = desktopWrapper.querySelector('#fabOverlay');
   const desktopQuery = window.matchMedia(DESKTOP_QUERY);
 
-  const setDesktopFabOpen = (isOpen) => {
-    if (!fabToggle || !fabOverlay) return;
-    if (isOpen) {
-      closeMobileMenu();
-    }
-    fabToggle.setAttribute('aria-expanded', String(isOpen));
-    fabToggle.textContent = isOpen ? '✕ Close actions' : '☰';
-    fabOverlay.hidden = !isOpen;
-    document.body.classList.toggle('fab-open', isOpen);
-    fabOverlay.style.opacity = isOpen ? '1' : '0';
-    fabOverlay.style.visibility = isOpen ? 'visible' : 'hidden';
-    fabOverlay.style.pointerEvents = isOpen ? 'auto' : 'none';
-  };
-
-  setDesktopFabOpen(false);
+  setDesktopFabOpenState(false);
 
   fabToggle?.addEventListener('click', () => {
     const isOpen = fabToggle.getAttribute('aria-expanded') === 'true';
-    setDesktopFabOpen(!isOpen);
+    setDesktopFabOpenState(!isOpen);
   });
 
   desktopWrapper.addEventListener('click', (event) => {
@@ -79,18 +96,18 @@ export function initFabControls() {
     if (!(target instanceof Element)) return;
 
     if (target.closest('[data-fab-dismiss]')) {
-      setDesktopFabOpen(false);
+      setDesktopFabOpenState(false);
       return;
     }
 
-    if (target.closest('.fab-item')) setDesktopFabOpen(false);
+    if (target.closest('.fab-item')) setDesktopFabOpenState(false);
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') setDesktopFabOpen(false);
+    if (event.key === 'Escape') setDesktopFabOpenState(false);
   });
 
   desktopQuery.addEventListener('change', (event) => {
-    if (!event.matches) setDesktopFabOpen(false);
+    if (!event.matches) setDesktopFabOpenState(false);
   });
 }
