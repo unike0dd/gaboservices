@@ -1,4 +1,3 @@
-import { closeMobileMenu } from './mobile-menu-state.js';
 const MOBILE_QUERY = '(max-width: 900px)';
 
 const ROUTES = {
@@ -106,7 +105,6 @@ export function initMobileNav() {
   };
 
   const closeMenu = () => {
-    closeMobileMenu();
     setOpen(false);
   };
 

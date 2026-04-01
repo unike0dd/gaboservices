@@ -7,11 +7,13 @@
   <title>Cookies Consent | Gabriel Services</title>
   <meta name="description" content="Cookie consent and cookie preference controls for the Gabriel Services website." />
   <link rel="stylesheet" href="/assets/legal.css" />
+  <link rel="stylesheet" href="/assets/mobile-nav.css" />
   <link rel="stylesheet" href="/assets/chatbot-site.css" />
   <script src="/site.config.js"></script>
+  <script data-cfasync="false" type="module" crossorigin="anonymous" src="/main.js"></script>
   <script data-cfasync="false" type="module" crossorigin="anonymous" src="/assets/chatbot-site.js"></script>
 </head>
-<body>
+<body data-page="legal" data-page-key="legal">
   <header class="legal-header">
     <div class="wrap">
       <a class="brand" href="/">Gabriel Services</a>
@@ -164,5 +166,6 @@
 
   <script data-cfasync="false" type="module" crossorigin="anonymous" src="/assets/cookie-consent.js"></script>
   <div id="chatbot-root"></div>
+  <div id="mobile-nav-root"></div>
 </body>
 </html>

@@ -39,9 +39,9 @@
   max-width: min(92vw, 360px);
   max-height: min(68vh, 520px);
   height: min(68vh, 520px);
-  border: 1px solid color-mix(in oklab, var(--chatbot-accent) 22%, white 8%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 1rem;
-  background: linear-gradient(180deg, color-mix(in oklab, var(--chatbot-bg-panel) 90%, #1f2937 10%), var(--chatbot-bg-deep));
+  background: #000;
   color: var(--chatbot-text-soft);
   box-shadow: 0 20px 35px rgba(15, 23, 42, 0.35);
   overflow: hidden;
@@ -50,12 +50,21 @@
 }
 
 #chatbot-root .chat-panel iframe {
-  height: calc(100% - 201px);
+  height: calc(100% - 56px);
+  width: 100%;
+  border: 0;
+  background: #000;
 }
 
 #chatbot-root .chat-panel-head {
+  min-height: 56px;
+  padding: 0.6rem 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background: #000;
   color: var(--chatbot-text-soft);
-  border-bottom-color: color-mix(in oklab, var(--chatbot-accent) 30%, black 25%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 #chatbot-root .chat-panel-head strong,
@@ -64,8 +73,7 @@
 }
 
 #chatbot-root .chat-panel-heading {
-  display: grid;
-  gap: 0.2rem;
+  display: none;
 }
 
 #chatbot-root .chat-panel-heading p {
@@ -75,14 +83,7 @@
 }
 
 #chatbot-root .chat-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.2rem 0.55rem;
-  border: 1px solid color-mix(in oklab, var(--chatbot-trust) 65%, white 35%);
-  border-radius: 999px;
-  font-size: 0.72rem;
-  color: var(--chatbot-text-soft);
+  display: none;
 }
 
 #chatbot-root .chat-toggle input {
@@ -92,11 +93,7 @@
 }
 
 #chatbot-root .chat-trust-strip {
-  display: flex;
-  gap: 0.35rem;
-  flex-wrap: wrap;
-  padding: 0.45rem 0.7rem;
-  border-bottom: 1px solid color-mix(in oklab, var(--chatbot-accent) 28%, black 18%);
+  display: none;
 }
 
 #chatbot-root .chat-trust-pill {
@@ -109,19 +106,11 @@
 }
 
 #chatbot-root .chat-clarify-loop {
-  margin: 0;
-  padding: 0.45rem 0.72rem;
-  font-size: 0.73rem;
-  color: color-mix(in oklab, var(--chatbot-text-soft) 92%, var(--chatbot-warning) 8%);
-  border-bottom: 1px dashed color-mix(in oklab, var(--chatbot-warning) 45%, black 20%);
+  display: none;
 }
 
 #chatbot-root .chat-badge-row {
-  display: flex;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-  padding: 0.5rem 0.7rem 0.66rem;
-  border-top: 1px solid color-mix(in oklab, var(--chatbot-accent) 28%, black 18%);
+  display: none;
 }
 
 #chatbot-root .chat-badge {
