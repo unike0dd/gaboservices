@@ -23,20 +23,10 @@ export const EN_MESSAGES = {
   },
   chatbot: {
     panelAriaLabel: 'Chatbot panel',
-    panelTitle: 'Gabo io Copilot',
-    panelSubtitle: 'Secure, compliance-aware assistant',
-    close: 'Close',
+    panelTitle: 'Chat assistant',
     closeChatbot: 'Close chatbot',
     iframeTitle: 'Gabriel chatbot',
     unavailable: 'Chat assistant is temporarily unavailable. Please use contact form instead.',
-    encryptedSession: 'Encrypted session',
-    auditLogging: 'Audit logging active',
-    policyMode: 'Policy mode: PCI/NIST',
-    clarifyLoop: 'Major-change guard: the assistant should ask clarifying questions first.',
-    secureMode: 'Secure mode',
-    actionable: 'Actionable',
-    needsApproval: 'Needs approval',
-    complianceImpact: 'Compliance impact'
   },
   cookieConsent: {
     saved: 'Saved. Your preferences were updated.',

@@ -14,9 +14,10 @@ function buildChatPanelMarkup() {
     <div id="chatOverlay" class="chat-overlay" hidden>
       <aside id="chatPanel" class="chat-panel" aria-label="${EN_MESSAGES.chatbot.panelAriaLabel}" role="dialog" aria-modal="true">
         <div class="chat-panel-head">
-          <div class="chat-panel-heading" aria-hidden="true"></div>
+          <div class="chat-panel-heading">
+            <strong>${EN_MESSAGES.chatbot.panelTitle}</strong>
+          </div>
           <div class="chat-panel-actions">
-            <button class="ghost" type="button" data-chat-dismiss>${EN_MESSAGES.chatbot.close}</button>
             <button id="chatClose" class="ghost" type="button" data-chat-dismiss aria-label="${EN_MESSAGES.chatbot.closeChatbot}">✕</button>
           </div>
         </div>
@@ -155,19 +156,7 @@ export function initChatbotControls() {
   chatFrame.dataset.gatewayUrl = configuredGatewayUrl;
   chatFrame.dataset.streamBridge = CHATBOT_STREAM_BRIDGE_NAME;
   chatFrame.dataset.chatbotEmbedUrl = configuredChatbotEmbedUrl.toString();
-  const secureModeInput = chatPanel.querySelector('#chatSecureMode');
-  if (secureModeInput instanceof HTMLInputElement) {
-    chatFrame.dataset.secureMode = secureModeInput.checked ? 'true' : 'false';
-    secureModeInput.addEventListener('change', () => {
-      chatFrame.dataset.secureMode = secureModeInput.checked ? 'true' : 'false';
-      const secureEmbedUrl = new URL(chatFrame.dataset.chatbotEmbedUrl || configuredChatbotEmbedUrl.toString());
-      secureEmbedUrl.searchParams.set('secureMode', secureModeInput.checked ? 'strict' : 'balanced');
-      chatFrame.dataset.chatbotEmbedUrl = secureEmbedUrl.toString();
-      if (chatFrame.src !== 'about:blank') {
-        chatFrame.src = secureEmbedUrl.toString();
-      }
-    });
-  }
+  chatFrame.dataset.secureMode = 'true';
 
   let gatewayHealthy = true;
   let chatStatus = chatPanel.querySelector('#chatStatus');
