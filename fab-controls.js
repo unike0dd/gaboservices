@@ -76,6 +76,14 @@ export function ensureDesktopFabNav() {
   return wrapper;
 }
 
+function toggleFabMenu() {
+  const fabToggle = document.getElementById('fabMainToggle');
+  if (!(fabToggle instanceof HTMLElement)) return;
+
+  const isOpen = fabToggle.getAttribute('aria-expanded') === 'true';
+  setDesktopFabOpenState(!isOpen);
+}
+
 export function initFabControls() {
   const desktopWrapper = ensureDesktopFabNav();
   if (!desktopWrapper || desktopWrapper.dataset.navBound === 'true') return;
@@ -86,10 +94,7 @@ export function initFabControls() {
 
   setDesktopFabOpenState(false);
 
-  fabToggle?.addEventListener('click', () => {
-    const isOpen = fabToggle.getAttribute('aria-expanded') === 'true';
-    setDesktopFabOpenState(!isOpen);
-  });
+  fabToggle?.addEventListener('click', toggleFabMenu);
 
   desktopWrapper.addEventListener('click', (event) => {
     const target = event.target;
@@ -107,7 +112,13 @@ export function initFabControls() {
     if (event.key === 'Escape') setDesktopFabOpenState(false);
   });
 
-  desktopQuery.addEventListener('change', (event) => {
+  const handleBreakpointChange = (event) => {
     if (!event.matches) setDesktopFabOpenState(false);
-  });
+  };
+
+  if (typeof desktopQuery.addEventListener === 'function') {
+    desktopQuery.addEventListener('change', handleBreakpointChange);
+  } else if (typeof desktopQuery.addListener === 'function') {
+    desktopQuery.addListener(handleBreakpointChange);
+  }
 }
