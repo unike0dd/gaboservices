@@ -14,8 +14,10 @@ function buildChatPanelMarkup() {
     <div id="chatOverlay" class="chat-overlay" hidden>
       <aside id="chatPanel" class="chat-panel" aria-label="${EN_MESSAGES.chatbot.panelAriaLabel}" role="dialog" aria-modal="true">
         <div class="chat-panel-head">
+          <div class="chat-panel-heading">
+            <strong>${EN_MESSAGES.chatbot.panelTitle}</strong>
+          </div>
           <div class="chat-panel-actions">
-            <button class="ghost" type="button" data-chat-dismiss>${EN_MESSAGES.chatbot.close}</button>
             <button id="chatClose" class="ghost" type="button" data-chat-dismiss aria-label="${EN_MESSAGES.chatbot.closeChatbot}">✕</button>
           </div>
         </div>
