@@ -1,6 +1,6 @@
 import { resolveWorkerTargets, CHATBOT_STREAM_BRIDGE_NAME } from './chatbot-worker-stream.js';
 import { EN_MESSAGES } from '../locales/en/messages.js';
-import { ensureDesktopFabNav } from '../fab-controls.js';
+import { ensureDesktopFabNav, setDesktopFabOpenState } from '../fab-controls.js';
 import { closeMobileMenu } from '../assets/mobile-menu-state.js';
 
 const DESKTOP_QUERY = '(min-width: 901px)';
@@ -213,8 +213,7 @@ export function initChatbotControls() {
 
   const setFabOpenState = (isOpen) => {
     if (!fabMenu || !fabToggle) return;
-    fabMenu.hidden = !isOpen;
-    fabToggle.setAttribute('aria-expanded', String(isOpen));
+    setDesktopFabOpenState(isOpen);
   };
 
   const setOpenState = (isOpen) => {
