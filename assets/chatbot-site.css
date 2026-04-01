@@ -69,8 +69,7 @@
 }
 
 #chatbot-root .chat-panel-heading {
-  display: grid;
-  gap: 0.2rem;
+  display: none;
 }
 
 #chatbot-root .chat-panel .ghost:focus-visible {
