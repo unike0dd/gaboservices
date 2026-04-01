@@ -29,13 +29,7 @@ function initFormStatus() {
       status.textContent = EN_MESSAGES.nav.submitting;
       status.dataset.state = 'review';
     });
-  };
-
-  if (typeof reduceMotion.addEventListener === 'function') {
-    reduceMotion.addEventListener('change', handleMotionChange);
-  } else if (typeof reduceMotion.addListener === 'function') {
-    reduceMotion.addListener(handleMotionChange);
-  }
+  });
 }
 
 
