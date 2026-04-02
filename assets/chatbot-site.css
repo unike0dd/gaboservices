@@ -42,13 +42,16 @@
 
 #chatbot-root  .gabo-chat-overlay {
   position: fixed;
-  inset: auto;
+  inset: unset;
+  width: auto;
+  height: auto;
   z-index: 3500;
   display: block;
-  background: transparent !important;
+  background: none !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
-  pointer-events: none;
+  box-shadow: none !important;
+  pointer-events: none !important;
 }
 
 #chatbot-root  .gabo-chat-panel {
@@ -109,7 +112,7 @@
   }
 
   #chatbot-root .gabo-chat-overlay {
-    left: var(--chatbot-left);
+    left: auto;
     right: max(12px, env(safe-area-inset-right));
     bottom: calc(var(--chatbot-bottom) + var(--chatbot-size) + 12px);
   }
