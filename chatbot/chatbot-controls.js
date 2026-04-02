@@ -10,11 +10,11 @@ function getChatbotMountRoot() {
 
 function buildChatPanelMarkup() {
   return `
-    <div id="chatOverlay" class="chat-overlay" hidden>
-      <aside id="chatPanel" class="chat-panel" aria-label="Gabo io chatbot" role="dialog" aria-modal="true">
-        <div class="chat-panel-head">
-          <h3 class="chat-title">Gabo io</h3>
-          <button id="chatClose" class="chat-close" type="button" data-chat-dismiss aria-label="Close chatbot">Close</button>
+    <div id="chatOverlay" class="gabo-chat-overlay" hidden>
+      <aside id="chatPanel" class="gabo-chat-panel" aria-label="Gabo io chatbot" role="dialog" aria-modal="true">
+        <div class="gabo-chat-panel-head">
+          <h3 class="gabo-chat-title">Gabo io</h3>
+          <button id="chatClose" class="gabo-chat-close" type="button" data-chat-dismiss aria-label="Close chatbot">Close</button>
         </div>
         <iframe
           id="chatFrame"
