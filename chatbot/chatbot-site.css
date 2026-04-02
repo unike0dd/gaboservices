@@ -10,6 +10,7 @@
   --chatbot-accent: #183a70;
   --chatbot-overlay-opacity: 1;
   --chatbot-panel-opacity: 1;
+  --chatbot-hint-opacity: 1;
   --chatbot-desktop-gap-above-fab: 7px;
 }
 
@@ -71,6 +72,11 @@
   box-shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
   z-index: 3500;
   pointer-events: auto;
+}
+
+#chatbot-root .hint {
+  opacity: var(--chatbot-hint-opacity) !important;
+  color: #122b57;
 }
 
 #chatbot-root  .gabo-chat-panel-head {
