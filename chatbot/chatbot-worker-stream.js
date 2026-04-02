@@ -25,13 +25,9 @@ export function buildWorkerChatStreamUrl(workerBaseUrl = DEFAULT_WORKER_BASE_URL
   return new URL(CHAT_STREAM_ROUTE, normalizeWorkerBaseUrl(workerBaseUrl)).toString();
 }
 
-export function buildWorkerEmbedUrl({ workerBaseUrl = DEFAULT_WORKER_BASE_URL, parentOrigin, gatewayUrl } = {}) {
+export function buildWorkerEmbedUrl({ workerBaseUrl = DEFAULT_WORKER_BASE_URL, parentOrigin } = {}) {
   const embedUrl = new URL(EMBED_ROUTE, normalizeWorkerBaseUrl(workerBaseUrl));
   embedUrl.searchParams.set('parent', toCleanString(parentOrigin) || window.location.origin);
-  embedUrl.searchParams.set('hideTenant', 'true');
-
-  const gateway = toCleanString(gatewayUrl) || buildWorkerChatStreamUrl(workerBaseUrl);
-  embedUrl.searchParams.set('gateway', gateway);
   return embedUrl.toString();
 }
 
@@ -42,8 +38,7 @@ export function resolveWorkerTargets(siteMetadata = window.SITE_METADATA || {}, 
   const gatewayUrl = buildWorkerChatStreamUrl(workerBaseUrl);
   const embedUrl = buildWorkerEmbedUrl({
     workerBaseUrl,
-    parentOrigin: parent,
-    gatewayUrl
+    parentOrigin: parent
   });
 
   return {
