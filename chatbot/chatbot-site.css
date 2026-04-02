@@ -88,7 +88,7 @@
 
 #chatbot-root  .gabo-chat-close {
   border: 0;
-  background: transparent;
+  background: #ffffff;
   color: var(--chatbot-text);
   cursor: pointer;
   padding: 6px 8px;
