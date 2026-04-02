@@ -52,9 +52,9 @@
   align-items: flex-end;
   justify-content: flex-end;
   padding: 12px;
-  background: rgba(10, 16, 32, 0.35) !important;
-  opacity: var(--chatbot-overlay-opacity) !important;
-  backdrop-filter: blur(1px) !important;
+  background: #ffffff !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
   box-shadow: none !important;
   pointer-events: auto !important;
 }
