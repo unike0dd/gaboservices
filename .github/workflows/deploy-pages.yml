@@ -31,36 +31,45 @@ jobs:
         with:
           script: |
             try {
-              await github.rest.repos.getPages({
+              const pages = await github.rest.repos.getPages({
                 owner: context.repo.owner,
                 repo: context.repo.repo
               });
-              core.info('GitHub Pages is enabled for this repository.');
+              const buildType = pages?.data?.build_type || 'unknown';
+              core.info(`GitHub Pages is enabled for this repository (build_type: ${buildType}).`);
               core.setOutput('enabled', 'true');
+              core.setOutput('build_type', buildType);
+              core.setOutput('deployable', buildType === 'workflow' ? 'true' : 'false');
             } catch (error) {
               if (error.status === 404) {
                 core.warning('GitHub Pages is not enabled for this repository. Skipping Pages deployment workflow steps.');
                 core.setOutput('enabled', 'false');
+                core.setOutput('build_type', 'disabled');
+                core.setOutput('deployable', 'false');
                 return;
               }
               throw error;
             }
 
       - name: Setup Pages
-        if: steps.pages_status.outputs.enabled == 'true'
+        if: steps.pages_status.outputs.deployable == 'true'
         uses: actions/configure-pages@v5
 
       - name: Upload static artifact
-        if: steps.pages_status.outputs.enabled == 'true'
+        if: steps.pages_status.outputs.deployable == 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
 
       - name: Deploy to GitHub Pages
-        if: steps.pages_status.outputs.enabled == 'true'
+        if: steps.pages_status.outputs.deployable == 'true'
         id: deployment
         uses: actions/deploy-pages@v4
 
       - name: Skip notice
-        if: steps.pages_status.outputs.enabled != 'true'
-        run: echo "GitHub Pages is not enabled for this repository, so deployment was skipped."
+        if: steps.pages_status.outputs.deployable != 'true'
+        run: |
+          echo "Skipping Pages deployment."
+          echo "enabled=${{ steps.pages_status.outputs.enabled }}"
+          echo "build_type=${{ steps.pages_status.outputs.build_type }}"
+          echo "To deploy with actions/deploy-pages, set Pages source to 'GitHub Actions' in repository settings."
