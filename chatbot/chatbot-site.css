@@ -44,16 +44,19 @@
 
 #chatbot-root  .gabo-chat-overlay {
   position: fixed;
-  inset: unset;
-  width: auto;
-  height: auto;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
   z-index: 3500;
-  display: block;
-  background: none !important;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 12px;
+  background: rgba(10, 16, 32, 0.35) !important;
   opacity: var(--chatbot-overlay-opacity) !important;
-  backdrop-filter: none !important;
+  backdrop-filter: blur(1px) !important;
   box-shadow: none !important;
-  pointer-events: none !important;
+  pointer-events: auto !important;
 }
 
 #chatbot-root  .gabo-chat-panel {
@@ -115,9 +118,12 @@
   }
 
   #chatbot-root .gabo-chat-overlay {
-    left: auto;
-    right: max(12px, env(safe-area-inset-right));
-    bottom: calc(var(--chatbot-bottom) + var(--chatbot-size) + 12px);
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-right: max(12px, env(safe-area-inset-right));
+    padding-bottom: calc(var(--chatbot-bottom) + var(--chatbot-size) + 12px);
+    padding-left: 12px;
+    padding-top: 12px;
   }
 
   #chatbot-root  .gabo-chat-panel {
@@ -132,8 +138,12 @@
   }
 
   #chatbot-root .gabo-chat-overlay {
-    right: 16px;
-    bottom: calc(max(var(--nav-fab-offset-y, 16px), env(safe-area-inset-bottom, 0px)) + var(--chatbot-desktop-gap-above-fab));
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-right: 16px;
+    padding-bottom: calc(max(var(--nav-fab-offset-y, 16px), env(safe-area-inset-bottom, 0px)) + var(--chatbot-desktop-gap-above-fab));
+    padding-left: 16px;
+    padding-top: 16px;
   }
 
   #chatbot-root  .gabo-chat-panel {
