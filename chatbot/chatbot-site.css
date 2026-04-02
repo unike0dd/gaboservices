@@ -30,7 +30,6 @@
   color: #fff;
   box-shadow: 0 12px 30px rgba(24, 58, 112, 0.38);
   z-index: 3500;
-  opacity: 1;
 }
 
 #chatbot-root .mobile-chat-launcher__icon {
@@ -48,7 +47,7 @@
   height: auto;
   z-index: 3500;
   display: block;
-  background: #ffffff !important;
+  background: none !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
   box-shadow: none !important;
@@ -66,7 +65,6 @@
   box-shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
   z-index: 3500;
   pointer-events: auto;
-  opacity: 1;
 }
 
 #chatbot-root  .gabo-chat-panel-head {
@@ -79,7 +77,6 @@
   padding: 14px 16px;
   background: #fff !important;
   border-bottom: 1px solid rgba(18, 43, 87, 0.12);
-  opacity: 1;
 }
 
 #chatbot-root  .gabo-chat-title {
@@ -96,7 +93,6 @@
   cursor: pointer;
   padding: 6px 8px;
   border-radius: 10px;
-  opacity: 1;
 }
 
 #chatbot-root .chat-frame {
@@ -106,7 +102,6 @@
   border: 0;
   background: #fff !important;
   pointer-events: auto;
-  opacity: 1;
 }
 
 @media (max-width: 900px) {
