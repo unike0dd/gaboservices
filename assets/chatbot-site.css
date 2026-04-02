@@ -3,7 +3,7 @@
   --mobile-safe-bottom: max(env(safe-area-inset-bottom), 8px);
   --chatbot-left: clamp(12px, 3.5vw, 18px);
   --chatbot-size: clamp(48px, 6.8svh, 60px);
-  --chatbot-gap-above-nav: 22px;
+  --chatbot-gap-above-nav: 32px;
   --chatbot-bottom: calc(var(--mobile-nav-height) + var(--mobile-safe-bottom) + var(--chatbot-gap-above-nav));
   --chatbot-bg-panel: #ffffff;
   --chatbot-text: #122b57;
@@ -41,9 +41,11 @@
 
 #chatbot-root .chat-overlay {
   position: fixed;
-  inset: 0;
+  inset: auto;
   z-index: 3500;
-  display: grid;
+  display: block;
+  background: transparent;
+  pointer-events: none;
 }
 
 #chatbot-root .chat-panel {
@@ -55,6 +57,9 @@
   border: 1px solid rgba(24, 58, 112, 0.18);
   border-radius: 18px;
   box-shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
+  z-index: 3500;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 #chatbot-root .chat-panel-head {
@@ -101,16 +106,14 @@
   }
 
   #chatbot-root .chat-overlay {
-    place-items: end start;
-    padding-left: var(--chatbot-left);
-    padding-right: max(12px, env(safe-area-inset-right));
-    padding-top: max(12px, env(safe-area-inset-top));
-    padding-bottom: calc(var(--chatbot-bottom) + var(--chatbot-size) + 12px);
+    left: var(--chatbot-left);
+    right: max(12px, env(safe-area-inset-right));
+    bottom: calc(var(--chatbot-bottom) + var(--chatbot-size) + 12px);
   }
 
   #chatbot-root .chat-panel {
     width: min(92vw, 360px);
-    height: min(430px, calc(100dvh - var(--mobile-nav-height) - var(--mobile-safe-bottom) - 104px));
+    height: min(220px, calc(100dvh - var(--mobile-nav-height) - var(--mobile-safe-bottom) - 200px));
   }
 }
 
@@ -120,12 +123,12 @@
   }
 
   #chatbot-root .chat-overlay {
-    place-items: end end;
-    padding: 16px;
+    right: 16px;
+    bottom: 16px;
   }
 
   #chatbot-root .chat-panel {
     width: min(390px, calc(100vw - 24px));
-    height: min(560px, calc(100dvh - 24px));
+    height: min(280px, calc(100dvh - 120px));
   }
 }
