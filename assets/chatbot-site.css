@@ -8,6 +8,7 @@
   --chatbot-bg-panel: #ffffff;
   --chatbot-text: #122b57;
   --chatbot-accent: #183a70;
+  --chatbot-desktop-gap-above-fab: 7px;
 }
 
 #chatbot-root {
@@ -110,7 +111,7 @@
     justify-content: center;
   }
 
-  #chatbot-root .chat-overlay {
+  #chatbot-root .gabo-chat-overlay {
     left: var(--chatbot-left);
     right: max(12px, env(safe-area-inset-right));
     bottom: calc(var(--chatbot-bottom) + var(--chatbot-size) + 12px);
@@ -127,9 +128,9 @@
     display: none;
   }
 
-  #chatbot-root .chat-overlay {
+  #chatbot-root .gabo-chat-overlay {
     right: 16px;
-    bottom: 16px;
+    bottom: calc(max(var(--nav-fab-offset-y, 16px), env(safe-area-inset-bottom, 0px)) + var(--chatbot-desktop-gap-above-fab));
   }
 
   #chatbot-root  .gabo-chat-panel {
