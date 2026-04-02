@@ -1,4 +1,4 @@
-import { initChatbotControls } from '../chatbot/chatbot-controls.js';
+import { initChatbotControls } from './chatbot-controls.js';
 
 function ensureSharedChatbotRoot() {
   let root = document.getElementById('chatbot-root');
