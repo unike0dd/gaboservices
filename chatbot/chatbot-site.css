@@ -8,6 +8,8 @@
   --chatbot-bg-panel: #ffffff;
   --chatbot-text: #122b57;
   --chatbot-accent: #183a70;
+  --chatbot-overlay-opacity: 1;
+  --chatbot-panel-opacity: 1;
   --chatbot-desktop-gap-above-fab: 7px;
 }
 
@@ -48,7 +50,7 @@
   z-index: 3500;
   display: block;
   background: none !important;
-  opacity: 1 !important;
+  opacity: var(--chatbot-overlay-opacity) !important;
   backdrop-filter: none !important;
   box-shadow: none !important;
   pointer-events: none !important;
@@ -59,6 +61,7 @@
   flex-direction: column;
   overflow: hidden;
   background: var(--chatbot-bg-panel) !important;
+  opacity: var(--chatbot-panel-opacity);
   color: var(--chatbot-text);
   border: 1px solid rgba(24, 58, 112, 0.18);
   border-radius: 18px;
