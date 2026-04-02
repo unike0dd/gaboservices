@@ -93,7 +93,7 @@
   border-radius: 10px;
 }
 
-#chatbot-root  .gabo-chat-frame {
+#chatbot-root .chat-frame {
   flex: 1 1 auto;
   min-height: 0;
   width: 100%;
@@ -110,7 +110,7 @@
     justify-content: center;
   }
 
-  #chatbot-root  .gabo-chat-overlay {
+  #chatbot-root .chat-overlay {
     left: var(--chatbot-left);
     right: max(12px, env(safe-area-inset-right));
     bottom: calc(var(--chatbot-bottom) + var(--chatbot-size) + 12px);
@@ -127,7 +127,7 @@
     display: none;
   }
 
-  #chatbot-root  .gabo-chat-overlay {
+  #chatbot-root .chat-overlay {
     right: 16px;
     bottom: 16px;
   }

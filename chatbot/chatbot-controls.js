@@ -18,7 +18,7 @@ function buildChatPanelMarkup() {
         </div>
         <iframe
           id="chatFrame"
-          class="gabo-chat-frame"
+          class="chat-frame"
           title="Gabo io assistant"
           loading="lazy"
           referrerpolicy="strict-origin"
