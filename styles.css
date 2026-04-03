@@ -3440,8 +3440,8 @@ select {
   bottom: calc(4.2rem + 25px);
   z-index: 3500;
   width: min(92vw, 380px);
-  height: 90dvh;
-  max-height: 90dvh;
+  height: 65dvh;
+  max-height: 65dvh;
   display: grid;
   grid-template-rows: auto 1fr auto;
   background: #251541;
