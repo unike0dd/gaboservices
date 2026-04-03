@@ -102,7 +102,6 @@ export function closeMobileMenu() {
     if (!(backdrop instanceof HTMLElement)) return;
     releaseFocusBeforeHide(backdrop);
     backdrop.classList.remove('is-open', 'open', 'active', 'is-active', 'is-visible');
-    if (backdrop.id === 'chatOverlay') return;
     backdrop.setAttribute('aria-hidden', 'true');
     backdrop.style.opacity = '0';
     backdrop.style.visibility = 'hidden';
