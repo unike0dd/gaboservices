@@ -20,7 +20,7 @@ This repository already has strong foundational protections for a static web pro
 ### Weaknesses (Injection/Intrusion)
 
 1. **Client-side “TinyGuard” is bypassable**
-   - Input filtering in `main.js` helps UX but does not provide server-side trust.
+   - Input filtering in `main.js` and `chatbot/chatbot-controls.js` helps UX but does not provide server-side trust.
 2. **Turnstile verification appears client-enforced only in this repo**
    - Token is collected client-side; secure validation must happen server-side at submit endpoint.
 3. **DOM injection surface through `innerHTML` patterns**

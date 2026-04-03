@@ -25,25 +25,31 @@ Allow: /
 
 # Keep low-value or duplicate technical paths out of crawl budget.
 User-agent: Googlebot
+Disallow: /chatbot/
 Disallow: /scripts/
 Disallow: /.git/
 
 User-agent: Bingbot
+Disallow: /chatbot/
 Disallow: /scripts/
 Disallow: /.git/
 
 User-agent: Slurp
+Disallow: /chatbot/
 Disallow: /scripts/
 Disallow: /.git/
 
 User-agent: DuckDuckBot
+Disallow: /chatbot/
 Disallow: /scripts/
 Disallow: /.git/
 
 User-agent: Baiduspider
+Disallow: /chatbot/
 Disallow: /scripts/
 Disallow: /.git/
 
 User-agent: YandexBot
+Disallow: /chatbot/
 Disallow: /scripts/
 Disallow: /.git/
