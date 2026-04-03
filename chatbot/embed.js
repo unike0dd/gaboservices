@@ -74,13 +74,15 @@ export function initGaboChatbotEmbed() {
   const root = document.createElement('section');
   root.className = 'gabo-chatbot';
   root.innerHTML = `
-    <button class="gabo-chatbot__fab" type="button" aria-expanded="false" aria-controls="gaboChatbotPanel">Chat</button>
     <button class="gabo-chatbot__overlay" type="button" aria-label="Close chat" hidden></button>
     <div id="gaboChatbotPanel" class="gabo-chatbot__panel" hidden>
       <header class="gabo-chatbot__header">
         <strong>Gabo io</strong>
         <span class="gabo-chatbot__status" aria-live="polite">Ready</span>
-        <button class="gabo-chatbot__close" type="button" aria-label="Close chat">×</button>
+        <div class="gabo-chatbot__header-actions">
+          <button class="gabo-chatbot__close-text" type="button">Close</button>
+          <button class="gabo-chatbot__close" type="button" aria-label="Close chat">×</button>
+        </div>
       </header>
       <div class="gabo-chatbot__log" aria-live="polite"></div>
       <form class="gabo-chatbot__form" autocomplete="off">
@@ -90,12 +92,14 @@ export function initGaboChatbotEmbed() {
     </div>
   `;
 
-  document.body.appendChild(root);
+  const host = document.getElementById('fabWrapper') || document.body;
+  host.appendChild(root);
 
-  const fab = root.querySelector('.gabo-chatbot__fab');
+  const fabTrigger = document.getElementById('fabChatTrigger');
   const overlay = root.querySelector('.gabo-chatbot__overlay');
   const panel = root.querySelector('.gabo-chatbot__panel');
   const close = root.querySelector('.gabo-chatbot__close');
+  const closeText = root.querySelector('.gabo-chatbot__close-text');
   const status = root.querySelector('.gabo-chatbot__status');
   const form = root.querySelector('.gabo-chatbot__form');
   const input = root.querySelector('.gabo-chatbot__input');
@@ -105,7 +109,7 @@ export function initGaboChatbotEmbed() {
   function setOpen(open) {
     panel.hidden = !open;
     overlay.hidden = !open;
-    fab.setAttribute('aria-expanded', String(open));
+    fabTrigger?.setAttribute('aria-expanded', String(open));
     state.open = open;
     saveState(state);
 
@@ -190,9 +194,11 @@ export function initGaboChatbotEmbed() {
     setOpen(false);
   }
 
-  fab.addEventListener('click', () => setOpen(!state.open));
-  close.addEventListener('click', closeChat);
-  overlay.addEventListener('click', closeChat);
+  fabTrigger?.setAttribute('aria-controls', 'gaboChatbotPanel');
+  fabTrigger?.addEventListener('click', () => setOpen(!state.open));
+  close?.addEventListener('click', closeChat);
+  closeText?.addEventListener('click', closeChat);
+  overlay?.addEventListener('click', closeChat);
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && state.open) {
@@ -203,7 +209,8 @@ export function initGaboChatbotEmbed() {
   document.addEventListener('click', (event) => {
     if (!state.open) return;
     const target = event.target;
-    if (panel.contains(target) || fab.contains(target)) return;
+    if (!(target instanceof Node)) return;
+    if (panel.contains(target) || fabTrigger?.contains(target)) return;
     closeChat();
   });
 
