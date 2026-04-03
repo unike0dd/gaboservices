@@ -1689,6 +1689,10 @@ body.fab-open {
   overflow: hidden;
 }
 
+body.chat-open {
+  overflow: hidden;
+}
+
 @media (max-width: 900px) {
   .fab-wrapper {
     right: max(var(--nav-fab-offset-x), env(safe-area-inset-right, 0px));
