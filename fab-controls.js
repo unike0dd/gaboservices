@@ -27,9 +27,9 @@ function buildDesktopFabMarkup() {
             <span class="fab-item-icon" aria-hidden="true">💼</span>
             <span>${EN_MESSAGES.fab.careers}</span>
           </a>
-          <button class="fab-item fab-chatbot-trigger" type="button" aria-label="${EN_MESSAGES.fab.chatbot}">
-            <span class="fab-item-icon" aria-hidden="true">🤖</span>
-            <span>${EN_MESSAGES.fab.chatbot}</span>
+          <button class="fab-item" id="fabChatTrigger" type="button" aria-label="${EN_MESSAGES.fab.chat}">
+            <span class="fab-item-icon" aria-hidden="true">💬</span>
+            <span>${EN_MESSAGES.fab.chat}</span>
           </button>
         </div>
       </aside>
