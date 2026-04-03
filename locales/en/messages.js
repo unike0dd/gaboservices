@@ -5,6 +5,7 @@ export const EN_MESSAGES = {
   fab: {
     careers: 'Careers',
     contact: 'Contact',
+    chat: 'Chat',
     openQuickActions: 'Open quick actions'
   },
   mobileBottomNav: {
