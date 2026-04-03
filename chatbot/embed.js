@@ -75,6 +75,7 @@ export function initGaboChatbotEmbed() {
   root.className = 'gabo-chatbot';
   root.innerHTML = `
     <button class="gabo-chatbot__fab" type="button" aria-expanded="false" aria-controls="gaboChatbotPanel">Chat</button>
+    <button class="gabo-chatbot__overlay" type="button" aria-label="Close chat" hidden></button>
     <div id="gaboChatbotPanel" class="gabo-chatbot__panel" hidden>
       <header class="gabo-chatbot__header">
         <strong>Gabo io</strong>
@@ -92,6 +93,7 @@ export function initGaboChatbotEmbed() {
   document.body.appendChild(root);
 
   const fab = root.querySelector('.gabo-chatbot__fab');
+  const overlay = root.querySelector('.gabo-chatbot__overlay');
   const panel = root.querySelector('.gabo-chatbot__panel');
   const close = root.querySelector('.gabo-chatbot__close');
   const status = root.querySelector('.gabo-chatbot__status');
@@ -102,9 +104,11 @@ export function initGaboChatbotEmbed() {
 
   function setOpen(open) {
     panel.hidden = !open;
+    overlay.hidden = !open;
     fab.setAttribute('aria-expanded', String(open));
     state.open = open;
     saveState(state);
+
     if (open) {
       renderLog(log, state.history);
       input.focus();
@@ -182,8 +186,26 @@ export function initGaboChatbotEmbed() {
     }
   }
 
+  function closeChat() {
+    setOpen(false);
+  }
+
   fab.addEventListener('click', () => setOpen(!state.open));
-  close.addEventListener('click', () => setOpen(false));
+  close.addEventListener('click', closeChat);
+  overlay.addEventListener('click', closeChat);
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && state.open) {
+      closeChat();
+    }
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!state.open) return;
+    const target = event.target;
+    if (panel.contains(target) || fab.contains(target)) return;
+    closeChat();
+  });
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
