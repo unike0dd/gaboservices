@@ -1,4 +1,6 @@
+import { setDesktopFabOpenState } from '../fab-controls.js';
 const WORKER_BASE = 'https://con-artist.rulathemtodos.workers.dev';
+
 const WORKER_CHAT = `${WORKER_BASE}/api/chat`;
 const WORKER_MODE = 'iframe_service_qa';
 
@@ -117,6 +119,8 @@ export function initGaboChatbotEmbed() {
       window.dispatchEvent(new CustomEvent('gabo:fabs-close'));
       renderLog(log, state.history);
       input.focus();
+    } else {
+      setDesktopFabOpenState(false);
     }
   }
 
