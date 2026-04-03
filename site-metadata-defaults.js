@@ -6,7 +6,6 @@ export const SITE_METADATA_DEFAULTS = Object.freeze({
     en: 'Providing Remote Professional Assistance and Business Services to Logistics, IT Support, C Suite Executive, and Customer Relations Management.'
   },
   framePermissions: [],
-  chatbotGatewayUrl: 'https://con-artist.rulathemtodos.workers.dev/',
   seo: {
     title: 'Gabriel Services',
     description: 'Business services for logistics, IT, admin, and customer relations.',
