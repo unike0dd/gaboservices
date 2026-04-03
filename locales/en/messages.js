@@ -25,7 +25,7 @@ export const EN_MESSAGES = {
     panelAriaLabel: 'Chatbot panel',
     panelTitle: 'Chat assistant',
     closeChatbot: 'Close chatbot',
-    iframeTitle: 'Gabriel chatbot',
+    iframeTitle: 'Gabriel assistant',
     unavailable: 'Chat assistant is temporarily unavailable. Please use contact form instead.',
   },
   cookieConsent: {

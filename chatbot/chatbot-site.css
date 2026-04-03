@@ -7,10 +7,6 @@
   --chatbot-bottom: calc(var(--mobile-nav-height) + var(--mobile-safe-bottom) + var(--chatbot-gap-above-nav));
   --chatbot-bg-panel: #ffffff;
   --chatbot-text: #122b57;
-  --chatbot-accent: #183a70;
-  --chatbot-overlay-opacity: 1;
-  --chatbot-panel-opacity: 1;
-  --chatbot-hint-opacity: 1;
   --chatbot-desktop-gap-above-fab: 7px;
 }
 
@@ -39,11 +35,11 @@
   font-size: 1.35rem;
 }
 
-#chatbot-root  .gabo-chat-overlay[hidden] {
+#chatbot-root .gabo-chat-overlay[hidden] {
   display: none;
 }
 
-#chatbot-root  .gabo-chat-overlay {
+#chatbot-root .gabo-chat-overlay {
   position: fixed;
   inset: 0;
   width: 100vw;
@@ -60,12 +56,11 @@
   pointer-events: auto !important;
 }
 
-#chatbot-root  .gabo-chat-panel {
+#chatbot-root .gabo-chat-panel {
   display: flex;
   flex-direction: column;
   overflow: hidden;
   background: var(--chatbot-bg-panel) !important;
-  opacity: var(--chatbot-panel-opacity);
   color: var(--chatbot-text);
   border: 1px solid rgba(24, 58, 112, 0.18);
   border-radius: 18px;
@@ -74,12 +69,7 @@
   pointer-events: auto;
 }
 
-#chatbot-root .hint {
-  opacity: var(--chatbot-hint-opacity) !important;
-  color: #122b57;
-}
-
-#chatbot-root  .gabo-chat-panel-head {
+#chatbot-root .gabo-chat-panel-head {
   flex: 0 0 auto;
   min-height: 60px;
   display: flex;
@@ -91,14 +81,14 @@
   border-bottom: 1px solid rgba(18, 43, 87, 0.12);
 }
 
-#chatbot-root  .gabo-chat-title {
+#chatbot-root .gabo-chat-title {
   margin: 0;
   font-size: 1.05rem;
   line-height: 1.2;
   font-weight: 700;
 }
 
-#chatbot-root  .gabo-chat-close {
+#chatbot-root .gabo-chat-close {
   border: 0;
   background: #ffffff;
   color: var(--chatbot-text);
@@ -132,7 +122,7 @@
     padding-top: 12px;
   }
 
-  #chatbot-root  .gabo-chat-panel {
+  #chatbot-root .gabo-chat-panel {
     width: min(92vw, 360px);
     height: min(220px, calc(100dvh - var(--mobile-nav-height) - var(--mobile-safe-bottom) - 200px));
   }
@@ -152,7 +142,7 @@
     padding-top: 16px;
   }
 
-  #chatbot-root  .gabo-chat-panel {
+  #chatbot-root .gabo-chat-panel {
     width: min(390px, calc(100vw - 24px));
     height: min(280px, calc(100dvh - 120px));
   }

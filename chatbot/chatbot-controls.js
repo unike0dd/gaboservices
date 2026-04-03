@@ -1,5 +1,6 @@
 import { ensureDesktopFabNav, setDesktopFabOpenState } from '../fab-controls.js';
 import { closeMobileMenu } from '../assets/mobile-menu-state.js';
+import { EN_MESSAGES } from '../locales/en/messages.js';
 import { resolveWorkerTargets } from './chatbot-worker-stream.js';
 
 const DESKTOP_QUERY = '(min-width: 901px)';
@@ -11,15 +12,15 @@ function getChatbotMountRoot() {
 function buildChatPanelMarkup() {
   return `
     <div id="chatOverlay" class="gabo-chat-overlay" hidden>
-      <aside id="chatPanel" class="gabo-chat-panel" aria-label="Gabo io chatbot" role="dialog" aria-modal="true">
+      <aside id="chatPanel" class="gabo-chat-panel" aria-label="${EN_MESSAGES.chatbot.panelAriaLabel}" role="dialog" aria-modal="true">
         <div class="gabo-chat-panel-head">
-          <h3 class="gabo-chat-title">Gabo io</h3>
-          <button id="chatClose" class="gabo-chat-close" type="button" data-chat-dismiss aria-label="Close chatbot">Close</button>
+          <h3 class="gabo-chat-title">${EN_MESSAGES.chatbot.panelTitle}</h3>
+          <button id="chatClose" class="gabo-chat-close" type="button" data-chat-dismiss aria-label="${EN_MESSAGES.chatbot.closeChatbot}">Close</button>
         </div>
         <iframe
           id="chatFrame"
           class="chat-frame"
-          title="Gabo io assistant"
+          title="${EN_MESSAGES.chatbot.iframeTitle}"
           loading="lazy"
           referrerpolicy="strict-origin"
           allow="clipboard-read; clipboard-write"
@@ -45,21 +46,11 @@ function ensureFabChatTrigger() {
   action.setAttribute('data-chat-trigger-context', 'desktop-fab');
   action.innerHTML = `
     <span class="fab-item-icon" aria-hidden="true">✨</span>
-    <span>Chat</span>
+    <span>${EN_MESSAGES.fab.chatbot}</span>
   `;
 
   fabMenu.appendChild(action);
   return action;
-}
-
-function syncChatbotLaunchersForViewport(desktopQuery) {
-  const isDesktop = desktopQuery.matches;
-  ensureFabChatTrigger();
-
-  const mobileLauncher = ensureMobileChatLauncher();
-  if (mobileLauncher) {
-    mobileLauncher.hidden = isDesktop;
-  }
 }
 
 function ensureMobileChatLauncher() {
@@ -71,11 +62,21 @@ function ensureMobileChatLauncher() {
   trigger.className = 'mobile-chat-launcher';
   trigger.type = 'button';
   trigger.setAttribute('data-chat-trigger', '');
-  trigger.setAttribute('aria-label', 'Open Gabo io chat');
+  trigger.setAttribute('aria-label', 'Open chat assistant');
   trigger.innerHTML = '<span class="mobile-chat-launcher__icon" aria-hidden="true">✨</span>';
 
   getChatbotMountRoot().appendChild(trigger);
   return trigger;
+}
+
+function syncChatbotLaunchersForViewport(desktopQuery) {
+  const isDesktop = desktopQuery.matches;
+  ensureFabChatTrigger();
+
+  const mobileLauncher = ensureMobileChatLauncher();
+  if (mobileLauncher) {
+    mobileLauncher.hidden = isDesktop;
+  }
 }
 
 function ensureChatPanelMarkup() {
@@ -106,7 +107,7 @@ function safeFrameOrigin(url) {
   }
 }
 
-export function initChatbotControls() {
+export function initChatbotControls(siteMetadata = window.SITE_METADATA || {}) {
   const desktopQuery = window.matchMedia(DESKTOP_QUERY);
   syncChatbotLaunchersForViewport(desktopQuery);
 
@@ -115,7 +116,7 @@ export function initChatbotControls() {
   const { chatOverlay, chatPanel, chatFrame } = ensureChatPanelMarkup();
   if (!chatOverlay || !chatPanel || !chatFrame) return;
 
-  const workerTargets = resolveWorkerTargets(window.SITE_METADATA || {}, window.location.origin);
+  const workerTargets = resolveWorkerTargets(siteMetadata, window.location.origin);
   if (!chatFrame.src) {
     chatFrame.src = workerTargets.embedUrl;
   }
@@ -135,11 +136,7 @@ export function initChatbotControls() {
     chatOverlay.hidden = !isOpen;
     if (isOpen) {
       document.body.classList.add('chat-open');
-      requestAnimationFrame(() => {
-        if (chatFrame.contentWindow) {
-          chatFrame.contentWindow.focus();
-        }
-      });
+      requestAnimationFrame(() => chatFrame.contentWindow?.focus());
       document.dispatchEvent(new CustomEvent('chatbot:open'));
       return;
     }
@@ -184,14 +181,10 @@ export function initChatbotControls() {
   chatOverlay.addEventListener('click', (event) => {
     const target = event.target;
     if (!(target instanceof Node)) return;
-    if (!chatPanel.contains(target)) {
-      closeChat();
-    }
+    if (!chatPanel.contains(target)) closeChat();
   });
 
-  desktopQuery.addEventListener('change', () => {
-    syncChatbotLaunchersForViewport(desktopQuery);
-  });
+  desktopQuery.addEventListener('change', () => syncChatbotLaunchersForViewport(desktopQuery));
 
   document.addEventListener('keydown', (event) => {
     if ((event.key === 'Escape' || event.key === 'Esc') && !chatOverlay.hidden) {
@@ -205,8 +198,6 @@ export function initChatbotControls() {
 
   window.addEventListener('message', (event) => {
     if (!chatFrameOrigin || event.origin !== chatFrameOrigin) return;
-    if (event.data === 'gabo-chat-close') {
-      closeChat();
-    }
+    if (event.data === 'gabo-chat-close') closeChat();
   });
 }

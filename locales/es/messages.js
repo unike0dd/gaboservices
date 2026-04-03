@@ -23,10 +23,10 @@ export const ES_MESSAGES = {
     learning: 'Aprendizaje'
   },
   chatbot: {
-    panelAriaLabel: 'Panel del chatbot',
+    panelAriaLabel: 'Panel del asistente',
     close: 'Cerrar',
-    closeChatbot: 'Cerrar chatbot',
-    iframeTitle: 'Chatbot de Gabriel',
+    closeChatbot: 'Cerrar asistente',
+    iframeTitle: 'Asistente de Gabriel',
     unavailable: 'El asistente de chat no está disponible temporalmente. Utiliza el formulario de contacto en su lugar.'
   },
   cookieConsent: {

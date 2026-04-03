@@ -5,6 +5,7 @@ import { initAnalyticsConsentGuard } from './analytics-consent-guard.js';
 import { initSiteGovernance } from './site-governance.js';
 import { ACTIVE_LOCALE, getLocalizedValue, getSiteMetadata } from './site-metadata.js';
 import { EN_MESSAGES } from './locales/en/messages.js';
+import { mountSitewideChatbot } from './chatbot/chatbot-site.js';
 
 function syncPageMetadata() {
   const metadata = getSiteMetadata();
@@ -291,6 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAdaptiveLayout();
   initMobileNav();
   initFabControls();
+  mountSitewideChatbot();
   initFormStatus();
   initHomeHeroFlipCard();
   initCenterServicesRotation();
