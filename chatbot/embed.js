@@ -116,7 +116,7 @@ export function initGaboChatbotEmbed() {
     document.body.classList.toggle('chat-open', open);
 
     if (open) {
-      setDesktopFabOpenState(false);
+      window.dispatchEvent(new CustomEvent('gabo:fabs-close'));
       renderLog(log, state.history);
       input.focus();
     } else {

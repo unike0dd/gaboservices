@@ -124,6 +124,10 @@ export function initFabControls() {
     }
   });
 
+  window.addEventListener('gabo:fabs-close', () => {
+    setDesktopFabOpenState(false);
+  });
+
   const handleBreakpointChange = (event) => {
     if (!event.matches) setDesktopFabOpenState(false);
   };
