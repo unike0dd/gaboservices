@@ -3420,3 +3420,33 @@ select {
     transition: none;
   }
 }
+
+.gabo-chat-embed {
+  margin: 2rem auto;
+}
+
+.gabo-chat-embed__shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.gabo-chat-embed__lead {
+  margin: 0.5rem 0;
+  text-align: center;
+}
+
+.gabo-chat-embed__status {
+  margin: 0.5rem 0 1rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.gabo-chat-embed__frame {
+  width: 100%;
+  min-height: 70vh;
+  border: 0;
+  border-radius: 16px;
+  box-shadow: 0 12px 36px rgba(7, 15, 40, 0.18);
+  background: #ffffff;
+}
