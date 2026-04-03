@@ -3,9 +3,9 @@ export const EN_MESSAGES = {
     submitting: 'Submitting...'
   },
   fab: {
-    careers: 'Careers',
+    careers: 'Career',
     contact: 'Contact',
-    chat: 'Chat',
+    chat: 'Chatbot',
     openQuickActions: 'Open quick actions'
   },
   mobileBottomNav: {
@@ -13,7 +13,7 @@ export const EN_MESSAGES = {
     home: 'Home',
     about: 'About',
     services: 'Services',
-    careers: 'Careers',
+    careers: 'Career',
     contact: 'Contact',
     logistics: 'Logistics',
     admin: 'Admin BackOffice',
