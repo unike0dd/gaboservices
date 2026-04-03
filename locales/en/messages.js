@@ -5,7 +5,7 @@ export const EN_MESSAGES = {
   fab: {
     careers: 'Career',
     contact: 'Contact',
-    chat: 'Chatbot',
+    chatbot: 'Chatbot',
     openQuickActions: 'Open quick actions'
   },
   mobileBottomNav: {
