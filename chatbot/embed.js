@@ -71,6 +71,7 @@ export function initGaboChatbotEmbed() {
   const assetId = ORIGIN_ASSET_MAP[currentOrigin] || '';
 
   const state = safeStateLoad();
+  state.open = false;
 
   const root = document.createElement('section');
   root.className = 'gabo-chatbot';
@@ -108,6 +109,7 @@ export function initGaboChatbotEmbed() {
   const log = root.querySelector('.gabo-chatbot__log');
 
   function setOpen(open) {
+    setDesktopFabOpenState(false);
     panel.hidden = !open;
     overlay.hidden = !open;
     fabTrigger?.setAttribute('aria-expanded', String(open));
