@@ -1,7 +1,7 @@
 {
   "wikiId": "WIKI_DICKIE",
   "locale": "es",
-  "generatedAt": "2026-03-22T07:40:19.214Z",
+  "generatedAt": "2026-04-03T17:37:33.281Z",
   "siteBaseUrl": "https://www.gabo.services",
   "workerUrl": "https://wikie-dickie.rulathemtodos.workers.dev/",
   "pageCount": 13,
@@ -10,197 +10,107 @@
     {
       "id": "es-1",
       "locale": "es",
-      "value": "Abrir menú de navegación"
+      "value": "Enviando..."
     },
     {
       "id": "es-2",
       "locale": "es",
-      "value": "Cerrar menú de navegación"
+      "value": "Carreras"
     },
     {
       "id": "es-3",
       "locale": "es",
-      "value": "Enviando..."
+      "value": "Contacto"
     },
     {
       "id": "es-4",
       "locale": "es",
-      "value": "Carreras"
+      "value": "Abrir acciones rápidas"
     },
     {
       "id": "es-5",
       "locale": "es",
-      "value": "Contacto"
+      "value": "Navegación inferior móvil"
     },
     {
       "id": "es-6",
       "locale": "es",
-      "value": "Chatbot"
+      "value": "Inicio"
     },
     {
       "id": "es-7",
       "locale": "es",
-      "value": "Abrir acciones rápidas"
+      "value": "Acerca"
     },
     {
       "id": "es-8",
       "locale": "es",
-      "value": "Navegación inferior móvil"
+      "value": "Servicios"
     },
     {
       "id": "es-9",
       "locale": "es",
-      "value": "Inicio"
+      "value": "Contacto"
     },
     {
       "id": "es-10",
       "locale": "es",
-      "value": "Acerca"
+      "value": "Carreras"
     },
     {
       "id": "es-11",
       "locale": "es",
-      "value": "Servicios"
+      "value": "Logística"
     },
     {
       "id": "es-12",
       "locale": "es",
-      "value": "Contacto"
+      "value": "Admin"
     },
     {
       "id": "es-13",
       "locale": "es",
-      "value": "Carreras"
+      "value": "IT"
     },
     {
       "id": "es-14",
       "locale": "es",
-      "value": "Logística"
+      "value": "Relación con clientes"
     },
     {
       "id": "es-15",
       "locale": "es",
-      "value": "Admin"
+      "value": "Aprendizaje"
     },
     {
       "id": "es-16",
       "locale": "es",
-      "value": "IT"
+      "value": "Guardado. Tus preferencias fueron actualizadas."
     },
     {
       "id": "es-17",
       "locale": "es",
-      "value": "Relación con clientes"
+      "value": "No se pudieron guardar las preferencias (almacenamiento bloqueado). Aún puedes administrar las cookies en tu navegador."
     },
     {
       "id": "es-18",
       "locale": "es",
-      "value": "Corte Wall Street Journal"
+      "value": "Se aceptaron todas las cookies opcionales."
     },
     {
       "id": "es-19",
       "locale": "es",
-      "value": "Corte Wall Street Journal"
+      "value": "Se rechazaron todas las cookies opcionales."
     },
     {
       "id": "es-20",
       "locale": "es",
-      "value": "WSJ"
+      "value": "Se cargaron tus preferencias actuales."
     },
     {
       "id": "es-21",
       "locale": "es",
-      "value": "WSJ"
-    },
-    {
-      "id": "es-22",
-      "locale": "es",
-      "value": "Cambiar la apariencia de la página principal y la navegación."
-    },
-    {
-      "id": "es-23",
-      "locale": "es",
-      "value": "Panel del chatbot"
-    },
-    {
-      "id": "es-24",
-      "locale": "es",
-      "value": "Cerrar"
-    },
-    {
-      "id": "es-25",
-      "locale": "es",
-      "value": "Cerrar chatbot"
-    },
-    {
-      "id": "es-26",
-      "locale": "es",
-      "value": "Chatbot de Gabriel"
-    },
-    {
-      "id": "es-27",
-      "locale": "es",
-      "value": "El asistente de chat no está disponible temporalmente. Utiliza el formulario de contacto en su lugar."
-    },
-    {
-      "id": "es-28",
-      "locale": "es",
-      "value": "Guardado. Tus preferencias fueron actualizadas."
-    },
-    {
-      "id": "es-29",
-      "locale": "es",
-      "value": "No se pudieron guardar las preferencias (almacenamiento bloqueado). Aún puedes administrar las cookies en tu navegador."
-    },
-    {
-      "id": "es-30",
-      "locale": "es",
-      "value": "Se aceptaron todas las cookies opcionales."
-    },
-    {
-      "id": "es-31",
-      "locale": "es",
-      "value": "Se rechazaron todas las cookies opcionales."
-    },
-    {
-      "id": "es-32",
-      "locale": "es",
-      "value": "Se cargaron tus preferencias actuales."
-    },
-    {
-      "id": "es-33",
-      "locale": "es",
       "value": "Aún no hay preferencias guardadas. Elige tu configuración y guarda."
-    },
-    {
-      "id": "es-34",
-      "locale": "es",
-      "value": "La verificación humana no está disponible. Actualiza la página e inténtalo de nuevo."
-    },
-    {
-      "id": "es-35",
-      "locale": "es",
-      "value": "Verificación de seguridad de Cloudflare"
-    },
-    {
-      "id": "es-36",
-      "locale": "es",
-      "value": "Verificación humana completada."
-    },
-    {
-      "id": "es-37",
-      "locale": "es",
-      "value": "La verificación expiró. Completa el desafío nuevamente."
-    },
-    {
-      "id": "es-38",
-      "locale": "es",
-      "value": "La verificación falló. Intenta el desafío otra vez."
-    },
-    {
-      "id": "es-39",
-      "locale": "es",
-      "value": "Completa el desafío de verificación humana antes de enviar."
     }
   ],
   "pages": [
@@ -211,21 +121,16 @@
       "path": "/",
       "slug": "home",
       "url": "https://www.gabo.services/",
-      "title": "Acerca de: Gabriel Servicios",
+      "title": "Operational support for growing businesses | Gabriel Servicios",
       "metaDescription": "",
-      "summary": "Externaliza, entregado Operational support for execution-heavy businesses Gabriel Servicios supports logistics-led and service-heavy teams with process-aligned help across logistics coordination, back-office workflow management, customer operations, and IT support. Why teams switch Built for Logistics-led and service-heavy teams Operating model Process-aligned support with documented handoffs Trust signal Security-conscious delivery with clear communication rhythm Gabriel Servicios is an operational support partner for companies that need reliable daily execution across logistics coordination, administrative workflows, customer communications, and IT request handling.",
-      "bodyText": "Externaliza, entregado Operational support for execution-heavy businesses Gabriel Servicios supports logistics-led and service-heavy teams with process-aligned help across logistics coordination, back-office workflow management, customer operations, and IT support. Why teams switch Built for Logistics-led and service-heavy teams Operating model Process-aligned support with documented handoffs Trust signal Security-conscious delivery with clear communication rhythm Gabriel Servicios is an operational support partner for companies that need reliable daily execution across logistics coordination, administrative workflows, customer communications, and IT request handling. Our teams combine measurable service discipline with practical implementation, helping businesses protect response quality, maintain organized processes, and scale support without adding internal friction. Dispatch coordination, movement tracking, and execution support aligned to delivery timelines. Documentation, scheduling, process administration, and data upkeep for operational clarity. Customer communication, follow-up handling, and service continuity across day-to-day interactions. Ticket coordination, issue triage, and practical technical support for core business systems. Businesses choose Gabriel Servicios for reliability under pressure, clear communication rhythm, structured follow-through, and adaptable support models that adjust as priorities evolve. Book a consultation to map workflows, define service coverage, and build a practical execution plan around your current operational priorities. © 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto Clear communication rhythm for active workflows Documented follow-through across logistics, admin, CX, and IT Human-led support with modern governance and security discipline",
+      "summary": "Externaliza, entregado Reliable execution that strengthens day-to-day performance. So you can focus on growth, leadership, and the priorities that move your business forward.",
+      "bodyText": "Externaliza, entregado Reliable execution that strengthens day-to-day performance. So you can focus on growth, leadership, and the priorities that move your business forward. What this gives your business Workflow follow-through and team coordination Daily response across recurring operational needs Support across logistics, admin, IT, and customer relations Operational visibility without enterprise complexity Execution-focused support aligned with your workflows, communication cadence, and measurable outcomes. As businesses grow, small unmanaged issues can quickly turn into larger operational problems. Delays, missed follow-ups, inconsistent communication, and workflow inefficiencies can affect performance, customer experience, and momentum. Gabriel Servicios strengthens execution through dependable operational assistance that fits into your business processes and communication flow. We reduce friction, improve visibility, and increase consistency across daily operations. The result is stronger follow-through, better day-to-day performance, and more time for your business to focus on growth. Dispatch coordination, shipment visibility, and status follow-up. © 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto Improve efficiency Build consistency Increase visibility Inconsistent performance Delays and operational bottlenecks Missed follow-up and weak coordination Customer dissatisfaction Repeated onboarding strain Unresolved daily issues Operational inefficiencies that slow growth",
       "headings": [
-        "Faster response, cleaner workflows, and reliable day-to-day execution.",
-        "Operational rigor without adding internal drag.",
-        "Operational support for modern businesses",
-        "Service areas built for daily execution",
-        "Why businesses work with Gabriel Servicios",
-        "Start with the support you need",
-        "Logistics Operations",
-        "Administrative Back Office",
-        "Customer Operations",
-        "IT Support",
+        "Hire outstanding operational support",
+        "Operational support for growing businesses",
+        "Are these challenges slowing your business down?",
+        "This is where we step in.",
+        "LOGISTICS",
         "Company",
         "Support",
         "Legal"
@@ -236,28 +141,16 @@
           "label": "Contacto"
         },
         {
-          "href": "https://www.gabo.services/contact",
-          "label": "Book a consultation"
+          "href": "https://www.gabo.services/contact/",
+          "label": "Schedule Consultation"
+        },
+        {
+          "href": "https://www.gabo.services/services/",
+          "label": "Explore Servicios"
         },
         {
           "href": "https://www.gabo.services/services/logistics-operations/",
-          "label": "Explore service"
-        },
-        {
-          "href": "https://www.gabo.services/services/administrative-backoffice/",
-          "label": "Explore service"
-        },
-        {
-          "href": "https://www.gabo.services/services/customer-relations/",
-          "label": "Explore service"
-        },
-        {
-          "href": "https://www.gabo.services/services/it-support/",
-          "label": "Explore service"
-        },
-        {
-          "href": "https://www.gabo.services/contact/",
-          "label": "Request consultation"
+          "label": "Open service page ↗"
         },
         {
           "href": "https://www.gabo.services/contact",
@@ -290,36 +183,16 @@
           "label": "Contacto"
         },
         {
-          "href": "https://www.gabo.services/contact",
-          "label": "Book a consultation"
+          "href": "https://www.gabo.services/contact/",
+          "label": "Schedule Consultation"
         },
         {
           "href": "https://www.gabo.services/services/",
-          "label": "See service coverage"
+          "label": "Explore Servicios"
         },
         {
           "href": "https://www.gabo.services/services/logistics-operations/",
-          "label": "Explore service"
-        },
-        {
-          "href": "https://www.gabo.services/services/administrative-backoffice/",
-          "label": "Explore service"
-        },
-        {
-          "href": "https://www.gabo.services/services/customer-relations/",
-          "label": "Explore service"
-        },
-        {
-          "href": "https://www.gabo.services/services/it-support/",
-          "label": "Explore service"
-        },
-        {
-          "href": "https://www.gabo.services/contact/",
-          "label": "Request consultation"
-        },
-        {
-          "href": "https://www.gabo.services/services/#pricing",
-          "label": "Ver opciones de contratación"
+          "label": "Open service page ↗"
         },
         {
           "href": "https://www.gabo.services/",
@@ -369,9 +242,9 @@
       },
       "tags": [
         "home",
-        "faster response, cleaner workflows, and reliable day-to-day execution.",
-        "operational rigor without adding internal drag.",
-        "operational support for modern businesses"
+        "hire outstanding operational support",
+        "operational support for growing businesses",
+        "are these challenges slowing your business down?"
       ],
       "intent": "careers"
     },
@@ -382,16 +255,21 @@
       "path": "/about/",
       "slug": "about",
       "url": "https://www.gabo.services/about/",
-      "title": "Acerca de: Gabriel Servicios",
+      "title": "Gabriel Servicios",
       "metaDescription": "",
-      "summary": "Externaliza, entregado Gabriel Servicios was built to give SMBs a dependable operational partner that understands the pace and pressure of daily business execution. We are an online support business that understands small and medium business challenges and how intricate operations get.",
-      "bodyText": "Externaliza, entregado Gabriel Servicios was built to give SMBs a dependable operational partner that understands the pace and pressure of daily business execution. We are an online support business that understands small and medium business challenges and how intricate operations get. As companies scale, small, unmanaged details can quickly become expensive operational issues. We reduce that risk through consistent execution, transparent communication, and disciplined follow up across recurring workflows. That said, if any business lacks of a Ninja Team, operations can turn into an uphill battle to achieve objectives, goals, and most of all growth. This is where we step in, by addressing small details, short comings and fragmented operations; we take away these operations pains, giving you an advantage plus leverage your business needs. We integrate to your policies and operations. We stay laser focus aiming to increase productivity, efficiencies, providing outstanding performance in every task, while prioritizing high quality results with practical execution, and cost conscious service delivery so businesses can maintain momentum with confidence. Gabriel Servicios is built on reliability, we help businesses stay organized, responsive, and operationally strong through practical support across logistics, administration, customer operations, and IT. © 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto",
+      "summary": "Externaliza, entregado Gabriel Servicios was built with operational success and business sustainability at its core. We believe long-term success comes from small, sustainable details.",
+      "bodyText": "Externaliza, entregado Gabriel Servicios was built with operational success and business sustainability at its core. We believe long-term success comes from small, sustainable details. We support small and medium-sized businesses that want to grow without operational overwhelm. Small operational issues, when ignored, can quietly damage customer trust. Overlooked details slow growth, create missed opportunities, and eventually affect business stability. That is where we step in. We make sure no opportunity slips through the cracks. Every detail is handled so your business stays organized, responsive, and running smoothly. We step in by handling the details and bringing structure to fragmented operations. We integrate into your workflows, align with your processes, and focus on execution so your team can stay focused on growth. Our approach is simple: We act as a reliable operational partner — plugging into your team and handling execution so you don't have to. You get more done with less friction. More clarity. More time to focus on growth instead of putting out fires. All at a cost that makes sense for growing businesses — no enterprise overhead and no contracts. We focus on four operational areas: We help keep your logistics organized, visible, and moving: We help maintain customer satisfaction and resolution flow: We support leadership and daily business operations: We provide structured technical support coverage: © 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto We improve productivity. We increase operational consistency. We deliver high-quality execution. We operate with practical and cost-conscious service delivery. Logistics Customer Relations Administrative Back Office IT Support (Level I and Level II) Dispatch coordination Shipment tracking (ocean, air, and ground) Customer communication and follow-ups Invoicing and billing support Documentation coordination Ticket follow-up and resolution tracking Customer satisfaction follow-ups (CSAT support) Billing clarification support First contact resolution support Customer communication management Executive administrative support Calendar and scheduling coordination Email and communication management Document organization and preparation Vendor coordination Internal operational support Travel planning and coordination Help desk intake and ticket creation Basic troubleshooting End-user support Account access assistance Escalation coordination Advanced troubleshooting Incident investigation System and workflow support Root cause analysis Resolution ownership after escalation",
       "headings": [
-        "Acerca de: Gabriel Servicios",
-        "Who we are",
-        "What we bring to daily operations",
-        "Our operating approach",
-        "How we support growing businesses",
+        "Gabriel Servicios",
+        "When opportunities are left unresolved",
+        "What we handle",
+        "The result",
+        "What we support",
+        "Our Servicios",
+        "Logistics Operations",
+        "Customer Relations",
+        "Administrative Back Office",
+        "IT Support (Level I & Level II)",
         "Company",
         "Support",
         "Legal"
@@ -495,9 +373,9 @@
       },
       "tags": [
         "about",
-        "about gabriel services",
-        "who we are",
-        "what we bring to daily operations"
+        "gabriel services",
+        "when opportunities are left unresolved",
+        "what we handle"
       ],
       "intent": "careers"
     },
@@ -510,8 +388,8 @@
       "url": "https://www.gabo.services/services/",
       "title": "Gabriel Servicios",
       "metaDescription": "",
-      "summary": "Externaliza, entregado Explore logistics, IT, administrative, and customer support services with a clear overview of coverage, fit, and engagement options. Review services, compare engagement models, and choose the support line that fits your needs.",
-      "bodyText": "Externaliza, entregado Explore logistics, IT, administrative, and customer support services with a clear overview of coverage, fit, and engagement options. Review services, compare engagement models, and choose the support line that fits your needs. Designed for quick review on desktop or mobile with straightforward service comparison. Tap or click a service card to update the breakdown and engagement comparison below. Coordination-focused operational assistance for moving parts, status tracking, follow-up, and execution visibility. Switch the model to compare services in a clearer flow without forcing a crowded mobile table. © 2026 Gabriel Servicios Inicio Acerca de Servicios Aprendizaje Carreras Contacto",
+      "summary": "Externaliza, entregado Explore logistics, IT, administrative, and customer support services with a clear overview of coverage, fit, and engagement options. Tap or click a service card to update the breakdown and engagement comparison below.",
+      "bodyText": "Externaliza, entregado Explore logistics, IT, administrative, and customer support services with a clear overview of coverage, fit, and engagement options. Tap or click a service card to update the breakdown and engagement comparison below. Coordination-focused operational assistance for moving parts, status tracking, follow-up, and execution visibility. Switch the model to compare services in a clearer flow without forcing a crowded mobile table. © 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto",
       "headings": [
         "Servicios",
         "Choose a service",
@@ -532,7 +410,7 @@
         },
         {
           "href": "https://www.gabo.services/services/logistics-operations/",
-          "label": "Open service page"
+          "label": "Open service page ↗"
         },
         {
           "href": "https://www.gabo.services/contact",
@@ -540,7 +418,7 @@
         },
         {
           "href": "https://www.gabo.services/services/logistics-operations/",
-          "label": "Open service page"
+          "label": "Open service page ↗"
         },
         {
           "href": "https://www.gabo.services/contact",
@@ -565,10 +443,6 @@
           "label": "Servicios"
         },
         {
-          "href": "https://www.gabo.services/learning",
-          "label": "Aprendizaje"
-        },
-        {
           "href": "https://www.gabo.services/careers",
           "label": "Carreras"
         },
@@ -582,7 +456,7 @@
         },
         {
           "href": "https://www.gabo.services/services/logistics-operations/",
-          "label": "Open service page"
+          "label": "Open service page ↗"
         },
         {
           "href": "https://www.gabo.services/contact",
@@ -590,7 +464,7 @@
         },
         {
           "href": "https://www.gabo.services/services/logistics-operations/",
-          "label": "Open service page"
+          "label": "Open service page ↗"
         },
         {
           "href": "https://www.gabo.services/",
@@ -709,7 +583,7 @@
         },
         {
           "href": "https://www.gabo.services/services/administrative-backoffice",
-          "label": "Administrative Backoffice"
+          "label": "Administrative Back Office"
         },
         {
           "href": "https://www.gabo.services/services/customer-relations",
@@ -780,12 +654,12 @@
       "path": "/services/administrative-backoffice/",
       "slug": "services-administrative-backoffice",
       "url": "https://www.gabo.services/services/administrative-backoffice/",
-      "title": "Administrative Backoffice | Gabriel Servicios",
+      "title": "Administrative Back Office | Gabriel Servicios",
       "metaDescription": "",
-      "summary": "Externaliza, entregado Administrative Backoffice provides structured coverage for recurring administrative work that keeps business operations steady. We help manage documentation flow, coordination routines, and follow-up activity so internal processes remain organized, consistent, and dependable over time.",
-      "bodyText": "Externaliza, entregado Administrative Backoffice provides structured coverage for recurring administrative work that keeps business operations steady. We help manage documentation flow, coordination routines, and follow-up activity so internal processes remain organized, consistent, and dependable over time. The result is stronger day-to-day continuity across routine business functions. This service is designed for businesses that need dependable coverage across routine administrative operations. We help reduce task buildup, maintain internal order, and keep recurring workflows moving with greater consistency and clarity. We begin by reviewing your workflow, recurring priorities, and communication rhythm. The work is then aligned to your internal process so administrative tasks are tracked, organized, and followed through with greater consistency and control. © 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto Documentation Scheduling Reporting Operational follow-up Internal coordination Administrative continuity Document preparation and organization Record upkeep and maintenance Internal request handling Calendar and coordination Recurring administrative follow-through Stronger operational organization Less administrative backlog Better internal continuity More consistent day-to-day execution",
+      "summary": "Externaliza, entregado Administrative Back Office provides structured coverage for recurring administrative work that keeps business operations steady. We help manage documentation flow, coordination routines, and follow-up activity so internal processes remain organized, consistent, and dependable over time.",
+      "bodyText": "Externaliza, entregado Administrative Back Office provides structured coverage for recurring administrative work that keeps business operations steady. We help manage documentation flow, coordination routines, and follow-up activity so internal processes remain organized, consistent, and dependable over time. The result is stronger day-to-day continuity across routine business functions. This service is designed for businesses that need dependable coverage across routine administrative operations. We help reduce task buildup, maintain internal order, and keep recurring workflows moving with greater consistency and clarity. We begin by reviewing your workflow, recurring priorities, and communication rhythm. The work is then aligned to your internal process so administrative tasks are tracked, organized, and followed through with greater consistency and control. © 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto Documentation Scheduling Reporting Operational follow-up Internal coordination Administrative continuity Document preparation and organization Record upkeep and maintenance Internal request handling Calendar and coordination Recurring administrative follow-through Stronger operational organization Less administrative backlog Better internal continuity More consistent day-to-day execution",
       "headings": [
-        "Administrative Backoffice",
+        "Administrative Back Office",
         "Service overview",
         "What this covers",
         "Typical workflows",
@@ -895,7 +769,7 @@
       },
       "tags": [
         "service-detail",
-        "administrative backoffice",
+        "administrative back office",
         "service overview",
         "what this covers"
       ],
@@ -969,7 +843,7 @@
         },
         {
           "href": "https://www.gabo.services/services/administrative-backoffice",
-          "label": "Administrative Backoffice"
+          "label": "Administrative Back Office"
         },
         {
           "href": "https://www.gabo.services/services/it-support",
@@ -1093,7 +967,7 @@
         },
         {
           "href": "https://www.gabo.services/services/administrative-backoffice",
-          "label": "Administrative Backoffice"
+          "label": "Administrative Back Office"
         },
         {
           "href": "https://www.gabo.services/services/customer-relations",
@@ -1162,12 +1036,11 @@
       "url": "https://www.gabo.services/contact/",
       "title": "Gabriel Servicios",
       "metaDescription": "",
-      "summary": "Externaliza, entregado Start with a quick inquiry, then add optional details if you want a more tailored follow-up. Simple first step Use the quick inquiry form to share your team, main workflow pressure, and service interest.",
-      "bodyText": "Externaliza, entregado Start with a quick inquiry, then add optional details if you want a more tailored follow-up. Simple first step Use the quick inquiry form to share your team, main workflow pressure, and service interest. If you want a more detailed follow-up, open the extended intake and add staffing, skills, or scheduling context. Start with the essential contact and service information. This is the only section required for submission. Choose one or more areas so we route the inquiry to the right team. Only fill out what helps us tailor the follow-up conversation. Use this only if you want to describe staffing, skills, or talent requirements in more detail. Optional service areas for staffing or assistant support. © 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto",
+      "summary": "Externaliza, entregado Start with a quick inquiry, then add optional details if you want a more tailored follow-up. Choose the requirements that covers your operations Describe your expectations in Skills, Experience and Education.",
+      "bodyText": "Externaliza, entregado Start with a quick inquiry, then add optional details if you want a more tailored follow-up. Choose the requirements that covers your operations Describe your expectations in Skills, Experience and Education. © 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto",
       "headings": [
         "Contacto",
         "Tell us what support you need",
-        "Quick inquiry",
         "Company",
         "Support",
         "Legal"
@@ -1252,44 +1125,36 @@
         "labels": [
           "Full name",
           "Work email",
-          "Company / Team",
+          "Company",
+          "Country code",
           "Contacto number",
-          "Primary workflow pressure",
           "Logistics Operations",
           "Administrative Back Office",
           "Customer Relations",
           "IT Support",
-          "What do you need help with?",
-          "Country code",
           "Best time to contact you",
           "City",
           "State / Province",
-          "Space / Suite / Apt",
           "ZIP / Postal code",
-          "Skills needed",
+          "What do you need help with?",
           "Logistics Operations",
           "Administrative Back Office",
           "Customer Relations",
           "IT Support",
+          "Skills needed",
           "Experience needed",
           "Languages needed",
           "Education or certification preference"
         ],
         "placeholders": [
-          "Share the workflow, bottleneck, or coverage gap you want to solve.",
           "+1",
-          "Suite 210",
-          "Add a skill",
-          "Add experience area",
-          "Add a language",
+          "A quick sumary of what you would like us to do.",
+          "Add a skill: Probem Solving, Coaching",
+          "Add experience area: Customer Service, Dispatch, Tier I Help Desk",
+          "Add a language: Spanish, English",
           "Add school, program, or certificate"
         ],
         "options": [
-          "Select the main need",
-          "Logistics coordination",
-          "Administrative workflow support",
-          "Customer operations support",
-          "IT support coverage",
           "Select level",
           "Entry",
           "Junior",
@@ -1317,7 +1182,7 @@
       "tags": [
         "contact",
         "tell us what support you need",
-        "quick inquiry"
+        "company"
       ],
       "intent": "careers"
     },
@@ -1493,13 +1358,13 @@
       "title": "Aprendizaje | Gabriel Servicios",
       "metaDescription": "",
       "summary": "Externaliza, entregado Explore our English service guidance for operations and support workflows. Use these learning tracks to understand each support lane before you request service coverage, compare options, or contact the team.",
-      "bodyText": "Externaliza, entregado Explore our English service guidance for operations and support workflows. Use these learning tracks to understand each support lane before you request service coverage, compare options, or contact the team. Dispatch coordination, movement tracking, and execution support aligned to delivery timelines. Documentation, scheduling, process administration, and data upkeep for operational clarity. Customer communication, follow-up handling, and service continuity across day-to-day interactions. Ticket coordination, issue triage, and practical technical support for core business systems. © 2026 Gabriel Servicios Inicio Acerca de Servicios Aprendizaje Carreras Contacto",
+      "bodyText": "Externaliza, entregado Explore our English service guidance for operations and support workflows. Use these learning tracks to understand each support lane before you request service coverage, compare options, or contact the team. Dispatch coordination, movement tracking, and execution support aligned to delivery timelines. Documentation, scheduling, process administration, and data upkeep for operational clarity. Customer communication, follow-up handling, and service continuity across day-to-day interactions. Ticket coordination, issue triage, and practical technical support for core business systems. © 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto",
       "headings": [
         "Aprendizaje",
         "Operations and Support Aprendizaje Tracks",
         "Logistics Operations",
         "Administrative Back Office",
-        "Customer Operations",
+        "Customer Relations",
         "IT Support",
         "Company",
         "Support",
@@ -1547,10 +1412,6 @@
         {
           "href": "https://www.gabo.services/services",
           "label": "Servicios"
-        },
-        {
-          "href": "https://www.gabo.services/learning",
-          "label": "Aprendizaje"
         },
         {
           "href": "https://www.gabo.services/careers",
@@ -1646,24 +1507,24 @@
       "url": "https://www.gabo.services/legal/terms.html",
       "title": "Términos y Condiciones | Gabriel Servicios",
       "metaDescription": "",
-      "summary": "Fecha de entrada en vigor: 18 de marzo de 2026. Estos Términos y Condiciones regulan el acceso y uso del sitio web de Gabriel Services, sus páginas relacionadas, formularios de contacto y cualquier intercambio precontractual realizado a través de este sitio.",
-      "bodyText": "Fecha de entrada en vigor: 18 de marzo de 2026. Estos Términos y Condiciones regulan el acceso y uso del sitio web de Gabriel Services, sus páginas relacionadas, formularios de contacto y cualquier intercambio precontractual realizado a través de este sitio. Al usar este sitio web, aceptas estos términos. Si no estás de acuerdo, no uses el sitio web. Gabriel Services proporciona información de soporte empresarial y servicios relacionados con tercerización, incluidas descripciones de servicios, opciones de contacto, información de reclutamiento y formularios para recepción de propuestas. La información de este sitio web se ofrece con fines empresariales e informativos generales y no crea automáticamente una relación contractual. Si envías una solicitud, CV o información de respaldo mediante la página de carreras o por correo electrónico, confirmas que la información enviada es exacta y que estás autorizado para compartirla. El envío de una candidatura no garantiza empleo, entrevista ni una respuesta en un plazo específico. Salvo que se indique lo contrario, el contenido de este sitio web, incluidos textos, marca, diseños, gráficos y materiales originales, es propiedad de Gabriel Services o se utiliza bajo licencia, y está protegido por las leyes de propiedad intelectual aplicables. Puedes ver, descargar o imprimir porciones limitadas únicamente para uso informativo interno. Este sitio web puede contener servicios de terceros, herramientas integradas, widgets de verificación, mapas, analítica o enlaces a sitios externos. Gabriel Services no es responsable del contenido, disponibilidad o prácticas de privacidad de servicios de terceros. El uso de dichos servicios puede estar sujeto a términos y políticas independientes. Al contactar a Gabriel Services mediante formularios del sitio, correo electrónico o teléfonos publicados en este sitio, aceptas que las comunicaciones puedan utilizarse para responder tu solicitud, gestionar una posible relación comercial, evaluar una candidatura o cumplir obligaciones de seguridad y legales. Este sitio web se proporciona “tal cual” y “según disponibilidad”. Aunque Gabriel Services procura mantener la información exacta y actualizada, no garantizamos que el sitio web esté siempre disponible, sin interrupciones, seguro, completo o libre de errores. En la máxima medida permitida por la ley, se excluyen todas las garantías implícitas. En la máxima medida permitida por la ley, Gabriel Services no será responsable por daños indirectos, incidentales, consecuenciales, especiales o punitivos derivados de, o relacionados con, tu uso o imposibilidad de uso de este sitio web. Nada en estos términos excluye responsabilidades que no puedan excluirse conforme a la ley aplicable. El tratamiento de datos personales y las preferencias de cookies se rigen por nuestra página de Privacidad y GDPR y nuestra página de Consentimiento de Cookies. Esos avisos forman parte integral del uso de este sitio web. Estos términos se rigen por las leyes aplicables en la jurisdicción donde esté establecida la entidad contratante correspondiente de Gabriel Services, salvo que normas obligatorias de consumo o protección de datos dispongan lo contrario. Gabriel Services puede actualizar estos Términos y Condiciones periódicamente. La versión más reciente se publicará en esta página junto con su fecha de entrada en vigor. Para consultas legales o de privacidad, utiliza los datos de contacto publicados en la página de Contacto. © 2026 Gabriel Services. Aceptas usar este sitio web de forma legal y responsable, y de manera que no perjudique al sitio, a sus usuarios ni a Gabriel Services. No debes intentar accesos no autorizados, interferir con funciones de seguridad, distribuir malware ni hacer uso indebido de formularios, herramientas de chat o direcciones de correo mostradas en el sitio. No debes copiar, extraer o republicar partes sustanciales del sitio web con fines comerciales sin autorización previa por escrito. Las descripciones de servicios, industrias, referencias de precios, plazos y disponibilidad son ilustrativas, salvo confirmación expresa por escrito. Cualquier cotización, alcance, compromiso de nivel de servicio o término comercial será vinculante solo cuando ambas partes lo acepten en un acuerdo escrito independiente. Gabriel Services puede actualizar, suspender o discontinuar partes del sitio web o descripciones de servicios sin previo aviso.",
+      "summary": "Effective date: March 18, 2026 These Términos y Condiciones govern your access to and use of the Gabriel Servicios website, related landing pages, contact forms, and any pre-contractual exchanges carried out through this site. By using this website, you agree to these terms.",
+      "bodyText": "Effective date: March 18, 2026 These Términos y Condiciones govern your access to and use of the Gabriel Servicios website, related landing pages, contact forms, and any pre-contractual exchanges carried out through this site. By using this website, you agree to these terms. If you do not agree, please do not use the website. Gabriel Servicios provides business support and outsourcing-related information, including service descriptions, contact options, recruitment information, and proposal intake forms. Information on this website is provided for general business and informational purposes and does not automatically create a contractual relationship. If you submit an application, CV, or supporting information through the careers page or by email, you confirm that the information submitted is accurate and that you are authorized to share it. Submission of an application does not guarantee employment, an interview, or a response within a specific timeframe. Unless otherwise stated, the content on this website, including text, branding, layouts, graphics, and original materials, is owned by or licensed to Gabriel Servicios and is protected by applicable intellectual property laws. You may view, download, or print limited portions for internal informational use only. This website may contain third-party services, embedded tools, verification widgets, maps, analytics, or links to external websites. Gabriel Servicios is not responsible for the content, availability, or privacy practices of third-party services. Your use of those services may be subject to separate terms and policies. By contacting Gabriel Servicios through website forms, email, or phone details published on this site, you agree that communications may be used to respond to your request, manage a potential business relationship, assess a job application, or meet security and legal obligations. This website is provided on an “as is” and “as available” basis. While Gabriel Servicios aims to keep information accurate and current, we do not guarantee that the website will always be available, uninterrupted, secure, complete, or free of errors. To the fullest extent permitted by law, all implied warranties are excluded. To the fullest extent permitted by law, Gabriel Servicios shall not be liable for indirect, incidental, consequential, special, or punitive damages arising out of or related to your use of, or inability to use, this website. Nothing in these terms excludes liability that cannot be excluded under applicable law. Personal data handling and cookie preferences are governed by our Privacidad y GDPR page and our Consentimiento de Cookies page. Those notices form an integral part of your use of this website. These terms are governed by the laws applicable to the jurisdiction in which the relevant Gabriel Servicios contracting entity is established, unless mandatory consumer or data-protection law requires otherwise. Gabriel Servicios may update these Términos y Condiciones from time to time. The latest version will be published on this page together with its effective date. For legal or privacy questions, please use the contact details published on the Contacto page. © 2026 Gabriel Servicios You agree to use this website lawfully, responsibly, and in a way that does not harm the website, its users, or Gabriel Servicios. You must not attempt unauthorized access, interfere with security features, distribute malware, or misuse forms, chat tools, or email addresses shown on the site. You must not copy, scrape, or republish substantial parts of the website for commercial use without prior written authorization. Descriptions of services, industries, pricing indications, timelines, and availability are illustrative unless expressly confirmed in writing. Any quotation, scope, service-level commitment, or commercial term becomes binding only when accepted by both parties in a separate written agreement. Gabriel Servicios may update, suspend, or discontinue parts of the website or service descriptions without prior notice.",
       "headings": [
         "Términos y Condiciones",
-        "1. Sobre Gabriel Services",
-        "2. Uso del sitio web",
-        "3. Información de servicios y propuestas",
-        "4. Reclutamiento y postulaciones",
-        "5. Propiedad intelectual",
-        "6. Herramientas y enlaces de terceros",
-        "7. Comunicaciones permitidas",
-        "8. Descargo de responsabilidad",
-        "9. Limitación de responsabilidad",
-        "10. Privacidad y cookies",
-        "11. Ley aplicable",
-        "12. Cambios en estos términos",
-        "Empresa",
-        "Soporte",
+        "1. Acerca de Gabriel Servicios",
+        "2. Website use",
+        "3. Service information and proposals",
+        "4. Recruitment and candidate submissions",
+        "5. Intellectual property",
+        "6. Third-party tools and links",
+        "7. Acceptable communications",
+        "8. Disclaimer",
+        "9. Limitation of liability",
+        "10. Privacy and cookies",
+        "11. Governing law",
+        "12. Changes to these terms",
+        "Company",
+        "Support",
         "Legal"
       ],
       "ctas": [
@@ -1683,7 +1544,7 @@
         },
         {
           "href": "https://www.gabo.services/legal/terms.html",
-          "label": "Términos y Condiciones"
+          "label": "T&C"
         },
         {
           "href": "https://www.gabo.services/legal/cookies.html",
@@ -1731,11 +1592,11 @@
         },
         {
           "href": "https://www.gabo.services/sitemap.xml",
-          "label": "Mapa del sitio"
+          "label": "Sitemap"
         },
         {
           "href": "https://www.gabo.services/legal/terms.html",
-          "label": "Términos y Condiciones"
+          "label": "T&C"
         },
         {
           "href": "https://www.gabo.services/legal/cookies.html",
@@ -1753,9 +1614,9 @@
       },
       "tags": [
         "legal",
-        "términos y condiciones",
-        "1. sobre gabriel services",
-        "2. uso del sitio web"
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
       ],
       "intent": "careers"
     },
@@ -1768,18 +1629,18 @@
       "url": "https://www.gabo.services/legal/cookies.html",
       "title": "Consentimiento de Cookies | Gabriel Servicios",
       "metaDescription": "",
-      "summary": "Fecha de entrada en vigor: 18 de marzo de 2026. Esta página explica cómo Gabriel Services usa cookies y tecnologías similares en este sitio web, y cómo puedes gestionar tus preferencias de consentimiento.",
-      "bodyText": "Fecha de entrada en vigor: 18 de marzo de 2026. Esta página explica cómo Gabriel Services usa cookies y tecnologías similares en este sitio web, y cómo puedes gestionar tus preferencias de consentimiento. Las cookies son pequeños archivos de texto que se almacenan en tu dispositivo cuando visitas un sitio web. Ayudan a que los sitios funcionen, recuerden preferencias, midan rendimiento y respalden funciones de seguridad. También pueden utilizarse tecnologías similares como almacenamiento local, píxeles y scripts para fines relacionados. Puedes usar los controles de esta página para guardar tus preferencias en este dispositivo. Las cookies estrictamente necesarias permanecen activas porque el sitio web depende de ellas para funciones esenciales y de seguridad. Elige tu configuración y guarda tu preferencia. Si deshabilitas las cookies estrictamente necesarias, algunas partes del sitio web pueden dejar de funcionar correctamente. La configuración del navegador o del dispositivo puede anular las preferencias guardadas en esta página. Algunas funciones del sitio pueden depender de proveedores externos, como verificación de seguridad, contenido integrado o herramientas externas de agenda/contacto. Las tecnologías analíticas opcionales están deshabilitadas de forma predeterminada, salvo que en el futuro se habiliten explícitamente con base en consentimiento. Cuando proveedores externos colocan cookies o identificadores similares, también pueden aplicar sus propios avisos de privacidad. Podemos actualizar este aviso de cookies y la experiencia de preferencias para reflejar cambios legales, tecnológicos o funcionales del sitio web. La versión más reciente permanecerá disponible en esta página. © 2026 Gabriel Services.",
+      "summary": "Effective date: March 18, 2026 This page explains how Gabriel Servicios uses cookies and similar technologies on this website, and how you can manage your consent preferences. Cookies are small text files stored on your device when you visit a website.",
+      "bodyText": "Effective date: March 18, 2026 This page explains how Gabriel Servicios uses cookies and similar technologies on this website, and how you can manage your consent preferences. Cookies are small text files stored on your device when you visit a website. Similar technologies such as local storage, pixels, and scripts may be used for related purposes. You can use the controls below to save your preferences on this device. Strictly necessary cookies remain active because the website relies on them for essential functionality and security. Choose your settings and save your preference. If you disable strictly necessary cookies, parts of the website may stop working correctly. Device-level or browser-level settings may override preferences saved on this page. Some website features may rely on third-party providers such as security verification, embedded media, or external scheduling/contact tools. Optional analytics technologies are currently disabled by default unless a future consent-based implementation is explicitly enabled. When third-party providers place cookies or similar identifiers, their own privacy notices may also apply. We may update this cookie notice and preference experience to reflect changes in law, technology, or website functionality. The latest version will remain available on this page. © 2026 Gabriel Servicios",
       "headings": [
         "Consentimiento de Cookies",
-        "1. Qué son las cookies",
-        "2. Cómo usamos las cookies",
-        "3. Gestiona tus preferencias",
-        "4. Controles del navegador",
-        "5. Tecnologías de terceros",
-        "6. Actualizaciones de esta página",
-        "Empresa",
-        "Soporte",
+        "1. What cookies are",
+        "2. How we use cookies",
+        "3. Manage your preferences",
+        "4. Browser controls",
+        "5. Third-party technologies",
+        "6. Updates to this page",
+        "Company",
+        "Support",
         "Legal"
       ],
       "ctas": [
@@ -1795,7 +1656,7 @@
         },
         {
           "href": "https://www.gabo.services/legal/terms.html",
-          "label": "Términos y Condiciones"
+          "label": "T&C"
         },
         {
           "href": "https://www.gabo.services/legal/cookies.html",
@@ -1831,11 +1692,11 @@
         },
         {
           "href": "https://www.gabo.services/sitemap.xml",
-          "label": "Mapa del sitio"
+          "label": "Sitemap"
         },
         {
           "href": "https://www.gabo.services/legal/terms.html",
-          "label": "Términos y Condiciones"
+          "label": "T&C"
         },
         {
           "href": "https://www.gabo.services/legal/cookies.html",
@@ -1848,19 +1709,19 @@
       ],
       "formDetails": {
         "labels": [
-          "Cookies estrictamente necesarias — requeridas para que el sitio web funcione y no se pueden desactivar aquí.",
-          "Preferencias — recuerda opciones no esenciales del sitio web.",
-          "Analítica — nos ayuda a entender el uso y mejorar el sitio web.",
-          "Marketing — respalda atribución de campañas y funciones promocionales de terceros cuando se utilicen."
+          "Strictly necessary — required for the website to operate and cannot be turned off here.",
+          "Preferences — remembers non-essential website choices.",
+          "Analytics — helps us understand usage and improve the website.",
+          "Marketing — supports campaign attribution and third-party promotional features when used."
         ],
         "placeholders": [],
         "options": []
       },
       "tags": [
         "legal",
-        "consentimiento de cookies",
-        "1. qué son las cookies",
-        "2. cómo usamos las cookies"
+        "cookies consent",
+        "1. what cookies are",
+        "2. how we use cookies"
       ],
       "intent": "careers"
     },
@@ -1873,23 +1734,23 @@
       "url": "https://www.gabo.services/legal/privacy-gdpr.html",
       "title": "Privacidad y GDPR | Gabriel Servicios",
       "metaDescription": "",
-      "summary": "Fecha de entrada en vigor: 18 de marzo de 2026. Gabriel Services está comprometido con el tratamiento lícito, transparente y seguro de los datos personales. Este aviso explica qué datos podemos recopilar, por qué los usamos, cuánto tiempo los conservamos y qué derechos pueden tener las personas.",
-      "bodyText": "Fecha de entrada en vigor: 18 de marzo de 2026. Gabriel Services está comprometido con el tratamiento lícito, transparente y seguro de los datos personales. Este aviso explica qué datos personales podemos recopilar a través de este sitio web, por qué los usamos, cuánto tiempo los conservamos y qué derechos pueden tener las personas conforme a las leyes de privacidad aplicables, incluido el Reglamento General de Protección de Datos (GDPR) cuando corresponda. Los datos personales pueden compartirse, según necesidad, con proveedores de alojamiento, infraestructura en la nube, servicios de seguridad y antiabuso, proveedores de analítica solo cuando una función analítica opcional basada en consentimiento esté habilitada explícitamente, herramientas de apoyo de reclutamiento y asesores profesionales. También podemos divulgar datos cuando sea necesario para cumplir la ley, hacer valer derechos o proteger el sitio web, a nuestros usuarios o al público. Si los datos personales se transfieren fuera del país o región donde fueron recopilados, Gabriel Services procurará utilizar salvaguardas apropiadas cuando la ley lo exija, como protecciones contractuales o mecanismos de adecuación reconocidos. Sujeto a la ley aplicable, puedes tener derecho a solicitar acceso a tus datos personales, rectificación, supresión, limitación, portabilidad u oposición a cierto tratamiento. Cuando el tratamiento se base en consentimiento, puedes retirarlo en cualquier momento para el tratamiento futuro. También puedes tener derecho a presentar una reclamación ante una autoridad de control competente. Gabriel Services aplica medidas técnicas y organizativas razonables para reducir el riesgo de pérdida, uso indebido, acceso no autorizado, divulgación o alteración de datos personales. Ninguna transmisión por internet ni entorno de almacenamiento puede garantizarse como completamente seguro. Para información sobre cookies, almacenamiento local y preferencias de consentimiento opcionales, consulta nuestra página de Consentimiento de Cookies. Para realizar una solicitud de privacidad o hacer una pregunta sobre este aviso, utiliza los datos de contacto de nuestra página de Contacto e identifica claramente tu solicitud para gestionarla con eficiencia. Podemos actualizar este aviso de privacidad periódicamente para reflejar cambios en nuestras actividades de tratamiento, requisitos legales o prácticas operativas. La versión más reciente y su fecha de entrada en vigor permanecerán publicadas aquí. © 2026 Gabriel Services. Datos de identidad y contacto, como nombre, correo electrónico, número de teléfono, nombre de empresa y cargo. Información de consultas y correspondencia enviada por formularios, correo electrónico, chatbot u otros canales de contacto. Información de reclutamiento, como CV, cartas de presentación, historial laboral y materiales de postulación relacionados. Información técnica y de uso, como dirección IP, tipo de navegador, características del dispositivo, registros de seguridad y datos de interacción con el sitio web. Respuesta a consultas, solicitudes de propuesta, necesidades de soporte o conversaciones comerciales. Evaluación de postulaciones y gestión de procesos de reclutamiento. Operación, protección y mejora del sitio web y de sus formularios, chatbot y mecanismos de verificación. Cumplimiento de obligaciones legales, regulatorias, contractuales y de conservación de registros. Protección frente a fraude, abuso, acceso no autorizado y otras amenazas de seguridad. Consentimiento: cuando eliges enviar cierta información o aceptar cookies opcionales. Medidas precontractuales: cuando el tratamiento es necesario para conversar sobre servicios o preparar una propuesta a tu solicitud. Interés legítimo: para administración del sitio, seguridad de la información, mejora del servicio y comunicaciones comerciales, siempre que esos intereses no prevalezcan sobre tus derechos. Obligación legal: cuando la conservación o divulgación sea exigida por ley o requisitos regulatorios. La correspondencia de consultas y comercial se conserva solo el tiempo necesario para responder, dar seguimiento y mantener registros comerciales razonables. Los registros de reclutamiento se conservan durante el proceso de selección y un período limitado posterior, salvo que la ley exija o permita un plazo mayor. Los registros de seguridad, auditoría y técnicos pueden conservarse para resiliencia operativa, prevención de fraude y cumplimiento legal.",
+      "summary": "Effective date: March 18, 2026 Gabriel Servicios is committed to handling personal data lawfully, transparently, and securely. This notice explains what personal data we may collect through this website, why we use it, how long we keep it, and what rights individuals may have under applicable privacy laws, including the General Data Protection Regulation (GDPR) where it applies.",
+      "bodyText": "Effective date: March 18, 2026 Gabriel Servicios is committed to handling personal data lawfully, transparently, and securely. This notice explains what personal data we may collect through this website, why we use it, how long we keep it, and what rights individuals may have under applicable privacy laws, including the General Data Protection Regulation (GDPR) where it applies. Personal data may be shared on a need-to-know basis with hosting providers, cloud infrastructure providers, security and anti-abuse services, analytics providers only when an optional, consent-based analytics feature is explicitly enabled, recruitment support tools, and professional advisers. We may also disclose data where required to comply with law, enforce rights, or protect the website, our users, or the public. If personal data is transferred outside the country or region where it was collected, Gabriel Servicios will seek to use appropriate safeguards where required by law, such as contractual protections or reliance on recognized adequacy mechanisms. Subject to applicable law, you may have the right to request access to your personal data, rectification, erasure, restriction, portability, or objection to certain processing. Where processing is based on consent, you may withdraw that consent at any time for future processing. You may also have the right to lodge a complaint with a competent supervisory authority. Gabriel Servicios applies reasonable technical and organizational measures designed to reduce the risk of loss, misuse, unauthorized access, disclosure, or alteration of personal data. No internet transmission or storage environment can be guaranteed to be completely secure. For information about cookies, local storage, and optional consent preferences, please review our Consentimiento de Cookies page. To make a privacy request or ask a question about this notice, please use the contact details provided on our Contacto page and clearly identify your request so it can be handled efficiently. We may update this privacy notice from time to time to reflect changes in our processing activities, legal requirements, or operational practices. The latest version and effective date will remain published here. © 2026 Gabriel Servicios Identity and contact details, such as name, email address, phone number, company name, and role. Inquiry and correspondence information submitted through forms, email, or other contact channels. Recruitment information, such as CVs, cover letters, work history, and related application materials. Technical and usage information, such as IP address, browser type, device characteristics, security logs, and website interaction data. Responding to inquiries, requests for proposals, support needs, or commercial conversations. Evaluating job applications and managing recruitment processes. Operating, securing, and improving the website and its forms and verification mechanisms. Complying with legal, regulatory, contractual, and record-keeping obligations. Protecting against fraud, abuse, unauthorized access, and other security threats. Consent: where you choose to submit certain information or accept optional cookies. Pre-contractual steps: where processing is necessary to discuss services or prepare a proposal at your request. Legitimate interests: for website administration, information security, service improvement, and business communications, provided such interests are not overridden by your rights. Legal obligation: where retention or disclosure is required by applicable law or regulatory requirements. Inquiry and commercial correspondence is retained only for as long as needed to respond, follow up, and maintain reasonable business records. Recruitment records are retained for the duration of the recruitment process and a limited period afterward, unless a longer retention period is required or permitted by law. Security, audit, and technical logs may be retained for operational resilience, fraud prevention, and legal compliance.",
       "headings": [
         "Privacidad y GDPR",
-        "1. Categorías de datos personales",
-        "2. Finalidades del tratamiento",
-        "3. Bases legales bajo GDPR",
-        "4. Compartición de datos",
-        "5. Transferencias internacionales",
-        "6. Conservación",
-        "7. Derechos de los titulares",
-        "8. Medidas de seguridad",
-        "9. Cookies y tecnologías del sitio web",
-        "10. Contacto y solicitudes",
-        "11. Cambios en este aviso",
-        "Empresa",
-        "Soporte",
+        "1. Categories of personal data",
+        "2. Purposes of processing",
+        "3. Lawful bases under GDPR",
+        "4. Data sharing",
+        "5. International transfers",
+        "6. Retention",
+        "7. Data subject rights",
+        "8. Security measures",
+        "9. Cookies and website technologies",
+        "10. Contacto and requests",
+        "11. Changes to this notice",
+        "Company",
+        "Support",
         "Legal"
       ],
       "ctas": [
@@ -1909,7 +1770,7 @@
         },
         {
           "href": "https://www.gabo.services/legal/terms.html",
-          "label": "Términos y Condiciones"
+          "label": "T&C"
         },
         {
           "href": "https://www.gabo.services/legal/cookies.html",
@@ -1953,11 +1814,11 @@
         },
         {
           "href": "https://www.gabo.services/sitemap.xml",
-          "label": "Mapa del sitio"
+          "label": "Sitemap"
         },
         {
           "href": "https://www.gabo.services/legal/terms.html",
-          "label": "Términos y Condiciones"
+          "label": "T&C"
         },
         {
           "href": "https://www.gabo.services/legal/cookies.html",
@@ -1975,9 +1836,9 @@
       },
       "tags": [
         "legal",
-        "privacidad y gdpr",
-        "1. categorías de datos personales",
-        "2. finalidades del tratamiento"
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
       ],
       "intent": "careers"
     }
@@ -1988,13 +1849,13 @@
       "pagePath": "/",
       "url": "https://www.gabo.services/",
       "locale": "es",
-      "text": "Externaliza, entregado Operational support for execution-heavy businesses Gabriel Servicios supports logistics-led and service-heavy teams with process-aligned help across logistics coordination, back-office workflow management, customer operations, and IT support. Why teams switch Built for Logistics-led and service-heavy teams Operating model Process-aligned support with documented handoffs Trust signal Security-conscious delivery with clear communication rhythm Gabriel Servicios is an operational support partner for companies that need reliable daily execution across logistics coordination, administrative workflows, customer communications, and IT request handling. Our teams combine measurable service discipline with practical implementation, helping businesses protect response quality, maintain organized processes, and scale support without adding internal friction.",
+      "text": "Externaliza, entregado Reliable execution that strengthens day-to-day performance. So you can focus on growth, leadership, and the priorities that move your business forward. What this gives your business Workflow follow-through and team coordination Daily response across recurring operational needs Support across logistics, admin, IT, and customer relations Operational visibility without enterprise complexity Execution-focused support aligned with your workflows, communication cadence, and measurable outcomes.",
       "intent": "careers",
       "tags": [
         "home",
-        "faster response, cleaner workflows, and reliable day-to-day execution.",
-        "operational rigor without adding internal drag.",
-        "operational support for modern businesses"
+        "hire outstanding operational support",
+        "operational support for growing businesses",
+        "are these challenges slowing your business down?"
       ]
     },
     {
@@ -2002,13 +1863,13 @@
       "pagePath": "/",
       "url": "https://www.gabo.services/",
       "locale": "es",
-      "text": "Dispatch coordination, movement tracking, and execution support aligned to delivery timelines. Documentation, scheduling, process administration, and data upkeep for operational clarity. Customer communication, follow-up handling, and service continuity across day-to-day interactions.",
+      "text": "As businesses grow, small unmanaged issues can quickly turn into larger operational problems. Delays, missed follow-ups, inconsistent communication, and workflow inefficiencies can affect performance, customer experience, and momentum. Gabriel Servicios strengthens execution through dependable operational assistance that fits into your business processes and communication flow.",
       "intent": "careers",
       "tags": [
         "home",
-        "faster response, cleaner workflows, and reliable day-to-day execution.",
-        "operational rigor without adding internal drag.",
-        "operational support for modern businesses"
+        "hire outstanding operational support",
+        "operational support for growing businesses",
+        "are these challenges slowing your business down?"
       ]
     },
     {
@@ -2016,13 +1877,13 @@
       "pagePath": "/",
       "url": "https://www.gabo.services/",
       "locale": "es",
-      "text": "Ticket coordination, issue triage, and practical technical support for core business systems. Businesses choose Gabriel Servicios for reliability under pressure, clear communication rhythm, structured follow-through, and adaptable support models that adjust as priorities evolve. Book a consultation to map workflows, define service coverage, and build a practical execution plan around your current operational priorities.",
+      "text": "We reduce friction, improve visibility, and increase consistency across daily operations. The result is stronger follow-through, better day-to-day performance, and more time for your business to focus on growth. Dispatch coordination, shipment visibility, and status follow-up.",
       "intent": "careers",
       "tags": [
         "home",
-        "faster response, cleaner workflows, and reliable day-to-day execution.",
-        "operational rigor without adding internal drag.",
-        "operational support for modern businesses"
+        "hire outstanding operational support",
+        "operational support for growing businesses",
+        "are these challenges slowing your business down?"
       ]
     },
     {
@@ -2030,13 +1891,13 @@
       "pagePath": "/",
       "url": "https://www.gabo.services/",
       "locale": "es",
-      "text": "© 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto Clear communication rhythm for active workflows Documented follow-through across logistics, admin, CX, and IT Human-led support with modern governance and security discipline",
+      "text": "© 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto Improve efficiency Build consistency Increase visibility Inconsistent performance Delays and operational bottlenecks Missed follow-up and weak coordination Customer dissatisfaction Repeated onboarding strain Unresolved daily issues Operational inefficiencies that slow growth",
       "intent": "careers",
       "tags": [
         "home",
-        "faster response, cleaner workflows, and reliable day-to-day execution.",
-        "operational rigor without adding internal drag.",
-        "operational support for modern businesses"
+        "hire outstanding operational support",
+        "operational support for growing businesses",
+        "are these challenges slowing your business down?"
       ]
     },
     {
@@ -2044,13 +1905,13 @@
       "pagePath": "/about/",
       "url": "https://www.gabo.services/about/",
       "locale": "es",
-      "text": "Externaliza, entregado Gabriel Servicios was built to give SMBs a dependable operational partner that understands the pace and pressure of daily business execution. We are an online support business that understands small and medium business challenges and how intricate operations get. As companies scale, small, unmanaged details can quickly become expensive operational issues.",
+      "text": "Externaliza, entregado Gabriel Servicios was built with operational success and business sustainability at its core. We believe long-term success comes from small, sustainable details. We support small and medium-sized businesses that want to grow without operational overwhelm.",
       "intent": "careers",
       "tags": [
         "about",
-        "about gabriel services",
-        "who we are",
-        "what we bring to daily operations"
+        "gabriel services",
+        "when opportunities are left unresolved",
+        "what we handle"
       ]
     },
     {
@@ -2058,13 +1919,13 @@
       "pagePath": "/about/",
       "url": "https://www.gabo.services/about/",
       "locale": "es",
-      "text": "We reduce that risk through consistent execution, transparent communication, and disciplined follow up across recurring workflows. That said, if any business lacks of a Ninja Team, operations can turn into an uphill battle to achieve objectives, goals, and most of all growth. This is where we step in, by addressing small details, short comings and fragmented operations.",
+      "text": "Small operational issues, when ignored, can quietly damage customer trust. Overlooked details slow growth, create missed opportunities, and eventually affect business stability. That is where we step in.",
       "intent": "careers",
       "tags": [
         "about",
-        "about gabriel services",
-        "who we are",
-        "what we bring to daily operations"
+        "gabriel services",
+        "when opportunities are left unresolved",
+        "what we handle"
       ]
     },
     {
@@ -2072,13 +1933,69 @@
       "pagePath": "/about/",
       "url": "https://www.gabo.services/about/",
       "locale": "es",
-      "text": "We take away these operations pains, giving you an advantage plus leverage your business needs. We integrate to your policies and operations. We stay laser focus aiming to increase productivity, efficiencies, providing outstanding performance in every task, while prioritizing high quality results with practical execution, and cost conscious service delivery so businesses can maintain momentum with confidence. Gabriel Servicios is built on reliability, we help businesses stay organized, responsive, and operationally strong through practical support across logistics, administration, customer operations, and IT. © 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto",
+      "text": "We make sure no opportunity slips through the cracks. Every detail is handled so your business stays organized, responsive, and running smoothly. We step in by handling the details and bringing structure to fragmented operations.",
       "intent": "careers",
       "tags": [
         "about",
-        "about gabriel services",
-        "who we are",
-        "what we bring to daily operations"
+        "gabriel services",
+        "when opportunities are left unresolved",
+        "what we handle"
+      ]
+    },
+    {
+      "id": "about#4",
+      "pagePath": "/about/",
+      "url": "https://www.gabo.services/about/",
+      "locale": "es",
+      "text": "We integrate into your workflows, align with your processes, and focus on execution so your team can stay focused on growth. Our approach is simple: We act as a reliable operational partner — plugging into your team and handling execution so you don't have to. You get more done with less friction.",
+      "intent": "careers",
+      "tags": [
+        "about",
+        "gabriel services",
+        "when opportunities are left unresolved",
+        "what we handle"
+      ]
+    },
+    {
+      "id": "about#5",
+      "pagePath": "/about/",
+      "url": "https://www.gabo.services/about/",
+      "locale": "es",
+      "text": "More clarity. More time to focus on growth instead of putting out fires. All at a cost that makes sense for growing businesses — no enterprise overhead and no contracts.",
+      "intent": "careers",
+      "tags": [
+        "about",
+        "gabriel services",
+        "when opportunities are left unresolved",
+        "what we handle"
+      ]
+    },
+    {
+      "id": "about#6",
+      "pagePath": "/about/",
+      "url": "https://www.gabo.services/about/",
+      "locale": "es",
+      "text": "We focus on four operational areas: We help keep your logistics organized, visible, and moving: We help maintain customer satisfaction and resolution flow: We support leadership and daily business operations: We provide structured technical support coverage: © 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto We improve productivity. We increase operational consistency. We deliver high-quality execution.",
+      "intent": "careers",
+      "tags": [
+        "about",
+        "gabriel services",
+        "when opportunities are left unresolved",
+        "what we handle"
+      ]
+    },
+    {
+      "id": "about#7",
+      "pagePath": "/about/",
+      "url": "https://www.gabo.services/about/",
+      "locale": "es",
+      "text": "We operate with practical and cost-conscious service delivery. Logistics Customer Relations Administrative Back Office IT Support (Level I and Level II) Dispatch coordination Shipment tracking (ocean, air, and ground) Customer communication and follow-ups Invoicing and billing support Documentation coordination Ticket follow-up and resolution tracking Customer satisfaction follow-ups (CSAT support) Billing clarification support First contact resolution support Customer communication management Executive administrative support Calendar and scheduling coordination Email and communication management Document organization and preparation Vendor coordination Internal operational support Travel planning and coordination Help desk intake and ticket creation Basic troubleshooting End-user support Account access assistance Escalation coordination Advanced troubleshooting Incident investigation System and workflow support Root cause analysis Resolution ownership after escalation",
+      "intent": "careers",
+      "tags": [
+        "about",
+        "gabriel services",
+        "when opportunities are left unresolved",
+        "what we handle"
       ]
     },
     {
@@ -2086,7 +2003,7 @@
       "pagePath": "/services/",
       "url": "https://www.gabo.services/services/",
       "locale": "es",
-      "text": "Externaliza, entregado Explore logistics, IT, administrative, and customer support services with a clear overview of coverage, fit, and engagement options. Review services, compare engagement models, and choose the support line that fits your needs. Designed for quick review on desktop or mobile with straightforward service comparison.",
+      "text": "Externaliza, entregado Explore logistics, IT, administrative, and customer support services with a clear overview of coverage, fit, and engagement options. Tap or click a service card to update the breakdown and engagement comparison below. Coordination-focused operational assistance for moving parts, status tracking, follow-up, and execution visibility.",
       "intent": "careers",
       "tags": [
         "services",
@@ -2099,20 +2016,7 @@
       "pagePath": "/services/",
       "url": "https://www.gabo.services/services/",
       "locale": "es",
-      "text": "Tap or click a service card to update the breakdown and engagement comparison below. Coordination-focused operational assistance for moving parts, status tracking, follow-up, and execution visibility. Switch the model to compare services in a clearer flow without forcing a crowded mobile table.",
-      "intent": "careers",
-      "tags": [
-        "services",
-        "choose a service",
-        "logistics operations"
-      ]
-    },
-    {
-      "id": "services#3",
-      "pagePath": "/services/",
-      "url": "https://www.gabo.services/services/",
-      "locale": "es",
-      "text": "© 2026 Gabriel Servicios Inicio Acerca de Servicios Aprendizaje Carreras Contacto",
+      "text": "Switch the model to compare services in a clearer flow without forcing a crowded mobile table. © 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto",
       "intent": "careers",
       "tags": [
         "services",
@@ -2167,11 +2071,11 @@
       "pagePath": "/services/administrative-backoffice/",
       "url": "https://www.gabo.services/services/administrative-backoffice/",
       "locale": "es",
-      "text": "Externaliza, entregado Administrative Backoffice provides structured coverage for recurring administrative work that keeps business operations steady. We help manage documentation flow, coordination routines, and follow-up activity so internal processes remain organized, consistent, and dependable over time. The result is stronger day-to-day continuity across routine business functions.",
+      "text": "Externaliza, entregado Administrative Back Office provides structured coverage for recurring administrative work that keeps business operations steady. We help manage documentation flow, coordination routines, and follow-up activity so internal processes remain organized, consistent, and dependable over time. The result is stronger day-to-day continuity across routine business functions.",
       "intent": "careers",
       "tags": [
         "service-detail",
-        "administrative backoffice",
+        "administrative back office",
         "service overview",
         "what this covers"
       ]
@@ -2185,7 +2089,7 @@
       "intent": "careers",
       "tags": [
         "service-detail",
-        "administrative backoffice",
+        "administrative back office",
         "service overview",
         "what this covers"
       ]
@@ -2199,7 +2103,7 @@
       "intent": "careers",
       "tags": [
         "service-detail",
-        "administrative backoffice",
+        "administrative back office",
         "service overview",
         "what this covers"
       ]
@@ -2293,51 +2197,12 @@
       "pagePath": "/contact/",
       "url": "https://www.gabo.services/contact/",
       "locale": "es",
-      "text": "Externaliza, entregado Start with a quick inquiry, then add optional details if you want a more tailored follow-up. Simple first step Use the quick inquiry form to share your team, main workflow pressure, and service interest. If you want a more detailed follow-up, open the extended intake and add staffing, skills, or scheduling context.",
+      "text": "Externaliza, entregado Start with a quick inquiry, then add optional details if you want a more tailored follow-up. Choose the requirements that covers your operations Describe your expectations in Skills, Experience and Education. © 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto",
       "intent": "careers",
       "tags": [
         "contact",
         "tell us what support you need",
-        "quick inquiry"
-      ]
-    },
-    {
-      "id": "contact#2",
-      "pagePath": "/contact/",
-      "url": "https://www.gabo.services/contact/",
-      "locale": "es",
-      "text": "Start with the essential contact and service information. This is the only section required for submission. Choose one or more areas so we route the inquiry to the right team.",
-      "intent": "careers",
-      "tags": [
-        "contact",
-        "tell us what support you need",
-        "quick inquiry"
-      ]
-    },
-    {
-      "id": "contact#3",
-      "pagePath": "/contact/",
-      "url": "https://www.gabo.services/contact/",
-      "locale": "es",
-      "text": "Only fill out what helps us tailor the follow-up conversation. Use this only if you want to describe staffing, skills, or talent requirements in more detail. Optional service areas for staffing or assistant support.",
-      "intent": "careers",
-      "tags": [
-        "contact",
-        "tell us what support you need",
-        "quick inquiry"
-      ]
-    },
-    {
-      "id": "contact#4",
-      "pagePath": "/contact/",
-      "url": "https://www.gabo.services/contact/",
-      "locale": "es",
-      "text": "© 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto",
-      "intent": "careers",
-      "tags": [
-        "contact",
-        "tell us what support you need",
-        "quick inquiry"
+        "company"
       ]
     },
     {
@@ -2397,7 +2262,7 @@
       "pagePath": "/learning/",
       "url": "https://www.gabo.services/learning/",
       "locale": "es",
-      "text": "© 2026 Gabriel Servicios Inicio Acerca de Servicios Aprendizaje Carreras Contacto",
+      "text": "© 2026 Gabriel Servicios Inicio Acerca de Servicios Carreras Contacto",
       "intent": "careers",
       "tags": [
         "learning",
@@ -2410,13 +2275,13 @@
       "pagePath": "/legal/terms.html",
       "url": "https://www.gabo.services/legal/terms.html",
       "locale": "es",
-      "text": "Fecha de entrada en vigor: 18 de marzo de 2026. Estos Términos y Condiciones regulan el acceso y uso del sitio web de Gabriel Services, sus páginas relacionadas, formularios de contacto y cualquier intercambio precontractual realizado a través de este sitio. Al usar este sitio web, aceptas estos términos. Si no estás de acuerdo, no uses el sitio web.",
+      "text": "Effective date: March 18, 2026 These Términos y Condiciones govern your access to and use of the Gabriel Servicios website, related landing pages, contact forms, and any pre-contractual exchanges carried out through this site. By using this website, you agree to these terms. If you do not agree, please do not use the website.",
       "intent": "careers",
       "tags": [
         "legal",
-        "términos y condiciones",
-        "1. sobre gabriel services",
-        "2. uso del sitio web"
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
       ]
     },
     {
@@ -2424,13 +2289,13 @@
       "pagePath": "/legal/terms.html",
       "url": "https://www.gabo.services/legal/terms.html",
       "locale": "es",
-      "text": "Gabriel Services proporciona información de soporte empresarial y servicios relacionados con tercerización, incluidas descripciones de servicios, opciones de contacto, información de reclutamiento y formularios para recepción de propuestas. La información de este sitio web se ofrece con fines empresariales e informativos generales y no crea automáticamente una relación contractual. Si envías una solicitud, CV o información de respaldo mediante la página de carreras o por correo electrónico, confirmas que la información enviada es exacta y que estás autorizado para compartirla.",
+      "text": "Gabriel Servicios provides business support and outsourcing-related information, including service descriptions, contact options, recruitment information, and proposal intake forms. Information on this website is provided for general business and informational purposes and does not automatically create a contractual relationship. If you submit an application, CV, or supporting information through the careers page or by email, you confirm that the information submitted is accurate and that you are authorized to share it.",
       "intent": "careers",
       "tags": [
         "legal",
-        "términos y condiciones",
-        "1. sobre gabriel services",
-        "2. uso del sitio web"
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
       ]
     },
     {
@@ -2438,13 +2303,13 @@
       "pagePath": "/legal/terms.html",
       "url": "https://www.gabo.services/legal/terms.html",
       "locale": "es",
-      "text": "El envío de una candidatura no garantiza empleo, entrevista ni una respuesta en un plazo específico. Salvo que se indique lo contrario, el contenido de este sitio web, incluidos textos, marca, diseños, gráficos y materiales originales, es propiedad de Gabriel Services o se utiliza bajo licencia, y está protegido por las leyes de propiedad intelectual aplicables. Puedes ver, descargar o imprimir porciones limitadas únicamente para uso informativo interno.",
+      "text": "Submission of an application does not guarantee employment, an interview, or a response within a specific timeframe. Unless otherwise stated, the content on this website, including text, branding, layouts, graphics, and original materials, is owned by or licensed to Gabriel Servicios and is protected by applicable intellectual property laws. You may view, download, or print limited portions for internal informational use only.",
       "intent": "careers",
       "tags": [
         "legal",
-        "términos y condiciones",
-        "1. sobre gabriel services",
-        "2. uso del sitio web"
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
       ]
     },
     {
@@ -2452,13 +2317,13 @@
       "pagePath": "/legal/terms.html",
       "url": "https://www.gabo.services/legal/terms.html",
       "locale": "es",
-      "text": "Este sitio web puede contener servicios de terceros, herramientas integradas, widgets de verificación, mapas, analítica o enlaces a sitios externos. Gabriel Services no es responsable del contenido, disponibilidad o prácticas de privacidad de servicios de terceros. El uso de dichos servicios puede estar sujeto a términos y políticas independientes.",
+      "text": "This website may contain third-party services, embedded tools, verification widgets, maps, analytics, or links to external websites. Gabriel Servicios is not responsible for the content, availability, or privacy practices of third-party services. Your use of those services may be subject to separate terms and policies.",
       "intent": "careers",
       "tags": [
         "legal",
-        "términos y condiciones",
-        "1. sobre gabriel services",
-        "2. uso del sitio web"
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
       ]
     },
     {
@@ -2466,13 +2331,13 @@
       "pagePath": "/legal/terms.html",
       "url": "https://www.gabo.services/legal/terms.html",
       "locale": "es",
-      "text": "Al contactar a Gabriel Services mediante formularios del sitio, correo electrónico o teléfonos publicados en este sitio, aceptas que las comunicaciones puedan utilizarse para responder tu solicitud, gestionar una posible relación comercial, evaluar una candidatura o cumplir obligaciones de seguridad y legales. Este sitio web se proporciona “tal cual” y “según disponibilidad”. Aunque Gabriel Services procura mantener la información exacta y actualizada, no garantizamos que el sitio web esté siempre disponible, sin interrupciones, seguro, completo o libre de errores.",
+      "text": "By contacting Gabriel Servicios through website forms, email, or phone details published on this site, you agree that communications may be used to respond to your request, manage a potential business relationship, assess a job application, or meet security and legal obligations. This website is provided on an “as is” and “as available” basis. While Gabriel Servicios aims to keep information accurate and current, we do not guarantee that the website will always be available, uninterrupted, secure, complete, or free of errors.",
       "intent": "careers",
       "tags": [
         "legal",
-        "términos y condiciones",
-        "1. sobre gabriel services",
-        "2. uso del sitio web"
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
       ]
     },
     {
@@ -2480,13 +2345,13 @@
       "pagePath": "/legal/terms.html",
       "url": "https://www.gabo.services/legal/terms.html",
       "locale": "es",
-      "text": "En la máxima medida permitida por la ley, se excluyen todas las garantías implícitas. En la máxima medida permitida por la ley, Gabriel Services no será responsable por daños indirectos, incidentales, consecuenciales, especiales o punitivos derivados de, o relacionados con, tu uso o imposibilidad de uso de este sitio web. Nada en estos términos excluye responsabilidades que no puedan excluirse conforme a la ley aplicable.",
+      "text": "To the fullest extent permitted by law, all implied warranties are excluded. To the fullest extent permitted by law, Gabriel Servicios shall not be liable for indirect, incidental, consequential, special, or punitive damages arising out of or related to your use of, or inability to use, this website. Nothing in these terms excludes liability that cannot be excluded under applicable law.",
       "intent": "careers",
       "tags": [
         "legal",
-        "términos y condiciones",
-        "1. sobre gabriel services",
-        "2. uso del sitio web"
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
       ]
     },
     {
@@ -2494,13 +2359,13 @@
       "pagePath": "/legal/terms.html",
       "url": "https://www.gabo.services/legal/terms.html",
       "locale": "es",
-      "text": "El tratamiento de datos personales y las preferencias de cookies se rigen por nuestra página de Privacidad y GDPR y nuestra página de Consentimiento de Cookies. Esos avisos forman parte integral del uso de este sitio web. Estos términos se rigen por las leyes aplicables en la jurisdicción donde esté establecida la entidad contratante correspondiente de Gabriel Services, salvo que normas obligatorias de consumo o protección de datos dispongan lo contrario.",
+      "text": "Personal data handling and cookie preferences are governed by our Privacidad y GDPR page and our Consentimiento de Cookies page. Those notices form an integral part of your use of this website. These terms are governed by the laws applicable to the jurisdiction in which the relevant Gabriel Servicios contracting entity is established, unless mandatory consumer or data-protection law requires otherwise.",
       "intent": "careers",
       "tags": [
         "legal",
-        "términos y condiciones",
-        "1. sobre gabriel services",
-        "2. uso del sitio web"
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
       ]
     },
     {
@@ -2508,13 +2373,13 @@
       "pagePath": "/legal/terms.html",
       "url": "https://www.gabo.services/legal/terms.html",
       "locale": "es",
-      "text": "Gabriel Services puede actualizar estos Términos y Condiciones periódicamente. La versión más reciente se publicará en esta página junto con su fecha de entrada en vigor. Para consultas legales o de privacidad, utiliza los datos de contacto publicados en la página de Contacto.",
+      "text": "Gabriel Servicios may update these Términos y Condiciones from time to time. The latest version will be published on this page together with its effective date. For legal or privacy questions, please use the contact details published on the Contacto page.",
       "intent": "careers",
       "tags": [
         "legal",
-        "términos y condiciones",
-        "1. sobre gabriel services",
-        "2. uso del sitio web"
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
       ]
     },
     {
@@ -2522,13 +2387,13 @@
       "pagePath": "/legal/terms.html",
       "url": "https://www.gabo.services/legal/terms.html",
       "locale": "es",
-      "text": "© 2026 Gabriel Services. Aceptas usar este sitio web de forma legal y responsable, y de manera que no perjudique al sitio, a sus usuarios ni a Gabriel Services. No debes intentar accesos no autorizados, interferir con funciones de seguridad, distribuir malware ni hacer uso indebido de formularios, herramientas de chat o direcciones de correo mostradas en el sitio.",
+      "text": "© 2026 Gabriel Servicios You agree to use this website lawfully, responsibly, and in a way that does not harm the website, its users, or Gabriel Servicios. You must not attempt unauthorized access, interfere with security features, distribute malware, or misuse forms, chat tools, or email addresses shown on the site. You must not copy, scrape, or republish substantial parts of the website for commercial use without prior written authorization.",
       "intent": "careers",
       "tags": [
         "legal",
-        "términos y condiciones",
-        "1. sobre gabriel services",
-        "2. uso del sitio web"
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
       ]
     },
     {
@@ -2536,13 +2401,13 @@
       "pagePath": "/legal/terms.html",
       "url": "https://www.gabo.services/legal/terms.html",
       "locale": "es",
-      "text": "No debes copiar, extraer o republicar partes sustanciales del sitio web con fines comerciales sin autorización previa por escrito. Las descripciones de servicios, industrias, referencias de precios, plazos y disponibilidad son ilustrativas, salvo confirmación expresa por escrito. Cualquier cotización, alcance, compromiso de nivel de servicio o término comercial será vinculante solo cuando ambas partes lo acepten en un acuerdo escrito independiente. Gabriel Services puede actualizar, suspender o discontinuar partes del sitio web o descripciones de servicios sin previo aviso.",
+      "text": "Descriptions of services, industries, pricing indications, timelines, and availability are illustrative unless expressly confirmed in writing. Any quotation, scope, service-level commitment, or commercial term becomes binding only when accepted by both parties in a separate written agreement. Gabriel Servicios may update, suspend, or discontinue parts of the website or service descriptions without prior notice.",
       "intent": "careers",
       "tags": [
         "legal",
-        "términos y condiciones",
-        "1. sobre gabriel services",
-        "2. uso del sitio web"
+        "terms and conditions",
+        "1. about gabriel services",
+        "2. website use"
       ]
     },
     {
@@ -2550,13 +2415,13 @@
       "pagePath": "/legal/cookies.html",
       "url": "https://www.gabo.services/legal/cookies.html",
       "locale": "es",
-      "text": "Fecha de entrada en vigor: 18 de marzo de 2026. Esta página explica cómo Gabriel Services usa cookies y tecnologías similares en este sitio web, y cómo puedes gestionar tus preferencias de consentimiento. Las cookies son pequeños archivos de texto que se almacenan en tu dispositivo cuando visitas un sitio web. También pueden utilizarse tecnologías similares como almacenamiento local, píxeles y scripts para fines relacionados.",
+      "text": "Effective date: March 18, 2026 This page explains how Gabriel Servicios uses cookies and similar technologies on this website, and how you can manage your consent preferences. Cookies are small text files stored on your device when you visit a website. Similar technologies such as local storage, pixels, and scripts may be used for related purposes.",
       "intent": "careers",
       "tags": [
         "legal",
-        "consentimiento de cookies",
-        "1. qué son las cookies",
-        "2. cómo usamos las cookies"
+        "cookies consent",
+        "1. what cookies are",
+        "2. how we use cookies"
       ]
     },
     {
@@ -2564,13 +2429,13 @@
       "pagePath": "/legal/cookies.html",
       "url": "https://www.gabo.services/legal/cookies.html",
       "locale": "es",
-      "text": "Puedes usar los controles de esta página para guardar tus preferencias en este dispositivo. Las cookies estrictamente necesarias permanecen activas porque el sitio web depende de ellas para funciones esenciales y de seguridad. Elige tu configuración y guarda tu preferencia.",
+      "text": "You can use the controls below to save your preferences on this device. Strictly necessary cookies remain active because the website relies on them for essential functionality and security. Choose your settings and save your preference.",
       "intent": "careers",
       "tags": [
         "legal",
-        "consentimiento de cookies",
-        "1. qué son las cookies",
-        "2. cómo usamos las cookies"
+        "cookies consent",
+        "1. what cookies are",
+        "2. how we use cookies"
       ]
     },
     {
@@ -2578,13 +2443,13 @@
       "pagePath": "/legal/cookies.html",
       "url": "https://www.gabo.services/legal/cookies.html",
       "locale": "es",
-      "text": "Si deshabilitas las cookies estrictamente necesarias, algunas partes del sitio web pueden dejar de funcionar correctamente. La configuración del navegador o del dispositivo puede anular las preferencias guardadas en esta página. Algunas funciones del sitio pueden depender de proveedores externos, como verificación de seguridad, contenido integrado o herramientas externas de agenda/contacto.",
+      "text": "If you disable strictly necessary cookies, parts of the website may stop working correctly. Device-level or browser-level settings may override preferences saved on this page. Some website features may rely on third-party providers such as security verification, embedded media, or external scheduling/contact tools.",
       "intent": "careers",
       "tags": [
         "legal",
-        "consentimiento de cookies",
-        "1. qué son las cookies",
-        "2. cómo usamos las cookies"
+        "cookies consent",
+        "1. what cookies are",
+        "2. how we use cookies"
       ]
     },
     {
@@ -2592,13 +2457,13 @@
       "pagePath": "/legal/cookies.html",
       "url": "https://www.gabo.services/legal/cookies.html",
       "locale": "es",
-      "text": "Las tecnologías analíticas opcionales están deshabilitadas de forma predeterminada, salvo que en el futuro se habiliten explícitamente con base en consentimiento. Cuando proveedores externos colocan cookies o identificadores similares, también pueden aplicar sus propios avisos de privacidad. Podemos actualizar este aviso de cookies y la experiencia de preferencias para reflejar cambios legales, tecnológicos o funcionales del sitio web.",
+      "text": "Optional analytics technologies are currently disabled by default unless a future consent-based implementation is explicitly enabled. When third-party providers place cookies or similar identifiers, their own privacy notices may also apply. We may update this cookie notice and preference experience to reflect changes in law, technology, or website functionality.",
       "intent": "careers",
       "tags": [
         "legal",
-        "consentimiento de cookies",
-        "1. qué son las cookies",
-        "2. cómo usamos las cookies"
+        "cookies consent",
+        "1. what cookies are",
+        "2. how we use cookies"
       ]
     },
     {
@@ -2606,13 +2471,13 @@
       "pagePath": "/legal/cookies.html",
       "url": "https://www.gabo.services/legal/cookies.html",
       "locale": "es",
-      "text": "La versión más reciente permanecerá disponible en esta página. © 2026 Gabriel Services.",
+      "text": "The latest version will remain available on this page. © 2026 Gabriel Servicios",
       "intent": "careers",
       "tags": [
         "legal",
-        "consentimiento de cookies",
-        "1. qué son las cookies",
-        "2. cómo usamos las cookies"
+        "cookies consent",
+        "1. what cookies are",
+        "2. how we use cookies"
       ]
     },
     {
@@ -2620,13 +2485,13 @@
       "pagePath": "/legal/privacy-gdpr.html",
       "url": "https://www.gabo.services/legal/privacy-gdpr.html",
       "locale": "es",
-      "text": "Fecha de entrada en vigor: 18 de marzo de 2026. Gabriel Services está comprometido con el tratamiento lícito, transparente y seguro de los datos personales. Este aviso explica qué datos personales podemos recopilar, por qué los usamos, cuánto tiempo los conservamos y qué derechos pueden tener las personas conforme a las leyes de privacidad aplicables, incluido el Reglamento General de Protección de Datos (GDPR) cuando corresponda. Los datos personales pueden compartirse, según necesidad, con proveedores de alojamiento, infraestructura en la nube, servicios de seguridad y antiabuso, proveedores de analítica solo cuando una función analítica opcional basada en consentimiento esté habilitada explícitamente, herramientas de apoyo de reclutamiento y asesores profesionales.",
+      "text": "Effective date: March 18, 2026 Gabriel Servicios is committed to handling personal data lawfully, transparently, and securely. This notice explains what personal data we may collect through this website, why we use it, how long we keep it, and what rights individuals may have under applicable privacy laws, including the General Data Protection Regulation (GDPR) where it applies. Personal data may be shared on a need-to-know basis with hosting providers, cloud infrastructure providers, security and anti-abuse services, analytics providers only when an optional, consent-based analytics feature is explicitly enabled, recruitment support tools, and professional advisers.",
       "intent": "careers",
       "tags": [
         "legal",
-        "privacidad y gdpr",
-        "1. categorías de datos personales",
-        "2. finalidades del tratamiento"
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
       ]
     },
     {
@@ -2634,13 +2499,13 @@
       "pagePath": "/legal/privacy-gdpr.html",
       "url": "https://www.gabo.services/legal/privacy-gdpr.html",
       "locale": "es",
-      "text": "También podemos divulgar datos cuando sea necesario para cumplir la ley, hacer valer derechos o proteger el sitio web, a nuestros usuarios o al público. Si los datos personales se transfieren fuera del país o región donde fueron recopilados, Gabriel Services procurará utilizar salvaguardas apropiadas cuando la ley lo exija, como protecciones contractuales o mecanismos de adecuación reconocidos. Sujeto a la ley aplicable, puedes tener derecho a solicitar acceso a tus datos personales, rectificación, supresión, limitación, portabilidad u oposición a cierto tratamiento.",
+      "text": "We may also disclose data where required to comply with law, enforce rights, or protect the website, our users, or the public. If personal data is transferred outside the country or region where it was collected, Gabriel Servicios will seek to use appropriate safeguards where required by law, such as contractual protections or reliance on recognized adequacy mechanisms. Subject to applicable law, you may have the right to request access to your personal data, rectification, erasure, restriction, portability, or objection to certain processing.",
       "intent": "careers",
       "tags": [
         "legal",
-        "privacidad y gdpr",
-        "1. categorías de datos personales",
-        "2. finalidades del tratamiento"
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
       ]
     },
     {
@@ -2648,13 +2513,13 @@
       "pagePath": "/legal/privacy-gdpr.html",
       "url": "https://www.gabo.services/legal/privacy-gdpr.html",
       "locale": "es",
-      "text": "Cuando el tratamiento se base en consentimiento, puedes retirarlo en cualquier momento para el tratamiento futuro. También puedes tener derecho a presentar una reclamación ante una autoridad de control competente. Gabriel Services aplica medidas técnicas y organizativas razonables para reducir el riesgo de pérdida, uso indebido, acceso no autorizado, divulgación o alteración de datos personales.",
+      "text": "Where processing is based on consent, you may withdraw that consent at any time for future processing. You may also have the right to lodge a complaint with a competent supervisory authority. Gabriel Servicios applies reasonable technical and organizational measures designed to reduce the risk of loss, misuse, unauthorized access, disclosure, or alteration of personal data.",
       "intent": "careers",
       "tags": [
         "legal",
-        "privacidad y gdpr",
-        "1. categorías de datos personales",
-        "2. finalidades del tratamiento"
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
       ]
     },
     {
@@ -2662,13 +2527,13 @@
       "pagePath": "/legal/privacy-gdpr.html",
       "url": "https://www.gabo.services/legal/privacy-gdpr.html",
       "locale": "es",
-      "text": "Ninguna transmisión por internet ni entorno de almacenamiento puede garantizarse como completamente seguro. Para información sobre cookies, almacenamiento local y preferencias de consentimiento opcionales, consulta nuestra página de Consentimiento de Cookies. Para realizar una solicitud de privacidad o hacer una pregunta sobre este aviso, utiliza los datos de contacto de nuestra página de Contacto e identifica claramente tu solicitud para gestionarla con eficiencia.",
+      "text": "No internet transmission or storage environment can be guaranteed to be completely secure. For information about cookies, local storage, and optional consent preferences, please review our Consentimiento de Cookies page. To make a privacy request or ask a question about this notice, please use the contact details provided on our Contacto page and clearly identify your request so it can be handled efficiently.",
       "intent": "careers",
       "tags": [
         "legal",
-        "privacidad y gdpr",
-        "1. categorías de datos personales",
-        "2. finalidades del tratamiento"
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
       ]
     },
     {
@@ -2676,13 +2541,13 @@
       "pagePath": "/legal/privacy-gdpr.html",
       "url": "https://www.gabo.services/legal/privacy-gdpr.html",
       "locale": "es",
-      "text": "Podemos actualizar este aviso de privacidad periódicamente para reflejar cambios en nuestras actividades de tratamiento, requisitos legales o prácticas operativas. La versión más reciente y su fecha de entrada en vigor permanecerán publicadas aquí. © 2026 Gabriel Services. Datos de identidad y contacto, como nombre, correo electrónico, número de teléfono, nombre de empresa y cargo.",
+      "text": "We may update this privacy notice from time to time to reflect changes in our processing activities, legal requirements, or operational practices. The latest version and effective date will remain published here. © 2026 Gabriel Servicios Identity and contact details, such as name, email address, phone number, company name, and role.",
       "intent": "careers",
       "tags": [
         "legal",
-        "privacidad y gdpr",
-        "1. categorías de datos personales",
-        "2. finalidades del tratamiento"
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
       ]
     },
     {
@@ -2690,13 +2555,13 @@
       "pagePath": "/legal/privacy-gdpr.html",
       "url": "https://www.gabo.services/legal/privacy-gdpr.html",
       "locale": "es",
-      "text": "Información de consultas y correspondencia enviada por formularios, correo electrónico, chatbot u otros canales de contacto. Información de reclutamiento, como CV, cartas de presentación, historial laboral y materiales de postulación relacionados. Información técnica y de uso, como dirección IP, tipo de navegador, características del dispositivo, registros de seguridad y datos de interacción con el sitio web.",
+      "text": "Inquiry and correspondence information submitted through forms, email, or other contact channels. Recruitment information, such as CVs, cover letters, work history, and related application materials. Technical and usage information, such as IP address, browser type, device characteristics, security logs, and website interaction data.",
       "intent": "careers",
       "tags": [
         "legal",
-        "privacidad y gdpr",
-        "1. categorías de datos personales",
-        "2. finalidades del tratamiento"
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
       ]
     },
     {
@@ -2704,13 +2569,13 @@
       "pagePath": "/legal/privacy-gdpr.html",
       "url": "https://www.gabo.services/legal/privacy-gdpr.html",
       "locale": "es",
-      "text": "Respuesta a consultas, solicitudes de propuesta, necesidades de soporte o conversaciones comerciales. Evaluación de postulaciones y gestión de procesos de reclutamiento. Operación, protección y mejora del sitio web y de sus formularios, chatbot y mecanismos de verificación.",
+      "text": "Responding to inquiries, requests for proposals, support needs, or commercial conversations. Evaluating job applications and managing recruitment processes. Operating, securing, and improving the website and its forms and verification mechanisms.",
       "intent": "careers",
       "tags": [
         "legal",
-        "privacidad y gdpr",
-        "1. categorías de datos personales",
-        "2. finalidades del tratamiento"
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
       ]
     },
     {
@@ -2718,13 +2583,13 @@
       "pagePath": "/legal/privacy-gdpr.html",
       "url": "https://www.gabo.services/legal/privacy-gdpr.html",
       "locale": "es",
-      "text": "Cumplimiento de obligaciones legales, regulatorias, contractuales y de conservación de registros. Protección frente a fraude, abuso, acceso no autorizado y otras amenazas de seguridad. Consentimiento: cuando eliges enviar cierta información o aceptar cookies opcionales.",
+      "text": "Complying with legal, regulatory, contractual, and record-keeping obligations. Protecting against fraud, abuse, unauthorized access, and other security threats. Consent: where you choose to submit certain information or accept optional cookies.",
       "intent": "careers",
       "tags": [
         "legal",
-        "privacidad y gdpr",
-        "1. categorías de datos personales",
-        "2. finalidades del tratamiento"
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
       ]
     },
     {
@@ -2732,13 +2597,13 @@
       "pagePath": "/legal/privacy-gdpr.html",
       "url": "https://www.gabo.services/legal/privacy-gdpr.html",
       "locale": "es",
-      "text": "Medidas precontractuales: cuando el tratamiento es necesario para conversar sobre servicios o preparar una propuesta a tu solicitud. Interés legítimo: para administración del sitio, seguridad de la información, mejora del servicio y comunicaciones comerciales, siempre que esos intereses no prevalezcan sobre tus derechos. Obligación legal: cuando la conservación o divulgación sea exigida por ley o requisitos regulatorios.",
+      "text": "Pre-contractual steps: where processing is necessary to discuss services or prepare a proposal at your request. Legitimate interests: for website administration, information security, service improvement, and business communications, provided such interests are not overridden by your rights. Legal obligation: where retention or disclosure is required by applicable law or regulatory requirements.",
       "intent": "careers",
       "tags": [
         "legal",
-        "privacidad y gdpr",
-        "1. categorías de datos personales",
-        "2. finalidades del tratamiento"
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
       ]
     },
     {
@@ -2746,13 +2611,13 @@
       "pagePath": "/legal/privacy-gdpr.html",
       "url": "https://www.gabo.services/legal/privacy-gdpr.html",
       "locale": "es",
-      "text": "La correspondencia de consultas y comercial se conserva solo el tiempo necesario para responder, dar seguimiento y mantener registros comerciales razonables. Los registros de reclutamiento se conservan durante el proceso de selección y un período limitado posterior, salvo que la ley exija o permita un plazo mayor. Los registros de seguridad, auditoría y técnicos pueden conservarse para resiliencia operativa, prevención de fraude y cumplimiento legal.",
+      "text": "Inquiry and commercial correspondence is retained only for as long as needed to respond, follow up, and maintain reasonable business records. Recruitment records are retained for the duration of the recruitment process and a limited period afterward, unless a longer retention period is required or permitted by law. Security, audit, and technical logs may be retained for operational resilience, fraud prevention, and legal compliance.",
       "intent": "careers",
       "tags": [
         "legal",
-        "privacidad y gdpr",
-        "1. categorías de datos personales",
-        "2. finalidades del tratamiento"
+        "privacy and gdpr",
+        "1. categories of personal data",
+        "2. purposes of processing"
       ]
     }
   ],

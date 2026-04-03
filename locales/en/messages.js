@@ -5,7 +5,6 @@ export const EN_MESSAGES = {
   fab: {
     careers: 'Careers',
     contact: 'Contact',
-    chatbot: 'Chatbot',
     openQuickActions: 'Open quick actions'
   },
   mobileBottomNav: {
@@ -20,13 +19,6 @@ export const EN_MESSAGES = {
     it: 'IT Support',
     customerRelations: 'Customer Relations',
     learning: 'Learning'
-  },
-  chatbot: {
-    panelAriaLabel: 'Chatbot panel',
-    panelTitle: 'Chat assistant',
-    closeChatbot: 'Close chatbot',
-    iframeTitle: 'Gabriel assistant',
-    unavailable: 'Chat assistant is temporarily unavailable. Please use contact form instead.',
   },
   cookieConsent: {
     saved: 'Saved. Your preferences were updated.',

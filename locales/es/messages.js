@@ -5,7 +5,6 @@ export const ES_MESSAGES = {
   fab: {
     careers: 'Carreras',
     contact: 'Contacto',
-    chatbot: 'Chatbot',
     openQuickActions: 'Abrir acciones rápidas'
   },
 
@@ -21,13 +20,6 @@ export const ES_MESSAGES = {
     it: 'IT',
     customerRelations: 'Relación con clientes',
     learning: 'Aprendizaje'
-  },
-  chatbot: {
-    panelAriaLabel: 'Panel del asistente',
-    close: 'Cerrar',
-    closeChatbot: 'Cerrar asistente',
-    iframeTitle: 'Asistente de Gabriel',
-    unavailable: 'El asistente de chat no está disponible temporalmente. Utiliza el formulario de contacto en su lugar.'
   },
   cookieConsent: {
     saved: 'Guardado. Tus preferencias fueron actualizadas.',
