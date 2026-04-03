@@ -67,7 +67,6 @@ function renderLog(log, history) {
 export function initGaboChatbotEmbed() {
   const currentOrigin = window.location.origin;
   const assetId = ORIGIN_ASSET_MAP[currentOrigin] || '';
-  if (!assetId) return;
 
   const state = safeStateLoad();
 
@@ -112,8 +111,10 @@ export function initGaboChatbotEmbed() {
     fabTrigger?.setAttribute('aria-expanded', String(open));
     state.open = open;
     saveState(state);
+    document.body.classList.toggle('chat-open', open);
 
     if (open) {
+      window.dispatchEvent(new CustomEvent('gabo:fabs-close'));
       renderLog(log, state.history);
       input.focus();
     }
@@ -127,6 +128,10 @@ export function initGaboChatbotEmbed() {
   }
 
   async function streamAssistantReply(userText) {
+    if (!assetId) {
+      throw new Error('Chat unavailable on this host.');
+    }
+
     const assistantIndex = state.history.push({ role: 'assistant', content: '...' }) - 1;
     state.history = state.history.slice(-MAX_HISTORY);
     renderLog(log, state.history);
@@ -196,6 +201,7 @@ export function initGaboChatbotEmbed() {
 
   fabTrigger?.setAttribute('aria-controls', 'gaboChatbotPanel');
   fabTrigger?.addEventListener('click', () => setOpen(!state.open));
+  window.addEventListener('gabo:chatbot-open', () => setOpen(true));
   close?.addEventListener('click', closeChat);
   closeText?.addEventListener('click', closeChat);
   overlay?.addEventListener('click', closeChat);
