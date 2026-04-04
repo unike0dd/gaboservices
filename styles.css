@@ -1422,7 +1422,6 @@ textarea[data-security-state='review'] {
   position: fixed;
   right: max(var(--nav-fab-offset-x), env(safe-area-inset-right, 0px));
   bottom: max(var(--nav-fab-offset-y), env(safe-area-inset-bottom, 0px));
-  z-index: 340;
 }
 
 .fab-main-toggle {
@@ -1444,7 +1443,6 @@ textarea[data-security-state='review'] {
 .fab-overlay {
   position: fixed;
   inset: 0;
-  z-index: 341;
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
