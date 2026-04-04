@@ -118,4 +118,15 @@ jobs:
         if: github.event_name != 'pull_request'
         run: |
           set -euo pipefail
-          gitleaks git --no-banner --redact --exit-code 1
+          BEFORE_SHA="${{ github.event.before }}"
+          AFTER_SHA="${{ github.sha }}"
+
+          # Scan only the commits introduced by this push to keep CI latency low.
+          # On brand-new branches/tags GitHub can provide an all-zero before SHA.
+          if [[ "${BEFORE_SHA}" == "0000000000000000000000000000000000000000" ]]; then
+            gitleaks git --no-banner --redact --exit-code 1 \
+              --log-opts "-n 1 ${AFTER_SHA}"
+          else
+            gitleaks git --no-banner --redact --exit-code 1 \
+              --log-opts "${BEFORE_SHA}..${AFTER_SHA}"
+          fi
