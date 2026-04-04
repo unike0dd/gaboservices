@@ -3484,8 +3484,9 @@ select {
   position: fixed;
   inset: 0;
   border: 0;
-  background: rgba(2, 6, 23, 0.34);
+  background: transparent;
   z-index: 3495;
+  pointer-events: none;
 }
 
 .gabo-chatbot__panel {
