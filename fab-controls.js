@@ -149,14 +149,9 @@ export function initFabControls() {
     }
   });
 
-  window.addEventListener('gabo:fabs-close', () => {
-    setDesktopFabOpenState(false);
-  });
-
   const handleBreakpointChange = (event) => {
     if (!event.matches) {
       setDesktopFabOpenState(false);
-      window.dispatchEvent(new CustomEvent('gabo:chatbot-close'));
     }
   };
 
