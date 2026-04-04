@@ -64,6 +64,20 @@ jobs:
           set -euo pipefail
           node scripts/validate-i18n-scope.js --report reports/i18n-integrity-report.json
 
+      - name: Validate chatbot policy parity map
+        run: |
+          set -euo pipefail
+          node scripts/validate-chatbot-policy-parity.js
+
+      - name: Run chatbot regression smoke checks
+        run: |
+          set -euo pipefail
+          node scripts/chatbot-regression-smoke.js
+
+      - name: Run JavaScript syntax checks
+        run: |
+          set -euo pipefail
+          node scripts/check-js-syntax.mjs
 
       - name: Print i18n integrity report summary
         run: |
