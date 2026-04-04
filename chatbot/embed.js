@@ -1,4 +1,3 @@
-import { setDesktopFabOpenState } from '../fab-controls.js';
 const WORKER_BASE = 'https://con-artist.rulathemtodos.workers.dev';
 
 const WORKER_CHAT = `${WORKER_BASE}/api/chat`;
@@ -13,6 +12,9 @@ const ORIGIN_ASSET_MAP = {
 
 const STORAGE_KEY = 'gabo_io_chatbot_cache_v1';
 const MAX_HISTORY = 40;
+const RATE_LIMIT_KEY = 'gabo_io_chatbot_rate_v1';
+const RATE_LIMIT_MAX_REQUESTS = 10;
+const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 
 // Security sanitization rules based on behavior.yml
 function sanitizeInput(input) {
@@ -102,6 +104,67 @@ function saveState(state) {
   }
 }
 
+function emitTelemetry(event, detail = {}) {
+  window.dispatchEvent(
+    new CustomEvent('gabo:chatbot-telemetry', {
+      detail: {
+        event,
+        ts: new Date().toISOString(),
+        ...detail
+      }
+    })
+  );
+}
+
+function readRateState() {
+  try {
+    const raw = localStorage.getItem(RATE_LIMIT_KEY);
+    const parsed = raw ? JSON.parse(raw) : {};
+    const stamps = Array.isArray(parsed?.stamps)
+      ? parsed.stamps.filter((v) => Number.isFinite(v))
+      : [];
+    return { stamps };
+  } catch {
+    return { stamps: [] };
+  }
+}
+
+function writeRateState(rateState) {
+  try {
+    localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(rateState));
+  } catch {
+    // Ignore storage restrictions.
+  }
+}
+
+function consumeRateToken(now = Date.now()) {
+  const rateState = readRateState();
+  const stamps = rateState.stamps.filter((ts) => now - ts < RATE_LIMIT_WINDOW_MS);
+
+  if (stamps.length >= RATE_LIMIT_MAX_REQUESTS) {
+    const oldest = Math.min(...stamps);
+    const retryInMs = Math.max(RATE_LIMIT_WINDOW_MS - (now - oldest), 0);
+    writeRateState({ stamps });
+    return { allowed: false, retryInMs };
+  }
+
+  stamps.push(now);
+  writeRateState({ stamps });
+  return { allowed: true, retryInMs: 0 };
+}
+
+function sanitizeAssistantOutput(input) {
+  const text = String(input || '');
+  const sensitivePatterns = [
+    /\bpassword\b/gi,
+    /\bapi[_-]?key\b/gi,
+    /\bsecret\b/gi,
+    /\btoken\b/gi
+  ];
+
+  return sensitivePatterns.reduce((out, pattern) => out.replace(pattern, '[REDACTED]'), text);
+}
+
 function parseSSEBlock(block) {
   const lines = String(block || '').split('\n');
   let out = '';
@@ -181,7 +244,6 @@ export function initGaboChatbotEmbed() {
   }
 
   function setOpen(open) {
-    setDesktopFabOpenState(false);
     if (overlay) overlay.hidden = !open;
     panel.hidden = !open;
     fabTrigger?.setAttribute('aria-expanded', String(open));
@@ -192,6 +254,9 @@ export function initGaboChatbotEmbed() {
     if (open) {
       renderLog(log, state.history);
       input.focus();
+      emitTelemetry('chat_opened', { historyCount: state.history.length });
+    } else {
+      emitTelemetry('chat_closed', { historyCount: state.history.length });
     }
   }
 
@@ -260,7 +325,7 @@ export function initGaboChatbotEmbed() {
         const delta = parseSSEBlock(part);
         if (!delta) continue;
         hasData = true;
-        state.history[assistantIndex].content += delta;
+        state.history[assistantIndex].content += sanitizeAssistantOutput(delta);
         renderLog(log, state.history);
       }
 
@@ -272,6 +337,10 @@ export function initGaboChatbotEmbed() {
       saveState(state);
       renderLog(log, state.history);
     }
+
+    state.history[assistantIndex].content = sanitizeAssistantOutput(state.history[assistantIndex].content);
+    saveState(state);
+    renderLog(log, state.history);
   }
 
   function closeChat(trigger = 'unknown') {
@@ -309,11 +378,25 @@ export function initGaboChatbotEmbed() {
     input.value = '';
     send.disabled = true;
     pushMessage('user', message);
+    emitTelemetry('send_attempt', { userMessageLength: message.length });
+
+    const rate = consumeRateToken();
+    if (!rate.allowed) {
+      const retrySeconds = Math.ceil(rate.retryInMs / 1000);
+      pushMessage('assistant', `Rate limit reached. Please wait ${retrySeconds}s and try again.`);
+      emitTelemetry('rate_limited', { retryInMs: rate.retryInMs });
+      send.disabled = false;
+      input.focus();
+      return;
+    }
 
     try {
+      emitTelemetry('stream_started', {});
       await streamAssistantReply(message);
+      emitTelemetry('stream_completed', {});
     } catch {
       pushMessage('assistant', 'Unable to complete request. Please try again.');
+      emitTelemetry('stream_failed', {});
     } finally {
       send.disabled = false;
       input.focus();

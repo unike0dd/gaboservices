@@ -10,12 +10,16 @@ behavior:
   input_processing:
     sanitization:
       - action: remove_html_tags
+        enforced_by: client
         description: Strip all HTML tags from user input to prevent XSS
       - action: escape_special_characters
+        enforced_by: client
         description: Escape special characters like <, >, &, etc.
       - action: remove_script_content
+        enforced_by: client
         description: Detect and remove any script tags or JavaScript code
       - action: filter_malicious_patterns
+        enforced_by: client
         patterns:
           - "<script.*?>.*?</script>"
           - "javascript:"
@@ -28,9 +32,11 @@ behavior:
           - "confirm\("
         description: Regex patterns to identify and remove potential malicious code
       - action: limit_input_length
+        enforced_by: client
         max_length: 1000
         description: Limit input to prevent buffer overflow or DoS
       - action: remove_programming_code
+        enforced_by: client
         patterns:
           - "import\s+.*"
           - "from\s+.*import"
@@ -47,8 +53,10 @@ behavior:
 
     validation:
       - action: check_integrity
+        enforced_by: cloudflare
         description: Verify input is from legitimate end user (e.g., via session tokens if applicable)
       - action: rate_limiting
+        enforced_by: cloudflare
         max_requests_per_minute: 10
         description: Prevent abuse by limiting request frequency
 
@@ -56,10 +64,13 @@ behavior:
   output_processing:
     filtering:
       - action: sanitize_responses
+        enforced_by: cloudflare
         description: Ensure responses do not contain executable code or sensitive data
       - action: escape_output
+        enforced_by: cloudflare
         description: Escape any dynamic content in responses
       - action: remove_sensitive_info
+        enforced_by: cloudflare
         patterns:
           - "password"
           - "api_key"
@@ -70,6 +81,7 @@ behavior:
   # Interaction Rules
   interaction:
     user_only: true
+    enforced_by: cloudflare
     description: Only respond to direct end-user interactions, ignore automated or bot requests
     allowed_origins:
       - "https://www.gabo.services"
@@ -79,11 +91,13 @@ behavior:
   # Security Monitoring
   monitoring:
     log_suspicious_activity: true
+    enforced_by: cloudflare
     alert_on_malicious_input: true
     description: Log and alert on detected malicious attempts
 
   # Maintenance
   maintenance:
     auto_clean_logs: true
+    enforced_by: cloudflare
     retention_days: 30
     description: Automatically clean old logs to maintain performance and privacy
