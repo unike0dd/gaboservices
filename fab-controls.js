@@ -1,10 +1,23 @@
 import { closeMobileMenu } from './assets/mobile-menu-state.js';
+import { EN_MESSAGES } from './locales/en/messages.js';
+import { ES_MESSAGES } from './locales/es/messages.js';
 
 const DESKTOP_QUERY = '(min-width: 901px)';
 
-function buildChatbotFabMarkup() {
+const LOCALE_MESSAGES = {
+  en: EN_MESSAGES,
+  es: ES_MESSAGES
+};
+
+function getCurrentMessages() {
+  const lang = String(document.documentElement.lang || 'en').toLowerCase();
+  const locale = lang.split('-')[0];
+  return LOCALE_MESSAGES[locale] || EN_MESSAGES;
+}
+
+function buildChatbotFabMarkup(messages) {
   return `
-    <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="false" aria-controls="fabOverlay">☰</button>
+    <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="false" aria-controls="fabOverlay" aria-label="${messages.fab.openQuickActions}">☰</button>
     <div class="fab-overlay" id="fabOverlay" hidden>
       <div class="fab-backdrop" data-fab-dismiss></div>
       <aside class="fab-sheet" role="dialog" aria-modal="true" aria-label="Quick actions menu">
@@ -16,29 +29,25 @@ function buildChatbotFabMarkup() {
           </div>
         </div>
         <div class="fab-menu" id="fabQuickMenu">
-          <a class="fab-item" data-page="contact" href="/contact/" aria-label="${EN_MESSAGES.fab.contact}">
-            <span class="fab-item-icon" aria-hidden="true">✉️</span>
-            <span>${EN_MESSAGES.fab.contact}</span>
-          </a>
-          <a class="fab-item" data-page="careers" href="/careers/" aria-label="${EN_MESSAGES.fab.careers}">
-            <span class="fab-item-icon" aria-hidden="true">💼</span>
-            <span>${EN_MESSAGES.fab.careers}</span>
-          </a>
-          <button class="fab-item" id="fabChatTrigger" type="button" aria-label="${EN_MESSAGES.fab.chat}">
-            <span class="fab-item-icon" aria-hidden="true">💬</span>
-            <span>${EN_MESSAGES.fab.chat}</span>
-          </button>
         </div>
-        <div id="fabChatMount" class="fab-chat-mount" hidden></div>
       </aside>
     </div>
   `;
 }
 
-function getFabTrigger() {
+function getDesktopFabElements() {
   const wrapper = document.getElementById('fabWrapper');
-  if (!wrapper) return null;
-  return wrapper.querySelector('#fabChatTrigger');
+  if (!(wrapper instanceof HTMLElement)) return null;
+
+  const fabToggle = wrapper.querySelector('#fabMainToggle');
+  const fabOverlay = wrapper.querySelector('#fabOverlay');
+  const fabMenu = wrapper.querySelector('#fabQuickMenu');
+
+  if (!(fabToggle instanceof HTMLElement) || !(fabOverlay instanceof HTMLElement) || !(fabMenu instanceof HTMLElement)) {
+    return null;
+  }
+
+  return { wrapper, fabToggle, fabOverlay, fabMenu };
 }
 
 export function setDesktopFabOpenState(isOpen) {
@@ -53,8 +62,6 @@ export function setDesktopFabOpenState(isOpen) {
 
   if (!isOpen) {
     fabMenu.hidden = false;
-    const chatMount = elements.wrapper.querySelector('#fabChatMount');
-    if (chatMount instanceof HTMLElement) chatMount.hidden = true;
   }
   fabToggle.setAttribute('aria-expanded', String(isOpen));
   fabToggle.textContent = isOpen ? '✕ Close actions' : '☰';
@@ -72,7 +79,7 @@ export function ensureDesktopFabNav() {
   wrapper = document.createElement('div');
   wrapper.id = 'fabWrapper';
   wrapper.className = 'fab-wrapper';
-  wrapper.innerHTML = buildChatbotFabMarkup();
+  wrapper.innerHTML = buildChatbotFabMarkup(getCurrentMessages());
   document.body.appendChild(wrapper);
 
   return wrapper;
@@ -92,37 +99,29 @@ export function initFabControls() {
 
   wrapper.dataset.navBound = 'true';
   const desktopQuery = window.matchMedia(DESKTOP_QUERY);
-  const trigger = getFabTrigger();
+  const fabToggle = wrapper.querySelector('#fabMainToggle');
+  if (!(fabToggle instanceof HTMLElement)) return;
 
   setDesktopFabOpenState(false);
 
   fabToggle?.addEventListener('click', toggleFabMenu);
 
-  desktopWrapper.addEventListener('click', (event) => {
+  wrapper.addEventListener('click', (event) => {
     const target = event.target;
     if (!(target instanceof Element)) return;
 
-    if (target.closest('#fabChatTrigger')) {
-      window.dispatchEvent(new CustomEvent('gabo:chatbot-open'));
-      setDesktopFabOpenState(false);
-      return;
-    }
-
     if (target.closest('[data-fab-dismiss]')) {
-      setFabChatMode(false);
       setDesktopFabOpenState(false);
       return;
     }
 
     if (target.closest('.fab-item')) {
-      setFabChatMode(false);
       setDesktopFabOpenState(false);
     }
   });
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
-      setFabChatMode(false);
       setDesktopFabOpenState(false);
     }
   });
