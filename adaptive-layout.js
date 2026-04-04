@@ -1,8 +1,4 @@
-const BREAKPOINTS = {
-  mobile: 600,
-  tablet: 900,
-  laptop: 1280
-};
+import { BREAKPOINTS } from './breakpoints.config.js';
 
 function getViewportTier(width) {
   if (width <= BREAKPOINTS.mobile) return 'mobile';

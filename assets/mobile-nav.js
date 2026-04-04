@@ -1,4 +1,6 @@
-const MOBILE_QUERY = '(max-width: 900px)';
+import { BREAKPOINT_QUERIES } from '../breakpoints.config.js';
+
+const MOBILE_QUERY = BREAKPOINT_QUERIES.mobileQuery;
 
 const ROUTES = {
   primary: [

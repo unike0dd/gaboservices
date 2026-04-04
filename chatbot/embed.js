@@ -132,8 +132,12 @@ export function initGaboChatbotEmbed() {
     renderLog(log, state.history);
     saveState(state);
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
+
     const resp = await fetch(WORKER_CHAT, {
       method: 'POST',
+      signal: controller.signal,
       headers: {
         'Content-Type': 'application/json',
         Accept: 'text/event-stream',
@@ -145,7 +149,7 @@ export function initGaboChatbotEmbed() {
         messages: [{ role: 'user', content: userText }],
         meta: { surface: 'gabo_io_global_widget', communication: 'Cyber Security' }
       })
-    });
+    }).finally(() => clearTimeout(timeoutId));
 
     if (!resp.ok) {
       const text = await resp.text().catch(() => '');
@@ -198,7 +202,6 @@ export function initGaboChatbotEmbed() {
   fabTrigger?.setAttribute('aria-controls', 'gaboChatbotPanel');
   fabTrigger?.addEventListener('click', () => setOpen(!state.open));
   window.addEventListener('gabo:chatbot-open', () => setOpen(true));
-  overlay?.addEventListener('click', closeChat);
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && state.open) {
