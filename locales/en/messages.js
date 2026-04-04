@@ -16,7 +16,7 @@ export const EN_MESSAGES = {
     services: 'Services',
     careers: 'Career',
     contact: 'Contact',
-    chatbot: 'Chat',
+    chatbot: 'Gabo io',
     logistics: 'Logistics',
     admin: 'Admin BackOffice',
     it: 'IT Support',
