@@ -181,7 +181,6 @@ export function initGaboChatbotEmbed() {
   }
 
   function setOpen(open) {
-    setDesktopFabOpenState(false);
     if (overlay) overlay.hidden = !open;
     panel.hidden = !open;
     fabTrigger?.setAttribute('aria-expanded', String(open));
