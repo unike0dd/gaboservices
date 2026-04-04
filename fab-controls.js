@@ -4,9 +4,34 @@ const DESKTOP_QUERY = '(min-width: 901px)';
 
 function buildChatbotFabMarkup() {
   return `
-    <button class="fab-main-toggle" id="fabChatTrigger" type="button" aria-expanded="false" aria-controls="gaboChatbotPanel" aria-label="Open Chatbot Gabo io">
-      💬 Chatbot Gabo io
-    </button>
+    <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="false" aria-controls="fabOverlay">☰</button>
+    <div class="fab-overlay" id="fabOverlay" hidden>
+      <div class="fab-backdrop" data-fab-dismiss></div>
+      <aside class="fab-sheet" role="dialog" aria-modal="true" aria-label="Quick actions menu">
+        <div class="fab-sheet-head">
+          <strong>Quick actions</strong>
+          <div class="fab-sheet-actions">
+            <button class="fab-dismiss" type="button" data-fab-dismiss>Close</button>
+            <button class="fab-dismiss fab-dismiss--icon" type="button" data-fab-dismiss aria-label="Close quick actions menu">✕</button>
+          </div>
+        </div>
+        <div class="fab-menu" id="fabQuickMenu">
+          <a class="fab-item" data-page="contact" href="/contact/" aria-label="${EN_MESSAGES.fab.contact}">
+            <span class="fab-item-icon" aria-hidden="true">✉️</span>
+            <span>${EN_MESSAGES.fab.contact}</span>
+          </a>
+          <a class="fab-item" data-page="careers" href="/careers/" aria-label="${EN_MESSAGES.fab.careers}">
+            <span class="fab-item-icon" aria-hidden="true">💼</span>
+            <span>${EN_MESSAGES.fab.careers}</span>
+          </a>
+          <button class="fab-item" id="fabChatTrigger" type="button" aria-label="${EN_MESSAGES.fab.chat}">
+            <span class="fab-item-icon" aria-hidden="true">💬</span>
+            <span>${EN_MESSAGES.fab.chat}</span>
+          </button>
+        </div>
+        <div id="fabChatMount" class="fab-chat-mount" hidden></div>
+      </aside>
+    </div>
   `;
 }
 
@@ -17,9 +42,27 @@ function getFabTrigger() {
 }
 
 export function setDesktopFabOpenState(isOpen) {
-  const trigger = getFabTrigger();
-  if (!trigger) return;
-  trigger.setAttribute('aria-expanded', String(isOpen));
+  const elements = getDesktopFabElements();
+  if (!elements) return;
+
+  const { fabToggle, fabOverlay, fabMenu } = elements;
+
+  if (isOpen) {
+    closeMobileMenu();
+  }
+
+  if (!isOpen) {
+    fabMenu.hidden = false;
+    const chatMount = elements.wrapper.querySelector('#fabChatMount');
+    if (chatMount instanceof HTMLElement) chatMount.hidden = true;
+  }
+  fabToggle.setAttribute('aria-expanded', String(isOpen));
+  fabToggle.textContent = isOpen ? '✕ Close actions' : '☰';
+  fabOverlay.hidden = !isOpen;
+  document.body.classList.toggle('fab-open', isOpen);
+  fabOverlay.style.opacity = isOpen ? '1' : '0';
+  fabOverlay.style.visibility = isOpen ? 'visible' : 'hidden';
+  fabOverlay.style.pointerEvents = isOpen ? 'auto' : 'none';
 }
 
 export function ensureDesktopFabNav() {
@@ -35,6 +78,14 @@ export function ensureDesktopFabNav() {
   return wrapper;
 }
 
+function toggleFabMenu() {
+  const fabToggle = document.getElementById('fabMainToggle');
+  if (!(fabToggle instanceof HTMLElement)) return;
+
+  const isOpen = fabToggle.getAttribute('aria-expanded') === 'true';
+  setDesktopFabOpenState(!isOpen);
+}
+
 export function initFabControls() {
   const wrapper = ensureDesktopFabNav();
   if (!wrapper || wrapper.dataset.navBound === 'true') return;
@@ -45,19 +96,38 @@ export function initFabControls() {
 
   setDesktopFabOpenState(false);
 
-  trigger?.addEventListener('click', () => {
-    closeMobileMenu();
-    setDesktopFabOpenState(true);
-    window.dispatchEvent(new CustomEvent('gabo:chatbot-open'));
+  fabToggle?.addEventListener('click', toggleFabMenu);
+
+  desktopWrapper.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+
+    if (target.closest('#fabChatTrigger')) {
+      window.dispatchEvent(new CustomEvent('gabo:chatbot-open'));
+      setDesktopFabOpenState(false);
+      return;
+    }
+
+    if (target.closest('[data-fab-dismiss]')) {
+      setFabChatMode(false);
+      setDesktopFabOpenState(false);
+      return;
+    }
+
+    if (target.closest('.fab-item')) {
+      setFabChatMode(false);
+      setDesktopFabOpenState(false);
+    }
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key !== 'Escape') return;
-    setDesktopFabOpenState(false);
-    window.dispatchEvent(new CustomEvent('gabo:chatbot-close'));
+    if (event.key === 'Escape') {
+      setFabChatMode(false);
+      setDesktopFabOpenState(false);
+    }
   });
 
-  window.addEventListener('gabo:chatbot-close', () => {
+  window.addEventListener('gabo:fabs-close', () => {
     setDesktopFabOpenState(false);
   });
 

@@ -1,3 +1,4 @@
+import { setDesktopFabOpenState } from '../fab-controls.js';
 const WORKER_BASE = 'https://con-artist.rulathemtodos.workers.dev';
 
 const WORKER_CHAT = `${WORKER_BASE}/api/chat`;
@@ -108,6 +109,7 @@ export function initGaboChatbotEmbed() {
   const log = root.querySelector('.gabo-chatbot__log');
 
   function setOpen(open) {
+    setDesktopFabOpenState(false);
     panel.hidden = !open;
     overlay.hidden = !open;
     fabTrigger?.setAttribute('aria-expanded', String(open));
@@ -116,8 +118,11 @@ export function initGaboChatbotEmbed() {
     document.body.classList.toggle('chat-open', open);
 
     if (open) {
+      window.dispatchEvent(new CustomEvent('gabo:fabs-close'));
       renderLog(log, state.history);
       input.focus();
+    } else {
+      setDesktopFabOpenState(false);
     }
   }
 
@@ -202,6 +207,7 @@ export function initGaboChatbotEmbed() {
   }
 
   fabTrigger?.setAttribute('aria-controls', 'gaboChatbotPanel');
+  fabTrigger?.addEventListener('click', () => setOpen(!state.open));
   window.addEventListener('gabo:chatbot-open', () => setOpen(true));
   close?.addEventListener('click', closeChat);
   closeText?.addEventListener('click', closeChat);

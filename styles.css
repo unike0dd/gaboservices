@@ -3463,9 +3463,11 @@ select {
   }
 }
 .gabo-chatbot {
-  position: relative;
-  z-index: 1;
-  pointer-events: auto;
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.75rem);
+  z-index: 3500;
+  pointer-events: none;
 }
 
 .gabo-chatbot__overlay {
@@ -3474,9 +3476,12 @@ select {
 
 .gabo-chatbot__panel {
   position: relative;
-  width: 100%;
-  height: min(62vh, 520px);
-  max-height: min(62vh, 520px);
+  right: 0;
+  bottom: 0;
+  z-index: 3500;
+  width: min(92vw, 380px);
+  height: min(65dvh, 620px);
+  max-height: min(65dvh, 620px);
   display: grid;
   grid-template-rows: auto 1fr auto;
   background: #251541;
@@ -3590,6 +3595,14 @@ select {
 }
 
 @media (max-width: 1024px) {
+  .gabo-chatbot {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    pointer-events: none;
+  }
+
   .gabo-chatbot__panel {
     width: 100%;
     height: min(65vh, 540px);
