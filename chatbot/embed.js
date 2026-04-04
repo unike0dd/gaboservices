@@ -94,7 +94,7 @@ export function initGaboChatbotEmbed() {
     </div>
   `;
 
-  const host = document.getElementById('fabWrapper') || document.body;
+  const host = document.getElementById('fabChatMount') || document.getElementById('fabWrapper') || document.body;
   host.appendChild(root);
 
   const fabTrigger = document.getElementById('fabChatTrigger');
@@ -203,6 +203,7 @@ export function initGaboChatbotEmbed() {
 
   function closeChat() {
     setOpen(false);
+    window.dispatchEvent(new CustomEvent('gabo:chatbot-close'));
   }
 
   fabTrigger?.setAttribute('aria-controls', 'gaboChatbotPanel');

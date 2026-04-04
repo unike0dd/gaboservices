@@ -1513,6 +1513,10 @@ textarea[data-security-state='review'] {
   gap: 0.7rem;
 }
 
+.fab-chat-mount {
+  margin-top: 0.5rem;
+}
+
 .fab-item {
   min-height: 48px;
   border-radius: 999px;
@@ -3467,12 +3471,7 @@ select {
 }
 
 .gabo-chatbot__overlay {
-  position: fixed;
-  inset: 0;
-  border: 0;
-  background: rgba(0, 0, 0, 0.24);
-  z-index: 3500;
-  cursor: default;
+  display: none;
 }
 
 .gabo-chatbot__panel {
@@ -3605,22 +3604,21 @@ select {
   }
 
   .gabo-chatbot__panel {
-    right: 50%;
-    transform: translateX(50%);
-    width: min(96vw, 680px);
-    height: 90dvh;
-    max-height: 90dvh;
-    bottom: calc(0.8rem + 25px);
+    width: 100%;
+    height: min(65vh, 540px);
+    max-height: min(65vh, 540px);
+    transform: none;
   }
 }
 
 @media (max-width: 560px) {
+  .fab-sheet {
+    max-height: 80vh;
+    overflow: auto;
+  }
+
   .gabo-chatbot__panel {
-    width: 96vw;
-    right: 50%;
-    transform: translateX(50%);
-    height: 90dvh;
-    max-height: 90dvh;
-    bottom: calc(0.4rem + 25px);
+    height: min(62vh, 500px);
+    max-height: min(62vh, 500px);
   }
 }

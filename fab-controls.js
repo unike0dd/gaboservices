@@ -30,6 +30,7 @@ function buildDesktopFabMarkup() {
             <span>${EN_MESSAGES.fab.chat}</span>
           </button>
         </div>
+        <div id="fabChatMount" class="fab-chat-mount" hidden></div>
       </aside>
     </div>
   `;
@@ -57,7 +58,11 @@ export function setDesktopFabOpenState(isOpen) {
     closeMobileMenu();
   }
 
-  fabMenu.hidden = false;
+  if (!isOpen) {
+    fabMenu.hidden = false;
+    const chatMount = elements.wrapper.querySelector('#fabChatMount');
+    if (chatMount instanceof HTMLElement) chatMount.hidden = true;
+  }
   fabToggle.setAttribute('aria-expanded', String(isOpen));
   fabToggle.textContent = isOpen ? '✕ Close actions' : '☰';
   fabOverlay.hidden = !isOpen;
@@ -111,15 +116,20 @@ export function initFabControls() {
     }
 
     if (target.closest('[data-fab-dismiss]')) {
+      setFabChatMode(false);
       setDesktopFabOpenState(false);
       return;
     }
 
-    if (target.closest('.fab-item')) setDesktopFabOpenState(false);
+    if (target.closest('.fab-item')) {
+      setFabChatMode(false);
+      setDesktopFabOpenState(false);
+    }
   });
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
+      setFabChatMode(false);
       setDesktopFabOpenState(false);
     }
   });
