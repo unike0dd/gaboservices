@@ -103,12 +103,13 @@ export function closeMobileMenu() {
     releaseFocusBeforeHide(backdrop);
     backdrop.classList.remove('is-open', 'open', 'active', 'is-active', 'is-visible');
     backdrop.setAttribute('aria-hidden', 'true');
+    if (backdrop.id === 'fabOverlay') {
+      backdrop.removeAttribute('style');
+      return;
+    }
     backdrop.style.opacity = '0';
     backdrop.style.visibility = 'hidden';
     backdrop.style.pointerEvents = 'none';
-    if (backdrop.id === 'fabOverlay') {
-      backdrop.hidden = true;
-    }
   });
 
   const servicesToggle = document.querySelector('[data-mobile-services-toggle]');
@@ -126,10 +127,8 @@ export function closeMobileMenu() {
 
   const fabOverlay = document.getElementById('fabOverlay');
   if (fabOverlay instanceof HTMLElement) {
-    fabOverlay.hidden = true;
-    fabOverlay.style.opacity = '0';
-    fabOverlay.style.visibility = 'hidden';
-    fabOverlay.style.pointerEvents = 'none';
+    fabOverlay.setAttribute('aria-hidden', 'true');
+    fabOverlay.removeAttribute('style');
   }
 
   if (body instanceof HTMLElement) {
