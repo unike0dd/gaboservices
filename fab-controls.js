@@ -35,7 +35,7 @@ function buildChatbotFabMarkup(messages) {
             <span>${messages.fab.chatbot}</span>
           </button>
         </div>
-        <div id="fabChatMount" class="fab-chat-mount" hidden></div>
+        <div id="fabChatMount" class="fab-chat-mount"></div>
       </aside>
     </div>
   `;
