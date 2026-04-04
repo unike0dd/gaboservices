@@ -243,6 +243,11 @@ export function initGaboChatbotEmbed() {
     return;
   }
 
+  const existing = host.querySelector(':scope > .gabo-chatbot');
+  if (existing) {
+    existing.remove();
+  }
+
   host.appendChild(root);
 
   const fabTrigger = document.getElementById('fabChatTrigger');
@@ -369,9 +374,9 @@ export function initGaboChatbotEmbed() {
   fabTrigger?.setAttribute('aria-controls', 'gaboChatbotPanel');
   fabTrigger?.addEventListener('click', () => setOpen(!state.open));
   window.addEventListener('gabo:chatbot-open', () => setOpen(true));
-  closeText?.addEventListener('click', closeChat);
-  closeIcon?.addEventListener('click', closeChat);
-  overlay?.addEventListener('click', closeChat);
+  closeText?.addEventListener('click', () => closeChat('header-close-text'));
+  closeIcon?.addEventListener('click', () => closeChat('header-close-icon'));
+  overlay?.addEventListener('click', () => closeChat('overlay-click'));
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && state.open) {
