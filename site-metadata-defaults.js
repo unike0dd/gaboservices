@@ -22,7 +22,7 @@ export const SITE_METADATA_DEFAULTS = Object.freeze({
   },
   security: {
     cspProfile: 'strict-static-site-v1',
-    controlFamilies: ['SEO', 'CSP', 'CISA', 'NIST CSF', 'OWASP ASVS', 'PCI DSS 4.0'],
+    controlFamilies: ['SEO', 'CSP', 'CISA', 'CIS Controls', 'NIST CSF', 'OWASP ASVS', 'PCI DSS 4.0'],
     allowlistedFrameHosts: [
       'https://challenges.cloudflare.com',
       'https://www.youtube-nocookie.com'

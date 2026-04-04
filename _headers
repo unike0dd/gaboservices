@@ -5,9 +5,10 @@
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+  X-Robots-Tag: index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1
   Cross-Origin-Resource-Policy: same-origin
   Cross-Origin-Opener-Policy: same-origin
-  Permissions-Policy: geolocation=(), camera=(), payment=(), usb=(), accelerometer=(), gyroscope=(), magnetometer=(), interest-cohort=()
+  Permissions-Policy: geolocation=(), camera=(), payment=(), usb=(), accelerometer=(), gyroscope=(), magnetometer=(), microphone=(), browsing-topics=(), interest-cohort=()
   X-XSS-Protection: 0
   X-Permitted-Cross-Domain-Policies: none
 
