@@ -52,7 +52,7 @@ function initCenterServicesRotation() {
       link: '/services/it-support/'
     },
     {
-      center: 'CUSTOMER RELATIONS',
+      center: 'CUSTOMER OPERATIONS',
       text: 'Customer communication, response tracking, and continuity.',
       link: '/services/customer-relations/'
     }
@@ -60,7 +60,7 @@ function initCenterServicesRotation() {
 
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const wordChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-  const openServicePageLabel = 'Open service page ↗';
+  const openServicePageLabel = 'Explore service';
   const titleSpeed = 45;
   const textSpeed = 18;
   const duration = 4200;
