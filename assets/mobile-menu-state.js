@@ -104,7 +104,6 @@ export function closeMobileMenu() {
     backdrop.classList.remove('is-open', 'open', 'active', 'is-active', 'is-visible');
     backdrop.setAttribute('aria-hidden', 'true');
     if (backdrop.id === 'fabOverlay') {
-      backdrop.hidden = true;
       backdrop.removeAttribute('style');
       return;
     }
@@ -128,7 +127,7 @@ export function closeMobileMenu() {
 
   const fabOverlay = document.getElementById('fabOverlay');
   if (fabOverlay instanceof HTMLElement) {
-    fabOverlay.hidden = true;
+    fabOverlay.setAttribute('aria-hidden', 'true');
     fabOverlay.removeAttribute('style');
   }
 
