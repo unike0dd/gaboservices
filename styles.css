@@ -1421,7 +1421,7 @@ textarea[data-security-state='review'] {
 .fab-wrapper {
   position: fixed;
   right: max(var(--nav-fab-offset-x), env(safe-area-inset-right, 0px));
-  bottom: max(var(--nav-fab-offset-y), env(safe-area-inset-bottom, 0px));
+  bottom: calc(max(var(--nav-fab-offset-y), env(safe-area-inset-bottom, 0px)) + 7px);
   z-index: 3200;
 }
 
@@ -1712,7 +1712,7 @@ body.chat-open {
 @media (max-width: 900px) {
   .fab-wrapper {
     right: max(var(--nav-fab-offset-x), env(safe-area-inset-right, 0px));
-    bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 5.15rem);
+    bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 5.15rem + 7px);
   }
 
   .fab-sheet {
