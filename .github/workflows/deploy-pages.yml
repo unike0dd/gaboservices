@@ -30,13 +30,36 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            const isMainPush = context.eventName === 'push' && context.ref === 'refs/heads/main';
             try {
               const pages = await github.rest.repos.getPages({
                 owner: context.repo.owner,
                 repo: context.repo.repo
               });
-              const buildType = pages?.data?.build_type || 'unknown';
+
+              let buildType = pages?.data?.build_type || 'unknown';
               core.info(`GitHub Pages is enabled for this repository (build_type: ${buildType}).`);
+
+              if (isMainPush && buildType === 'legacy') {
+                core.warning("Pages is enabled with legacy build mode. Attempting to switch build_type to 'workflow'.");
+                try {
+                  await github.request('PUT /repos/{owner}/{repo}/pages', {
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    build_type: 'workflow'
+                  });
+
+                  const refreshedPages = await github.rest.repos.getPages({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo
+                  });
+                  buildType = refreshedPages?.data?.build_type || buildType;
+                  core.info(`Pages build_type after remediation attempt: ${buildType}.`);
+                } catch (remediationError) {
+                  core.warning(`Automatic remediation failed: ${remediationError.message}`);
+                }
+              }
+
               core.setOutput('enabled', 'true');
               core.setOutput('build_type', buildType);
               core.setOutput('deployable', buildType === 'workflow' ? 'true' : 'false');
@@ -50,6 +73,7 @@ jobs:
               }
               throw error;
             }
+
 
       - name: Setup Pages
         if: steps.pages_status.outputs.deployable == 'true'
