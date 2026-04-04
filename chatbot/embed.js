@@ -79,6 +79,15 @@ export function initGaboChatbotEmbed() {
     <div id="gaboChatbotPanel" class="gabo-chatbot__panel" hidden>
       <header class="gabo-chatbot__header">
         <strong>Gabo io</strong>
+        <button
+          class="gabo-chatbot__close"
+          id="gaboChatbotClose"
+          type="button"
+          aria-label="Close chatbot"
+          title="Close"
+        >
+          ✕
+        </button>
       </header>
       <div class="gabo-chatbot__log" aria-live="polite"></div>
       <form class="gabo-chatbot__form" autocomplete="off">
@@ -103,8 +112,9 @@ export function initGaboChatbotEmbed() {
   const input = root.querySelector('.gabo-chatbot__input');
   const send = root.querySelector('.gabo-chatbot__send');
   const log = root.querySelector('.gabo-chatbot__log');
+  const closeButton = root.querySelector('#gaboChatbotClose');
 
-  if (!fabTrigger || !panel || !form || !input || !send || !log) {
+  if (!fabTrigger || !panel || !form || !input || !send || !log || !closeButton) {
     console.warn('[Gabo Chatbot] Required elements missing, cannot initialize');
     return;
   }
@@ -201,18 +211,20 @@ export function initGaboChatbotEmbed() {
     }
   }
 
-  function closeChat() {
+  function closeChat(trigger = 'unknown') {
     setOpen(false);
-    window.dispatchEvent(new CustomEvent('gabo:chatbot-close'));
+    window.dispatchEvent(new CustomEvent('gabo:chatbot-close', { detail: { trigger } }));
   }
 
   fabTrigger?.setAttribute('aria-controls', 'gaboChatbotPanel');
   fabTrigger?.addEventListener('click', () => setOpen(!state.open));
   window.addEventListener('gabo:chatbot-open', () => setOpen(true));
 
+  closeButton.addEventListener('click', () => closeChat('chat-close-button'));
+
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && state.open) {
-      closeChat();
+      closeChat('escape-key');
     }
   });
 
@@ -221,7 +233,7 @@ export function initGaboChatbotEmbed() {
     const target = event.target;
     if (!(target instanceof Node)) return;
     if (panel.contains(target) || fabTrigger?.contains(target)) return;
-    closeChat();
+    closeChat('outside-chat-panel');
   });
 
   form.addEventListener('submit', async (event) => {
