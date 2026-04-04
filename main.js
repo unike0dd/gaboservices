@@ -5,7 +5,6 @@ import { initAnalyticsConsentGuard } from './analytics-consent-guard.js';
 import { initSiteGovernance } from './site-governance.js';
 import { ACTIVE_LOCALE, getLocalizedValue, getSiteMetadata } from './site-metadata.js';
 import { EN_MESSAGES } from './locales/en/messages.js';
-import { initGaboChatbotEmbed } from './chatbot/embed.js';
 
 function syncPageMetadata() {
   const metadata = getSiteMetadata();
@@ -295,5 +294,4 @@ document.addEventListener('DOMContentLoaded', () => {
   initFormStatus();
   initHomeHeroFlipCard();
   initCenterServicesRotation();
-  initGaboChatbotEmbed();
 });
