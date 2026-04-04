@@ -9,11 +9,15 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: security-compliance-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   secret-scan:
     name: Security + JS Syntax Guardrails
-    name: Secret Scan (Gitleaks)
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       GITLEAKS_VERSION: 8.24.2
@@ -44,10 +48,16 @@ jobs:
       - name: Install gitleaks binary
         run: |
           set -euo pipefail
-          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" -o /tmp/gitleaks.tar.gz
-          tar -xzf /tmp/gitleaks.tar.gz -C /tmp gitleaks
           mkdir -p "$HOME/.local/bin"
-          install -m 0755 /tmp/gitleaks "$HOME/.local/bin/gitleaks"
+          target="$HOME/.local/bin/gitleaks"
+          if command -v gitleaks >/dev/null 2>&1 && gitleaks version | grep -q "version ${GITLEAKS_VERSION}"; then
+            echo "Using preinstalled gitleaks ${GITLEAKS_VERSION}"
+            install -m 0755 "$(command -v gitleaks)" "$target"
+          else
+            curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" -o /tmp/gitleaks.tar.gz
+            tar -xzf /tmp/gitleaks.tar.gz -C /tmp gitleaks
+            install -m 0755 /tmp/gitleaks "$target"
+          fi
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       - name: Guard workflow against invalid git depth usage
