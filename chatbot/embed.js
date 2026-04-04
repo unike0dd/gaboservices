@@ -3,7 +3,7 @@ const WORKER_BASE = 'https://con-artist.rulathemtodos.workers.dev';
 const WORKER_CHAT = `${WORKER_BASE}/api/chat`;
 const WORKER_MODE = 'iframe_service_qa';
 
-const ORIGIN_ASSET_MAP = {
+const DEFAULT_ORIGIN_ASSET_MAP = {
   'https://www.gabo.services':
     'b91f605b23748de5cf02db0de2dd59117b31c709986a3c72837d0af8756473cf2779c206fc6ef80a57fdeddefa4ea11b972572f3a8edd9ed77900f9385e94bd6',
   'https://gabo.services':
@@ -77,6 +77,22 @@ function sanitizeInput(input) {
   sanitized = sanitized.trim();
 
   return sanitized;
+}
+
+function getOriginAssetMap() {
+  const configured = window.SITE_METADATA?.chatbot?.originAssetMap;
+  if (!configured || typeof configured !== 'object') {
+    return DEFAULT_ORIGIN_ASSET_MAP;
+  }
+
+  const cleanConfigured = Object.fromEntries(
+    Object.entries(configured).filter(([origin, assetId]) => typeof origin === 'string' && typeof assetId === 'string' && assetId)
+  );
+
+  return {
+    ...DEFAULT_ORIGIN_ASSET_MAP,
+    ...cleanConfigured
+  };
 }
 
 function safeStateLoad() {
@@ -194,7 +210,8 @@ function renderLog(log, history) {
 
 export function initGaboChatbotEmbed() {
   const currentOrigin = window.location.origin;
-  const assetId = ORIGIN_ASSET_MAP[currentOrigin] || '';
+  const originAssetMap = getOriginAssetMap();
+  const assetId = originAssetMap[currentOrigin] || '';
 
   const state = safeStateLoad();
   state.open = false;
@@ -269,7 +286,8 @@ export function initGaboChatbotEmbed() {
 
   async function streamAssistantReply(userText) {
     if (!assetId) {
-      throw new Error('Chat unavailable on this host.');
+      emitTelemetry('host_not_allowlisted', { currentOrigin });
+      throw new Error('Chat unavailable on this host. Add this origin to SITE_METADATA.chatbot.originAssetMap.');
     }
 
     const assistantIndex = state.history.push({ role: 'assistant', content: '...' }) - 1;
