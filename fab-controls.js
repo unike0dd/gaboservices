@@ -15,7 +15,7 @@ function getCurrentMessages() {
   return LOCALE_MESSAGES[locale] || EN_MESSAGES;
 }
 
-function buildFabMarkup(messages) {
+function buildChatbotFabMarkup(messages) {
   return `
     <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="false" aria-controls="fabOverlay" aria-label="${messages.fab.openQuickActions}">☰</button>
     <div class="fab-overlay" id="fabOverlay" hidden>
@@ -28,6 +28,21 @@ function buildFabMarkup(messages) {
             <button class="fab-dismiss fab-dismiss--icon" type="button" data-fab-dismiss aria-label="Close quick actions menu">✕</button>
           </div>
         </div>
+        <div class="fab-menu" id="fabQuickMenu">
+          <a class="fab-item" data-page="contact" href="/contact/" aria-label="${messages.fab.contact}">
+            <span class="fab-item-icon" aria-hidden="true">✉️</span>
+            <span>${messages.fab.contact}</span>
+          </a>
+          <a class="fab-item" data-page="careers" href="/careers/" aria-label="${messages.fab.careers}">
+            <span class="fab-item-icon" aria-hidden="true">💼</span>
+            <span>${messages.fab.careers}</span>
+          </a>
+          <button class="fab-item" id="fabChatTrigger" type="button" aria-label="${messages.fab.chatbot}">
+            <span class="fab-item-icon" aria-hidden="true">💬</span>
+            <span>${messages.fab.chatbot}</span>
+          </button>
+        </div>
+        <div id="fabChatMount" class="fab-chat-mount" hidden></div>
       </aside>
     </div>
   `;
@@ -44,6 +59,21 @@ function getDesktopFabElements() {
   }
 
   return { wrapper, fabToggle, fabOverlay };
+}
+
+function getDesktopFabElements() {
+  const wrapper = document.getElementById('fabWrapper');
+  if (!(wrapper instanceof HTMLElement)) return null;
+
+  const fabToggle = wrapper.querySelector('#fabMainToggle');
+  const fabOverlay = wrapper.querySelector('#fabOverlay');
+  const fabMenu = wrapper.querySelector('#fabQuickMenu');
+
+  if (!(fabToggle instanceof HTMLElement) || !(fabOverlay instanceof HTMLElement) || !(fabMenu instanceof HTMLElement)) {
+    return null;
+  }
+
+  return { wrapper, fabToggle, fabOverlay, fabMenu };
 }
 
 export function setDesktopFabOpenState(isOpen) {
@@ -72,7 +102,7 @@ export function ensureDesktopFabNav() {
   wrapper = document.createElement('div');
   wrapper.id = 'fabWrapper';
   wrapper.className = 'fab-wrapper';
-  wrapper.innerHTML = buildFabMarkup(getCurrentMessages());
+  wrapper.innerHTML = buildChatbotFabMarkup(getCurrentMessages());
   document.body.appendChild(wrapper);
 
   return wrapper;
@@ -108,6 +138,9 @@ export function initFabControls() {
       return;
     }
 
+    if (target.closest('.fab-item')) {
+      setDesktopFabOpenState(false);
+    }
   });
 
   document.addEventListener('keydown', (event) => {
