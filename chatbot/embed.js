@@ -14,6 +14,69 @@ const ORIGIN_ASSET_MAP = {
 const STORAGE_KEY = 'gabo_io_chatbot_cache_v1';
 const MAX_HISTORY = 40;
 
+// Security sanitization rules based on behavior.yml
+function sanitizeInput(input) {
+  if (typeof input !== 'string') return '';
+
+  let sanitized = input;
+
+  // Limit length
+  if (sanitized.length > 1000) {
+    sanitized = sanitized.substring(0, 1000);
+  }
+
+  // Remove HTML tags
+  sanitized = sanitized.replace(/<[^>]*>/g, '');
+
+  // Escape special characters
+  sanitized = sanitized.replace(/&/g, '&amp;')
+                       .replace(/</g, '&lt;')
+                       .replace(/>/g, '&gt;')
+                       .replace(/"/g, '&quot;')
+                       .replace(/'/g, '&#x27;');
+
+  // Filter malicious patterns (scripts, JS code)
+  const maliciousPatterns = [
+    /<script[^>]*>[\s\S]*?<\/script>/gi,
+    /javascript:/gi,
+    /on\w+\s*=/gi,
+    /eval\s*\(/gi,
+    /document\./gi,
+    /window\./gi,
+    /alert\s*\(/gi,
+    /prompt\s*\(/gi,
+    /confirm\s*\(/gi
+  ];
+
+  maliciousPatterns.forEach(pattern => {
+    sanitized = sanitized.replace(pattern, '[REMOVED]');
+  });
+
+  // Remove programming code patterns
+  const codePatterns = [
+    /import\s+.*$/gm,
+    /from\s+.*import/gm,
+    /def\s+.*:/gm,
+    /class\s+.*:/gm,
+    /function\s+.*\{/gm,
+    /var\s+.*=/gm,
+    /let\s+.*=/gm,
+    /const\s+.*=/gm,
+    /if\s*\(/gm,
+    /for\s*\(/gm,
+    /while\s*\(/gm
+  ];
+
+  codePatterns.forEach(pattern => {
+    sanitized = sanitized.replace(pattern, '[CODE REMOVED]');
+  });
+
+  // Trim whitespace
+  sanitized = sanitized.trim();
+
+  return sanitized;
+}
+
 function safeStateLoad() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -227,7 +290,8 @@ export function initGaboChatbotEmbed() {
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const message = input.value.trim();
+    let message = input.value.trim();
+    message = sanitizeInput(message);
     if (!message) return;
 
     input.value = '';
