@@ -1,4 +1,3 @@
-import { setDesktopFabOpenState } from '../fab-controls.js';
 const WORKER_BASE = 'https://con-artist.rulathemtodos.workers.dev';
 
 const WORKER_CHAT = `${WORKER_BASE}/api/chat`;
@@ -181,7 +180,6 @@ export function initGaboChatbotEmbed() {
   }
 
   function setOpen(open) {
-    setDesktopFabOpenState(false);
     if (overlay) overlay.hidden = !open;
     panel.hidden = !open;
     fabTrigger?.setAttribute('aria-expanded', String(open));
