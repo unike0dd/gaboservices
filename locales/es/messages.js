@@ -3,7 +3,7 @@ export const ES_MESSAGES = {
     submitting: 'Enviando...'
   },
   fab: {
-    careers: 'Carrera',
+    careers: 'Carreras',
     contact: 'Contacto',
     chatbot: 'Gabo io',
     openQuickActions: 'Abrir acciones rápidas',
@@ -16,7 +16,7 @@ export const ES_MESSAGES = {
     about: 'Acerca',
     services: 'Servicios',
     contact: 'Contacto',
-    careers: 'Carrera',
+    careers: 'Carreras',
     chatbot: 'Gabo io',
     logistics: 'Logística',
     admin: 'Admin',

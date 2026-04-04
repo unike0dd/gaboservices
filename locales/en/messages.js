@@ -3,7 +3,7 @@ export const EN_MESSAGES = {
     submitting: 'Submitting...'
   },
   fab: {
-    careers: 'Career',
+    careers: 'Careers',
     contact: 'Contact',
     chatbot: 'Gabo io',
     openQuickActions: 'Open quick actions',
@@ -14,7 +14,7 @@ export const EN_MESSAGES = {
     home: 'Home',
     about: 'About',
     services: 'Services',
-    careers: 'Career',
+    careers: 'Careers',
     contact: 'Contact',
     chatbot: 'Gabo io',
     logistics: 'Logistics',
