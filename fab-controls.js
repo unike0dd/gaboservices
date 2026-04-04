@@ -19,9 +19,9 @@ function getCurrentMessages() {
 function buildChatbotFabMarkup(messages) {
   return `
     <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="false" aria-controls="fabOverlay" aria-label="${messages.fab.openQuickActions}">Chatbot Gabo io</button>
-    <div class="fab-overlay" id="fabOverlay" hidden>
-      <div class="fab-backdrop" data-fab-dismiss></div>
-      <aside class="fab-sheet" role="dialog" aria-modal="true" aria-label="Options menu">
+    <div class="fab-overlay" id="fabOverlay" aria-hidden="true">
+      <div class="fab-backdrop" data-fab-dismiss aria-hidden="true"></div>
+      <aside class="fab-sheet" role="dialog" aria-modal="true" aria-label="Options menu" aria-hidden="true">
         <div class="fab-sheet-head">
           <strong>OPTIONS</strong>
           <div class="fab-sheet-actions">
@@ -61,6 +61,8 @@ export function setDesktopFabOpenState(isOpen) {
   if (!elements) return;
 
   const { fabToggle, fabOverlay } = elements;
+  const fabSheet = fabOverlay.querySelector('.fab-sheet');
+  const fabBackdrop = fabOverlay.querySelector('.fab-backdrop');
   const messages = getCurrentMessages();
 
   if (isOpen) {
@@ -70,11 +72,14 @@ export function setDesktopFabOpenState(isOpen) {
   fabToggle.setAttribute('aria-expanded', String(isOpen));
   fabToggle.textContent = isOpen ? '✕' : 'Chatbot Gabo io';
   fabToggle.setAttribute('aria-label', isOpen ? messages.fab.closeQuickActions || 'Close quick actions' : messages.fab.openQuickActions);
-  fabOverlay.hidden = !isOpen;
+  fabOverlay.setAttribute('aria-hidden', String(!isOpen));
+  if (fabSheet instanceof HTMLElement) {
+    fabSheet.setAttribute('aria-hidden', String(!isOpen));
+  }
+  if (fabBackdrop instanceof HTMLElement) {
+    fabBackdrop.setAttribute('aria-hidden', String(!isOpen));
+  }
   document.body.classList.toggle('fab-open', isOpen);
-  fabOverlay.style.opacity = isOpen ? '1' : '0';
-  fabOverlay.style.visibility = isOpen ? 'visible' : 'hidden';
-  fabOverlay.style.pointerEvents = isOpen ? 'auto' : 'none';
 }
 
 export function ensureDesktopFabNav() {
