@@ -120,7 +120,7 @@ export function closeMobileMenu() {
   if (menuToggle instanceof HTMLElement) {
     menuToggle.setAttribute('aria-expanded', 'false');
     if (menuToggle.id === 'fabMainToggle') {
-      menuToggle.textContent = 'Menu';
+      menuToggle.textContent = 'Chatbot Gabo io';
     }
   }
 
