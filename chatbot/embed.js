@@ -89,6 +89,12 @@ export function initGaboChatbotEmbed() {
   `;
 
   const host = document.getElementById('fabChatMount') || document.getElementById('fabWrapper') || document.body;
+  
+  if (!host) {
+    console.warn('[Gabo Chatbot] Host element not found, cannot initialize');
+    return;
+  }
+
   host.appendChild(root);
 
   const fabTrigger = document.getElementById('fabChatTrigger');
@@ -98,8 +104,12 @@ export function initGaboChatbotEmbed() {
   const send = root.querySelector('.gabo-chatbot__send');
   const log = root.querySelector('.gabo-chatbot__log');
 
+  if (!fabTrigger || !panel || !form || !input || !send || !log) {
+    console.warn('[Gabo Chatbot] Required elements missing, cannot initialize');
+    return;
+  }
+
   function setOpen(open) {
-    setDesktopFabOpenState(false);
     panel.hidden = !open;
     fabTrigger?.setAttribute('aria-expanded', String(open));
     state.open = open;
@@ -107,11 +117,8 @@ export function initGaboChatbotEmbed() {
     document.body.classList.toggle('chat-open', open);
 
     if (open) {
-      window.dispatchEvent(new CustomEvent('gabo:fabs-close'));
       renderLog(log, state.history);
       input.focus();
-    } else {
-      setDesktopFabOpenState(false);
     }
   }
 
