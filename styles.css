@@ -3455,6 +3455,10 @@ select {
   pointer-events: auto;
 }
 
+.gabo-chatbot__overlay {
+  display: none;
+}
+
 .gabo-chatbot__panel {
   position: relative;
   width: 100%;

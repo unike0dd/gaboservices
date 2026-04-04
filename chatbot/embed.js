@@ -198,6 +198,7 @@ export function initGaboChatbotEmbed() {
   fabTrigger?.setAttribute('aria-controls', 'gaboChatbotPanel');
   fabTrigger?.addEventListener('click', () => setOpen(!state.open));
   window.addEventListener('gabo:chatbot-open', () => setOpen(true));
+  overlay?.addEventListener('click', closeChat);
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && state.open) {
