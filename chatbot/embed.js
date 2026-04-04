@@ -80,11 +80,6 @@ export function initGaboChatbotEmbed() {
     <div id="gaboChatbotPanel" class="gabo-chatbot__panel" hidden>
       <header class="gabo-chatbot__header">
         <strong>Gabo io</strong>
-        <span class="gabo-chatbot__status" aria-live="polite">Ready</span>
-        <div class="gabo-chatbot__header-actions">
-          <button class="gabo-chatbot__close-text" type="button">Close</button>
-          <button class="gabo-chatbot__close" type="button" aria-label="Close chat">×</button>
-        </div>
       </header>
       <div class="gabo-chatbot__log" aria-live="polite"></div>
       <form class="gabo-chatbot__form" autocomplete="off">
@@ -100,9 +95,6 @@ export function initGaboChatbotEmbed() {
   const fabTrigger = document.getElementById('fabChatTrigger');
   const overlay = root.querySelector('.gabo-chatbot__overlay');
   const panel = root.querySelector('.gabo-chatbot__panel');
-  const close = root.querySelector('.gabo-chatbot__close');
-  const closeText = root.querySelector('.gabo-chatbot__close-text');
-  const status = root.querySelector('.gabo-chatbot__status');
   const form = root.querySelector('.gabo-chatbot__form');
   const input = root.querySelector('.gabo-chatbot__input');
   const send = root.querySelector('.gabo-chatbot__send');
@@ -154,7 +146,7 @@ export function initGaboChatbotEmbed() {
       body: JSON.stringify({
         mode: WORKER_MODE,
         messages: [{ role: 'user', content: userText }],
-        meta: { surface: 'gabo_io_global_widget' }
+        meta: { surface: 'gabo_io_global_widget', communication: 'Cyber Security' }
       })
     });
 
@@ -209,8 +201,6 @@ export function initGaboChatbotEmbed() {
   fabTrigger?.setAttribute('aria-controls', 'gaboChatbotPanel');
   fabTrigger?.addEventListener('click', () => setOpen(!state.open));
   window.addEventListener('gabo:chatbot-open', () => setOpen(true));
-  close?.addEventListener('click', closeChat);
-  closeText?.addEventListener('click', closeChat);
   overlay?.addEventListener('click', closeChat);
 
   document.addEventListener('keydown', (event) => {
@@ -234,16 +224,12 @@ export function initGaboChatbotEmbed() {
 
     input.value = '';
     send.disabled = true;
-    status.textContent = 'Thinking';
-
     pushMessage('user', message);
 
     try {
       await streamAssistantReply(message);
-      status.textContent = 'Ready';
     } catch {
       pushMessage('assistant', 'Unable to complete request. Please try again.');
-      status.textContent = 'Error';
     } finally {
       send.disabled = false;
       input.focus();
