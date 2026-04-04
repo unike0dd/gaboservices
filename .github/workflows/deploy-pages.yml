@@ -73,3 +73,11 @@ jobs:
           echo "enabled=${{ steps.pages_status.outputs.enabled }}"
           echo "build_type=${{ steps.pages_status.outputs.build_type }}"
           echo "To deploy with actions/deploy-pages, set Pages source to 'GitHub Actions' in repository settings."
+
+      - name: Fail fast when Pages source is misconfigured on main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.pages_status.outputs.deployable != 'true'
+        run: |
+          echo "::error::GitHub Pages is not configured for GitHub Actions deployment."
+          echo "::error::Open repository Settings > Pages and set Build and deployment Source to 'GitHub Actions'."
+          echo "::error::Current state: enabled=${{ steps.pages_status.outputs.enabled }}, build_type=${{ steps.pages_status.outputs.build_type }}"
+          exit 1
