@@ -80,6 +80,7 @@ export function setDesktopFabOpenState(isOpen) {
     fabBackdrop.setAttribute('aria-hidden', String(!isOpen));
   }
   document.body.classList.toggle('fab-open', isOpen);
+  window.dispatchEvent(new CustomEvent(isOpen ? 'gabo:fab-opened' : 'gabo:fab-closed'));
 }
 
 export function ensureDesktopFabNav() {

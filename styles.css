@@ -3484,8 +3484,9 @@ select {
   position: fixed;
   inset: 0;
   border: 0;
-  background: rgba(2, 6, 23, 0.34);
+  background: transparent;
   z-index: 3495;
+  pointer-events: none;
 }
 
 .gabo-chatbot__panel {
@@ -3504,6 +3505,7 @@ select {
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+  touch-action: none;
 }
 
 .gabo-chatbot__header {
@@ -3649,8 +3651,8 @@ select {
     max-width: calc(100vw - 1.5rem);
     height: min(65dvh, 540px);
     max-height: min(65dvh, 540px);
-    bottom: 1rem;
-    right: 0.75rem;
+    bottom: 35px;
+    right: 20px;
     border-radius: 12px;
   }
 

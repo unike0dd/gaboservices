@@ -259,6 +259,7 @@ export function initGaboChatbotEmbed() {
   const send = root.querySelector('.gabo-chatbot__send');
   const log = root.querySelector('.gabo-chatbot__log');
   const overlay = root.querySelector('.gabo-chatbot__overlay');
+  const header = root.querySelector('.gabo-chatbot__header');
 
   if (!fabTrigger || !panel || !header || !overlay || !closeText || !closeIcon || !form || !input || !send || !log) {
     console.warn('[Gabo Chatbot] Required elements missing, cannot initialize');
@@ -500,4 +501,5 @@ export function initGaboChatbotEmbed() {
 
   setOpen(state.open);
   renderLog(log, state.history);
+  enableDraggablePanel();
 }
