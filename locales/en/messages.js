@@ -6,7 +6,8 @@ export const EN_MESSAGES = {
     careers: 'Career',
     contact: 'Contact',
     chatbot: 'Gabo io',
-    openQuickActions: 'Open quick actions'
+    openQuickActions: 'Open quick actions',
+    closeQuickActions: 'Close quick actions'
   },
   mobileBottomNav: {
     ariaLabel: 'Mobile bottom navigation',
@@ -15,6 +16,7 @@ export const EN_MESSAGES = {
     services: 'Services',
     careers: 'Career',
     contact: 'Contact',
+    chatbot: 'Chat',
     logistics: 'Logistics',
     admin: 'Admin BackOffice',
     it: 'IT Support',

@@ -57,6 +57,7 @@ export function setDesktopFabOpenState(isOpen) {
   if (!elements) return;
 
   const { fabToggle, fabOverlay } = elements;
+  const messages = getCurrentMessages();
 
   if (isOpen) {
     closeMobileMenu();
@@ -64,6 +65,7 @@ export function setDesktopFabOpenState(isOpen) {
 
   fabToggle.setAttribute('aria-expanded', String(isOpen));
   fabToggle.textContent = isOpen ? '✕' : '☰';
+  fabToggle.setAttribute('aria-label', isOpen ? messages.fab.closeQuickActions || 'Close quick actions' : messages.fab.openQuickActions);
   fabOverlay.hidden = !isOpen;
   document.body.classList.toggle('fab-open', isOpen);
   fabOverlay.style.opacity = isOpen ? '1' : '0';
@@ -119,6 +121,9 @@ export function initFabControls() {
       setDesktopFabOpenState(false);
     }
   });
+
+  window.addEventListener('gabo:fab-open', () => setDesktopFabOpenState(true));
+  window.addEventListener('gabo:fab-close', () => setDesktopFabOpenState(false));
 
   const handleBreakpointChange = (event) => {
     if (!event.matches) {

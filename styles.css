@@ -3474,6 +3474,7 @@ select {
 }
 
 .gabo-chatbot__header {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -3485,6 +3486,20 @@ select {
 
 .gabo-chatbot__header strong {
   width: 100%;
+}
+
+.gabo-chatbot__close {
+  position: absolute;
+  right: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.3);
+  color: #fff;
+  cursor: pointer;
 }
 
 .gabo-chatbot__log {
