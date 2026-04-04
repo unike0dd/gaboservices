@@ -904,8 +904,7 @@
             <div class="services-hero-copy">
               <h1 id="services-page-title">Services</h1>
               <p class="lead">
-                Explore logistics, IT, administrative, and customer support services with a clear overview of coverage,
-                fit, and engagement options.
+                Select the service coverage and engagement model that best matches your daily operations.
               </p>
               <div class="cta-row">
                 <a class="btn primary" href="../contact/">Request info</a>
@@ -917,7 +916,7 @@
         <section class="services-section" aria-labelledby="services-choose-title">
           <div class="services-section-head">
             <h2 id="services-choose-title">Choose a service</h2>
-            <p>Tap or click a service card to update the breakdown and engagement comparison below.</p>
+            <p>Open each service page to review coverage, outcomes, and fit for your workflows.</p>
           </div>
           <div class="services-choose-marquee" id="servicesChooseMarquee">
             <div class="services-columns-grid" aria-label="Services recurring motion columns">
@@ -948,7 +947,7 @@
               <div class="services-mode-panel" id="modePanel"></div>
 
               <div class="cta-row">
-                <a class="btn primary" id="detailServiceCta" href="/services/logistics-operations/">Open service page ↗</a>
+                <a class="btn primary" id="detailServiceCta" href="/services/logistics-operations/">Open service page</a>
                 <a class="btn ghost" href="/contact">Request info</a>
               </div>
             </div>
@@ -966,7 +965,7 @@
             <div class="services-compare-filters" id="compareFilters">
               <button type="button" class="services-filter is-active" data-compare="hourly">Hourly</button>
               <button type="button" class="services-filter" data-compare="project">Project</button>
-              <button type="button" class="services-filter" data-compare="monthly">Monthly / Ongoing</button>
+              <button type="button" class="services-filter" data-compare="monthly">Monthly-Ongoing</button>
             </div>
 
             <div class="services-compare-grid" id="compareGrid"></div>
@@ -981,7 +980,7 @@
                     <th>Typical rhythm</th>
                     <th class="services-table-check">Hourly</th>
                     <th class="services-table-check">Project</th>
-                    <th class="services-table-check">Monthly / Ongoing</th>
+                    <th class="services-table-check">Monthly-Ongoing</th>
                   </tr>
                 </thead>
                 <tbody id="desktopCompareBody"></tbody>
@@ -997,7 +996,7 @@
         <span class="services-mobile-label">Selected service</span>
         <span class="services-mobile-service" id="mobileActionService">Logistics Operations</span>
       </div>
-      <a class="services-mobile-button" id="mobileActionButton" href="/services/logistics-operations/">Open service page ↗</a>
+      <a class="services-mobile-button" id="mobileActionButton" href="/services/logistics-operations/">Open service page</a>
     </div>
 
     <footer class="site-footer">
@@ -1075,7 +1074,7 @@
                 text: 'Setups, cleanup, rollout assistance, process improvement tasks.'
               },
               {
-                title: 'Monthly / Ongoing',
+                title: 'Monthly-Ongoing',
                 text: 'Part-time, full-time, or recurring support coverage.'
               }
             ],
@@ -1141,7 +1140,7 @@
                 text: 'Workflow setup, file cleanup, records organization.'
               },
               {
-                title: 'Monthly / Ongoing',
+                title: 'Monthly-Ongoing',
                 text: 'Recurring back-office assistance or dedicated support.'
               }
             ],
@@ -1207,7 +1206,7 @@
                 text: 'Migration help, setup, cleanup, support initiatives.'
               },
               {
-                title: 'Monthly / Ongoing',
+                title: 'Monthly-Ongoing',
                 text: 'Recurring technical assistance or dedicated support lane.'
               }
             ],
@@ -1228,11 +1227,11 @@
           },
           {
             id: 'customer',
-            short: 'Customer Relations',
+            short: 'Customer Relations / Customer Operations',
             cardKicker: 'Experience',
             buttonText: 'Customer communication, response tracking, and continuity.',
             kicker: 'Communication and experience',
-            title: 'Customer Relations',
+            title: 'Customer Relations / Customer Operations',
             text: 'Customer-facing assistance focused on message handling, response continuity, follow-up, and service visibility.',
             href: '/services/customer-relations/',
             coverage: [
@@ -1273,7 +1272,7 @@
                 text: 'Campaign assistance, backlog cleanup, recovery efforts.'
               },
               {
-                title: 'Monthly / Ongoing',
+                title: 'Monthly-Ongoing',
                 text: 'Recurring customer operations or team extension.'
               }
             ],
@@ -1322,7 +1321,7 @@
         const mobileActionButton = document.getElementById('mobileActionButton');
 
         const getServiceById = (id) => services.find((service) => service.id === id) || services[0];
-        const OPEN_SERVICE_PAGE_LABEL = 'Open service page ↗';
+        const OPEN_SERVICE_PAGE_LABEL = 'Open service page';
         const isReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         function setOpenServicePageLabel(el) {
