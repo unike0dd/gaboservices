@@ -3490,8 +3490,8 @@ select {
 
 .gabo-chatbot__panel {
   position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
+  bottom: 35px;
+  right: 35px;
   z-index: 3500;
   width: 420px;
   max-width: calc(100vw - 3rem);
@@ -3504,6 +3504,7 @@ select {
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+  touch-action: none;
 }
 
 .gabo-chatbot__header {
@@ -3626,8 +3627,8 @@ select {
     max-width: calc(100vw - 2rem);
     height: min(68dvh, 580px);
     max-height: min(68dvh, 580px);
-    bottom: 1.2rem;
-    right: 1.2rem;
+    bottom: 35px;
+    right: 35px;
   }
 
   .gabo-chatbot__header strong {
@@ -3647,8 +3648,8 @@ select {
     max-width: calc(100vw - 1.5rem);
     height: min(65dvh, 540px);
     max-height: min(65dvh, 540px);
-    bottom: 1rem;
-    right: 0.75rem;
+    bottom: 35px;
+    right: 20px;
     border-radius: 12px;
   }
 

@@ -259,10 +259,79 @@ export function initGaboChatbotEmbed() {
   const send = root.querySelector('.gabo-chatbot__send');
   const log = root.querySelector('.gabo-chatbot__log');
   const overlay = root.querySelector('.gabo-chatbot__overlay');
+  const header = root.querySelector('.gabo-chatbot__header');
 
-  if (!fabTrigger || !panel || !overlay || !closeText || !closeIcon || !form || !input || !send || !log) {
+  if (!fabTrigger || !panel || !overlay || !closeText || !closeIcon || !form || !input || !send || !log || !header) {
     console.warn('[Gabo Chatbot] Required elements missing, cannot initialize');
     return;
+  }
+
+  function resetPanelPosition() {
+    panel.style.removeProperty('left');
+    panel.style.removeProperty('top');
+    panel.style.removeProperty('bottom');
+    panel.style.removeProperty('right');
+  }
+
+  function enableDraggablePanel() {
+    const mobileQuery = window.matchMedia('(max-width: 600px)');
+    let dragState = null;
+
+    function stopDragging() {
+      if (!dragState) return;
+      panel.releasePointerCapture?.(dragState.pointerId);
+      dragState = null;
+      document.body.style.userSelect = '';
+      header.style.cursor = '';
+    }
+
+    function startDragging(event) {
+      if (!(event instanceof PointerEvent)) return;
+      if (event.button !== 0) return;
+      if (mobileQuery.matches) return;
+      if (event.target instanceof Element && event.target.closest('button, input, textarea, a')) return;
+
+      const rect = panel.getBoundingClientRect();
+      dragState = {
+        pointerId: event.pointerId,
+        offsetX: event.clientX - rect.left,
+        offsetY: event.clientY - rect.top
+      };
+
+      panel.style.left = `${rect.left}px`;
+      panel.style.top = `${rect.top}px`;
+      panel.style.right = 'auto';
+      panel.style.bottom = 'auto';
+      panel.setPointerCapture?.(event.pointerId);
+      document.body.style.userSelect = 'none';
+      header.style.cursor = 'grabbing';
+      event.preventDefault();
+    }
+
+    function onDrag(event) {
+      if (!dragState || event.pointerId !== dragState.pointerId) return;
+      const maxLeft = Math.max(window.innerWidth - panel.offsetWidth, 0);
+      const maxTop = Math.max(window.innerHeight - panel.offsetHeight, 0);
+      const nextLeft = Math.min(Math.max(event.clientX - dragState.offsetX, 0), maxLeft);
+      const nextTop = Math.min(Math.max(event.clientY - dragState.offsetY, 0), maxTop);
+      panel.style.left = `${nextLeft}px`;
+      panel.style.top = `${nextTop}px`;
+      event.preventDefault();
+    }
+
+    function onViewportChange() {
+      if (mobileQuery.matches) {
+        resetPanelPosition();
+      }
+    }
+
+    header.style.cursor = 'grab';
+    header.addEventListener('pointerdown', startDragging);
+    panel.addEventListener('pointermove', onDrag);
+    panel.addEventListener('pointerup', stopDragging);
+    panel.addEventListener('pointercancel', stopDragging);
+    window.addEventListener('resize', onViewportChange);
+    mobileQuery.addEventListener('change', onViewportChange);
   }
 
   function setOpen(open) {
@@ -377,6 +446,11 @@ export function initGaboChatbotEmbed() {
   closeText?.addEventListener('click', () => closeChat('header-close-text'));
   closeIcon?.addEventListener('click', () => closeChat('header-close-icon'));
   overlay?.addEventListener('click', () => closeChat('overlay-click'));
+  window.addEventListener('gabo:fab-closed', () => {
+    if (state.open) {
+      closeChat('fab-main-toggle-close');
+    }
+  });
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && state.open) {
@@ -428,4 +502,5 @@ export function initGaboChatbotEmbed() {
 
   setOpen(state.open);
   renderLog(log, state.history);
+  enableDraggablePanel();
 }
