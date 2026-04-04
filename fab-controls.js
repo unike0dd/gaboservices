@@ -72,15 +72,6 @@ export function setDesktopFabOpenState(isOpen) {
   fabOverlay.style.pointerEvents = isOpen ? 'auto' : 'none';
 }
 
-function setFabChatMode(isChatOpen) {
-  const elements = getDesktopFabElements();
-  if (!elements) return;
-  const chatMount = elements.wrapper.querySelector('#fabChatMount');
-  if (!(chatMount instanceof HTMLElement)) return;
-  elements.fabMenu.hidden = isChatOpen;
-  chatMount.hidden = !isChatOpen;
-}
-
 export function ensureDesktopFabNav() {
   let wrapper = document.getElementById('fabWrapper');
   if (wrapper) return wrapper;
@@ -119,9 +110,8 @@ export function initFabControls() {
     if (!(target instanceof Element)) return;
 
     if (target.closest('#fabChatTrigger')) {
-      setDesktopFabOpenState(true);
-      setFabChatMode(true);
       window.dispatchEvent(new CustomEvent('gabo:chatbot-open'));
+      setDesktopFabOpenState(false);
       return;
     }
 
@@ -144,8 +134,7 @@ export function initFabControls() {
     }
   });
 
-  window.addEventListener('gabo:chatbot-close', () => {
-    setFabChatMode(false);
+  window.addEventListener('gabo:fabs-close', () => {
     setDesktopFabOpenState(false);
   });
 
