@@ -1,9 +1,8 @@
-import { EN_MESSAGES } from './locales/en/messages.js';
 import { closeMobileMenu } from './assets/mobile-menu-state.js';
 
 const DESKTOP_QUERY = '(min-width: 901px)';
 
-function buildDesktopFabMarkup() {
+function buildChatbotFabMarkup() {
   return `
     <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="false" aria-controls="fabOverlay">☰</button>
     <div class="fab-overlay" id="fabOverlay" hidden>
@@ -36,16 +35,10 @@ function buildDesktopFabMarkup() {
   `;
 }
 
-function getDesktopFabElements() {
+function getFabTrigger() {
   const wrapper = document.getElementById('fabWrapper');
   if (!wrapper) return null;
-
-  const fabToggle = wrapper.querySelector('#fabMainToggle');
-  const fabOverlay = wrapper.querySelector('#fabOverlay');
-  const fabMenu = wrapper.querySelector('#fabQuickMenu');
-  if (!fabToggle || !fabOverlay || !fabMenu) return null;
-
-  return { wrapper, fabToggle, fabOverlay, fabMenu };
+  return wrapper.querySelector('#fabChatTrigger');
 }
 
 export function setDesktopFabOpenState(isOpen) {
@@ -79,7 +72,7 @@ export function ensureDesktopFabNav() {
   wrapper = document.createElement('div');
   wrapper.id = 'fabWrapper';
   wrapper.className = 'fab-wrapper';
-  wrapper.innerHTML = buildDesktopFabMarkup();
+  wrapper.innerHTML = buildChatbotFabMarkup();
   document.body.appendChild(wrapper);
 
   return wrapper;
@@ -94,12 +87,12 @@ function toggleFabMenu() {
 }
 
 export function initFabControls() {
-  const desktopWrapper = ensureDesktopFabNav();
-  if (!desktopWrapper || desktopWrapper.dataset.navBound === 'true') return;
+  const wrapper = ensureDesktopFabNav();
+  if (!wrapper || wrapper.dataset.navBound === 'true') return;
 
-  desktopWrapper.dataset.navBound = 'true';
-  const fabToggle = desktopWrapper.querySelector('#fabMainToggle');
+  wrapper.dataset.navBound = 'true';
   const desktopQuery = window.matchMedia(DESKTOP_QUERY);
+  const trigger = getFabTrigger();
 
   setDesktopFabOpenState(false);
 
@@ -139,7 +132,10 @@ export function initFabControls() {
   });
 
   const handleBreakpointChange = (event) => {
-    if (!event.matches) setDesktopFabOpenState(false);
+    if (!event.matches) {
+      setDesktopFabOpenState(false);
+      window.dispatchEvent(new CustomEvent('gabo:chatbot-close'));
+    }
   };
 
   if (typeof desktopQuery.addEventListener === 'function') {
