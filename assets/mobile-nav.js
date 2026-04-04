@@ -1,21 +1,25 @@
 import { BREAKPOINT_QUERIES } from '../breakpoints.config.js';
+import { EN_MESSAGES } from '../locales/en/messages.js';
+import { ES_MESSAGES } from '../locales/es/messages.js';
 
 const MOBILE_QUERY = BREAKPOINT_QUERIES.mobileQuery;
+const LOCALE_MESSAGES = { en: EN_MESSAGES, es: ES_MESSAGES };
 
 const ROUTES = {
   primary: [
-    { key: 'home', label: 'Home', href: '/' },
-    { key: 'about', label: 'About', href: '/about/' },
-    { key: 'services', label: 'Services', href: null },
-    { key: 'careers', label: 'Careers', href: '/careers/' },
-    { key: 'contact', label: 'Contact', href: '/contact/' }
+    { key: 'home', href: '/' },
+    { key: 'about', href: '/about/' },
+    { key: 'services', href: null },
+    { key: 'chatbot', href: null },
+    { key: 'careers', href: '/careers/' },
+    { key: 'contact', href: '/contact/' }
   ],
   services: [
-    { key: 'logistics', label: 'Logistics', href: '/services/logistics-operations/' },
-    { key: 'admin', label: 'Admin BackOffice', href: '/services/administrative-backoffice/' },
-    { key: 'it', label: 'IT Support', href: '/services/it-support/' },
-    { key: 'customerRelations', label: 'Customer Relations', href: '/services/customer-relations/' },
-    { key: 'learning', label: 'Learning', href: '/learning/' }
+    { key: 'logistics', href: '/services/logistics-operations/' },
+    { key: 'admin', href: '/services/administrative-backoffice/' },
+    { key: 'it', href: '/services/it-support/' },
+    { key: 'customerRelations', href: '/services/customer-relations/' },
+    { key: 'learning', href: '/learning/' }
   ]
 };
 
@@ -23,6 +27,7 @@ const ICONS = {
   home: '<path d="M3 10.5 12 3l9 7.5V21H3z"></path><path d="M9 21v-6h6v6"></path>',
   about: '<circle cx="12" cy="12" r="9"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path>',
   services: '<rect x="4" y="5" width="16" height="4" rx="1.5"></rect><rect x="4" y="10" width="16" height="4" rx="1.5"></rect><rect x="4" y="15" width="16" height="4" rx="1.5"></rect>',
+  chatbot: '<path d="M4 6h16v10H8l-4 4V6z"></path><circle cx="9" cy="11" r="1"></circle><circle cx="12" cy="11" r="1"></circle><circle cx="15" cy="11" r="1"></circle>',
   careers: '<path d="M3 8h18v11H3z"></path><path d="M8 8V6h8v2"></path><path d="M3 13h18"></path>',
   contact: '<path d="M4 7h16v10H4z"></path><path d="m4 8 8 6 8-6"></path>'
 };
@@ -40,10 +45,15 @@ function resolveActivePage() {
   return pageKey || 'home';
 }
 
-function buildMarkup(activePage) {
+function getMessages() {
+  const lang = String(document.documentElement.lang || 'en').toLowerCase().split('-')[0];
+  return LOCALE_MESSAGES[lang] || EN_MESSAGES;
+}
+
+function buildMarkup(activePage, labels) {
   return `
     <div class="mobile-nav-layer" data-mobile-nav-layer>
-      <nav class="mobile-nav" aria-label="Mobile navigation" data-mobile-nav>
+      <nav class="mobile-nav" aria-label="${labels.ariaLabel}" data-mobile-nav>
         ${ROUTES.primary
           .map((item) => {
             if (item.key === 'services') {
@@ -57,13 +67,13 @@ function buildMarkup(activePage) {
                     aria-controls="mobile-services-menu"
                   >
                     ${iconMarkup(item.key)}
-                    <span class="mobile-nav__label">${item.label}</span>
+                    <span class="mobile-nav__label">${labels[item.key]}</span>
                   </button>
                   <div id="mobile-services-menu" class="mobile-nav__submenu" data-mobile-services-menu>
                     ${ROUTES.services
                       .map(
                         (service) =>
-                          `<a class="mobile-nav__submenu-link" href="${service.href}" data-service-link="${service.key}">${service.label}</a>`
+                          `<a class="mobile-nav__submenu-link" href="${service.href}" data-service-link="${service.key}">${labels[service.key]}</a>`
                       )
                       .join('')}
                   </div>
@@ -71,8 +81,17 @@ function buildMarkup(activePage) {
               `;
             }
 
+            if (item.key === 'chatbot') {
+              return `
+                <button class="mobile-nav__item" type="button" data-mobile-chatbot-trigger>
+                  ${iconMarkup(item.key)}
+                  <span class="mobile-nav__label">${labels[item.key]}</span>
+                </button>
+              `;
+            }
+
             const activeClass = activePage === item.key ? ' is-active' : '';
-            return `<a class="mobile-nav__item${activeClass}" href="${item.href}" data-mobile-item="${item.key}">${iconMarkup(item.key)}<span class="mobile-nav__label">${item.label}</span></a>`;
+            return `<a class="mobile-nav__item${activeClass}" href="${item.href}" data-mobile-item="${item.key}">${iconMarkup(item.key)}<span class="mobile-nav__label">${labels[item.key]}</span></a>`;
           })
           .join('')}
       </nav>
@@ -86,14 +105,16 @@ export function initMobileNav() {
   if (!root.id) root.id = 'mobile-nav-root';
 
   const activePage = resolveActivePage();
-  root.innerHTML = buildMarkup(activePage);
+  const labels = getMessages().mobileBottomNav;
+  root.innerHTML = buildMarkup(activePage, labels);
 
   const layer = root.querySelector('[data-mobile-nav-layer]');
   const servicesContainer = root.querySelector('[data-mobile-services]');
   const servicesToggle = root.querySelector('[data-mobile-services-toggle]');
   const servicesMenu = root.querySelector('[data-mobile-services-menu]');
+  const chatbotTrigger = root.querySelector('[data-mobile-chatbot-trigger]');
 
-  if (!layer || !servicesContainer || !servicesToggle || !servicesMenu) return;
+  if (!layer || !servicesContainer || !servicesToggle || !servicesMenu || !chatbotTrigger) return;
 
   const setOpen = (open) => {
     servicesToggle.setAttribute('aria-expanded', String(open));
@@ -117,6 +138,14 @@ export function initMobileNav() {
     if (event.target instanceof Element && event.target.closest('.mobile-nav__submenu-link')) {
       closeMenu();
     }
+  });
+
+  chatbotTrigger.addEventListener('click', () => {
+    closeMenu();
+    window.dispatchEvent(new CustomEvent('gabo:fab-open'));
+    window.setTimeout(() => {
+      window.dispatchEvent(new CustomEvent('gabo:chatbot-open'));
+    }, 0);
   });
 
   document.addEventListener('click', (event) => {
