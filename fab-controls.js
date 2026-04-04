@@ -20,23 +20,11 @@ function buildChatbotFabMarkup(messages) {
     <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="false" aria-controls="fabOverlay" aria-label="${messages.fab.openQuickActions}">☰</button>
     <div class="fab-overlay" id="fabOverlay" hidden>
       <div class="fab-backdrop" data-fab-dismiss></div>
-      <aside class="fab-sheet" role="dialog" aria-modal="true" aria-label="Quick actions menu">
+      <aside class="fab-sheet" role="dialog" aria-modal="true" aria-label="Gabo io menu">
         <div class="fab-sheet-head">
-          <strong>Quick actions</strong>
-          <div class="fab-sheet-actions">
-            <button class="fab-dismiss" type="button" data-fab-dismiss>Close</button>
-            <button class="fab-dismiss fab-dismiss--icon" type="button" data-fab-dismiss aria-label="Close quick actions menu">✕</button>
-          </div>
+          <strong>Gabo io</strong>
         </div>
         <div class="fab-menu" id="fabQuickMenu">
-          <a class="fab-item" data-page="contact" href="/contact/" aria-label="${messages.fab.contact}">
-            <span class="fab-item-icon" aria-hidden="true">✉️</span>
-            <span>${messages.fab.contact}</span>
-          </a>
-          <a class="fab-item" data-page="careers" href="/careers/" aria-label="${messages.fab.careers}">
-            <span class="fab-item-icon" aria-hidden="true">💼</span>
-            <span>${messages.fab.careers}</span>
-          </a>
           <button class="fab-item" id="fabChatTrigger" type="button" aria-label="${messages.fab.chatbot}">
             <span class="fab-item-icon" aria-hidden="true">💬</span>
             <span>${messages.fab.chatbot}</span>
@@ -46,19 +34,6 @@ function buildChatbotFabMarkup(messages) {
       </aside>
     </div>
   `;
-}
-
-function getDesktopFabElements() {
-  const wrapper = document.getElementById('fabWrapper');
-  if (!(wrapper instanceof HTMLElement)) return null;
-
-  const fabToggle = wrapper.querySelector('#fabMainToggle');
-  const fabOverlay = wrapper.querySelector('#fabOverlay');
-  if (!(fabToggle instanceof HTMLElement) || !(fabOverlay instanceof HTMLElement)) {
-    return null;
-  }
-
-  return { wrapper, fabToggle, fabOverlay };
 }
 
 function getDesktopFabElements() {
@@ -87,7 +62,7 @@ export function setDesktopFabOpenState(isOpen) {
   }
 
   fabToggle.setAttribute('aria-expanded', String(isOpen));
-  fabToggle.textContent = isOpen ? '✕ Close actions' : '☰';
+  fabToggle.textContent = isOpen ? '✕' : '☰';
   fabOverlay.hidden = !isOpen;
   document.body.classList.toggle('fab-open', isOpen);
   fabOverlay.style.opacity = isOpen ? '1' : '0';
@@ -127,18 +102,13 @@ export function initFabControls() {
 
   setDesktopFabOpenState(false);
 
-  fabToggle?.addEventListener('click', toggleFabMenu);
+  fabToggle.addEventListener('click', toggleFabMenu);
 
   wrapper.addEventListener('click', (event) => {
     const target = event.target;
     if (!(target instanceof Element)) return;
 
     if (target.closest('[data-fab-dismiss]')) {
-      setDesktopFabOpenState(false);
-      return;
-    }
-
-    if (target.closest('.fab-item')) {
       setDesktopFabOpenState(false);
     }
   });
