@@ -24,6 +24,10 @@ function buildChatbotFabMarkup(messages) {
       <aside class="fab-sheet" role="dialog" aria-modal="true" aria-label="Options menu">
         <div class="fab-sheet-head">
           <strong>OPTIONS</strong>
+          <div class="fab-sheet-actions">
+            <button class="fab-dismiss" type="button" data-fab-dismiss>Close</button>
+            <button class="fab-dismiss fab-dismiss--icon" type="button" data-fab-dismiss aria-label="Close options menu">✕</button>
+          </div>
         </div>
         <div class="fab-menu" id="fabQuickMenu">
           <button class="fab-item" id="fabChatTrigger" type="button" aria-label="${messages.fab.chatbot}">

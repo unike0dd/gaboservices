@@ -1,0 +1,89 @@
+# Chatbot Behavior Configuration
+# This YAML file defines the security and behavioral rules for the Gabo IO Chatbot.
+# It ensures the chatbot clears, cleans, scans, sanitizes, checks, and removes malicious code,
+# while maintaining integrity and only interacting with end users.
+
+version: "1.0"
+
+behavior:
+  # Input Processing Rules
+  input_processing:
+    sanitization:
+      - action: remove_html_tags
+        description: Strip all HTML tags from user input to prevent XSS
+      - action: escape_special_characters
+        description: Escape special characters like <, >, &, etc.
+      - action: remove_script_content
+        description: Detect and remove any script tags or JavaScript code
+      - action: filter_malicious_patterns
+        patterns:
+          - "<script.*?>.*?</script>"
+          - "javascript:"
+          - "on\w+\s*="
+          - "eval\("
+          - "document\."
+          - "window\."
+          - "alert\("
+          - "prompt\("
+          - "confirm\("
+        description: Regex patterns to identify and remove potential malicious code
+      - action: limit_input_length
+        max_length: 1000
+        description: Limit input to prevent buffer overflow or DoS
+      - action: remove_programming_code
+        patterns:
+          - "import\s+.*"
+          - "from\s+.*import"
+          - "def\s+.*:"
+          - "class\s+.*:"
+          - "function\s+.*\{"
+          - "var\s+.*="
+          - "let\s+.*="
+          - "const\s+.*="
+          - "if\s*\("
+          - "for\s*\("
+          - "while\s*\("
+        description: Remove common programming constructs to prevent code execution
+
+    validation:
+      - action: check_integrity
+        description: Verify input is from legitimate end user (e.g., via session tokens if applicable)
+      - action: rate_limiting
+        max_requests_per_minute: 10
+        description: Prevent abuse by limiting request frequency
+
+  # Output Processing Rules
+  output_processing:
+    filtering:
+      - action: sanitize_responses
+        description: Ensure responses do not contain executable code or sensitive data
+      - action: escape_output
+        description: Escape any dynamic content in responses
+      - action: remove_sensitive_info
+        patterns:
+          - "password"
+          - "api_key"
+          - "secret"
+          - "token"
+        description: Filter out sensitive information from responses
+
+  # Interaction Rules
+  interaction:
+    user_only: true
+    description: Only respond to direct end-user interactions, ignore automated or bot requests
+    allowed_origins:
+      - "https://www.gabo.services"
+      - "https://gabo.services"
+    blocked_origins: []  # Add any origins to block if needed
+
+  # Security Monitoring
+  monitoring:
+    log_suspicious_activity: true
+    alert_on_malicious_input: true
+    description: Log and alert on detected malicious attempts
+
+  # Maintenance
+  maintenance:
+    auto_clean_logs: true
+    retention_days: 30
+    description: Automatically clean old logs to maintain performance and privacy

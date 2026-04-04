@@ -1477,20 +1477,45 @@ textarea[data-security-state='review'] {
 }
 
 .fab-sheet-head {
-  display: block;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
   margin-bottom: 0.65rem;
 }
 
 .fab-sheet-head strong {
-  display: block;
+  display: inline-block;
   font-size: 1.05rem;
+  flex: 1;
+  text-align: center;
+}
+
+.fab-sheet-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.fab-dismiss {
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--surface, #ffffff) 80%, white 20%);
+  color: var(--text);
+  padding: 0.32rem 0.68rem;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .fab-sheet-actions,
 .fab-dismiss,
 .fab-dismiss--icon {
-  display: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
 }
 
 .fab-menu {
@@ -3456,11 +3481,16 @@ select {
 }
 
 .gabo-chatbot__overlay {
-  display: none;
+  position: fixed;
+  inset: 0;
+  border: 0;
+  background: rgba(2, 6, 23, 0.34);
+  z-index: 3495;
 }
 
 .gabo-chatbot__panel {
   position: relative;
+  z-index: 3500;
   width: 100%;
   height: min(70dvh, 620px);
   max-height: min(70dvh, 620px);
@@ -3475,8 +3505,8 @@ select {
 
 .gabo-chatbot__header {
   position: relative;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
   padding: 0.85rem 1rem;
   color: #fff;
@@ -3486,19 +3516,34 @@ select {
 
 .gabo-chatbot__header strong {
   width: 100%;
+  text-align: center;
+}
+
+.gabo-chatbot__header-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.gabo-chatbot__close-text {
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  cursor: pointer;
 }
 
 .gabo-chatbot__close {
-  position: absolute;
-  right: 0.65rem;
-  top: 50%;
-  transform: translateY(-50%);
   width: 34px;
   height: 34px;
   border: 1px solid rgba(255, 255, 255, 0.75);
   border-radius: 999px;
   background: rgba(15, 23, 42, 0.3);
   color: #fff;
+  font-size: 1rem;
+  line-height: 1;
   cursor: pointer;
 }
 

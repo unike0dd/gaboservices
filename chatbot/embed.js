@@ -14,6 +14,69 @@ const ORIGIN_ASSET_MAP = {
 const STORAGE_KEY = 'gabo_io_chatbot_cache_v1';
 const MAX_HISTORY = 40;
 
+// Security sanitization rules based on behavior.yml
+function sanitizeInput(input) {
+  if (typeof input !== 'string') return '';
+
+  let sanitized = input;
+
+  // Limit length
+  if (sanitized.length > 1000) {
+    sanitized = sanitized.substring(0, 1000);
+  }
+
+  // Remove HTML tags
+  sanitized = sanitized.replace(/<[^>]*>/g, '');
+
+  // Escape special characters
+  sanitized = sanitized.replace(/&/g, '&amp;')
+                       .replace(/</g, '&lt;')
+                       .replace(/>/g, '&gt;')
+                       .replace(/"/g, '&quot;')
+                       .replace(/'/g, '&#x27;');
+
+  // Filter malicious patterns (scripts, JS code)
+  const maliciousPatterns = [
+    /<script[^>]*>[\s\S]*?<\/script>/gi,
+    /javascript:/gi,
+    /on\w+\s*=/gi,
+    /eval\s*\(/gi,
+    /document\./gi,
+    /window\./gi,
+    /alert\s*\(/gi,
+    /prompt\s*\(/gi,
+    /confirm\s*\(/gi
+  ];
+
+  maliciousPatterns.forEach(pattern => {
+    sanitized = sanitized.replace(pattern, '[REMOVED]');
+  });
+
+  // Remove programming code patterns
+  const codePatterns = [
+    /import\s+.*$/gm,
+    /from\s+.*import/gm,
+    /def\s+.*:/gm,
+    /class\s+.*:/gm,
+    /function\s+.*\{/gm,
+    /var\s+.*=/gm,
+    /let\s+.*=/gm,
+    /const\s+.*=/gm,
+    /if\s*\(/gm,
+    /for\s*\(/gm,
+    /while\s*\(/gm
+  ];
+
+  codePatterns.forEach(pattern => {
+    sanitized = sanitized.replace(pattern, '[CODE REMOVED]');
+  });
+
+  // Trim whitespace
+  sanitized = sanitized.trim();
+
+  return sanitized;
+}
+
 function safeStateLoad() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -76,18 +139,14 @@ export function initGaboChatbotEmbed() {
   const root = document.createElement('section');
   root.className = 'gabo-chatbot';
   root.innerHTML = `
+    <button class="gabo-chatbot__overlay" type="button" aria-label="Close chatbot" hidden></button>
     <div id="gaboChatbotPanel" class="gabo-chatbot__panel" hidden>
       <header class="gabo-chatbot__header">
         <strong>Gabo io</strong>
-        <button
-          class="gabo-chatbot__close"
-          id="gaboChatbotClose"
-          type="button"
-          aria-label="Close chatbot"
-          title="Close"
-        >
-          ✕
-        </button>
+        <div class="gabo-chatbot__header-actions">
+          <button class="gabo-chatbot__close-text" type="button">Close</button>
+          <button class="gabo-chatbot__close" type="button" aria-label="Close chatbot">✕</button>
+        </div>
       </header>
       <div class="gabo-chatbot__log" aria-live="polite"></div>
       <form class="gabo-chatbot__form" autocomplete="off">
@@ -108,18 +167,22 @@ export function initGaboChatbotEmbed() {
 
   const fabTrigger = document.getElementById('fabChatTrigger');
   const panel = root.querySelector('.gabo-chatbot__panel');
+  const closeText = root.querySelector('.gabo-chatbot__close-text');
+  const closeIcon = root.querySelector('.gabo-chatbot__close');
   const form = root.querySelector('.gabo-chatbot__form');
   const input = root.querySelector('.gabo-chatbot__input');
   const send = root.querySelector('.gabo-chatbot__send');
   const log = root.querySelector('.gabo-chatbot__log');
-  const closeButton = root.querySelector('#gaboChatbotClose');
+  const overlay = root.querySelector('.gabo-chatbot__overlay');
 
-  if (!fabTrigger || !panel || !form || !input || !send || !log || !closeButton) {
+  if (!fabTrigger || !panel || !overlay || !closeText || !closeIcon || !form || !input || !send || !log) {
     console.warn('[Gabo Chatbot] Required elements missing, cannot initialize');
     return;
   }
 
   function setOpen(open) {
+    setDesktopFabOpenState(false);
+    if (overlay) overlay.hidden = !open;
     panel.hidden = !open;
     fabTrigger?.setAttribute('aria-expanded', String(open));
     state.open = open;
@@ -219,8 +282,9 @@ export function initGaboChatbotEmbed() {
   fabTrigger?.setAttribute('aria-controls', 'gaboChatbotPanel');
   fabTrigger?.addEventListener('click', () => setOpen(!state.open));
   window.addEventListener('gabo:chatbot-open', () => setOpen(true));
-
-  closeButton.addEventListener('click', () => closeChat('chat-close-button'));
+  closeText?.addEventListener('click', closeChat);
+  closeIcon?.addEventListener('click', closeChat);
+  overlay?.addEventListener('click', closeChat);
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && state.open) {
@@ -238,7 +302,8 @@ export function initGaboChatbotEmbed() {
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const message = input.value.trim();
+    let message = input.value.trim();
+    message = sanitizeInput(message);
     if (!message) return;
 
     input.value = '';
