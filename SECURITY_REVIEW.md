@@ -76,6 +76,10 @@ All of the following can be implemented without paid services and without adding
    - `frame-src` now includes `https://www.youtube-nocookie.com` so HTML5/video content strategy can expand without loosening the rest of the CSP baseline.
 8. **CSP header deduplicated and host-allowlist normalized**
    - Kept a single authoritative `Content-Security-Policy` entry in `_headers` and explicitly allowlisted both `https://www.gabo.services` and `https://gabo.services` in script/connect directives for canonical-host consistency.
+9. **SEO + crawler controls updated**
+   - Added `X-Robots-Tag` in `_headers`, normalized crawl directives in `robots.txt`, and enriched `sitemap.xml` with `lastmod`, `changefreq`, and `priority` metadata.
+10. **Control-family taxonomy expanded**
+   - Governance metadata now explicitly tracks `CIS Controls` alongside CISA, NIST CSF, OWASP ASVS, PCI DSS, SEO, and CSP profiles.
 
 ### Compliance Mapping (practical)
 

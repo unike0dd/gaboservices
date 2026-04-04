@@ -1,49 +1,10 @@
 Sitemap: https://www.gabo.services/sitemap.xml
 
-# Block all crawlers by default.
+# Global crawl policy for SEO discovery.
 User-agent: *
-Disallow: /
-
-# Allow only search ranking / SEO crawlers.
-User-agent: Googlebot
 Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Slurp
-Allow: /
-
-User-agent: DuckDuckBot
-Allow: /
-
-User-agent: Baiduspider
-Allow: /
-
-User-agent: YandexBot
-Allow: /
-
-# Keep low-value or duplicate technical paths out of crawl budget.
-User-agent: Googlebot
 Disallow: /scripts/
 Disallow: /.git/
-
-User-agent: Bingbot
-Disallow: /scripts/
-Disallow: /.git/
-
-User-agent: Slurp
-Disallow: /scripts/
-Disallow: /.git/
-
-User-agent: DuckDuckBot
-Disallow: /scripts/
-Disallow: /.git/
-
-User-agent: Baiduspider
-Disallow: /scripts/
-Disallow: /.git/
-
-User-agent: YandexBot
-Disallow: /scripts/
-Disallow: /.git/
+Disallow: /node_modules/
+Disallow: /wiki/
+Disallow: /assets/
