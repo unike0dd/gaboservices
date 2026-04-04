@@ -18,7 +18,7 @@ function getCurrentMessages() {
 
 function buildChatbotFabMarkup(messages) {
   return `
-    <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="false" aria-controls="fabOverlay" aria-label="${messages.fab.openQuickActions}">☰</button>
+    <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="false" aria-controls="fabOverlay" aria-label="${messages.fab.openQuickActions}">Menu</button>
     <div class="fab-overlay" id="fabOverlay" hidden>
       <div class="fab-backdrop" data-fab-dismiss></div>
       <aside class="fab-sheet" role="dialog" aria-modal="true" aria-label="Options menu">
@@ -68,7 +68,7 @@ export function setDesktopFabOpenState(isOpen) {
   }
 
   fabToggle.setAttribute('aria-expanded', String(isOpen));
-  fabToggle.textContent = isOpen ? '✕' : '☰';
+  fabToggle.textContent = isOpen ? '✕' : 'Menu';
   fabToggle.setAttribute('aria-label', isOpen ? messages.fab.closeQuickActions || 'Close quick actions' : messages.fab.openQuickActions);
   fabOverlay.hidden = !isOpen;
   document.body.classList.toggle('fab-open', isOpen);
