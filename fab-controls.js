@@ -15,7 +15,7 @@ function getCurrentMessages() {
   return LOCALE_MESSAGES[locale] || EN_MESSAGES;
 }
 
-function buildChatbotFabMarkup(messages) {
+function buildFabMarkup(messages) {
   return `
     <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="false" aria-controls="fabOverlay" aria-label="${messages.fab.openQuickActions}">☰</button>
     <div class="fab-overlay" id="fabOverlay" hidden>
@@ -28,8 +28,6 @@ function buildChatbotFabMarkup(messages) {
             <button class="fab-dismiss fab-dismiss--icon" type="button" data-fab-dismiss aria-label="Close quick actions menu">✕</button>
           </div>
         </div>
-        <div class="fab-menu" id="fabQuickMenu">
-        </div>
       </aside>
     </div>
   `;
@@ -41,28 +39,23 @@ function getDesktopFabElements() {
 
   const fabToggle = wrapper.querySelector('#fabMainToggle');
   const fabOverlay = wrapper.querySelector('#fabOverlay');
-  const fabMenu = wrapper.querySelector('#fabQuickMenu');
-
-  if (!(fabToggle instanceof HTMLElement) || !(fabOverlay instanceof HTMLElement) || !(fabMenu instanceof HTMLElement)) {
+  if (!(fabToggle instanceof HTMLElement) || !(fabOverlay instanceof HTMLElement)) {
     return null;
   }
 
-  return { wrapper, fabToggle, fabOverlay, fabMenu };
+  return { wrapper, fabToggle, fabOverlay };
 }
 
 export function setDesktopFabOpenState(isOpen) {
   const elements = getDesktopFabElements();
   if (!elements) return;
 
-  const { fabToggle, fabOverlay, fabMenu } = elements;
+  const { fabToggle, fabOverlay } = elements;
 
   if (isOpen) {
     closeMobileMenu();
   }
 
-  if (!isOpen) {
-    fabMenu.hidden = false;
-  }
   fabToggle.setAttribute('aria-expanded', String(isOpen));
   fabToggle.textContent = isOpen ? '✕ Close actions' : '☰';
   fabOverlay.hidden = !isOpen;
@@ -79,7 +72,7 @@ export function ensureDesktopFabNav() {
   wrapper = document.createElement('div');
   wrapper.id = 'fabWrapper';
   wrapper.className = 'fab-wrapper';
-  wrapper.innerHTML = buildChatbotFabMarkup(getCurrentMessages());
+  wrapper.innerHTML = buildFabMarkup(getCurrentMessages());
   document.body.appendChild(wrapper);
 
   return wrapper;
@@ -115,9 +108,6 @@ export function initFabControls() {
       return;
     }
 
-    if (target.closest('.fab-item')) {
-      setDesktopFabOpenState(false);
-    }
   });
 
   document.addEventListener('keydown', (event) => {
