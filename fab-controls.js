@@ -20,9 +20,9 @@ function buildChatbotFabMarkup(messages) {
     <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="false" aria-controls="fabOverlay" aria-label="${messages.fab.openQuickActions}">☰</button>
     <div class="fab-overlay" id="fabOverlay" hidden>
       <div class="fab-backdrop" data-fab-dismiss></div>
-      <aside class="fab-sheet" role="dialog" aria-modal="true" aria-label="Gabo io menu">
+      <aside class="fab-sheet" role="dialog" aria-modal="true" aria-label="Options menu">
         <div class="fab-sheet-head">
-          <strong>Gabo io</strong>
+          <strong>OPTIONS</strong>
         </div>
         <div class="fab-menu" id="fabQuickMenu">
           <button class="fab-item" id="fabChatTrigger" type="button" aria-label="${messages.fab.chatbot}">

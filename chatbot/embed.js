@@ -76,7 +76,6 @@ export function initGaboChatbotEmbed() {
   const root = document.createElement('section');
   root.className = 'gabo-chatbot';
   root.innerHTML = `
-    <button class="gabo-chatbot__overlay" type="button" aria-label="Close chat" hidden></button>
     <div id="gaboChatbotPanel" class="gabo-chatbot__panel" hidden>
       <header class="gabo-chatbot__header">
         <strong>Gabo io</strong>
@@ -93,7 +92,6 @@ export function initGaboChatbotEmbed() {
   host.appendChild(root);
 
   const fabTrigger = document.getElementById('fabChatTrigger');
-  const overlay = root.querySelector('.gabo-chatbot__overlay');
   const panel = root.querySelector('.gabo-chatbot__panel');
   const form = root.querySelector('.gabo-chatbot__form');
   const input = root.querySelector('.gabo-chatbot__input');
@@ -103,7 +101,6 @@ export function initGaboChatbotEmbed() {
   function setOpen(open) {
     setDesktopFabOpenState(false);
     panel.hidden = !open;
-    overlay.hidden = !open;
     fabTrigger?.setAttribute('aria-expanded', String(open));
     state.open = open;
     saveState(state);

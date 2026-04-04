@@ -1510,13 +1510,14 @@ textarea[data-security-state='review'] {
   color: var(--text);
   display: inline-flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1rem;
   box-shadow: 0 14px 28px rgba(15, 23, 42, 0.16);
   cursor: pointer;
   text-decoration: none;
   font-weight: 700;
+  text-align: center;
 }
 
 .fab-item-icon {
@@ -3550,8 +3551,8 @@ select {
 @media (max-width: 1024px) {
   .gabo-chatbot__panel {
     width: 100%;
-    height: min(65vh, 540px);
-    max-height: min(65vh, 540px);
+    height: 95dvh;
+    max-height: 95dvh;
   }
 }
 
@@ -3562,7 +3563,7 @@ select {
   }
 
   .gabo-chatbot__panel {
-    height: min(62vh, 500px);
-    max-height: min(62vh, 500px);
+    height: 95dvh;
+    max-height: 95dvh;
   }
 }
