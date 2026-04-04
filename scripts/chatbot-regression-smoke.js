@@ -4,6 +4,8 @@ const path = require('path');
 
 const file = path.join(process.cwd(), 'chatbot', 'embed.js');
 const text = fs.readFileSync(file, 'utf8');
+const fabControlsFile = path.join(process.cwd(), 'fab-controls.js');
+const fabControlsText = fs.readFileSync(fabControlsFile, 'utf8');
 
 const checks = [
   {
@@ -33,6 +35,10 @@ const checks = [
   {
     name: 'Close interactions preserved (ESC and outside click)',
     test: () => /event\.key === 'Escape'/.test(text) && /outside-chat-panel/.test(text)
+  },
+  {
+    name: 'Chat mount is not hard-hidden in FAB markup',
+    test: () => !/<div id="fabChatMount"[^>]*\shidden\b/.test(fabControlsText)
   }
 ];
 
