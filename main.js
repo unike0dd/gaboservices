@@ -5,7 +5,6 @@ import { initMobileNav } from './assets/mobile-nav.js';
 import { initAnalyticsConsentGuard } from './analytics-consent-guard.js';
 import { initSiteGovernance } from './site-governance.js';
 import { ACTIVE_LOCALE, getLocalizedValue, getSiteMetadata } from './site-metadata.js';
-import { EN_MESSAGES } from './locales/en/messages.js';
 
 function syncPageMetadata() {
   const metadata = getSiteMetadata();
@@ -21,7 +20,8 @@ function syncPageMetadata() {
   document.documentElement.lang = ACTIVE_LOCALE;
 }
 
-function initFormStatus() {
+async function initFormStatus() {
+  const { EN_MESSAGES } = await import('./locales/en/messages.js');
   const forms = [...document.querySelectorAll('form')];
   forms.forEach((form) => {
     form.addEventListener('submit', () => {

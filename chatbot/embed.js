@@ -157,10 +157,15 @@ export function initGaboChatbotEmbed() {
   `;
 
   const host = document.getElementById('fabChatMount') || document.getElementById('fabWrapper') || document.body;
+  
+  if (!host) {
+    console.warn('[Gabo Chatbot] Host element not found, cannot initialize');
+    return;
+  }
+
   host.appendChild(root);
 
   const fabTrigger = document.getElementById('fabChatTrigger');
-  const overlay = root.querySelector('.gabo-chatbot__overlay');
   const panel = root.querySelector('.gabo-chatbot__panel');
   const closeText = root.querySelector('.gabo-chatbot__close-text');
   const closeIcon = root.querySelector('.gabo-chatbot__close');
@@ -168,6 +173,12 @@ export function initGaboChatbotEmbed() {
   const input = root.querySelector('.gabo-chatbot__input');
   const send = root.querySelector('.gabo-chatbot__send');
   const log = root.querySelector('.gabo-chatbot__log');
+  const overlay = root.querySelector('.gabo-chatbot__overlay');
+
+  if (!fabTrigger || !panel || !overlay || !closeText || !closeIcon || !form || !input || !send || !log) {
+    console.warn('[Gabo Chatbot] Required elements missing, cannot initialize');
+    return;
+  }
 
   function setOpen(open) {
     setDesktopFabOpenState(false);
@@ -179,11 +190,8 @@ export function initGaboChatbotEmbed() {
     document.body.classList.toggle('chat-open', open);
 
     if (open) {
-      window.dispatchEvent(new CustomEvent('gabo:fabs-close'));
       renderLog(log, state.history);
       input.focus();
-    } else {
-      setDesktopFabOpenState(false);
     }
   }
 
@@ -204,8 +212,12 @@ export function initGaboChatbotEmbed() {
     renderLog(log, state.history);
     saveState(state);
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
+
     const resp = await fetch(WORKER_CHAT, {
       method: 'POST',
+      signal: controller.signal,
       headers: {
         'Content-Type': 'application/json',
         Accept: 'text/event-stream',
@@ -217,7 +229,7 @@ export function initGaboChatbotEmbed() {
         messages: [{ role: 'user', content: userText }],
         meta: { surface: 'gabo_io_global_widget', communication: 'Cyber Security' }
       })
-    });
+    }).finally(() => clearTimeout(timeoutId));
 
     if (!resp.ok) {
       const text = await resp.text().catch(() => '');
@@ -262,9 +274,9 @@ export function initGaboChatbotEmbed() {
     }
   }
 
-  function closeChat() {
+  function closeChat(trigger = 'unknown') {
     setOpen(false);
-    window.dispatchEvent(new CustomEvent('gabo:chatbot-close'));
+    window.dispatchEvent(new CustomEvent('gabo:chatbot-close', { detail: { trigger } }));
   }
 
   fabTrigger?.setAttribute('aria-controls', 'gaboChatbotPanel');
@@ -276,7 +288,7 @@ export function initGaboChatbotEmbed() {
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && state.open) {
-      closeChat();
+      closeChat('escape-key');
     }
   });
 
@@ -285,7 +297,7 @@ export function initGaboChatbotEmbed() {
     const target = event.target;
     if (!(target instanceof Node)) return;
     if (panel.contains(target) || fabTrigger?.contains(target)) return;
-    closeChat();
+    closeChat('outside-chat-panel');
   });
 
   form.addEventListener('submit', async (event) => {

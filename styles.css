@@ -1507,6 +1507,8 @@ textarea[data-security-state='review'] {
   cursor: pointer;
 }
 
+.fab-sheet-actions,
+.fab-dismiss,
 .fab-dismiss--icon {
   display: inline-flex;
   align-items: center;
@@ -3509,6 +3511,7 @@ select {
   padding: 0.85rem 1rem;
   color: #fff;
   background: linear-gradient(135deg, #00c4ff, #ff3bdb);
+  text-align: center;
 }
 
 .gabo-chatbot__header strong {
@@ -3533,8 +3536,11 @@ select {
 }
 
 .gabo-chatbot__close {
-  border: 0;
-  background: transparent;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.3);
   color: #fff;
   font-size: 1rem;
   line-height: 1;

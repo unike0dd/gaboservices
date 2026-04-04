@@ -6,7 +6,8 @@ export const ES_MESSAGES = {
     careers: 'Carrera',
     contact: 'Contacto',
     chatbot: 'Gabo io',
-    openQuickActions: 'Abrir acciones rápidas'
+    openQuickActions: 'Abrir acciones rápidas',
+    closeQuickActions: 'Cerrar acciones rápidas'
   },
 
   mobileBottomNav: {
@@ -16,6 +17,7 @@ export const ES_MESSAGES = {
     services: 'Servicios',
     contact: 'Contacto',
     careers: 'Carrera',
+    chatbot: 'Chat',
     logistics: 'Logística',
     admin: 'Admin',
     it: 'IT',

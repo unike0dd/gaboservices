@@ -1,8 +1,9 @@
 import { closeMobileMenu } from './assets/mobile-menu-state.js';
 import { EN_MESSAGES } from './locales/en/messages.js';
 import { ES_MESSAGES } from './locales/es/messages.js';
+import { BREAKPOINT_QUERIES } from './breakpoints.config.js';
 
-const DESKTOP_QUERY = '(min-width: 901px)';
+const DESKTOP_QUERY = BREAKPOINT_QUERIES.desktopQuery;
 
 const LOCALE_MESSAGES = {
   en: EN_MESSAGES,
@@ -60,6 +61,7 @@ export function setDesktopFabOpenState(isOpen) {
   if (!elements) return;
 
   const { fabToggle, fabOverlay } = elements;
+  const messages = getCurrentMessages();
 
   if (isOpen) {
     closeMobileMenu();
@@ -67,6 +69,7 @@ export function setDesktopFabOpenState(isOpen) {
 
   fabToggle.setAttribute('aria-expanded', String(isOpen));
   fabToggle.textContent = isOpen ? '✕' : '☰';
+  fabToggle.setAttribute('aria-label', isOpen ? messages.fab.closeQuickActions || 'Close quick actions' : messages.fab.openQuickActions);
   fabOverlay.hidden = !isOpen;
   document.body.classList.toggle('fab-open', isOpen);
   fabOverlay.style.opacity = isOpen ? '1' : '0';
@@ -122,6 +125,9 @@ export function initFabControls() {
       setDesktopFabOpenState(false);
     }
   });
+
+  window.addEventListener('gabo:fab-open', () => setDesktopFabOpenState(true));
+  window.addEventListener('gabo:fab-close', () => setDesktopFabOpenState(false));
 
   const handleBreakpointChange = (event) => {
     if (!event.matches) {
