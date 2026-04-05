@@ -13,6 +13,7 @@ function applyViewportTokens(tier) {
   if (!body) return;
 
   body.dataset.viewportTier = tier;
+  root.dataset.viewportTier = tier;
 
   const tokens = {
     mobile: {
@@ -25,13 +26,15 @@ function applyViewportTokens(tier) {
       ctaGap: '0.65rem',
       navGap: '0.6rem',
       navWrapPaddingY: '0.55rem',
+      touchTarget: '44px',
+      serviceHeroColumns: '1fr',
       fabOffsetX: '1rem',
       fabOffsetY: '1rem',
       mobileNavIconScale: '0.92',
       mobileNavLabelScale: '0.94'
     },
     tablet: {
-      containerWidth: '1024px',
+      containerWidth: '100%',
       containerPadding: '1.35rem',
       fontScale: '0.99',
       chatHeight: '72vh',
@@ -40,6 +43,8 @@ function applyViewportTokens(tier) {
       ctaGap: '0.7rem',
       navGap: '0.85rem',
       navWrapPaddingY: '0.68rem',
+      touchTarget: '46px',
+      serviceHeroColumns: '1fr',
       fabOffsetX: '1.15rem',
       fabOffsetY: '1.15rem',
       mobileNavIconScale: '1',
@@ -55,6 +60,8 @@ function applyViewportTokens(tier) {
       ctaGap: '0.75rem',
       navGap: '1rem',
       navWrapPaddingY: '0.8rem',
+      touchTarget: '44px',
+      serviceHeroColumns: 'minmax(340px, 480px) minmax(0, 1fr)',
       fabOffsetX: '1.25rem',
       fabOffsetY: '1.25rem',
       mobileNavIconScale: '1.06',
@@ -70,6 +77,8 @@ function applyViewportTokens(tier) {
       ctaGap: '0.8rem',
       navGap: '1rem',
       navWrapPaddingY: '0.82rem',
+      touchTarget: '44px',
+      serviceHeroColumns: 'minmax(340px, 480px) minmax(0, 1fr)',
       fabOffsetX: '1.35rem',
       fabOffsetY: '1.35rem',
       mobileNavIconScale: '1.08',
@@ -87,6 +96,8 @@ function applyViewportTokens(tier) {
   root.style.setProperty('--adaptive-cta-gap', activeTokens.ctaGap);
   root.style.setProperty('--adaptive-nav-gap', activeTokens.navGap);
   root.style.setProperty('--adaptive-nav-wrap-padding-y', activeTokens.navWrapPaddingY);
+  root.style.setProperty('--adaptive-touch-target', activeTokens.touchTarget);
+  root.style.setProperty('--adaptive-service-hero-columns', activeTokens.serviceHeroColumns);
   root.style.setProperty('--nav-fab-offset-x', activeTokens.fabOffsetX);
   root.style.setProperty('--nav-fab-offset-y', activeTokens.fabOffsetY);
   root.style.setProperty('--mobile-nav-icon-scale', activeTokens.mobileNavIconScale);
