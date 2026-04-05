@@ -279,10 +279,12 @@ export function initGaboChatbotEmbed() {
     state.open = open;
     saveState(state);
     document.body.classList.toggle('chat-open', open);
+    document.documentElement.classList.toggle('chat-open', open);
     window.dispatchEvent(new CustomEvent(open ? 'gabo:fab-open' : 'gabo:fab-close'));
 
     if (open) {
       renderLog(log, state.history);
+      if (isDesktopViewport()) applyViewportBounds();
       input.focus();
       emitTelemetry('chat_opened', { historyCount: state.history.length });
     } else {
@@ -387,6 +389,22 @@ export function initGaboChatbotEmbed() {
     return Math.min(Math.max(value, min), max);
   }
 
+  function applyViewportBounds() {
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const panelWidth = panel.offsetWidth;
+    const panelHeight = panel.offsetHeight;
+    const rect = panel.getBoundingClientRect();
+
+    const nextLeft = clamp(rect.left, 0, Math.max(viewportWidth - panelWidth, 0));
+    const nextTop = clamp(rect.top, 0, Math.max(viewportHeight - panelHeight, 0));
+
+    panel.style.left = `${nextLeft}px`;
+    panel.style.top = `${nextTop}px`;
+    panel.style.right = 'auto';
+    panel.style.bottom = 'auto';
+  }
+
   function beginDrag(event) {
     if (!state.open || !isDesktopViewport()) return;
     const target = event.target;
@@ -456,7 +474,10 @@ export function initGaboChatbotEmbed() {
   });
 
   window.addEventListener('resize', () => {
-    if (isDesktopViewport()) return;
+    if (isDesktopViewport()) {
+      if (state.open) applyViewportBounds();
+      return;
+    }
     panel.style.removeProperty('left');
     panel.style.removeProperty('top');
     panel.style.removeProperty('right');
