@@ -223,7 +223,6 @@ export function initGaboChatbotEmbed() {
       <header class="gabo-chatbot__header">
         <strong>Gabo io</strong>
         <div class="gabo-chatbot__header-actions">
-          <button class="gabo-chatbot__close-text" type="button">Close</button>
           <button class="gabo-chatbot__close" type="button" aria-label="Close chatbot">✕</button>
         </div>
       </header>
@@ -251,7 +250,6 @@ export function initGaboChatbotEmbed() {
 
   const fabTrigger = document.getElementById('fabChatTrigger');
   const panel = root.querySelector('.gabo-chatbot__panel');
-  const closeText = root.querySelector('.gabo-chatbot__close-text');
   const closeIcon = root.querySelector('.gabo-chatbot__close');
   const form = root.querySelector('.gabo-chatbot__form');
   const input = root.querySelector('.gabo-chatbot__input');
@@ -260,7 +258,7 @@ export function initGaboChatbotEmbed() {
   const overlay = root.querySelector('.gabo-chatbot__overlay');
   const header = root.querySelector('.gabo-chatbot__header');
 
-  if (!fabTrigger || !panel || !header || !overlay || !closeText || !closeIcon || !form || !input || !send || !log) {
+  if (!fabTrigger || !panel || !header || !overlay || !closeIcon || !form || !input || !send || !log) {
     console.warn('[Gabo Chatbot] Required elements missing, cannot initialize');
     return;
   }
@@ -449,9 +447,7 @@ export function initGaboChatbotEmbed() {
   }
 
   fabTrigger?.setAttribute('aria-controls', 'gaboChatbotPanel');
-  fabTrigger?.addEventListener('click', () => setOpen(!state.open));
   window.addEventListener('gabo:chatbot-open', () => setOpen(true));
-  closeText?.addEventListener('click', () => closeChat('header-close-text'));
   closeIcon?.addEventListener('click', () => closeChat('header-close-icon'));
   overlay?.addEventListener('click', () => closeChat('overlay-click'));
   header.addEventListener('pointerdown', beginDrag);

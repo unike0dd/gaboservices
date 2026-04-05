@@ -18,51 +18,32 @@ function getCurrentMessages() {
 
 function buildChatbotFabMarkup(messages) {
   return `
-    <button class="fab-main-toggle" id="fabMainToggle" type="button" aria-expanded="false" aria-controls="fabOverlay" aria-label="${messages.fab.openQuickActions}">Chatbot Gabo io</button>
-    <div class="fab-overlay" id="fabOverlay" aria-hidden="true">
-      <div class="fab-backdrop" data-fab-dismiss aria-hidden="true"></div>
-      <aside class="fab-sheet" role="dialog" aria-modal="true" aria-label="Options menu" aria-hidden="true">
-        <div class="fab-sheet-head">
-          <strong>OPTIONS</strong>
-          <div class="fab-sheet-actions">
-            <button class="fab-dismiss" type="button" data-fab-dismiss>Close</button>
-            <button class="fab-dismiss fab-dismiss--icon" type="button" data-fab-dismiss aria-label="Close options menu">✕</button>
-          </div>
-        </div>
-        <div class="fab-menu" id="fabQuickMenu">
-          <button class="fab-item" id="fabChatTrigger" type="button" aria-label="${messages.fab.chatbot}">
-            <span class="fab-item-icon" aria-hidden="true">💬</span>
-            <span>${messages.fab.chatbot}</span>
-          </button>
-        </div>
-        <div id="fabChatMount" class="fab-chat-mount"></div>
-      </aside>
-    </div>
+    <button class="fab-main-toggle" id="fabChatTrigger" type="button" aria-expanded="false" aria-controls="gaboChatbotPanel" aria-label="${messages.fab.chatbot}">
+      <span class="fab-main-icon fas fa-message" aria-hidden="true">💬</span>
+      <span class="sr-only">${messages.fab.chatbot}</span>
+    </button>
   `;
 }
+
 
 function getDesktopFabElements() {
   const wrapper = document.getElementById('fabWrapper');
   if (!(wrapper instanceof HTMLElement)) return null;
 
-  const fabToggle = wrapper.querySelector('#fabMainToggle');
-  const fabOverlay = wrapper.querySelector('#fabOverlay');
-  const fabMenu = wrapper.querySelector('#fabQuickMenu');
-
-  if (!(fabToggle instanceof HTMLElement) || !(fabOverlay instanceof HTMLElement) || !(fabMenu instanceof HTMLElement)) {
+  const fabToggle = wrapper.querySelector('#fabChatTrigger');
+  if (!(fabToggle instanceof HTMLElement)) {
     return null;
   }
 
-  return { wrapper, fabToggle, fabOverlay, fabMenu };
+  return { wrapper, fabToggle };
 }
+
 
 export function setDesktopFabOpenState(isOpen) {
   const elements = getDesktopFabElements();
   if (!elements) return;
 
-  const { fabToggle, fabOverlay } = elements;
-  const fabSheet = fabOverlay.querySelector('.fab-sheet');
-  const fabBackdrop = fabOverlay.querySelector('.fab-backdrop');
+  const { fabToggle } = elements;
   const messages = getCurrentMessages();
 
   if (isOpen) {
@@ -70,18 +51,11 @@ export function setDesktopFabOpenState(isOpen) {
   }
 
   fabToggle.setAttribute('aria-expanded', String(isOpen));
-  fabToggle.textContent = isOpen ? '✕' : 'Chatbot Gabo io';
-  fabToggle.setAttribute('aria-label', isOpen ? messages.fab.closeQuickActions || 'Close quick actions' : messages.fab.openQuickActions);
-  fabOverlay.setAttribute('aria-hidden', String(!isOpen));
-  if (fabSheet instanceof HTMLElement) {
-    fabSheet.setAttribute('aria-hidden', String(!isOpen));
-  }
-  if (fabBackdrop instanceof HTMLElement) {
-    fabBackdrop.setAttribute('aria-hidden', String(!isOpen));
-  }
+  fabToggle.setAttribute('aria-label', isOpen ? messages.fab.closeQuickActions || 'Close chatbot' : messages.fab.chatbot);
   document.body.classList.toggle('fab-open', isOpen);
   window.dispatchEvent(new CustomEvent(isOpen ? 'gabo:fab-opened' : 'gabo:fab-closed'));
 }
+
 
 export function ensureDesktopFabNav() {
   let wrapper = document.getElementById('fabWrapper');
@@ -97,11 +71,11 @@ export function ensureDesktopFabNav() {
 }
 
 function toggleFabMenu() {
-  const fabToggle = document.getElementById('fabMainToggle');
+  const fabToggle = document.getElementById('fabChatTrigger');
   if (!(fabToggle instanceof HTMLElement)) return;
 
   const isOpen = fabToggle.getAttribute('aria-expanded') === 'true';
-  setDesktopFabOpenState(!isOpen);
+  window.dispatchEvent(new CustomEvent(isOpen ? 'gabo:chatbot-close' : 'gabo:chatbot-open'));
 }
 
 export function initFabControls() {
@@ -110,25 +84,16 @@ export function initFabControls() {
 
   wrapper.dataset.navBound = 'true';
   const desktopQuery = window.matchMedia(DESKTOP_QUERY);
-  const fabToggle = wrapper.querySelector('#fabMainToggle');
+  const fabToggle = wrapper.querySelector('#fabChatTrigger');
   if (!(fabToggle instanceof HTMLElement)) return;
 
   setDesktopFabOpenState(false);
 
   fabToggle.addEventListener('click', toggleFabMenu);
 
-  wrapper.addEventListener('click', (event) => {
-    const target = event.target;
-    if (!(target instanceof Element)) return;
-
-    if (target.closest('[data-fab-dismiss]')) {
-      setDesktopFabOpenState(false);
-    }
-  });
-
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
-      setDesktopFabOpenState(false);
+      window.dispatchEvent(new CustomEvent('gabo:chatbot-close'));
     }
   });
 
@@ -137,7 +102,7 @@ export function initFabControls() {
 
   const handleBreakpointChange = (event) => {
     if (!event.matches) {
-      setDesktopFabOpenState(false);
+      window.dispatchEvent(new CustomEvent('gabo:chatbot-close'));
     }
   };
 
