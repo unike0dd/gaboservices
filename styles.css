@@ -1705,6 +1705,7 @@ body.fab-open {
   overflow: hidden;
 }
 
+html.chat-open,
 body.chat-open {
   overflow: hidden;
 }
@@ -3564,6 +3565,16 @@ select {
   overflow-x: hidden;
   background: #1b0e2d;
   border-radius: 0 0 16px 16px;
+}
+
+.gabo-chatbot__log {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.gabo-chatbot__log::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 .gabo-chatbot__msg {
