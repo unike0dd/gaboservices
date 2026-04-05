@@ -375,6 +375,10 @@ export function initGaboChatbotEmbed() {
   }
 
   function closeChat(trigger = 'unknown') {
+    if (!state.open) return;
+    dragState.active = false;
+    dragState.pointerId = null;
+    header.style.cursor = 'grab';
     setOpen(false);
     window.dispatchEvent(new CustomEvent('gabo:chatbot-close', { detail: { trigger } }));
   }
@@ -443,17 +447,20 @@ export function initGaboChatbotEmbed() {
     dragState.active = false;
     dragState.pointerId = null;
     header.style.cursor = 'grab';
-    header.releasePointerCapture(event.pointerId);
+    if (header.hasPointerCapture(event.pointerId)) {
+      header.releasePointerCapture(event.pointerId);
+    }
   }
 
   fabTrigger?.setAttribute('aria-controls', 'gaboChatbotPanel');
   window.addEventListener('gabo:chatbot-open', () => setOpen(true));
+  window.addEventListener('gabo:chatbot-close', () => setOpen(false));
   closeIcon?.addEventListener('click', () => closeChat('header-close-icon'));
   overlay?.addEventListener('click', () => closeChat('overlay-click'));
   header.addEventListener('pointerdown', beginDrag);
-  header.addEventListener('pointermove', dragPanel);
-  header.addEventListener('pointerup', endDrag);
-  header.addEventListener('pointercancel', endDrag);
+  window.addEventListener('pointermove', dragPanel);
+  window.addEventListener('pointerup', endDrag);
+  window.addEventListener('pointercancel', endDrag);
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && state.open) {

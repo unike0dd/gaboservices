@@ -14,9 +14,13 @@
   pointer-events: none;
 }
 
+.gabo-chatbot__overlay:not([hidden]) {
+  pointer-events: auto;
+}
+
 .gabo-chatbot__panel {
   position: fixed;
-  bottom: 1.5rem;
+  bottom: calc(1.5rem + var(--chatbot-panel-lift, 7px));
   right: 1.5rem;
   z-index: 3500;
   width: clamp(320px, 28vw, 420px);
@@ -158,7 +162,7 @@
     max-width: calc(100vw - 3rem);
     height: min(620px, calc(100dvh - 3rem));
     max-height: calc(100dvh - 3rem);
-    bottom: 1.25rem;
+    bottom: calc(1.25rem + var(--chatbot-panel-lift, 7px));
     right: 1.25rem;
   }
 
@@ -174,7 +178,7 @@
     max-width: 80vw;
     height: 80dvh;
     max-height: 80dvh;
-    bottom: 10vh;
+    bottom: calc(10vh + var(--chatbot-panel-lift, 7px));
     right: 10vw;
     border-radius: 20px;
   }
@@ -225,7 +229,7 @@
 @media (max-width: 600px) {
   .gabo-chatbot__panel {
     position: fixed;
-    bottom: 10vh;
+    bottom: calc(10vh + var(--chatbot-panel-lift, 7px));
     right: 10vw;
     left: auto;
     top: auto;
@@ -326,7 +330,7 @@
     max-width: calc(100vw - 3rem);
     height: clamp(500px, 64vh, 680px);
     max-height: calc(100dvh - 3rem);
-    bottom: 1.5rem;
+    bottom: calc(1.5rem + var(--chatbot-panel-lift, 7px));
     right: 1.5rem;
   }
 
