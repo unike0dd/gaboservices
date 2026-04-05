@@ -251,7 +251,6 @@ export function initGaboChatbotEmbed() {
 
   const fabTrigger = document.getElementById('fabChatTrigger');
   const panel = root.querySelector('.gabo-chatbot__panel');
-  const header = root.querySelector('.gabo-chatbot__header');
   const closeText = root.querySelector('.gabo-chatbot__close-text');
   const closeIcon = root.querySelector('.gabo-chatbot__close');
   const form = root.querySelector('.gabo-chatbot__form');
@@ -501,5 +500,4 @@ export function initGaboChatbotEmbed() {
 
   setOpen(state.open);
   renderLog(log, state.history);
-  enableDraggablePanel();
 }
