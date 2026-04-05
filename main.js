@@ -1,6 +1,7 @@
 import { initAdaptiveLayout } from './adaptive-layout.js';
 import { initFabControls } from './fab-controls.js';
 import { initGaboChatbotEmbed } from './chatbot/embed.js';
+import { initSiteFooter } from './footer/footer.js';
 import { initMobileNav } from './assets/mobile-nav.js';
 import { initAnalyticsConsentGuard } from './analytics-consent-guard.js';
 import { initSiteGovernance } from './site-governance.js';
@@ -291,6 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAdaptiveLayout();
   initMobileNav();
   initFabControls();
+  initSiteFooter();
   initGaboChatbotEmbed();
   initFormStatus();
   initHomeHeroFlipCard();
