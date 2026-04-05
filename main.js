@@ -58,8 +58,7 @@ function initCenterServicesRotation() {
     }
   ];
 
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const wordChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  const stationChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   const openServicePageLabel = 'Explore service';
   const titleSpeed = 45;
   const textSpeed = 18;
@@ -80,7 +79,7 @@ function initCenterServicesRotation() {
 
   function scrambleTitle(el, target, speed = 45) {
     return new Promise((resolve) => {
-      let step = 0;
+      let frame = 0;
       clearInterval(el._timer);
 
       el._timer = setInterval(() => {
@@ -91,17 +90,17 @@ function initCenterServicesRotation() {
 
           if (ch === ' ' || ch === '-' || ch === '&') {
             output += ch;
-          } else if (i < step) {
+          } else if (i < frame / 2) {
             output += target[i];
           } else {
-            output += randomFrom(letters);
+            output += randomFrom(stationChars);
           }
         }
 
         el.textContent = output;
-        step += 1;
+        frame += 1;
 
-        if (step > target.length + 2) {
+        if (frame > target.length * 2 + 2) {
           clearInterval(el._timer);
           el.textContent = target;
           resolve();
@@ -121,7 +120,7 @@ function initCenterServicesRotation() {
           .map((ch, i) => {
             if (' .,;:!?-–—↗/&'.includes(ch)) return ch;
             if (i < step) return target[i];
-            return randomFrom(wordChars);
+            return randomFrom(stationChars);
           })
           .join('');
 
