@@ -254,6 +254,8 @@ iframe {
   --adaptive-cta-gap: 0.75rem;
   --adaptive-nav-gap: 1rem;
   --adaptive-nav-wrap-padding-y: 0.8rem;
+  --adaptive-touch-target: 44px;
+  --adaptive-service-hero-columns: minmax(340px, 480px) minmax(0, 1fr);
 }
 
 body {
@@ -262,6 +264,16 @@ body {
 
 .chat-panel {
   height: min(var(--adaptive-chat-height), 78vh);
+}
+
+.btn,
+.ghost,
+.nav-links a {
+  min-height: var(--adaptive-touch-target);
+}
+
+.services-hero-accordion {
+  grid-template-columns: var(--adaptive-service-hero-columns);
 }
 
 @media (min-width: 901px) and (max-width: 1120px) {
@@ -297,6 +309,10 @@ body {
     font-size: 0.74rem;
     padding: 0.24rem 0.62rem;
   }
+
+  .ops-hero__pills {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 480px) {
@@ -308,6 +324,22 @@ body {
     width: fit-content;
     max-width: 100%;
   }
+
+  .ops-hero__pills {
+    grid-template-columns: 1fr;
+  }
+}
+
+body[data-viewport-tier='mobile'] .pricing-compare,
+body[data-viewport-tier='tablet'] .pricing-compare {
+  overflow-x: auto;
+}
+
+body[data-viewport-tier='mobile'] .pricing-compare-header,
+body[data-viewport-tier='mobile'] .pricing-compare-body,
+body[data-viewport-tier='tablet'] .pricing-compare-header,
+body[data-viewport-tier='tablet'] .pricing-compare-body {
+  min-width: 620px;
 }
 
 /* Services page responsive fixes */

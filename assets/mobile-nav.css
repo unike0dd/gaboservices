@@ -78,6 +78,8 @@ body.has-mobile-nav {
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+  transform: scale(var(--mobile-nav-icon-scale, 1));
+  transform-origin: center;
 }
 
 .mobile-nav__label {
@@ -85,6 +87,8 @@ body.has-mobile-nav {
   line-height: 1.1;
   letter-spacing: 0;
   text-wrap: nowrap;
+  transform: scale(var(--mobile-nav-label-scale, 1));
+  transform-origin: center;
 }
 
 .mobile-nav__item.is-active,
