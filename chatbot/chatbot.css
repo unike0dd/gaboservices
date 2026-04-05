@@ -1,0 +1,336 @@
+.gabo-chatbot {
+  position: static;
+  width: 100%;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.gabo-chatbot__overlay {
+  position: fixed;
+  inset: 0;
+  border: 0;
+  background: transparent;
+  z-index: 3495;
+  pointer-events: none;
+}
+
+.gabo-chatbot__panel {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 3500;
+  width: clamp(320px, 28vw, 420px);
+  max-width: calc(100vw - 2rem);
+  height: clamp(460px, 62vh, 640px);
+  max-height: calc(100dvh - 2rem);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: #251541;
+  border: 1px solid #ff3bdb;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+  touch-action: none;
+}
+
+.gabo-chatbot__header {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  color: #fff;
+  background: linear-gradient(135deg, #00c4ff, #ff3bdb);
+  text-align: center;
+  cursor: grab;
+  user-select: none;
+  border-radius: 22px 22px 0 0;
+}
+
+.gabo-chatbot__header strong {
+  width: 100%;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.gabo-chatbot__header-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.gabo-chatbot__close {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.3);
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  min-height: 34px;
+}
+
+.gabo-chatbot__log {
+  padding: 0.8rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #1b0e2d;
+  border-radius: 0 0 16px 16px;
+}
+
+.gabo-chatbot__log {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.gabo-chatbot__log::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.gabo-chatbot__msg {
+  margin: 0.45rem 0;
+  max-width: 90%;
+  padding: 0.55rem 0.7rem;
+  line-height: 1.35;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  font-size: 0.95rem;
+}
+
+.gabo-chatbot__msg.user {
+  margin-left: auto;
+  border-radius: 18px 18px 6px 18px;
+  color: #000;
+  background: #00c4ff;
+}
+
+.gabo-chatbot__msg.bot {
+  margin-right: auto;
+  border-radius: 18px 18px 18px 6px;
+  color: #fff;
+  background: #321b53;
+}
+
+.gabo-chatbot__form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.55rem;
+  padding: 0.65rem;
+  border-top: 1px solid #ff3bdb;
+  background: #220f3a;
+  border-radius: 18px;
+  margin: 0.45rem;
+}
+
+.gabo-chatbot__input {
+  min-width: 0;
+  border: 1px solid #d5d5d5;
+  border-radius: 14px;
+  padding: 0.65rem 0.7rem;
+  font-size: 0.92rem;
+}
+
+.gabo-chatbot__send {
+  border: 0;
+  border-radius: 14px;
+  min-width: 84px;
+  font-weight: 700;
+  color: #fff;
+  background: #ff3bdb;
+  cursor: pointer;
+  padding: 0.65rem 1rem;
+  font-size: 0.9rem;
+}
+
+.gabo-chatbot__send:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Tablet: 901px - 1279px */
+@media (max-width: 1279px) {
+  .gabo-chatbot__panel {
+    width: min(440px, calc(100vw - 3rem));
+    max-width: calc(100vw - 3rem);
+    height: min(620px, calc(100dvh - 3rem));
+    max-height: calc(100dvh - 3rem);
+    bottom: 1.25rem;
+    right: 1.25rem;
+  }
+
+  .gabo-chatbot__header strong {
+    font-size: 1rem;
+  }
+}
+
+/* Tablet & Mobile: up to 900px */
+@media (max-width: 900px) {
+  .gabo-chatbot__panel {
+    width: 80vw;
+    max-width: 80vw;
+    height: 80dvh;
+    max-height: 80dvh;
+    bottom: 10vh;
+    right: 10vw;
+    border-radius: 20px;
+  }
+
+  .gabo-chatbot__header {
+    padding: 0.75rem 0.9rem;
+  }
+
+  .gabo-chatbot__header strong {
+    font-size: 1rem;
+  }
+
+  .gabo-chatbot__log {
+    padding: 0.7rem;
+  }
+
+  .gabo-chatbot__form {
+    padding: 0.6rem;
+    gap: 0.5rem;
+  }
+
+  .gabo-chatbot__input {
+    padding: 0.6rem 0.65rem;
+    font-size: 1rem;
+    min-height: 44px;
+  }
+
+  .gabo-chatbot__send {
+    min-width: 75px;
+    min-height: 44px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.9rem;
+  }
+
+  .gabo-chatbot__close {
+    width: 40px;
+    height: 40px;
+    min-height: 40px;
+  }
+
+  .gabo-chatbot__msg {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.65rem;
+  }
+}
+
+/* Mobile: up to 600px */
+@media (max-width: 600px) {
+  .gabo-chatbot__panel {
+    position: fixed;
+    bottom: 10vh;
+    right: 10vw;
+    left: auto;
+    top: auto;
+    width: 80vw;
+    max-width: 80vw;
+    height: 80dvh;
+    max-height: 80dvh;
+    border-radius: 22px;
+    margin: 0;
+  }
+
+  .gabo-chatbot__header {
+    padding: 0.7rem 1rem;
+  }
+
+  .gabo-chatbot__header strong {
+    font-size: 1rem;
+  }
+
+  .gabo-chatbot__close {
+    width: 36px;
+    height: 36px;
+    min-height: 36px;
+    font-size: 1rem;
+  }
+
+  .gabo-chatbot__log {
+    padding: 0.6rem;
+  }
+
+  .gabo-chatbot__msg {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.6rem;
+    margin: 0.4rem 0;
+  }
+
+  .gabo-chatbot__form {
+    padding: 0.55rem;
+    gap: 0.45rem;
+  }
+
+  .gabo-chatbot__input {
+    padding: 0.6rem 0.65rem;
+    font-size: 1rem;
+    min-height: 44px;
+    border-radius: 12px;
+  }
+
+  .gabo-chatbot__send {
+    min-width: 70px;
+    min-height: 44px;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+    border-radius: 12px;
+  }
+}
+
+/* Small Mobile: up to 480px */
+@media (max-width: 480px) {
+  .gabo-chatbot__panel { height: 80dvh; max-height: 80dvh; }
+
+  .gabo-chatbot__header strong {
+    font-size: 0.95rem;
+  }
+
+  .gabo-chatbot__log {
+    padding: 0.5rem;
+  }
+
+  .gabo-chatbot__msg {
+    font-size: 0.85rem;
+    padding: 0.45rem 0.55rem;
+    margin: 0.35rem 0;
+    max-width: 95%;
+  }
+
+  .gabo-chatbot__form {
+    padding: 0.5rem;
+    gap: 0.4rem;
+  }
+
+  .gabo-chatbot__input {
+    font-size: 1rem;
+    min-height: 40px;
+  }
+
+  .gabo-chatbot__send {
+    min-height: 40px;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Very Large Screens: 1280px and up */
+@media (min-width: 1280px) {
+  .gabo-chatbot__panel {
+    width: clamp(340px, 26vw, 440px);
+    max-width: calc(100vw - 3rem);
+    height: clamp(500px, 64vh, 680px);
+    max-height: calc(100dvh - 3rem);
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .gabo-chatbot__header strong {
+    font-size: 1.15rem;
+  }
+}
