@@ -142,7 +142,9 @@ export function initMobileNav() {
 
   chatbotTrigger.addEventListener('click', () => {
     closeMenu();
-    window.dispatchEvent(new CustomEvent('gabo:chatbot-open'));
+    window.setTimeout(() => {
+      window.dispatchEvent(new CustomEvent('gabo:chatbot-open'));
+    }, 0);
   });
 
   document.addEventListener('click', (event) => {

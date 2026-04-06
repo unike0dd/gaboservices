@@ -53,7 +53,7 @@ export function setDesktopFabOpenState(isOpen) {
 
   fabToggle.setAttribute('aria-expanded', String(isOpen));
   fabToggle.setAttribute('aria-label', isOpen ? messages.fab.closeQuickActions || 'Close chatbot' : messages.fab.chatbot);
-  document.body.classList.toggle('fab-open', isDesktopViewport && isOpen);
+  document.body.classList.toggle('fab-open', isOpen && isDesktopViewport);
   window.dispatchEvent(new CustomEvent(isOpen ? 'gabo:fab-opened' : 'gabo:fab-closed'));
 }
 
