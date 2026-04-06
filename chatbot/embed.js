@@ -510,9 +510,17 @@ export function initGaboChatbotEmbed() {
       return true;
     }
 
+    if (target instanceof Element && target.closest('[data-mobile-chatbot-trigger]')) {
+      return true;
+    }
+
     if (typeof event.composedPath === 'function') {
       const path = event.composedPath();
-      if (path.includes(panel) || (fabTrigger && path.includes(fabTrigger))) {
+      if (
+        path.includes(panel) ||
+        (fabTrigger && path.includes(fabTrigger)) ||
+        path.some((node) => node instanceof Element && node.matches('[data-mobile-chatbot-trigger]'))
+      ) {
         return true;
       }
     }
