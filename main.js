@@ -21,6 +21,25 @@ function syncPageMetadata() {
   document.documentElement.lang = ACTIVE_LOCALE;
 }
 
+
+function ensureChatbotRuntimeStyles() {
+  const requiredStyles = ['/chatbot/chatbot.css', '/chatbot/fab.css'];
+
+  const hasStylesheet = (target) => [...document.querySelectorAll('link[rel="stylesheet"]')]
+    .some((link) => {
+      const href = link.getAttribute('href') || '';
+      return href === target || href.endsWith(target);
+    });
+
+  requiredStyles.forEach((href) => {
+    if (hasStylesheet(href)) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    document.head.appendChild(link);
+  });
+}
+
 async function initFormStatus() {
   const { EN_MESSAGES } = await import('./locales/en/messages.js');
   const forms = [...document.querySelectorAll('form')];
@@ -291,6 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSiteGovernance();
   initAdaptiveLayout();
   initMobileNav();
+  ensureChatbotRuntimeStyles();
   initFabControls();
   initSiteFooter();
   initGaboChatbotEmbed();
