@@ -225,7 +225,7 @@ function ensureFallbackFabTrigger() {
     trigger.className = 'fab-main-toggle';
     trigger.setAttribute('aria-expanded', 'false');
     trigger.setAttribute('aria-label', 'Open chatbot');
-    trigger.innerHTML = '<span class="fab-main-icon" aria-hidden="true">💬</span><span class="sr-only">Open chatbot</span>';
+    trigger.innerHTML = '<span class="fab-main-icon fas fa-message" aria-hidden="true">💬</span><span class="sr-only">Open chatbot</span>';
     wrapper.appendChild(trigger);
   }
 
