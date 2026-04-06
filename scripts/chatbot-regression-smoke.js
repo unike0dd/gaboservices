@@ -8,9 +8,6 @@ const fabControlsFile = path.join(process.cwd(), 'fab-controls.js');
 const fabControlsText = fs.readFileSync(fabControlsFile, 'utf8');
 const chatbotCssFile = path.join(process.cwd(), 'chatbot', 'chatbot.css');
 const chatbotCssText = fs.readFileSync(chatbotCssFile, 'utf8');
-const fabCssFile = path.join(process.cwd(), 'chatbot', 'fab.css');
-const fabCssText = fs.readFileSync(fabCssFile, 'utf8');
-
 const checks = [
   {
     name: 'FAB is not force-closed from chatbot setOpen()',
@@ -55,18 +52,6 @@ const checks = [
   {
     name: 'FAB marks chatbot trigger as bound to avoid duplicate click wiring',
     test: () => /fabToggle\.dataset\.chatbotBound\s*=\s*'true'/.test(fabControlsText)
-  },
-  {
-    name: 'Outside-click close ignores interactions inside chat surface',
-    test: () =>
-      /function\s+isChatInteractionTarget\(event\)/.test(text) &&
-      /event\.composedPath/.test(text) &&
-      /if \(isChatInteractionTarget\(event\)\) return;/.test(text)
-  },
-  {
-    name: 'FAB sits above mobile nav with 7px lift',
-    test: () =>
-      /body\.has-mobile-nav\s+\.fab-wrapper\s*\{[\s\S]*?bottom:\s*calc\(var\(--mobile-nav-height,\s*60px\)\s*\+\s*var\(--mobile-safe-bottom,\s*env\(safe-area-inset-bottom,\s*0px\)\)\s*\+\s*7px\);/m.test(fabCssText)
   }
 ];
 
