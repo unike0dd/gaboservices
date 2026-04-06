@@ -8,7 +8,6 @@ const fabControlsFile = path.join(process.cwd(), 'fab-controls.js');
 const fabControlsText = fs.readFileSync(fabControlsFile, 'utf8');
 const chatbotCssFile = path.join(process.cwd(), 'chatbot', 'chatbot.css');
 const chatbotCssText = fs.readFileSync(chatbotCssFile, 'utf8');
-
 const checks = [
   {
     name: 'FAB is not force-closed from chatbot setOpen()',
