@@ -242,7 +242,6 @@ export function initGaboChatbotEmbed() {
   const root = document.createElement('section');
   root.className = 'gabo-chatbot';
   root.innerHTML = `
-    <button class="gabo-chatbot__overlay" type="button" aria-label="Close chatbot" hidden></button>
     <div id="gaboChatbotPanel" class="gabo-chatbot__panel" hidden>
       <header class="gabo-chatbot__header">
         <strong>Gabo io</strong>
@@ -259,7 +258,7 @@ export function initGaboChatbotEmbed() {
     </div>
   `;
 
-  const host = document.getElementById('fabChatMount') || document.getElementById('fabWrapper') || document.body;
+  const host = document.getElementById('fabChatMount') || document.body;
   
   if (!host) {
     console.warn('[Gabo Chatbot] Host element not found, cannot initialize');
@@ -281,10 +280,9 @@ export function initGaboChatbotEmbed() {
   const input = root.querySelector('.gabo-chatbot__input');
   const send = root.querySelector('.gabo-chatbot__send');
   const log = root.querySelector('.gabo-chatbot__log');
-  const overlay = root.querySelector('.gabo-chatbot__overlay');
   const header = root.querySelector('.gabo-chatbot__header');
 
-  if (!panel || !header || !overlay || !closeIcon || !closeLabel || !form || !input || !send || !log) {
+  if (!panel || !header || !closeIcon || !closeLabel || !form || !input || !send || !log) {
     console.warn('[Gabo Chatbot] Required elements missing, cannot initialize');
     return;
   }
@@ -297,13 +295,10 @@ export function initGaboChatbotEmbed() {
   };
 
   function setOpen(open) {
-    if (overlay) overlay.hidden = !open;
     panel.hidden = !open;
     fabTrigger?.setAttribute('aria-expanded', String(open));
     state.open = open;
     saveState(state);
-    document.body.classList.toggle('chat-open', open);
-    document.documentElement.classList.toggle('chat-open', open);
     window.dispatchEvent(new CustomEvent(open ? 'gabo:fab-open' : 'gabo:fab-close'));
 
     if (open) {
@@ -490,7 +485,6 @@ export function initGaboChatbotEmbed() {
   window.addEventListener('gabo:chatbot-close', () => setOpen(false));
   closeIcon?.addEventListener('click', () => closeChat('header-close-icon'));
   closeLabel?.addEventListener('click', () => closeChat('header-close-button'));
-  overlay?.addEventListener('click', () => closeChat('overlay-click'));
   header.addEventListener('pointerdown', beginDrag);
   window.addEventListener('pointermove', dragPanel);
   window.addEventListener('pointerup', endDrag);
@@ -532,6 +526,10 @@ export function initGaboChatbotEmbed() {
     if (!state.open) return;
     if (isChatInteractionTarget(event)) return;
     closeChat('outside-chat-panel');
+  });
+
+  panel.addEventListener('click', (event) => {
+    event.stopPropagation();
   });
 
   window.addEventListener('resize', () => {
