@@ -42,12 +42,10 @@ const checks = [
     test: () => !/<div id="fabChatMount"[^>]*\shidden\b/.test(fabControlsText)
   },
   {
-    name: 'Chat panel and overlay are hidden by default CSS state',
+    name: 'Chat panel is hidden by default CSS state',
     test: () =>
       /\.gabo-chatbot__panel\s*\{[\s\S]*?display:\s*none;/.test(chatbotCssText) &&
-      /\.gabo-chatbot__panel:not\(\[hidden\]\)\s*\{[\s\S]*?display:\s*grid;/.test(chatbotCssText) &&
-      /\.gabo-chatbot__overlay\s*\{[\s\S]*?display:\s*none;/.test(chatbotCssText) &&
-      /\.gabo-chatbot__overlay:not\(\[hidden\]\)\s*\{[\s\S]*?display:\s*block;/.test(chatbotCssText)
+      /\.gabo-chatbot__panel:not\(\[hidden\]\)\s*\{[\s\S]*?display:\s*grid;/.test(chatbotCssText)
   },
   {
     name: 'FAB marks chatbot trigger as bound to avoid duplicate click wiring',

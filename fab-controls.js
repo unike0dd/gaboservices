@@ -45,14 +45,15 @@ export function setDesktopFabOpenState(isOpen) {
 
   const { fabToggle } = elements;
   const messages = getCurrentMessages();
+  const isDesktopViewport = window.matchMedia(DESKTOP_QUERY).matches;
 
-  if (isOpen) {
+  if (isOpen && isDesktopViewport) {
     closeMobileMenu();
   }
 
   fabToggle.setAttribute('aria-expanded', String(isOpen));
   fabToggle.setAttribute('aria-label', isOpen ? messages.fab.closeQuickActions || 'Close chatbot' : messages.fab.chatbot);
-  document.body.classList.toggle('fab-open', isOpen);
+  document.body.classList.toggle('fab-open', isDesktopViewport && isOpen);
   window.dispatchEvent(new CustomEvent(isOpen ? 'gabo:fab-opened' : 'gabo:fab-closed'));
 }
 

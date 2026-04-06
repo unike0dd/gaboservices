@@ -61,9 +61,3 @@ body.has-mobile-nav .fab-wrapper {
 .gabo-chatbot__close-label:focus-visible {
   filter: brightness(1.08);
 }
-
-@media (max-width: 900px) {
-  .fab-wrapper {
-    display: none;
-  }
-}
