@@ -119,6 +119,8 @@ export function initMobileNav() {
   const setOpen = (open) => {
     servicesToggle.setAttribute('aria-expanded', String(open));
     servicesMenu.classList.toggle('is-open', open);
+    servicesMenu.setAttribute('aria-hidden', String(!open));
+    servicesMenu.toggleAttribute('inert', !open);
   };
 
   const closeMenu = () => {
