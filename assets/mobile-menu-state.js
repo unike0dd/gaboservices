@@ -21,7 +21,6 @@ const WRAPPER_SELECTORS = [
 
 const MENU_PANEL_SELECTORS = [
   '[data-mobile-menu]',
-  '[data-mobile-nav]',
   '[data-mobile-services-menu]',
   '#fabOverlay .fab-sheet',
   '.drawer',
