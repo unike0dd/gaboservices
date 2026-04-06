@@ -1,0 +1,59 @@
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fab-wrapper {
+  position: fixed;
+  right: calc(15px + env(safe-area-inset-right, 0px));
+  bottom: calc(15px + env(safe-area-inset-bottom, 0px));
+  z-index: 3200;
+}
+
+.fab-main-toggle {
+  position: relative;
+  z-index: 2;
+  width: 60px;
+  height: 60px;
+  min-height: 60px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: var(--primary, #1d3557);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.2);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.fab-main-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.fab-main-toggle:hover,
+.fab-main-toggle:focus-visible,
+.gabo-chatbot__close:hover,
+.gabo-chatbot__close:focus-visible {
+  filter: brightness(1.08);
+}
+
+@media (max-width: 900px) {
+  .fab-wrapper {
+    right: calc(15px + env(safe-area-inset-right, 0px));
+    bottom: calc(15px + env(safe-area-inset-bottom, 0px));
+  }
+}
