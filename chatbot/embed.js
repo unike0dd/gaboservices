@@ -502,11 +502,27 @@ export function initGaboChatbotEmbed() {
     }
   });
 
+  function isChatInteractionTarget(event) {
+    const target = event.target;
+    if (!(target instanceof Node)) return false;
+
+    if (panel.contains(target) || fabTrigger?.contains(target)) {
+      return true;
+    }
+
+    if (typeof event.composedPath === 'function') {
+      const path = event.composedPath();
+      if (path.includes(panel) || (fabTrigger && path.includes(fabTrigger))) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   document.addEventListener('click', (event) => {
     if (!state.open) return;
-    const target = event.target;
-    if (!(target instanceof Node)) return;
-    if (panel.contains(target) || fabTrigger?.contains(target)) return;
+    if (isChatInteractionTarget(event)) return;
     closeChat('outside-chat-panel');
   });
 

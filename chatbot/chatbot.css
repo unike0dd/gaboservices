@@ -11,10 +11,12 @@
   border: 0;
   background: transparent;
   z-index: 3495;
+  display: none;
   pointer-events: none;
 }
 
 .gabo-chatbot__overlay:not([hidden]) {
+  display: block;
   pointer-events: auto;
 }
 
@@ -27,7 +29,7 @@
   max-width: calc(100vw - 2rem);
   height: clamp(460px, 62vh, 640px);
   max-height: calc(100dvh - 2rem);
-  display: grid;
+  display: none;
   grid-template-rows: auto 1fr auto;
   background: #251541;
   border: 1px solid #ff3bdb;
@@ -35,6 +37,10 @@
   overflow: hidden;
   box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
   touch-action: none;
+}
+
+.gabo-chatbot__panel:not([hidden]) {
+  display: grid;
 }
 
 .gabo-chatbot__header {

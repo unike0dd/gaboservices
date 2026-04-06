@@ -6,6 +6,10 @@ const file = path.join(process.cwd(), 'chatbot', 'embed.js');
 const text = fs.readFileSync(file, 'utf8');
 const fabControlsFile = path.join(process.cwd(), 'fab-controls.js');
 const fabControlsText = fs.readFileSync(fabControlsFile, 'utf8');
+const chatbotCssFile = path.join(process.cwd(), 'chatbot', 'chatbot.css');
+const chatbotCssText = fs.readFileSync(chatbotCssFile, 'utf8');
+const fabCssFile = path.join(process.cwd(), 'chatbot', 'fab.css');
+const fabCssText = fs.readFileSync(fabCssFile, 'utf8');
 
 const checks = [
   {
@@ -39,6 +43,30 @@ const checks = [
   {
     name: 'Chat mount is not hard-hidden in FAB markup',
     test: () => !/<div id="fabChatMount"[^>]*\shidden\b/.test(fabControlsText)
+  },
+  {
+    name: 'Chat panel and overlay are hidden by default CSS state',
+    test: () =>
+      /\.gabo-chatbot__panel\s*\{[\s\S]*?display:\s*none;/.test(chatbotCssText) &&
+      /\.gabo-chatbot__panel:not\(\[hidden\]\)\s*\{[\s\S]*?display:\s*grid;/.test(chatbotCssText) &&
+      /\.gabo-chatbot__overlay\s*\{[\s\S]*?display:\s*none;/.test(chatbotCssText) &&
+      /\.gabo-chatbot__overlay:not\(\[hidden\]\)\s*\{[\s\S]*?display:\s*block;/.test(chatbotCssText)
+  },
+  {
+    name: 'FAB marks chatbot trigger as bound to avoid duplicate click wiring',
+    test: () => /fabToggle\.dataset\.chatbotBound\s*=\s*'true'/.test(fabControlsText)
+  },
+  {
+    name: 'Outside-click close ignores interactions inside chat surface',
+    test: () =>
+      /function\s+isChatInteractionTarget\(event\)/.test(text) &&
+      /event\.composedPath/.test(text) &&
+      /if \(isChatInteractionTarget\(event\)\) return;/.test(text)
+  },
+  {
+    name: 'FAB sits above mobile nav with 7px lift',
+    test: () =>
+      /body\.has-mobile-nav\s+\.fab-wrapper\s*\{[\s\S]*?bottom:\s*calc\(var\(--mobile-nav-height,\s*60px\)\s*\+\s*var\(--mobile-safe-bottom,\s*env\(safe-area-inset-bottom,\s*0px\)\)\s*\+\s*7px\);/m.test(fabCssText)
   }
 ];
 

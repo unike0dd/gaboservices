@@ -1383,6 +1383,10 @@ textarea[data-security-state='review'] {
   z-index: 3200;
 }
 
+body.has-mobile-nav .fab-wrapper {
+  bottom: calc(var(--mobile-nav-height, 60px) + var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + 7px);
+}
+
 .fab-main-toggle {
   position: relative;
   z-index: 2;
@@ -1591,7 +1595,7 @@ body.chat-open {
 @media (max-width: 900px) {
   .fab-wrapper {
     right: calc(15px + env(safe-area-inset-right, 0px));
-    bottom: calc(15px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(var(--mobile-nav-height, 60px) + var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + 7px);
   }
 
   .fab-sheet {
