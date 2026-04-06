@@ -208,6 +208,30 @@ function renderLog(log, history) {
   log.scrollTop = log.scrollHeight;
 }
 
+function ensureFallbackFabTrigger() {
+  let wrapper = document.getElementById('fabWrapper');
+  if (!wrapper) {
+    wrapper = document.createElement('div');
+    wrapper.id = 'fabWrapper';
+    wrapper.className = 'fab-wrapper';
+    document.body.appendChild(wrapper);
+  }
+
+  let trigger = document.getElementById('fabChatTrigger');
+  if (!trigger) {
+    trigger = document.createElement('button');
+    trigger.id = 'fabChatTrigger';
+    trigger.type = 'button';
+    trigger.className = 'fab-main-toggle';
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.setAttribute('aria-label', 'Open chatbot');
+    trigger.innerHTML = '<span class="fab-main-icon fas fa-message" aria-hidden="true">💬</span><span class="sr-only">Open chatbot</span>';
+    wrapper.appendChild(trigger);
+  }
+
+  return trigger;
+}
+
 export function initGaboChatbotEmbed() {
   const currentOrigin = window.location.origin;
   const originAssetMap = getOriginAssetMap();
@@ -248,7 +272,7 @@ export function initGaboChatbotEmbed() {
 
   host.appendChild(root);
 
-  const fabTrigger = document.getElementById('fabChatTrigger');
+  const fabTrigger = document.getElementById('fabChatTrigger') || ensureFallbackFabTrigger();
   const panel = root.querySelector('.gabo-chatbot__panel');
   const closeIcon = root.querySelector('.gabo-chatbot__close');
   const form = root.querySelector('.gabo-chatbot__form');
@@ -258,7 +282,7 @@ export function initGaboChatbotEmbed() {
   const overlay = root.querySelector('.gabo-chatbot__overlay');
   const header = root.querySelector('.gabo-chatbot__header');
 
-  if (!fabTrigger || !panel || !header || !overlay || !closeIcon || !form || !input || !send || !log) {
+  if (!panel || !header || !overlay || !closeIcon || !form || !input || !send || !log) {
     console.warn('[Gabo Chatbot] Required elements missing, cannot initialize');
     return;
   }
@@ -453,6 +477,13 @@ export function initGaboChatbotEmbed() {
   }
 
   fabTrigger?.setAttribute('aria-controls', 'gaboChatbotPanel');
+  if (fabTrigger instanceof HTMLElement && fabTrigger.dataset.chatbotBound !== 'true') {
+    fabTrigger.dataset.chatbotBound = 'true';
+    fabTrigger.addEventListener('click', () => {
+      const isOpen = fabTrigger.getAttribute('aria-expanded') === 'true';
+      window.dispatchEvent(new CustomEvent(isOpen ? 'gabo:chatbot-close' : 'gabo:chatbot-open'));
+    });
+  }
   window.addEventListener('gabo:chatbot-open', () => setOpen(true));
   window.addEventListener('gabo:chatbot-close', () => setOpen(false));
   closeIcon?.addEventListener('click', () => closeChat('header-close-icon'));
