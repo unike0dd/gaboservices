@@ -64,7 +64,6 @@ body.has-mobile-nav .fab-wrapper {
 
 @media (max-width: 900px) {
   .fab-wrapper {
-    right: calc(15px + env(safe-area-inset-right, 0px));
-    bottom: calc(var(--mobile-nav-height, 60px) + var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + 7px);
+    display: none;
   }
 }
