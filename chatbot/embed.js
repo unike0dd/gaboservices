@@ -225,7 +225,7 @@ function ensureFallbackFabTrigger() {
     trigger.className = 'fab-main-toggle';
     trigger.setAttribute('aria-expanded', 'false');
     trigger.setAttribute('aria-label', 'Open chatbot');
-    trigger.innerHTML = '<span class="fab-main-icon fas fa-message" aria-hidden="true">💬</span><span class="sr-only">Open chatbot</span>';
+    trigger.innerHTML = '<span class="fab-main-icon" aria-hidden="true"><i class="fas fa-message"></i></span><span class="sr-only">Open chatbot</span>';
     wrapper.appendChild(trigger);
   }
 
@@ -247,6 +247,7 @@ export function initGaboChatbotEmbed() {
       <header class="gabo-chatbot__header">
         <strong>Gabo io</strong>
         <div class="gabo-chatbot__header-actions">
+          <button class="gabo-chatbot__close-label" type="button" aria-label="Close chatbot">Close</button>
           <button class="gabo-chatbot__close" type="button" aria-label="Close chatbot">✕</button>
         </div>
       </header>
@@ -275,6 +276,7 @@ export function initGaboChatbotEmbed() {
   const fabTrigger = document.getElementById('fabChatTrigger') || ensureFallbackFabTrigger();
   const panel = root.querySelector('.gabo-chatbot__panel');
   const closeIcon = root.querySelector('.gabo-chatbot__close');
+  const closeLabel = root.querySelector('.gabo-chatbot__close-label');
   const form = root.querySelector('.gabo-chatbot__form');
   const input = root.querySelector('.gabo-chatbot__input');
   const send = root.querySelector('.gabo-chatbot__send');
@@ -282,7 +284,7 @@ export function initGaboChatbotEmbed() {
   const overlay = root.querySelector('.gabo-chatbot__overlay');
   const header = root.querySelector('.gabo-chatbot__header');
 
-  if (!panel || !header || !overlay || !closeIcon || !form || !input || !send || !log) {
+  if (!panel || !header || !overlay || !closeIcon || !closeLabel || !form || !input || !send || !log) {
     console.warn('[Gabo Chatbot] Required elements missing, cannot initialize');
     return;
   }
@@ -487,6 +489,7 @@ export function initGaboChatbotEmbed() {
   window.addEventListener('gabo:chatbot-open', () => setOpen(true));
   window.addEventListener('gabo:chatbot-close', () => setOpen(false));
   closeIcon?.addEventListener('click', () => closeChat('header-close-icon'));
+  closeLabel?.addEventListener('click', () => closeChat('header-close-button'));
   overlay?.addEventListener('click', () => closeChat('overlay-click'));
   header.addEventListener('pointerdown', beginDrag);
   window.addEventListener('pointermove', dragPanel);
