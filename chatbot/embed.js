@@ -259,7 +259,7 @@ export function initGaboChatbotEmbed() {
     </div>
   `;
 
-  const host = document.getElementById('fabChatMount') || document.getElementById('fabWrapper') || document.body;
+  const host = document.getElementById('fabChatMount') || document.body;
   
   if (!host) {
     console.warn('[Gabo Chatbot] Host element not found, cannot initialize');
@@ -532,6 +532,10 @@ export function initGaboChatbotEmbed() {
     if (!state.open) return;
     if (isChatInteractionTarget(event)) return;
     closeChat('outside-chat-panel');
+  });
+
+  panel.addEventListener('click', (event) => {
+    event.stopPropagation();
   });
 
   window.addEventListener('resize', () => {
