@@ -522,6 +522,8 @@ export function initGaboChatbotEmbed() {
     }
   });
 
-  setOpen(state.open);
+  state.open = false;
+  saveState(state);
+  setOpen(false);
   renderLog(log, state.history);
 }
