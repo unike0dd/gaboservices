@@ -299,8 +299,6 @@ export function initGaboChatbotEmbed() {
     fabTrigger?.setAttribute('aria-expanded', String(open));
     state.open = open;
     saveState(state);
-    document.body.classList.toggle('chat-open', open);
-    document.documentElement.classList.toggle('chat-open', open);
     window.dispatchEvent(new CustomEvent(open ? 'gabo:fab-open' : 'gabo:fab-close'));
 
     if (open) {

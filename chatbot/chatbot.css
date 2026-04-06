@@ -5,21 +5,6 @@
   pointer-events: auto;
 }
 
-.gabo-chatbot__overlay {
-  position: fixed;
-  inset: 0;
-  border: 0;
-  background: transparent;
-  z-index: 3495;
-  display: none;
-  pointer-events: none;
-}
-
-.gabo-chatbot__overlay:not([hidden]) {
-  display: block;
-  pointer-events: auto;
-}
-
 .gabo-chatbot__panel {
   position: fixed;
   bottom: calc(15px + env(safe-area-inset-bottom, 0px) + 60px + var(--chatbot-panel-lift, 7px));
