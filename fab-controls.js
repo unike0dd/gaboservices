@@ -89,6 +89,7 @@ export function initFabControls() {
 
   setDesktopFabOpenState(false);
 
+  fabToggle.dataset.chatbotBound = 'true';
   fabToggle.addEventListener('click', toggleFabMenu);
 
   document.addEventListener('keydown', (event) => {
