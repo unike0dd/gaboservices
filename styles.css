@@ -3356,3 +3356,137 @@ select {
     transition: none;
   }
 }
+
+/* Site-wide aesthetic refresh to match reference mock */
+body {
+  background: #efefef;
+}
+
+.site-header {
+  position: static;
+  backdrop-filter: none;
+  background: #0e2e5c;
+  border-bottom: 0;
+}
+
+.nav-wrap {
+  justify-content: space-between;
+  padding: 0.95rem 0;
+}
+
+.brand-stack {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.brand {
+  color: #ffffff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.35rem, 1.1rem + 1vw, 2.2rem);
+  font-weight: 700;
+}
+
+.brand-subtitle {
+  display: none;
+}
+
+.nav-wrap > nav {
+  position: static;
+  transform: none;
+}
+
+.nav-links {
+  display: flex;
+  position: static;
+  flex-direction: row;
+  gap: 1.2rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  min-width: auto;
+}
+
+.nav-links a {
+  color: #ffffff;
+  font-size: clamp(0.95rem, 0.85rem + 0.35vw, 1.2rem);
+  font-weight: 600;
+}
+
+.page-main {
+  width: min(100%, 1160px);
+  padding-top: 3rem;
+}
+
+main p {
+  text-indent: 0;
+  color: #263f66;
+}
+
+main h1,
+main h2,
+main h3,
+main h4,
+main h5,
+main h6 {
+  color: #0d2c59;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.btn {
+  border-radius: 0.75rem;
+}
+
+.btn.primary {
+  background: #2f5f9f;
+}
+
+.home-hero {
+  max-width: 980px;
+  margin-inline: auto;
+  padding: 2rem 0 2.5rem;
+}
+
+.home-hero__eyebrow {
+  margin: 0 0 1.5rem;
+  color: #3e4a63;
+  font-size: 1.1rem;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+}
+
+.home-hero__title {
+  margin: 0;
+  max-width: none;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.1rem, 1.7rem + 2vw, 4.4rem);
+  line-height: 1.16;
+  letter-spacing: 0.01em;
+  color: #0d2c59;
+}
+
+.home-hero__text {
+  margin: 1.6rem 0 0;
+  max-width: 900px;
+  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.25rem);
+  line-height: 1.45;
+  color: #263f66;
+}
+
+.home-hero__actions {
+  display: flex;
+  gap: 0.85rem;
+  margin-top: 1.8rem;
+}
+
+@media (max-width: 900px) {
+  .nav-links {
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .home-hero__actions {
+    flex-direction: column;
+  }
+}
