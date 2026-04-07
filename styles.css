@@ -3357,49 +3357,45 @@ select {
   }
 }
 
-/* Site-wide aesthetic refresh to match reference mock */
-body {
+/* Home page refresh to match reference mock */
+body[data-page-key="home"] {
   background: #efefef;
 }
 
-.site-header {
+body[data-page-key="home"] .site-header {
   position: static;
   backdrop-filter: none;
   background: #0e2e5c;
   border-bottom: 0;
 }
 
-.nav-wrap {
+body[data-page-key="home"] .nav-wrap {
   justify-content: space-between;
   padding: 0.95rem 0;
 }
 
-.brand-stack {
+body[data-page-key="home"] .brand-stack {
   display: block;
   flex: 0 0 auto;
 }
 
-.brand {
+body[data-page-key="home"] .brand {
   color: #ffffff;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.35rem, 1.1rem + 1vw, 2.2rem);
+  font-size: 2.2rem;
   font-weight: 700;
 }
 
-.brand-subtitle {
-  display: none;
-}
-
-.nav-wrap > nav {
+body[data-page-key="home"] .nav-wrap > nav {
   position: static;
   transform: none;
 }
 
-.nav-links {
+body[data-page-key="home"] .nav-links {
   display: flex;
   position: static;
   flex-direction: row;
-  gap: 1.2rem;
+  gap: 1.35rem;
   padding: 0;
   border: 0;
   background: transparent;
@@ -3407,38 +3403,15 @@ body {
   min-width: auto;
 }
 
-.nav-links a {
+body[data-page-key="home"] .nav-links a {
   color: #ffffff;
-  font-size: clamp(0.95rem, 0.85rem + 0.35vw, 1.2rem);
+  font-size: 1.65rem;
   font-weight: 600;
 }
 
-.page-main {
+body[data-page-key="home"] .page-main {
   width: min(100%, 1160px);
   padding-top: 3rem;
-}
-
-main p {
-  text-indent: 0;
-  color: #263f66;
-}
-
-main h1,
-main h2,
-main h3,
-main h4,
-main h5,
-main h6 {
-  color: #0d2c59;
-  font-family: Georgia, "Times New Roman", serif;
-}
-
-.btn {
-  border-radius: 0.75rem;
-}
-
-.btn.primary {
-  background: #2f5f9f;
 }
 
 .home-hero {
@@ -3459,7 +3432,7 @@ main h6 {
   margin: 0;
   max-width: none;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(2.1rem, 1.7rem + 2vw, 4.4rem);
+  font-size: clamp(2.35rem, 2rem + 2.1vw, 5rem);
   line-height: 1.16;
   letter-spacing: 0.01em;
   color: #0d2c59;
@@ -3468,9 +3441,10 @@ main h6 {
 .home-hero__text {
   margin: 1.6rem 0 0;
   max-width: 900px;
-  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.25rem);
+  font-size: clamp(1.2rem, 1rem + 0.35vw, 1.7rem);
   line-height: 1.45;
   color: #263f66;
+  text-indent: 0;
 }
 
 .home-hero__actions {
@@ -3479,11 +3453,31 @@ main h6 {
   margin-top: 1.8rem;
 }
 
+.home-hero__actions .btn {
+  border-radius: 0.75rem;
+  font-size: 1.7rem;
+  font-weight: 700;
+  padding: 0.85rem 1.2rem;
+  border-color: #2f5f9f;
+}
+
+.home-hero__actions .btn.primary {
+  background: #2f5f9f;
+}
+
 @media (max-width: 900px) {
-  .nav-links {
+  body[data-page-key="home"] .nav-links {
     gap: 0.8rem;
     flex-wrap: wrap;
     justify-content: flex-end;
+  }
+
+  body[data-page-key="home"] .brand {
+    font-size: 1.7rem;
+  }
+
+  body[data-page-key="home"] .nav-links a {
+    font-size: 1rem;
   }
 
   .home-hero__actions {
