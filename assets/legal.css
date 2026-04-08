@@ -114,9 +114,10 @@ li { margin: 6px 0; text-align: justify; hyphens: none; overflow-wrap: normal; w
   gap: 10px;
   align-content: start;
 }
-.footer-column h3 {
+.footer-column h3,
+.footer-column h4 {
   margin: 0;
-  font-size: .95rem;
+  font-size: 1rem;
   letter-spacing: .04em;
   text-transform: uppercase;
   color: color-mix(in oklab, var(--footer-fg) 78%, transparent);
