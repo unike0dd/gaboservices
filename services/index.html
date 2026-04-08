@@ -33,8 +33,8 @@
     <style>
       body[data-page-key='services'] {
         background:
-          radial-gradient(circle at top right, rgba(91, 33, 182, 0.07), transparent 28%),
-          linear-gradient(180deg, #f7f8fb 0%, #edf1f6 100%);
+          radial-gradient(circle at top right, rgba(29, 53, 87, 0.08), transparent 30%),
+          linear-gradient(180deg, #f2f4f7 0%, #e8ecf2 100%);
       }
 
       .services-main {
@@ -44,28 +44,28 @@
       }
 
       .services-shell {
-        --bg: #eef2f7;
-        --shell: #f7f8fb;
+        --bg: #ebeff5;
+        --shell: #f4f6fa;
         --card: #ffffff;
-        --card-soft: #f8f9fc;
-        --text: #111827;
-        --muted: #5b6473;
-        --line: #d8dee7;
-        --line-soft: #e9edf3;
-        --accent: #5b21b6;
-        --accent-soft: #ede9fe;
-        --accent-soft-2: #f5f3ff;
-        --active: #0a0a0f;
+        --card-soft: #f6f8fc;
+        --text: #0f2948;
+        --muted: #405a79;
+        --line: #c5d0de;
+        --line-soft: #dbe3ed;
+        --accent: #1d4b86;
+        --accent-soft: #e8f0fb;
+        --accent-soft-2: #eef4fc;
+        --active: #12396b;
         --active-text: #ffffff;
-        --success: #16a34a;
-        --shadow: 0 12px 34px rgba(17, 24, 39, 0.07);
+        --success: #15803d;
+        --shadow: 0 14px 34px rgba(17, 36, 62, 0.1);
         --radius-xl: 28px;
         --radius-lg: 20px;
         --radius-md: 16px;
         --tap: 48px;
         --safe-bottom: env(safe-area-inset-bottom, 0px);
         background: var(--shell);
-        border: 1px solid #cfd6e0;
+        border: 1px solid #c8d3e2;
         border-radius: var(--radius-xl);
         padding: 1.125rem;
         box-shadow: var(--shadow);
@@ -91,8 +91,8 @@
         min-height: 34px;
         padding: 0 14px;
         border-radius: 999px;
-        background: #e9edf2;
-        color: #324154;
+        background: #e8edf5;
+        color: #1f456f;
         font-size: 0.92rem;
         font-weight: 700;
         margin-bottom: 1rem;
@@ -179,9 +179,20 @@
 
       .services-shell .btn.primary,
       .services-mobile-button {
-        background: transparent;
-        color: var(--active);
+        background: var(--active);
+        color: #ffffff;
         border-color: var(--active);
+      }
+
+      .services-shell .btn {
+        border-color: #1d4b86;
+        color: #1d4b86;
+        background: #ffffff;
+      }
+
+      .services-shell .btn:hover,
+      .services-shell .btn:focus-visible {
+        background: #eaf1fb;
       }
 
       .services-hero-meta {
@@ -287,12 +298,12 @@
       }
 
       .services-scroll-card:focus-visible {
-        outline: 2px solid #5b21b6;
+        outline: 2px solid #1d4b86;
         outline-offset: 2px;
       }
 
       .services-scroll-card small {
-        color: #5b6473;
+        color: #405a79;
         text-transform: uppercase;
         letter-spacing: 0.05em;
         font-weight: 700;
@@ -307,15 +318,15 @@
 
       .services-scroll-card p {
         margin: 0;
-        color: #4b5563;
+        color: #405a79;
         font-size: 0.92rem;
         line-height: 1.45;
         text-align: left;
       }
 
       .services-scroll-card.is-active {
-        border-color: #5b21b6;
-        background: #f5f3ff;
+        border-color: #1d4b86;
+        background: #eaf1fb;
       }
 
       .services-flapline {
@@ -332,7 +343,7 @@
         font-size: 0.74rem;
         text-transform: uppercase;
         letter-spacing: 0.19em;
-        color: #5b6473;
+        color: #405a79;
         font-weight: 700;
       }
 
@@ -344,14 +355,14 @@
         word-spacing: 4px;
         text-transform: uppercase;
         font-family: 'Courier New', Courier, monospace;
-        color: #0f172a;
+        color: #12396b;
       }
 
       .services-flap-text {
         margin: 0.45rem auto 0;
         max-width: 65ch;
         font-size: 0.96rem;
-        color: #4b5563;
+        color: #405a79;
         text-align: center;
       }
 
@@ -363,9 +374,9 @@
         justify-content: center;
         width: fit-content;
         min-width: 240px;
-        border: 1px solid #0f172a;
+        border: 1px solid #12396b;
         border-radius: 10px;
-        background: #0f172a;
+        background: #12396b;
         color: #ffffff !important;
         -webkit-text-fill-color: #ffffff;
         text-decoration: none;
@@ -383,8 +394,8 @@
 
       .services-flap-link:hover,
       .services-flap-link:focus-visible {
-        background: #1e293b;
-        border-color: #1e293b;
+        background: #1d4b86;
+        border-color: #1d4b86;
       }
 
       .services-rail::-webkit-scrollbar,
@@ -469,7 +480,7 @@
       }
 
       .services-card.is-active .services-card-link {
-        color: #d7ccff;
+        color: #1d4b86;
       }
 
       .services-detail-layout {
@@ -552,7 +563,7 @@
       .services-tab.is-active {
         background: var(--accent-soft-2);
         color: var(--accent);
-        border-color: #d7ccff;
+        border-color: #b8cde6;
       }
 
       .services-mode-panel {
@@ -586,8 +597,8 @@
       }
 
       .services-compare-item.is-selected {
-        background: #f7f3ff;
-        border-color: #d9cfff;
+        background: #eef4fc;
+        border-color: #c7d8eb;
       }
 
       .services-compare-top {
@@ -636,8 +647,8 @@
         min-height: 30px;
         padding: 0 10px;
         border-radius: 999px;
-        background: #f4f6fa;
-        color: #334155;
+        background: #eaf1fa;
+        color: #1f456f;
         font-size: 0.82rem;
         font-weight: 700;
       }
@@ -687,13 +698,13 @@
       }
 
       .services-desktop-table thead th {
-        background: #f8f7fc;
+        background: #edf3fb;
         font-size: 0.92rem;
         font-weight: 800;
       }
 
       .services-desktop-table tbody tr.is-selected {
-        background: #f7f3ff;
+        background: #eef4fc;
       }
 
       .services-table-service {
@@ -1002,20 +1013,20 @@
     <footer class="site-footer">
       <div class="container footer-grid">
         <div class="footer-column">
-          <h3>Company</h3>
+          <h4>Company</h4>
           <a href="/">Home</a>
           <a href="/about">About</a>
           <a href="/services">Services</a>
           <a href="/careers">Careers</a>
         </div>
         <div class="footer-column">
-          <h3>Support</h3>
+          <h4>Support</h4>
           <a href="/contact">Contact</a>
           <a href="/learning">Learning</a>
           <a href="/sitemap.xml">Sitemap</a>
         </div>
         <div class="footer-column">
-          <h3>Legal</h3>
+          <h4>Legal</h4>
           <a href="/legal/terms.html">T&amp;C</a>
           <a href="/legal/cookies.html">Cookies Consent</a>
           <a href="/legal/privacy-gdpr.html">Privacy and GDPR</a>
