@@ -190,7 +190,6 @@ body.summary-drawer-open { overflow: hidden; }
 }
 .contact-hero--compact h1 {
   max-width: none;
-  font-size: calc(var(--h1-size) + 3px);
   white-space: nowrap;
 }
 .contact-hero--compact .lead {
