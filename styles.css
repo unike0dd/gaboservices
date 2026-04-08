@@ -77,20 +77,43 @@ h3 {
   margin: 0;
 }
 
+.hero h1,
+.home-hero h1,
+.hero-editorial h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  margin: 0.3rem 0 1rem;
+  max-width: 15ch;
+  line-height: 1.15;
+}
+
+.site-footer h4 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+body[data-page-key='about'] main :is(h1, h2, h3),
+body[data-page-key='services'] main :is(h1, h2, h3),
+body[data-page-key='careers'] main :is(h1, h2, h3),
+body[data-page-key='contact'] main :is(h1, h2, h3),
+body[data-page-key='learning'] main :is(h1, h2, h3) {
+  font-size: revert;
+}
+
+body[data-page-key='about'] main .hero h1,
+body[data-page-key='services'] main .hero h1,
+body[data-page-key='careers'] main .hero h1,
+body[data-page-key='contact'] main .hero h1,
+body[data-page-key='learning'] main .hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+}
+
 main p,
 main li {
   font-size: var(--main-copy-size);
 }
 
-main h2 {
-  font-size: max(clamp(1.35rem, 1.15rem + 1.2vw, 2.25rem), calc(var(--main-copy-size) + 0.25rem));
-  line-height: 1.25;
-}
-
-main h3 {
-  font-size: max(clamp(1.2rem, 1.05rem + 0.95vw, 1.9rem), calc(var(--main-copy-size) + 0.25rem));
-  line-height: 1.3;
-}
+main h2 { line-height: 1.25; }
+main h3 { line-height: 1.3; }
 
 main h4,
 main h5,
