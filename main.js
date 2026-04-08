@@ -7,6 +7,7 @@ import { initAnalyticsConsentGuard } from './analytics-consent-guard.js';
 import { initSiteGovernance } from './site-governance.js';
 import { ACTIVE_LOCALE, getLocalizedValue, getSiteMetadata } from './site-metadata.js';
 import { getLocaleMessages } from './locales/index.js';
+import { initGaboOrbitLogo } from './logo-orbit.js';
 
 function syncPageMetadata() {
   const metadata = getSiteMetadata();
@@ -318,4 +319,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initFormStatus();
   initHomeHeroFlipCard();
   initCenterServicesRotation();
+  initGaboOrbitLogo();
 });
