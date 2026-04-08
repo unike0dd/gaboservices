@@ -3436,7 +3436,7 @@ body[data-page-key="home"] .brand-stack {
 body[data-page-key="home"] .brand {
   color: #ffffff;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 2.2rem;
+  font-size: 1.9rem;
   font-weight: 700;
 }
 
@@ -3459,7 +3459,7 @@ body[data-page-key="home"] .nav-links {
 
 body[data-page-key="home"] .nav-links a {
   color: #ffffff;
-  font-size: 1.65rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
@@ -3477,7 +3477,7 @@ body[data-page-key="home"] .page-main {
 .home-hero__eyebrow {
   margin: 0 0 1.5rem;
   color: #3e4a63;
-  font-size: 1.1rem;
+  font-size: 0.92rem;
   letter-spacing: 0.14em;
   font-weight: 700;
 }
@@ -3486,8 +3486,8 @@ body[data-page-key="home"] .page-main {
   margin: 0;
   max-width: none;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(2.35rem, 2rem + 2.1vw, 5rem);
-  line-height: 1.16;
+  font-size: clamp(2rem, 1.8rem + 1.65vw, 3.35rem);
+  line-height: 1.12;
   letter-spacing: 0.01em;
   color: #0d2c59;
 }
@@ -3495,8 +3495,8 @@ body[data-page-key="home"] .page-main {
 .home-hero__text {
   margin: 1.6rem 0 0;
   max-width: 900px;
-  font-size: clamp(1.2rem, 1rem + 0.35vw, 1.7rem);
-  line-height: 1.45;
+  font-size: clamp(1rem, 0.95rem + 0.32vw, 1.2rem);
+  line-height: 1.6;
   color: #263f66;
   text-indent: 0;
 }
@@ -3509,9 +3509,9 @@ body[data-page-key="home"] .page-main {
 
 .home-hero__actions .btn {
   border-radius: 0.75rem;
-  font-size: 1.7rem;
+  font-size: 1rem;
   font-weight: 700;
-  padding: 0.85rem 1.2rem;
+  padding: 0.78rem 1.1rem;
   border-color: #2f5f9f;
 }
 
