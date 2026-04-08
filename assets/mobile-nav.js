@@ -1,9 +1,7 @@
 import { BREAKPOINT_QUERIES } from '../breakpoints.config.js';
-import { EN_MESSAGES } from '../locales/en/messages.js';
-import { ES_MESSAGES } from '../locales/es/messages.js';
+import { getLocaleMessages } from '../locales/index.js';
 
 const MOBILE_QUERY = BREAKPOINT_QUERIES.mobileQuery;
-const LOCALE_MESSAGES = { en: EN_MESSAGES, es: ES_MESSAGES };
 
 const ROUTES = {
   primary: [
@@ -46,8 +44,7 @@ function resolveActivePage() {
 }
 
 function getMessages() {
-  const lang = String(document.documentElement.lang || 'en').toLowerCase().split('-')[0];
-  return LOCALE_MESSAGES[lang] || EN_MESSAGES;
+  return getLocaleMessages();
 }
 
 function buildMarkup(activePage, labels) {

@@ -1,19 +1,11 @@
 import { closeMobileMenu } from './assets/mobile-menu-state.js';
-import { EN_MESSAGES } from './locales/en/messages.js';
-import { ES_MESSAGES } from './locales/es/messages.js';
+import { getLocaleMessages } from './locales/index.js';
 import { BREAKPOINT_QUERIES } from './breakpoints.config.js';
 
 const DESKTOP_QUERY = BREAKPOINT_QUERIES.desktopQuery;
 
-const LOCALE_MESSAGES = {
-  en: EN_MESSAGES,
-  es: ES_MESSAGES
-};
-
 function getCurrentMessages() {
-  const lang = String(document.documentElement.lang || 'en').toLowerCase();
-  const locale = lang.split('-')[0];
-  return LOCALE_MESSAGES[locale] || EN_MESSAGES;
+  return getLocaleMessages();
 }
 
 function buildChatbotFabMarkup(messages) {

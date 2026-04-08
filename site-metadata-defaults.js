@@ -1,9 +1,11 @@
 export const SITE_METADATA_DEFAULTS = Object.freeze({
   name: {
-    en: 'Gabriel Services'
+    en: 'Gabriel Services',
+    es: 'Gabriel Services'
   },
   description: {
-    en: 'Providing Remote Professional Assistance and Business Services to Logistics, IT Support, C Suite Executive, and Customer Relations Management.'
+    en: 'Providing Remote Professional Assistance and Business Services to Logistics, IT Support, C Suite Executive, and Customer Relations Management.',
+    es: 'Asistencia profesional remota y servicios empresariales para logística, soporte TI, dirección ejecutiva y gestión de relaciones con clientes.'
   },
   framePermissions: [],
   seo: {
