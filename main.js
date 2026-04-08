@@ -6,6 +6,7 @@ import { initMobileNav } from './assets/mobile-nav.js';
 import { initAnalyticsConsentGuard } from './analytics-consent-guard.js';
 import { initSiteGovernance } from './site-governance.js';
 import { ACTIVE_LOCALE, getLocalizedValue, getSiteMetadata } from './site-metadata.js';
+import { getLocaleMessages } from './locales/index.js';
 
 function syncPageMetadata() {
   const metadata = getSiteMetadata();
@@ -41,13 +42,13 @@ function ensureChatbotRuntimeStyles() {
 }
 
 async function initFormStatus() {
-  const { EN_MESSAGES } = await import('./locales/en/messages.js');
+  const localeMessages = getLocaleMessages(ACTIVE_LOCALE);
   const forms = [...document.querySelectorAll('form')];
   forms.forEach((form) => {
     form.addEventListener('submit', () => {
       const status = form.querySelector('[data-status]');
       if (!status) return;
-      status.textContent = EN_MESSAGES.nav.submitting;
+      status.textContent = localeMessages.nav.submitting;
       status.dataset.state = 'review';
     });
   });

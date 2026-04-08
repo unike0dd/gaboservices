@@ -1,4 +1,4 @@
-import { EN_MESSAGES } from '../locales/en/messages.js';
+import { getLocaleMessages } from '../locales/index.js';
 
 (function () {
   'use strict';
@@ -10,7 +10,10 @@ import { EN_MESSAGES } from '../locales/en/messages.js';
   function readConsent() { try { var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : null; } catch { return null; } }
   function writeConsent(consent) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(consent)); return true; } catch { return false; } }
 
-  function t(key) { return EN_MESSAGES.cookieConsent[key] || ''; }
+  function t(key) {
+    var messages = getLocaleMessages();
+    return (messages.cookieConsent && messages.cookieConsent[key]) || '';
+  }
   function setStatus(msg) { var el = document.getElementById('cookie-status'); if (el) el.textContent = msg; }
   function formEl() { return document.getElementById('cookie-prefs-form'); }
 
