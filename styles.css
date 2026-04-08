@@ -3410,3 +3410,32 @@ select {
     transition: none;
   }
 }
+
+
+/* Homepage services cards layout */
+body[data-page-key="home"] .cards-grid--home-services {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+  align-items: stretch;
+}
+
+body[data-page-key="home"] .cards-grid--home-services > .info-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+  padding: 28px;
+  box-shadow: var(--shadow-soft);
+  border-bottom: 1px solid var(--border);
+}
+
+body[data-page-key="home"] .cards-grid--home-services > *:last-child {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 28px;
+}
+
+@media (max-width: 1024px) {
+  body[data-page-key="home"] .cards-grid--home-services {
+    grid-template-columns: 1fr;
+  }
+}
