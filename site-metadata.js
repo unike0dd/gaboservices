@@ -1,6 +1,7 @@
 import { SITE_METADATA_DEFAULTS } from './site-metadata-defaults.js';
+import { getActiveLocale } from './locales/index.js';
 
-export const ACTIVE_LOCALE = 'en';
+export const ACTIVE_LOCALE = getActiveLocale();
 
 function mergeSiteMetadata(siteMetadata = {}) {
   return {
@@ -50,6 +51,11 @@ export function getFrozenSiteMetadata() {
 }
 
 export function getLocalizedValue(value, locale = ACTIVE_LOCALE) {
-  if (value && typeof value === 'object' && value[locale]) return value[locale];
+  if (value && typeof value === 'object') {
+    if (value[locale]) return value[locale];
+    if (value.en) return value.en;
+    const firstAvailable = Object.values(value).find((entry) => typeof entry === 'string' && entry.trim().length > 0);
+    if (firstAvailable) return firstAvailable;
+  }
   return typeof value === 'string' ? value : '';
 }
