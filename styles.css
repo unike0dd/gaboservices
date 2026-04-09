@@ -2443,6 +2443,10 @@ body[data-page-key='about'] .about-feature-heading {
   max-width: none;
 }
 
+body[data-page-key='about'] .about-services-heading {
+  margin-block: clamp(2.25rem, 4vw, 3rem);
+}
+
 .page-main .lead {
   font-size: var(--lead-size);
   line-height: 1.58;
