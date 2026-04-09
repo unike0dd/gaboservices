@@ -2439,12 +2439,8 @@ body[data-page-key='about'] .about-feature-heading {
   text-align: center;
   font-size: var(--h1-size);
   line-height: 1.12;
-  margin: 1rem 0;
+  margin-block: clamp(2.25rem, 4vw, 3.25rem);
   max-width: none;
-}
-
-body[data-page-key='about'] .about-services-heading {
-  margin-block: clamp(2.25rem, 4vw, 3rem);
 }
 
 .page-main .lead {
