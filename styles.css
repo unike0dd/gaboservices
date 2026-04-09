@@ -2435,6 +2435,14 @@ select {
   text-align: center;
 }
 
+body[data-page-key='about'] .about-feature-heading {
+  text-align: center;
+  font-size: var(--h1-size);
+  line-height: 1.12;
+  margin: 1rem 0;
+  max-width: none;
+}
+
 .page-main .lead {
   font-size: var(--lead-size);
   line-height: 1.58;
