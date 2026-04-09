@@ -3410,3 +3410,53 @@ select {
     transition: none;
   }
 }
+
+/* Home services cards layout: 4-up on desktop, single-card horizontal scroll on tablet/mobile */
+body[data-page-key="home"] .home-services-cards .cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+}
+
+body[data-page-key="home"] .home-services-cards .cards-grid > * {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+body[data-page-key="home"] .home-services-cards .info-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+  padding: 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+body[data-page-key="home"] .home-services-cards .service-card-link {
+  margin-top: auto;
+}
+
+@media (max-width: 1024px) {
+  body[data-page-key="home"] .home-services-cards .cards-grid {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 0.4rem;
+    scrollbar-width: thin;
+  }
+
+  body[data-page-key="home"] .home-services-cards .cards-grid > * {
+    scroll-snap-align: start;
+  }
+}
+
+/* About page typography tuning */
+body[data-page-key="about"] .page-main p {
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.12rem);
+  line-height: 1.72;
+}
