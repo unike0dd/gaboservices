@@ -2503,12 +2503,6 @@ body[data-page-key='about'] .about-feature-heading {
   text-wrap: nowrap;
 }
 
-body[data-page-key='about'] .about-hero-centered .lead {
-  margin-top: clamp(1.75rem, 4vw, 2.75rem);
-  text-align: center;
-  text-wrap: balance;
-}
-
 body[data-page-key='about'] .about-service-block {
   margin-block: clamp(2rem, 4vw, 3rem);
 }
