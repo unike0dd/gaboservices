@@ -2503,6 +2503,22 @@ body[data-page-key='about'] .about-feature-heading {
   text-wrap: nowrap;
 }
 
+body[data-page-key='about'] .about-service-stack {
+  margin-block: clamp(2.25rem, 4vw, 3rem);
+}
+
+body[data-page-key='about'] .about-service-stack p {
+  margin-top: clamp(1.15rem, 2.4vw, 1.65rem);
+}
+
+body[data-page-key='about'] .about-service-stack ul {
+  margin-top: clamp(1.15rem, 2.4vw, 1.65rem);
+}
+
+body[data-page-key='about'] .about-service-substack {
+  margin-top: clamp(2rem, 3.5vw, 2.75rem);
+}
+
 .section-block {
   margin-block: clamp(3rem, 6vw, 5.5rem);
 }
