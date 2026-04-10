@@ -2503,6 +2503,26 @@ body[data-page-key='about'] .about-feature-heading {
   text-wrap: nowrap;
 }
 
+body[data-page-key='about'] .about-service-block {
+  margin-block: clamp(2rem, 4vw, 3rem);
+}
+
+body[data-page-key='about'] .about-service-block h2 {
+  margin-bottom: 1.1rem;
+}
+
+body[data-page-key='about'] .about-service-block p {
+  margin-bottom: 1.1rem;
+}
+
+body[data-page-key='about'] .about-service-block ul {
+  margin-top: 0;
+}
+
+body[data-page-key='about'] .about-subservice-block {
+  margin-block: clamp(2.25rem, 4.5vw, 3.25rem);
+}
+
 .section-block {
   margin-block: clamp(3rem, 6vw, 5.5rem);
 }
