@@ -2497,6 +2497,10 @@ body[data-page-key='about'] .about-feature-heading {
   margin-inline: auto;
 }
 
+.about-hero-centered .lead {
+  text-align: center;
+}
+
 .about-hero-centered h1 {
   max-width: none;
   white-space: nowrap;
