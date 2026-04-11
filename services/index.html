@@ -214,7 +214,6 @@
             <li><a href="/services/" aria-current="page">Services</a></li>
             <li><a href="/careers/">Careers</a></li>
             <li><a href="/contact/">Contact</a></li>
-            <li><a href="/learning/">Learning</a></li>
           </ul>
         </nav>
       </div>
@@ -256,9 +255,7 @@
           <button type="button" data-industry="customer" role="tab" aria-selected="false">Customer Relations</button>
           <button type="button" data-industry="itsupport" role="tab" aria-selected="false">IT Support</button>
         </div>
-        <p id="industryText" class="center" style="margin-top: 30px;">
-          Coordinating shipments, tracking deliveries, managing dispatch, and improving operational visibility.
-        </p>
+        <div id="industryText" class="center" style="margin-top: 30px;"></div>
       </section>
 
       <section class="section fade" aria-label="Before and after transformation">
@@ -371,23 +368,85 @@
       });
 
       const industryText = {
-        logistics:
-          'Coordinating shipments, tracking deliveries, managing dispatch, and improving operational visibility.',
-        backoffice:
-          'Handling administrative workflows, documentation, scheduling, reporting, and day-to-day backoffice execution.',
-        customer:
-          'Managing customer communication, follow-ups, service consistency, issue handling, and relationship support.',
-        itsupport:
-          'Supporting operational systems, user assistance, issue triage, technical coordination, and daily IT continuity.'
+        logistics: {
+          title: 'Logistics Operations',
+          intro:
+            'Coordinating shipments, tracking deliveries, managing dispatch, and improving operational visibility.',
+          support:
+            'We help keep your logistics organized, visible, and moving:',
+          items: [
+            'Dispatch coordination',
+            'Shipment tracking (ocean, air, and ground)',
+            'Customer communication and follow-ups',
+            'Invoicing and billing support',
+            'Documentation coordination'
+          ]
+        },
+        backoffice: {
+          title: 'Administrative Back Office',
+          intro:
+            'Handling administrative workflows, documentation, scheduling, reporting, and day-to-day BackOffice execution.',
+          support:
+            'We support leadership and daily business operations:',
+          items: [
+            'Executive administrative support',
+            'Calendar and scheduling coordination',
+            'Email and communication management',
+            'Document organization and preparation',
+            'Vendor coordination',
+            'Internal operational support',
+            'Travel planning and coordination'
+          ]
+        },
+        customer: {
+          title: 'Customer Relations',
+          intro:
+            'Managing customer communication, follow-ups, service consistency, issue handling, and relationship support.',
+          support:
+            'We help maintain customer satisfaction and resolution flow:',
+          items: [
+            'Ticket follow-up and resolution tracking',
+            'Customer satisfaction follow-ups (CSAT support)',
+            'Billing clarification support',
+            'First contact resolution support',
+            'Customer communication management'
+          ]
+        },
+        itsupport: {
+          title: 'IT Support',
+          intro:
+            'Supporting operational systems, user assistance, issue triage, technical coordination, and daily IT continuity.',
+          support:
+            'We help stabilize your technical operations through:',
+          items: [
+            'Incident intake and triage',
+            'User support coordination',
+            'Escalation and follow-up tracking',
+            'System access support',
+            'Operational continuity reporting'
+          ]
+        }
       };
 
       const industryButtons = document.querySelectorAll('.switch button');
       const industryTextNode = document.getElementById('industryText');
 
+      const renderIndustryText = (key) => {
+        const selectedIndustry = industryText[key];
+        industryTextNode.innerHTML = `
+          <h3>${selectedIndustry.title}</h3>
+          <p>${selectedIndustry.intro}</p>
+          <p>${selectedIndustry.support}</p>
+          <p>${selectedIndustry.items.join(' · ')}</p>
+        `;
+      };
+
+      renderIndustryText('logistics');
+
       industryButtons.forEach((button) => {
         button.addEventListener('click', () => {
           const selected = button.dataset.industry;
-          industryTextNode.innerText = industryText[selected];
+          renderIndustryText(selected);
 
           industryButtons.forEach((btn) => {
             btn.classList.remove('active');
