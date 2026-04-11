@@ -369,25 +369,21 @@
       };
 
       const industryButtons = document.querySelectorAll('.switch button');
-      const industryTitleNode = document.getElementById('industryTitle');
-      const industrySummaryNode = document.getElementById('industrySummary');
-      const industryDetailsNode = document.getElementById('industryDetails');
+      const industryTextNode = document.getElementById('industryText');
 
       const renderIndustryText = (key) => {
-        const selectedIndustry = industryText[key];
-        industryTextNode.innerHTML = `
-          <h3>${selectedIndustry.title}</h3>
-          <p>${selectedIndustry.intro}</p>
-          <p>${selectedIndustry.support}</p>
-          <p>${selectedIndustry.items.join(' · ')}</p>
-        `;
+        if (!industryTextNode || !industryText[key]) {
+          return;
+        }
+
+        industryTextNode.innerHTML = industryText[key];
       };
 
       renderIndustryText('logistics');
       industryButtons.forEach((button) => {
         button.addEventListener('click', () => {
           const selected = button.dataset.industry;
-          industryTextNode.innerHTML = industryText[selected];
+          renderIndustryText(selected);
 
           industryButtons.forEach((btn) => {
             btn.classList.remove('active');
