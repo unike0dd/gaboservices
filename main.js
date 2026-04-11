@@ -198,24 +198,21 @@ function initScrollRevealAndCounters() {
 
   const fadeTargets = revealTargets.filter((el) => el.classList.contains('fade'));
   const standardTargets = revealTargets.filter((el) => !el.classList.contains('fade'));
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 
   if (reduceMotion) {
     fadeTargets.forEach((el) => el.classList.add('show'));
     standardTargets.forEach((el) => {
-      el.classList.add('reveal-on-view', 'is-visible');
+      el.classList.add('fade', 'show');
     });
   } else {
-    standardTargets.forEach((el) => el.classList.add('reveal-on-view'));
+    standardTargets.forEach((el) => el.classList.add('fade'));
 
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
 
-        if (entry.target.classList.contains('fade')) {
-          entry.target.classList.add('show');
-        } else {
-          entry.target.classList.add('is-visible');
-        }
+        entry.target.classList.add('show');
 
         revealObserver.unobserve(entry.target);
       });
@@ -224,7 +221,15 @@ function initScrollRevealAndCounters() {
       rootMargin: '0px 0px -8% 0px'
     });
 
-    revealTargets.forEach((el) => revealObserver.observe(el));
+    revealTargets.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      const isInitiallyVisible = rect.top <= viewportHeight * 0.82;
+      if (isInitiallyVisible) {
+        el.classList.add('show');
+        return;
+      }
+      revealObserver.observe(el);
+    });
   }
 
   const counters = main.querySelectorAll('[data-count]');
