@@ -240,7 +240,7 @@
         <h2 class="center">Select Your Industry</h2>
         <div class="switch" role="tablist" aria-label="Service industries">
           <button type="button" data-industry="logistics" class="active" role="tab" aria-selected="true">Logistics Operations</button>
-          <button type="button" data-industry="backoffice" role="tab" aria-selected="false">Administrative Backoffice</button>
+          <button type="button" data-industry="backoffice" role="tab" aria-selected="false">Administrative Back Office</button>
           <button type="button" data-industry="customer" role="tab" aria-selected="false">Customer Relations</button>
           <button type="button" data-industry="itsupport" role="tab" aria-selected="false">IT Support</button>
         </div>
@@ -369,7 +369,9 @@
       };
 
       const industryButtons = document.querySelectorAll('.switch button');
-      const industryTextNode = document.getElementById('industryText');
+      const industryTitleNode = document.getElementById('industryTitle');
+      const industrySummaryNode = document.getElementById('industrySummary');
+      const industryDetailsNode = document.getElementById('industryDetails');
 
       const renderIndustryText = (key) => {
         const selectedIndustry = industryText[key];
