@@ -186,6 +186,124 @@ function initCenterServicesRotation() {
   startRotation();
 }
 
+
+function initScrollRevealAndCounters() {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const main = document.querySelector('main');
+  if (!main) return;
+
+  const blockedAncestors = [
+    'nav',
+    'menu',
+    'header',
+    'footer',
+    'form',
+    'dialog',
+    '[role="dialog"]',
+    '[aria-modal="true"]',
+    '.modal',
+    '[class*="modal"]',
+    '[id*="chatbot"]',
+    '[class*="chatbot"]',
+    '#mobile-nav-root',
+    '.mobile-nav',
+    '.site-header',
+    '.site-footer'
+  ].join(', ');
+
+  const isEligibleRevealTarget = (element) => {
+    if (!(element instanceof HTMLElement)) return false;
+    if (element.dataset.reveal === 'off' || element.classList.contains('no-reveal')) return false;
+    if (element.closest(blockedAncestors)) return false;
+    if (element.querySelector('form, dialog, [role="dialog"], [aria-modal="true"], .modal, [class*="modal"]')) {
+      return false;
+    }
+
+    const styles = window.getComputedStyle(element);
+    const hasLayoutBox = element.getClientRects().length > 0;
+    return hasLayoutBox && styles.display !== 'none' && styles.visibility !== 'hidden';
+  };
+
+  const revealTargets = [...new Set([
+    ...main.querySelectorAll('section, article, [data-reveal], .fade')
+  ])].filter(isEligibleRevealTarget);
+
+  const fadeTargets = revealTargets.filter((el) => el.classList.contains('fade'));
+  const standardTargets = revealTargets.filter((el) => !el.classList.contains('fade'));
+
+  if (reduceMotion) {
+    fadeTargets.forEach((el) => el.classList.add('show'));
+    standardTargets.forEach((el) => {
+      el.classList.add('reveal-on-view', 'is-visible');
+    });
+  } else {
+    standardTargets.forEach((el) => el.classList.add('reveal-on-view'));
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        if (entry.target.classList.contains('fade')) {
+          entry.target.classList.add('show');
+        } else {
+          entry.target.classList.add('is-visible');
+        }
+
+        revealObserver.unobserve(entry.target);
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -8% 0px'
+    });
+
+    revealTargets.forEach((el) => revealObserver.observe(el));
+  }
+
+  const counters = main.querySelectorAll('[data-count]');
+  if (!counters.length) return;
+
+  const animateCounter = (counter) => {
+    if (counter.dataset.countStarted === 'true') return;
+    counter.dataset.countStarted = 'true';
+
+    let count = 0;
+    const target = Number(counter.dataset.count);
+    const suffix = counter.dataset.countSuffix || '';
+
+    const update = () => {
+      count += target / 50;
+      if (count < target) {
+        counter.innerText = `${Math.floor(count)}${suffix}`;
+        requestAnimationFrame(update);
+      } else {
+        counter.innerText = `${target}${suffix}`;
+      }
+    };
+
+    update();
+  };
+
+  if (reduceMotion) {
+    counters.forEach((counter) => {
+      const suffix = counter.dataset.countSuffix || '';
+      counter.innerText = `${counter.dataset.count}${suffix}`;
+    });
+    return;
+  }
+
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      animateCounter(entry.target);
+      counterObserver.unobserve(entry.target);
+    });
+  }, {
+    threshold: 0.35
+  });
+
+  counters.forEach((counter) => counterObserver.observe(counter));
+}
+
 function initHomeHeroFlipCard() {
   const items = [
     { title: 'Clearer', text: 'Workflow follow-through and team coordination' },
@@ -318,4 +436,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initFormStatus();
   initHomeHeroFlipCard();
   initCenterServicesRotation();
+  initScrollRevealAndCounters();
 });
