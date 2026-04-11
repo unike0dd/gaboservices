@@ -123,58 +123,6 @@
         color: #fff;
       }
 
-      .industry-panel {
-        margin-top: 30px;
-        background: #fff;
-        border: 1px solid #d7def0;
-        border-radius: 14px;
-        padding: 24px;
-        box-shadow: 0 10px 26px rgba(14, 36, 68, 0.08);
-      }
-
-      .industry-panel h3 {
-        margin: 0 0 10px;
-        font-size: 30px;
-        color: #0f2948;
-      }
-
-      .industry-panel .lead {
-        margin: 0 0 12px;
-      }
-
-      .industry-panel .sublead {
-        margin: 0 0 14px;
-        color: #304f76;
-      }
-
-      .industry-panel ul {
-        margin: 0;
-        padding-left: 22px;
-      }
-
-      .industry-panel li {
-        font-size: 18px;
-        line-height: 1.5;
-        margin-bottom: 8px;
-      }
-
-      .industry-columns {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 18px;
-      }
-
-      .industry-column {
-        background: #f8f9ff;
-        border-radius: 12px;
-        padding: 16px;
-      }
-
-      .industry-column h4 {
-        margin: 0 0 10px;
-        color: #243f66;
-      }
-
       .compare {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -226,19 +174,6 @@
         transform: translateY(0);
       }
 
-
-      @media (prefers-reduced-motion: reduce) {
-        .services-main {
-          animation: none;
-        }
-
-        .fade {
-          opacity: 1;
-          transform: none;
-          transition: none;
-        }
-      }
-
       @media (max-width: 1024px) {
         .switch {
           grid-template-columns: 1fr;
@@ -259,20 +194,13 @@
         .section h2 { font-size: 28px; }
         .section p { font-size: 18px; }
 
-        .compare,
-        .industry-columns {
+        .compare {
           grid-template-columns: 1fr;
-        }
-
-        .industry-panel h3 {
-          font-size: 26px;
         }
       }
     </style>
   </head>
   <body data-page="services" data-page-key="services">
-    <a class="skip-link" href="#main">Skip to main content</a>
-
     <header class="site-header" id="siteHeader">
       <div class="container nav-wrap">
         <div class="brand-stack">
@@ -302,19 +230,19 @@
         <h2 class="center">Measured Impact</h2>
         <div class="kpi-grid">
           <div class="kpi">
-            <h3 data-count="35" data-count-suffix="%">0</h3>
+            <h3 data-count="35">0</h3>
             <p>Faster response time (%)</p>
           </div>
           <div class="kpi">
-            <h3 data-count="50" data-count-suffix="%">0</h3>
+            <h3 data-count="50">0</h3>
             <p>Reduction in delays (%)</p>
           </div>
           <div class="kpi">
-            <h3 data-count="25" data-count-suffix="%">0</h3>
+            <h3 data-count="25">0</h3>
             <p>Increase in efficiency (%)</p>
           </div>
           <div class="kpi">
-            <h3 data-count="40" data-count-suffix="%">0</h3>
+            <h3 data-count="40">0</h3>
             <p>Customer satisfaction lift (%)</p>
           </div>
         </div>
@@ -328,18 +256,9 @@
           <button type="button" data-industry="customer" role="tab" aria-selected="false">Customer Relations</button>
           <button type="button" data-industry="itsupport" role="tab" aria-selected="false">IT Support</button>
         </div>
-        <div id="industryContent" class="industry-panel" aria-live="polite">
-          <h3>Logistics Operations</h3>
-          <p class="lead">Coordinating shipments, tracking deliveries, managing dispatch, and improving operational visibility.</p>
-          <p class="sublead">We help keep your logistics organized, visible, and moving:</p>
-          <ul>
-            <li>Dispatch coordination</li>
-            <li>Shipment tracking (ocean, air, and ground)</li>
-            <li>Customer communication and follow-ups</li>
-            <li>Invoicing and billing support</li>
-            <li>Documentation coordination</li>
-          </ul>
-        </div>
+        <p id="industryText" class="center" style="margin-top: 30px;">
+          Coordinating shipments, tracking deliveries, managing dispatch, and improving operational visibility.
+        </p>
       </section>
 
       <section class="section fade" aria-label="Before and after transformation">
@@ -407,110 +326,68 @@
     <div id="mobile-nav-root"></div>
 
     <script>
-      const industryContentMap = {
-        logistics: {
-          title: 'Logistics Operations',
-          description:
-            'Coordinating shipments, tracking deliveries, managing dispatch, and improving operational visibility.',
-          intro: 'We help keep your logistics organized, visible, and moving:',
-          bullets: [
-            'Dispatch coordination',
-            'Shipment tracking (ocean, air, and ground)',
-            'Customer communication and follow-ups',
-            'Invoicing and billing support',
-            'Documentation coordination'
-          ]
-        },
-        customer: {
-          title: 'Customer Relations',
-          description:
-            'Managing customer communication, follow-ups, service consistency, issue handling, and relationship support.',
-          intro: 'We help maintain customer satisfaction and resolution flow:',
-          bullets: [
-            'Ticket follow-up and resolution tracking',
-            'Customer satisfaction follow-ups (CSAT support)',
-            'Billing clarification support',
-            'First contact resolution support',
-            'Customer communication management'
-          ]
-        },
-        backoffice: {
-          title: 'Administrative Back Office',
-          description:
-            'Handling administrative workflows, documentation, scheduling, reporting, and day-to-day BackOffice execution.',
-          intro: 'We support leadership and daily business operations:',
-          bullets: [
-            'Executive administrative support',
-            'Calendar and scheduling coordination',
-            'Email and communication management',
-            'Document organization and preparation',
-            'Vendor coordination',
-            'Internal operational support',
-            'Travel planning and coordination'
-          ]
-        },
-        itsupport: {
-          title: 'IT Support (Level I & Level II)',
-          description:
-            'Supporting operational systems, user assistance, issue triage, technical coordination, and daily IT continuity.',
-          intro: 'We provide structured technical support coverage:',
-          columns: [
-            {
-              heading: 'Level I Support',
-              bullets: [
-                'Help desk intake and ticket creation',
-                'Basic troubleshooting',
-                'End-user support',
-                'Account access assistance',
-                'Escalation coordination'
-              ]
-            },
-            {
-              heading: 'Level II Support',
-              bullets: [
-                'Advanced troubleshooting',
-                'Incident investigation',
-                'System and workflow support',
-                'Root cause analysis',
-                'Resolution ownership after escalation'
-              ]
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+          }
+        });
+      });
+
+      document.querySelectorAll('.fade').forEach((el) => observer.observe(el));
+
+      const counters = document.querySelectorAll('[data-count]');
+
+      counters.forEach((counter) => {
+        let started = false;
+
+        const run = () => {
+          if (started) return;
+          started = true;
+
+          let count = 0;
+          const target = Number(counter.dataset.count);
+
+          const update = () => {
+            count += target / 50;
+            if (count < target) {
+              counter.innerText = Math.floor(count);
+              requestAnimationFrame(update);
+            } else {
+              counter.innerText = `${target}%`;
             }
-          ]
-        }
+          };
+
+          update();
+        };
+
+        const obs = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) {
+            run();
+          }
+        });
+
+        obs.observe(counter);
+      });
+
+      const industryText = {
+        logistics:
+          'Coordinating shipments, tracking deliveries, managing dispatch, and improving operational visibility.',
+        backoffice:
+          'Handling administrative workflows, documentation, scheduling, reporting, and day-to-day backoffice execution.',
+        customer:
+          'Managing customer communication, follow-ups, service consistency, issue handling, and relationship support.',
+        itsupport:
+          'Supporting operational systems, user assistance, issue triage, technical coordination, and daily IT continuity.'
       };
 
       const industryButtons = document.querySelectorAll('.switch button');
-      const industryContentNode = document.getElementById('industryContent');
-
-      const listHtml = (items) => `<ul>${items.map((item) => `<li>${item}</li>`).join('')}</ul>`;
-
-      const renderIndustry = (industryKey) => {
-        const item = industryContentMap[industryKey];
-        if (!item) return;
-
-        const details = item.columns
-          ? `<div class="industry-columns">${item.columns
-            .map((column) => `
-              <div class="industry-column">
-                <h4>${column.heading}</h4>
-                ${listHtml(column.bullets)}
-              </div>
-            `)
-            .join('')}</div>`
-          : listHtml(item.bullets);
-
-        industryContentNode.innerHTML = `
-          <h3>${item.title}</h3>
-          <p class="lead">${item.description}</p>
-          <p class="sublead">${item.intro}</p>
-          ${details}
-        `;
-      };
+      const industryTextNode = document.getElementById('industryText');
 
       industryButtons.forEach((button) => {
         button.addEventListener('click', () => {
           const selected = button.dataset.industry;
-          renderIndustry(selected);
+          industryTextNode.innerText = industryText[selected];
 
           industryButtons.forEach((btn) => {
             btn.classList.remove('active');
