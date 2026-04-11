@@ -17,6 +17,8 @@
   --heading-h1-size: clamp(2rem, 1.65rem + 1.8vw, 2.75rem);
   --heading-h2-size: clamp(1.55rem, 1.35rem + 1.1vw, 2.2rem);
   --heading-h3-size: clamp(1.3rem, 1.15rem + 0.7vw, 1.8rem);
+  --reading-max-width: 72ch;
+  --reading-line-height: 1.72;
 }
 
 * { box-sizing: border-box; }
@@ -110,6 +112,9 @@ body[data-page-key='learning'] main .hero h1 {
 main p,
 main li {
   font-size: var(--main-copy-size);
+  line-height: var(--reading-line-height);
+  max-width: var(--reading-max-width);
+  margin-inline: auto;
 }
 
 main h2 { line-height: 1.25; }
@@ -125,6 +130,17 @@ main h6 {
 main p {
   margin: 0 0 1rem;
   text-indent: clamp(0.75rem, 0.5rem + 0.7vw, 1.25rem);
+  text-align: justify;
+  text-align-last: auto;
+  text-justify: inter-word;
+  text-wrap: pretty;
+}
+
+main li {
+  text-align: justify;
+  text-align-last: auto;
+  text-justify: inter-word;
+  text-wrap: pretty;
 }
 
 
@@ -904,7 +920,10 @@ main li + li {
 
 .service-card p {
   margin: 0;
-  text-align: left;
+  text-align: justify;
+  text-align-last: auto;
+  text-justify: inter-word;
+  text-wrap: pretty;
   font-size: clamp(1.05rem, 0.95rem + 0.7vw, 1.3rem);
   line-height: 1.5;
   max-width: 70ch;
@@ -2138,7 +2157,22 @@ main.editorial-page {
   line-height: 1.5;
   font-weight: 400;
   max-width: 38ch;
-  text-align: left;
+  text-align: justify;
+  text-align-last: auto;
+  text-justify: inter-word;
+  text-wrap: pretty;
+}
+
+@media (max-width: 760px) {
+  main p,
+  main li,
+  .service-card p,
+  .editorial-page .lead,
+  .hero-editorial .lead {
+    text-align: left;
+    text-indent: 0;
+    max-width: 100%;
+  }
 }
 
 .section-block {
