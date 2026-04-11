@@ -214,7 +214,6 @@
             <li><a href="/services/" aria-current="page">Services</a></li>
             <li><a href="/careers/">Careers</a></li>
             <li><a href="/contact/">Contact</a></li>
-            <li><a href="/learning/">Learning</a></li>
           </ul>
         </nav>
       </div>
@@ -252,13 +251,23 @@
         <h2 class="center">Select Your Industry</h2>
         <div class="switch" role="tablist" aria-label="Service industries">
           <button type="button" data-industry="logistics" class="active" role="tab" aria-selected="true">Logistics Operations</button>
-          <button type="button" data-industry="backoffice" role="tab" aria-selected="false">Administrative Backoffice</button>
+          <button type="button" data-industry="backoffice" role="tab" aria-selected="false">Administrative Back Office</button>
           <button type="button" data-industry="customer" role="tab" aria-selected="false">Customer Relations</button>
           <button type="button" data-industry="itsupport" role="tab" aria-selected="false">IT Support</button>
         </div>
-        <p id="industryText" class="center" style="margin-top: 30px;">
-          Coordinating shipments, tracking deliveries, managing dispatch, and improving operational visibility.
-        </p>
+        <div id="industryContent" style="margin-top: 30px;">
+          <h3 id="industryTitle" class="center">Logistics Operations</h3>
+          <p id="industrySummary" class="center">
+            Coordinating shipments, tracking deliveries, managing dispatch, and improving operational visibility.
+          </p>
+          <ul id="industryDetails">
+            <li>Dispatch coordination</li>
+            <li>Shipment tracking (ocean, air, and ground)</li>
+            <li>Customer communication and follow-ups</li>
+            <li>Invoicing and billing support</li>
+            <li>Documentation coordination</li>
+          </ul>
+        </div>
       </section>
 
       <section class="section fade" aria-label="Before and after transformation">
@@ -370,24 +379,76 @@
         obs.observe(counter);
       });
 
-      const industryText = {
+      const industryContent = {
         logistics:
-          'Coordinating shipments, tracking deliveries, managing dispatch, and improving operational visibility.',
+          {
+            title: 'Logistics Operations',
+            summary:
+              'Coordinating shipments, tracking deliveries, managing dispatch, and improving operational visibility.',
+            details: [
+              'Dispatch coordination',
+              'Shipment tracking (ocean, air, and ground)',
+              'Customer communication and follow-ups',
+              'Invoicing and billing support',
+              'Documentation coordination'
+            ]
+          },
         backoffice:
-          'Handling administrative workflows, documentation, scheduling, reporting, and day-to-day backoffice execution.',
+          {
+            title: 'Administrative Back Office',
+            summary:
+              'Handling administrative workflows, documentation, scheduling, reporting, and day-to-day BackOffice execution.',
+            details: [
+              'Executive administrative support',
+              'Calendar and scheduling coordination',
+              'Email and communication management',
+              'Document organization and preparation',
+              'Vendor coordination',
+              'Internal operational support',
+              'Travel planning and coordination'
+            ]
+          },
         customer:
-          'Managing customer communication, follow-ups, service consistency, issue handling, and relationship support.',
+          {
+            title: 'Customer Relations',
+            summary:
+              'Managing customer communication, follow-ups, service consistency, issue handling, and relationship support.',
+            details: [
+              'Ticket follow-up and resolution tracking',
+              'Customer satisfaction follow-ups (CSAT support)',
+              'Billing clarification support',
+              'First contact resolution support',
+              'Customer communication management'
+            ]
+          },
         itsupport:
-          'Supporting operational systems, user assistance, issue triage, technical coordination, and daily IT continuity.'
+          {
+            title: 'IT Support',
+            summary:
+              'Supporting operational systems, user assistance, issue triage, technical coordination, and daily IT continuity.',
+            details: [
+              'User assistance and troubleshooting',
+              'Issue triage and escalation support',
+              'Systems coordination and uptime checks',
+              'Technical documentation support'
+            ]
+          }
       };
 
       const industryButtons = document.querySelectorAll('.switch button');
-      const industryTextNode = document.getElementById('industryText');
+      const industryTitleNode = document.getElementById('industryTitle');
+      const industrySummaryNode = document.getElementById('industrySummary');
+      const industryDetailsNode = document.getElementById('industryDetails');
 
       industryButtons.forEach((button) => {
         button.addEventListener('click', () => {
           const selected = button.dataset.industry;
-          industryTextNode.innerText = industryText[selected];
+          const selectedContent = industryContent[selected];
+          industryTitleNode.innerText = selectedContent.title;
+          industrySummaryNode.innerText = selectedContent.summary;
+          industryDetailsNode.innerHTML = selectedContent.details
+            .map((item) => `<li>${item}</li>`)
+            .join('');
 
           industryButtons.forEach((btn) => {
             btn.classList.remove('active');
