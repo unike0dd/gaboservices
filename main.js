@@ -192,41 +192,9 @@ function initScrollRevealAndCounters() {
   const main = document.querySelector('main');
   if (!main) return;
 
-  const blockedAncestors = [
-    'nav',
-    'menu',
-    'header',
-    'footer',
-    'form',
-    'dialog',
-    '[role="dialog"]',
-    '[aria-modal="true"]',
-    '.modal',
-    '[class*="modal"]',
-    '[id*="chatbot"]',
-    '[class*="chatbot"]',
-    '#mobile-nav-root',
-    '.mobile-nav',
-    '.site-header',
-    '.site-footer'
-  ].join(', ');
-
-  const isEligibleRevealTarget = (element) => {
-    if (!(element instanceof HTMLElement)) return false;
-    if (element.dataset.reveal === 'off' || element.classList.contains('no-reveal')) return false;
-    if (element.closest(blockedAncestors)) return false;
-    if (element.querySelector('form, dialog, [role="dialog"], [aria-modal="true"], .modal, [class*="modal"]')) {
-      return false;
-    }
-
-    const styles = window.getComputedStyle(element);
-    const hasLayoutBox = element.getClientRects().length > 0;
-    return hasLayoutBox && styles.display !== 'none' && styles.visibility !== 'hidden';
-  };
-
   const revealTargets = [...new Set([
     ...main.querySelectorAll('section, article, [data-reveal], .fade')
-  ])].filter(isEligibleRevealTarget);
+  ])];
 
   const fadeTargets = revealTargets.filter((el) => el.classList.contains('fade'));
   const standardTargets = revealTargets.filter((el) => !el.classList.contains('fade'));
