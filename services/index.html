@@ -371,6 +371,17 @@
       const industryButtons = document.querySelectorAll('.switch button');
       const industryTextNode = document.getElementById('industryText');
 
+      const renderIndustryText = (key) => {
+        const selectedIndustry = industryText[key];
+        industryTextNode.innerHTML = `
+          <h3>${selectedIndustry.title}</h3>
+          <p>${selectedIndustry.intro}</p>
+          <p>${selectedIndustry.support}</p>
+          <p>${selectedIndustry.items.join(' · ')}</p>
+        `;
+      };
+
+      renderIndustryText('logistics');
       industryButtons.forEach((button) => {
         button.addEventListener('click', () => {
           const selected = button.dataset.industry;
