@@ -163,17 +163,6 @@
         text-decoration: none;
       }
 
-      .fade {
-        opacity: 0;
-        transform: translateY(40px);
-        transition: 0.6s ease;
-      }
-
-      .fade.show {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
       @media (max-width: 1024px) {
         .switch {
           grid-template-columns: 1fr;
@@ -326,50 +315,6 @@
     <div id="mobile-nav-root"></div>
 
     <script>
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-          }
-        });
-      });
-
-      document.querySelectorAll('.fade').forEach((el) => observer.observe(el));
-
-      const counters = document.querySelectorAll('[data-count]');
-
-      counters.forEach((counter) => {
-        let started = false;
-
-        const run = () => {
-          if (started) return;
-          started = true;
-
-          let count = 0;
-          const target = Number(counter.dataset.count);
-
-          const update = () => {
-            count += target / 50;
-            if (count < target) {
-              counter.innerText = Math.floor(count);
-              requestAnimationFrame(update);
-            } else {
-              counter.innerText = `${target}%`;
-            }
-          };
-
-          update();
-        };
-
-        const obs = new IntersectionObserver((entries) => {
-          if (entries[0].isIntersecting) {
-            run();
-          }
-        });
-
-        obs.observe(counter);
-      });
-
       const industryText = {
         logistics:
           'Coordinating shipments, tracking deliveries, managing dispatch, and improving operational visibility.',
