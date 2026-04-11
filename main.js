@@ -188,48 +188,22 @@ function initCenterServicesRotation() {
 
 
 function initScrollRevealAndCounters() {
-  if (typeof window.IntersectionObserver !== 'function') return;
-
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const main = document.querySelector('main');
   if (!main) return;
 
-  const revealCandidates = [...new Set([
-    ...main.querySelectorAll('section, article, [data-reveal], .fade, .section-block, .info-card')
+  const revealTargets = [...new Set([
+    ...main.querySelectorAll('section, article, [data-reveal], .fade')
   ])];
-
-  const excludedSelector = [
-    'nav',
-    'header',
-    'footer',
-    'form',
-    '#mobile-nav-root',
-    '[role="dialog"]',
-    '.mobile-nav',
-    '.chatbot-shell',
-    '.chatbot-window',
-    '.fab-shell',
-    '.fab-button',
-    '.modal',
-    '.site-form'
-  ].join(', ');
-
-  const revealTargets = revealCandidates.filter((el) => {
-    if (!(el instanceof HTMLElement)) return false;
-    if (el.closest(excludedSelector)) return false;
-
-    const style = window.getComputedStyle(el);
-    if (style.display === 'none' || style.visibility === 'hidden') return false;
-
-    return true;
-  });
 
   const fadeTargets = revealTargets.filter((el) => el.classList.contains('fade'));
   const standardTargets = revealTargets.filter((el) => !el.classList.contains('fade'));
 
   if (reduceMotion) {
     fadeTargets.forEach((el) => el.classList.add('show'));
-    standardTargets.forEach((el) => el.classList.add('reveal-on-view', 'is-visible'));
+    standardTargets.forEach((el) => {
+      el.classList.add('reveal-on-view', 'is-visible');
+    });
   } else {
     standardTargets.forEach((el) => el.classList.add('reveal-on-view'));
 
@@ -253,9 +227,7 @@ function initScrollRevealAndCounters() {
     revealTargets.forEach((el) => revealObserver.observe(el));
   }
 
-  const counters = [...main.querySelectorAll('[data-count]')].filter(
-    (counter) => !counter.closest(excludedSelector)
-  );
+  const counters = main.querySelectorAll('[data-count]');
   if (!counters.length) return;
 
   const animateCounter = (counter) => {
@@ -299,7 +271,6 @@ function initScrollRevealAndCounters() {
 
   counters.forEach((counter) => counterObserver.observe(counter));
 }
-
 
 function initHomeHeroFlipCard() {
   const items = [
