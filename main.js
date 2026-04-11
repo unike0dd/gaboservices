@@ -8,6 +8,8 @@ import { initSiteGovernance } from './site-governance.js';
 import { ACTIVE_LOCALE, getLocalizedValue, getSiteMetadata } from './site-metadata.js';
 import { getLocaleMessages } from './locales/index.js';
 
+document.documentElement.classList.add('reveal-ready');
+
 function syncPageMetadata() {
   const metadata = getSiteMetadata();
   const localizedName = getLocalizedValue(metadata.name);
