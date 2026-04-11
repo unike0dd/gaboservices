@@ -192,32 +192,9 @@ function initScrollRevealAndCounters() {
   const main = document.querySelector('main');
   if (!main) return;
 
-  const excludedSelector = [
-    'nav',
-    'menu',
-    'form',
-    'dialog',
-    '[role="dialog"]',
-    '[aria-modal="true"]',
-    '.modal',
-    '[class*="modal"]',
-    '#mobile-nav-root',
-    '[id*="chatbot"]',
-    '[class*="chatbot"]'
-  ].join(', ');
-
-  const isExcluded = (element) => {
-    if (element.matches(excludedSelector)) return true;
-    if (element.closest(excludedSelector)) return true;
-    if (element.querySelector('form, dialog, [role="dialog"], [aria-modal="true"]')) return true;
-    return false;
-  };
-
   const revealTargets = [...new Set([
     ...main.querySelectorAll('section, article, [data-reveal], .fade')
-  ])].filter((element) => !isExcluded(element));
-
-  if (!revealTargets.length) return;
+  ])];
 
   const fadeTargets = revealTargets.filter((el) => el.classList.contains('fade'));
   const standardTargets = revealTargets.filter((el) => !el.classList.contains('fade'));
@@ -294,7 +271,6 @@ function initScrollRevealAndCounters() {
 
   counters.forEach((counter) => counterObserver.observe(counter));
 }
-
 
 function initHomeHeroFlipCard() {
   const items = [

@@ -123,58 +123,6 @@
         color: #fff;
       }
 
-      .industry-panel {
-        margin-top: 28px;
-        background: #ffffff;
-        border-radius: 14px;
-        padding: clamp(20px, 3vw, 30px);
-        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
-      }
-
-      .industry-panel h3 {
-        margin: 0 0 10px;
-        font-size: 30px;
-      }
-
-      .industry-lead {
-        margin: 0 0 14px;
-        color: #2e3e52;
-      }
-
-      .industry-intro {
-        margin: 0 0 12px;
-        font-size: 19px;
-      }
-
-      .industry-list {
-        margin: 0;
-        padding-left: 20px;
-      }
-
-      .industry-list li {
-        font-size: 18px;
-        line-height: 1.6;
-        margin-bottom: 8px;
-      }
-
-      .industry-columns {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-        margin-top: 10px;
-      }
-
-      .industry-column {
-        background: #f4f6fb;
-        border: 1px solid #dde3ef;
-        border-radius: 12px;
-        padding: 16px;
-      }
-
-      .industry-column h4 {
-        margin: 0 0 10px;
-      }
-
       .compare {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -226,19 +174,6 @@
         transform: translateY(0);
       }
 
-
-      @media (prefers-reduced-motion: reduce) {
-        .services-main {
-          animation: none;
-        }
-
-        .fade {
-          opacity: 1;
-          transform: none;
-          transition: none;
-        }
-      }
-
       @media (max-width: 1024px) {
         .switch {
           grid-template-columns: 1fr;
@@ -262,20 +197,10 @@
         .compare {
           grid-template-columns: 1fr;
         }
-
-        .industry-panel h3 {
-          font-size: 26px;
-        }
-
-        .industry-columns {
-          grid-template-columns: 1fr;
-        }
       }
     </style>
   </head>
   <body data-page="services" data-page-key="services">
-    <a class="skip-link" href="#main">Skip to main content</a>
-
     <header class="site-header" id="siteHeader">
       <div class="container nav-wrap">
         <div class="brand-stack">
@@ -305,19 +230,19 @@
         <h2 class="center">Measured Impact</h2>
         <div class="kpi-grid">
           <div class="kpi">
-            <h3 data-count="35" data-count-suffix="%">0</h3>
+            <h3 data-count="35">0</h3>
             <p>Faster response time (%)</p>
           </div>
           <div class="kpi">
-            <h3 data-count="50" data-count-suffix="%">0</h3>
+            <h3 data-count="50">0</h3>
             <p>Reduction in delays (%)</p>
           </div>
           <div class="kpi">
-            <h3 data-count="25" data-count-suffix="%">0</h3>
+            <h3 data-count="25">0</h3>
             <p>Increase in efficiency (%)</p>
           </div>
           <div class="kpi">
-            <h3 data-count="40" data-count-suffix="%">0</h3>
+            <h3 data-count="40">0</h3>
             <p>Customer satisfaction lift (%)</p>
           </div>
         </div>
@@ -331,13 +256,9 @@
           <button type="button" data-industry="customer" role="tab" aria-selected="false">Customer Relations</button>
           <button type="button" data-industry="itsupport" role="tab" aria-selected="false">IT Support</button>
         </div>
-
-        <article class="industry-panel" id="industryPanel" aria-live="polite">
-          <h3 id="industryTitle">Logistics Operations</h3>
-          <p id="industryLead" class="industry-lead">Coordinating shipments, tracking deliveries, managing dispatch, and improving operational visibility.</p>
-          <p id="industryIntro" class="industry-intro">We help keep your logistics organized, visible, and moving:</p>
-          <div id="industryDetails"></div>
-        </article>
+        <p id="industryText" class="center" style="margin-top: 30px;">
+          Coordinating shipments, tracking deliveries, managing dispatch, and improving operational visibility.
+        </p>
       </section>
 
       <section class="section fade" aria-label="Before and after transformation">
@@ -405,144 +326,78 @@
     <div id="mobile-nav-root"></div>
 
     <script>
-      const industryContent = {
-        logistics: {
-          title: 'Logistics Operations',
-          lead: 'Coordinating shipments, tracking deliveries, managing dispatch, and improving operational visibility.',
-          intro: 'We help keep your logistics organized, visible, and moving:',
-          bullets: [
-            'Dispatch coordination',
-            'Shipment tracking (ocean, air, and ground)',
-            'Customer communication and follow-ups',
-            'Invoicing and billing support',
-            'Documentation coordination'
-          ]
-        },
-        customer: {
-          title: 'Customer Relations',
-          lead: 'Managing customer communication, follow-ups, service consistency, issue handling, and relationship support.',
-          intro: 'We help maintain customer satisfaction and resolution flow:',
-          bullets: [
-            'Ticket follow-up and resolution tracking',
-            'Customer satisfaction follow-ups (CSAT support)',
-            'Billing clarification support',
-            'First contact resolution support',
-            'Customer communication management'
-          ]
-        },
-        backoffice: {
-          title: 'Administrative Back Office',
-          lead: 'Handling administrative workflows, documentation, scheduling, reporting, and day-to-day BackOffice execution.',
-          intro: 'We support leadership and daily business operations:',
-          bullets: [
-            'Executive administrative support',
-            'Calendar and scheduling coordination',
-            'Email and communication management',
-            'Document organization and preparation',
-            'Vendor coordination',
-            'Internal operational support',
-            'Travel planning and coordination'
-          ]
-        },
-        itsupport: {
-          title: 'IT Support (Level I & Level II)',
-          lead: 'Supporting operational systems, user assistance, issue triage, technical coordination, and daily IT continuity.',
-          intro: 'We provide structured technical support coverage:',
-          columns: [
-            {
-              heading: 'Level I Support',
-              bullets: [
-                'Help desk intake and ticket creation',
-                'Basic troubleshooting',
-                'End-user support',
-                'Account access assistance',
-                'Escalation coordination'
-              ]
-            },
-            {
-              heading: 'Level II Support',
-              bullets: [
-                'Advanced troubleshooting',
-                'Incident investigation',
-                'System and workflow support',
-                'Root cause analysis',
-                'Resolution ownership after escalation'
-              ]
-            }
-          ]
-        }
-      };
-
-      const industryButtons = document.querySelectorAll('.switch button');
-      const industryTitle = document.getElementById('industryTitle');
-      const industryLead = document.getElementById('industryLead');
-      const industryIntro = document.getElementById('industryIntro');
-      const industryDetails = document.getElementById('industryDetails');
-
-      function renderBulletList(items) {
-        const list = document.createElement('ul');
-        list.className = 'industry-list';
-        items.forEach((item) => {
-          const li = document.createElement('li');
-          li.textContent = item;
-          list.appendChild(li);
-        });
-        return list;
-      }
-
-      function renderColumns(columns) {
-        const wrap = document.createElement('div');
-        wrap.className = 'industry-columns';
-
-        columns.forEach((column) => {
-          const card = document.createElement('section');
-          card.className = 'industry-column';
-
-          const heading = document.createElement('h4');
-          heading.textContent = column.heading;
-
-          card.appendChild(heading);
-          card.appendChild(renderBulletList(column.bullets));
-          wrap.appendChild(card);
-        });
-
-        return wrap;
-      }
-
-      function setIndustry(type, activeButton) {
-        const content = industryContent[type];
-        if (!content) return;
-
-        industryTitle.textContent = content.title;
-        industryLead.textContent = content.lead;
-        industryIntro.textContent = content.intro;
-
-        industryDetails.innerHTML = '';
-        if (content.columns) {
-          industryDetails.appendChild(renderColumns(content.columns));
-        } else {
-          industryDetails.appendChild(renderBulletList(content.bullets));
-        }
-
-        industryButtons.forEach((btn) => {
-          btn.classList.remove('active');
-          btn.setAttribute('aria-selected', 'false');
-        });
-
-        activeButton.classList.add('active');
-        activeButton.setAttribute('aria-selected', 'true');
-      }
-
-      industryButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-          setIndustry(button.dataset.industry, button);
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+          }
         });
       });
 
-      const defaultButton = document.querySelector('.switch button.active');
-      if (defaultButton) {
-        setIndustry(defaultButton.dataset.industry, defaultButton);
-      }
+      document.querySelectorAll('.fade').forEach((el) => observer.observe(el));
+
+      const counters = document.querySelectorAll('[data-count]');
+
+      counters.forEach((counter) => {
+        let started = false;
+
+        const run = () => {
+          if (started) return;
+          started = true;
+
+          let count = 0;
+          const target = Number(counter.dataset.count);
+
+          const update = () => {
+            count += target / 50;
+            if (count < target) {
+              counter.innerText = Math.floor(count);
+              requestAnimationFrame(update);
+            } else {
+              counter.innerText = `${target}%`;
+            }
+          };
+
+          update();
+        };
+
+        const obs = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) {
+            run();
+          }
+        });
+
+        obs.observe(counter);
+      });
+
+      const industryText = {
+        logistics:
+          'Coordinating shipments, tracking deliveries, managing dispatch, and improving operational visibility.',
+        backoffice:
+          'Handling administrative workflows, documentation, scheduling, reporting, and day-to-day backoffice execution.',
+        customer:
+          'Managing customer communication, follow-ups, service consistency, issue handling, and relationship support.',
+        itsupport:
+          'Supporting operational systems, user assistance, issue triage, technical coordination, and daily IT continuity.'
+      };
+
+      const industryButtons = document.querySelectorAll('.switch button');
+      const industryTextNode = document.getElementById('industryText');
+
+      industryButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const selected = button.dataset.industry;
+          industryTextNode.innerText = industryText[selected];
+
+          industryButtons.forEach((btn) => {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-selected', 'false');
+          });
+
+          button.classList.add('active');
+          button.setAttribute('aria-selected', 'true');
+        });
+      });
     </script>
 
   </body>
