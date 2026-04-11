@@ -201,9 +201,7 @@ function initScrollRevealAndCounters() {
     '.kpi',
     '.card',
     '.feature-block',
-    '.kpi-grid > *',
-    '.cards-grid > *',
-    '.grid > *'
+    '.cta'
   ];
   const excludedSelectors = [
     'nav',
@@ -227,7 +225,10 @@ function initScrollRevealAndCounters() {
 
   const revealTargets = [...new Set([
     ...main.querySelectorAll(revealSelectors.join(', '))
-  ])].filter((el) => !el.matches(excludedSelectors));
+  ])].filter((el) => {
+    if (el.matches(excludedSelectors)) return false;
+    return !el.closest(excludedSelectors);
+  });
 
   const fadeTargets = revealTargets.filter((el) => el.classList.contains('fade'));
   const standardTargets = revealTargets.filter((el) => !el.classList.contains('fade'));
@@ -241,7 +242,10 @@ function initScrollRevealAndCounters() {
   } else {
     standardTargets.forEach((el) => el.classList.add('fade'));
 
-    const revealObserver = new IntersectionObserver((entries) => {
+    if (typeof window.IntersectionObserver !== 'function') {
+      revealTargets.forEach((el) => el.classList.add('show'));
+    } else {
+      const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
 
@@ -255,14 +259,15 @@ function initScrollRevealAndCounters() {
     });
 
     revealTargets.forEach((el) => {
-      const rect = el.getBoundingClientRect();
-      const isInitiallyVisible = rect.top <= viewportHeight * 0.82;
-      if (isInitiallyVisible) {
-        el.classList.add('show');
-        return;
-      }
-      revealObserver.observe(el);
-    });
+        const rect = el.getBoundingClientRect();
+        const isInitiallyVisible = rect.top <= viewportHeight * 0.82;
+        if (isInitiallyVisible) {
+          el.classList.add('show');
+          return;
+        }
+        revealObserver.observe(el);
+      });
+    }
   }
 
   const counters = main.querySelectorAll('[data-count]');
