@@ -186,6 +186,116 @@ function initCenterServicesRotation() {
   startRotation();
 }
 
+
+function initScrollRevealAndCounters() {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const main = document.querySelector('main');
+  if (!main) return;
+
+  const excludedSelector = [
+    'nav',
+    'menu',
+    'form',
+    'dialog',
+    '[role="dialog"]',
+    '[aria-modal="true"]',
+    '.modal',
+    '[class*="modal"]',
+    '#mobile-nav-root',
+    '[id*="chatbot"]',
+    '[class*="chatbot"]'
+  ].join(', ');
+
+  const isExcluded = (element) => {
+    if (element.matches(excludedSelector)) return true;
+    if (element.closest(excludedSelector)) return true;
+    if (element.querySelector('form, dialog, [role="dialog"], [aria-modal="true"]')) return true;
+    return false;
+  };
+
+  const revealTargets = [...new Set([
+    ...main.querySelectorAll('section, article, [data-reveal], .fade')
+  ])].filter((element) => !isExcluded(element));
+
+  if (!revealTargets.length) return;
+
+  const fadeTargets = revealTargets.filter((el) => el.classList.contains('fade'));
+  const standardTargets = revealTargets.filter((el) => !el.classList.contains('fade'));
+
+  if (reduceMotion) {
+    fadeTargets.forEach((el) => el.classList.add('show'));
+    standardTargets.forEach((el) => {
+      el.classList.add('reveal-on-view', 'is-visible');
+    });
+  } else {
+    standardTargets.forEach((el) => el.classList.add('reveal-on-view'));
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        if (entry.target.classList.contains('fade')) {
+          entry.target.classList.add('show');
+        } else {
+          entry.target.classList.add('is-visible');
+        }
+
+        revealObserver.unobserve(entry.target);
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -8% 0px'
+    });
+
+    revealTargets.forEach((el) => revealObserver.observe(el));
+  }
+
+  const counters = main.querySelectorAll('[data-count]');
+  if (!counters.length) return;
+
+  const animateCounter = (counter) => {
+    if (counter.dataset.countStarted === 'true') return;
+    counter.dataset.countStarted = 'true';
+
+    let count = 0;
+    const target = Number(counter.dataset.count);
+    const suffix = counter.dataset.countSuffix || '';
+
+    const update = () => {
+      count += target / 50;
+      if (count < target) {
+        counter.innerText = `${Math.floor(count)}${suffix}`;
+        requestAnimationFrame(update);
+      } else {
+        counter.innerText = `${target}${suffix}`;
+      }
+    };
+
+    update();
+  };
+
+  if (reduceMotion) {
+    counters.forEach((counter) => {
+      const suffix = counter.dataset.countSuffix || '';
+      counter.innerText = `${counter.dataset.count}${suffix}`;
+    });
+    return;
+  }
+
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      animateCounter(entry.target);
+      counterObserver.unobserve(entry.target);
+    });
+  }, {
+    threshold: 0.35
+  });
+
+  counters.forEach((counter) => counterObserver.observe(counter));
+}
+
+
 function initHomeHeroFlipCard() {
   const items = [
     { title: 'Clearer', text: 'Workflow follow-through and team coordination' },
@@ -318,4 +428,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initFormStatus();
   initHomeHeroFlipCard();
   initCenterServicesRotation();
+  initScrollRevealAndCounters();
 });
