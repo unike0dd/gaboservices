@@ -192,9 +192,42 @@ function initScrollRevealAndCounters() {
   const main = document.querySelector('main');
   if (!main) return;
 
+  const revealSelectors = [
+    'section',
+    'article',
+    '[data-reveal]',
+    '.fade',
+    '.info-card',
+    '.kpi',
+    '.card',
+    '.feature-block',
+    '.kpi-grid > *',
+    '.cards-grid > *',
+    '.grid > *'
+  ];
+  const excludedSelectors = [
+    'nav',
+    'header',
+    '#mobile-nav-root',
+    '.mobile-nav',
+    '.chatbot-fab',
+    '.chatbot-root',
+    '.chatbot-container',
+    '.modal',
+    '.dropdown',
+    'button',
+    'input',
+    'textarea',
+    'select',
+    '[data-reveal-ignore]',
+    '[data-no-reveal]',
+    '.ops-hero__flip-inner',
+    '.ops-hero__flip-card'
+  ].join(', ');
+
   const revealTargets = [...new Set([
-    ...main.querySelectorAll('section, article, [data-reveal], .fade')
-  ])];
+    ...main.querySelectorAll(revealSelectors.join(', '))
+  ])].filter((el) => !el.matches(excludedSelectors));
 
   const fadeTargets = revealTargets.filter((el) => el.classList.contains('fade'));
   const standardTargets = revealTargets.filter((el) => !el.classList.contains('fade'));
