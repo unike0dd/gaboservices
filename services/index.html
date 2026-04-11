@@ -40,20 +40,8 @@
         width: min(calc(100vw - 40px), 1100px);
         margin: 0 auto;
         padding: 2rem 0 5rem;
-        animation: pageSlideUp 0.55s ease both;
       }
 
-      @keyframes pageSlideUp {
-        from {
-          opacity: 0;
-          transform: translateY(28px);
-        }
-
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
 
       .section {
         padding: 64px 20px;
@@ -151,6 +139,26 @@
         text-align: center;
       }
 
+
+      .it-support-levels {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+      }
+
+      .it-support-level {
+        background: #fff;
+        border: 1px solid rgba(90, 63, 255, 0.2);
+        border-radius: 12px;
+        padding: 20px;
+      }
+
+      .it-support-level h4 {
+        margin: 0 0 12px;
+        font-size: 24px;
+        color: #5a3fff;
+      }
+
       .cta-button {
         display: inline-block;
         margin-top: 14px;
@@ -186,6 +194,10 @@
         .compare {
           grid-template-columns: 1fr;
         }
+
+        .it-support-levels {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
@@ -217,19 +229,19 @@
       <section class="section fade" aria-label="Measured impact">
         <h2 class="center">Measured Impact</h2>
         <div class="kpi-grid">
-          <div class="kpi">
+          <div class="kpi fade">
             <h3 data-count="35">0</h3>
             <p>Faster response time (%)</p>
           </div>
-          <div class="kpi">
+          <div class="kpi fade">
             <h3 data-count="50">0</h3>
             <p>Reduction in delays (%)</p>
           </div>
-          <div class="kpi">
+          <div class="kpi fade">
             <h3 data-count="25">0</h3>
             <p>Increase in efficiency (%)</p>
           </div>
-          <div class="kpi">
+          <div class="kpi fade">
             <h3 data-count="40">0</h3>
             <p>Customer satisfaction lift (%)</p>
           </div>
@@ -261,7 +273,7 @@
       <section class="section fade" aria-label="Before and after transformation">
         <h2 class="center">Operational Transformation</h2>
         <div class="compare">
-          <div class="card before">
+          <div class="card before fade">
             <h3>Before</h3>
             <ul>
               <li>Missed follow-ups</li>
@@ -270,7 +282,7 @@
               <li>Overloaded internal team</li>
             </ul>
           </div>
-          <div class="card after">
+          <div class="card after fade">
             <h3>After</h3>
             <ul>
               <li>Consistent execution</li>
@@ -364,7 +376,28 @@
         `,
         itsupport: `
           <h3>IT Support</h3>
-          <p>Supporting operational systems, user assistance, issue triage, technical coordination, and daily IT continuity.</p>
+          <div class="it-support-levels">
+            <div class="it-support-level">
+              <h4>Level I Support</h4>
+              <ul>
+                <li>Help desk intake and ticket creation</li>
+                <li>Basic troubleshooting</li>
+                <li>End-user support</li>
+                <li>Account access assistance</li>
+                <li>Escalation coordination</li>
+              </ul>
+            </div>
+            <div class="it-support-level">
+              <h4>Level II Support</h4>
+              <ul>
+                <li>Advanced troubleshooting</li>
+                <li>Incident investigation</li>
+                <li>System and workflow support</li>
+                <li>Root cause analysis</li>
+                <li>Resolution ownership after escalation</li>
+              </ul>
+            </div>
+          </div>
         `
       };
 
