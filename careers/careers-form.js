@@ -3,8 +3,8 @@
   var formWorkflow = window.GaboFormWorkflow;
   if (!root || !formWorkflow || typeof formWorkflow.create !== 'function') return;
 
-  var intakeBase = (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.intakeWorkerBase) || 'https://solitary-term-4203.rulathemtodos.workers.dev';
-  var SUBMIT_ENDPOINT = intakeBase + '/api/intake/careers';
+  var intakeBase = (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.intakeBaseUrl) || 'https://solitary-term-4203.rulathemtodos.workers.dev';
+  var SUBMIT_ENDPOINT = intakeBase.replace(/\/$/, '') + '/submit/careers';
 
   function setStatus(message, state) {
     var status = root.querySelector('#careerFormStatus');
@@ -70,6 +70,11 @@
       return;
     }
 
+
+    if (!root.querySelectorAll('input[name="career_interest[]"]:checked').length) {
+      setStatus('Please select at least one area of interest.', 'blocked');
+      return;
+    }
     try {
       setStatus('Scanning and sanitizing your application...', 'review');
       var response = await fetch(SUBMIT_ENDPOINT, {

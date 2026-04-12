@@ -1,61 +1,60 @@
-# Contact + Careers Repo Worker
+# Contact + Careers Intake Worker
 
-Cloudflare Worker files are now under:
+This repository includes a Cloudflare Worker script at:
 
-- `workers/contact-careers-intake-worker.js`
-- `workers/wrangler.toml`
+- `workers.contact-careers-intake.js`
 
-## Intake routes
+Deployment template:
 
-Supported POST routes:
+- `wrangler.contact-careers-intake.toml`
 
-- `/api/intake/contact` (legacy alias: `/submit/contact`)
-- `/api/intake/careers` (legacy alias: `/submit/careers`)
+## Routes and channel mapping
 
-## Required secret-to-asset mapping
+- `POST /submit/contact` → **Gmail** channel using secret asset id `ASSET_C5T`
+- `POST /submit/careers` → **Google Sheets** channel using secret asset id `ASSET_C5S`
 
-The worker enforces this exact mapping:
+The worker only forwards sanitized plain-text payloads.
 
-- `ASSET_C5T` -> Contact -> Gmail channel
-- `ASSET_C5S` -> Careers -> Google Sheets channel
+## Secret/asset requirements
 
-If a secret is missing, the request is rejected.
+- `ASSET_C5T` and `ASSET_C5S` are required.
+- Each secret is validated as a likely asset-id format before forwarding.
+- Route-to-secret mapping is strict and fixed:
+  - Contact route can only use `ASSET_C5T`
+  - Careers route can only use `ASSET_C5S`
 
-## Security pipeline
+## Sanitization and screening pipeline
 
-For each payload the worker:
+1. Allowlist expected fields per route (unknown fields are dropped).
+2. Strip HTML tags.
+3. Remove script/code/SQL-like tokens.
+4. Normalize to plain text characters.
+5. Score suspicious payload patterns and reject flagged fields.
 
-1. strips HTML tags,
-2. removes code signatures (script/js/sql/programming tokens),
-3. normalizes to plain simple text,
-4. rejects suspicious fields,
-5. forwards only accepted sanitized payload.
+## Relay behavior
 
-## Upstream relay
+Accepted submissions are forwarded to:
 
-Sanitized data is forwarded to:
+- `${REMOTE_WORKER_URL || "https://solitary-term-4203.rulathemtodos.workers.dev"}/intake`
 
-- `UPSTREAM_WORKER_URL` (default: `https://solitary-term-4203.rulathemtodos.workers.dev/intake`)
+Payload includes:
 
-Headers include source/channel/asset metadata for the upstream worker.
+- `source` (`contact` or `careers`)
+- `channel` (`gmail` or `gsheets`)
+- `asset` (matching route secret)
+- `data` (sanitized fields)
+- `scan` (sanitization metrics)
 
-## CORS + origin allowlist
+## CORS/origin controls
 
-Allowed origins are controlled by:
+- Origins are restricted by `ALLOWED_ORIGINS` (comma-separated).
+- Default includes:
+  - `https://www.gabo.services`
+  - `https://gabo.services`
 
-- `ALLOWED_ORIGINS`
+## Front-end integration
 
-Default:
-
-- `https://www.gabo.services,https://gabo.services`
-
-## Front-end wiring
-
-Site scripts now post to repo-worker style routes:
-
-- Contact: `.../api/intake/contact`
-- Careers: `.../api/intake/careers`
-
-Configured from:
-
-- `window.SITE_METADATA.forms.intakeWorkerBase`
+- `contact/contact-hub.js` submits to `${forms.intakeBaseUrl}/submit/contact`
+- `careers/careers-form.js` submits to `${forms.intakeBaseUrl}/submit/careers`
+- `site.config.js` sets `forms.intakeBaseUrl`
+- `_headers` allows connect-src for the worker origin

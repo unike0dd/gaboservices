@@ -38,7 +38,7 @@ window.SITE_METADATA = {
     }
   },
   forms: {
-    intakeWorkerBase: 'https://solitary-term-4203.rulathemtodos.workers.dev'
+    intakeBaseUrl: 'https://solitary-term-4203.rulathemtodos.workers.dev'
   },
   chatbot: {
     originAssetMap: {
