@@ -49,12 +49,46 @@ export default {
       return json({ ok: false, error: "Origin not allowed." }, 403, request, env);
     }
 
-    const config = resolveDestinationConfig(route, env);
-    if (!config.ok) {
-      return json({ ok: false, error: config.error }, 500, request, env);
+    if (!originAllowed(request, env)) {
+      return jsonResponse(
+        { ok: false, error: "Origin not allowed." },
+        403,
+        request,
+        env
+      );
     }
 
-    let payload;
+    const contentLength = Number(request.headers.get("content-length") || "0");
+    const maxBodyBytes = Number(env.MAX_BODY_BYTES || 32768);
+
+    if (contentLength && contentLength > maxBodyBytes) {
+      return jsonResponse(
+        { ok: false, error: "Payload too large." },
+        413,
+        request,
+        env
+      );
+    }
+
+    const assetId = (
+      request.headers.get("x-ops-asset-id") ||
+      request.headers.get("x-intake-asset") ||
+      ""
+    ).trim();
+
+    const route = resolveRouteByAsset(assetId, env);
+
+    if (!route) {
+      return jsonResponse(
+        { ok: false, error: "Unknown asset identity." },
+        403,
+        request,
+        env
+      );
+    }
+
+    let incoming;
+
     try {
       payload = await parseIncomingBody(request);
     } catch {
@@ -223,6 +257,48 @@ function sanitizePayload(input) {
 function sanitizeText(value, key, scan) {
   let text = String(value ?? "");
   const original = text;
+  const notes = [];
+  let score = 0;
+
+  text = text
+    .replace(/\u0000/g, " ")
+    .replace(/[\u0001-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, " ")
+    .replace(/\r\n?/g, "\n")
+    .trim();
+
+  const hardSignals = [
+    { regex: /<script[\s\S]*?>/i, weight: 5, note: "script tag detected" },
+    { regex: /<\/script>/i, weight: 5, note: "script close tag detected" },
+    { regex: /javascript:/i, weight: 4, note: "javascript protocol detected" },
+    { regex: /vbscript:/i, weight: 4, note: "vbscript protocol detected" },
+    { regex: /data:text\/html/i, weight: 4, note: "html data url detected" },
+    { regex: /onerror\s*=/i, weight: 4, note: "event handler detected" },
+    { regex: /onload\s*=/i, weight: 4, note: "event handler detected" },
+    { regex: /onclick\s*=/i, weight: 4, note: "event handler detected" },
+    { regex: /document\.cookie/i, weight: 4, note: "cookie access detected" },
+    { regex: /localstorage|sessionstorage/i, weight: 3, note: "browser storage access detected" },
+    { regex: /\beval\s*\(/i, weight: 5, note: "eval detected" },
+    { regex: /\bnew\s+function\s*\(/i, weight: 5, note: "dynamic function detected" },
+    { regex: /\bfetch\s*\(/i, weight: 3, note: "fetch call detected" },
+    { regex: /\bxmlhttprequest\b/i, weight: 3, note: "xhr detected" },
+    { regex: /<\?php/i, weight: 5, note: "php code detected" },
+    { regex: /\bunion\s+select\b/i, weight: 5, note: "sql injection pattern detected" },
+    { regex: /\bdrop\s+table\b/i, weight: 5, note: "sql destructive pattern detected" },
+    { regex: /\binsert\s+into\b/i, weight: 4, note: "sql insertion pattern detected" },
+    { regex: /\bdelete\s+from\b/i, weight: 4, note: "sql deletion pattern detected" },
+    { regex: /\bupdate\s+\w+\s+set\b/i, weight: 4, note: "sql update pattern detected" },
+    { regex: /\bcurl\s+https?:\/\//i, weight: 3, note: "command pattern detected" },
+    { regex: /\bwget\s+https?:\/\//i, weight: 3, note: "command pattern detected" },
+    { regex: /\bpowershell\b/i, weight: 3, note: "powershell pattern detected" },
+    { regex: /%3cscript/i, weight: 5, note: "encoded script pattern detected" },
+  ];
+
+  for (const signal of hardSignals) {
+    if (signal.regex.test(text)) {
+      score += signal.weight;
+      notes.push(signal.note);
+    }
+  }
 
   text = text.replace(/<[^>]*>/g, () => {
     scan.removedTags += 1;
@@ -237,27 +313,68 @@ function sanitizeText(value, key, scan) {
   text = text.replace(/[^\p{L}\p{N}\s.,;:!?@#%&()\-_/+'"\n]/gu, " ");
   text = text.replace(/\s{2,}/g, " ").trim();
 
-  if (isSuspicious(original, text)) {
-    scan.rejectedFields.push(key);
+  const removalRatio = 1 - cleaned.length / Math.max(text.length, 1);
+  if (removalRatio > 0.35) {
+    score += 2;
+    notes.push("high removal ratio");
   }
 
-  if (text !== original) {
-    scan.normalizedFields += 1;
+  cleaned = cleaned
+    .replace(/[<>]/g, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+
+  if (!cleaned) {
+    return {
+      value: "",
+      blocked: true,
+      score,
+      notes: [...notes, "empty after sanitation"],
+    };
   }
 
-  return text;
+  const maxFieldLengths = {
+    name: 120,
+    email: 254,
+    phone: 40,
+    company: 160,
+    subject: 180,
+    city: 120,
+    role: 160,
+    experience: 300,
+    linkedin: 300,
+    portfolio: 300,
+    message: 5000,
+  };
+
+  const maxLength = maxFieldLengths[fieldName] || 500;
+  if (cleaned.length > maxLength) {
+    cleaned = cleaned.slice(0, maxLength).trim();
+    notes.push("trimmed to max length");
+  }
+
+  return {
+    value: cleaned,
+    blocked: score >= 5,
+    score,
+    notes,
+  };
 }
 
-function isSuspicious(before, after) {
-  const symbolHits = (before.match(/[{}<>;$`=\\]/g) || []).length;
-  if (symbolHits >= 6) return true;
+function normalizeEmail(value) {
+  const email = String(value || "").trim().toLowerCase();
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : "";
+}
 
   const codeTokenHits = (
     before.match(/(function\s*\(|=>|<script|SELECT\s+|DROP\s+|\{\{|\}\}|<\?)/gi) || []
   ).length;
   if (codeTokenHits > 0) return true;
 
-  return after.length === 0 && before.trim().length > 0;
+function normalizeUrl(value) {
+  const text = String(value || "").trim();
+  if (!text) return "";
+  return /^https?:\/\//i.test(text) ? text.slice(0, 300) : "";
 }
 
 function originAllowed(request, env) {
@@ -288,6 +405,7 @@ function buildCorsHeaders(request, env) {
     .split(",")
     .map((entry) => entry.trim())
     .filter(Boolean);
+}
 
   const allowedOrigin = allowlist.includes(origin) ? origin : allowlist[0] || "*";
 
