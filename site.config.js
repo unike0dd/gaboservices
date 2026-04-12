@@ -37,6 +37,9 @@ window.SITE_METADATA = {
       youtube: true
     }
   },
+  forms: {
+    intakeBaseUrl: 'https://solitary-term-4203.rulathemtodos.workers.dev'
+  },
   chatbot: {
     originAssetMap: {
       'https://www.gabo.services': 'b91f605b23748de5cf02db0de2dd59117b31c709986a3c72837d0af8756473cf2779c206fc6ef80a57fdeddefa4ea11b972572f3a8edd9ed77900f9385e94bd6',
