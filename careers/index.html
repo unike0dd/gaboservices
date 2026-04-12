@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="../assets/mobile-nav.css" />
     <script src="../site.config.js"></script>
     <script src="../form-workflow.js"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     
     <script data-cfasync="false" type="module" crossorigin="anonymous" src="../main.js"></script>
     <link rel="stylesheet" href="../contact/contact-hub.css?v=20260319b" />
@@ -241,6 +242,7 @@
                     <button type="submit" class="btn btn--primary">Submit Application</button>
                     <button type="button" class="btn btn--ghost" data-clear-form="career">Clear Form</button>
                   </div>
+                  <div class="cf-turnstile" data-sitekey="0x4AAAAAAC8lYODpHPQyGH5K"></div>
                   <p id="careerFormStatus" class="status-note" aria-live="polite"></p>
                 </form>
               </div>

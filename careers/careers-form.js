@@ -4,6 +4,7 @@
   if (!root || !formWorkflow || typeof formWorkflow.create !== 'function') return;
 
   var intakeBase = (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.intakeBaseUrl) || 'https://solitary-term-4203.rulathemtodos.workers.dev';
+  var turnstileSiteKey = (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.turnstileSiteKey) || '0x4AAAAAAC8lYODpHPQyGH5K';
   var SUBMIT_ENDPOINT = intakeBase.replace(/\/$/, '') + '/submit/careers';
 
   function setStatus(message, state) {
@@ -61,6 +62,10 @@
 
   var form = root.querySelector('#careerForm');
   if (!form) return;
+  var turnstileWidget = root.querySelector('.cf-turnstile');
+  if (turnstileWidget) {
+    turnstileWidget.setAttribute('data-sitekey', turnstileSiteKey);
+  }
 
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -75,6 +80,13 @@
       setStatus('Please select at least one area of interest.', 'blocked');
       return;
     }
+
+    var turnstileTokenInput = form.querySelector('input[name="cf-turnstile-response"]');
+    if (!turnstileTokenInput || !String(turnstileTokenInput.value || '').trim()) {
+      setStatus('Please complete the Turnstile challenge to continue.', 'blocked');
+      return;
+    }
+
     try {
       setStatus('Scanning and sanitizing your application...', 'review');
       var response = await fetch(SUBMIT_ENDPOINT, {
@@ -89,8 +101,14 @@
 
       setStatus('Career application sent securely to Google Sheets intake.', 'success');
       form.reset();
+      if (window.turnstile && turnstileWidget) {
+        window.turnstile.reset(turnstileWidget);
+      }
     } catch (error) {
       setStatus('Submission failed. Please try again shortly.', 'blocked');
+      if (window.turnstile && turnstileWidget) {
+        window.turnstile.reset(turnstileWidget);
+      }
     }
   });
 })();
