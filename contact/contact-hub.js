@@ -3,11 +3,36 @@
   var formWorkflow = window.GaboFormWorkflow;
   if (!root || !formWorkflow || typeof formWorkflow.create !== 'function') return;
 
+  var SUBMIT_ENDPOINT = 'https://solitary-term-4203.rulathemtodos.workers.dev/submit/contact';
+
+  function setStatus(message, state) {
+    var status = root.querySelector('#formStatus');
+    if (!status) return;
+    status.textContent = message;
+    status.dataset.state = state || '';
+  }
+
+  function formToPlainObject(form) {
+    var formData = new FormData(form);
+    var out = {};
+
+    formData.forEach(function (value, key) {
+      if (Object.prototype.hasOwnProperty.call(out, key)) {
+        if (Array.isArray(out[key])) out[key].push(value);
+        else out[key] = [out[key], value];
+      } else {
+        out[key] = value;
+      }
+    });
+
+    return out;
+  }
+
   formWorkflow.create(root, {
     formId: 'contactForm',
     statusId: 'formStatus',
     clearKey: 'contact',
-    requiredIds: ['contactFullName', 'contactEmail', 'contactCompany', 'contactNumber', 'contactMessage'],
+    requiredIds: ['contactFullName', 'contactEmail', 'contactNumber', 'contactMessage'],
     emptyMessage: 'Please complete the quick inquiry fields before submitting.',
     readyMessage: 'Quick inquiry is ready for secure submission.',
     listConfigs: [
@@ -28,6 +53,36 @@
         return 'Please select at least one service interest.';
       }
       return '';
+    }
+  });
+
+  var form = root.querySelector('#contactForm');
+  if (!form) return;
+
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    if (!form.checkValidity()) {
+      setStatus('Please complete all required fields.', 'blocked');
+      return;
+    }
+
+    try {
+      setStatus('Scanning and sanitizing your request...', 'review');
+      var response = await fetch(SUBMIT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(formToPlainObject(form))
+      });
+
+      if (!response.ok) {
+        throw new Error('Secure contact relay failed.');
+      }
+
+      setStatus('Contact request sent securely to Gmail intake.', 'success');
+      form.reset();
+    } catch (error) {
+      setStatus('Submission failed. Please try again shortly.', 'blocked');
     }
   });
 
