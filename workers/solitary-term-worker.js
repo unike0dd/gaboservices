@@ -24,12 +24,7 @@ export default {
     }
 
     if (request.method !== "POST" || !isIngestPath(url.pathname)) {
-      return jsonResponse(
-        { ok: false, error: "Not found." },
-        404,
-        request,
-        env
-      );
+      return jsonResponse({ ok: false, error: "Not found." }, 404, request, env);
     }
 
     if (!originAllowed(request, env)) {
@@ -54,9 +49,7 @@ export default {
     }
 
     const assetId = (
-      request.headers.get("x-ops-asset-id") ||
-      request.headers.get("x-intake-asset") ||
-      ""
+      request.headers.get("x-ops-asset-id") || request.headers.get("x-intake-asset") || ""
     ).trim();
 
     const route = resolveRouteByAsset(assetId, env);
@@ -298,7 +291,11 @@ function sanitizePlainText(value, fieldName) {
     { regex: /onload\s*=/i, weight: 4, note: "event handler detected" },
     { regex: /onclick\s*=/i, weight: 4, note: "event handler detected" },
     { regex: /document\.cookie/i, weight: 4, note: "cookie access detected" },
-    { regex: /localstorage|sessionstorage/i, weight: 3, note: "browser storage access detected" },
+    {
+      regex: /localstorage|sessionstorage/i,
+      weight: 3,
+      note: "browser storage access detected",
+    },
     { regex: /\beval\s*\(/i, weight: 5, note: "eval detected" },
     { regex: /\bnew\s+function\s*\(/i, weight: 5, note: "dynamic function detected" },
     { regex: /\bfetch\s*\(/i, weight: 3, note: "fetch call detected" },
@@ -363,10 +360,7 @@ function sanitizePlainText(value, fieldName) {
     notes.push("high removal ratio");
   }
 
-  cleaned = cleaned
-    .replace(/[<>]/g, "")
-    .replace(/\s{2,}/g, " ")
-    .trim();
+  cleaned = cleaned.replace(/[<>]/g, "").replace(/\s{2,}/g, " ").trim();
 
   if (!cleaned) {
     return {
