@@ -1,7 +1,32 @@
+/**
+ * Repo-facing intake Worker
+ *
+ * Public intake routes:
+ * - POST /api/intake/contact   (legacy: /submit/contact)
+ * - POST /api/intake/careers   (legacy: /submit/careers)
+ *
+ * Route -> asset mapping:
+ * - contact -> ASSET_C5T
+ * - careers -> ASSET_C5S
+ *
+ * This Worker:
+ * 1) accepts browser form submissions
+ * 2) performs light local cleanup
+ * 3) forwards the plain-text payload to solitary-term
+ *
+ * solitary-term then:
+ * 4) authenticates repo worker
+ * 5) performs stricter sanitation / scanning
+ * 6) routes onward to hidden bridge Worker
+ */
+
+const DEFAULT_UPSTREAM_URL = "https://solitary-term-4203.rulathemtodos.workers.dev/ingest";
+
+const CODE_SIGNATURE_PATTERN =
+  /(javascript:|data:text\/html|vbscript:|<script|<iframe|<object|<embed|onerror\s*=|onload\s*=|onclick\s*=|function\s*\(|=>|\beval\b|document\.cookie|localStorage|sessionStorage|\bSELECT\b|\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bDROP\b|\bUNION\b|\bCREATE\b|\bALTER\b|\{\{|\}\}|<\?|\?>)/gi;
+
 export default {
   async fetch(request, env) {
-    const url = new URL(request.url);
-
     if (request.method === "OPTIONS") {
       return new Response(null, {
         status: 204,
@@ -9,27 +34,19 @@ export default {
       });
     }
 
-    if (url.pathname === "/health") {
-      return jsonResponse(
-        {
-          ok: true,
-          worker: "solitary-term",
-          routes: ["/ingest", "/intake", "/health"],
-          accepts: ["application/json"],
-        },
-        200,
-        request,
-        env
-      );
+    const url = new URL(request.url);
+    const route = resolveRoute(url.pathname);
+
+    if (!route) {
+      return json({ ok: false, error: "Route not found." }, 404, request, env);
     }
 
-    if (request.method !== "POST" || !isIngestPath(url.pathname)) {
-      return jsonResponse(
-        { ok: false, error: "Not found." },
-        404,
-        request,
-        env
-      );
+    if (request.method !== "POST") {
+      return json({ ok: false, error: "Method not allowed." }, 405, request, env);
+    }
+
+    if (!originAllowed(request, env)) {
+      return json({ ok: false, error: "Origin not allowed." }, 403, request, env);
     }
 
     if (!originAllowed(request, env)) {
@@ -73,35 +90,26 @@ export default {
     let incoming;
 
     try {
-      const contentType = (request.headers.get("content-type") || "").toLowerCase();
-
-      if (!contentType.includes("application/json")) {
-        return jsonResponse(
-          { ok: false, error: "Expected application/json." },
-          415,
-          request,
-          env
-        );
-      }
-
-      incoming = await request.json();
+      payload = await parseIncomingBody(request);
     } catch {
-      return jsonResponse(
-        { ok: false, error: "Invalid JSON body." },
+      return json(
+        {
+          ok: false,
+          error: "Expected JSON, form-urlencoded, or multipart form fields.",
+        },
         400,
         request,
         env
       );
     }
 
-    const cleanedResult = cleanAndValidatePayload(route.key, incoming);
-
-    if (!cleanedResult.ok) {
-      return jsonResponse(
+    const sanitized = sanitizePayload(payload);
+    if (!sanitized.accepted) {
+      return json(
         {
           ok: false,
-          error: cleanedResult.error,
-          rejected_fields: cleanedResult.rejectedFields,
+          error: "Payload rejected: only plain, safe text is accepted.",
+          rejectedFields: sanitized.scan.rejectedFields,
         },
         422,
         request,
@@ -109,20 +117,49 @@ export default {
       );
     }
 
-    return jsonResponse(
+    const upstream = (env.UPSTREAM_WORKER_URL || DEFAULT_UPSTREAM_URL).trim();
+    const repoSharedSecret = String(env.REPO_SHARED_SECRET || "").trim();
+
+    if (!repoSharedSecret) {
+      return json(
+        { ok: false, error: "Missing secret REPO_SHARED_SECRET." },
+        500,
+        request,
+        env
+      );
+    }
+
+    const relayResponse = await fetch(upstream, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json; charset=utf-8",
+        "x-repo-shared-secret": repoSharedSecret,
+        "x-ops-asset-id": config.asset,
+        "x-intake-source": route,
+      },
+      body: JSON.stringify(sanitized.data),
+    });
+
+    if (!relayResponse.ok) {
+      const detail = (await safeReadText(relayResponse)).slice(0, 400);
+      return json(
+        {
+          ok: false,
+          error: `Upstream relay failed (${relayResponse.status}).`,
+          detail,
+        },
+        502,
+        request,
+        env
+      );
+    }
+
+    return json(
       {
         ok: true,
-        accepted: true,
-        route: route.key,
-        destination: route.destination,
-        asset_name: route.assetName,
-        received_at: new Date().toISOString(),
-        payload: cleanedResult.payload,
-        screening: {
-          risk_score: cleanedResult.riskScore,
-          warnings: cleanedResult.warnings,
-          sanitizer: "plain-text-only",
-        },
+        source: route,
+        destination: config.channel,
+        forwarded: true,
       },
       200,
       request,
@@ -131,153 +168,94 @@ export default {
   },
 };
 
-function isIngestPath(pathname) {
-  return pathname === "/ingest" || pathname === "/intake";
-}
-
-function resolveRouteByAsset(assetId, env) {
-  if (safeEqual(assetId, String(env.ASSET_C5T || ""))) {
-    return {
-      key: "contact",
-      destination: "gmail",
-      assetName: "ASSET_C5T",
-    };
+function resolveRoute(pathname) {
+  if (pathname === "/api/intake/contact" || pathname === "/submit/contact") {
+    return "contact";
   }
-
-  if (safeEqual(assetId, String(env.ASSET_C5S || ""))) {
-    return {
-      key: "careers",
-      destination: "gsheets",
-      assetName: "ASSET_C5S",
-    };
+  if (pathname === "/api/intake/careers" || pathname === "/submit/careers") {
+    return "careers";
   }
-
   return null;
 }
 
-function cleanAndValidatePayload(routeKey, input) {
-  const isObject = input && typeof input === "object" && !Array.isArray(input);
-
-  if (!isObject) {
-    return {
-      ok: false,
-      error: "Body must be an object with text fields.",
-      rejectedFields: [],
-    };
+function resolveDestinationConfig(route, env) {
+  if (route === "contact") {
+    if (!env.ASSET_C5T) {
+      return { ok: false, error: "Missing secret ASSET_C5T." };
+    }
+    return { ok: true, channel: "gmail", asset: env.ASSET_C5T };
   }
 
-  const fieldMap = {
-    contact: {
-      allowed: ["name", "email", "phone", "company", "subject", "message"],
-      required: ["name", "email", "message"],
-    },
-    careers: {
-      allowed: [
-        "name",
-        "email",
-        "phone",
-        "city",
-        "role",
-        "experience",
-        "linkedin",
-        "portfolio",
-        "message",
-      ],
-      required: ["name", "email", "message"],
-    },
+  if (route === "careers") {
+    if (!env.ASSET_C5S) {
+      return { ok: false, error: "Missing secret ASSET_C5S." };
+    }
+    return { ok: true, channel: "gsheets", asset: env.ASSET_C5S };
+  }
+
+  return { ok: false, error: "Unsupported route." };
+}
+
+async function parseIncomingBody(request) {
+  const contentType = (request.headers.get("content-type") || "").toLowerCase();
+
+  if (contentType.includes("application/json")) {
+    return await request.json();
+  }
+
+  if (contentType.includes("application/x-www-form-urlencoded")) {
+    const text = await request.text();
+    const params = new URLSearchParams(text);
+    return Object.fromEntries(params.entries());
+  }
+
+  if (contentType.includes("multipart/form-data")) {
+    const form = await request.formData();
+    const obj = {};
+    for (const [key, value] of form.entries()) {
+      obj[key] = typeof value === "string" ? value : "";
+    }
+    return obj;
+  }
+
+  throw new Error("Unsupported content type");
+}
+
+function sanitizePayload(input) {
+  const scan = {
+    removedTags: 0,
+    removedCodeLike: 0,
+    normalizedFields: 0,
+    rejectedFields: [],
   };
 
-  const spec = fieldMap[routeKey];
-  const cleaned = {};
-  const warnings = [];
-  const rejectedFields = [];
-  let riskScore = 0;
+  const source = input && typeof input === "object" && !Array.isArray(input) ? input : {};
+  const out = {};
 
-  for (const field of spec.allowed) {
-    const raw = coerceToString(input[field]);
-    if (!raw) continue;
-
-    const result = sanitizePlainText(raw, field);
-    riskScore += result.score;
-
-    if (result.notes.length) {
-      warnings.push({ field, notes: result.notes });
-    }
-
-    if (result.blocked) {
-      rejectedFields.push(field);
+  for (const [key, value] of Object.entries(source)) {
+    if (Array.isArray(value)) {
+      const arr = value
+        .map((v) => sanitizeText(v, key, scan))
+        .filter((v) => typeof v === "string" && v.length > 0);
+      if (arr.length) out[key] = arr;
       continue;
     }
 
-    if (!result.value) continue;
-
-    cleaned[field] = result.value;
-  }
-
-  if (cleaned.email) {
-    const normalizedEmail = normalizeEmail(cleaned.email);
-    if (!normalizedEmail) rejectedFields.push("email");
-    else cleaned.email = normalizedEmail;
-  }
-
-  if (cleaned.phone) {
-    cleaned.phone = normalizePhone(cleaned.phone);
-  }
-
-  if (cleaned.linkedin) {
-    const linkedin = normalizeUrl(cleaned.linkedin);
-    if (!linkedin) rejectedFields.push("linkedin");
-    else cleaned.linkedin = linkedin;
-  }
-
-  if (cleaned.portfolio) {
-    const portfolio = normalizeUrl(cleaned.portfolio);
-    if (!portfolio) rejectedFields.push("portfolio");
-    else cleaned.portfolio = portfolio;
-  }
-
-  for (const field of spec.required) {
-    if (!cleaned[field]) {
-      rejectedFields.push(field);
+    const cleaned = sanitizeText(value, key, scan);
+    if (typeof cleaned === "string" && cleaned.length > 0) {
+      out[key] = cleaned;
     }
   }
 
-  const uniqueRejected = [...new Set(rejectedFields)];
-
-  if (uniqueRejected.length) {
-    return {
-      ok: false,
-      error: "Plain-text validation failed.",
-      rejectedFields: uniqueRejected,
-    };
-  }
-
-  if (!Object.keys(cleaned).length) {
-    return {
-      ok: false,
-      error: "No acceptable plain-text content found.",
-      rejectedFields: [],
-    };
-  }
-
-  if (riskScore >= 8) {
-    return {
-      ok: false,
-      error: "Input was too suspicious after sanitation.",
-      rejectedFields: [],
-    };
-  }
-
   return {
-    ok: true,
-    payload: cleaned,
-    warnings,
-    riskScore,
+    accepted: scan.rejectedFields.length === 0,
+    data: out,
+    scan,
   };
 }
 
-function sanitizePlainText(value, fieldName) {
-  let text = String(value || "").normalize("NFKC");
+function sanitizeText(value, key, scan) {
+  let text = String(value ?? "");
   const original = text;
   const notes = [];
   let score = 0;
@@ -322,40 +300,18 @@ function sanitizePlainText(value, fieldName) {
     }
   }
 
-  let cleaned = text
-    .replace(/```[\s\S]*?```/g, " ")
-    .replace(/`[^`]*`/g, " ")
-    .replace(/<script[\s\S]*?<\/script>/gi, " ")
-    .replace(/<\/?[^>]+>/g, " ")
-    .replace(/[{}[\]^|\\;]/g, " ")
-    .replace(/\s{2,}/g, " ")
-    .trim();
+  text = text.replace(/<[^>]*>/g, () => {
+    scan.removedTags += 1;
+    return " ";
+  });
 
-  const codeMarkers = [
-    /=>/,
-    /\bfunction\s*\(/i,
-    /\bconst\s+\w+/i,
-    /\blet\s+\w+/i,
-    /\bvar\s+\w+/i,
-    /\bimport\s+/i,
-    /\bexport\s+/i,
-    /<\w+/,
-    /<\/\w+>/,
-  ];
+  text = text.replace(CODE_SIGNATURE_PATTERN, () => {
+    scan.removedCodeLike += 1;
+    return " ";
+  });
 
-  let markerCount = 0;
-  for (const marker of codeMarkers) {
-    if (marker.test(original)) markerCount += 1;
-  }
-
-  if (markerCount >= 2) {
-    score += 3;
-    notes.push("code-like syntax detected");
-  }
-
-  if (cleaned !== text) {
-    notes.push("non-plain-text removed");
-  }
+  text = text.replace(/[^\p{L}\p{N}\s.,;:!?@#%&()\-_/+'"\n]/gu, " ");
+  text = text.replace(/\s{2,}/g, " ").trim();
 
   const removalRatio = 1 - cleaned.length / Math.max(text.length, 1);
   if (removalRatio > 0.35) {
@@ -410,13 +366,10 @@ function normalizeEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : "";
 }
 
-function normalizePhone(value) {
-  return String(value || "")
-    .replace(/[^\d+()\-\s]/g, " ")
-    .replace(/\s{2,}/g, " ")
-    .trim()
-    .slice(0, 40);
-}
+  const codeTokenHits = (
+    before.match(/(function\s*\(|=>|<script|SELECT\s+|DROP\s+|\{\{|\}\}|<\?)/gi) || []
+  ).length;
+  if (codeTokenHits > 0) return true;
 
 function normalizeUrl(value) {
   const text = String(value || "").trim();
@@ -424,54 +377,20 @@ function normalizeUrl(value) {
   return /^https?:\/\//i.test(text) ? text.slice(0, 300) : "";
 }
 
-function coerceToString(value) {
-  if (typeof value === "string") return value;
-  if (typeof value === "number" || typeof value === "boolean") return String(value);
-  return "";
-}
-
 function originAllowed(request, env) {
   const origin = request.headers.get("origin");
   if (!origin) return true;
 
-  const allowlist = parseCsv(
-    env.ALLOWED_ORIGINS || "https://www.gabo.services,https://gabo.services"
-  );
+  const allowlist = (env.ALLOWED_ORIGINS || "https://www.gabo.services,https://gabo.services")
+    .split(",")
+    .map((entry) => entry.trim())
+    .filter(Boolean);
 
   return allowlist.includes(origin);
 }
 
-function parseCsv(value) {
-  return String(value || "")
-    .split(",")
-    .map((x) => x.trim())
-    .filter(Boolean);
-}
-
-function buildCorsHeaders(request, env) {
-  const requestOrigin = request.headers.get("origin");
-  const allowed = parseCsv(
-    env.ALLOWED_ORIGINS || "https://www.gabo.services,https://gabo.services"
-  );
-
-  let allowOrigin = allowed[0] || "*";
-
-  if (requestOrigin && allowed.includes(requestOrigin)) {
-    allowOrigin = requestOrigin;
-  }
-
-  return {
-    "access-control-allow-origin": allowOrigin,
-    "access-control-allow-methods": "POST, OPTIONS",
-    "access-control-allow-headers": "content-type, x-ops-asset-id, x-intake-asset",
-    "access-control-max-age": "86400",
-    "cache-control": "no-store",
-    vary: "Origin",
-  };
-}
-
-function jsonResponse(data, status, request, env) {
-  return new Response(JSON.stringify(data, null, 2), {
+function json(payload, status, request, env) {
+  return new Response(JSON.stringify(payload), {
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
@@ -480,15 +399,29 @@ function jsonResponse(data, status, request, env) {
   });
 }
 
-function safeEqual(a, b) {
-  const aa = String(a || "");
-  const bb = String(b || "");
-  const max = Math.max(aa.length, bb.length);
-  let mismatch = aa.length ^ bb.length;
+function buildCorsHeaders(request, env) {
+  const origin = request.headers.get("origin") || "";
+  const allowlist = (env.ALLOWED_ORIGINS || "https://www.gabo.services,https://gabo.services")
+    .split(",")
+    .map((entry) => entry.trim())
+    .filter(Boolean);
+}
 
-  for (let i = 0; i < max; i += 1) {
-    mismatch |= (aa.charCodeAt(i) || 0) ^ (bb.charCodeAt(i) || 0);
+  const allowedOrigin = allowlist.includes(origin) ? origin : allowlist[0] || "*";
+
+  return {
+    "access-control-allow-origin": allowedOrigin,
+    "access-control-allow-methods": "POST,OPTIONS",
+    "access-control-allow-headers": "content-type",
+    "cache-control": "no-store",
+    vary: "origin",
+  };
+}
+
+async function safeReadText(response) {
+  try {
+    return await response.text();
+  } catch {
+    return "";
   }
-
-  return mismatch === 0;
 }
