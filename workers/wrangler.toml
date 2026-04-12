@@ -1,11 +1,7 @@
-name = "gabo-intake-router"
-main = "contact-careers-intake-worker.js"
+name = "solitary-term"
+main = "solitary-term-worker.js"
 compatibility_date = "2026-04-12"
 
 [vars]
-UPSTREAM_WORKER_URL = "https://solitary-term-4203.rulathemtodos.workers.dev/intake"
 ALLOWED_ORIGINS = "https://www.gabo.services,https://gabo.services"
-
-# Set secrets in Cloudflare dashboard or via CLI:
-# wrangler secret put ASSET_C5T
-# wrangler secret put ASSET_C5S
+MAX_BODY_BYTES = "32768"
