@@ -1,49 +1,60 @@
 # Contact + Careers Intake Worker
 
-This repository now includes a Cloudflare Worker script at:
+This repository includes a Cloudflare Worker script at:
 
 - `workers.contact-careers-intake.js`
 
-## Purpose
+Deployment template:
 
-The worker accepts two secure intake routes:
+- `wrangler.contact-careers-intake.toml`
 
-- `POST /submit/contact` → routed to **Gmail** channel using `ASSET_C5T`.
-- `POST /submit/careers` → routed to **Google Sheets** channel using `ASSET_C5S`.
+## Routes and channel mapping
 
-Both routes sanitize and filter payloads to plain text only.
+- `POST /submit/contact` → **Gmail** channel using secret asset id `ASSET_C5T`
+- `POST /submit/careers` → **Google Sheets** channel using secret asset id `ASSET_C5S`
 
-## Security/Sanitization behavior
+The worker only forwards sanitized plain-text payloads.
 
-The worker:
+## Secret/asset requirements
 
-1. Removes HTML tags.
-2. Removes code-like patterns (`<script`, `javascript:`, function-like tokens, SQL keywords, etc.).
-3. Applies a plain-text allowlist.
-4. Rejects suspicious fields when code density is high.
+- `ASSET_C5T` and `ASSET_C5S` are required.
+- Each secret is validated as a likely asset-id format before forwarding.
+- Route-to-secret mapping is strict and fixed:
+  - Contact route can only use `ASSET_C5T`
+  - Careers route can only use `ASSET_C5S`
 
-Only accepted sanitized data is forwarded.
+## Sanitization and screening pipeline
 
-## Relay target
+1. Allowlist expected fields per route (unknown fields are dropped).
+2. Strip HTML tags.
+3. Remove script/code/SQL-like tokens.
+4. Normalize to plain text characters.
+5. Score suspicious payload patterns and reject flagged fields.
 
-The worker relays accepted submissions to:
+## Relay behavior
 
-- `https://solitary-term-4203.rulathemtodos.workers.dev/intake`
+Accepted submissions are forwarded to:
 
-Override with env var:
+- `${REMOTE_WORKER_URL || "https://solitary-term-4203.rulathemtodos.workers.dev"}/intake`
 
-- `REMOTE_WORKER_URL`
+Payload includes:
 
-## Required secrets
+- `source` (`contact` or `careers`)
+- `channel` (`gmail` or `gsheets`)
+- `asset` (matching route secret)
+- `data` (sanitized fields)
+- `scan` (sanitization metrics)
 
-- `ASSET_C5T`
-- `ASSET_C5S`
+## CORS/origin controls
+
+- Origins are restricted by `ALLOWED_ORIGINS` (comma-separated).
+- Default includes:
+  - `https://www.gabo.services`
+  - `https://gabo.services`
 
 ## Front-end integration
 
-The following forms now submit JSON directly to the worker endpoints:
-
-- `contact/contact-hub.js` → `/submit/contact`
-- `careers/careers-form.js` → `/submit/careers`
-
-`_headers` was updated to allow `connect-src` to the solitary-term worker origin.
+- `contact/contact-hub.js` submits to `${forms.intakeBaseUrl}/submit/contact`
+- `careers/careers-form.js` submits to `${forms.intakeBaseUrl}/submit/careers`
+- `site.config.js` sets `forms.intakeBaseUrl`
+- `_headers` allows connect-src for the worker origin

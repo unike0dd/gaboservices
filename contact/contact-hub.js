@@ -3,7 +3,8 @@
   var formWorkflow = window.GaboFormWorkflow;
   if (!root || !formWorkflow || typeof formWorkflow.create !== 'function') return;
 
-  var SUBMIT_ENDPOINT = 'https://solitary-term-4203.rulathemtodos.workers.dev/submit/contact';
+  var intakeBase = (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.intakeBaseUrl) || 'https://solitary-term-4203.rulathemtodos.workers.dev';
+  var SUBMIT_ENDPOINT = intakeBase.replace(/\/$/, '') + '/submit/contact';
 
   function setStatus(message, state) {
     var status = root.querySelector('#formStatus');
@@ -67,6 +68,11 @@
       return;
     }
 
+
+    if (!root.querySelectorAll('input[name="contact_interest[]"]:checked').length) {
+      setStatus('Please select at least one area of interest.', 'blocked');
+      return;
+    }
     try {
       setStatus('Scanning and sanitizing your request...', 'review');
       var response = await fetch(SUBMIT_ENDPOINT, {
