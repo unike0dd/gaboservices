@@ -38,7 +38,8 @@ window.SITE_METADATA = {
     }
   },
   forms: {
-    intakeBaseUrl: 'https://solitary-term-4203.rulathemtodos.workers.dev'
+    intakeBaseUrl: 'https://solitary-term-4203.rulathemtodos.workers.dev',
+    turnstileSiteKey: '0x4AAAAAAC8lYODpHPQyGH5K'
   },
   chatbot: {
     originAssetMap: {

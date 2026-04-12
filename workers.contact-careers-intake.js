@@ -12,10 +12,14 @@
  * Optional:
  * - REMOTE_WORKER_URL
  * - ALLOWED_ORIGINS (comma-separated list)
+ *
+ * Additional required secret:
+ * - TURNSTILE_SECRET_KEY
  */
 
 const DEFAULT_REMOTE_WORKER = 'https://solitary-term-4203.rulathemtodos.workers.dev';
 const MAX_PAYLOAD_BYTES = 40_000;
+const TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
 const ROUTE_CONFIG = {
   '/submit/contact': {
@@ -25,7 +29,8 @@ const ROUTE_CONFIG = {
     allowedFields: new Set([
       'full_name', 'email_address', 'space_suite_apt', 'country_code', 'contact_number',
       'contact_interest[]', 'best_time_to_contact', 'city', 'state_province', 'country_zip_code',
-      'message', 'remote_interest[]', 'remote_assistant_skills', 'experience_level', 'languages', 'education'
+      'message', 'remote_interest[]', 'remote_assistant_skills', 'experience_level', 'languages', 'education',
+      'cf-turnstile-response'
     ])
   },
   '/submit/careers': {
@@ -35,7 +40,8 @@ const ROUTE_CONFIG = {
     allowedFields: new Set([
       'full_name', 'email_address', 'country_code', 'contact_number', 'city', 'state_province',
       'country_zip_code', 'availability', 'career_interest[]', 'experience_items', 'languages',
-      'skills', 'projects', 'education_items', 'resume_or_profile_link'
+      'skills', 'projects', 'education_items', 'resume_or_profile_link',
+      'cf-turnstile-response'
     ])
   }
 };
@@ -78,6 +84,20 @@ export default {
       }
 
       const body = await request.json();
+      const turnstileToken = typeof body['cf-turnstile-response'] === 'string'
+        ? body['cf-turnstile-response'].trim()
+        : '';
+
+      const turnstileResult = await verifyTurnstileToken(turnstileToken, request, env);
+      if (!turnstileResult.ok) {
+        return json(
+          { ok: false, error: turnstileResult.error || 'Turnstile verification failed.' },
+          turnstileResult.status || 403,
+          origin,
+          allowedOrigins
+        );
+      }
+
       const sanitized = sanitizePayload(body, config.allowedFields);
 
       if (!sanitized.accepted) {
@@ -174,7 +194,43 @@ function sanitizePayload(input, allowedFields) {
   }
 
   const accepted = scan.rejectedFields.length === 0;
+  delete data['cf-turnstile-response'];
   return { accepted, data, scan };
+}
+
+async function verifyTurnstileToken(token, request, env) {
+  if (!token) {
+    return { ok: false, status: 400, error: 'Turnstile token missing.' };
+  }
+
+  const secret = String(env.TURNSTILE_SECRET_KEY || '').trim();
+  if (!secret) {
+    return { ok: false, status: 500, error: 'Misconfigured secret TURNSTILE_SECRET_KEY.' };
+  }
+
+  const ip = request.headers.get('cf-connecting-ip') || '';
+  const body = new URLSearchParams({
+    secret,
+    response: token,
+    remoteip: ip
+  });
+
+  const verifyResponse = await fetch(TURNSTILE_VERIFY_URL, {
+    method: 'POST',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    body
+  });
+
+  if (!verifyResponse.ok) {
+    return { ok: false, status: 502, error: 'Turnstile verification endpoint unavailable.' };
+  }
+
+  const verifyResult = await verifyResponse.json();
+  if (!verifyResult || verifyResult.success !== true) {
+    return { ok: false, status: 403, error: 'Turnstile challenge not completed.' };
+  }
+
+  return { ok: true };
 }
 
 function normalizeToText(value, scan, key) {
