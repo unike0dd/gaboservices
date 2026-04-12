@@ -3,6 +3,32 @@
   var formWorkflow = window.GaboFormWorkflow;
   if (!root || !formWorkflow || typeof formWorkflow.create !== 'function') return;
 
+  var intakeBase = (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.intakeWorkerBase) || 'https://solitary-term-4203.rulathemtodos.workers.dev';
+  var SUBMIT_ENDPOINT = intakeBase + '/api/intake/careers';
+
+  function setStatus(message, state) {
+    var status = root.querySelector('#careerFormStatus');
+    if (!status) return;
+    status.textContent = message;
+    status.dataset.state = state || '';
+  }
+
+  function formToPlainObject(form) {
+    var formData = new FormData(form);
+    var out = {};
+
+    formData.forEach(function (value, key) {
+      if (Object.prototype.hasOwnProperty.call(out, key)) {
+        if (Array.isArray(out[key])) out[key].push(value);
+        else out[key] = [out[key], value];
+      } else {
+        out[key] = value;
+      }
+    });
+
+    return out;
+  }
+
   formWorkflow.create(root, {
     formId: 'careerForm',
     statusId: 'careerFormStatus',
@@ -30,6 +56,36 @@
         return 'Please select at least one career area of interest.';
       }
       return '';
+    }
+  });
+
+  var form = root.querySelector('#careerForm');
+  if (!form) return;
+
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    if (!form.checkValidity()) {
+      setStatus('Please complete all required fields.', 'blocked');
+      return;
+    }
+
+    try {
+      setStatus('Scanning and sanitizing your application...', 'review');
+      var response = await fetch(SUBMIT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(formToPlainObject(form))
+      });
+
+      if (!response.ok) {
+        throw new Error('Secure career relay failed.');
+      }
+
+      setStatus('Career application sent securely to Google Sheets intake.', 'success');
+      form.reset();
+    } catch (error) {
+      setStatus('Submission failed. Please try again shortly.', 'blocked');
     }
   });
 })();
