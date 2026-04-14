@@ -66,13 +66,8 @@
     });
   }
 
-  function isStrictPrivacyModeEnabled() {
-    return (
-      navigator.globalPrivacyControl === true ||
-      navigator.doNotTrack === '1' ||
-      window.doNotTrack === '1' ||
-      navigator.msDoNotTrack === '1'
-    );
+  function getTurnstileBlockedMessage() {
+    return 'Turnstile verification is blocked by browser tracking prevention. Allow challenges.cloudflare.com for this page, then refresh.';
   }
 
 
@@ -192,21 +187,22 @@
     form.addEventListener(eventName, trackInteraction, { passive: true });
   });
   var turnstileWidget = root.querySelector('.cf-turnstile');
+  var turnstileUnavailable = false;
   if (turnstileWidget) {
     turnstileWidget.setAttribute('data-sitekey', turnstileSiteKey);
     var lazyLoadTurnstile = function () {
       ensureTurnstileLoaded().catch(function () {
+        turnstileUnavailable = true;
         setStatus(getTurnstileBlockedMessage(), 'blocked');
       });
     };
     form.addEventListener('focusin', lazyLoadTurnstile, { once: true });
     form.addEventListener('pointerdown', lazyLoadTurnstile, { once: true });
+    form.addEventListener('submit', lazyLoadTurnstile, { once: true });
     window.setTimeout(function () {
-      if (!window.turnstile && !form.querySelector('input[name="cf-turnstile-response"]')) {
+      if (turnstileUnavailable && !window.turnstile && !form.querySelector('input[name="cf-turnstile-response"]')) {
         setStatus(
-          isStrictPrivacyModeEnabled()
-            ? 'We are checking interaction. Please wait for the green check confirmation.'
-            : getTurnstileBlockedMessage(),
+          getTurnstileBlockedMessage(),
           'blocked'
         );
       }
