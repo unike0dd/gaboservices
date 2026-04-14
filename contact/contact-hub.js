@@ -10,6 +10,10 @@
   var turnstileLoaderPromise = null;
   var SUBMIT_ENDPOINT = intakeBase.replace(/\/$/, '') + '/submit/contact';
   var REQUIRED_FIELD_IDS = ['contactFullName', 'contactEmail', 'contactNumber', 'contactMessage'];
+  var TURNSTILE_BASE_WAIT_MS = 12000;
+  var TURNSTILE_ACTIVE_INTERACTION_GRACE_MS = 4000;
+  var lastInteractionAt = 0;
+  var turnstileReadinessPoller = null;
 
   function setStatus(message, state) {
     var status = root.querySelector('#formStatus');
@@ -62,19 +66,68 @@
     });
   }
 
+  function getTurnstileBlockedMessage() {
+    return 'Turnstile verification is blocked by browser tracking prevention. Allow challenges.cloudflare.com for this page, then refresh.';
+  }
+
   function isStrictPrivacyModeEnabled() {
     return (
       navigator.globalPrivacyControl === true ||
       navigator.doNotTrack === '1' ||
-      window.doNotTrack === '1' ||
-      navigator.msDoNotTrack === '1'
+      window.doNotTrack === '1'
     );
   }
 
-  function getTurnstileBlockedMessage() {
-    return isStrictPrivacyModeEnabled()
-      ? 'Privacy protections are blocking the Turnstile challenge. Allow challenges.cloudflare.com for this page and reload.'
-      : 'Unable to load the Turnstile challenge. Disable blocker extensions for challenges.cloudflare.com and reload.';
+  function trackInteraction() {
+    lastInteractionAt = Date.now();
+  }
+
+  function isTurnstileReady(form) {
+    return !!(
+      window.turnstile ||
+      form.querySelector('input[name="cf-turnstile-response"]') ||
+      form.querySelector('.cf-turnstile iframe')
+    );
+  }
+
+  function monitorTurnstileReadiness(form) {
+    if (isTurnstileReady(form)) return;
+
+    if (isStrictPrivacyModeEnabled()) {
+      setStatus('We are checking interaction. Please wait for the green check confirmation.', 'review');
+    }
+
+    var startedAt = Date.now();
+    var pollIntervalMs = 500;
+    if (turnstileReadinessPoller) {
+      window.clearInterval(turnstileReadinessPoller);
+    }
+
+    turnstileReadinessPoller = window.setInterval(function () {
+      if (isTurnstileReady(form)) {
+        window.clearInterval(turnstileReadinessPoller);
+        turnstileReadinessPoller = null;
+        return;
+      }
+
+      var elapsed = Date.now() - startedAt;
+      var recentInteraction = lastInteractionAt && (Date.now() - lastInteractionAt) < TURNSTILE_ACTIVE_INTERACTION_GRACE_MS;
+      if (recentInteraction) {
+        startedAt = Date.now();
+        return;
+      }
+
+      if (elapsed >= TURNSTILE_BASE_WAIT_MS) {
+        window.clearInterval(turnstileReadinessPoller);
+        turnstileReadinessPoller = null;
+        setStatus(
+          isStrictPrivacyModeEnabled()
+            ? 'We are checking interaction. Please wait for the green check confirmation.'
+            : getTurnstileBlockedMessage(),
+          'blocked'
+        );
+      }
+    }, pollIntervalMs);
   }
 
   function ensureTurnstileLoaded() {
@@ -142,31 +195,30 @@
   bindNumericInput(form.querySelector('#contactCountryCode'), true);
   bindNumericInput(form.querySelector('#contactNumber'), false);
   bindNumericInput(form.querySelector('#contactZip'), false);
-  HONEYPOT_FIELDS.forEach(function (name) {
-    var input = form.querySelector('input[name="' + name + '"]');
-    if (!input) return;
-    input.addEventListener('input', function () {
-      blockIfHoneypotTriggered();
-    });
+  ['focusin', 'pointerdown', 'keydown', 'input', 'change'].forEach(function (eventName) {
+    form.addEventListener(eventName, trackInteraction, { passive: true });
   });
   var turnstileWidget = root.querySelector('.cf-turnstile');
+  var turnstileUnavailable = false;
   if (turnstileWidget) {
     turnstileWidget.setAttribute('data-sitekey', turnstileSiteKey);
-    var loadTurnstile = function () {
-      if (blockIfHoneypotTriggered()) return;
+    if (isStrictPrivacyModeEnabled()) {
+      turnstileUnavailable = true;
+      setStatus(getTurnstileBlockedMessage(), 'blocked');
+      turnstileWidget.setAttribute('aria-hidden', 'true');
+    }
+    var lazyLoadTurnstile = function () {
+      if (turnstileUnavailable) return;
       ensureTurnstileLoaded().catch(function () {
+        turnstileUnavailable = true;
         setStatus(getTurnstileBlockedMessage(), 'blocked');
       });
     };
-    if (document.readyState === 'complete') {
-      loadTurnstile();
-    } else {
-      window.addEventListener('load', loadTurnstile, { once: true });
-    }
-    form.addEventListener('focusin', loadTurnstile, { once: true });
-    form.addEventListener('pointerdown', loadTurnstile, { once: true });
+    form.addEventListener('focusin', lazyLoadTurnstile, { once: true });
+    form.addEventListener('pointerdown', lazyLoadTurnstile, { once: true });
+    form.addEventListener('submit', lazyLoadTurnstile, { once: true });
     window.setTimeout(function () {
-      if (!window.turnstile && !form.querySelector('input[name="cf-turnstile-response"]')) {
+      if (turnstileUnavailable && !window.turnstile && !form.querySelector('input[name="cf-turnstile-response"]')) {
         setStatus(
           getTurnstileBlockedMessage(),
           'blocked'
@@ -211,7 +263,7 @@
 
     if (!turnstileTokenInput || !String(turnstileTokenInput.value || '').trim()) {
       if (!window.turnstile) {
-        setStatus(getTurnstileBlockedMessage(), 'blocked');
+        monitorTurnstileReadiness(form);
         return;
       }
       setStatus('Please complete the Turnstile challenge to continue.', 'blocked');
