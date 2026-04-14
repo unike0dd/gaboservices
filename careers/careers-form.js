@@ -70,6 +70,13 @@
     return 'Turnstile verification is blocked by browser tracking prevention. Allow challenges.cloudflare.com for this page, then refresh.';
   }
 
+  function isStrictPrivacyModeEnabled() {
+    return (
+      navigator.globalPrivacyControl === true ||
+      navigator.doNotTrack === '1' ||
+      window.doNotTrack === '1'
+    );
+  }
 
   function trackInteraction() {
     lastInteractionAt = Date.now();
@@ -192,7 +199,13 @@
   var turnstileUnavailable = false;
   if (turnstileWidget) {
     turnstileWidget.setAttribute('data-sitekey', turnstileSiteKey);
+    if (isStrictPrivacyModeEnabled()) {
+      turnstileUnavailable = true;
+      setStatus(getTurnstileBlockedMessage(), 'blocked');
+      turnstileWidget.setAttribute('aria-hidden', 'true');
+    }
     var lazyLoadTurnstile = function () {
+      if (turnstileUnavailable) return;
       ensureTurnstileLoaded().catch(function () {
         turnstileUnavailable = true;
         setStatus(getTurnstileBlockedMessage(), 'blocked');
