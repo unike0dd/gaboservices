@@ -134,19 +134,37 @@
 
   var form = root.querySelector('#contactForm');
   if (!form) return;
+  function blockIfHoneypotTriggered() {
+    if (!honeypotTriggered(form)) return false;
+    setStatus('Submission blocked.', 'blocked');
+    return true;
+  }
   bindNumericInput(form.querySelector('#contactCountryCode'), true);
   bindNumericInput(form.querySelector('#contactNumber'), false);
   bindNumericInput(form.querySelector('#contactZip'), false);
+  HONEYPOT_FIELDS.forEach(function (name) {
+    var input = form.querySelector('input[name="' + name + '"]');
+    if (!input) return;
+    input.addEventListener('input', function () {
+      blockIfHoneypotTriggered();
+    });
+  });
   var turnstileWidget = root.querySelector('.cf-turnstile');
   if (turnstileWidget) {
     turnstileWidget.setAttribute('data-sitekey', turnstileSiteKey);
-    var lazyLoadTurnstile = function () {
+    var loadTurnstile = function () {
+      if (blockIfHoneypotTriggered()) return;
       ensureTurnstileLoaded().catch(function () {
         setStatus(getTurnstileBlockedMessage(), 'blocked');
       });
     };
-    form.addEventListener('focusin', lazyLoadTurnstile, { once: true });
-    form.addEventListener('pointerdown', lazyLoadTurnstile, { once: true });
+    if (document.readyState === 'complete') {
+      loadTurnstile();
+    } else {
+      window.addEventListener('load', loadTurnstile, { once: true });
+    }
+    form.addEventListener('focusin', loadTurnstile, { once: true });
+    form.addEventListener('pointerdown', loadTurnstile, { once: true });
     window.setTimeout(function () {
       if (!window.turnstile && !form.querySelector('input[name="cf-turnstile-response"]')) {
         setStatus(
@@ -160,8 +178,7 @@
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    if (honeypotTriggered(form)) {
-      setStatus('Submission blocked.', 'blocked');
+    if (blockIfHoneypotTriggered()) {
       return;
     }
 
