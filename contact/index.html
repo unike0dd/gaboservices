@@ -79,11 +79,11 @@
                       <div class="field field--full contact-number-inline">
                         <div class="field">
                           <label for="contactCountryCode">Country Code</label>
-                          <input id="contactCountryCode" name="country_code" type="text" inputmode="numeric" maxlength="5" size="5" placeholder="+1" />
+                          <input id="contactCountryCode" name="country_code" type="text" inputmode="numeric" pattern="^\+?\d+$" maxlength="5" size="5" placeholder="+1" />
                         </div>
                         <div class="field">
                           <label for="contactNumber">Contact Number</label>
-                          <input id="contactNumber" name="contact_number" type="tel" autocomplete="tel-national" inputmode="numeric" maxlength="20" size="20" required />
+                          <input id="contactNumber" name="contact_number" type="tel" autocomplete="tel-national" inputmode="numeric" pattern="^\d+$" maxlength="20" size="20" required />
                         </div>
                       </div>
                     </div>
@@ -105,7 +105,7 @@
                         <div class="field"><label for="bestTimeToContact">Best Time to Contact You</label><input id="bestTimeToContact" name="best_time_to_contact" type="datetime-local" /></div>
                         <div class="field"><label for="contactCity">City</label><input id="contactCity" name="city" type="text" autocomplete="address-level2" /></div>
                         <div class="field"><label for="contactState">State/Province</label><input id="contactState" name="state_province" type="text" autocomplete="address-level1" /></div>
-                        <div class="field"><label for="contactZip">Country Zip Code</label><input id="contactZip" name="country_zip_code" type="text" autocomplete="postal-code" /></div>
+                        <div class="field"><label for="contactZip">Country Zip Code</label><input id="contactZip" name="country_zip_code" type="text" autocomplete="postal-code" inputmode="numeric" pattern="^\d+$" /></div>
                         <div class="field">
                           <label for="contactMessage">Message</label>
                           <textarea id="contactMessage" name="message" rows="5" placeholder="A quick summary of what you would like us to do." required></textarea>
