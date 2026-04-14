@@ -147,7 +147,7 @@
       if (!window.turnstile && !form.querySelector('input[name="cf-turnstile-response"]')) {
         setStatus(
           isStrictPrivacyModeEnabled()
-            ? 'Privacy protections are blocking the Turnstile challenge. Allow challenges.cloudflare.com for this page and reload.'
+            ? 'We are checking interaction. Please wait for the green check confirmation.'
             : getTurnstileBlockedMessage(),
           'blocked'
         );
