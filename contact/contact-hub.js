@@ -88,6 +88,11 @@
   var turnstileWidget = root.querySelector('.cf-turnstile');
   if (turnstileWidget) {
     turnstileWidget.setAttribute('data-sitekey', turnstileSiteKey);
+    window.setTimeout(function () {
+      if (!window.turnstile && !form.querySelector('input[name="cf-turnstile-response"]')) {
+        setStatus(getTurnstileBlockedMessage(), 'blocked');
+      }
+    }, 3500);
   }
 
   form.addEventListener('submit', async function (event) {
@@ -121,6 +126,10 @@
     }
 
     if (!turnstileTokenInput || !String(turnstileTokenInput.value || '').trim()) {
+      if (!window.turnstile) {
+        setStatus(getTurnstileBlockedMessage(), 'blocked');
+        return;
+      }
       setStatus('Please complete the Turnstile challenge to continue.', 'blocked');
       return;
     }
