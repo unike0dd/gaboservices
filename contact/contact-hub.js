@@ -10,6 +10,10 @@
   var turnstileLoaderPromise = null;
   var SUBMIT_ENDPOINT = intakeBase.replace(/\/$/, '') + '/submit/contact';
   var REQUIRED_FIELD_IDS = ['contactFullName', 'contactEmail', 'contactNumber', 'contactMessage'];
+  var TURNSTILE_BASE_WAIT_MS = 12000;
+  var TURNSTILE_ACTIVE_INTERACTION_GRACE_MS = 4000;
+  var lastInteractionAt = 0;
+  var turnstileReadinessPoller = null;
 
   function setStatus(message, state) {
     var status = root.querySelector('#formStatus');
@@ -69,6 +73,59 @@
       window.doNotTrack === '1' ||
       navigator.msDoNotTrack === '1'
     );
+  }
+
+
+  function trackInteraction() {
+    lastInteractionAt = Date.now();
+  }
+
+  function isTurnstileReady(form) {
+    return !!(
+      window.turnstile ||
+      form.querySelector('input[name="cf-turnstile-response"]') ||
+      form.querySelector('.cf-turnstile iframe')
+    );
+  }
+
+  function monitorTurnstileReadiness(form) {
+    if (isTurnstileReady(form)) return;
+
+    if (isStrictPrivacyModeEnabled()) {
+      setStatus('We are checking interaction. Please wait for the green check confirmation.', 'review');
+    }
+
+    var startedAt = Date.now();
+    var pollIntervalMs = 500;
+    if (turnstileReadinessPoller) {
+      window.clearInterval(turnstileReadinessPoller);
+    }
+
+    turnstileReadinessPoller = window.setInterval(function () {
+      if (isTurnstileReady(form)) {
+        window.clearInterval(turnstileReadinessPoller);
+        turnstileReadinessPoller = null;
+        return;
+      }
+
+      var elapsed = Date.now() - startedAt;
+      var recentInteraction = lastInteractionAt && (Date.now() - lastInteractionAt) < TURNSTILE_ACTIVE_INTERACTION_GRACE_MS;
+      if (recentInteraction) {
+        startedAt = Date.now();
+        return;
+      }
+
+      if (elapsed >= TURNSTILE_BASE_WAIT_MS) {
+        window.clearInterval(turnstileReadinessPoller);
+        turnstileReadinessPoller = null;
+        setStatus(
+          isStrictPrivacyModeEnabled()
+            ? 'We are checking interaction. Please wait for the green check confirmation.'
+            : getTurnstileBlockedMessage(),
+          'blocked'
+        );
+      }
+    }, pollIntervalMs);
   }
 
   function ensureTurnstileLoaded() {
@@ -131,6 +188,9 @@
   bindNumericInput(form.querySelector('#contactCountryCode'), true);
   bindNumericInput(form.querySelector('#contactNumber'), false);
   bindNumericInput(form.querySelector('#contactZip'), false);
+  ['focusin', 'pointerdown', 'keydown', 'input', 'change'].forEach(function (eventName) {
+    form.addEventListener(eventName, trackInteraction, { passive: true });
+  });
   var turnstileWidget = root.querySelector('.cf-turnstile');
   if (turnstileWidget) {
     turnstileWidget.setAttribute('data-sitekey', turnstileSiteKey);
@@ -190,7 +250,7 @@
 
     if (!turnstileTokenInput || !String(turnstileTokenInput.value || '').trim()) {
       if (!window.turnstile) {
-        setStatus(getTurnstileBlockedMessage(), 'blocked');
+        monitorTurnstileReadiness(form);
         return;
       }
       setStatus('Please complete the Turnstile challenge to continue.', 'blocked');
