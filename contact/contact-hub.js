@@ -6,6 +6,7 @@
   var intakeBase = (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.intakeBaseUrl) || 'https://solitary-term-4203.rulathemtodos.workers.dev';
   var turnstileSiteKey = (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.turnstileSiteKey) || '0x4AAAAAAC8lYODpHPQyGH5K';
   var SUBMIT_ENDPOINT = intakeBase.replace(/\/$/, '') + '/submit/contact';
+  var REQUIRED_FIELD_IDS = ['contactFullName', 'contactEmail', 'contactNumber', 'contactMessage'];
 
   function setStatus(message, state) {
     var status = root.querySelector('#formStatus');
@@ -55,7 +56,7 @@
     formId: 'contactForm',
     statusId: 'formStatus',
     clearKey: 'contact',
-    requiredIds: ['contactFullName', 'contactEmail', 'contactNumber', 'contactMessage'],
+    requiredIds: REQUIRED_FIELD_IDS,
     emptyMessage: 'Please complete the quick inquiry fields before submitting.',
     readyMessage: 'Quick inquiry is ready for secure submission.',
     listConfigs: [
@@ -109,7 +110,6 @@
       return;
     }
 
-    var turnstileTokenInput = form.querySelector('input[name="cf-turnstile-response"]');
     if (!turnstileTokenInput || !String(turnstileTokenInput.value || '').trim()) {
       setStatus('Please complete the Turnstile challenge to continue.', 'blocked');
       return;

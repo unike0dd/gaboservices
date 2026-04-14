@@ -6,6 +6,7 @@
   var intakeBase = (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.intakeBaseUrl) || 'https://solitary-term-4203.rulathemtodos.workers.dev';
   var turnstileSiteKey = (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.turnstileSiteKey) || '0x4AAAAAAC8lYODpHPQyGH5K';
   var SUBMIT_ENDPOINT = intakeBase.replace(/\/$/, '') + '/submit/careers';
+  var REQUIRED_FIELD_IDS = ['careerFullName', 'careerEmail', 'careerCountryCode', 'careerNumber', 'careerCity', 'careerState', 'careerZip', 'careerAvailability'];
 
   function setStatus(message, state) {
     var status = root.querySelector('#careerFormStatus');
@@ -55,7 +56,7 @@
     formId: 'careerForm',
     statusId: 'careerFormStatus',
     clearKey: 'career',
-    requiredIds: ['careerFullName', 'careerEmail', 'careerCountryCode', 'careerNumber', 'careerCity', 'careerState', 'careerZip', 'careerAvailability'],
+    requiredIds: REQUIRED_FIELD_IDS,
     emptyMessage: 'Please complete all required application fields.',
     readyMessage: 'Career application is ready for secure submission.',
     listConfigs: [
@@ -111,7 +112,6 @@
       return;
     }
 
-    var turnstileTokenInput = form.querySelector('input[name="cf-turnstile-response"]');
     if (!turnstileTokenInput || !String(turnstileTokenInput.value || '').trim()) {
       setStatus('Please complete the Turnstile challenge to continue.', 'blocked');
       return;
