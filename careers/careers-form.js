@@ -204,7 +204,14 @@
     form.addEventListener('focusin', lazyLoadTurnstile, { once: true });
     form.addEventListener('pointerdown', lazyLoadTurnstile, { once: true });
     window.setTimeout(function () {
-      monitorTurnstileReadiness(form);
+      if (!window.turnstile && !form.querySelector('input[name="cf-turnstile-response"]')) {
+        setStatus(
+          isStrictPrivacyModeEnabled()
+            ? 'We are checking interaction. Please wait for the green check confirmation.'
+            : getTurnstileBlockedMessage(),
+          'blocked'
+        );
+      }
     }, 3500);
   }
 
