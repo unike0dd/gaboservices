@@ -30,6 +30,19 @@
     return out;
   }
 
+  function bindNumericInput(input, allowPlusPrefix) {
+    if (!input) return;
+    input.addEventListener('input', function () {
+      var raw = String(input.value || '');
+      var sanitized = allowPlusPrefix
+        ? raw.replace(/[^\d+]/g, '').replace(/(?!^)\+/g, '')
+        : raw.replace(/\D/g, '');
+      if (input.value !== sanitized) {
+        input.value = sanitized;
+      }
+    });
+  }
+
   formWorkflow.create(root, {
     formId: 'contactForm',
     statusId: 'formStatus',
@@ -60,6 +73,9 @@
 
   var form = root.querySelector('#contactForm');
   if (!form) return;
+  bindNumericInput(form.querySelector('#contactCountryCode'), true);
+  bindNumericInput(form.querySelector('#contactNumber'), false);
+  bindNumericInput(form.querySelector('#contactZip'), false);
   var turnstileWidget = root.querySelector('.cf-turnstile');
   if (turnstileWidget) {
     turnstileWidget.setAttribute('data-sitekey', turnstileSiteKey);
