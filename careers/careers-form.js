@@ -137,10 +137,6 @@
   if (turnstileWidget) {
     turnstileWidget.setAttribute('data-sitekey', turnstileSiteKey);
     var lazyLoadTurnstile = function () {
-      if (honeypotTriggered(form)) {
-        setStatus('Submission blocked.', 'blocked');
-        return;
-      }
       ensureTurnstileLoaded().catch(function () {
         setStatus(getTurnstileBlockedMessage(), 'blocked');
       });
