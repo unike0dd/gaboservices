@@ -189,6 +189,11 @@
 
   var form = root.querySelector('#careerForm');
   if (!form) return;
+  function blockIfHoneypotTriggered() {
+    if (!honeypotTriggered(form)) return false;
+    setStatus('Submission blocked.', 'blocked');
+    return true;
+  }
   bindNumericInput(form.querySelector('#careerCountryCode'), true);
   bindNumericInput(form.querySelector('#careerNumber'), false);
   bindNumericInput(form.querySelector('#careerZip'), false);
@@ -227,8 +232,7 @@
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    if (honeypotTriggered(form)) {
-      setStatus('Submission blocked.', 'blocked');
+    if (blockIfHoneypotTriggered()) {
       return;
     }
 

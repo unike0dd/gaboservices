@@ -187,6 +187,11 @@
 
   var form = root.querySelector('#contactForm');
   if (!form) return;
+  function blockIfHoneypotTriggered() {
+    if (!honeypotTriggered(form)) return false;
+    setStatus('Submission blocked.', 'blocked');
+    return true;
+  }
   bindNumericInput(form.querySelector('#contactCountryCode'), true);
   bindNumericInput(form.querySelector('#contactNumber'), false);
   bindNumericInput(form.querySelector('#contactZip'), false);
@@ -225,8 +230,7 @@
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    if (honeypotTriggered(form)) {
-      setStatus('Submission blocked.', 'blocked');
+    if (blockIfHoneypotTriggered()) {
       return;
     }
 
