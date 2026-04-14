@@ -15,13 +15,12 @@
     status.dataset.state = state || '';
   }
 
-  function getInvalidFieldNames(form, fieldIds) {
-    return (fieldIds || []).map(function (fieldId) {
-      var field = form.querySelector('#' + fieldId);
-      if (!field || typeof field.checkValidity !== 'function' || field.checkValidity()) return '';
+  function getInvalidFieldNames(form) {
+    return Array.from(form.querySelectorAll(':invalid')).map(function (field) {
+      if (!field.id) return field.name || 'Field';
       var label = form.querySelector('label[for="' + field.id + '"]');
-      return (label && label.textContent && label.textContent.trim()) || field.name || field.id || 'Field';
-    }).filter(Boolean);
+      return (label && label.textContent && label.textContent.trim()) || field.name || field.id;
+    });
   }
 
   function formToPlainObject(form) {
@@ -94,18 +93,8 @@
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    var turnstileTokenInput = form.querySelector('input[name="cf-turnstile-response"]');
-    var turnstileWasRequired = !!(turnstileTokenInput && turnstileTokenInput.hasAttribute('required'));
-    if (turnstileWasRequired) {
-      turnstileTokenInput.removeAttribute('required');
-    }
-    var formValidityWithoutTurnstile = form.checkValidity();
-    if (turnstileWasRequired) {
-      turnstileTokenInput.setAttribute('required', 'required');
-    }
-
-    if (!formValidityWithoutTurnstile) {
-      var invalidFields = getInvalidFieldNames(form, REQUIRED_FIELD_IDS);
+    if (!form.checkValidity()) {
+      var invalidFields = getInvalidFieldNames(form);
       if (invalidFields.length) {
         setStatus('Please complete all required fields: ' + invalidFields.join(', ') + '.', 'blocked');
         form.querySelector(':invalid').focus();
