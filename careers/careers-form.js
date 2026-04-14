@@ -71,6 +71,10 @@
     );
   }
 
+  function getTurnstileBlockedMessage() {
+    return 'Turnstile verification is blocked by browser tracking prevention. Allow challenges.cloudflare.com for this page, then refresh.';
+  }
+
   function ensureTurnstileLoaded() {
     if (window.turnstile) return Promise.resolve(window.turnstile);
     if (turnstileLoaderPromise) return turnstileLoaderPromise;
@@ -136,6 +140,10 @@
   var turnstileWidget = root.querySelector('.cf-turnstile');
   if (turnstileWidget) {
     turnstileWidget.setAttribute('data-sitekey', turnstileSiteKey);
+    if (isStrictPrivacyModeEnabled()) {
+      setStatus(getTurnstileBlockedMessage(), 'blocked');
+      return;
+    }
     var lazyLoadTurnstile = function () {
       ensureTurnstileLoaded().catch(function () {
         setStatus(getTurnstileBlockedMessage(), 'blocked');
@@ -146,9 +154,7 @@
     window.setTimeout(function () {
       if (!window.turnstile && !form.querySelector('input[name="cf-turnstile-response"]')) {
         setStatus(
-          isStrictPrivacyModeEnabled()
-            ? 'We are checking interaction. Please wait for the green check confirmation.'
-            : getTurnstileBlockedMessage(),
+          getTurnstileBlockedMessage(),
           'blocked'
         );
       }
