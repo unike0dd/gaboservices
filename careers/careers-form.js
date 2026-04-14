@@ -71,6 +71,43 @@
     );
   }
 
+
+  function isTurnstileReady(form) {
+    return !!(
+      window.turnstile ||
+      form.querySelector('input[name="cf-turnstile-response"]') ||
+      form.querySelector('.cf-turnstile iframe')
+    );
+  }
+
+  function monitorTurnstileReadiness(form) {
+    if (isTurnstileReady(form)) return;
+
+    if (isStrictPrivacyModeEnabled()) {
+      setStatus('We are checking interaction. Please wait for the green check confirmation.', 'review');
+    }
+
+    var startedAt = Date.now();
+    var maxWaitMs = 12000;
+    var pollIntervalMs = 500;
+    var poller = window.setInterval(function () {
+      if (isTurnstileReady(form)) {
+        window.clearInterval(poller);
+        return;
+      }
+
+      if (Date.now() - startedAt >= maxWaitMs) {
+        window.clearInterval(poller);
+        setStatus(
+          isStrictPrivacyModeEnabled()
+            ? 'We are checking interaction. Please wait for the green check confirmation.'
+            : getTurnstileBlockedMessage(),
+          'blocked'
+        );
+      }
+    }, pollIntervalMs);
+  }
+
   function ensureTurnstileLoaded() {
     if (window.turnstile) return Promise.resolve(window.turnstile);
     if (turnstileLoaderPromise) return turnstileLoaderPromise;
@@ -144,14 +181,7 @@
     form.addEventListener('focusin', lazyLoadTurnstile, { once: true });
     form.addEventListener('pointerdown', lazyLoadTurnstile, { once: true });
     window.setTimeout(function () {
-      if (!window.turnstile && !form.querySelector('input[name="cf-turnstile-response"]')) {
-        setStatus(
-          isStrictPrivacyModeEnabled()
-            ? 'Privacy protections are blocking the Turnstile challenge. Allow challenges.cloudflare.com for this page and reload.'
-            : getTurnstileBlockedMessage(),
-          'blocked'
-        );
-      }
+      monitorTurnstileReadiness(form);
     }, 3500);
   }
 
@@ -192,7 +222,7 @@
 
     if (!turnstileTokenInput || !String(turnstileTokenInput.value || '').trim()) {
       if (!window.turnstile) {
-        setStatus(getTurnstileBlockedMessage(), 'blocked');
+        monitorTurnstileReadiness(form);
         return;
       }
       setStatus('Please complete the Turnstile challenge to continue.', 'blocked');
