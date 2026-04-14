@@ -2,6 +2,7 @@ const DEFAULT_UPSTREAM_URL = "https://solitary-term-4203.rulathemtodos.workers.d
 
 const CODE_SIGNATURE_PATTERN =
   /(javascript:|data:text\/html|vbscript:|<script|<iframe|<object|<embed|onerror\s*=|onload\s*=|onclick\s*=|function\s*\(|=>|\beval\b|document\.cookie|localStorage|sessionStorage|\bSELECT\b|\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bDROP\b|\bUNION\b|\bCREATE\b|\bALTER\b|\{\{|\}\}|<\?|\?>)/gi;
+const HONEYPOT_FIELDS = ["company_website", "portfolio_url"];
 
 export default {
   async fetch(request, env) {
@@ -45,6 +46,10 @@ export default {
         request,
         env
       );
+    }
+
+    if (honeypotTriggered(payload)) {
+      return json({ ok: false, error: "Submission blocked." }, 403, request, env);
     }
 
     const turnstileToken = extractTurnstileToken(payload);
@@ -125,6 +130,11 @@ function resolveRoute(pathname) {
   }
 
   return null;
+}
+
+function honeypotTriggered(payload) {
+  if (!payload || typeof payload !== "object") return false;
+  return HONEYPOT_FIELDS.some((key) => String(payload[key] || "").trim().length > 0);
 }
 
 function resolveDestinationConfig(route, env) {

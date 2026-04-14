@@ -5,6 +5,9 @@
 
   var intakeBase = (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.intakeBaseUrl) || 'https://solitary-term-4203.rulathemtodos.workers.dev';
   var turnstileSiteKey = (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.turnstileSiteKey) || '0x4AAAAAAC8lYODpHPQyGH5K';
+  var TURNSTILE_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+  var HONEYPOT_FIELDS = ['company_website'];
+  var turnstileLoaderPromise = null;
   var SUBMIT_ENDPOINT = intakeBase.replace(/\/$/, '') + '/submit/contact';
   var REQUIRED_FIELD_IDS = ['contactFullName', 'contactEmail', 'contactNumber', 'contactMessage'];
 
@@ -39,6 +42,13 @@
     return out;
   }
 
+  function honeypotTriggered(form) {
+    return HONEYPOT_FIELDS.some(function (name) {
+      var input = form.querySelector('input[name="' + name + '"]');
+      return !!(input && String(input.value || '').trim());
+    });
+  }
+
   function bindNumericInput(input, allowPlusPrefix) {
     if (!input) return;
     input.addEventListener('input', function () {
@@ -50,6 +60,42 @@
         input.value = sanitized;
       }
     });
+  }
+
+  function isStrictPrivacyModeEnabled() {
+    return (
+      navigator.globalPrivacyControl === true ||
+      navigator.doNotTrack === '1' ||
+      window.doNotTrack === '1' ||
+      navigator.msDoNotTrack === '1'
+    );
+  }
+
+  function ensureTurnstileLoaded() {
+    if (window.turnstile) return Promise.resolve(window.turnstile);
+    if (turnstileLoaderPromise) return turnstileLoaderPromise;
+
+    turnstileLoaderPromise = new Promise(function (resolve, reject) {
+      var existingScript = document.querySelector('script[src="' + TURNSTILE_SRC + '"]');
+      if (existingScript) {
+        existingScript.addEventListener('load', function () { resolve(window.turnstile); }, { once: true });
+        existingScript.addEventListener('error', function () { reject(new Error('Unable to load Turnstile challenge script.')); }, { once: true });
+        return;
+      }
+
+      var script = document.createElement('script');
+      script.src = TURNSTILE_SRC;
+      script.async = true;
+      script.defer = true;
+      script.onload = function () { resolve(window.turnstile); };
+      script.onerror = function () { reject(new Error('Unable to load Turnstile challenge script.')); };
+      document.head.appendChild(script);
+    }).catch(function (error) {
+      turnstileLoaderPromise = null;
+      throw error;
+    });
+
+    return turnstileLoaderPromise;
   }
 
   formWorkflow.create(root, {
@@ -88,15 +134,32 @@
   var turnstileWidget = root.querySelector('.cf-turnstile');
   if (turnstileWidget) {
     turnstileWidget.setAttribute('data-sitekey', turnstileSiteKey);
+    var lazyLoadTurnstile = function () {
+      ensureTurnstileLoaded().catch(function () {
+        setStatus(getTurnstileBlockedMessage(), 'blocked');
+      });
+    };
+    form.addEventListener('focusin', lazyLoadTurnstile, { once: true });
+    form.addEventListener('pointerdown', lazyLoadTurnstile, { once: true });
     window.setTimeout(function () {
       if (!window.turnstile && !form.querySelector('input[name="cf-turnstile-response"]')) {
-        setStatus(getTurnstileBlockedMessage(), 'blocked');
+        setStatus(
+          isStrictPrivacyModeEnabled()
+            ? 'Privacy protections are blocking the Turnstile challenge. Allow challenges.cloudflare.com for this page and reload.'
+            : getTurnstileBlockedMessage(),
+          'blocked'
+        );
       }
     }, 3500);
   }
 
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
+
+    if (honeypotTriggered(form)) {
+      setStatus('Submission blocked.', 'blocked');
+      return;
+    }
 
     var turnstileTokenInput = form.querySelector('input[name="cf-turnstile-response"]');
     var turnstileWasRequired = !!(turnstileTokenInput && turnstileTokenInput.hasAttribute('required'));
