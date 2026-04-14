@@ -10,6 +10,10 @@
   var turnstileLoaderPromise = null;
   var SUBMIT_ENDPOINT = intakeBase.replace(/\/$/, '') + '/submit/contact';
   var REQUIRED_FIELD_IDS = ['contactFullName', 'contactEmail', 'contactNumber', 'contactMessage'];
+  var TURNSTILE_BASE_WAIT_MS = 12000;
+  var TURNSTILE_ACTIVE_INTERACTION_GRACE_MS = 4000;
+  var lastInteractionAt = 0;
+  var turnstileReadinessPoller = null;
 
   function setStatus(message, state) {
     var status = root.querySelector('#formStatus');
@@ -72,6 +76,10 @@
   }
 
 
+  function trackInteraction() {
+    lastInteractionAt = Date.now();
+  }
+
   function isTurnstileReady(form) {
     return !!(
       window.turnstile ||
@@ -88,16 +96,28 @@
     }
 
     var startedAt = Date.now();
-    var maxWaitMs = 12000;
     var pollIntervalMs = 500;
-    var poller = window.setInterval(function () {
+    if (turnstileReadinessPoller) {
+      window.clearInterval(turnstileReadinessPoller);
+    }
+
+    turnstileReadinessPoller = window.setInterval(function () {
       if (isTurnstileReady(form)) {
-        window.clearInterval(poller);
+        window.clearInterval(turnstileReadinessPoller);
+        turnstileReadinessPoller = null;
         return;
       }
 
-      if (Date.now() - startedAt >= maxWaitMs) {
-        window.clearInterval(poller);
+      var elapsed = Date.now() - startedAt;
+      var recentInteraction = lastInteractionAt && (Date.now() - lastInteractionAt) < TURNSTILE_ACTIVE_INTERACTION_GRACE_MS;
+      if (recentInteraction) {
+        startedAt = Date.now();
+        return;
+      }
+
+      if (elapsed >= TURNSTILE_BASE_WAIT_MS) {
+        window.clearInterval(turnstileReadinessPoller);
+        turnstileReadinessPoller = null;
         setStatus(
           isStrictPrivacyModeEnabled()
             ? 'We are checking interaction. Please wait for the green check confirmation.'
@@ -168,6 +188,9 @@
   bindNumericInput(form.querySelector('#contactCountryCode'), true);
   bindNumericInput(form.querySelector('#contactNumber'), false);
   bindNumericInput(form.querySelector('#contactZip'), false);
+  ['focusin', 'pointerdown', 'keydown', 'input', 'change'].forEach(function (eventName) {
+    form.addEventListener(eventName, trackInteraction, { passive: true });
+  });
   var turnstileWidget = root.querySelector('.cf-turnstile');
   if (turnstileWidget) {
     turnstileWidget.setAttribute('data-sitekey', turnstileSiteKey);
