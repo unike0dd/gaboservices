@@ -71,6 +71,12 @@
     );
   }
 
+  function getTurnstileBlockedMessage() {
+    return isStrictPrivacyModeEnabled()
+      ? 'Privacy protections are blocking the Turnstile challenge. Allow challenges.cloudflare.com for this page and reload.'
+      : 'Unable to load the Turnstile challenge. Disable blocker extensions for challenges.cloudflare.com and reload.';
+  }
+
   function ensureTurnstileLoaded() {
     if (window.turnstile) return Promise.resolve(window.turnstile);
     if (turnstileLoaderPromise) return turnstileLoaderPromise;
@@ -146,9 +152,7 @@
     window.setTimeout(function () {
       if (!window.turnstile && !form.querySelector('input[name="cf-turnstile-response"]')) {
         setStatus(
-          isStrictPrivacyModeEnabled()
-            ? 'Privacy protections are blocking the Turnstile challenge. Allow challenges.cloudflare.com for this page and reload.'
-            : getTurnstileBlockedMessage(),
+          getTurnstileBlockedMessage(),
           'blocked'
         );
       }
