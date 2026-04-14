@@ -14,6 +14,14 @@
     status.dataset.state = state || '';
   }
 
+  function getInvalidFieldNames(form) {
+    return Array.from(form.querySelectorAll(':invalid')).map(function (field) {
+      if (!field.id) return field.name || 'Field';
+      var label = form.querySelector('label[for="' + field.id + '"]');
+      return (label && label.textContent && label.textContent.trim()) || field.name || field.id;
+    });
+  }
+
   function formToPlainObject(form) {
     var formData = new FormData(form);
     var out = {};
@@ -28,6 +36,19 @@
     });
 
     return out;
+  }
+
+  function bindNumericInput(input, allowPlusPrefix) {
+    if (!input) return;
+    input.addEventListener('input', function () {
+      var raw = String(input.value || '');
+      var sanitized = allowPlusPrefix
+        ? raw.replace(/[^\d+]/g, '').replace(/(?!^)\+/g, '')
+        : raw.replace(/\D/g, '');
+      if (input.value !== sanitized) {
+        input.value = sanitized;
+      }
+    });
   }
 
   formWorkflow.create(root, {
@@ -62,6 +83,9 @@
 
   var form = root.querySelector('#careerForm');
   if (!form) return;
+  bindNumericInput(form.querySelector('#careerCountryCode'), true);
+  bindNumericInput(form.querySelector('#careerNumber'), false);
+  bindNumericInput(form.querySelector('#careerZip'), false);
   var turnstileWidget = root.querySelector('.cf-turnstile');
   if (turnstileWidget) {
     turnstileWidget.setAttribute('data-sitekey', turnstileSiteKey);
@@ -71,7 +95,13 @@
     event.preventDefault();
 
     if (!form.checkValidity()) {
-      setStatus('Please complete all required fields.', 'blocked');
+      var invalidFields = getInvalidFieldNames(form);
+      if (invalidFields.length) {
+        setStatus('Please complete all required fields: ' + invalidFields.join(', ') + '.', 'blocked');
+        form.querySelector(':invalid').focus();
+      } else {
+        setStatus('Please complete all required fields.', 'blocked');
+      }
       return;
     }
 
