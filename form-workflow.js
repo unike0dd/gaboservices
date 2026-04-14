@@ -2,6 +2,19 @@
   function createFormWorkflow(root, options) {
     if (!root || !options) return null;
 
+    function getFieldLabel(field) {
+      if (!field || !field.id) return 'This field';
+      var label = root.querySelector('label[for="' + field.id + '"]');
+      if (!label) return field.name || field.id;
+      return (label.textContent || '').trim() || field.name || field.id;
+    }
+
+    function clearFieldErrors() {
+      root.querySelectorAll('[aria-invalid="true"]').forEach(function (field) {
+        field.removeAttribute('aria-invalid');
+      });
+    }
+
     function getCheckedValues(selector) {
       return Array.from(root.querySelectorAll(selector + ':checked')).map(function (el) { return el.value; });
     }
@@ -43,7 +56,15 @@
 
       function addItem() {
         var value = input.value.trim();
-        if (!value) return;
+        if (!value) {
+          var statusEmpty = root.querySelector('#' + options.statusId);
+          if (statusEmpty) {
+            statusEmpty.textContent = 'Please complete the "' + getFieldLabel(input) + '" entry before adding.';
+            statusEmpty.dataset.state = 'blocked';
+          }
+          input.focus();
+          return;
+        }
         createPill(listEl, hiddenEl, value);
         input.value = '';
         input.focus();
@@ -69,7 +90,19 @@
       function addItem() {
         var label = input.value.trim();
         var level = select.value.trim();
-        if (!label || !level) return;
+        if (!label || !level) {
+          var statusMissing = root.querySelector('#' + options.statusId);
+          if (statusMissing) {
+            var missingParts = [];
+            if (!label) missingParts.push(getFieldLabel(input) + ' entry');
+            if (!level) missingParts.push(getFieldLabel(select) + ' selection');
+            statusMissing.textContent = 'Please complete: ' + missingParts.join(' and ') + '.';
+            statusMissing.dataset.state = 'blocked';
+          }
+          if (!label) input.focus();
+          else select.focus();
+          return;
+        }
         createPill(listEl, hiddenEl, label + ' — ' + level);
         input.value = '';
         select.selectedIndex = 0;
@@ -98,11 +131,23 @@
     }
 
     function validateRequiredFields(requiredIds, emptyMessage) {
+      clearFieldErrors();
+      var missingLabels = [];
+      var firstInvalid = null;
       for (var i = 0; i < requiredIds.length; i++) {
         var field = root.querySelector('#' + requiredIds[i]);
-        if (!field || !field.value.trim()) return emptyMessage;
+        if (!field) continue;
+        var value = typeof field.value === 'string' ? field.value.trim() : '';
+        var invalid = !value || (typeof field.checkValidity === 'function' && !field.checkValidity());
+        if (invalid) {
+          field.setAttribute('aria-invalid', 'true');
+          missingLabels.push(getFieldLabel(field));
+          if (!firstInvalid) firstInvalid = field;
+        }
       }
-      return '';
+      if (!missingLabels.length) return '';
+      if (firstInvalid && typeof firstInvalid.focus === 'function') firstInvalid.focus();
+      return (emptyMessage || 'Please complete all required fields.') + ': ' + missingLabels.join(', ') + '.';
     }
 
     (options.listConfigs || []).forEach(function (config) {
