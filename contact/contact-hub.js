@@ -6,12 +6,22 @@
   var intakeBase = (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.intakeBaseUrl) || 'https://solitary-term-4203.rulathemtodos.workers.dev';
   var turnstileSiteKey = (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.turnstileSiteKey) || '0x4AAAAAAC8lYODpHPQyGH5K';
   var SUBMIT_ENDPOINT = intakeBase.replace(/\/$/, '') + '/submit/contact';
+  var REQUIRED_FIELD_IDS = ['contactFullName', 'contactEmail', 'contactNumber', 'contactMessage'];
 
   function setStatus(message, state) {
     var status = root.querySelector('#formStatus');
     if (!status) return;
     status.textContent = message;
     status.dataset.state = state || '';
+  }
+
+  function getInvalidFieldNames(form, fieldIds) {
+    return (fieldIds || []).map(function (fieldId) {
+      var field = form.querySelector('#' + fieldId);
+      if (!field || typeof field.checkValidity !== 'function' || field.checkValidity()) return '';
+      var label = form.querySelector('label[for="' + field.id + '"]');
+      return (label && label.textContent && label.textContent.trim()) || field.name || field.id || 'Field';
+    }).filter(Boolean);
   }
 
   function formToPlainObject(form) {
@@ -30,11 +40,24 @@
     return out;
   }
 
+  function bindNumericInput(input, allowPlusPrefix) {
+    if (!input) return;
+    input.addEventListener('input', function () {
+      var raw = String(input.value || '');
+      var sanitized = allowPlusPrefix
+        ? raw.replace(/[^\d+]/g, '').replace(/(?!^)\+/g, '')
+        : raw.replace(/\D/g, '');
+      if (input.value !== sanitized) {
+        input.value = sanitized;
+      }
+    });
+  }
+
   formWorkflow.create(root, {
     formId: 'contactForm',
     statusId: 'formStatus',
     clearKey: 'contact',
-    requiredIds: ['contactFullName', 'contactEmail', 'contactNumber', 'contactMessage'],
+    requiredIds: REQUIRED_FIELD_IDS,
     emptyMessage: 'Please complete the quick inquiry fields before submitting.',
     readyMessage: 'Quick inquiry is ready for secure submission.',
     listConfigs: [
@@ -60,6 +83,9 @@
 
   var form = root.querySelector('#contactForm');
   if (!form) return;
+  bindNumericInput(form.querySelector('#contactCountryCode'), true);
+  bindNumericInput(form.querySelector('#contactNumber'), false);
+  bindNumericInput(form.querySelector('#contactZip'), false);
   var turnstileWidget = root.querySelector('.cf-turnstile');
   if (turnstileWidget) {
     turnstileWidget.setAttribute('data-sitekey', turnstileSiteKey);
@@ -69,7 +95,13 @@
     event.preventDefault();
 
     if (!form.checkValidity()) {
-      setStatus('Please complete all required fields.', 'blocked');
+      var invalidFields = getInvalidFieldNames(form, REQUIRED_FIELD_IDS);
+      if (invalidFields.length) {
+        setStatus('Please complete all required fields: ' + invalidFields.join(', ') + '.', 'blocked');
+        form.querySelector(':invalid').focus();
+      } else {
+        setStatus('Please complete all required fields.', 'blocked');
+      }
       return;
     }
 

@@ -144,11 +144,11 @@
                     <div class="grid grid--2">
                       <div class="field"><label for="careerFullName">Full Name</label><input id="careerFullName" name="full_name" type="text" autocomplete="name" required /></div>
                       <div class="field"><label for="careerEmail">Email Address</label><input id="careerEmail" name="email_address" type="email" autocomplete="email" required /></div>
-                      <div class="field"><label for="careerCountryCode">Country Code</label><input id="careerCountryCode" name="country_code" type="text" placeholder="+1" required /></div>
-                      <div class="field"><label for="careerNumber">Contact Number</label><input id="careerNumber" name="contact_number" type="tel" autocomplete="tel-national" required /></div>
+                      <div class="field"><label for="careerCountryCode">Country Code</label><input id="careerCountryCode" name="country_code" type="text" inputmode="numeric" pattern="^\+?\d+$" placeholder="+1" required /></div>
+                      <div class="field"><label for="careerNumber">Contact Number</label><input id="careerNumber" name="contact_number" type="tel" autocomplete="tel-national" inputmode="numeric" pattern="^\d+$" required /></div>
                       <div class="field"><label for="careerCity">City</label><input id="careerCity" name="city" type="text" autocomplete="address-level2" required /></div>
                       <div class="field"><label for="careerState">State/Province</label><input id="careerState" name="state_province" type="text" autocomplete="address-level1" required /></div>
-                      <div class="field"><label for="careerZip">Country Zip Code</label><input id="careerZip" name="country_zip_code" type="text" autocomplete="postal-code" required /></div>
+                      <div class="field"><label for="careerZip">Country Zip Code</label><input id="careerZip" name="country_zip_code" type="text" autocomplete="postal-code" inputmode="numeric" pattern="^\d+$" required /></div>
                       <div class="field"><label for="careerAvailability">Availability</label><input id="careerAvailability" name="availability" type="datetime-local" required /></div>
                     </div>
                   </section>
@@ -226,7 +226,7 @@
                         <div class="dynamic__entry dynamic__entry--triple">
                           <input id="careerEducationInput" type="text" placeholder="Add school, program, or certificate" />
                           <select id="careerEducationLevel">
-                            <option value="">Select level</option><option value="Grammar School">Grammar School</option><option value="Some High School">Some High School</option><option value="High School">High School</option><option value="Some College">Some College</option><option value="Associate Degree">Associate Degree</option><option value="Bachelor">Bachelor</option><option value="Masters">Masters</option><option value="PhD">PhD</option>
+                            <option value="">Select level</option><option value="Grammar School">Grammar School</option><option value="Some High School">Some High School</option><option value="High School">High School</option><option value="Some College">Some College</option><option value="Associate Degree">Associate Degree</option><option value="Bachelor">Bachelor</option><option value="Masters">Masters</option><option value="PhD">PhD</option><option value="Certified">Certified</option>
                           </select>
                           <button type="button" id="careerEducationAdd" class="btn btn--soft">Add</button>
                         </div>
