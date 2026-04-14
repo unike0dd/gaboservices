@@ -95,8 +95,18 @@
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    if (!form.checkValidity()) {
-      var invalidFields = getInvalidFieldNames(form);
+    var turnstileTokenInput = form.querySelector('input[name="cf-turnstile-response"]');
+    var turnstileWasRequired = !!(turnstileTokenInput && turnstileTokenInput.hasAttribute('required'));
+    if (turnstileWasRequired) {
+      turnstileTokenInput.removeAttribute('required');
+    }
+    var formValidityWithoutTurnstile = form.checkValidity();
+    if (turnstileWasRequired) {
+      turnstileTokenInput.setAttribute('required', 'required');
+    }
+
+    if (!formValidityWithoutTurnstile) {
+      var invalidFields = getInvalidFieldNames(form, REQUIRED_FIELD_IDS);
       if (invalidFields.length) {
         setStatus('Please complete all required fields: ' + invalidFields.join(', ') + '.', 'blocked');
         form.querySelector(':invalid').focus();
