@@ -96,7 +96,17 @@
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    if (!form.checkValidity()) {
+    var turnstileTokenInput = form.querySelector('input[name="cf-turnstile-response"]');
+    var turnstileWasRequired = !!(turnstileTokenInput && turnstileTokenInput.hasAttribute('required'));
+    if (turnstileWasRequired) {
+      turnstileTokenInput.removeAttribute('required');
+    }
+    var formValidityWithoutTurnstile = form.checkValidity();
+    if (turnstileWasRequired) {
+      turnstileTokenInput.setAttribute('required', 'required');
+    }
+
+    if (!formValidityWithoutTurnstile) {
       var invalidFields = getInvalidFieldNames(form, REQUIRED_FIELD_IDS);
       if (invalidFields.length) {
         setStatus('Please complete all required fields: ' + invalidFields.join(', ') + '.', 'blocked');
@@ -113,7 +123,6 @@
       return;
     }
 
-    var turnstileTokenInput = form.querySelector('input[name="cf-turnstile-response"]');
     if (!turnstileTokenInput || !String(turnstileTokenInput.value || '').trim()) {
       setStatus('Please complete the Turnstile challenge to continue.', 'blocked');
       return;
