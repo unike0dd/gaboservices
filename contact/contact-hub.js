@@ -15,13 +15,12 @@
     status.dataset.state = state || '';
   }
 
-  function getInvalidFieldNames(form, fieldIds) {
-    return (fieldIds || []).map(function (fieldId) {
-      var field = form.querySelector('#' + fieldId);
-      if (!field || typeof field.checkValidity !== 'function' || field.checkValidity()) return '';
+  function getInvalidFieldNames(form) {
+    return Array.from(form.querySelectorAll(':invalid')).map(function (field) {
+      if (!field.id) return field.name || 'Field';
       var label = form.querySelector('label[for="' + field.id + '"]');
-      return (label && label.textContent && label.textContent.trim()) || field.name || field.id || 'Field';
-    }).filter(Boolean);
+      return (label && label.textContent && label.textContent.trim()) || field.name || field.id;
+    });
   }
 
   function formToPlainObject(form) {
