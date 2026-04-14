@@ -14,6 +14,14 @@
     status.dataset.state = state || '';
   }
 
+  function getInvalidFieldNames(form) {
+    return Array.from(form.querySelectorAll(':invalid')).map(function (field) {
+      if (!field.id) return field.name || 'Field';
+      var label = form.querySelector('label[for="' + field.id + '"]');
+      return (label && label.textContent && label.textContent.trim()) || field.name || field.id;
+    });
+  }
+
   function formToPlainObject(form) {
     var formData = new FormData(form);
     var out = {};
@@ -85,7 +93,13 @@
     event.preventDefault();
 
     if (!form.checkValidity()) {
-      setStatus('Please complete all required fields.', 'blocked');
+      var invalidFields = getInvalidFieldNames(form);
+      if (invalidFields.length) {
+        setStatus('Please complete all required fields: ' + invalidFields.join(', ') + '.', 'blocked');
+        form.querySelector(':invalid').focus();
+      } else {
+        setStatus('Please complete all required fields.', 'blocked');
+      }
       return;
     }
 
