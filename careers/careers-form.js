@@ -63,11 +63,9 @@
     });
   }
 
-
-
-
-
-
+  function getOpsAssetId() {
+    return String(originAssetMap[window.location.origin] || '').trim();
+  }
 
   async function parseResponsePayload(response) {
     var contentType = String(response.headers.get('content-type') || '').toLowerCase();
@@ -85,13 +83,6 @@
       return null;
     }
   }
-
-  function getOpsAssetId() {
-    return String(originAssetMap[window.location.origin] || '').trim();
-  }
-
-
-
 
   formWorkflow.create(root, {
     formId: 'careerForm',
@@ -125,11 +116,13 @@
 
   var form = root.querySelector('#careerForm');
   if (!form) return;
+
   function blockIfHoneypotTriggered() {
     if (!honeypotTriggered(form)) return false;
     setStatus('Submission blocked.', 'blocked');
     return true;
   }
+
   bindNumericInput(form.querySelector('#careerCountryCode'), true);
   bindNumericInput(form.querySelector('#careerNumber'), false);
   bindNumericInput(form.querySelector('#careerZip'), false);
@@ -152,7 +145,6 @@
       return;
     }
 
-
     if (!root.querySelectorAll('input[name="career_interest[]"]:checked').length) {
       setStatus('Please select at least one area of interest.', 'blocked');
       return;
@@ -167,21 +159,17 @@
     try {
       setStatus('Scanning and sanitizing your application...', 'review');
       var payload = formToPlainObject(form);
-      var submitAttempt = async function (activePayload) {
-        return fetch(SUBMIT_ENDPOINT, {
-          method: 'POST',
-          headers: {
-            'content-type': 'application/json',
-            'x-ops-asset-id': opsAssetId
-          },
-          body: JSON.stringify(activePayload)
-        });
-      };
-      var response = await submitAttempt(payload);
+      var response = await fetch(SUBMIT_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'x-ops-asset-id': opsAssetId
+        },
+        body: JSON.stringify(payload)
+      });
       var responsePayload = await parseResponsePayload(response);
-
       if (!response.ok) {
-        throw new Error('Secure career relay failed.');
+        throw new Error((responsePayload && responsePayload.error) || 'Secure career relay failed.');
       }
 
       setStatus('Career application sent securely to Google Sheets intake.', 'success');
