@@ -147,6 +147,49 @@
   function monitorTurnstileReadiness(form) {
     if (isTurnstileReady(form)) return;
 
+  async function parseResponsePayload(response) {
+    var contentType = String(response.headers.get('content-type') || '').toLowerCase();
+    if (contentType.indexOf('application/json') >= 0) {
+      try {
+        return await response.json();
+      } catch (error) {
+        return null;
+      }
+    }
+    try {
+      var text = await response.text();
+      return { detail: text };
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function getOpsAssetId() {
+    return String(originAssetMap[window.location.origin] || '').trim();
+  }
+
+  async function refreshTurnstileToken(form, turnstileWidget) {
+    if (!window.turnstile || !turnstileWidget) return '';
+    window.turnstile.reset(turnstileWidget);
+    if (typeof window.turnstile.execute === 'function') {
+      try {
+        window.turnstile.execute(turnstileWidget);
+      } catch (error) {
+        return '';
+      }
+    }
+    var maxChecks = 12;
+    for (var i = 0; i < maxChecks; i += 1) {
+      var refreshed = readTurnstileToken(form, '');
+      if (refreshed) return refreshed;
+      await new Promise(function (resolve) { window.setTimeout(resolve, 350); });
+    }
+    return '';
+  }
+
+  function monitorTurnstileReadiness(form) {
+    if (isTurnstileReady(form)) return;
+
     var startedAt = Date.now();
     var pollIntervalMs = 500;
     if (turnstileReadinessPoller) {
@@ -249,6 +292,11 @@
       }
       setStatus('Turnstile check expired. Please complete it again.', 'blocked');
     };
+    if (isStrictPrivacyModeEnabled()) {
+      turnstileUnavailable = true;
+      setStatus(getTurnstileBlockedMessage(), 'blocked');
+      turnstileWidget.setAttribute('aria-hidden', 'true');
+    }
     var lazyLoadTurnstile = function () {
       if (turnstileUnavailable) return;
       ensureTurnstileLoaded().catch(function () {
