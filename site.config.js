@@ -26,7 +26,6 @@ window.SITE_METADATA = {
     cspProfile: 'strict-static-site-v1',
     controlFamilies: ['SEO', 'CSP', 'CISA', 'CIS Controls', 'NIST CSF', 'OWASP ASVS', 'PCI DSS 4.0'],
     allowlistedFrameHosts: [
-      'https://challenges.cloudflare.com',
       'https://www.youtube-nocookie.com'
     ]
   },
@@ -38,8 +37,7 @@ window.SITE_METADATA = {
     }
   },
   forms: {
-    intakeBaseUrl: 'https://solitary-term-4203.rulathemtodos.workers.dev',
-    turnstileSiteKey: '0x4AAAAAAC8lYODpHPQyGH5K'
+    intakeBaseUrl: 'https://solitary-term-4203.rulathemtodos.workers.dev'
   },
   chatbot: {
     originAssetMap: {
