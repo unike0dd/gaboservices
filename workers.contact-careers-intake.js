@@ -52,7 +52,22 @@ export default {
       return json({ ok: false, error: "Submission blocked." }, 403, request, env);
     }
 
-    const sanitized = sanitizePayload(payload);
+    const turnstileToken = extractTurnstileToken(payload);
+    const enforceTurnstile = shouldEnforceTurnstile(env);
+    if (enforceTurnstile && !turnstileToken) {
+      return json(
+        {
+          ok: false,
+          error: "Missing Turnstile token.",
+          code: "turnstile_token_missing",
+        },
+        403,
+        request,
+        env
+      );
+    }
+
+    const sanitized = sanitizePayload(stripTurnstileFields(payload));
 
     if (!sanitized.accepted) {
       return json(
@@ -77,6 +92,7 @@ export default {
       },
       body: JSON.stringify({
         ...sanitized.data,
+        ...(turnstileToken ? { turnstileToken } : {}),
       }),
     });
 
@@ -166,6 +182,29 @@ async function parseIncomingBody(request) {
   }
 
   throw new Error("Unsupported content type");
+}
+
+function shouldEnforceTurnstile(env) {
+  const raw = String(env.TURNSTILE_ENFORCE || "").trim().toLowerCase();
+  return raw === "1" || raw === "true" || raw === "yes" || raw === "on";
+}
+
+function extractTurnstileToken(payload) {
+  if (!payload || typeof payload !== "object") return "";
+  return String(
+    payload.turnstileToken ||
+      payload["cf-turnstile-response"] ||
+      payload.cf_turnstile_response ||
+      ""
+  ).trim();
+}
+
+function stripTurnstileFields(payload) {
+  const clone = { ...(payload || {}) };
+  delete clone.turnstileToken;
+  delete clone["cf-turnstile-response"];
+  delete clone.cf_turnstile_response;
+  return clone;
 }
 
 function sanitizePayload(input) {
