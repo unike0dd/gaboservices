@@ -23,6 +23,5 @@ Check the final, user-facing route (e.g. `/careers/`) and confirm only the inten
 ## 5) Common source entries for this site
 - `https://www.gabo.services`
 - `https://gabo.services`
-- `https://challenges.cloudflare.com`
 - `https://static.cloudflareinsights.com`
 
