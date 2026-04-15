@@ -68,8 +68,8 @@ All of the following can be implemented without paid services and without adding
    - `scripts/update-locale-sitemap.js` now includes the English base routes only.
 4. **Per-route CSP continuity preserved**
    - Restored page-level CSP meta directives on key routes to preserve existing origin/ID checks expected by current Cloudflare Worker communication paths.
-5. **Turnstile-compatible CSP baseline**
-   - Added `https://challenges.cloudflare.com` to script/connect/frame directives in `_headers` to align contact-form challenge loading with the site-wide policy.
+5. **Turnstile dependency retired**
+   - Removed `https://challenges.cloudflare.com` from CSP directives in `_headers` after decommissioning Turnstile on contact/careers flows.
 6. **Scoped static asset CORS retained**
    - `/assets/*` keeps explicit `Access-Control-Allow-Origin: https://www.gabo.services` for strict origin control on static asset reads.
 7. **YouTube privacy-enhanced embed readiness added**
