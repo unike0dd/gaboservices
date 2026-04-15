@@ -3,9 +3,8 @@ const DEFAULT_UPSTREAM_URL = "https://solitary-term-4203.rulathemtodos.workers.d
 const CODE_SIGNATURE_PATTERN =
   /(javascript:|data:text\/html|vbscript:|<script|<iframe|<object|<embed|onerror\s*=|onload\s*=|onclick\s*=|function\s*\(|=>|\beval\b|document\.cookie|localStorage|sessionStorage|\bSELECT\b|\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bDROP\b|\bUNION\b|\bCREATE\b|\bALTER\b|\{\{|\}\}|<\?|\?>)/gi;
 const HONEYPOT_FIELDS = ["company_website", "portfolio_url"];
-const URL_PATTERN = /https?:\/\/|www\./gi;
-const REPEATED_CHAR_PATTERN = /(.)\1{19,}/;
-const clientRateState = new Map();
+const SUSPICIOUS_USER_AGENT_PATTERN =
+  /(curl|wget|python-requests|python-httpx|aiohttp|scrapy|headless|httpclient|okhttp|go-http-client|postmanruntime|insomnia|sqlmap|nikto|nmap)/i;
 
 export default {
   async fetch(request, env) {
@@ -31,19 +30,8 @@ export default {
       return json({ ok: false, error: "Origin not allowed." }, 403, request, env);
     }
 
-    const rateLimit = enforceRateLimit(request, env);
-    if (!rateLimit.allowed) {
-      return json(
-        {
-          ok: false,
-          error: "Too many submissions. Please wait and try again.",
-          retryAfterSeconds: rateLimit.retryAfterSeconds,
-        },
-        429,
-        request,
-        env,
-        { "Retry-After": String(rateLimit.retryAfterSeconds) }
-      );
+    if (isSuspiciousUserAgent(request, env)) {
+      return json({ ok: false, error: "Submission blocked." }, 403, request, env);
     }
 
     const config = resolveDestinationConfig(route, env);
@@ -70,11 +58,26 @@ export default {
       return json({ ok: false, error: "Submission blocked." }, 403, request, env);
     }
 
-    const abuseSignal = detectAbuse(payload, env);
-    if (abuseSignal.blocked) {
+    const anomaly = detectPayloadAnomaly(payload, env);
+    if (anomaly) {
       return json(
-        { ok: false, error: abuseSignal.error, code: abuseSignal.code },
-        abuseSignal.status,
+        { ok: false, error: "Payload rejected.", code: anomaly.code },
+        anomaly.status,
+        request,
+        env
+      );
+    }
+
+    const rateLimit = await enforceRateLimit(request, route, env);
+    if (!rateLimit.ok) {
+      return json(
+        {
+          ok: false,
+          error: "Too many requests. Please retry shortly.",
+          code: "rate_limited",
+          retryAfterSeconds: rateLimit.retryAfterSeconds,
+        },
+        429,
         request,
         env
       );
@@ -169,91 +172,11 @@ function honeypotTriggered(payload) {
   return HONEYPOT_FIELDS.some((key) => String(payload[key] || "").trim().length > 0);
 }
 
-function enforceRateLimit(request, env) {
-  const maxRequests = parsePositiveInt(env.RATE_LIMIT_MAX, 8);
-  const windowSeconds = parsePositiveInt(env.RATE_LIMIT_WINDOW_SECONDS, 60);
-  const now = Date.now();
-  const windowMs = windowSeconds * 1000;
-
-  const key = buildClientRateKey(request);
-  const state = clientRateState.get(key) || { count: 0, resetAt: now + windowMs };
-  if (now >= state.resetAt) {
-    state.count = 0;
-    state.resetAt = now + windowMs;
-  }
-
-  state.count += 1;
-  clientRateState.set(key, state);
-
-  if (clientRateState.size > 5000) {
-    pruneExpiredRateKeys(now);
-  }
-
-  return {
-    allowed: state.count <= maxRequests,
-    retryAfterSeconds: Math.max(1, Math.ceil((state.resetAt - now) / 1000)),
-  };
-}
-
-function buildClientRateKey(request) {
-  const ip =
-    request.headers.get("CF-Connecting-IP") ||
-    request.headers.get("x-forwarded-for") ||
-    "unknown";
-  const userAgent = request.headers.get("user-agent") || "ua:missing";
-  return `${ip}|${userAgent.slice(0, 120)}`;
-}
-
-function pruneExpiredRateKeys(now) {
-  for (const [key, state] of clientRateState.entries()) {
-    if (!state || now >= state.resetAt) {
-      clientRateState.delete(key);
-    }
-  }
-}
-
-function parsePositiveInt(raw, fallback) {
-  const num = Number.parseInt(String(raw || ""), 10);
-  return Number.isFinite(num) && num > 0 ? num : fallback;
-}
-
-function detectAbuse(payload, env) {
-  if (!payload || typeof payload !== "object") return { blocked: false };
-
-  const values = Object.values(payload).map((value) => String(value ?? ""));
-  const content = values.join(" ").trim();
-
-  const maxChars = parsePositiveInt(env.MAX_SUBMISSION_CHARS, 10000);
-  if (content.length > maxChars) {
-    return {
-      blocked: true,
-      status: 413,
-      code: "payload_too_large",
-      error: "Submission exceeds allowed size.",
-    };
-  }
-
-  const urlHits = (content.match(URL_PATTERN) || []).length;
-  const maxUrls = parsePositiveInt(env.MAX_URLS_PER_SUBMISSION, 3);
-  if (urlHits > maxUrls) {
-    return {
-      blocked: true,
-      status: 422,
-      code: "too_many_links",
-      error: "Submission contains too many links.",
-    };
-  }
-
-  if (REPEATED_CHAR_PATTERN.test(content)) {
-    return {
-      blocked: true,
-      status: 422,
-      code: "repetitive_content",
-      error: "Submission contains repetitive content and was blocked.",
-    };
-  }
-
-  return { blocked: false };
+function isSuspiciousUserAgent(request, env) {
+  const userAgent = String(request.headers.get("user-agent") || "").trim();
+  if (!userAgent) return false;
+  if (shouldAllowProgrammaticUserAgents(env)) return false;
+  return SUSPICIOUS_USER_AGENT_PATTERN.test(userAgent);
 }
 
 function resolveDestinationConfig(route, env) {
@@ -302,6 +225,91 @@ async function parseIncomingBody(request) {
 function shouldEnforceTurnstile(env) {
   const raw = String(env.TURNSTILE_ENFORCE || "").trim().toLowerCase();
   return raw === "1" || raw === "true" || raw === "yes" || raw === "on";
+}
+
+function shouldAllowProgrammaticUserAgents(env) {
+  const raw = String(env.ALLOW_PROGRAMMATIC_USER_AGENTS || "").trim().toLowerCase();
+  return raw === "1" || raw === "true" || raw === "yes" || raw === "on";
+}
+
+function detectPayloadAnomaly(payload, env) {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) return null;
+
+  const maxFields = readPositiveInt(env.MAX_FORM_FIELDS, 80);
+  const maxFieldLength = readPositiveInt(env.MAX_FORM_FIELD_LENGTH, 4000);
+  const maxPayloadChars = readPositiveInt(env.MAX_FORM_PAYLOAD_CHARS, 20000);
+
+  const entries = Object.entries(payload);
+  if (entries.length > maxFields) {
+    return { code: "too_many_fields", status: 422 };
+  }
+
+  let totalChars = 0;
+  for (const [, value] of entries) {
+    const values = Array.isArray(value) ? value : [value];
+    for (const item of values) {
+      const text = String(item ?? "");
+      totalChars += text.length;
+      if (text.length > maxFieldLength) {
+        return { code: "field_too_large", status: 413 };
+      }
+      if (totalChars > maxPayloadChars) {
+        return { code: "payload_too_large", status: 413 };
+      }
+    }
+  }
+
+  return null;
+}
+
+async function enforceRateLimit(request, route, env) {
+  if (!isRateLimitEnabled(env)) {
+    return { ok: true };
+  }
+
+  const limit = readPositiveInt(env.RATE_LIMIT_MAX_REQUESTS, 10);
+  const windowSeconds = readPositiveInt(env.RATE_LIMIT_WINDOW_SECONDS, 60);
+  const nowBucket = Math.floor(Date.now() / (windowSeconds * 1000));
+  const fingerprint = getClientFingerprint(request, route);
+  const key = `https://rate-limit.gabo.internal/${route}/${nowBucket}/${fingerprint}`;
+  const cacheKey = new Request(key, { method: "GET" });
+
+  const cached = await caches.default.match(cacheKey);
+  const currentCount = cached ? Number(await cached.text()) || 0 : 0;
+  const nextCount = currentCount + 1;
+  const retryAfterSeconds = windowSeconds - (Math.floor(Date.now() / 1000) % windowSeconds);
+
+  const response = new Response(String(nextCount), {
+    headers: { "cache-control": `max-age=${windowSeconds}` },
+  });
+  await caches.default.put(cacheKey, response);
+
+  if (nextCount > limit) {
+    return { ok: false, retryAfterSeconds };
+  }
+
+  return { ok: true };
+}
+
+function isRateLimitEnabled(env) {
+  const raw = String(env.RATE_LIMIT_ENABLED || "true").trim().toLowerCase();
+  return !(raw === "0" || raw === "false" || raw === "no" || raw === "off");
+}
+
+function getClientFingerprint(request, route) {
+  const ip =
+    String(
+      request.headers.get("cf-connecting-ip") ||
+        request.headers.get("x-forwarded-for") ||
+        "unknown-ip"
+    ).split(",")[0].trim();
+  const ua = String(request.headers.get("user-agent") || "unknown-ua").slice(0, 120);
+  return encodeURIComponent(`${route}:${ip}:${ua}`);
+}
+
+function readPositiveInt(value, fallback) {
+  const parsed = Number.parseInt(String(value ?? ""), 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
 }
 
 function extractTurnstileToken(payload) {
