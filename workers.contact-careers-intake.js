@@ -52,18 +52,7 @@ export default {
       return json({ ok: false, error: "Submission blocked." }, 403, request, env);
     }
 
-    const turnstileToken = extractTurnstileToken(payload);
-    if (!turnstileToken) {
-      return json(
-        { ok: false, error: "Missing Turnstile token." },
-        403,
-        request,
-        env
-      );
-    }
-
-    const businessPayload = stripTurnstileFields(payload);
-    const sanitized = sanitizePayload(businessPayload);
+    const sanitized = sanitizePayload(payload);
 
     if (!sanitized.accepted) {
       return json(
@@ -88,7 +77,6 @@ export default {
       },
       body: JSON.stringify({
         ...sanitized.data,
-        turnstileToken,
       }),
     });
 
@@ -178,24 +166,6 @@ async function parseIncomingBody(request) {
   }
 
   throw new Error("Unsupported content type");
-}
-
-function extractTurnstileToken(payload) {
-  if (!payload || typeof payload !== "object") return "";
-  return String(
-    payload.turnstileToken ||
-      payload["cf-turnstile-response"] ||
-      payload.cf_turnstile_response ||
-      ""
-  ).trim();
-}
-
-function stripTurnstileFields(payload) {
-  const clone = { ...(payload || {}) };
-  delete clone.turnstileToken;
-  delete clone["cf-turnstile-response"];
-  delete clone.cf_turnstile_response;
-  return clone;
 }
 
 function sanitizePayload(input) {
