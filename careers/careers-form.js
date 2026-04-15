@@ -73,14 +73,6 @@
     return 'Turnstile verification is blocked by browser tracking prevention. Allow challenges.cloudflare.com for this page, then refresh.';
   }
 
-  function isStrictPrivacyModeEnabled() {
-    return (
-      navigator.globalPrivacyControl === true ||
-      navigator.doNotTrack === '1' ||
-      window.doNotTrack === '1'
-    );
-  }
-
   function trackInteraction() {
     lastInteractionAt = Date.now();
   }
@@ -155,9 +147,48 @@
   function monitorTurnstileReadiness(form) {
     if (isTurnstileReady(form)) return;
 
-    if (isStrictPrivacyModeEnabled()) {
-      setStatus('We are checking interaction. Please wait for the green check confirmation.', 'review');
+  async function parseResponsePayload(response) {
+    var contentType = String(response.headers.get('content-type') || '').toLowerCase();
+    if (contentType.indexOf('application/json') >= 0) {
+      try {
+        return await response.json();
+      } catch (error) {
+        return null;
+      }
     }
+    try {
+      var text = await response.text();
+      return { detail: text };
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function getOpsAssetId() {
+    return String(originAssetMap[window.location.origin] || '').trim();
+  }
+
+  async function refreshTurnstileToken(form, turnstileWidget) {
+    if (!window.turnstile || !turnstileWidget) return '';
+    window.turnstile.reset(turnstileWidget);
+    if (typeof window.turnstile.execute === 'function') {
+      try {
+        window.turnstile.execute(turnstileWidget);
+      } catch (error) {
+        return '';
+      }
+    }
+    var maxChecks = 12;
+    for (var i = 0; i < maxChecks; i += 1) {
+      var refreshed = readTurnstileToken(form, '');
+      if (refreshed) return refreshed;
+      await new Promise(function (resolve) { window.setTimeout(resolve, 350); });
+    }
+    return '';
+  }
+
+  function monitorTurnstileReadiness(form) {
+    if (isTurnstileReady(form)) return;
 
     var startedAt = Date.now();
     var pollIntervalMs = 500;
@@ -182,12 +213,7 @@
       if (elapsed >= TURNSTILE_BASE_WAIT_MS) {
         window.clearInterval(turnstileReadinessPoller);
         turnstileReadinessPoller = null;
-        setStatus(
-          isStrictPrivacyModeEnabled()
-            ? 'We are checking interaction. Please wait for the green check confirmation.'
-            : getTurnstileBlockedMessage(),
-          'blocked'
-        );
+        setStatus(getTurnstileBlockedMessage(), 'blocked');
       }
     }, pollIntervalMs);
   }
