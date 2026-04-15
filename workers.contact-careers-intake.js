@@ -417,12 +417,13 @@ function originAllowed(request, env) {
   return allowlist.includes(origin);
 }
 
-function json(payload, status, request, env) {
+function json(payload, status, request, env, extraHeaders = {}) {
   return new Response(JSON.stringify(payload), {
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
       ...buildCorsHeaders(request, env),
+      ...extraHeaders,
     },
   });
 }
