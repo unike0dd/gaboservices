@@ -73,6 +73,18 @@
     return 'Turnstile verification is blocked by browser tracking prevention. Allow challenges.cloudflare.com for this page, then refresh.';
   }
 
+  function isStrictPrivacyModeEnabled() {
+    if (window.__GABO_STRICT_PRIVACY_MODE__ === true) return true;
+    var consent = window.localStorage && window.localStorage.getItem('gs_cookie_consent_v1');
+    if (!consent) return false;
+    try {
+      var parsed = JSON.parse(consent);
+      return parsed && parsed.functional === false;
+    } catch (error) {
+      return false;
+    }
+  }
+
   function trackInteraction() {
     lastInteractionAt = Date.now();
   }
@@ -120,32 +132,6 @@
       return null;
     }
   }
-
-  function getOpsAssetId() {
-    return String(originAssetMap[window.location.origin] || '').trim();
-  }
-
-  async function refreshTurnstileToken(form, turnstileWidget) {
-    if (!window.turnstile || !turnstileWidget) return '';
-    window.turnstile.reset(turnstileWidget);
-    if (typeof window.turnstile.execute === 'function') {
-      try {
-        window.turnstile.execute(turnstileWidget);
-      } catch (error) {
-        return '';
-      }
-    }
-    var maxChecks = 12;
-    for (var i = 0; i < maxChecks; i += 1) {
-      var refreshed = readTurnstileToken(form, '');
-      if (refreshed) return refreshed;
-      await new Promise(function (resolve) { window.setTimeout(resolve, 350); });
-    }
-    return '';
-  }
-
-  function monitorTurnstileReadiness(form) {
-    if (isTurnstileReady(form)) return;
 
   function getOpsAssetId() {
     return String(originAssetMap[window.location.origin] || '').trim();
