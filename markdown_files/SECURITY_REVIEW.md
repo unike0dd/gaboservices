@@ -80,6 +80,8 @@ All of the following can be implemented without paid services and without adding
    - Added `X-Robots-Tag` in `_headers`, normalized crawl directives in `robots.txt`, and enriched `sitemap.xml` with `lastmod`, `changefreq`, and `priority` metadata.
 10. **Control-family taxonomy expanded**
    - Governance metadata now explicitly tracks `CIS Controls` alongside CISA, NIST CSF, OWASP ASVS, PCI DSS, SEO, and CSP profiles.
+11. **Form abuse safeguards strengthened (post-Turnstile)**
+   - Intake Worker now layers honeypot expansion, configurable per-route/IP rate limiting, and server-side abuse signal checks (field volume/length, excessive links, repetitive patterns, and automation user-agent blocking).
 
 ### Compliance Mapping (practical)
 
