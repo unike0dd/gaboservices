@@ -21,8 +21,8 @@ This repository already has strong foundational protections for a static web pro
 
 1. **Client-side “TinyGuard” is bypassable**
    - Input filtering in `main.js` helps UX but does not provide server-side trust.
-2. **Turnstile verification appears client-enforced only in this repo**
-   - Token is collected client-side; secure validation must happen server-side at submit endpoint.
+2. **Form abuse controls currently rely on origin checks + honeypots only**
+   - Since Turnstile was removed, add lightweight server-side throttling/rate controls in the intake worker to preserve spam resistance.
 3. **DOM injection surface through `innerHTML` patterns**
    - Multiple UI sections use `innerHTML`; currently fed from local dictionaries/templates, but future dynamic data could create XSS risk if not escaped.
 4. **No explicit rate-limit / abuse-control config in this repo for form endpoints**
@@ -68,8 +68,8 @@ All of the following can be implemented without paid services and without adding
    - `scripts/update-locale-sitemap.js` now includes the English base routes only.
 4. **Per-route CSP continuity preserved**
    - Restored page-level CSP meta directives on key routes to preserve existing origin/ID checks expected by current Cloudflare Worker communication paths.
-5. **Turnstile-compatible CSP baseline**
-   - Added `https://challenges.cloudflare.com` to script/connect/frame directives in `_headers` to align contact-form challenge loading with the site-wide policy.
+5. **Post-Turnstile CSP baseline**
+   - Removed Turnstile challenge dependencies and aligned `_headers` to least-privilege sources required by current production functionality.
 6. **Scoped static asset CORS retained**
    - `/assets/*` keeps explicit `Access-Control-Allow-Origin: https://www.gabo.services` for strict origin control on static asset reads.
 7. **YouTube privacy-enhanced embed readiness added**
