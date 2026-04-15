@@ -405,6 +405,133 @@ function isSuspicious(before, after) {
   return after.length === 0 && before.trim().length > 0;
 }
 
+function collectTextValues(payload) {
+  if (!payload || typeof payload !== "object") return [];
+  const values = [];
+  for (const value of Object.values(payload)) {
+    if (Array.isArray(value)) {
+      for (const item of value) values.push(String(item ?? ""));
+      continue;
+    }
+    values.push(String(value ?? ""));
+  }
+  return values;
+}
+
+function detectAbuseSignals(payload, route) {
+  if (!payload || typeof payload !== "object") {
+    return { ok: false, status: 400, code: "invalid_payload", error: "Invalid payload." };
+  }
+
+  const requiredByRoute = {
+    contact: ["full_name", "email_address", "contact_number", "message"],
+    careers: ["full_name", "email_address", "contact_number", "city", "state_province"],
+  };
+  const requiredFields = requiredByRoute[route] || [];
+  const missing = requiredFields.filter(
+    (field) => String(payload[field] ?? "").trim().length === 0
+  );
+  if (missing.length > 0) {
+    return {
+      ok: false,
+      status: 422,
+      code: "missing_required_fields",
+      error: `Missing required fields: ${missing.join(", ")}.`,
+    };
+  }
+
+  const texts = collectTextValues(payload);
+  const combinedLength = texts.reduce((sum, value) => sum + value.length, 0);
+  if (combinedLength > MAX_COMBINED_TEXT_LENGTH) {
+    return {
+      ok: false,
+      status: 413,
+      code: "payload_too_large",
+      error: "Submission is too large.",
+    };
+  }
+
+  const combined = texts.join(" ").toLowerCase();
+  const urlMatches = combined.match(/https?:\/\/|www\./g) || [];
+  if (urlMatches.length > MAX_URL_PATTERN_COUNT) {
+    return {
+      ok: false,
+      status: 422,
+      code: "abuse_url_density",
+      error: "Submission blocked by abuse detection.",
+    };
+  }
+
+  if (/(.)\1{30,}/.test(combined)) {
+    return {
+      ok: false,
+      status: 422,
+      code: "abuse_repeated_sequence",
+      error: "Submission blocked by abuse detection.",
+    };
+  }
+
+  return { ok: true };
+}
+
+function readClientFingerprint(request) {
+  const ip =
+    request.headers.get("cf-connecting-ip") ||
+    request.headers.get("x-forwarded-for") ||
+    "unknown";
+  const ua = request.headers.get("user-agent") || "unknown";
+  return `${ip}|${ua.slice(0, 120)}`;
+}
+
+async function enforceRateLimit(request, env, route) {
+  if (toBooleanFlag(env.RATE_LIMIT_DISABLED)) return { ok: true };
+
+  const windowSeconds = readPositiveInt(
+    env.RATE_LIMIT_WINDOW_SECONDS,
+    DEFAULT_RATE_LIMIT_WINDOW_SECONDS
+  );
+  const maxRequests = readPositiveInt(
+    env.RATE_LIMIT_MAX_REQUESTS,
+    DEFAULT_RATE_LIMIT_MAX_REQUESTS
+  );
+  const nowSeconds = Math.floor(Date.now() / 1000);
+  const bucket = Math.floor(nowSeconds / windowSeconds);
+  const fingerprint = readClientFingerprint(request);
+  const cacheKey = new Request(
+    `https://rate-limit.gabo.internal/${route}/${bucket}/${encodeURIComponent(
+      fingerprint
+    )}`
+  );
+  const cache = caches.default;
+
+  let count = 0;
+  try {
+    const existing = await cache.match(cacheKey);
+    if (existing) {
+      const parsed = await existing.json();
+      count = Number.parseInt(String(parsed && parsed.count), 10) || 0;
+    }
+
+    count += 1;
+    const ttl = Math.max(1, windowSeconds - (nowSeconds % windowSeconds));
+    const response = new Response(JSON.stringify({ count }), {
+      headers: {
+        "content-type": "application/json",
+        "cache-control": `max-age=${ttl}`,
+      },
+    });
+    await cache.put(cacheKey, response);
+
+    if (count > maxRequests) {
+      return { ok: false, retryAfterSeconds: ttl };
+    }
+  } catch {
+    return { ok: true };
+  }
+
+  return { ok: true };
+}
+
 function originAllowed(request, env) {
   const origin = request.headers.get("origin");
   if (!origin) return true;
