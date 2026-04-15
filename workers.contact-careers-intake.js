@@ -2,7 +2,15 @@ const DEFAULT_UPSTREAM_URL = "https://solitary-term-4203.rulathemtodos.workers.d
 
 const CODE_SIGNATURE_PATTERN =
   /(javascript:|data:text\/html|vbscript:|<script|<iframe|<object|<embed|onerror\s*=|onload\s*=|onclick\s*=|function\s*\(|=>|\beval\b|document\.cookie|localStorage|sessionStorage|\bSELECT\b|\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bDROP\b|\bUNION\b|\bCREATE\b|\bALTER\b|\{\{|\}\}|<\?|\?>)/gi;
-const HONEYPOT_FIELDS = ["company_website", "portfolio_url"];
+const HONEYPOT_FIELDS = [
+  "company_website",
+  "portfolio_url",
+  "website",
+  "url",
+  "fax_number",
+  "middle_name",
+];
+const RATE_LIMIT_STATE = new Map();
 
 export default {
   async fetch(request, env) {
@@ -26,6 +34,23 @@ export default {
 
     if (!originAllowed(request, env)) {
       return json({ ok: false, error: "Origin not allowed." }, 403, request, env);
+    }
+
+    const rateLimit = applyRateLimit(route, request, env);
+    if (rateLimit.blocked) {
+      return json(
+        {
+          ok: false,
+          error: "Too many submissions. Please wait and try again.",
+          code: "rate_limited",
+        },
+        429,
+        request,
+        env,
+        {
+          "retry-after": String(rateLimit.retryAfterSeconds),
+        }
+      );
     }
 
     const config = resolveDestinationConfig(route, env);
@@ -52,18 +77,36 @@ export default {
       return json({ ok: false, error: "Submission blocked." }, 403, request, env);
     }
 
-    const turnstileToken = extractTurnstileToken(payload);
-    if (!turnstileToken) {
+    const abuseSignals = detectAbuseSignals(payload, request, route, env);
+    if (!abuseSignals.accepted) {
       return json(
-        { ok: false, error: "Missing Turnstile token." },
+        {
+          ok: false,
+          error: "Submission blocked by abuse protection.",
+          code: abuseSignals.code,
+        },
         403,
         request,
         env
       );
     }
 
-    const businessPayload = stripTurnstileFields(payload);
-    const sanitized = sanitizePayload(businessPayload);
+    const turnstileToken = extractTurnstileToken(payload);
+    const enforceTurnstile = shouldEnforceTurnstile(env);
+    if (enforceTurnstile && !turnstileToken) {
+      return json(
+        {
+          ok: false,
+          error: "Missing Turnstile token.",
+          code: "turnstile_token_missing",
+        },
+        403,
+        request,
+        env
+      );
+    }
+
+    const sanitized = sanitizePayload(stripTurnstileFields(payload));
 
     if (!sanitized.accepted) {
       return json(
@@ -88,7 +131,7 @@ export default {
       },
       body: JSON.stringify({
         ...sanitized.data,
-        turnstileToken,
+        ...(turnstileToken ? { turnstileToken } : {}),
       }),
     });
 
@@ -137,6 +180,103 @@ function honeypotTriggered(payload) {
   return HONEYPOT_FIELDS.some((key) => String(payload[key] || "").trim().length > 0);
 }
 
+function detectAbuseSignals(payload, request, route, env) {
+  const source =
+    payload && typeof payload === "object" && !Array.isArray(payload) ? payload : {};
+  const entries = Object.entries(source);
+  const maxFieldCount = readIntEnv(env.ABUSE_MAX_FIELD_COUNT, 70, 20, 200);
+  if (entries.length > maxFieldCount) {
+    return { accepted: false, code: "abuse_fields_excessive" };
+  }
+
+  const maxFieldLength = readIntEnv(env.ABUSE_MAX_FIELD_LENGTH, 5000, 500, 12000);
+  const maxUrlCount = readIntEnv(env.ABUSE_MAX_URLS, 4, 0, 20);
+  let urlCount = 0;
+
+  for (const [, value] of entries) {
+    const values = Array.isArray(value) ? value : [value];
+    for (const item of values) {
+      const text = String(item || "");
+      if (text.length > maxFieldLength) {
+        return { accepted: false, code: "abuse_field_too_long" };
+      }
+      if (/(.)\1{24,}/.test(text)) {
+        return { accepted: false, code: "abuse_repetitive_pattern" };
+      }
+      urlCount += (text.match(/https?:\/\//gi) || []).length;
+      if (urlCount > maxUrlCount) {
+        return { accepted: false, code: "abuse_excessive_links" };
+      }
+    }
+  }
+
+  const requiredByRoute = {
+    contact: ["full_name", "email_address", "message"],
+    careers: ["full_name", "email_address", "contact_number"],
+  };
+  const requiredFields = requiredByRoute[route] || [];
+  for (const field of requiredFields) {
+    const value = String(source[field] || "").trim();
+    if (!value) {
+      return { accepted: false, code: "abuse_missing_required_fields" };
+    }
+  }
+
+  const userAgent = String(request.headers.get("user-agent") || "").toLowerCase();
+  if (/(python|curl|wget|httpclient|go-http-client|java\/|postmanruntime)/.test(userAgent)) {
+    return { accepted: false, code: "abuse_automation_user_agent" };
+  }
+
+  return { accepted: true, code: "" };
+}
+
+function applyRateLimit(route, request, env) {
+  const now = Date.now();
+  const windowMs = readIntEnv(env.RATE_LIMIT_WINDOW_MS, 5 * 60 * 1000, 10000, 60 * 60 * 1000);
+  const maxRequests = readIntEnv(env.RATE_LIMIT_MAX_REQUESTS, 8, 1, 200);
+  const burstWindowMs = readIntEnv(env.RATE_LIMIT_BURST_WINDOW_MS, 15000, 2000, 120000);
+  const burstMaxRequests = readIntEnv(env.RATE_LIMIT_BURST_MAX_REQUESTS, 3, 1, 50);
+  const ip = getClientIp(request);
+  const key = `${route}:${ip}`;
+
+  for (const [candidateKey, state] of RATE_LIMIT_STATE) {
+    if (now - state.lastSeen > windowMs) {
+      RATE_LIMIT_STATE.delete(candidateKey);
+    }
+  }
+
+  const state = RATE_LIMIT_STATE.get(key) || { timestamps: [], lastSeen: now };
+  const windowCutoff = now - windowMs;
+  const burstCutoff = now - burstWindowMs;
+  state.timestamps = state.timestamps.filter((ts) => ts >= windowCutoff);
+
+  const burstCount = state.timestamps.filter((ts) => ts >= burstCutoff).length;
+  if (state.timestamps.length >= maxRequests || burstCount >= burstMaxRequests) {
+    const oldestRelevant = state.timestamps[0] || now;
+    const retryAfterMs = Math.max(windowMs - (now - oldestRelevant), 1000);
+    const retryAfterSeconds = Math.ceil(retryAfterMs / 1000);
+    state.lastSeen = now;
+    RATE_LIMIT_STATE.set(key, state);
+    return { blocked: true, retryAfterSeconds };
+  }
+
+  state.timestamps.push(now);
+  state.lastSeen = now;
+  RATE_LIMIT_STATE.set(key, state);
+  return { blocked: false, retryAfterSeconds: 0 };
+}
+
+function getClientIp(request) {
+  const cfIp = String(request.headers.get("cf-connecting-ip") || "").trim();
+  if (cfIp) return cfIp;
+  const forwardedFor = String(request.headers.get("x-forwarded-for") || "")
+    .split(",")
+    .map((part) => part.trim())
+    .filter(Boolean)[0];
+  if (forwardedFor) return forwardedFor;
+  return "unknown-client";
+}
+
 function resolveDestinationConfig(route, env) {
   if (route === "contact") {
     if (!env.ASSET_C5T) {
@@ -178,6 +318,11 @@ async function parseIncomingBody(request) {
   }
 
   throw new Error("Unsupported content type");
+}
+
+function shouldEnforceTurnstile(env) {
+  const raw = String(env.TURNSTILE_ENFORCE || "").trim().toLowerCase();
+  return raw === "1" || raw === "true" || raw === "yes" || raw === "on";
 }
 
 function extractTurnstileToken(payload) {
@@ -285,12 +430,19 @@ function originAllowed(request, env) {
   return allowlist.includes(origin);
 }
 
-function json(payload, status, request, env) {
+function readIntEnv(raw, fallback, min, max) {
+  const parsed = Number.parseInt(String(raw ?? "").trim(), 10);
+  if (!Number.isFinite(parsed)) return fallback;
+  return Math.min(Math.max(parsed, min), max);
+}
+
+function json(payload, status, request, env, extraHeaders = {}) {
   return new Response(JSON.stringify(payload), {
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
       ...buildCorsHeaders(request, env),
+      ...extraHeaders,
     },
   });
 }
