@@ -3,6 +3,9 @@ const DEFAULT_UPSTREAM_URL = "https://solitary-term-4203.rulathemtodos.workers.d
 const CODE_SIGNATURE_PATTERN =
   /(javascript:|data:text\/html|vbscript:|<script|<iframe|<object|<embed|onerror\s*=|onload\s*=|onclick\s*=|function\s*\(|=>|\beval\b|document\.cookie|localStorage|sessionStorage|\bSELECT\b|\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bDROP\b|\bUNION\b|\bCREATE\b|\bALTER\b|\{\{|\}\}|<\?|\?>)/gi;
 const HONEYPOT_FIELDS = ["company_website", "portfolio_url"];
+const URL_PATTERN = /https?:\/\/|www\./gi;
+const REPEATED_CHAR_PATTERN = /(.)\1{19,}/;
+const clientRateState = new Map();
 
 export default {
   async fetch(request, env) {
@@ -26,6 +29,21 @@ export default {
 
     if (!originAllowed(request, env)) {
       return json({ ok: false, error: "Origin not allowed." }, 403, request, env);
+    }
+
+    const rateLimit = enforceRateLimit(request, env);
+    if (!rateLimit.allowed) {
+      return json(
+        {
+          ok: false,
+          error: "Too many submissions. Please wait and try again.",
+          retryAfterSeconds: rateLimit.retryAfterSeconds,
+        },
+        429,
+        request,
+        env,
+        { "Retry-After": String(rateLimit.retryAfterSeconds) }
+      );
     }
 
     const config = resolveDestinationConfig(route, env);
@@ -52,18 +70,32 @@ export default {
       return json({ ok: false, error: "Submission blocked." }, 403, request, env);
     }
 
-    const turnstileToken = extractTurnstileToken(payload);
-    if (!turnstileToken) {
+    const abuseSignal = detectAbuse(payload, env);
+    if (abuseSignal.blocked) {
       return json(
-        { ok: false, error: "Missing Turnstile token." },
+        { ok: false, error: abuseSignal.error, code: abuseSignal.code },
+        abuseSignal.status,
+        request,
+        env
+      );
+    }
+
+    const turnstileToken = extractTurnstileToken(payload);
+    const enforceTurnstile = shouldEnforceTurnstile(env);
+    if (enforceTurnstile && !turnstileToken) {
+      return json(
+        {
+          ok: false,
+          error: "Missing Turnstile token.",
+          code: "turnstile_token_missing",
+        },
         403,
         request,
         env
       );
     }
 
-    const businessPayload = stripTurnstileFields(payload);
-    const sanitized = sanitizePayload(businessPayload);
+    const sanitized = sanitizePayload(stripTurnstileFields(payload));
 
     if (!sanitized.accepted) {
       return json(
@@ -88,7 +120,7 @@ export default {
       },
       body: JSON.stringify({
         ...sanitized.data,
-        turnstileToken,
+        ...(turnstileToken ? { turnstileToken } : {}),
       }),
     });
 
@@ -137,6 +169,93 @@ function honeypotTriggered(payload) {
   return HONEYPOT_FIELDS.some((key) => String(payload[key] || "").trim().length > 0);
 }
 
+function enforceRateLimit(request, env) {
+  const maxRequests = parsePositiveInt(env.RATE_LIMIT_MAX, 8);
+  const windowSeconds = parsePositiveInt(env.RATE_LIMIT_WINDOW_SECONDS, 60);
+  const now = Date.now();
+  const windowMs = windowSeconds * 1000;
+
+  const key = buildClientRateKey(request);
+  const state = clientRateState.get(key) || { count: 0, resetAt: now + windowMs };
+  if (now >= state.resetAt) {
+    state.count = 0;
+    state.resetAt = now + windowMs;
+  }
+
+  state.count += 1;
+  clientRateState.set(key, state);
+
+  if (clientRateState.size > 5000) {
+    pruneExpiredRateKeys(now);
+  }
+
+  return {
+    allowed: state.count <= maxRequests,
+    retryAfterSeconds: Math.max(1, Math.ceil((state.resetAt - now) / 1000)),
+  };
+}
+
+function buildClientRateKey(request) {
+  const ip =
+    request.headers.get("CF-Connecting-IP") ||
+    request.headers.get("x-forwarded-for") ||
+    "unknown";
+  const userAgent = request.headers.get("user-agent") || "ua:missing";
+  return `${ip}|${userAgent.slice(0, 120)}`;
+}
+
+function pruneExpiredRateKeys(now) {
+  for (const [key, state] of clientRateState.entries()) {
+    if (!state || now >= state.resetAt) {
+      clientRateState.delete(key);
+    }
+  }
+}
+
+function parsePositiveInt(raw, fallback) {
+  const num = Number.parseInt(String(raw || ""), 10);
+  return Number.isFinite(num) && num > 0 ? num : fallback;
+}
+
+function detectAbuse(payload, env) {
+  if (!payload || typeof payload !== "object") return { blocked: false };
+
+  const values = Object.values(payload).map((value) => String(value ?? ""));
+  const content = values.join(" ").trim();
+
+  const maxChars = parsePositiveInt(env.MAX_SUBMISSION_CHARS, 10000);
+  if (content.length > maxChars) {
+    return {
+      blocked: true,
+      status: 413,
+      code: "payload_too_large",
+      error: "Submission exceeds allowed size.",
+    };
+  }
+
+  const urlHits = (content.match(URL_PATTERN) || []).length;
+  const maxUrls = parsePositiveInt(env.MAX_URLS_PER_SUBMISSION, 3);
+  if (urlHits > maxUrls) {
+    return {
+      blocked: true,
+      status: 422,
+      code: "too_many_links",
+      error: "Submission contains too many links.",
+    };
+  }
+
+  if (REPEATED_CHAR_PATTERN.test(content)) {
+    return {
+      blocked: true,
+      status: 422,
+      code: "repetitive_content",
+      error: "Submission contains repetitive content and was blocked.",
+    };
+  }
+
+  return { blocked: false };
+}
+
 function resolveDestinationConfig(route, env) {
   if (route === "contact") {
     if (!env.ASSET_C5T) {
@@ -178,6 +297,11 @@ async function parseIncomingBody(request) {
   }
 
   throw new Error("Unsupported content type");
+}
+
+function shouldEnforceTurnstile(env) {
+  const raw = String(env.TURNSTILE_ENFORCE || "").trim().toLowerCase();
+  return raw === "1" || raw === "true" || raw === "yes" || raw === "on";
 }
 
 function extractTurnstileToken(payload) {
@@ -285,12 +409,13 @@ function originAllowed(request, env) {
   return allowlist.includes(origin);
 }
 
-function json(payload, status, request, env) {
+function json(payload, status, request, env, extraHeaders = {}) {
   return new Response(JSON.stringify(payload), {
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
       ...buildCorsHeaders(request, env),
+      ...extraHeaders,
     },
   });
 }
