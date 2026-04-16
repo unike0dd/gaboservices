@@ -1,4 +1,5 @@
 const DEFAULT_UPSTREAM_URL = "https://solitary-term-4203.rulathemtodos.workers.dev/ingest";
+const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
 const CODE_SIGNATURE_PATTERN =
   /(javascript:|data:text\/html|vbscript:|<script|<iframe|<object|<embed|onerror\s*=|onload\s*=|onclick\s*=|function\s*\(|=>|\beval\b|document\.cookie|localStorage|sessionStorage|\bSELECT\b|\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bDROP\b|\bUNION\b|\bCREATE\b|\bALTER\b|\{\{|\}\}|<\?|\?>)/gi;
@@ -58,6 +59,26 @@ export default {
       return json({ ok: false, error: "Submission blocked." }, 403, request, env);
     }
 
+    const turnstileToken = getTurnstileToken(payload);
+    if (!turnstileToken) {
+      return json(
+        { ok: false, error: "Turnstile token is required.", code: "turnstile_missing" },
+        400,
+        request,
+        env
+      );
+    }
+
+    const turnstile = await verifyTurnstileToken(turnstileToken, request, env);
+    if (!turnstile.ok) {
+      return json(
+        { ok: false, error: "Turnstile verification failed.", code: turnstile.code },
+        403,
+        request,
+        env
+      );
+    }
+
     const anomaly = detectPayloadAnomaly(payload, env);
     if (anomaly) {
       return json(
@@ -83,7 +104,7 @@ export default {
       );
     }
 
-    const sanitized = sanitizePayload(payload);
+    const sanitized = sanitizePayload(removeTurnstileToken(payload));
 
     if (!sanitized.accepted) {
       return json(
@@ -154,6 +175,18 @@ function honeypotTriggered(payload) {
   return HONEYPOT_FIELDS.some((key) => String(payload[key] || "").trim().length > 0);
 }
 
+function getTurnstileToken(payload) {
+  if (!payload || typeof payload !== "object") return "";
+  return String(payload["cf-turnstile-response"] || "").trim();
+}
+
+function removeTurnstileToken(payload) {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) return {};
+  const next = { ...payload };
+  delete next["cf-turnstile-response"];
+  return next;
+}
+
 function isSuspiciousUserAgent(request, env) {
   const userAgent = String(request.headers.get("user-agent") || "").trim();
   if (!userAgent) return false;
@@ -207,6 +240,41 @@ async function parseIncomingBody(request) {
 function shouldAllowProgrammaticUserAgents(env) {
   const raw = String(env.ALLOW_PROGRAMMATIC_USER_AGENTS || "").trim().toLowerCase();
   return raw === "1" || raw === "true" || raw === "yes" || raw === "on";
+}
+
+async function verifyTurnstileToken(token, request, env) {
+  const secret = String(env.TURNSTILE_SECRET_KEY || "").trim();
+  if (!secret) {
+    return { ok: false, code: "turnstile_secret_missing" };
+  }
+
+  const clientIp =
+    String(request.headers.get("cf-connecting-ip") || "").trim() ||
+    String(request.headers.get("x-forwarded-for") || "").split(",")[0].trim();
+
+  const body = new URLSearchParams({
+    secret,
+    response: token,
+  });
+
+  if (clientIp) {
+    body.set("remoteip", clientIp);
+  }
+
+  try {
+    const response = await fetch(TURNSTILE_VERIFY_URL, {
+      method: "POST",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      body: body.toString(),
+    });
+    const result = await response.json();
+    if (!response.ok || !result || result.success !== true) {
+      return { ok: false, code: "turnstile_invalid" };
+    }
+    return { ok: true };
+  } catch {
+    return { ok: false, code: "turnstile_unreachable" };
+  }
 }
 
 function detectPayloadAnomaly(payload, env) {
