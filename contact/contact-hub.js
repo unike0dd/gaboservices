@@ -11,6 +11,10 @@
     (window.SITE_METADATA && window.SITE_METADATA.chatbot && window.SITE_METADATA.chatbot.originAssetMap) ||
     {};
   var REQUIRED_FIELD_IDS = ['contactFullName', 'contactEmail', 'contactNumber', 'contactMessage'];
+  var turnstileState = {
+    widgetId: null,
+    settlePending: null
+  };
 
   function setStatus(message, state) {
     var status = root.querySelector('#formStatus');
@@ -129,6 +133,7 @@
   bindNumericInput(form.querySelector('#contactCountryCode'), true);
   bindNumericInput(form.querySelector('#contactNumber'), false);
   bindNumericInput(form.querySelector('#contactZip'), false);
+  mountTurnstile(form);
 
   form.addEventListener('submit', async function (event) {
     event.preventDefault();

@@ -11,6 +11,10 @@
     (window.SITE_METADATA && window.SITE_METADATA.chatbot && window.SITE_METADATA.chatbot.originAssetMap) ||
     {};
   var REQUIRED_FIELD_IDS = ['careerFullName', 'careerEmail', 'careerCountryCode', 'careerNumber', 'careerCity', 'careerState', 'careerZip', 'careerAvailability'];
+  var turnstileState = {
+    widgetId: null,
+    settlePending: null
+  };
 
   function setStatus(message, state) {
     var status = root.querySelector('#careerFormStatus');
@@ -131,6 +135,7 @@
   bindNumericInput(form.querySelector('#careerCountryCode'), true);
   bindNumericInput(form.querySelector('#careerNumber'), false);
   bindNumericInput(form.querySelector('#careerZip'), false);
+  mountTurnstile(form);
 
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
