@@ -5,3 +5,6 @@ compatibility_date = "2026-04-12"
 [vars]
 ALLOWED_ORIGINS = "https://www.gabo.services,https://gabo.services"
 MAX_BODY_BYTES = "32768"
+
+# Secret to set with `wrangler secret put`:
+# - WORKER_BRIDGE_SHARED_SECRET

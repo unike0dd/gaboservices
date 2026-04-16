@@ -146,6 +146,15 @@ export default {
       );
     }
 
+    if (!env.WORKER_BRIDGE_SHARED_SECRET) {
+      return jsonResponse(
+        { ok: false, error: "Missing WORKER_BRIDGE_SHARED_SECRET." },
+        500,
+        request,
+        env
+      );
+    }
+
     const outboundPayload = {
       version: 1,
       source_worker: "solitary-term",
@@ -168,6 +177,7 @@ export default {
         headers: {
           "content-type": "application/json; charset=utf-8",
           "x-solitary-route": routeResult.route.key,
+          "x-worker-bridge-secret": env.WORKER_BRIDGE_SHARED_SECRET,
         },
         body: JSON.stringify(outboundPayload),
       })
