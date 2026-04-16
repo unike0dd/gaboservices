@@ -11,6 +11,10 @@
     (window.SITE_METADATA && window.SITE_METADATA.chatbot && window.SITE_METADATA.chatbot.originAssetMap) ||
     {};
   var REQUIRED_FIELD_IDS = ['contactFullName', 'contactEmail', 'contactNumber', 'contactMessage'];
+  var turnstileState = {
+    widgetId: null,
+    settlePending: null
+  };
 
   function setStatus(message, state) {
     var status = root.querySelector('#formStatus');
@@ -65,6 +69,81 @@
 
   function getOpsAssetId() {
     return String(originAssetMap[window.location.origin] || '').trim();
+  }
+
+  function getTurnstileToken(form) {
+    var tokenInput = form.querySelector('input[name="cf-turnstile-response"]');
+    return String((tokenInput && tokenInput.value) || '').trim();
+  }
+
+  function mountTurnstile(form) {
+    if (turnstileState.widgetId !== null) return true;
+    if (!window.turnstile || typeof window.turnstile.render !== 'function') return false;
+
+    var container = form.querySelector('#contactTurnstile');
+    if (!container) return false;
+
+    var sitekey = String(container.getAttribute('data-sitekey') || '').trim();
+    if (!sitekey) return false;
+
+    turnstileState.widgetId = window.turnstile.render(container, {
+      sitekey: sitekey,
+      theme: String(container.getAttribute('data-theme') || 'light'),
+      execution: 'execute',
+      callback: function (token) {
+        if (turnstileState.settlePending) {
+          turnstileState.settlePending.resolve(String(token || '').trim());
+          turnstileState.settlePending = null;
+        }
+      },
+      'error-callback': function () {
+        if (turnstileState.settlePending) {
+          turnstileState.settlePending.resolve('');
+          turnstileState.settlePending = null;
+        }
+      },
+      'expired-callback': function () {
+        if (turnstileState.settlePending) {
+          turnstileState.settlePending.resolve('');
+          turnstileState.settlePending = null;
+        }
+      }
+    });
+
+    return turnstileState.widgetId !== null;
+  }
+
+  async function getTurnstileTokenOnSubmit(form) {
+    var existingToken = getTurnstileToken(form);
+    if (existingToken) return existingToken;
+
+    if (!mountTurnstile(form) || !window.turnstile || typeof window.turnstile.execute !== 'function') {
+      return '';
+    }
+
+    return await new Promise(function (resolve) {
+      var timeoutId = setTimeout(function () {
+        if (turnstileState.settlePending) {
+          turnstileState.settlePending = null;
+          resolve('');
+        }
+      }, 60000);
+
+      turnstileState.settlePending = {
+        resolve: function (token) {
+          clearTimeout(timeoutId);
+          resolve(token || '');
+        }
+      };
+
+      try {
+        window.turnstile.execute(turnstileState.widgetId);
+      } catch (error) {
+        clearTimeout(timeoutId);
+        turnstileState.settlePending = null;
+        resolve('');
+      }
+    });
   }
 
   async function parseResponsePayload(response) {
@@ -124,6 +203,7 @@
   bindNumericInput(form.querySelector('#contactCountryCode'), true);
   bindNumericInput(form.querySelector('#contactNumber'), false);
   bindNumericInput(form.querySelector('#contactZip'), false);
+  mountTurnstile(form);
 
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -145,6 +225,13 @@
 
     if (!root.querySelectorAll('input[name="contact_interest[]"]:checked').length) {
       setStatus('Please select at least one area of interest.', 'blocked');
+      return;
+    }
+
+    setStatus('Please verify the Turnstile confirmation to continue.', 'review');
+    var turnstileToken = await getTurnstileTokenOnSubmit(form);
+    if (!turnstileToken) {
+      setStatus('Please complete the Turnstile challenge before submitting.', 'blocked');
       return;
     }
 

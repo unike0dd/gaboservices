@@ -15,3 +15,4 @@ ALLOWED_ORIGINS = "https://www.gabo.services,https://gabo.services"
 # Secrets to set with `wrangler secret put`:
 # - ASSET_C5T  (Contact asset id for Gmail channel)
 # - ASSET_C5S  (Careers asset id for Google Sheets channel)
+# - TURNSTILE_SECRET_KEY (Cloudflare Turnstile secret key)
