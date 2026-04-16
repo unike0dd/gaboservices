@@ -67,6 +67,11 @@
     return String(originAssetMap[window.location.origin] || '').trim();
   }
 
+  function getTurnstileToken(form) {
+    var tokenInput = form.querySelector('input[name="cf-turnstile-response"]');
+    return String((tokenInput && tokenInput.value) || '').trim();
+  }
+
   async function parseResponsePayload(response) {
     var contentType = String(response.headers.get('content-type') || '').toLowerCase();
     if (contentType.indexOf('application/json') >= 0) {
@@ -147,6 +152,12 @@
 
     if (!root.querySelectorAll('input[name="career_interest[]"]:checked').length) {
       setStatus('Please select at least one area of interest.', 'blocked');
+      return;
+    }
+
+    var turnstileToken = getTurnstileToken(form);
+    if (!turnstileToken) {
+      setStatus('Please complete the Turnstile challenge before submitting.', 'blocked');
       return;
     }
 
