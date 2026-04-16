@@ -63,11 +63,9 @@
     });
   }
 
-
-
-
-
-
+  function getOpsAssetId() {
+    return String(originAssetMap[window.location.origin] || '').trim();
+  }
 
   async function parseResponsePayload(response) {
     var contentType = String(response.headers.get('content-type') || '').toLowerCase();
@@ -85,13 +83,6 @@
       return null;
     }
   }
-
-  function getOpsAssetId() {
-    return String(originAssetMap[window.location.origin] || '').trim();
-  }
-
-
-
 
   formWorkflow.create(root, {
     formId: 'contactForm',
@@ -123,11 +114,13 @@
 
   var form = root.querySelector('#contactForm');
   if (!form) return;
+
   function blockIfHoneypotTriggered() {
     if (!honeypotTriggered(form)) return false;
     setStatus('Submission blocked.', 'blocked');
     return true;
   }
+
   bindNumericInput(form.querySelector('#contactCountryCode'), true);
   bindNumericInput(form.querySelector('#contactNumber'), false);
   bindNumericInput(form.querySelector('#contactZip'), false);
@@ -150,7 +143,6 @@
       return;
     }
 
-
     if (!root.querySelectorAll('input[name="contact_interest[]"]:checked').length) {
       setStatus('Please select at least one area of interest.', 'blocked');
       return;
@@ -165,20 +157,17 @@
     try {
       setStatus('Scanning and sanitizing your request...', 'review');
       var payload = formToPlainObject(form);
-      var submitAttempt = async function (activePayload) {
-        return fetch(SUBMIT_ENDPOINT, {
-          method: 'POST',
-          headers: {
-            'content-type': 'application/json',
-            'x-ops-asset-id': opsAssetId
-          },
-          body: JSON.stringify(activePayload)
-        });
-      };
-      var response = await submitAttempt(payload);
+      var response = await fetch(SUBMIT_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'x-ops-asset-id': opsAssetId
+        },
+        body: JSON.stringify(payload)
+      });
       var responsePayload = await parseResponsePayload(response);
       if (!response.ok) {
-        throw new Error('Secure contact relay failed.');
+        throw new Error((responsePayload && responsePayload.error) || 'Secure contact relay failed.');
       }
 
       setStatus('Contact request sent securely to Gmail intake.', 'success');
@@ -187,5 +176,4 @@
       setStatus('Submission failed. Please try again shortly.', 'blocked');
     }
   });
-
 })();
