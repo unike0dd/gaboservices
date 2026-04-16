@@ -1,7 +1,8 @@
 (function () {
   var root = document.querySelector('.contact-hub');
   var formWorkflow = window.GaboFormWorkflow;
-  if (!root || !formWorkflow || typeof formWorkflow.create !== 'function') return;
+  if (!root) return;
+  var hasFormWorkflow = !!(formWorkflow && typeof formWorkflow.create === 'function');
 
   var intakeBase = (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.intakeBaseUrl) || 'https://solitary-term-4203.rulathemtodos.workers.dev';
   var HONEYPOT_FIELDS = ['company_website'];
@@ -11,6 +12,11 @@
     (window.SITE_METADATA && window.SITE_METADATA.chatbot && window.SITE_METADATA.chatbot.originAssetMap) ||
     {};
   var REQUIRED_FIELD_IDS = ['contactFullName', 'contactEmail', 'contactNumber', 'contactMessage'];
+  var turnstileState = {
+    widgetId: null,
+    settlePending: null
+  };
+  var submitInFlight = false;
 
   function setStatus(message, state) {
     var status = root.querySelector('#formStatus');
@@ -67,6 +73,89 @@
     return String(originAssetMap[window.location.origin] || '').trim();
   }
 
+  function getTurnstileToken(form) {
+    var tokenInput = form.querySelector('input[name="cf-turnstile-response"]');
+    return String((tokenInput && tokenInput.value) || '').trim();
+  }
+
+  function mountTurnstile(form) {
+    if (turnstileState.widgetId !== null) return true;
+    if (!window.turnstile || typeof window.turnstile.render !== 'function') return false;
+
+    var container = form.querySelector('#contactTurnstile');
+    if (!container) return false;
+
+    var sitekey = String(container.getAttribute('data-sitekey') || '').trim();
+    if (!sitekey) return false;
+
+    turnstileState.widgetId = window.turnstile.render(container, {
+      sitekey: sitekey,
+      theme: String(container.getAttribute('data-theme') || 'light'),
+      execution: 'execute',
+      appearance: 'execute',
+      'response-field': false,
+      callback: function (token) {
+        if (turnstileState.settlePending) {
+          turnstileState.settlePending.resolve(String(token || '').trim());
+          turnstileState.settlePending = null;
+        }
+      },
+      'error-callback': function () {
+        if (turnstileState.settlePending) {
+          turnstileState.settlePending.resolve('');
+          turnstileState.settlePending = null;
+        }
+      },
+      'expired-callback': function () {
+        if (turnstileState.settlePending) {
+          turnstileState.settlePending.resolve('');
+          turnstileState.settlePending = null;
+        }
+      },
+      'timeout-callback': function () {
+        if (turnstileState.settlePending) {
+          turnstileState.settlePending.resolve('');
+          turnstileState.settlePending = null;
+        }
+      }
+    });
+
+    return turnstileState.widgetId !== null;
+  }
+
+  async function getTurnstileTokenOnSubmit(form) {
+    var existingToken = getTurnstileToken(form);
+    if (existingToken) return existingToken;
+
+    if (!mountTurnstile(form) || !window.turnstile || typeof window.turnstile.execute !== 'function') {
+      return '';
+    }
+
+    return await new Promise(function (resolve) {
+      var timeoutId = setTimeout(function () {
+        if (turnstileState.settlePending) {
+          turnstileState.settlePending = null;
+          resolve('');
+        }
+      }, 60000);
+
+      turnstileState.settlePending = {
+        resolve: function (token) {
+          clearTimeout(timeoutId);
+          resolve(token || '');
+        }
+      };
+
+      try {
+        window.turnstile.execute(turnstileState.widgetId);
+      } catch (error) {
+        clearTimeout(timeoutId);
+        turnstileState.settlePending = null;
+        resolve('');
+      }
+    });
+  }
+
   async function parseResponsePayload(response) {
     var contentType = String(response.headers.get('content-type') || '').toLowerCase();
     if (contentType.indexOf('application/json') >= 0) {
@@ -84,33 +173,35 @@
     }
   }
 
-  formWorkflow.create(root, {
-    formId: 'contactForm',
-    statusId: 'formStatus',
-    clearKey: 'contact',
-    requiredIds: REQUIRED_FIELD_IDS,
-    emptyMessage: 'Please complete the quick inquiry fields before submitting.',
-    readyMessage: 'Quick inquiry is ready for secure submission.',
-    listConfigs: [
-      { type: 'simple', inputId: 'contactRemoteSkillInput', addBtnId: 'contactRemoteSkillAdd', listId: 'contactRemoteSkillsList', hiddenId: 'contactRemoteSkillsHidden' },
-      { type: 'pair', inputId: 'contactExperienceInput', selectId: 'contactExperienceLevel', addBtnId: 'contactExperienceAdd', listId: 'contactExperienceList', hiddenId: 'contactExperienceHidden' },
-      { type: 'pair', inputId: 'contactLanguageInput', selectId: 'contactLanguageLevel', addBtnId: 'contactLanguageAdd', listId: 'contactLanguagesList', hiddenId: 'contactLanguagesHidden' },
-      { type: 'pair', inputId: 'contactEducationInput', selectId: 'contactEducationLevel', addBtnId: 'contactEducationAdd', listId: 'contactEducationList', hiddenId: 'contactEducationHidden' }
-    ],
-    clearPillGroups: [
-      { listId: 'contactRemoteSkillsList', hiddenId: 'contactRemoteSkillsHidden' },
-      { listId: 'contactExperienceList', hiddenId: 'contactExperienceHidden' },
-      { listId: 'contactLanguagesList', hiddenId: 'contactLanguagesHidden' },
-      { listId: 'contactEducationList', hiddenId: 'contactEducationHidden' }
-    ],
-    clearCheckboxSelectors: ['input[name="contact_interest[]"]', 'input[name="remote_interest[]"]'],
-    extraValidation: function (context) {
-      if (!context.getCheckedValues('input[name="contact_interest[]"]').length) {
-        return 'Please select at least one service interest.';
+  if (hasFormWorkflow) {
+    formWorkflow.create(root, {
+      formId: 'contactForm',
+      statusId: 'formStatus',
+      clearKey: 'contact',
+      requiredIds: REQUIRED_FIELD_IDS,
+      emptyMessage: 'Please complete the quick inquiry fields before submitting.',
+      readyMessage: 'Quick inquiry is ready for secure submission.',
+      listConfigs: [
+        { type: 'simple', inputId: 'contactRemoteSkillInput', addBtnId: 'contactRemoteSkillAdd', listId: 'contactRemoteSkillsList', hiddenId: 'contactRemoteSkillsHidden' },
+        { type: 'pair', inputId: 'contactExperienceInput', selectId: 'contactExperienceLevel', addBtnId: 'contactExperienceAdd', listId: 'contactExperienceList', hiddenId: 'contactExperienceHidden' },
+        { type: 'pair', inputId: 'contactLanguageInput', selectId: 'contactLanguageLevel', addBtnId: 'contactLanguageAdd', listId: 'contactLanguagesList', hiddenId: 'contactLanguagesHidden' },
+        { type: 'pair', inputId: 'contactEducationInput', selectId: 'contactEducationLevel', addBtnId: 'contactEducationAdd', listId: 'contactEducationList', hiddenId: 'contactEducationHidden' }
+      ],
+      clearPillGroups: [
+        { listId: 'contactRemoteSkillsList', hiddenId: 'contactRemoteSkillsHidden' },
+        { listId: 'contactExperienceList', hiddenId: 'contactExperienceHidden' },
+        { listId: 'contactLanguagesList', hiddenId: 'contactLanguagesHidden' },
+        { listId: 'contactEducationList', hiddenId: 'contactEducationHidden' }
+      ],
+      clearCheckboxSelectors: ['input[name="contact_interest[]"]', 'input[name="remote_interest[]"]'],
+      extraValidation: function (context) {
+        if (!context.getCheckedValues('input[name="contact_interest[]"]').length) {
+          return 'Please select at least one service interest.';
+        }
+        return '';
       }
-      return '';
-    }
-  });
+    });
+  }
 
   var form = root.querySelector('#contactForm');
   if (!form) return;
@@ -127,36 +218,46 @@
 
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
-
-    if (blockIfHoneypotTriggered()) {
-      return;
-    }
-
-    if (!form.checkValidity()) {
-      var invalidFields = getInvalidFieldNames(form, REQUIRED_FIELD_IDS);
-      if (invalidFields.length) {
-        setStatus('Please complete all required fields: ' + invalidFields.join(', ') + '.', 'blocked');
-        form.querySelector(':invalid').focus();
-      } else {
-        setStatus('Please complete all required fields.', 'blocked');
-      }
-      return;
-    }
-
-    if (!root.querySelectorAll('input[name="contact_interest[]"]:checked').length) {
-      setStatus('Please select at least one area of interest.', 'blocked');
-      return;
-    }
-
-    var opsAssetId = getOpsAssetId();
-    if (!opsAssetId) {
-      setStatus('Secure intake is temporarily unavailable. Please try again shortly.', 'blocked');
-      return;
-    }
+    if (submitInFlight) return;
+    submitInFlight = true;
 
     try {
+      if (blockIfHoneypotTriggered()) {
+        return;
+      }
+
+      if (!form.checkValidity()) {
+        var invalidFields = getInvalidFieldNames(form, REQUIRED_FIELD_IDS);
+        if (invalidFields.length) {
+          setStatus('Please complete all required fields: ' + invalidFields.join(', ') + '.', 'blocked');
+          form.querySelector(':invalid').focus();
+        } else {
+          setStatus('Please complete all required fields.', 'blocked');
+        }
+        return;
+      }
+
+      if (!root.querySelectorAll('input[name="contact_interest[]"]:checked').length) {
+        setStatus('Please select at least one area of interest.', 'blocked');
+        return;
+      }
+
+      setStatus('Please verify the Turnstile confirmation to continue.', 'review');
+      var turnstileToken = await getTurnstileTokenOnSubmit(form);
+      if (!turnstileToken) {
+        setStatus('Please complete the Turnstile challenge before submitting.', 'blocked');
+        return;
+      }
+
+      var opsAssetId = getOpsAssetId();
+      if (!opsAssetId) {
+        setStatus('Secure intake is temporarily unavailable. Please try again shortly.', 'blocked');
+        return;
+      }
+
       setStatus('Scanning and sanitizing your request...', 'review');
       var payload = formToPlainObject(form);
+      payload['cf-turnstile-response'] = turnstileToken;
       var response = await fetch(SUBMIT_ENDPOINT, {
         method: 'POST',
         headers: {
@@ -174,6 +275,11 @@
       form.reset();
     } catch (error) {
       setStatus('Submission failed. Please try again shortly.', 'blocked');
+    } finally {
+      submitInFlight = false;
+      if (window.turnstile && turnstileState.widgetId !== null && typeof window.turnstile.reset === 'function') {
+        window.turnstile.reset(turnstileState.widgetId);
+      }
     }
   });
 })();
