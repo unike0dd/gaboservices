@@ -21,8 +21,8 @@ This repository already has strong foundational protections for a static web pro
 
 1. **Client-side “TinyGuard” is bypassable**
    - Input filtering in `main.js` helps UX but does not provide server-side trust.
-2. **Turnstile verification appears client-enforced only in this repo**
-   - Token is collected client-side; secure validation must happen server-side at submit endpoint.
+2. **Challenge-response verification appeared client-enforced in earlier revisions**
+   - Prior flows collected a challenge token client-side; secure validation needed server-side enforcement at submit endpoints.
 3. **DOM injection surface through `innerHTML` patterns**
    - Multiple UI sections use `innerHTML`; currently fed from local dictionaries/templates, but future dynamic data could create XSS risk if not escaped.
 4. **No explicit rate-limit / abuse-control config in this repo for form endpoints**
@@ -68,8 +68,8 @@ All of the following can be implemented without paid services and without adding
    - `scripts/update-locale-sitemap.js` now includes the English base routes only.
 4. **Per-route CSP continuity preserved**
    - Restored page-level CSP meta directives on key routes to preserve existing origin/ID checks expected by current Cloudflare Worker communication paths.
-5. **Turnstile dependency retired**
-   - Removed `https://challenges.cloudflare.com` from CSP directives in `_headers` after decommissioning Turnstile on contact/careers flows.
+5. **Legacy challenge dependency retired**
+   - Removed legacy challenge script origins from CSP directives in `_headers` after decommissioning challenge widgets on contact/careers flows.
 6. **Scoped static asset CORS retained**
    - `/assets/*` keeps explicit `Access-Control-Allow-Origin: https://www.gabo.services` for strict origin control on static asset reads.
 7. **YouTube privacy-enhanced embed readiness added**
@@ -80,7 +80,7 @@ All of the following can be implemented without paid services and without adding
    - Added `X-Robots-Tag` in `_headers`, normalized crawl directives in `robots.txt`, and enriched `sitemap.xml` with `lastmod`, `changefreq`, and `priority` metadata.
 10. **Control-family taxonomy expanded**
    - Governance metadata now explicitly tracks `CIS Controls` alongside CISA, NIST CSF, OWASP ASVS, PCI DSS, SEO, and CSP profiles.
-11. **Form abuse safeguards strengthened (post-Turnstile)**
+11. **Form abuse safeguards strengthened (post-challenge decommission)**
    - Intake Worker now layers honeypot expansion, configurable per-route/IP rate limiting, and server-side abuse signal checks (field volume/length, excessive links, repetitive patterns, and automation user-agent blocking).
 
 ### Compliance Mapping (practical)

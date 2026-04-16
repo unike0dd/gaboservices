@@ -12,10 +12,6 @@
     (window.SITE_METADATA && window.SITE_METADATA.chatbot && window.SITE_METADATA.chatbot.originAssetMap) ||
     {};
   var REQUIRED_FIELD_IDS = ['contactFullName', 'contactEmail', 'contactNumber', 'contactMessage'];
-  var turnstileState = {
-    widgetId: null,
-    settlePending: null
-  };
 
   function setStatus(message, state) {
     var status = root.querySelector('#formStatus');
@@ -70,11 +66,6 @@
 
   function getOpsAssetId() {
     return String(originAssetMap[window.location.origin] || '').trim();
-  }
-
-  function getTurnstileToken(form) {
-    var tokenInput = form.querySelector('input[name="cf-turnstile-response"]');
-    return String((tokenInput && tokenInput.value) || '').trim();
   }
 
   async function parseResponsePayload(response) {
@@ -136,7 +127,6 @@
   bindNumericInput(form.querySelector('#contactCountryCode'), true);
   bindNumericInput(form.querySelector('#contactNumber'), false);
   bindNumericInput(form.querySelector('#contactZip'), false);
-  mountTurnstile(form);
 
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -164,12 +154,6 @@
         return;
       }
 
-    var turnstileToken = getTurnstileToken(form);
-    if (!turnstileToken) {
-      setStatus('Please complete the Turnstile challenge before submitting.', 'blocked');
-      return;
-    }
-
     var opsAssetId = getOpsAssetId();
     if (!opsAssetId) {
       setStatus('Secure intake is temporarily unavailable. Please try again shortly.', 'blocked');
@@ -178,7 +162,6 @@
 
       setStatus('Scanning and sanitizing your request...', 'review');
       var payload = formToPlainObject(form);
-      payload['cf-turnstile-response'] = turnstileToken;
       var response = await fetch(SUBMIT_ENDPOINT, {
         method: 'POST',
         headers: {
@@ -198,9 +181,6 @@
       setStatus('Submission failed. Please try again shortly.', 'blocked');
     } finally {
       submitInFlight = false;
-      if (window.turnstile && turnstileState.widgetId !== null && typeof window.turnstile.reset === 'function') {
-        window.turnstile.reset(turnstileState.widgetId);
-      }
     }
   });
 })();
