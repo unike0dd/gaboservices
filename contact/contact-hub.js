@@ -1,7 +1,8 @@
 (function () {
   var root = document.querySelector('.contact-hub');
   var formWorkflow = window.GaboFormWorkflow;
-  if (!root || !formWorkflow || typeof formWorkflow.create !== 'function') return;
+  if (!root) return;
+  var hasFormWorkflow = !!(formWorkflow && typeof formWorkflow.create === 'function');
 
   var intakeBase = (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.intakeBaseUrl) || 'https://solitary-term-4203.rulathemtodos.workers.dev';
   var HONEYPOT_FIELDS = ['company_website'];
@@ -93,33 +94,35 @@
     }
   }
 
-  formWorkflow.create(root, {
-    formId: 'contactForm',
-    statusId: 'formStatus',
-    clearKey: 'contact',
-    requiredIds: REQUIRED_FIELD_IDS,
-    emptyMessage: 'Please complete the quick inquiry fields before submitting.',
-    readyMessage: 'Quick inquiry is ready for secure submission.',
-    listConfigs: [
-      { type: 'simple', inputId: 'contactRemoteSkillInput', addBtnId: 'contactRemoteSkillAdd', listId: 'contactRemoteSkillsList', hiddenId: 'contactRemoteSkillsHidden' },
-      { type: 'pair', inputId: 'contactExperienceInput', selectId: 'contactExperienceLevel', addBtnId: 'contactExperienceAdd', listId: 'contactExperienceList', hiddenId: 'contactExperienceHidden' },
-      { type: 'pair', inputId: 'contactLanguageInput', selectId: 'contactLanguageLevel', addBtnId: 'contactLanguageAdd', listId: 'contactLanguagesList', hiddenId: 'contactLanguagesHidden' },
-      { type: 'pair', inputId: 'contactEducationInput', selectId: 'contactEducationLevel', addBtnId: 'contactEducationAdd', listId: 'contactEducationList', hiddenId: 'contactEducationHidden' }
-    ],
-    clearPillGroups: [
-      { listId: 'contactRemoteSkillsList', hiddenId: 'contactRemoteSkillsHidden' },
-      { listId: 'contactExperienceList', hiddenId: 'contactExperienceHidden' },
-      { listId: 'contactLanguagesList', hiddenId: 'contactLanguagesHidden' },
-      { listId: 'contactEducationList', hiddenId: 'contactEducationHidden' }
-    ],
-    clearCheckboxSelectors: ['input[name="contact_interest[]"]', 'input[name="remote_interest[]"]'],
-    extraValidation: function (context) {
-      if (!context.getCheckedValues('input[name="contact_interest[]"]').length) {
-        return 'Please select at least one service interest.';
+  if (hasFormWorkflow) {
+    formWorkflow.create(root, {
+      formId: 'contactForm',
+      statusId: 'formStatus',
+      clearKey: 'contact',
+      requiredIds: REQUIRED_FIELD_IDS,
+      emptyMessage: 'Please complete the quick inquiry fields before submitting.',
+      readyMessage: 'Quick inquiry is ready for secure submission.',
+      listConfigs: [
+        { type: 'simple', inputId: 'contactRemoteSkillInput', addBtnId: 'contactRemoteSkillAdd', listId: 'contactRemoteSkillsList', hiddenId: 'contactRemoteSkillsHidden' },
+        { type: 'pair', inputId: 'contactExperienceInput', selectId: 'contactExperienceLevel', addBtnId: 'contactExperienceAdd', listId: 'contactExperienceList', hiddenId: 'contactExperienceHidden' },
+        { type: 'pair', inputId: 'contactLanguageInput', selectId: 'contactLanguageLevel', addBtnId: 'contactLanguageAdd', listId: 'contactLanguagesList', hiddenId: 'contactLanguagesHidden' },
+        { type: 'pair', inputId: 'contactEducationInput', selectId: 'contactEducationLevel', addBtnId: 'contactEducationAdd', listId: 'contactEducationList', hiddenId: 'contactEducationHidden' }
+      ],
+      clearPillGroups: [
+        { listId: 'contactRemoteSkillsList', hiddenId: 'contactRemoteSkillsHidden' },
+        { listId: 'contactExperienceList', hiddenId: 'contactExperienceHidden' },
+        { listId: 'contactLanguagesList', hiddenId: 'contactLanguagesHidden' },
+        { listId: 'contactEducationList', hiddenId: 'contactEducationHidden' }
+      ],
+      clearCheckboxSelectors: ['input[name="contact_interest[]"]', 'input[name="remote_interest[]"]'],
+      extraValidation: function (context) {
+        if (!context.getCheckedValues('input[name="contact_interest[]"]').length) {
+          return 'Please select at least one service interest.';
+        }
+        return '';
       }
-      return '';
-    }
-  });
+    });
+  }
 
   var form = root.querySelector('#contactForm');
   if (!form) return;
