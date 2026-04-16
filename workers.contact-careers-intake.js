@@ -83,22 +83,7 @@ export default {
       );
     }
 
-    const turnstileToken = extractTurnstileToken(payload);
-    const enforceTurnstile = shouldEnforceTurnstile(env);
-    if (enforceTurnstile && !turnstileToken) {
-      return json(
-        {
-          ok: false,
-          error: "Missing Turnstile token.",
-          code: "turnstile_token_missing",
-        },
-        403,
-        request,
-        env
-      );
-    }
-
-    const sanitized = sanitizePayload(stripTurnstileFields(payload));
+    const sanitized = sanitizePayload(payload);
 
     if (!sanitized.accepted) {
       return json(
@@ -121,10 +106,7 @@ export default {
         "content-type": "application/json; charset=utf-8",
         "x-ops-asset-id": config.asset,
       },
-      body: JSON.stringify({
-        ...sanitized.data,
-        ...(turnstileToken ? { turnstileToken } : {}),
-      }),
+      body: JSON.stringify(sanitized.data),
     });
 
     if (!relayResponse.ok) {
@@ -222,11 +204,6 @@ async function parseIncomingBody(request) {
   throw new Error("Unsupported content type");
 }
 
-function shouldEnforceTurnstile(env) {
-  const raw = String(env.TURNSTILE_ENFORCE || "").trim().toLowerCase();
-  return raw === "1" || raw === "true" || raw === "yes" || raw === "on";
-}
-
 function shouldAllowProgrammaticUserAgents(env) {
   const raw = String(env.ALLOW_PROGRAMMATIC_USER_AGENTS || "").trim().toLowerCase();
   return raw === "1" || raw === "true" || raw === "yes" || raw === "on";
@@ -310,24 +287,6 @@ function getClientFingerprint(request, route) {
 function readPositiveInt(value, fallback) {
   const parsed = Number.parseInt(String(value ?? ""), 10);
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
-}
-
-function extractTurnstileToken(payload) {
-  if (!payload || typeof payload !== "object") return "";
-  return String(
-    payload.turnstileToken ||
-      payload["cf-turnstile-response"] ||
-      payload.cf_turnstile_response ||
-      ""
-  ).trim();
-}
-
-function stripTurnstileFields(payload) {
-  const clone = { ...(payload || {}) };
-  delete clone.turnstileToken;
-  delete clone["cf-turnstile-response"];
-  delete clone.cf_turnstile_response;
-  return clone;
 }
 
 function sanitizePayload(input) {

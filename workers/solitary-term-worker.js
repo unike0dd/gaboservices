@@ -117,42 +117,7 @@ export default {
       );
     }
 
-    const turnstileToken = String(
-      incoming.turnstileToken ||
-      incoming["cf-turnstile-response"] ||
-      incoming.cf_turnstile_response ||
-      ""
-    ).trim();
-
-    if (!turnstileToken) {
-      return jsonResponse(
-        { ok: false, error: "Missing Turnstile token." },
-        403,
-        request,
-        env
-      );
-    }
-
-    const turnstileCheck = await verifyTurnstileToken(turnstileToken, request, env);
-    if (!turnstileCheck.ok) {
-      return jsonResponse(
-        {
-          ok: false,
-          error: turnstileCheck.error,
-          detail: turnstileCheck.detail || [],
-        },
-        403,
-        request,
-        env
-      );
-    }
-
-    const businessPayload = { ...incoming };
-    delete businessPayload.turnstileToken;
-    delete businessPayload["cf-turnstile-response"];
-    delete businessPayload.cf_turnstile_response;
-
-    const cleanedResult = cleanAndValidatePayload(routeResult.route.key, businessPayload);
+    const cleanedResult = cleanAndValidatePayload(routeResult.route.key, incoming);
 
     if (!cleanedResult.ok) {
       return jsonResponse(
@@ -189,11 +154,6 @@ export default {
         risk_score: cleanedResult.riskScore,
         warnings: cleanedResult.warnings,
         sanitizer: "plain-text-only",
-        turnstile: {
-          success: true,
-          hostname: turnstileCheck.result?.hostname || "",
-          challenge_ts: turnstileCheck.result?.challenge_ts || "",
-        },
       },
     };
 
@@ -355,69 +315,6 @@ function resolveRouteByAsset(assetId, env) {
   }
 
   return null;
-}
-
-async function verifyTurnstileToken(token, request, env) {
-  if (!env.TURNSTILE_SECRET_KEY) {
-    return { ok: false, error: "Missing Turnstile secret." };
-  }
-
-  const remoteip =
-    request.headers.get("cf-connecting-ip") ||
-    request.headers.get("x-forwarded-for") ||
-    "";
-
-  let response;
-  try {
-    response = await fetch(
-      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          secret: env.TURNSTILE_SECRET_KEY,
-          response: token,
-          remoteip,
-        }),
-      }
-    );
-  } catch {
-    return {
-      ok: false,
-      error: "Turnstile verification request failed.",
-    };
-  }
-
-  let result;
-  try {
-    result = await response.json();
-  } catch {
-    return {
-      ok: false,
-      error: "Turnstile verification response was invalid.",
-    };
-  }
-
-  if (!result.success) {
-    return {
-      ok: false,
-      error: "Turnstile validation failed.",
-      detail: result["error-codes"] || [],
-    };
-  }
-
-  const allowedHostnames = new Set(["www.gabo.services", "gabo.services"]);
-  if (result.hostname && !allowedHostnames.has(result.hostname)) {
-    return {
-      ok: false,
-      error: "Turnstile hostname mismatch.",
-      detail: result.hostname,
-    };
-  }
-
-  return { ok: true, result };
 }
 
 function cleanAndValidatePayload(routeKey, input) {
