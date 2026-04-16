@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="../assets/mobile-nav.css" />
     <script src="../site.config.js"></script>
     <script src="../form-workflow.js"></script>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script data-cfasync="false" type="module" crossorigin="anonymous" src="../main.js"></script>
     <link rel="stylesheet" href="../contact/contact-hub.css?v=20260322a" />
   </head>
@@ -176,7 +176,7 @@
                       </section>
 
                   <div class="secure-actions">
-                    <div id="contactTurnstile" class="cf-turnstile" data-sitekey="0x4AAAAAAC8lYODpHPQyGH5K" data-theme="light"></div>
+                    <div class="cf-turnstile" data-sitekey="0x4AAAAAAC8lYODpHPQyGH5K" data-theme="light"></div>
                     <button type="submit" class="btn btn--primary">Submit</button>
                     <button type="button" class="btn btn--ghost" data-clear-form="contact">Clear Form</button>
                   </div>

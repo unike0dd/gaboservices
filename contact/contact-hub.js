@@ -16,7 +16,6 @@
     widgetId: null,
     settlePending: null
   };
-  var submitInFlight = false;
 
   function setStatus(message, state) {
     var status = root.querySelector('#formStatus');
@@ -78,84 +77,6 @@
     return String((tokenInput && tokenInput.value) || '').trim();
   }
 
-  function mountTurnstile(form) {
-    if (turnstileState.widgetId !== null) return true;
-    if (!window.turnstile || typeof window.turnstile.render !== 'function') return false;
-
-    var container = form.querySelector('#contactTurnstile');
-    if (!container) return false;
-
-    var sitekey = String(container.getAttribute('data-sitekey') || '').trim();
-    if (!sitekey) return false;
-
-    turnstileState.widgetId = window.turnstile.render(container, {
-      sitekey: sitekey,
-      theme: String(container.getAttribute('data-theme') || 'light'),
-      execution: 'execute',
-      appearance: 'execute',
-      'response-field': false,
-      callback: function (token) {
-        if (turnstileState.settlePending) {
-          turnstileState.settlePending.resolve(String(token || '').trim());
-          turnstileState.settlePending = null;
-        }
-      },
-      'error-callback': function () {
-        if (turnstileState.settlePending) {
-          turnstileState.settlePending.resolve('');
-          turnstileState.settlePending = null;
-        }
-      },
-      'expired-callback': function () {
-        if (turnstileState.settlePending) {
-          turnstileState.settlePending.resolve('');
-          turnstileState.settlePending = null;
-        }
-      },
-      'timeout-callback': function () {
-        if (turnstileState.settlePending) {
-          turnstileState.settlePending.resolve('');
-          turnstileState.settlePending = null;
-        }
-      }
-    });
-
-    return turnstileState.widgetId !== null;
-  }
-
-  async function getTurnstileTokenOnSubmit(form) {
-    var existingToken = getTurnstileToken(form);
-    if (existingToken) return existingToken;
-
-    if (!mountTurnstile(form) || !window.turnstile || typeof window.turnstile.execute !== 'function') {
-      return '';
-    }
-
-    return await new Promise(function (resolve) {
-      var timeoutId = setTimeout(function () {
-        if (turnstileState.settlePending) {
-          turnstileState.settlePending = null;
-          resolve('');
-        }
-      }, 60000);
-
-      turnstileState.settlePending = {
-        resolve: function (token) {
-          clearTimeout(timeoutId);
-          resolve(token || '');
-        }
-      };
-
-      try {
-        window.turnstile.execute(turnstileState.widgetId);
-      } catch (error) {
-        clearTimeout(timeoutId);
-        turnstileState.settlePending = null;
-        resolve('');
-      }
-    });
-  }
-
   async function parseResponsePayload(response) {
     var contentType = String(response.headers.get('content-type') || '').toLowerCase();
     if (contentType.indexOf('application/json') >= 0) {
@@ -215,6 +136,7 @@
   bindNumericInput(form.querySelector('#contactCountryCode'), true);
   bindNumericInput(form.querySelector('#contactNumber'), false);
   bindNumericInput(form.querySelector('#contactZip'), false);
+  mountTurnstile(form);
 
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -242,18 +164,17 @@
         return;
       }
 
-      setStatus('Please verify the Turnstile confirmation to continue.', 'review');
-      var turnstileToken = await getTurnstileTokenOnSubmit(form);
-      if (!turnstileToken) {
-        setStatus('Please complete the Turnstile challenge before submitting.', 'blocked');
-        return;
-      }
+    var turnstileToken = getTurnstileToken(form);
+    if (!turnstileToken) {
+      setStatus('Please complete the Turnstile challenge before submitting.', 'blocked');
+      return;
+    }
 
-      var opsAssetId = getOpsAssetId();
-      if (!opsAssetId) {
-        setStatus('Secure intake is temporarily unavailable. Please try again shortly.', 'blocked');
-        return;
-      }
+    var opsAssetId = getOpsAssetId();
+    if (!opsAssetId) {
+      setStatus('Secure intake is temporarily unavailable. Please try again shortly.', 'blocked');
+      return;
+    }
 
       setStatus('Scanning and sanitizing your request...', 'review');
       var payload = formToPlainObject(form);
