@@ -140,26 +140,29 @@
 
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
+    if (submitInFlight) return;
+    submitInFlight = true;
 
-    if (blockIfHoneypotTriggered()) {
-      return;
-    }
-
-    if (!form.checkValidity()) {
-      var invalidFields = getInvalidFieldNames(form, REQUIRED_FIELD_IDS);
-      if (invalidFields.length) {
-        setStatus('Please complete all required fields: ' + invalidFields.join(', ') + '.', 'blocked');
-        form.querySelector(':invalid').focus();
-      } else {
-        setStatus('Please complete all required fields.', 'blocked');
+    try {
+      if (blockIfHoneypotTriggered()) {
+        return;
       }
-      return;
-    }
 
-    if (!root.querySelectorAll('input[name="contact_interest[]"]:checked').length) {
-      setStatus('Please select at least one area of interest.', 'blocked');
-      return;
-    }
+      if (!form.checkValidity()) {
+        var invalidFields = getInvalidFieldNames(form, REQUIRED_FIELD_IDS);
+        if (invalidFields.length) {
+          setStatus('Please complete all required fields: ' + invalidFields.join(', ') + '.', 'blocked');
+          form.querySelector(':invalid').focus();
+        } else {
+          setStatus('Please complete all required fields.', 'blocked');
+        }
+        return;
+      }
+
+      if (!root.querySelectorAll('input[name="contact_interest[]"]:checked').length) {
+        setStatus('Please select at least one area of interest.', 'blocked');
+        return;
+      }
 
     var turnstileToken = getTurnstileToken(form);
     if (!turnstileToken) {
@@ -173,9 +176,9 @@
       return;
     }
 
-    try {
       setStatus('Scanning and sanitizing your request...', 'review');
       var payload = formToPlainObject(form);
+      payload['cf-turnstile-response'] = turnstileToken;
       var response = await fetch(SUBMIT_ENDPOINT, {
         method: 'POST',
         headers: {
@@ -193,6 +196,11 @@
       form.reset();
     } catch (error) {
       setStatus('Submission failed. Please try again shortly.', 'blocked');
+    } finally {
+      submitInFlight = false;
+      if (window.turnstile && turnstileState.widgetId !== null && typeof window.turnstile.reset === 'function') {
+        window.turnstile.reset(turnstileState.widgetId);
+      }
     }
   });
 })();
