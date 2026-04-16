@@ -873,7 +873,7 @@ function buildCorsHeaders(request, env) {
     "Access-Control-Allow-Headers":
       requestedHeaders || "content-type, x-ops-asset-id, x-gabo-parent-origin",
     "Access-Control-Max-Age": "86400",
-    Vary: "Origin, Access-Control-Request-Headers",
+    "Vary": "Origin, Access-Control-Request-Headers",
     "Cache-Control": "no-store",
   };
 }
