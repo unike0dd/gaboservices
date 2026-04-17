@@ -12,6 +12,7 @@
     (window.SITE_METADATA && window.SITE_METADATA.chatbot && window.SITE_METADATA.chatbot.originAssetMap) ||
     {};
   var REQUIRED_FIELD_IDS = ['careerFullName', 'careerEmail', 'careerCountryCode', 'careerNumber', 'careerCity', 'careerState', 'careerZip', 'careerAvailability'];
+  var submitInFlight = false;
 
   function setStatus(message, state) {
     var status = root.querySelector('#careerFormStatus');
@@ -71,18 +72,16 @@
   async function parseResponsePayload(response) {
     var contentType = String(response.headers.get('content-type') || '').toLowerCase();
     if (contentType.indexOf('application/json') >= 0) {
-      try {
-        return await response.json();
-      } catch (error) {
-        return null;
-      }
+      return await response.json();
     }
-    try {
-      var text = await response.text();
-      return { detail: text };
-    } catch (error) {
-      return null;
-    }
+
+    var text = await response.text();
+    return { detail: text };
+  }
+
+  function getBackendErrorMessage(payload) {
+    if (!payload || typeof payload !== 'object') return '';
+    return String(payload.error || payload.message || payload.detail || '').trim();
   }
 
   if (hasFormWorkflow) {
@@ -120,6 +119,32 @@
   var form = root.querySelector('#careerForm');
   if (!form) return;
 
+  var submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
+  var originalSubmitLabel = submitButton
+    ? (submitButton.tagName === 'INPUT' ? submitButton.value : submitButton.textContent)
+    : '';
+
+  function setSubmittingState(isSubmitting) {
+    submitInFlight = !!isSubmitting;
+    if (!submitButton) return;
+    submitButton.disabled = !!isSubmitting;
+
+    if (submitButton.hasAttribute('aria-busy')) {
+      submitButton.setAttribute('aria-busy', isSubmitting ? 'true' : 'false');
+    }
+
+    if (submitButton.tagName === 'INPUT') {
+      submitButton.value = isSubmitting
+        ? (submitButton.dataset.submittingLabel || originalSubmitLabel || submitButton.value)
+        : (originalSubmitLabel || submitButton.value);
+      return;
+    }
+
+    submitButton.textContent = isSubmitting
+      ? (submitButton.dataset.submittingLabel || originalSubmitLabel || submitButton.textContent)
+      : (originalSubmitLabel || submitButton.textContent);
+  }
+
   function blockIfHoneypotTriggered() {
     if (!honeypotTriggered(form)) return false;
     setStatus('Submission blocked.', 'blocked');
@@ -133,9 +158,18 @@
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
     if (submitInFlight) return;
-    submitInFlight = true;
 
     try {
+      if (!form) {
+        setStatus('Submission failed. Please refresh and try again.', 'blocked');
+        return;
+      }
+
+      if (!submitButton) {
+        setStatus('Submission failed. Submit control is unavailable.', 'blocked');
+        return;
+      }
+
       if (blockIfHoneypotTriggered()) {
         return;
       }
@@ -156,14 +190,17 @@
         return;
       }
 
-    var opsAssetId = getOpsAssetId();
-    if (!opsAssetId) {
-      setStatus('Secure intake is temporarily unavailable. Please try again shortly.', 'blocked');
-      return;
-    }
+      var opsAssetId = getOpsAssetId();
+      if (!opsAssetId) {
+        setStatus('Secure intake is temporarily unavailable. Please try again shortly.', 'blocked');
+        return;
+      }
 
-      setStatus('Scanning and sanitizing your application...', 'review');
       var payload = formToPlainObject(form);
+
+      setSubmittingState(true);
+      setStatus('Scanning and sanitizing your application...', 'review');
+
       var response = await fetch(SUBMIT_ENDPOINT, {
         method: 'POST',
         headers: {
@@ -173,16 +210,21 @@
         body: JSON.stringify(payload)
       });
       var responsePayload = await parseResponsePayload(response);
+
       if (!response.ok) {
-        throw new Error((responsePayload && responsePayload.error) || 'Secure career relay failed.');
+        throw new Error(getBackendErrorMessage(responsePayload) || 'Secure career relay failed.');
+      }
+
+      if (responsePayload && responsePayload.ok === false) {
+        throw new Error(getBackendErrorMessage(responsePayload) || 'Secure career relay failed.');
       }
 
       setStatus('Career application sent securely to Google Sheets intake.', 'success');
       form.reset();
     } catch (error) {
-      setStatus('Submission failed. Please try again shortly.', 'blocked');
+      setStatus((error && error.message) || 'Submission failed. Please try again shortly.', 'blocked');
     } finally {
-      submitInFlight = false;
+      setSubmittingState(false);
     }
   });
 })();
