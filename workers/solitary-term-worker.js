@@ -146,9 +146,9 @@ export default {
       );
     }
 
-    if (!env.WORKER_BRIDGE_SHARED_SECRET) {
+    if (!env.SOLITARY_TO_CORREO_SHARED_SECRET) {
       return jsonResponse(
-        { ok: false, error: "Missing WORKER_BRIDGE_SHARED_SECRET." },
+        { ok: false, error: "Missing SOLITARY_TO_CORREO_SHARED_SECRET." },
         500,
         request,
         env
@@ -156,7 +156,7 @@ export default {
     }
 
     const outboundPayload = {
-      version: 1,
+      version: 2,
       source_worker: "solitary-term",
       route: routeResult.route.key,
       destination: routeResult.route.destination,
@@ -171,20 +171,34 @@ export default {
       },
     };
 
-    const deliveryResponse = await env.DELIVERY.fetch(
-      new Request(`https://internal.local${routeResult.route.internalPath}`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json; charset=utf-8",
-          "x-solitary-route": routeResult.route.key,
-          "x-worker-bridge-secret": env.WORKER_BRIDGE_SHARED_SECRET,
+    let deliveryResponse;
+    try {
+      deliveryResponse = await env.DELIVERY.fetch(
+        new Request(`https://internal.local${routeResult.route.internalPath}`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json; charset=utf-8",
+            "x-solitary-route": routeResult.route.key,
+            "x-solitary-bridge-secret": env.SOLITARY_TO_CORREO_SHARED_SECRET,
+          },
+          body: JSON.stringify(outboundPayload),
+        })
+      );
+    } catch (error) {
+      return jsonResponse(
+        {
+          ok: false,
+          error: "Internal delivery request failed.",
+          detail: String(error && error.message ? error.message : error),
         },
-        body: JSON.stringify(outboundPayload),
-      })
-    );
+        502,
+        request,
+        env
+      );
+    }
 
     if (!deliveryResponse.ok) {
-      const detail = (await safeReadText(deliveryResponse)).slice(0, 400);
+      const detail = (await safeReadText(deliveryResponse)).slice(0, 4000);
       return jsonResponse(
         {
           ok: false,
@@ -197,6 +211,9 @@ export default {
       );
     }
 
+    const deliveryText = (await safeReadText(deliveryResponse)).slice(0, 4000);
+    const deliveryJson = tryParseJson(deliveryText);
+
     return jsonResponse(
       {
         ok: true,
@@ -204,6 +221,8 @@ export default {
         route: routeResult.route.key,
         destination: routeResult.route.destination,
         request_id: outboundPayload.request_id,
+        delivery_status: deliveryResponse.status,
+        delivery_response: deliveryJson || deliveryText || "OK",
       },
       200,
       request,
@@ -910,6 +929,14 @@ function safeEqual(a, b) {
   }
 
   return mismatch === 0;
+}
+
+function tryParseJson(text) {
+  try {
+    return JSON.parse(text);
+  } catch {
+    return null;
+  }
 }
 
 async function safeReadText(response) {
