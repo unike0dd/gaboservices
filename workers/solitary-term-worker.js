@@ -118,10 +118,6 @@ export default {
     }
 
     const businessPayload = { ...incoming };
-    delete businessPayload.turnstileToken;
-    delete businessPayload["cf-turnstile-response"];
-    delete businessPayload.cf_turnstile_response;
-
     const cleanedResult = cleanAndValidatePayload(routeResult.route.key, businessPayload);
 
     if (!cleanedResult.ok) {
