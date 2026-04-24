@@ -1,12 +1,13 @@
 (function () {
   var root = document.querySelector('.contact-hub');
   var formWorkflow = window.GaboFormWorkflow;
-  if (!root) return;
-  var hasFormWorkflow = !!(formWorkflow && typeof formWorkflow.create === 'function');
+  var submitCore = window.GaboFormSubmitCore;
+  if (!root || !submitCore) return;
 
+  var hasFormWorkflow = !!(formWorkflow && typeof formWorkflow.create === 'function');
   var intakeBase = (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.intakeBaseUrl) || 'https://solitary-term-4203.rulathemtodos.workers.dev';
-  var HONEYPOT_FIELDS = ['portfolio_url'];
   var SUBMIT_ENDPOINT = intakeBase.replace(/\/$/, '') + '/submit/careers';
+  var HONEYPOT_FIELDS = ['portfolio_url'];
   var originAssetMap =
     (window.SITE_METADATA && window.SITE_METADATA.forms && window.SITE_METADATA.forms.originAssetMap) ||
     (window.SITE_METADATA && window.SITE_METADATA.chatbot && window.SITE_METADATA.chatbot.originAssetMap) ||
@@ -27,61 +28,6 @@
       var label = form.querySelector('label[for="' + field.id + '"]');
       return (label && label.textContent && label.textContent.trim()) || field.name || field.id;
     });
-  }
-
-  function formToPlainObject(form) {
-    var formData = new FormData(form);
-    var out = {};
-
-    formData.forEach(function (value, key) {
-      if (Object.prototype.hasOwnProperty.call(out, key)) {
-        if (Array.isArray(out[key])) out[key].push(value);
-        else out[key] = [out[key], value];
-      } else {
-        out[key] = value;
-      }
-    });
-
-    return out;
-  }
-
-  function honeypotTriggered(form) {
-    return HONEYPOT_FIELDS.some(function (name) {
-      var input = form.querySelector('input[name="' + name + '"]');
-      return !!(input && String(input.value || '').trim());
-    });
-  }
-
-  function bindNumericInput(input, allowPlusPrefix) {
-    if (!input) return;
-    input.addEventListener('input', function () {
-      var raw = String(input.value || '');
-      var sanitized = allowPlusPrefix
-        ? raw.replace(/[^\d+]/g, '').replace(/(?!^)\+/g, '')
-        : raw.replace(/\D/g, '');
-      if (input.value !== sanitized) {
-        input.value = sanitized;
-      }
-    });
-  }
-
-  function getOpsAssetId() {
-    return String(originAssetMap[window.location.origin] || '').trim();
-  }
-
-  async function parseResponsePayload(response) {
-    var contentType = String(response.headers.get('content-type') || '').toLowerCase();
-    if (contentType.indexOf('application/json') >= 0) {
-      return await response.json();
-    }
-
-    var text = await response.text();
-    return { detail: text };
-  }
-
-  function getBackendErrorMessage(payload) {
-    if (!payload || typeof payload !== 'object') return '';
-    return String(payload.error || payload.message || payload.detail || '').trim();
   }
 
   if (hasFormWorkflow) {
@@ -124,36 +70,9 @@
     ? (submitButton.tagName === 'INPUT' ? submitButton.value : submitButton.textContent)
     : '';
 
-  function setSubmittingState(isSubmitting) {
-    submitInFlight = !!isSubmitting;
-    if (!submitButton) return;
-    submitButton.disabled = !!isSubmitting;
-
-    if (submitButton.hasAttribute('aria-busy')) {
-      submitButton.setAttribute('aria-busy', isSubmitting ? 'true' : 'false');
-    }
-
-    if (submitButton.tagName === 'INPUT') {
-      submitButton.value = isSubmitting
-        ? (submitButton.dataset.submittingLabel || originalSubmitLabel || submitButton.value)
-        : (originalSubmitLabel || submitButton.value);
-      return;
-    }
-
-    submitButton.textContent = isSubmitting
-      ? (submitButton.dataset.submittingLabel || originalSubmitLabel || submitButton.textContent)
-      : (originalSubmitLabel || submitButton.textContent);
-  }
-
-  function blockIfHoneypotTriggered() {
-    if (!honeypotTriggered(form)) return false;
-    setStatus('Submission blocked.', 'blocked');
-    return true;
-  }
-
-  bindNumericInput(form.querySelector('#careerCountryCode'), true);
-  bindNumericInput(form.querySelector('#careerNumber'), false);
-  bindNumericInput(form.querySelector('#careerZip'), false);
+  submitCore.bindNumericInput(form.querySelector('#careerCountryCode'), true);
+  submitCore.bindNumericInput(form.querySelector('#careerNumber'), false);
+  submitCore.bindNumericInput(form.querySelector('#careerZip'), false);
 
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -170,7 +89,8 @@
         return;
       }
 
-      if (blockIfHoneypotTriggered()) {
+      if (submitCore.honeypotTriggered(form, HONEYPOT_FIELDS)) {
+        setStatus('Submission blocked.', 'blocked');
         return;
       }
 
@@ -190,41 +110,31 @@
         return;
       }
 
-      var opsAssetId = getOpsAssetId();
+      var opsAssetId = submitCore.getOpsAssetId(originAssetMap);
       if (!opsAssetId) {
         setStatus('Secure intake is temporarily unavailable. Please try again shortly.', 'blocked');
         return;
       }
 
-      var payload = formToPlainObject(form);
-
-      setSubmittingState(true);
+      var payload = submitCore.formToPlainObject(form);
+      submitInFlight = true;
+      submitCore.setSubmittingState(submitButton, true, originalSubmitLabel);
       setStatus('Scanning and sanitizing your application...', 'review');
 
-      var response = await fetch(SUBMIT_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          'x-ops-asset-id': opsAssetId
-        },
-        body: JSON.stringify(payload)
+      await submitCore.submitJson({
+        endpoint: SUBMIT_ENDPOINT,
+        opsAssetId: opsAssetId,
+        payload: payload,
+        fallbackErrorMessage: 'Secure career relay failed.'
       });
-      var responsePayload = await parseResponsePayload(response);
-
-      if (!response.ok) {
-        throw new Error(getBackendErrorMessage(responsePayload) || 'Secure career relay failed.');
-      }
-
-      if (responsePayload && responsePayload.ok === false) {
-        throw new Error(getBackendErrorMessage(responsePayload) || 'Secure career relay failed.');
-      }
 
       setStatus('Career application sent securely to Google Sheets intake.', 'success');
       form.reset();
     } catch (error) {
       setStatus((error && error.message) || 'Submission failed. Please try again shortly.', 'blocked');
     } finally {
-      setSubmittingState(false);
+      submitInFlight = false;
+      submitCore.setSubmittingState(submitButton, false, originalSubmitLabel);
     }
   });
 })();
