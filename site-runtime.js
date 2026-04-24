@@ -27,7 +27,9 @@ const SITE_METADATA_DEFAULTS = Object.freeze({
   security: {
     cspProfile: 'strict-static-site-v1',
     controlFamilies: ['SEO', 'CSP', 'CISA', 'CIS Controls', 'NIST CSF', 'OWASP ASVS', 'PCI DSS 4.0'],
-    allowlistedFrameHosts: ['https://www.youtube-nocookie.com']
+    allowlistedFrameHosts: [
+      'https://www.youtube-nocookie.com'
+    ]
   },
   media: {
     acceptedUploads: ['audio/mpeg', 'video/mp4'],
@@ -226,19 +228,12 @@ const governance = (() => {
   };
 
   return Object.freeze({
-    init,
-    get config() {
-      return Object.freeze({
-        seo: getSeo(),
-        security: getSecurity(),
-        media: getMedia()
-      });
-    }
+    init
   });
 })();
 
 window.__SITE_GOVERNANCE__ = governance;
 
-export function initSiteRuntime() {
+export function initSiteGovernance() {
   return governance.init();
 }

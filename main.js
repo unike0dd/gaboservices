@@ -4,7 +4,7 @@ import { initGaboChatbotEmbed } from './chatbot/embed.js';
 import { initSiteFooter } from './footer/footer.js';
 import { initMobileNav } from './assets/mobile-nav.js';
 import { initAnalyticsConsentGuard } from './analytics-consent-guard.js';
-import { ACTIVE_LOCALE, getLocalizedValue, getSiteMetadata, initSiteRuntime } from './site-runtime.js';
+import { ACTIVE_LOCALE, getLocalizedValue, getSiteMetadata, initSiteGovernance } from './site-runtime.js';
 import { getLocaleMessages } from './locales/index.js';
 
 document.documentElement.classList.add('reveal-ready');
