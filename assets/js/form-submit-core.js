@@ -197,9 +197,66 @@
     };
   }
 
+  function createStatusUpdater(root, statusId) {
+    return function setStatus(message, state) {
+      var status = root.querySelector('#' + statusId);
+      if (!status) return;
+      status.textContent = message;
+      status.dataset.state = state || '';
+    };
+  }
+
+  function initFormPage(config) {
+    var root = document.querySelector(config.rootSelector || '.contact-hub');
+    if (!root) return;
+
+    var formWorkflow = window.GaboFormWorkflow;
+    var siteMetadata = window.SITE_METADATA || {};
+    var intakeBase = (siteMetadata.forms && siteMetadata.forms.intakeBaseUrl) || 'https://solitary-term-4203.rulathemtodos.workers.dev';
+    var originAssetMap = resolveOriginAssetMap(siteMetadata);
+
+    var form = root.querySelector('#' + config.formId);
+    if (!form) return;
+
+    if (formWorkflow && typeof formWorkflow.create === 'function' && config.workflow) {
+      formWorkflow.create(root, config.workflow);
+    }
+
+    var status = createStatusUpdater(root, config.statusId);
+
+    (config.numericInputs || []).forEach(function (item) {
+      bindNumericInput(form.querySelector(item.id), item.allowPlusPrefix);
+    });
+
+    var submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
+
+    form.addEventListener(
+      'submit',
+      createSubmitHandler({
+        root: root,
+        form: form,
+        submitButton: submitButton,
+        submitEndpoint: intakeBase.replace(/\/$/, '') + config.submitPath,
+        honeypotFields: config.honeypotFields || [],
+        originAssetMap: originAssetMap,
+        onStatus: status,
+        onValidate: config.onValidate,
+        onBeforeSubmit: function () {
+          if (config.beforeMessage) status(config.beforeMessage, 'review');
+        },
+        onSuccess: function (context) {
+          if (config.successMessage) status(config.successMessage, 'success');
+          if (config.resetOnSuccess !== false) context.form.reset();
+        },
+      })
+    );
+  }
+
   window.GaboFormSubmitCore = {
     bindNumericInput: bindNumericInput,
     createSubmitHandler: createSubmitHandler,
+    createStatusUpdater: createStatusUpdater,
+    initFormPage: initFormPage,
     resolveOriginAssetMap: resolveOriginAssetMap,
     formToPlainObject: formToPlainObject,
     parseResponsePayload: parseResponsePayload,

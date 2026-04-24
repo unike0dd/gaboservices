@@ -1,4 +1,101 @@
-import { getFrozenSiteMetadata } from './site-metadata.js';
+import { getActiveLocale } from './locales/index.js';
+
+const SITE_METADATA_DEFAULTS = Object.freeze({
+  name: {
+    en: 'Gabriel Services',
+    es: 'Gabriel Services'
+  },
+  description: {
+    en: 'Providing Remote Professional Assistance and Business Services to Logistics, IT Support, C Suite Executive, and Customer Relations Management.',
+    es: 'Asistencia profesional remota y servicios empresariales para logística, soporte TI, dirección ejecutiva y gestión de relaciones con clientes.'
+  },
+  framePermissions: [],
+  seo: {
+    title: 'Gabriel Services',
+    description: 'Business services for logistics, IT, admin, and customer relations.',
+    canonicalUrl: 'https://www.gabo.services/',
+    previewImage: 'https://www.gabo.services/assets/og-cover.svg',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'Gabriel Services',
+      url: 'https://www.gabo.services/',
+      logo: 'https://www.gabo.services/assets/og-cover.svg',
+      sameAs: []
+    }
+  },
+  security: {
+    cspProfile: 'strict-static-site-v1',
+    controlFamilies: ['SEO', 'CSP', 'CISA', 'CIS Controls', 'NIST CSF', 'OWASP ASVS', 'PCI DSS 4.0'],
+    allowlistedFrameHosts: ['https://www.youtube-nocookie.com']
+  },
+  media: {
+    acceptedUploads: ['audio/mpeg', 'video/mp4'],
+    allowedEmbeds: {
+      html5Video: true,
+      youtube: true
+    }
+  }
+});
+
+export const ACTIVE_LOCALE = getActiveLocale();
+
+function mergeSiteMetadata(siteMetadata = {}) {
+  return {
+    ...SITE_METADATA_DEFAULTS,
+    ...siteMetadata,
+    seo: {
+      ...SITE_METADATA_DEFAULTS.seo,
+      ...(siteMetadata.seo || {}),
+      structuredData: {
+        ...SITE_METADATA_DEFAULTS.seo.structuredData,
+        ...(siteMetadata.seo?.structuredData || {})
+      }
+    },
+    security: {
+      ...SITE_METADATA_DEFAULTS.security,
+      ...(siteMetadata.security || {})
+    },
+    media: {
+      ...SITE_METADATA_DEFAULTS.media,
+      ...(siteMetadata.media || {}),
+      allowedEmbeds: {
+        ...SITE_METADATA_DEFAULTS.media.allowedEmbeds,
+        ...(siteMetadata.media?.allowedEmbeds || {})
+      }
+    }
+  };
+}
+
+export function getSiteMetadata() {
+  return mergeSiteMetadata(window.SITE_METADATA || {});
+}
+
+function getFrozenSiteMetadata() {
+  const metadata = getSiteMetadata();
+  return Object.freeze({
+    ...metadata,
+    seo: Object.freeze({
+      ...metadata.seo,
+      structuredData: Object.freeze({ ...(metadata.seo?.structuredData || {}) })
+    }),
+    security: Object.freeze({ ...(metadata.security || {}) }),
+    media: Object.freeze({
+      ...metadata.media,
+      allowedEmbeds: Object.freeze({ ...(metadata.media?.allowedEmbeds || {}) })
+    })
+  });
+}
+
+export function getLocalizedValue(value, locale = ACTIVE_LOCALE) {
+  if (value && typeof value === 'object') {
+    if (value[locale]) return value[locale];
+    if (value.en) return value.en;
+    const firstAvailable = Object.values(value).find((entry) => typeof entry === 'string' && entry.trim().length > 0);
+    if (firstAvailable) return firstAvailable;
+  }
+  return typeof value === 'string' ? value : '';
+}
 
 const governance = (() => {
   const ABSOLUTE_URL_PATTERN = /^https?:\/\//i;
@@ -142,6 +239,6 @@ const governance = (() => {
 
 window.__SITE_GOVERNANCE__ = governance;
 
-export function initSiteGovernance() {
+export function initSiteRuntime() {
   return governance.init();
 }
