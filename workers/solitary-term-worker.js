@@ -3,8 +3,9 @@ export default {
     const url = new URL(request.url);
     const method = String(request.method || "GET").toUpperCase();
     const path = normalizePath(url.pathname);
+    const requestId = crypto.randomUUID();
 
-    if (method === "OPTIONS" && isCorsPath(path)) {
+    if (method === "OPTIONS") {
       return new Response(null, {
         status: 204,
         headers: {
@@ -18,20 +19,27 @@ export default {
       return jsonResponse(
         {
           ok: true,
-          worker: "solitary-term",
+          stage: "health",
+          worker: "solitary-term-4203",
+          binding_required: "DELIVERY",
           routes: {
             health: [ROUTES.root, ROUTES.health],
-            ingest: [ROUTES.root, ROUTES.ingest],
-            contact_submit: [ROUTES.submitContact],
-            careers_submit: [ROUTES.submitCareers],
+            submit_contact: ROUTES.submitContact,
+            submit_careers: ROUTES.submitCareers,
           },
-          accepts: ["application/json"],
           methods: ["GET", "POST", "OPTIONS"],
+          accepts: ["application/json"],
           allowed_origins: getAllowedOrigins(env),
+          config: {
+            has_delivery_binding: !!(env.DELIVERY && typeof env.DELIVERY.fetch === "function"),
+            has_shared_secret: !!env.SOLITARY_TO_CORREO_SHARED_SECRET,
+            has_max_body_bytes: !!env.MAX_BODY_BYTES,
+          },
         },
         200,
         request,
-        env
+        env,
+        requestId
       );
     }
 
@@ -39,40 +47,42 @@ export default {
       return jsonResponse(
         {
           ok: true,
-          worker: "solitary-term",
-          hasDeliveryBinding: Boolean(env.DELIVERY && typeof env.DELIVERY.fetch === "function"),
-          hasUpstreamUrl: Boolean(String(env.UPSTREAM_WORKER_URL || "").trim()),
-          hasBridgeSecret: Boolean(String(env.SOLITARY_TO_CORREO_SHARED_SECRET || "").trim()),
-          allowedOriginsCount: getAllowedOrigins(env).length,
-          routeTablePresent: true,
+          stage: "debug_config",
+          worker: "solitary-term-4203",
+          safe_config_only: true,
+          has_delivery_binding: !!(env.DELIVERY && typeof env.DELIVERY.fetch === "function"),
+          has_shared_secret: !!env.SOLITARY_TO_CORREO_SHARED_SECRET,
+          allowed_origins_count: getAllowedOrigins(env).length,
+          max_body_bytes: Number(env.MAX_BODY_BYTES || 32768),
+          routes_present: {
+            contact: true,
+            careers: true,
+          },
         },
         200,
         request,
-        env
+        env,
+        requestId
       );
     }
 
     if (method !== "POST") {
       return jsonResponse(
-        {
-          ok: false,
-          stage: "route",
-          error: "Method not allowed.",
-          detail: "Use POST with application/json to this route.",
-          accepted_method: "POST",
-        },
+        { ok: false, stage: "method", error: "Method not allowed." },
         405,
         request,
-        env
+        env,
+        requestId
       );
     }
 
     if (!isAcceptedPostPath(path)) {
       return jsonResponse(
-        { ok: false, stage: "route", error: "Not found." },
+        { ok: false, stage: "route", error: "Not found.", path },
         404,
         request,
-        env
+        env,
+        requestId
       );
     }
 
@@ -81,7 +91,7 @@ export default {
       return jsonResponse(
         {
           ok: false,
-          stage: "validation",
+          stage: "origin",
           error: "Origin not allowed.",
           detail: {
             candidates: originCheck.candidates,
@@ -90,7 +100,23 @@ export default {
         },
         403,
         request,
-        env
+        env,
+        requestId
+      );
+    }
+
+    const assetCheck = validateOpsAssetId(request, env);
+    if (!assetCheck.ok) {
+      return jsonResponse(
+        {
+          ok: false,
+          stage: "asset_identity",
+          error: assetCheck.error,
+        },
+        assetCheck.status,
+        request,
+        env,
+        requestId
       );
     }
 
@@ -99,87 +125,100 @@ export default {
 
     if (contentLength && contentLength > maxBodyBytes) {
       return jsonResponse(
-        { ok: false, stage: "validation", error: "Payload too large." },
+        { ok: false, stage: "body_size", error: "Payload too large." },
         413,
         request,
-        env
+        env,
+        requestId
       );
     }
 
     const contentType = String(request.headers.get("content-type") || "").toLowerCase();
     if (!contentType.includes("application/json")) {
       return jsonResponse(
-        { ok: false, stage: "validation", error: "Expected application/json." },
+        { ok: false, stage: "content_type", error: "Expected application/json." },
         415,
         request,
-        env
-      );
-    }
-
-    const assetId = String(request.headers.get("x-ops-asset-id") || "").trim();
-    if (!assetId) {
-      logFailure("validation", "missing x-ops-asset-id", { path });
-      return jsonResponse(
-        { ok: false, stage: "validation", error: "Missing x-ops-asset-id." },
-        422,
-        request,
-        env
+        env,
+        requestId
       );
     }
 
     let incoming;
     try {
       incoming = await request.json();
-    } catch (error) {
-      logFailure("parse", "invalid json body", { path, message: String(error?.message || error) });
+    } catch {
       return jsonResponse(
-        { ok: false, stage: "parse", error: "Invalid JSON body." },
+        { ok: false, stage: "json_parse", error: "Invalid JSON body." },
         400,
         request,
-        env
+        env,
+        requestId
       );
     }
 
-    const routeResult = resolveSubmissionRoute(path, assetId, env);
+    const routeResult = resolveSubmissionRoute(path, request, env);
     if (!routeResult.ok) {
-      logFailure("route", routeResult.error, { path });
       return jsonResponse(
         {
           ok: false,
-          stage: "route",
+          stage: "route_resolve",
           error: routeResult.error,
         },
         routeResult.status || 403,
         request,
-        env
+        env,
+        requestId
       );
     }
 
     const businessPayload = { ...incoming };
-    const cleanedResult = cleanAndValidatePayload(routeResult.route.key, businessPayload);
 
+    delete businessPayload.turnstileToken;
+    delete businessPayload["cf-turnstile-response"];
+    delete businessPayload.cf_turnstile_response;
+
+    const cleanedResult = cleanAndValidatePayload(routeResult.route.key, businessPayload);
     if (!cleanedResult.ok) {
-      logFailure("validation", cleanedResult.error, { route: routeResult.route.key });
       return jsonResponse(
         {
           ok: false,
-          stage: "validation",
+          stage: "payload_validation",
           error: cleanedResult.error,
-          rejected_fields: cleanedResult.rejectedFields,
+          rejected_fields: cleanedResult.rejectedFields || [],
         },
         422,
         request,
-        env
+        env,
+        requestId
+      );
+    }
+
+    if (!env.DELIVERY || typeof env.DELIVERY.fetch !== "function") {
+      return jsonResponse(
+        {
+          ok: false,
+          stage: "binding",
+          error: "Missing internal DELIVERY Service Binding.",
+        },
+        500,
+        request,
+        env,
+        requestId
       );
     }
 
     if (!env.SOLITARY_TO_CORREO_SHARED_SECRET) {
-      logFailure("upstream_config", "missing SOLITARY_TO_CORREO_SHARED_SECRET");
       return jsonResponse(
-        { ok: false, stage: "upstream_config", error: "Missing SOLITARY_TO_CORREO_SHARED_SECRET." },
+        {
+          ok: false,
+          stage: "binding_secret",
+          error: "Missing SOLITARY_TO_CORREO_SHARED_SECRET.",
+        },
         500,
         request,
-        env
+        env,
+        requestId
       );
     }
 
@@ -189,7 +228,7 @@ export default {
       route: routeResult.route.key,
       destination: routeResult.route.destination,
       asset_name: routeResult.route.assetName,
-      request_id: crypto.randomUUID(),
+      request_id: requestId,
       received_at: new Date().toISOString(),
       payload: cleanedResult.payload,
       screening: {
@@ -200,64 +239,70 @@ export default {
     };
 
     let deliveryResponse;
+
     try {
-      deliveryResponse = await sendToCorreo(routeResult.route.internalPath, routeResult.route.key, outboundPayload, env);
+      deliveryResponse = await env.DELIVERY.fetch(
+        new Request(`https://internal.local${routeResult.route.internalPath}`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json; charset=utf-8",
+            "x-gabo-hop": "solitary-term",
+            "x-solitary-route": routeResult.route.key,
+            "x-solitary-bridge-secret": env.SOLITARY_TO_CORREO_SHARED_SECRET,
+          },
+          body: JSON.stringify(outboundPayload),
+        })
+      );
     } catch (error) {
-      logFailure("upstream_fetch", "internal delivery request failed", {
-        route: routeResult.route.key,
-        message: String(error && error.message ? error.message : error),
-      });
       return jsonResponse(
         {
           ok: false,
-          stage: "upstream_fetch",
+          stage: "delivery_binding_fetch",
           error: "Internal delivery request failed.",
           detail: String(error && error.message ? error.message : error),
         },
         502,
         request,
-        env
-      );
-    }
-
-    if (!deliveryResponse.ok) {
-      const detail = (await safeReadText(deliveryResponse)).slice(0, 4000);
-      logFailure("upstream_status", "internal delivery non-2xx", {
-        route: routeResult.route.key,
-        status: deliveryResponse.status,
-      });
-      return jsonResponse(
-        {
-          ok: false,
-          stage: "upstream_status",
-          error: `Internal delivery failed (${deliveryResponse.status}).`,
-          detail,
-        },
-        deliveryResponse.status,
-        request,
-        env
+        env,
+        requestId
       );
     }
 
     const deliveryText = (await safeReadText(deliveryResponse)).slice(0, 4000);
     const deliveryJson = tryParseJson(deliveryText);
-    if (!deliveryJson && deliveryText) {
-      logFailure("response_parse", "non-json upstream response", { route: routeResult.route.key });
+
+    if (!deliveryResponse.ok) {
+      return jsonResponse(
+        {
+          ok: false,
+          stage: "delivery_response",
+          error: `Internal delivery failed (${deliveryResponse.status}).`,
+          route: routeResult.route.key,
+          destination: routeResult.route.destination,
+          detail: deliveryJson || deliveryText || "No delivery response body.",
+        },
+        502,
+        request,
+        env,
+        requestId
+      );
     }
 
     return jsonResponse(
       {
         ok: true,
+        stage: "accepted",
         accepted: true,
         route: routeResult.route.key,
         destination: routeResult.route.destination,
-        request_id: outboundPayload.request_id,
+        request_id: requestId,
         delivery_status: deliveryResponse.status,
         delivery_response: deliveryJson || deliveryText || "OK",
       },
       200,
       request,
-      env
+      env,
+      requestId
     );
   },
 };
@@ -319,28 +364,8 @@ function isAcceptedPostPath(path) {
   );
 }
 
-function isCorsPath(path) {
-  return (
-    path === ROUTES.root ||
-    path === ROUTES.health ||
-    path === ROUTES.debugConfig ||
-    path === ROUTES.ingest ||
-    path === ROUTES.submitContact ||
-    path === ROUTES.submitCareers
-  );
-}
-
-function resolveSubmissionRoute(path, assetId, env) {
-  const contactAsset = String(env.ASSET_C5T || "").trim();
-  const careersAsset = String(env.ASSET_C5S || "").trim();
-
+function resolveSubmissionRoute(path, request, env) {
   if (path === ROUTES.submitContact) {
-    if (!contactAsset) {
-      return { ok: false, status: 500, error: "Missing ASSET_C5T." };
-    }
-    if (!safeEqual(assetId, contactAsset)) {
-      return { ok: false, status: 403, error: "x-ops-asset-id does not match contact route." };
-    }
     return {
       ok: true,
       route: {
@@ -353,12 +378,6 @@ function resolveSubmissionRoute(path, assetId, env) {
   }
 
   if (path === ROUTES.submitCareers) {
-    if (!careersAsset) {
-      return { ok: false, status: 500, error: "Missing ASSET_C5S." };
-    }
-    if (!safeEqual(assetId, careersAsset)) {
-      return { ok: false, status: 403, error: "x-ops-asset-id does not match careers route." };
-    }
     return {
       ok: true,
       route: {
@@ -370,72 +389,14 @@ function resolveSubmissionRoute(path, assetId, env) {
     };
   }
 
+  const assetId = String(request.headers.get("x-ops-asset-id") || "").trim();
   const assetRoute = resolveRouteByAsset(assetId, env);
 
   if (!assetRoute) {
-    return {
-      ok: false,
-      status: 403,
-      error: "Unknown asset identity.",
-    };
+    return { ok: false, status: 403, error: "Unknown asset identity." };
   }
 
-  return {
-    ok: true,
-    route: assetRoute,
-  };
-}
-
-async function sendToCorreo(path, routeKey, payload, env) {
-  const controller = new AbortController();
-  const timeoutMs = Number(env.UPSTREAM_TIMEOUT_MS || 10000);
-  const timeout = setTimeout(() => controller.abort("upstream timeout"), timeoutMs);
-
-  const headers = {
-    "content-type": "application/json; charset=utf-8",
-    "x-solitary-route": routeKey,
-    "x-solitary-bridge-secret": env.SOLITARY_TO_CORREO_SHARED_SECRET,
-    "x-gabo-hop": "solitary-term",
-  };
-
-  try {
-    if (env.DELIVERY && typeof env.DELIVERY.fetch === "function") {
-      return await env.DELIVERY.fetch(
-        new Request(`https://correo-paginas.internal${path}`, {
-          method: "POST",
-          headers,
-          body: JSON.stringify(payload),
-          signal: controller.signal,
-        })
-      );
-    }
-
-    const upstreamBase = String(env.UPSTREAM_WORKER_URL || "").trim();
-    if (!upstreamBase) {
-      throw new Error("Missing DELIVERY binding and UPSTREAM_WORKER_URL.");
-    }
-
-    return await fetch(`${upstreamBase.replace(/\/$/, "")}${path}`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(payload),
-      signal: controller.signal,
-    });
-  } finally {
-    clearTimeout(timeout);
-  }
-}
-
-function logFailure(stage, message, meta = {}) {
-  console.error(
-    JSON.stringify({
-      ok: false,
-      worker: "solitary-term",
-      stage,
-      error: message,
-      ...meta,
-    })
-  );
+  return { ok: true, route: assetRoute };
 }
 
 function resolveRouteByAsset(assetId, env) {
@@ -460,8 +421,44 @@ function resolveRouteByAsset(assetId, env) {
   return null;
 }
 
+function validateOpsAssetId(request, env) {
+  const value = String(request.headers.get("x-ops-asset-id") || "").trim();
+
+  if (!value) {
+    return {
+      ok: false,
+      status: 403,
+      error: "Missing x-ops-asset-id.",
+    };
+  }
+
+  const configured = [
+    String(env.ASSET_C5T || "").trim(),
+    String(env.ASSET_C5S || "").trim(),
+    String(env.ASSET_WWW || "").trim(),
+    String(env.ASSET_ROOT || "").trim(),
+  ].filter(Boolean);
+
+  if (!configured.length) {
+    return { ok: true };
+  }
+
+  for (const expected of configured) {
+    if (safeEqual(value, expected)) {
+      return { ok: true };
+    }
+  }
+
+  return {
+    ok: false,
+    status: 403,
+    error: "Invalid x-ops-asset-id.",
+  };
+}
+
 function cleanAndValidatePayload(routeKey, input) {
   const isObject = input && typeof input === "object" && !Array.isArray(input);
+
   if (!isObject) {
     return {
       ok: false,
@@ -479,26 +476,35 @@ function cleanAndValidatePayload(routeKey, input) {
         "space_suite_apt",
         "country_code",
         "contact_number",
-        "contact_interest",
         "best_time_to_contact",
         "city",
         "state_province",
         "country_zip_code",
         "message",
-        "remote_interest",
         "experience_level",
         "education",
       ],
-      listFields: ["remote_assistant_skills", "languages"],
+      listFields: ["contact_interest", "remote_interest", "remote_assistant_skills", "languages"],
       urlFields: [],
       aliases: {
         name: "full_name",
         email: "email_address",
         phone: "contact_number",
+        "contact_interest[]": "contact_interest",
+        "remote_interest[]": "remote_interest",
       },
     },
     careers: {
-      required: ["full_name", "email_address"],
+      required: [
+        "full_name",
+        "email_address",
+        "country_code",
+        "contact_number",
+        "city",
+        "state_province",
+        "country_zip_code",
+        "availability",
+      ],
       textFields: [
         "full_name",
         "email_address",
@@ -509,14 +515,7 @@ function cleanAndValidatePayload(routeKey, input) {
         "country_zip_code",
         "availability",
       ],
-      listFields: [
-        "career_interest",
-        "experience_items",
-        "languages",
-        "skills",
-        "projects",
-        "education_items",
-      ],
+      listFields: ["career_interest", "experience_items", "languages", "skills", "projects", "education_items"],
       urlFields: ["resume_or_profile_link"],
       aliases: {
         name: "full_name",
@@ -528,6 +527,7 @@ function cleanAndValidatePayload(routeKey, input) {
   };
 
   const spec = fieldSpecs[routeKey];
+
   if (!spec) {
     return {
       ok: false,
@@ -543,7 +543,7 @@ function cleanAndValidatePayload(routeKey, input) {
   let riskScore = 0;
 
   for (const field of spec.textFields) {
-    const raw = coerceToString(normalizedInput[field]);
+    const raw = coerceTextValue(normalizedInput[field]);
     if (!raw) continue;
 
     const result = sanitizePlainText(raw, field);
@@ -556,8 +556,7 @@ function cleanAndValidatePayload(routeKey, input) {
       continue;
     }
 
-    if (!result.value) continue;
-    cleaned[field] = result.value;
+    if (result.value) cleaned[field] = result.value;
   }
 
   for (const field of spec.listFields) {
@@ -575,7 +574,7 @@ function cleanAndValidatePayload(routeKey, input) {
   }
 
   for (const field of spec.urlFields) {
-    const raw = coerceToString(normalizedInput[field]);
+    const raw = coerceTextValue(normalizedInput[field]);
     if (!raw) continue;
 
     const textResult = sanitizePlainText(raw, field);
@@ -589,6 +588,7 @@ function cleanAndValidatePayload(routeKey, input) {
     }
 
     const normalized = normalizeUrl(textResult.value);
+
     if (!normalized) {
       rejectedFields.push(field);
       continue;
@@ -599,8 +599,11 @@ function cleanAndValidatePayload(routeKey, input) {
 
   if (cleaned.email_address) {
     const normalizedEmail = normalizeEmail(cleaned.email_address);
-    if (!normalizedEmail) rejectedFields.push("email_address");
-    else cleaned.email_address = normalizedEmail;
+    if (!normalizedEmail) {
+      rejectedFields.push("email_address");
+    } else {
+      cleaned.email_address = normalizedEmail;
+    }
   }
 
   if (cleaned.contact_number) {
@@ -613,6 +616,7 @@ function cleanAndValidatePayload(routeKey, input) {
 
   for (const field of spec.required) {
     const value = cleaned[field];
+
     if (Array.isArray(value)) {
       if (!value.length) rejectedFields.push(field);
     } else if (!value) {
@@ -683,13 +687,34 @@ function applyAliases(input, aliases, listFields) {
   return out;
 }
 
+function decodeMaybeJsonList(value) {
+  if (Array.isArray(value)) return value;
+  if (value === null || value === undefined) return value;
+  if (typeof value !== "string") return value;
+
+  const raw = value.trim();
+  if (!raw) return "";
+
+  const looksJson =
+    (raw.startsWith("[") && raw.endsWith("]")) ||
+    (raw.startsWith("{") && raw.endsWith("}"));
+
+  if (!looksJson) return value;
+
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return value;
+  }
+}
+
 function sanitizeTextList(value, fieldName) {
   const notes = [];
   let score = 0;
   const items = [];
 
   const pushSanitized = (raw) => {
-    const text = coerceToString(raw);
+    const text = coerceTextValue(raw);
     if (!text) return;
 
     const result = sanitizePlainText(text, fieldName);
@@ -699,15 +724,23 @@ function sanitizeTextList(value, fieldName) {
     if (!result.blocked && result.value) items.push(result.value);
   };
 
-  if (Array.isArray(value)) {
-    for (const entry of value.slice(0, 50)) pushSanitized(entry);
-  } else if (typeof value === "string") {
-    const raw = value.trim();
+  const decoded = decodeMaybeJsonList(value);
+
+  if (Array.isArray(decoded)) {
+    for (const entry of decoded.slice(0, 50)) {
+      pushSanitized(entry);
+    }
+  } else if (decoded && typeof decoded === "object") {
+    pushSanitized(decoded);
+  } else if (typeof decoded === "string") {
+    const raw = decoded.trim();
     if (raw) {
       let parts = [raw];
 
       if (
         fieldName === "career_interest" ||
+        fieldName === "contact_interest" ||
+        fieldName === "remote_interest" ||
         fieldName === "remote_assistant_skills" ||
         fieldName === "languages" ||
         fieldName === "skills"
@@ -721,10 +754,12 @@ function sanitizeTextList(value, fieldName) {
         parts = raw.includes("\n") ? raw.split(/\n+/g) : [raw];
       }
 
-      for (const part of parts.slice(0, 50)) pushSanitized(part);
+      for (const part of parts.slice(0, 50)) {
+        pushSanitized(part);
+      }
     }
-  } else if (value != null) {
-    pushSanitized(value);
+  } else if (decoded != null) {
+    pushSanitized(decoded);
   }
 
   const deduped = [...new Set(items.map((x) => x.trim()).filter(Boolean))].slice(0, 50);
@@ -805,6 +840,7 @@ function sanitizePlainText(value, fieldName) {
   ];
 
   let markerCount = 0;
+
   for (const marker of codeMarkers) {
     if (marker.test(original)) markerCount += 1;
   }
@@ -819,15 +855,13 @@ function sanitizePlainText(value, fieldName) {
   }
 
   const removalRatio = 1 - cleaned.length / Math.max(text.length, 1);
+
   if (removalRatio > 0.35) {
     score += 2;
     notes.push("high removal ratio");
   }
 
-  cleaned = cleaned
-    .replace(/[<>]/g, "")
-    .replace(/\s{2,}/g, " ")
-    .trim();
+  cleaned = cleaned.replace(/[<>]/g, "").replace(/\s{2,}/g, " ").trim();
 
   if (!cleaned) {
     return {
@@ -856,14 +890,16 @@ function sanitizePlainText(value, fieldName) {
     availability: 160,
     resume_or_profile_link: 300,
     career_interest: 160,
-    experience_items: 400,
-    languages: 120,
-    skills: 200,
-    projects: 400,
-    education_items: 300,
+    experience_items: 800,
+    languages: 200,
+    skills: 400,
+    projects: 1000,
+    education_items: 800,
+    remote_assistant_skills: 300,
   };
 
   const maxLength = maxFieldLengths[fieldName] || 500;
+
   if (cleaned.length > maxLength) {
     cleaned = cleaned.slice(0, maxLength).trim();
     notes.push("trimmed to max length");
@@ -894,33 +930,83 @@ function normalizeCountryCode(value) {
   const cleaned = String(value || "")
     .replace(/[^\d+]/g, "")
     .trim();
+
   return cleaned.slice(0, 12);
 }
 
 function normalizeUrl(value) {
   const text = String(value || "").trim();
   if (!text) return "";
+
   return /^https?:\/\//i.test(text) ? text.slice(0, 300) : "";
 }
 
-function coerceToString(value) {
+function coerceTextValue(value) {
   if (typeof value === "string") return value;
   if (typeof value === "number" || typeof value === "boolean") return String(value);
+
+  if (Array.isArray(value)) {
+    return value.map((item) => coerceTextValue(item)).filter(Boolean).join(" | ");
+  }
+
+  if (value && typeof value === "object") return flattenObjectValue(value);
+
   return "";
+}
+
+function flattenObjectValue(value) {
+  const preferredKeys = [
+    "name",
+    "label",
+    "title",
+    "value",
+    "text",
+    "area",
+    "language",
+    "skill",
+    "project",
+    "school",
+    "program",
+    "certificate",
+    "level",
+    "company",
+    "role",
+    "description",
+  ];
+
+  const picked = [];
+
+  for (const key of preferredKeys) {
+    if (value[key] !== undefined && value[key] !== null && String(value[key]).trim() !== "") {
+      picked.push(String(value[key]));
+    }
+  }
+
+  if (picked.length) return picked.join(" - ");
+
+  return Object.entries(value)
+    .slice(0, 12)
+    .map(([key, val]) => `${String(key)}: ${coerceTextValue(val)}`)
+    .filter(Boolean)
+    .join(", ");
 }
 
 function normalizePath(pathname) {
   const raw = String(pathname || "").trim();
   const withSlash = raw ? (raw.startsWith("/") ? raw : `/${raw}`) : "/";
+
   if (withSlash.length > 1 && withSlash.endsWith("/")) {
     return withSlash.slice(0, -1);
   }
+
   return withSlash;
 }
 
 function normalizeOrigin(value) {
   const raw = String(value || "").trim();
+
   if (!raw || raw.toLowerCase() === "null") return "";
+
   try {
     return new URL(raw).origin.toLowerCase();
   } catch {
@@ -936,13 +1022,9 @@ function parseCsv(value) {
 }
 
 function getAllowedOrigins(env) {
-  const allowed = parseCsv(
-    env.ALLOWED_ORIGINS || "https://www.gabo.services,https://gabo.services"
-  );
+  const allowed = parseCsv(env.ALLOWED_ORIGINS || "https://www.gabo.services,https://gabo.services");
 
-  return allowed.length
-    ? [...new Set(allowed)]
-    : ["https://www.gabo.services", "https://gabo.services"];
+  return allowed.length ? [...new Set(allowed)] : ["https://www.gabo.services", "https://gabo.services"];
 }
 
 function getCandidateOrigins(request) {
@@ -996,14 +1078,8 @@ function originAllowedDetailed(request, env) {
 function buildCorsHeaders(request, env) {
   const allowed = getAllowedOrigins(env);
   const originCheck = originAllowedDetailed(request, env);
-  const requestedHeaders = String(
-    request.headers.get("access-control-request-headers") || ""
-  ).trim();
-
-  const allowOrigin =
-    originCheck.matched ||
-    allowed[0] ||
-    "https://www.gabo.services";
+  const requestedHeaders = String(request.headers.get("access-control-request-headers") || "").trim();
+  const allowOrigin = originCheck.matched || allowed[0] || "https://www.gabo.services";
 
   return {
     "Access-Control-Allow-Origin": allowOrigin,
@@ -1011,13 +1087,18 @@ function buildCorsHeaders(request, env) {
     "Access-Control-Allow-Headers":
       requestedHeaders || "content-type, x-ops-asset-id, x-gabo-parent-origin",
     "Access-Control-Max-Age": "86400",
-    "Vary": "Origin, Access-Control-Request-Headers",
+    Vary: "Origin, Access-Control-Request-Headers",
     "Cache-Control": "no-store",
   };
 }
 
-function jsonResponse(data, status, request, env) {
-  return new Response(JSON.stringify(data, null, 2), {
+function jsonResponse(data, status, request, env, requestId = "") {
+  const payload = {
+    request_id: requestId || crypto.randomUUID(),
+    ...data,
+  };
+
+  return new Response(JSON.stringify(payload, null, 2), {
     status,
     headers: {
       "Content-Type": "application/json; charset=utf-8",

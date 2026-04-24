@@ -1,4 +1,4 @@
-name = "solitary-term"
+name = "solitary-term-4203"
 main = "solitary-term-worker.js"
 compatibility_date = "2026-04-12"
 
@@ -6,8 +6,6 @@ compatibility_date = "2026-04-12"
 ALLOWED_ORIGINS = "https://www.gabo.services,https://gabo.services"
 MAX_BODY_BYTES = "32768"
 UPSTREAM_TIMEOUT_MS = "10000"
-# Optional fallback only if service binding DELIVERY is unavailable.
-# UPSTREAM_WORKER_URL = "https://correo-paginas.<subdomain>.workers.dev"
 
 # Secret to set with `wrangler secret put`:
 # - ASSET_C5T
