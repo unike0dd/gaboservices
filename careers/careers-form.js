@@ -1,11 +1,31 @@
 (function () {
+  function installNativeSubmitBlocker(formId, statusId) {
+    var form = document.getElementById(formId);
+    if (!form || form.dataset.nativeSubmitBlocked === 'true') return;
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      if (window.GaboFormSubmitCore && typeof window.GaboFormSubmitCore.initFormPage === 'function') {
+        return;
+      }
+
+      var status = document.getElementById(statusId);
+      if (!status) return;
+      status.textContent = 'Secure submission is still loading. Please try again in a moment.';
+      status.dataset.state = 'blocked';
+    }, true);
+
+    form.dataset.nativeSubmitBlocked = 'true';
+  }
+
   function initialize() {
     var formSubmitCore = window.GaboFormSubmitCore;
     if (!formSubmitCore || typeof formSubmitCore.initFormPage !== 'function') return false;
 
     formSubmitCore.initFormPage({
       rootSelector: '.contact-hub',
-      formId: 'careerForm',
+      formId: 'careersForm',
       statusId: 'careerFormStatus',
       submitPath: '/submit/careers',
       honeypotFields: ['portfolio_url'],
@@ -15,7 +35,7 @@
         { id: '#careerZip', allowPlusPrefix: false },
       ],
       workflow: {
-        formId: 'careerForm',
+        formId: 'careersForm',
         statusId: 'careerFormStatus',
         clearKey: 'career',
         requiredIds: ['careerFullName', 'careerEmail', 'careerCountryCode', 'careerNumber', 'careerCity', 'careerState', 'careerZip', 'careerAvailability'],
@@ -66,9 +86,11 @@
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
+      installNativeSubmitBlocker('careersForm', 'careerFormStatus');
       initWhenReady(0);
     });
   } else {
+    installNativeSubmitBlocker('careersForm', 'careerFormStatus');
     initWhenReady(0);
   }
 })();

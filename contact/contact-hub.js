@@ -1,4 +1,24 @@
 (function () {
+  function installNativeSubmitBlocker(formId, statusId) {
+    var form = document.getElementById(formId);
+    if (!form || form.dataset.nativeSubmitBlocked === 'true') return;
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      if (window.GaboFormSubmitCore && typeof window.GaboFormSubmitCore.initFormPage === 'function') {
+        return;
+      }
+
+      var status = document.getElementById(statusId);
+      if (!status) return;
+      status.textContent = 'Secure submission is still loading. Please try again in a moment.';
+      status.dataset.state = 'blocked';
+    }, true);
+
+    form.dataset.nativeSubmitBlocked = 'true';
+  }
+
   function initialize() {
     var formSubmitCore = window.GaboFormSubmitCore;
     if (!formSubmitCore || typeof formSubmitCore.initFormPage !== 'function') return false;
@@ -64,9 +84,11 @@
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
+      installNativeSubmitBlocker('contactForm', 'formStatus');
       initWhenReady(0);
     });
   } else {
+    installNativeSubmitBlocker('contactForm', 'formStatus');
     initWhenReady(0);
   }
 })();
