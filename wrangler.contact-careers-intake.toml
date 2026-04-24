@@ -1,4 +1,4 @@
-name = "gabo-contact-careers-intake"
+name = "correo-paginas"
 main = "workers.contact-careers-intake.js"
 compatibility_date = "2026-04-12"
 
@@ -7,11 +7,11 @@ compatibility_date = "2026-04-12"
 # workers_dev = true
 
 [vars]
-# Optional override (default is solitary-term worker)
-REMOTE_WORKER_URL = "https://solitary-term-4203.rulathemtodos.workers.dev"
 # Restrict allowed browser origins for CORS
 ALLOWED_ORIGINS = "https://www.gabo.services,https://gabo.services"
+UPSTREAM_TIMEOUT_MS = "10000"
 
 # Secrets to set with `wrangler secret put`:
-# - ASSET_C5T  (Contact asset id for Gmail channel)
-# - ASSET_C5S  (Careers asset id for Google Sheets channel)
+# - APPS_SCRIPT_BRIDGE_URL
+# - APPS_SCRIPT_BRIDGE_TOKEN
+# - SOLITARY_TO_CORREO_SHARED_SECRET
