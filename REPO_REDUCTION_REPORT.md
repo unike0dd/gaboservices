@@ -49,20 +49,6 @@
   - Contact: `/submit/contact`
   - Careers: `/submit/careers`
 
-
-## Phase 3 — Continued
-
-- Confirmed all pages continue loading consolidated `assets/css/site.css` as the single global stylesheet entrypoint.
-- Performed safe deduplication inside `assets/css/site.css` by removing one duplicated global heading/footer declaration block that was repeated verbatim during prior consolidation.
-- Kept chatbot CSS independent (`/chatbot/chatbot.css` + `/chatbot/fab.css`) via runtime loader to avoid changing chatbot embed loading behavior.
-
-
-## Phase 4 — Completed
-
-- Metadata/governance logic remains consolidated in `site-runtime.js` (defaults + merge + governance init).
-- Simplified `site.config.js` to runtime overrides only (`forms` and `chatbot` origin asset maps + intake base URL), removing duplicated static SEO/name/security/media payload now owned by runtime defaults.
-- Preserved existing worker and chatbot origin-map contracts without exposing new secrets.
-
 ## Phase 6 Deletion Classification
 
 ### SAFE TO DELETE
