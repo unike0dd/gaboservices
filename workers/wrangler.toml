@@ -5,6 +5,11 @@ compatibility_date = "2026-04-12"
 [vars]
 ALLOWED_ORIGINS = "https://www.gabo.services,https://gabo.services"
 MAX_BODY_BYTES = "32768"
+UPSTREAM_TIMEOUT_MS = "10000"
+# Optional fallback only if service binding DELIVERY is unavailable.
+# UPSTREAM_WORKER_URL = "https://correo-paginas.<subdomain>.workers.dev"
 
 # Secret to set with `wrangler secret put`:
-# - WORKER_BRIDGE_SHARED_SECRET
+# - ASSET_C5T
+# - ASSET_C5S
+# - SOLITARY_TO_CORREO_SHARED_SECRET

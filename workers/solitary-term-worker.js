@@ -4,7 +4,7 @@ export default {
     const method = String(request.method || "GET").toUpperCase();
     const path = normalizePath(url.pathname);
 
-    if (method === "OPTIONS") {
+    if (method === "OPTIONS" && isCorsPath(path)) {
       return new Response(null, {
         status: 204,
         headers: {
@@ -35,10 +35,28 @@ export default {
       );
     }
 
+    if (method === "GET" && path === ROUTES.debugConfig) {
+      return jsonResponse(
+        {
+          ok: true,
+          worker: "solitary-term",
+          hasDeliveryBinding: Boolean(env.DELIVERY && typeof env.DELIVERY.fetch === "function"),
+          hasUpstreamUrl: Boolean(String(env.UPSTREAM_WORKER_URL || "").trim()),
+          hasBridgeSecret: Boolean(String(env.SOLITARY_TO_CORREO_SHARED_SECRET || "").trim()),
+          allowedOriginsCount: getAllowedOrigins(env).length,
+          routeTablePresent: true,
+        },
+        200,
+        request,
+        env
+      );
+    }
+
     if (method !== "POST") {
       return jsonResponse(
         {
           ok: false,
+          stage: "route",
           error: "Method not allowed.",
           detail: "Use POST with application/json to this route.",
           accepted_method: "POST",
@@ -51,7 +69,7 @@ export default {
 
     if (!isAcceptedPostPath(path)) {
       return jsonResponse(
-        { ok: false, error: "Not found." },
+        { ok: false, stage: "route", error: "Not found." },
         404,
         request,
         env
@@ -63,6 +81,7 @@ export default {
       return jsonResponse(
         {
           ok: false,
+          stage: "validation",
           error: "Origin not allowed.",
           detail: {
             candidates: originCheck.candidates,
@@ -80,7 +99,7 @@ export default {
 
     if (contentLength && contentLength > maxBodyBytes) {
       return jsonResponse(
-        { ok: false, error: "Payload too large." },
+        { ok: false, stage: "validation", error: "Payload too large." },
         413,
         request,
         env
@@ -90,8 +109,19 @@ export default {
     const contentType = String(request.headers.get("content-type") || "").toLowerCase();
     if (!contentType.includes("application/json")) {
       return jsonResponse(
-        { ok: false, error: "Expected application/json." },
+        { ok: false, stage: "validation", error: "Expected application/json." },
         415,
+        request,
+        env
+      );
+    }
+
+    const assetId = String(request.headers.get("x-ops-asset-id") || "").trim();
+    if (!assetId) {
+      logFailure("validation", "missing x-ops-asset-id", { path });
+      return jsonResponse(
+        { ok: false, stage: "validation", error: "Missing x-ops-asset-id." },
+        422,
         request,
         env
       );
@@ -100,20 +130,23 @@ export default {
     let incoming;
     try {
       incoming = await request.json();
-    } catch {
+    } catch (error) {
+      logFailure("parse", "invalid json body", { path, message: String(error?.message || error) });
       return jsonResponse(
-        { ok: false, error: "Invalid JSON body." },
+        { ok: false, stage: "parse", error: "Invalid JSON body." },
         400,
         request,
         env
       );
     }
 
-    const routeResult = resolveSubmissionRoute(path, request, env);
+    const routeResult = resolveSubmissionRoute(path, assetId, env);
     if (!routeResult.ok) {
+      logFailure("route", routeResult.error, { path });
       return jsonResponse(
         {
           ok: false,
+          stage: "route",
           error: routeResult.error,
         },
         routeResult.status || 403,
@@ -126,9 +159,11 @@ export default {
     const cleanedResult = cleanAndValidatePayload(routeResult.route.key, businessPayload);
 
     if (!cleanedResult.ok) {
+      logFailure("validation", cleanedResult.error, { route: routeResult.route.key });
       return jsonResponse(
         {
           ok: false,
+          stage: "validation",
           error: cleanedResult.error,
           rejected_fields: cleanedResult.rejectedFields,
         },
@@ -138,18 +173,10 @@ export default {
       );
     }
 
-    if (!env.DELIVERY || typeof env.DELIVERY.fetch !== "function") {
-      return jsonResponse(
-        { ok: false, error: "Missing internal delivery binding." },
-        500,
-        request,
-        env
-      );
-    }
-
     if (!env.SOLITARY_TO_CORREO_SHARED_SECRET) {
+      logFailure("upstream_config", "missing SOLITARY_TO_CORREO_SHARED_SECRET");
       return jsonResponse(
-        { ok: false, error: "Missing SOLITARY_TO_CORREO_SHARED_SECRET." },
+        { ok: false, stage: "upstream_config", error: "Missing SOLITARY_TO_CORREO_SHARED_SECRET." },
         500,
         request,
         env
@@ -174,21 +201,16 @@ export default {
 
     let deliveryResponse;
     try {
-      deliveryResponse = await env.DELIVERY.fetch(
-        new Request(`https://internal.local${routeResult.route.internalPath}`, {
-          method: "POST",
-          headers: {
-            "content-type": "application/json; charset=utf-8",
-            "x-solitary-route": routeResult.route.key,
-            "x-solitary-bridge-secret": env.SOLITARY_TO_CORREO_SHARED_SECRET,
-          },
-          body: JSON.stringify(outboundPayload),
-        })
-      );
+      deliveryResponse = await sendToCorreo(routeResult.route.internalPath, routeResult.route.key, outboundPayload, env);
     } catch (error) {
+      logFailure("upstream_fetch", "internal delivery request failed", {
+        route: routeResult.route.key,
+        message: String(error && error.message ? error.message : error),
+      });
       return jsonResponse(
         {
           ok: false,
+          stage: "upstream_fetch",
           error: "Internal delivery request failed.",
           detail: String(error && error.message ? error.message : error),
         },
@@ -200,13 +222,18 @@ export default {
 
     if (!deliveryResponse.ok) {
       const detail = (await safeReadText(deliveryResponse)).slice(0, 4000);
+      logFailure("upstream_status", "internal delivery non-2xx", {
+        route: routeResult.route.key,
+        status: deliveryResponse.status,
+      });
       return jsonResponse(
         {
           ok: false,
+          stage: "upstream_status",
           error: `Internal delivery failed (${deliveryResponse.status}).`,
           detail,
         },
-        502,
+        deliveryResponse.status,
         request,
         env
       );
@@ -214,6 +241,9 @@ export default {
 
     const deliveryText = (await safeReadText(deliveryResponse)).slice(0, 4000);
     const deliveryJson = tryParseJson(deliveryText);
+    if (!deliveryJson && deliveryText) {
+      logFailure("response_parse", "non-json upstream response", { route: routeResult.route.key });
+    }
 
     return jsonResponse(
       {
@@ -235,6 +265,7 @@ export default {
 const ROUTES = {
   root: "/",
   health: "/health",
+  debugConfig: "/debug/config",
   ingest: "/ingest",
   submitContact: "/submit/contact",
   submitCareers: "/submit/careers",
@@ -288,8 +319,28 @@ function isAcceptedPostPath(path) {
   );
 }
 
-function resolveSubmissionRoute(path, request, env) {
+function isCorsPath(path) {
+  return (
+    path === ROUTES.root ||
+    path === ROUTES.health ||
+    path === ROUTES.debugConfig ||
+    path === ROUTES.ingest ||
+    path === ROUTES.submitContact ||
+    path === ROUTES.submitCareers
+  );
+}
+
+function resolveSubmissionRoute(path, assetId, env) {
+  const contactAsset = String(env.ASSET_C5T || "").trim();
+  const careersAsset = String(env.ASSET_C5S || "").trim();
+
   if (path === ROUTES.submitContact) {
+    if (!contactAsset) {
+      return { ok: false, status: 500, error: "Missing ASSET_C5T." };
+    }
+    if (!safeEqual(assetId, contactAsset)) {
+      return { ok: false, status: 403, error: "x-ops-asset-id does not match contact route." };
+    }
     return {
       ok: true,
       route: {
@@ -302,6 +353,12 @@ function resolveSubmissionRoute(path, request, env) {
   }
 
   if (path === ROUTES.submitCareers) {
+    if (!careersAsset) {
+      return { ok: false, status: 500, error: "Missing ASSET_C5S." };
+    }
+    if (!safeEqual(assetId, careersAsset)) {
+      return { ok: false, status: 403, error: "x-ops-asset-id does not match careers route." };
+    }
     return {
       ok: true,
       route: {
@@ -313,7 +370,6 @@ function resolveSubmissionRoute(path, request, env) {
     };
   }
 
-  const assetId = String(request.headers.get("x-ops-asset-id") || "").trim();
   const assetRoute = resolveRouteByAsset(assetId, env);
 
   if (!assetRoute) {
@@ -328,6 +384,58 @@ function resolveSubmissionRoute(path, request, env) {
     ok: true,
     route: assetRoute,
   };
+}
+
+async function sendToCorreo(path, routeKey, payload, env) {
+  const controller = new AbortController();
+  const timeoutMs = Number(env.UPSTREAM_TIMEOUT_MS || 10000);
+  const timeout = setTimeout(() => controller.abort("upstream timeout"), timeoutMs);
+
+  const headers = {
+    "content-type": "application/json; charset=utf-8",
+    "x-solitary-route": routeKey,
+    "x-solitary-bridge-secret": env.SOLITARY_TO_CORREO_SHARED_SECRET,
+    "x-gabo-hop": "solitary-term",
+  };
+
+  try {
+    if (env.DELIVERY && typeof env.DELIVERY.fetch === "function") {
+      return await env.DELIVERY.fetch(
+        new Request(`https://correo-paginas.internal${path}`, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(payload),
+          signal: controller.signal,
+        })
+      );
+    }
+
+    const upstreamBase = String(env.UPSTREAM_WORKER_URL || "").trim();
+    if (!upstreamBase) {
+      throw new Error("Missing DELIVERY binding and UPSTREAM_WORKER_URL.");
+    }
+
+    return await fetch(`${upstreamBase.replace(/\/$/, "")}${path}`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+function logFailure(stage, message, meta = {}) {
+  console.error(
+    JSON.stringify({
+      ok: false,
+      worker: "solitary-term",
+      stage,
+      error: message,
+      ...meta,
+    })
+  );
 }
 
 function resolveRouteByAsset(assetId, env) {
