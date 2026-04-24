@@ -438,7 +438,7 @@ initAnalyticsConsentGuard();
 
 document.addEventListener('DOMContentLoaded', () => {
   syncPageMetadata();
-  initSiteRuntime();
+  initSiteGovernance();
   initAdaptiveLayout();
   initMobileNav();
   ensureChatbotRuntimeStyles();
