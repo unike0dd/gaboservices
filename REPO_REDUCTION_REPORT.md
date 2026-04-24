@@ -40,6 +40,15 @@
 - Worker contract file `workers.contact-careers-intake.js`
 - Existing URL structure and page content files under `services/`, `legal/`, `about/`, `learning/`, `contact/`, `careers/`
 
+
+## Phase 2 — Completed
+
+- Centralized shared form submit/runtime wiring in `assets/js/form-submit-core.js` via `initFormPage(...)`.
+- Reduced `contact/contact-hub.js` and `careers/careers-form.js` to page-specific configuration only (form IDs, endpoint paths, honeypot names, per-page validation/messages, workflow config).
+- Preserved endpoint contracts and honeypot behavior:
+  - Contact: `/submit/contact`
+  - Careers: `/submit/careers`
+
 ## Phase 6 Deletion Classification
 
 ### SAFE TO DELETE
