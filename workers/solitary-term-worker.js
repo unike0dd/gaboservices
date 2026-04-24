@@ -37,7 +37,12 @@ export default {
 
     if (method !== "POST") {
       return jsonResponse(
-        { ok: false, error: "Method not allowed." },
+        {
+          ok: false,
+          error: "Method not allowed.",
+          detail: "Use POST with application/json to this route.",
+          accepted_method: "POST",
+        },
         405,
         request,
         env
