@@ -104,7 +104,6 @@
     var submitButton = options.submitButton;
     var submitEndpoint = options.submitEndpoint;
     var honeypotFields = options.honeypotFields || [];
-    var originAssetMap = options.originAssetMap || {};
     var onStatus = options.onStatus;
     var onValidate = options.onValidate;
     var onSuccess = options.onSuccess;
@@ -152,11 +151,7 @@
           }
         }
 
-        var opsAssetId = getOpsAssetId(originAssetMap);
-        if (!opsAssetId) {
-          onStatus('Secure intake is temporarily unavailable. Please try again shortly.', 'blocked');
-          return;
-        }
+        const publicAssetId = window.location.origin;
 
         var payload = formToPlainObject(form);
 
@@ -171,7 +166,8 @@
           method: 'POST',
           headers: {
             'content-type': 'application/json',
-            'x-ops-asset-id': opsAssetId,
+            'x-ops-asset-id': publicAssetId,
+            'x-gabo-parent-origin': window.location.origin,
           },
           body: JSON.stringify(payload),
         });
@@ -213,8 +209,6 @@
     var formWorkflow = window.GaboFormWorkflow;
     var siteMetadata = window.SITE_METADATA || {};
     var intakeBase = (siteMetadata.forms && siteMetadata.forms.intakeBaseUrl) || 'https://solitary-term-4203.rulathemtodos.workers.dev';
-    var originAssetMap = resolveOriginAssetMap(siteMetadata);
-
     var form = root.querySelector('#' + config.formId);
     if (!form) return;
 
@@ -238,7 +232,6 @@
         submitButton: submitButton,
         submitEndpoint: intakeBase.replace(/\/$/, '') + config.submitPath,
         honeypotFields: config.honeypotFields || [],
-        originAssetMap: originAssetMap,
         onStatus: status,
         onValidate: config.onValidate,
         onBeforeSubmit: function () {
