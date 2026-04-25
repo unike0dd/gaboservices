@@ -4,11 +4,10 @@
     if (!form || form.dataset.nativeSubmitBlocked === 'true') return;
 
     form.addEventListener('submit', function (event) {
-      event.preventDefault();
-
-      if (window.GaboFormSubmitCore && typeof window.GaboFormSubmitCore.initFormPage === 'function') {
+      if (form.dataset.secureSubmitReady === 'true') {
         return;
       }
+      event.preventDefault();
 
       var status = document.getElementById(statusId);
       if (!status) return;
@@ -72,6 +71,11 @@
       beforeMessage: 'Scanning and sanitizing your application...',
       successMessage: 'Career application sent securely to Google Sheets intake.',
     });
+
+    var form = document.getElementById('careersForm');
+    if (form) {
+      form.dataset.secureSubmitReady = 'true';
+    }
 
     return true;
   }
