@@ -34,6 +34,10 @@ export default {
             has_delivery_binding: !!(env.DELIVERY && typeof env.DELIVERY.fetch === "function"),
             has_shared_secret: !!env.SOLITARY_TO_CORREO_SHARED_SECRET,
             has_max_body_bytes: !!env.MAX_BODY_BYTES,
+            has_asset_page: Boolean(String(env.ASSET_PAGE || "").trim()),
+            has_asset_found: Boolean(String(env.ASSET_FOUND || "").trim()),
+            has_private_asset_c5t: Boolean(String(env.ASSET_C5T || "").trim()),
+            has_private_asset_c5s: Boolean(String(env.ASSET_C5S || "").trim()),
           },
         },
         200,
@@ -52,6 +56,10 @@ export default {
           safe_config_only: true,
           has_delivery_binding: !!(env.DELIVERY && typeof env.DELIVERY.fetch === "function"),
           has_shared_secret: !!env.SOLITARY_TO_CORREO_SHARED_SECRET,
+          has_asset_page: Boolean(String(env.ASSET_PAGE || "").trim()),
+          has_asset_found: Boolean(String(env.ASSET_FOUND || "").trim()),
+          has_private_asset_c5t: Boolean(String(env.ASSET_C5T || "").trim()),
+          has_private_asset_c5s: Boolean(String(env.ASSET_C5S || "").trim()),
           allowed_origins_count: getAllowedOrigins(env).length,
           max_body_bytes: Number(env.MAX_BODY_BYTES || 32768),
           routes_present: {
@@ -433,10 +441,8 @@ function validateOpsAssetId(request, env) {
   }
 
   const configured = [
-    String(env.ASSET_C5T || "").trim(),
-    String(env.ASSET_C5S || "").trim(),
-    String(env.ASSET_WWW || "").trim(),
-    String(env.ASSET_ROOT || "").trim(),
+    String(env.ASSET_PAGE || "").trim(),
+    String(env.ASSET_FOUND || "").trim(),
   ].filter(Boolean);
 
   if (!configured.length) {
