@@ -406,6 +406,8 @@ function validateOpsAssetId(request, env) {
   }
 
   const configured = [
+    String(env.ASSET_C5T || "").trim(),
+    String(env.ASSET_C5S || "").trim(),
     String(env.ASSET_PAGE || "").trim(),
     String(env.ASSET_FOUND || "").trim(),
   ].filter(Boolean);

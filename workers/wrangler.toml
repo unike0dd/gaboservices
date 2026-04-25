@@ -6,10 +6,11 @@ compatibility_date = "2026-04-12"
 ALLOWED_ORIGINS = "https://www.gabo.services,https://gabo.services"
 MAX_BODY_BYTES = "32768"
 UPSTREAM_TIMEOUT_MS = "10000"
-ASSET_PAGE = "https://www.gabo.services"
-ASSET_FOUND = "https://gabo.services"
+# Optional legacy vars (non-secret):
+# ASSET_PAGE = "<legacy-asset-id-for-www-origin>"
+# ASSET_FOUND = "<legacy-asset-id-for-apex-origin>"
 
-# Secret to set with `wrangler secret put`:
+# Secrets to set with `wrangler secret put`:
 # - ASSET_C5T
 # - ASSET_C5S
 # - SOLITARY_TO_CORREO_SHARED_SECRET
