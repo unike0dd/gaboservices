@@ -56,8 +56,38 @@
     });
   }
 
-  function getOpsAssetId(originAssetMap) {
-    return String((originAssetMap && originAssetMap[window.location.origin]) || '').trim();
+  function normalizeOrigin(origin) {
+    var raw = String(origin || '').trim();
+    if (!raw) return '';
+
+    try {
+      return new URL(raw).origin.toLowerCase();
+    } catch (_error) {
+      return raw.replace(/\/$/, '').toLowerCase();
+    }
+  }
+
+  function getOpsAssetId(originAssetMap, fallbackAssetId) {
+    var map = originAssetMap && typeof originAssetMap === 'object' ? originAssetMap : {};
+    var currentOrigin = normalizeOrigin(window.location.origin);
+    var currentHostname = String(window.location.hostname || '').toLowerCase();
+
+    var candidates = [
+      currentOrigin,
+      window.location.origin,
+      currentHostname,
+      currentHostname.replace(/^www\./, ''),
+      ('www.' + currentHostname.replace(/^www\./, '')),
+      '*',
+    ].filter(Boolean);
+
+    for (var i = 0; i < candidates.length; i += 1) {
+      var key = candidates[i];
+      var value = String(map[key] || '').trim();
+      if (value) return value;
+    }
+
+    return String(fallbackAssetId || '').trim();
   }
 
   function honeypotTriggered(form, honeypotFields) {
@@ -165,7 +195,11 @@
 
         var siteMetadata = window.SITE_METADATA || {};
         var originAssetMap = resolveOriginAssetMap(siteMetadata);
-        var publicAssetId = getOpsAssetId(originAssetMap);
+        var fallbackAssetId =
+          (siteMetadata.forms && (siteMetadata.forms.defaultAssetId || siteMetadata.forms.publicAssetId)) ||
+          (siteMetadata.chatbot && (siteMetadata.chatbot.defaultAssetId || siteMetadata.chatbot.publicAssetId)) ||
+          '';
+        var publicAssetId = getOpsAssetId(originAssetMap, fallbackAssetId);
         if (!publicAssetId) {
           throw new Error('Secure form configuration missing for this origin. Please contact support.');
         }
