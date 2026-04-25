@@ -165,7 +165,7 @@ export default {
       );
     }
 
-    const routeResult = resolveSubmissionRoute(path, request, env);
+    const routeResult = resolveSubmissionRoute(path);
     if (!routeResult.ok) {
       return jsonResponse(
         {
@@ -364,15 +364,10 @@ function buildSecurityHeaders() {
 }
 
 function isAcceptedPostPath(path) {
-  return (
-    path === ROUTES.root ||
-    path === ROUTES.ingest ||
-    path === ROUTES.submitContact ||
-    path === ROUTES.submitCareers
-  );
+  return path === ROUTES.submitContact || path === ROUTES.submitCareers;
 }
 
-function resolveSubmissionRoute(path, request, env) {
+function resolveSubmissionRoute(path) {
   if (path === ROUTES.submitContact) {
     return {
       ok: true,
@@ -396,37 +391,7 @@ function resolveSubmissionRoute(path, request, env) {
       },
     };
   }
-
-  const assetId = String(request.headers.get("x-ops-asset-id") || "").trim();
-  const assetRoute = resolveRouteByAsset(assetId, env);
-
-  if (!assetRoute) {
-    return { ok: false, status: 403, error: "Unknown asset identity." };
-  }
-
-  return { ok: true, route: assetRoute };
-}
-
-function resolveRouteByAsset(assetId, env) {
-  if (safeEqual(assetId, String(env.ASSET_C5T || ""))) {
-    return {
-      key: "contact",
-      destination: "gmail",
-      assetName: "ASSET_C5T",
-      internalPath: "/contact",
-    };
-  }
-
-  if (safeEqual(assetId, String(env.ASSET_C5S || ""))) {
-    return {
-      key: "careers",
-      destination: "gsheets",
-      assetName: "ASSET_C5S",
-      internalPath: "/careers",
-    };
-  }
-
-  return null;
+  return { ok: false, status: 404, error: "Unknown submission route." };
 }
 
 function validateOpsAssetId(request, env) {
