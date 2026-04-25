@@ -28,7 +28,19 @@
 
   function getBackendErrorMessage(payload) {
     if (!payload || typeof payload !== 'object') return '';
-    return String(payload.error || payload.message || payload.detail || '').trim();
+    var primary = String(payload.error || payload.message || payload.detail || '').trim();
+    var stage = String(payload.stage || '').trim();
+    var requestId = String(payload.request_id || payload.requestId || '').trim();
+    var context = [];
+
+    if (stage) context.push('stage: ' + stage);
+    if (requestId) context.push('request id: ' + requestId);
+
+    if (!primary) {
+      return context.length ? context.join(' | ') : '';
+    }
+
+    return context.length ? primary + ' (' + context.join(' | ') + ')' : primary;
   }
 
   function bindNumericInput(input, allowPlusPrefix) {
@@ -151,7 +163,12 @@
           }
         }
 
-        const publicAssetId = window.location.origin;
+        var siteMetadata = window.SITE_METADATA || {};
+        var originAssetMap = resolveOriginAssetMap(siteMetadata);
+        var publicAssetId = getOpsAssetId(originAssetMap);
+        if (!publicAssetId) {
+          throw new Error('Secure form configuration missing for this origin. Please contact support.');
+        }
 
         var payload = formToPlainObject(form);
 
