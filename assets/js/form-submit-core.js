@@ -131,13 +131,19 @@
 
   function resolveOriginAssetMap(siteMetadata) {
     var formsMap = siteMetadata && siteMetadata.forms && siteMetadata.forms.originAssetMap;
-    if (formsMap && typeof formsMap === 'object') {
-      return formsMap;
+    return formsMap && typeof formsMap === 'object' ? formsMap : {};
+  }
+
+  function resolveSubmitBaseUrl(siteMetadata, config) {
+    var forms = siteMetadata && siteMetadata.forms ? siteMetadata.forms : {};
+    var fromConfig = config && typeof config.submitBaseUrl === 'string' ? config.submitBaseUrl : '';
+    if (fromConfig) return fromConfig;
+
+    if (config && config.submitBaseUrlKey && typeof forms[config.submitBaseUrlKey] === 'string' && forms[config.submitBaseUrlKey]) {
+      return forms[config.submitBaseUrlKey];
     }
 
-    // Temporary fallback for compatibility while all environments migrate to SITE_METADATA.forms.originAssetMap.
-    var chatbotMap = siteMetadata && siteMetadata.chatbot && siteMetadata.chatbot.originAssetMap;
-    return chatbotMap && typeof chatbotMap === 'object' ? chatbotMap : {};
+    return forms.intakeBaseUrl || 'https://solitary-term-4203.rulathemtodos.workers.dev';
   }
 
   function createSubmitHandler(options) {
@@ -259,7 +265,7 @@
 
     var formWorkflow = window.GaboFormWorkflow;
     var siteMetadata = window.SITE_METADATA || {};
-    var intakeBase = (siteMetadata.forms && siteMetadata.forms.intakeBaseUrl) || 'https://solitary-term-4203.rulathemtodos.workers.dev';
+    var intakeBase = resolveSubmitBaseUrl(siteMetadata, config);
     var form = root.querySelector('#' + config.formId);
     if (!form) return;
 
@@ -308,5 +314,6 @@
     getOpsAssetId: getOpsAssetId,
     honeypotTriggered: honeypotTriggered,
     setSubmittingState: setSubmittingState,
+    resolveSubmitBaseUrl: resolveSubmitBaseUrl,
   };
 })();
