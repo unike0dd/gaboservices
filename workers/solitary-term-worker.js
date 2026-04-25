@@ -33,11 +33,11 @@ export default {
           config: {
             has_delivery_binding: !!(env.DELIVERY && typeof env.DELIVERY.fetch === "function"),
             has_shared_secret: !!env.SOLITARY_TO_CORREO_SHARED_SECRET,
+            has_asset_page: !!env.ASSET_PAGE,
+            has_asset_found: !!env.ASSET_FOUND,
+            has_private_asset_c5t: !!env.ASSET_C5T,
+            has_private_asset_c5s: !!env.ASSET_C5S,
             has_max_body_bytes: !!env.MAX_BODY_BYTES,
-            has_asset_page: Boolean(String(env.ASSET_PAGE || "").trim()),
-            has_asset_found: Boolean(String(env.ASSET_FOUND || "").trim()),
-            has_private_asset_c5t: Boolean(String(env.ASSET_C5T || "").trim()),
-            has_private_asset_c5s: Boolean(String(env.ASSET_C5S || "").trim()),
           },
         },
         200,
@@ -56,10 +56,10 @@ export default {
           safe_config_only: true,
           has_delivery_binding: !!(env.DELIVERY && typeof env.DELIVERY.fetch === "function"),
           has_shared_secret: !!env.SOLITARY_TO_CORREO_SHARED_SECRET,
-          has_asset_page: Boolean(String(env.ASSET_PAGE || "").trim()),
-          has_asset_found: Boolean(String(env.ASSET_FOUND || "").trim()),
-          has_private_asset_c5t: Boolean(String(env.ASSET_C5T || "").trim()),
-          has_private_asset_c5s: Boolean(String(env.ASSET_C5S || "").trim()),
+          has_asset_page: !!env.ASSET_PAGE,
+          has_asset_found: !!env.ASSET_FOUND,
+          has_private_asset_c5t: !!env.ASSET_C5T,
+          has_private_asset_c5s: !!env.ASSET_C5S,
           allowed_origins_count: getAllowedOrigins(env).length,
           max_body_bytes: Number(env.MAX_BODY_BYTES || 32768),
           routes_present: {
@@ -165,7 +165,7 @@ export default {
       );
     }
 
-    const routeResult = resolveSubmissionRoute(path);
+    const routeResult = resolveSubmissionRoute(path, request, env);
     if (!routeResult.ok) {
       return jsonResponse(
         {
@@ -364,17 +364,22 @@ function buildSecurityHeaders() {
 }
 
 function isAcceptedPostPath(path) {
-  return path === ROUTES.submitContact || path === ROUTES.submitCareers;
+  return (
+    path === ROUTES.root ||
+    path === ROUTES.ingest ||
+    path === ROUTES.submitContact ||
+    path === ROUTES.submitCareers
+  );
 }
 
-function resolveSubmissionRoute(path) {
+function resolveSubmissionRoute(path, request, env) {
   if (path === ROUTES.submitContact) {
     return {
       ok: true,
       route: {
         key: "contact",
         destination: "gmail",
-        assetName: "PATH_CONTACT",
+        assetName: "ASSET_C5T",
         internalPath: "/contact",
       },
     };
@@ -386,12 +391,36 @@ function resolveSubmissionRoute(path) {
       route: {
         key: "careers",
         destination: "gsheets",
-        assetName: "PATH_CAREERS",
+        assetName: "ASSET_C5S",
         internalPath: "/careers",
       },
     };
   }
-  return { ok: false, status: 404, error: "Unknown submission route." };
+
+  const assetId = String(request.headers.get("x-ops-asset-id") || "").trim();
+  const assetRoute = resolveRouteByAsset(assetId, env);
+
+  if (!assetRoute) {
+    return { ok: false, status: 403, error: "Unknown asset identity." };
+  }
+
+  return { ok: true, route: assetRoute };
+}
+
+function resolveRouteByAsset(assetId, env) {
+  const pageIdentity = String(env.ASSET_PAGE || "").trim();
+  const foundIdentity = String(env.ASSET_FOUND || "").trim();
+
+  if (safeEqual(assetId, pageIdentity) || safeEqual(assetId, foundIdentity)) {
+    return {
+      key: "public_site",
+      destination: "public_identity",
+      assetName: "ASSET_PAGE_OR_ASSET_FOUND",
+      internalPath: "",
+    };
+  }
+
+  return null;
 }
 
 function validateOpsAssetId(request, env) {
@@ -405,15 +434,14 @@ function validateOpsAssetId(request, env) {
     };
   }
 
-  const configured = [
-    String(env.ASSET_C5T || "").trim(),
-    String(env.ASSET_C5S || "").trim(),
-    String(env.ASSET_PAGE || "").trim(),
-    String(env.ASSET_FOUND || "").trim(),
-  ].filter(Boolean);
+  const configured = [String(env.ASSET_PAGE || "").trim(), String(env.ASSET_FOUND || "").trim()].filter(Boolean);
 
   if (!configured.length) {
-    return { ok: true };
+    return {
+      ok: false,
+      status: 500,
+      error: "Missing public asset identity configuration.",
+    };
   }
 
   for (const expected of configured) {

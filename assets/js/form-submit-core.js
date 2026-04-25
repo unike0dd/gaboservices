@@ -202,9 +202,7 @@
         var siteMetadata = window.SITE_METADATA || {};
         var originAssetMap = resolveOriginAssetMap(siteMetadata);
         var fallbackAssetId =
-          (siteMetadata.forms && (siteMetadata.forms.defaultAssetId || siteMetadata.forms.publicAssetId)) ||
-          (siteMetadata.chatbot && (siteMetadata.chatbot.defaultAssetId || siteMetadata.chatbot.publicAssetId)) ||
-          '';
+          (siteMetadata.forms && (siteMetadata.forms.defaultAssetId || siteMetadata.forms.publicAssetId)) || '';
         var publicAssetId = getOpsAssetId(originAssetMap, fallbackAssetId);
         if (!publicAssetId) {
           throw new Error('Secure form configuration missing for this origin. Please contact support.');
