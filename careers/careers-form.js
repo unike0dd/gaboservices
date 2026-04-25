@@ -27,6 +27,7 @@
       formId: 'careersForm',
       statusId: 'careerFormStatus',
       submitPath: '/submit/careers',
+      submitBaseUrlKey: 'careersIntakeBaseUrl',
       honeypotFields: ['portfolio_url'],
       numericInputs: [
         { id: '#careerCountryCode', allowPlusPrefix: true },

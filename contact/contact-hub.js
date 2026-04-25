@@ -27,6 +27,7 @@
       formId: 'contactForm',
       statusId: 'formStatus',
       submitPath: '/submit/contact',
+      submitBaseUrlKey: 'contactIntakeBaseUrl',
       honeypotFields: ['company_website'],
       numericInputs: [
         { id: '#contactCountryCode', allowPlusPrefix: true },

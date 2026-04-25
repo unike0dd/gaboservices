@@ -1,5 +1,13 @@
 window.SITE_METADATA = {
+  workers: {
+    chatbotBaseUrl: 'https://drastic-measures.rulathemtodos.workers.dev',
+  },
   forms: {
+    // Keep contact/careers intake workers explicitly split so each channel can be
+    // managed independently.
+    contactIntakeBaseUrl: 'https://solitary-term-4203.rulathemtodos.workers.dev',
+    careersIntakeBaseUrl: 'https://con-artist.rulathemtodos.workers.dev',
+    // Backward-compatible default used when a page-specific endpoint is not set.
     intakeBaseUrl: 'https://solitary-term-4203.rulathemtodos.workers.dev',
     // Public asset identifiers must match the values configured in the intake worker
     // (ASSET_C5T / ASSET_C5S / ASSET_PAGE / ASSET_FOUND).
