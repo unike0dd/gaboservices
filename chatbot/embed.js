@@ -3,13 +3,6 @@ const WORKER_BASE = 'https://con-artist.rulathemtodos.workers.dev';
 const WORKER_CHAT = `${WORKER_BASE}/api/chat`;
 const WORKER_MODE = 'iframe_service_qa';
 
-const DEFAULT_ORIGIN_ASSET_MAP = {
-  'https://www.gabo.services':
-    'b91f605b23748de5cf02db0de2dd59117b31c709986a3c72837d0af8756473cf2779c206fc6ef80a57fdeddefa4ea11b972572f3a8edd9ed77900f9385e94bd6',
-  'https://gabo.services':
-    '8cdeef86bd180277d5b080d571ad8e6dbad9595f408b58475faaa3161f07448fbf12799ee199e3ee257405b75de555055fd5f43e0ce75e0740c4dc11bf86d132'
-};
-
 const STORAGE_KEY = 'gabo_io_chatbot_cache_v1';
 const MAX_HISTORY = 40;
 const RATE_LIMIT_KEY = 'gabo_io_chatbot_rate_v1';
@@ -82,17 +75,12 @@ function sanitizeInput(input) {
 function getOriginAssetMap() {
   const configured = window.SITE_METADATA?.chatbot?.originAssetMap;
   if (!configured || typeof configured !== 'object') {
-    return DEFAULT_ORIGIN_ASSET_MAP;
+    return {};
   }
 
-  const cleanConfigured = Object.fromEntries(
+  return Object.fromEntries(
     Object.entries(configured).filter(([origin, assetId]) => typeof origin === 'string' && typeof assetId === 'string' && assetId)
   );
-
-  return {
-    ...DEFAULT_ORIGIN_ASSET_MAP,
-    ...cleanConfigured
-  };
 }
 
 function safeStateLoad() {
