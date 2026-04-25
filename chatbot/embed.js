@@ -1,4 +1,8 @@
-const WORKER_BASE = 'https://con-artist.rulathemtodos.workers.dev';
+const WORKER_BASE =
+  (window.SITE_METADATA &&
+    window.SITE_METADATA.workers &&
+    window.SITE_METADATA.workers.chatbotBaseUrl) ||
+  'https://drastic-measures.rulathemtodos.workers.dev';
 
 const WORKER_CHAT = `${WORKER_BASE}/api/chat`;
 const WORKER_MODE = 'iframe_service_qa';
