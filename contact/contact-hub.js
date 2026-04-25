@@ -4,11 +4,10 @@
     if (!form || form.dataset.nativeSubmitBlocked === 'true') return;
 
     form.addEventListener('submit', function (event) {
-      event.preventDefault();
-
-      if (window.GaboFormSubmitCore && typeof window.GaboFormSubmitCore.initFormPage === 'function') {
+      if (form.dataset.secureSubmitReady === 'true') {
         return;
       }
+      event.preventDefault();
 
       var status = document.getElementById(statusId);
       if (!status) return;
@@ -70,6 +69,11 @@
       beforeMessage: 'Scanning and sanitizing your request...',
       successMessage: 'Contact request sent securely to Gmail intake.',
     });
+
+    var form = document.getElementById('contactForm');
+    if (form) {
+      form.dataset.secureSubmitReady = 'true';
+    }
 
     return true;
   }
