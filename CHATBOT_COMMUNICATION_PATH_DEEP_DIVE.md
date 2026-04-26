@@ -117,3 +117,10 @@
 - Contact/Careers browser traffic goes to `solitary-term-4203` using `/submit/contact` and `/submit/careers`.
 - Chatbot traffic goes to the separate chatbot worker base using `/api/chat`.
 - No contact/careers form path in this repo posts to `/api/chat`, and chatbot path does not post to `/submit/contact` or `/submit/careers`.
+
+---
+
+## 6) Direct answer: did anything change in chatbot path/communication?
+- **No runtime chatbot path or communication contract was changed.**
+- The commits in this branch changed documentation only (`CHATBOT_COMMUNICATION_PATH_DEEP_DIVE.md`).
+- No edits were made to chatbot runtime files such as `chatbot/embed.js`, `chatbot/chatbot.css`, `chatbot/fab.css`, or `chatbot/behavior.yml`.
