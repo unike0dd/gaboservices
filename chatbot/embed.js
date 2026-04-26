@@ -560,9 +560,22 @@ export function initGaboChatbotEmbed() {
       emitTelemetry('stream_started', {});
       await streamAssistantReply(message);
       emitTelemetry('stream_completed', {});
-    } catch {
-      pushMessage('assistant', 'Unable to complete request. Please try again.');
-      emitTelemetry('stream_failed', {});
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error || 'Unknown error');
+      const lower = errorMessage.toLowerCase();
+
+      let userMessage = 'Unable to complete request. Please try again.';
+      if (lower.includes('chat unavailable on this host')) {
+        userMessage = 'Chat is not enabled for this environment yet. Please use gabo.services or contact support.';
+      } else if (errorMessage.includes('Worker 429')) {
+        userMessage = 'Service is temporarily busy. Please wait a moment and try again.';
+      } else if (lower.includes('abort')) {
+        userMessage = 'Request timed out. Please try again.';
+      }
+
+      console.warn('[Gabo Chatbot] stream failed:', errorMessage);
+      pushMessage('assistant', userMessage);
+      emitTelemetry('stream_failed', { error: errorMessage.slice(0, 240) });
     } finally {
       send.disabled = false;
       input.focus();
