@@ -320,31 +320,59 @@ export function initGaboChatbotEmbed() {
     renderLog(log, state.history);
     saveState(state);
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000);
+    async function fetchStreamResponse(attempt = 0) {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
 
-    const resp = await fetch(WORKER_CHAT, {
-      method: 'POST',
-      signal: controller.signal,
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'text/event-stream',
-        'x-gabo-parent-origin': currentOrigin,
-        'x-ops-asset-id': assetId
-      },
-      body: JSON.stringify({
-        mode: WORKER_MODE,
-        messages: [{ role: 'user', content: userText }],
-        meta: { surface: 'gabo_io_global_widget', communication: 'Cyber Security' }
-      })
-    }).finally(() => clearTimeout(timeoutId));
+      try {
+        const response = await fetch(WORKER_CHAT, {
+          method: 'POST',
+          signal: controller.signal,
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'text/event-stream',
+            'x-gabo-parent-origin': currentOrigin,
+            'x-ops-asset-id': assetId
+          },
+          body: JSON.stringify({
+            mode: WORKER_MODE,
+            messages: [{ role: 'user', content: userText }],
+            meta: { surface: 'gabo_io_global_widget', communication: 'Cyber Security' }
+          })
+        });
 
-    if (!resp.ok) {
-      const text = await resp.text().catch(() => '');
-      throw new Error(`Worker ${resp.status}${text ? ` - ${text.slice(0, 120)}` : ''}`);
+        if (!response.ok) {
+          const text = await response.text().catch(() => '');
+          const error = new Error(`Worker ${response.status}${text ? ` - ${text.slice(0, 120)}` : ''}`);
+          error.retryable = response.status === 429 || response.status >= 500;
+          throw error;
+        }
+
+        if (!response.body) {
+          const error = new Error('Empty response body');
+          error.retryable = true;
+          throw error;
+        }
+
+        return response;
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error || 'Unknown error');
+        const isAbort = error instanceof DOMException && error.name === 'AbortError';
+        const retryable = !!error?.retryable || isAbort || error instanceof TypeError;
+
+        if (attempt < 1 && retryable) {
+          emitTelemetry('stream_retry', { attempt: attempt + 1, reason: errorMessage.slice(0, 120) });
+          await new Promise((resolve) => setTimeout(resolve, 700));
+          return fetchStreamResponse(attempt + 1);
+        }
+
+        throw error;
+      } finally {
+        clearTimeout(timeoutId);
+      }
     }
 
-    if (!resp.body) throw new Error('Empty response body');
+    const resp = await fetchStreamResponse();
 
     const reader = resp.body.getReader();
     const decoder = new TextDecoder();
@@ -560,9 +588,22 @@ export function initGaboChatbotEmbed() {
       emitTelemetry('stream_started', {});
       await streamAssistantReply(message);
       emitTelemetry('stream_completed', {});
-    } catch {
-      pushMessage('assistant', 'Unable to complete request. Please try again.');
-      emitTelemetry('stream_failed', {});
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error || 'Unknown error');
+      const lower = errorMessage.toLowerCase();
+
+      let userMessage = 'Unable to complete request. Please try again.';
+      if (lower.includes('chat unavailable on this host')) {
+        userMessage = 'Chat is not enabled for this environment yet. Please use gabo.services or contact support.';
+      } else if (errorMessage.includes('Worker 429')) {
+        userMessage = 'Service is temporarily busy. Please wait a moment and try again.';
+      } else if (lower.includes('abort')) {
+        userMessage = 'Request timed out. Please try again.';
+      }
+
+      console.warn('[Gabo Chatbot] stream failed:', errorMessage);
+      pushMessage('assistant', userMessage);
+      emitTelemetry('stream_failed', { error: errorMessage.slice(0, 240) });
     } finally {
       send.disabled = false;
       input.focus();
