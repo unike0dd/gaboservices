@@ -1,40 +1,39 @@
 (function () {
-  function installNativeSubmitBlocker(formId, statusId) {
-    var form = document.getElementById(formId);
-    if (!form || form.dataset.nativeSubmitBlocked === 'true') return;
-
-    form.addEventListener('submit', function (event) {
-      if (form.dataset.secureSubmitReady === 'true') {
+  function toObject(form) {
+    const data = new FormData(form);
+    const out = {};
+    data.forEach((value, key) => {
+      if (Object.prototype.hasOwnProperty.call(out, key)) {
+        out[key] = Array.isArray(out[key]) ? out[key].concat(value) : [out[key], value];
         return;
       }
-      event.preventDefault();
-
-      var status = document.getElementById(statusId);
-      if (!status) return;
-      status.textContent = 'Secure submission is still loading. Please try again in a moment.';
-      status.dataset.state = 'blocked';
-    }, true);
-
-    form.dataset.nativeSubmitBlocked = 'true';
+      out[key] = value;
+    });
+    return out;
   }
 
-  function initialize() {
-    var formSubmitCore = window.GaboFormSubmitCore;
-    if (!formSubmitCore || typeof formSubmitCore.initFormPage !== 'function') return false;
+  function normalizeOrigin(origin) {
+    try {
+      return new URL(String(origin || '')).origin.toLowerCase();
+    } catch {
+      return String(origin || '').trim().replace(/\/$/, '').toLowerCase();
+    }
+  }
 
-    formSubmitCore.initFormPage({
-      rootSelector: '.contact-hub',
-      formId: 'contactForm',
-      statusId: 'formStatus',
-      submitPath: '/v1/intake/contact',
-      submitBaseUrlKey: 'contactIntakeBaseUrl',
-      honeypotFields: ['company_website'],
-      numericInputs: [
-        { id: '#contactCountryCode', allowPlusPrefix: true },
-        { id: '#contactNumber', allowPlusPrefix: false },
-        { id: '#contactZip', allowPlusPrefix: false },
-      ],
-      workflow: {
+  function resolveAssetId(config) {
+    const map = config.originAssetMap && typeof config.originAssetMap === 'object' ? config.originAssetMap : {};
+    const key = normalizeOrigin(window.location.origin);
+    return String(map[key] || config.defaultAssetId || '').trim();
+  }
+
+  function init() {
+    const root = document.querySelector('.contact-hub');
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('formStatus');
+    if (!root || !form || !status) return;
+
+    if (window.GaboFormWorkflow?.create) {
+      window.GaboFormWorkflow.create(root, {
         formId: 'contactForm',
         statusId: 'formStatus',
         clearKey: 'contact',
@@ -45,55 +44,82 @@
           { type: 'simple', inputId: 'contactRemoteSkillInput', addBtnId: 'contactRemoteSkillAdd', listId: 'contactRemoteSkillsList', hiddenId: 'contactRemoteSkillsHidden' },
           { type: 'pair', inputId: 'contactExperienceInput', selectId: 'contactExperienceLevel', addBtnId: 'contactExperienceAdd', listId: 'contactExperienceList', hiddenId: 'contactExperienceHidden' },
           { type: 'pair', inputId: 'contactLanguageInput', selectId: 'contactLanguageLevel', addBtnId: 'contactLanguageAdd', listId: 'contactLanguagesList', hiddenId: 'contactLanguagesHidden' },
-          { type: 'pair', inputId: 'contactEducationInput', selectId: 'contactEducationLevel', addBtnId: 'contactEducationAdd', listId: 'contactEducationList', hiddenId: 'contactEducationHidden' },
+          { type: 'pair', inputId: 'contactEducationInput', selectId: 'contactEducationLevel', addBtnId: 'contactEducationAdd', listId: 'contactEducationList', hiddenId: 'contactEducationHidden' }
         ],
         clearPillGroups: [
           { listId: 'contactRemoteSkillsList', hiddenId: 'contactRemoteSkillsHidden' },
           { listId: 'contactExperienceList', hiddenId: 'contactExperienceHidden' },
           { listId: 'contactLanguagesList', hiddenId: 'contactLanguagesHidden' },
-          { listId: 'contactEducationList', hiddenId: 'contactEducationHidden' },
+          { listId: 'contactEducationList', hiddenId: 'contactEducationHidden' }
         ],
         clearCheckboxSelectors: ['input[name="contact_interest[]"]', 'input[name="remote_interest[]"]'],
-        extraValidation: function (context) {
+        extraValidation(context) {
           if (!context.getCheckedValues('input[name="contact_interest[]"]').length) {
             return 'Please select at least one service interest.';
           }
           return '';
-        },
-      },
-      onValidate: function (context) {
-        if (!context.root.querySelectorAll('input[name="contact_interest[]"]:checked').length) {
-          return 'Please select at least one area of interest.';
         }
-        return '';
-      },
-      beforeMessage: 'Scanning and sanitizing your request...',
-      successMessage: 'Contact request sent securely to Gmail intake.',
-    });
-
-    var form = document.getElementById('contactForm');
-    if (form) {
-      form.dataset.secureSubmitReady = 'true';
+      });
     }
 
-    return true;
-  }
+    const config = window.SITE_CONTACT_CONFIG || {};
+    const intakeBase = String(config.intakeBaseUrl || '').replace(/\/$/, '');
+    const submitPath = String(config.submitPath || '/v1/intake/contact');
 
-  function initWhenReady(attempt) {
-    if (initialize()) return;
-    if (attempt >= 30) return;
-    setTimeout(function () {
-      initWhenReady(attempt + 1);
-    }, 100);
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const honeypot = form.querySelector('input[name="company_website"]');
+      if (honeypot && String(honeypot.value || '').trim()) {
+        status.textContent = 'Submission blocked.';
+        status.dataset.state = 'blocked';
+        return;
+      }
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        status.textContent = 'Please complete all required fields before submitting.';
+        status.dataset.state = 'blocked';
+        return;
+      }
+
+      const assetId = resolveAssetId(config);
+      if (!assetId) {
+        status.textContent = 'Secure form configuration is missing for this origin.';
+        status.dataset.state = 'blocked';
+        return;
+      }
+
+      status.textContent = 'Scanning and sanitizing your request...';
+      status.dataset.state = 'review';
+
+      try {
+        const response = await fetch(`${intakeBase}${submitPath}`, {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            'x-ops-asset-id': assetId,
+            'x-gabo-parent-origin': window.location.origin
+          },
+          body: JSON.stringify(toObject(form))
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok || payload?.ok === false) {
+          throw new Error(payload?.error || payload?.message || 'Secure form relay failed.');
+        }
+        form.reset();
+        status.textContent = 'Contact request sent securely to Gmail intake.';
+        status.dataset.state = 'success';
+      } catch (error) {
+        status.textContent = error?.message || 'Submission failed. Please try again shortly.';
+        status.dataset.state = 'blocked';
+      }
+    });
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () {
-      installNativeSubmitBlocker('contactForm', 'formStatus');
-      initWhenReady(0);
-    });
+    document.addEventListener('DOMContentLoaded', init);
   } else {
-    installNativeSubmitBlocker('contactForm', 'formStatus');
-    initWhenReady(0);
+    init();
   }
 })();

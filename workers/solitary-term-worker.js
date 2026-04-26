@@ -33,7 +33,8 @@ export default {
           accepts: ["application/json"],
           allowed_origins: getAllowedOrigins(env),
           config: {
-            has_delivery_binding: !!(env.DELIVERY && typeof env.DELIVERY.fetch === "function"),
+            has_contact_binding: !!(env.DELIVERY_CONTACT && typeof env.DELIVERY_CONTACT.fetch === "function"),
+            has_careers_binding: !!(env.DELIVERY_CAREERS && typeof env.DELIVERY_CAREERS.fetch === "function"),
             has_shared_secret: !!env.SOLITARY_TO_CORREO_SHARED_SECRET,
             has_asset_page: !!env.ASSET_PAGE,
             has_asset_found: !!env.ASSET_FOUND,
@@ -56,7 +57,8 @@ export default {
           stage: "debug_config",
           worker: "solitary-term-4203",
           safe_config_only: true,
-          has_delivery_binding: !!(env.DELIVERY && typeof env.DELIVERY.fetch === "function"),
+          has_contact_binding: !!(env.DELIVERY_CONTACT && typeof env.DELIVERY_CONTACT.fetch === "function"),
+            has_careers_binding: !!(env.DELIVERY_CAREERS && typeof env.DELIVERY_CAREERS.fetch === "function"),
           has_shared_secret: !!env.SOLITARY_TO_CORREO_SHARED_SECRET,
           has_asset_page: !!env.ASSET_PAGE,
           has_asset_found: !!env.ASSET_FOUND,
@@ -204,12 +206,13 @@ export default {
       );
     }
 
-    if (!env.DELIVERY || typeof env.DELIVERY.fetch !== "function") {
+    const deliveryBinding = routeResult.route.key === "contact" ? env.DELIVERY_CONTACT : env.DELIVERY_CAREERS;
+    if (!deliveryBinding || typeof deliveryBinding.fetch !== "function") {
       return jsonResponse(
         {
           ok: false,
           stage: "binding",
-          error: "Missing internal DELIVERY Service Binding.",
+          error: `Missing internal ${routeResult.route.key} delivery Service Binding.`,
         },
         500,
         request,
@@ -251,7 +254,7 @@ export default {
     let deliveryResponse;
 
     try {
-      deliveryResponse = await env.DELIVERY.fetch(
+      deliveryResponse = await deliveryBinding.fetch(
         new Request(`https://internal.local${routeResult.route.internalPath}`, {
           method: "POST",
           headers: {
