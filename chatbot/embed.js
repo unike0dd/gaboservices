@@ -246,14 +246,17 @@ export function initGaboChatbotEmbed() {
     </div>
   `;
 
-  const host = document.getElementById('fabChatMount') || document.body;
+  const preferredHost = document.getElementById('fabChatMount');
+  const host = preferredHost && !preferredHost.hidden && preferredHost.getAttribute('aria-hidden') !== 'true'
+    ? preferredHost
+    : document.body;
   
   if (!host) {
     console.warn('[Gabo Chatbot] Host element not found, cannot initialize');
     return;
   }
 
-  const existing = host.querySelector(':scope > .gabo-chatbot');
+  const existing = [...host.children].find((child) => child.classList?.contains('gabo-chatbot'));
   if (existing) {
     existing.remove();
   }
