@@ -1,0 +1,7 @@
+name = "contact-intake"
+main = "workers.contact-intake.js"
+compatibility_date = "2026-04-26"
+
+[vars]
+ALLOWED_ORIGINS = "https://www.gabo.services,https://gabo.services"
+UPSTREAM_TIMEOUT_MS = "10000"

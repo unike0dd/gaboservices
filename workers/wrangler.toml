@@ -1,6 +1,6 @@
 name = "solitary-term-4203"
 main = "solitary-term-worker.js"
-compatibility_date = "2026-04-12"
+compatibility_date = "2026-04-26"
 
 [vars]
 ALLOWED_ORIGINS = "https://www.gabo.services,https://gabo.services"
@@ -9,6 +9,15 @@ UPSTREAM_TIMEOUT_MS = "10000"
 # Optional legacy vars (non-secret):
 # ASSET_PAGE = "<legacy-asset-id-for-www-origin>"
 # ASSET_FOUND = "<legacy-asset-id-for-apex-origin>"
+
+# Configure service bindings per environment:
+# [[services]]
+# binding = "DELIVERY_CONTACT"
+# service = "contact-intake"
+#
+# [[services]]
+# binding = "DELIVERY_CAREERS"
+# service = "careers-intake"
 
 # Secrets to set with `wrangler secret put`:
 # - ASSET_C5T

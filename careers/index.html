@@ -25,78 +25,15 @@
     <meta name="twitter:description" content="Apply to join Gabriel Services and support logistics, customer operations, and administrative workflows." />
     <meta name="twitter:image" content="https://www.gabo.services/assets/og-cover.svg" />
     <link rel="stylesheet" href="../assets/css/site.css" />
+    <script src="../site.core.config.js"></script>
+    <script src="../site.careers.config.js"></script>
+    <script src="../site.chatbot.config.js"></script>
     <script src="../site.config.js"></script>
     <script src="../form-workflow.js"></script>
-    <script src="../assets/js/form-submit-core.js"></script>
     <script data-cfasync="false" type="module" crossorigin="anonymous" src="../main.js"></script>
     <link rel="stylesheet" href="../contact/contact-hub.css?v=20260319b" />
-    <style>
-      .careers-hero {
-        padding-bottom: 40px;
-      }
-      .careers-hero h1 {
-        max-width: none;
-        font-size: calc(var(--h1-size) + 3px);
-        text-align: center;
-        margin-inline: auto;
-        white-space: nowrap;
-      }
-      .careers-hero .lead {
-        max-width: 1040px;
-        margin-inline: auto;
-        text-align: center;
-        white-space: nowrap;
-      }
-      .careers-form-section {
-        margin-top: 15px;
-      }
-      .contact-hub .hero {
-        text-align: center;
-      }
-      .contact-hub .hero > div {
-        width: 100%;
-      }
-      .contact-hub .hero__title {
-        margin-bottom: 5px;
-      }
-      .contact-hub .hero__text {
-        max-width: 980px;
-        margin-inline: auto;
-        text-align: center;
-        text-wrap: balance;
-      }
-      .contact-hub .form-block__title {
-        font-size: 20px;
-        text-align: center;
-      }
-      .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; }
-      .field { display: flex; flex-direction: column; gap: 8px; }
-      .field.full { grid-column: 1 / -1; }
-      .repeat-list { display: grid; gap: 12px; margin: 8px 0; }
-      .repeat-row { display: grid; gap: 12px; }
-      .repeat-row.paired { grid-template-columns: 200px 1fr auto; }
-      .repeat-row.simple { grid-template-columns: 1fr auto; }
-      .btn-small, .btn-submit { font-weight: 600; cursor: pointer; border-radius: 999px; }
-      .btn-small { padding: 9px 16px; border: 1px solid var(--outline); background: var(--surface); }
-      .btn-small.remove { color: #ef4444; }
-      .btn-submit { margin-top: 24px; padding: 14px 32px; border: 0; background: var(--brand); color: #fff; }
-      @media (max-width: 1024px) {
-        .careers-hero h1 {
-          font-size: 45px;
-          white-space: normal;
-        }
-        .careers-hero .lead {
-          white-space: normal;
-        }
-      }
-      @media (max-width: 960px) { .form-grid, .repeat-row.paired { grid-template-columns: 1fr; } }
-      @media (max-width: 640px) {
-        .careers-hero {
-          padding-bottom: 28px;
-        }
-        .repeat-row.simple, .btn-submit { width: 100%; grid-template-columns: 1fr; }
-      }
-    </style>
+    <link rel="stylesheet" href="../assets/css/careers-page.css" />
+
   </head>
   <body data-page="careers" data-page-key="careers">
     <header class="site-header">

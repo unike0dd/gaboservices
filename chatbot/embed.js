@@ -1,11 +1,7 @@
-const WORKER_BASE =
-  (window.SITE_METADATA &&
-    window.SITE_METADATA.workers &&
-    window.SITE_METADATA.workers.chatbotBaseUrl) ||
-  'https://drastic-measures.rulathemtodos.workers.dev';
-
+const CHATBOT_CONFIG = window.SITE_CHATBOT_CONFIG || {};
+const WORKER_BASE = CHATBOT_CONFIG.workerBaseUrl || 'https://drastic-measures.rulathemtodos.workers.dev';
 const WORKER_CHAT = `${WORKER_BASE}/api/chat`;
-const WORKER_MODE = 'iframe_service_qa';
+const WORKER_MODE = CHATBOT_CONFIG.mode || 'iframe_service_qa';
 
 const STORAGE_KEY = 'gabo_io_chatbot_cache_v1';
 const MAX_HISTORY = 40;
@@ -77,7 +73,7 @@ function sanitizeInput(input) {
 }
 
 function getOriginAssetMap() {
-  const configured = window.SITE_METADATA?.chatbot?.originAssetMap;
+  const configured = CHATBOT_CONFIG.originAssetMap;
   if (!configured || typeof configured !== 'object') {
     return {};
   }
