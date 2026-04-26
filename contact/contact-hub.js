@@ -26,7 +26,7 @@
       rootSelector: '.contact-hub',
       formId: 'contactForm',
       statusId: 'formStatus',
-      submitPath: '/submit/contact',
+      submitPath: '/v1/intake/contact',
       submitBaseUrlKey: 'contactIntakeBaseUrl',
       honeypotFields: ['company_website'],
       numericInputs: [
