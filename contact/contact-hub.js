@@ -28,6 +28,7 @@
       statusId: 'formStatus',
       submitPath: '/submit/contact',
       submitBaseUrlKey: 'contactIntakeBaseUrl',
+      assetMapKey: 'contactOriginAssetMap',
       honeypotFields: ['company_website'],
       numericInputs: [
         { id: '#contactCountryCode', allowPlusPrefix: true },

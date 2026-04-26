@@ -28,6 +28,7 @@
       statusId: 'careerFormStatus',
       submitPath: '/submit/careers',
       submitBaseUrlKey: 'careersIntakeBaseUrl',
+      assetMapKey: 'careersOriginAssetMap',
       honeypotFields: ['portfolio_url'],
       numericInputs: [
         { id: '#careerCountryCode', allowPlusPrefix: true },

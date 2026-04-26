@@ -113,21 +113,6 @@ export default {
       );
     }
 
-    const assetCheck = validateOpsAssetId(request, env);
-    if (!assetCheck.ok) {
-      return jsonResponse(
-        {
-          ok: false,
-          stage: "asset_identity",
-          error: assetCheck.error,
-        },
-        assetCheck.status,
-        request,
-        env,
-        requestId
-      );
-    }
-
     const contentLength = Number(request.headers.get("content-length") || "0");
     const maxBodyBytes = Number(env.MAX_BODY_BYTES || 32768);
 
@@ -174,6 +159,21 @@ export default {
           error: routeResult.error,
         },
         routeResult.status || 403,
+        request,
+        env,
+        requestId
+      );
+    }
+
+    const assetCheck = validateOpsAssetId(request, env, routeResult.route);
+    if (!assetCheck.ok) {
+      return jsonResponse(
+        {
+          ok: false,
+          stage: "asset_identity",
+          error: assetCheck.error,
+        },
+        assetCheck.status,
         request,
         env,
         requestId
@@ -423,7 +423,7 @@ function resolveRouteByAsset(assetId, env) {
   return null;
 }
 
-function validateOpsAssetId(request, env) {
+function validateOpsAssetId(request, env, route) {
   const value = String(request.headers.get("x-ops-asset-id") || "").trim();
 
   if (!value) {
@@ -434,13 +434,13 @@ function validateOpsAssetId(request, env) {
     };
   }
 
-  const configured = [String(env.ASSET_PAGE || "").trim(), String(env.ASSET_FOUND || "").trim()].filter(Boolean);
+  const configured = routeExpectedAssetIds(route, env);
 
   if (!configured.length) {
     return {
       ok: false,
       status: 500,
-      error: "Missing public asset identity configuration.",
+      error: "Missing asset identity configuration for this route.",
     };
   }
 
@@ -455,6 +455,18 @@ function validateOpsAssetId(request, env) {
     status: 403,
     error: "Invalid x-ops-asset-id.",
   };
+}
+
+function routeExpectedAssetIds(route, env) {
+  if (route && route.key === "contact") {
+    return [String(env.ASSET_C5T || "").trim()].filter(Boolean);
+  }
+
+  if (route && route.key === "careers") {
+    return [String(env.ASSET_C5S || "").trim()].filter(Boolean);
+  }
+
+  return [String(env.ASSET_PAGE || "").trim(), String(env.ASSET_FOUND || "").trim()].filter(Boolean);
 }
 
 function cleanAndValidatePayload(routeKey, input) {

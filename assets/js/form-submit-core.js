@@ -134,6 +134,14 @@
     return formsMap && typeof formsMap === 'object' ? formsMap : {};
   }
 
+  function resolveRouteOriginAssetMap(siteMetadata, config) {
+    var forms = siteMetadata && siteMetadata.forms ? siteMetadata.forms : {};
+    if (config && config.assetMapKey && forms[config.assetMapKey] && typeof forms[config.assetMapKey] === 'object') {
+      return forms[config.assetMapKey];
+    }
+    return resolveOriginAssetMap(siteMetadata);
+  }
+
   function resolveSubmitBaseUrl(siteMetadata, config) {
     var forms = siteMetadata && siteMetadata.forms ? siteMetadata.forms : {};
     var fromConfig = config && typeof config.submitBaseUrl === 'string' ? config.submitBaseUrl : '';
@@ -200,7 +208,7 @@
         }
 
         var siteMetadata = window.SITE_METADATA || {};
-        var originAssetMap = resolveOriginAssetMap(siteMetadata);
+        var originAssetMap = resolveRouteOriginAssetMap(siteMetadata, options.config || {});
         var fallbackAssetId =
           (siteMetadata.forms && (siteMetadata.forms.defaultAssetId || siteMetadata.forms.publicAssetId)) || '';
         var publicAssetId = getOpsAssetId(originAssetMap, fallbackAssetId);
@@ -286,6 +294,7 @@
         form: form,
         submitButton: submitButton,
         submitEndpoint: intakeBase.replace(/\/$/, '') + config.submitPath,
+        config: config,
         honeypotFields: config.honeypotFields || [],
         onStatus: status,
         onValidate: config.onValidate,
