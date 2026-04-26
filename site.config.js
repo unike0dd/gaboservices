@@ -7,7 +7,7 @@
   window.SITE_METADATA = {
     ...core,
     workers: {
-      chatbotBaseUrl: chatbot.workerBaseUrl || 'https://drastic-measures.rulathemtodos.workers.dev'
+      chatbotBaseUrl: chatbot.workerBaseUrl || 'https://con-artist.rulathemtodos.workers.dev'
     },
     forms: {
       contactIntakeBaseUrl: contact.intakeBaseUrl || '',
