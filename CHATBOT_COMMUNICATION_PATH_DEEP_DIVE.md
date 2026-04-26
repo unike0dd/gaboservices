@@ -91,3 +91,29 @@
 - Local state path: `localStorage[gabo_io_chatbot_cache_v1]`.
 - Local rate control path: `localStorage[gabo_io_chatbot_rate_v1]`.
 
+---
+
+## 5) Separate repo-to-Cloudflare mapping for Contact and Careers (solitary-term-4203)
+
+### 5.1 Contact communication mapping
+
+| Hop | Source in repo | Contract | Destination |
+|---|---|---|---|
+| 1 | `contact/contact-hub.js` | sets `submitPath: '/submit/contact'` and `submitBaseUrlKey: 'contactIntakeBaseUrl'` | Browser submit target builder in `assets/js/form-submit-core.js` |
+| 2 | `assets/js/form-submit-core.js` | builds `submitEndpoint = <forms.contactIntakeBaseUrl>/submit/contact` and sends `POST` JSON with `x-ops-asset-id` + `x-gabo-parent-origin` | CF Worker **solitary-term-4203** (`workers/solitary-term-worker.js`) |
+| 3 | `workers/solitary-term-worker.js` | validates origin + asset + payload, resolves route key `contact`, and relays with service binding `DELIVERY` to internal path `/contact` using shared secret header `x-solitary-bridge-secret` | Internal worker target defined by `wrangler` binding |
+| 4 | `workers.contact-careers-intake.js` | receives `/contact`, validates bridge secret, forwards to Apps Script bridge with `x-solitary-route: contact` | `APPS_SCRIPT_BRIDGE_URL` |
+
+### 5.2 Careers communication mapping
+
+| Hop | Source in repo | Contract | Destination |
+|---|---|---|---|
+| 1 | `careers/careers-form.js` | sets `submitPath: '/submit/careers'` and `submitBaseUrlKey: 'careersIntakeBaseUrl'` | Browser submit target builder in `assets/js/form-submit-core.js` |
+| 2 | `assets/js/form-submit-core.js` | builds `submitEndpoint = <forms.careersIntakeBaseUrl>/submit/careers` and sends `POST` JSON with `x-ops-asset-id` + `x-gabo-parent-origin` | CF Worker **solitary-term-4203** (`workers/solitary-term-worker.js`) |
+| 3 | `workers/solitary-term-worker.js` | validates origin + asset + payload, resolves route key `careers`, and relays with service binding `DELIVERY` to internal path `/careers` using shared secret header `x-solitary-bridge-secret` | Internal worker target defined by `wrangler` binding |
+| 4 | `workers.contact-careers-intake.js` | receives `/careers`, validates bridge secret, forwards to Apps Script bridge with `x-solitary-route: careers` | `APPS_SCRIPT_BRIDGE_URL` |
+
+### 5.3 Hard boundary confirmation
+- Contact/Careers browser traffic goes to `solitary-term-4203` using `/submit/contact` and `/submit/careers`.
+- Chatbot traffic goes to the separate chatbot worker base using `/api/chat`.
+- No contact/careers form path in this repo posts to `/api/chat`, and chatbot path does not post to `/submit/contact` or `/submit/careers`.
