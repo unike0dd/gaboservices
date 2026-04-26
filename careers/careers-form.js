@@ -26,7 +26,7 @@
       rootSelector: '.contact-hub',
       formId: 'careersForm',
       statusId: 'careerFormStatus',
-      submitPath: '/submit/careers',
+      submitPath: '/v1/intake/careers',
       submitBaseUrlKey: 'careersIntakeBaseUrl',
       honeypotFields: ['portfolio_url'],
       numericInputs: [

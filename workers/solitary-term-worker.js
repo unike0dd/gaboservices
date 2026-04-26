@@ -26,6 +26,8 @@ export default {
             health: [ROUTES.root, ROUTES.health],
             submit_contact: ROUTES.submitContact,
             submit_careers: ROUTES.submitCareers,
+            submit_contact_legacy: ROUTES.submitContactLegacy,
+            submit_careers_legacy: ROUTES.submitCareersLegacy,
           },
           methods: ["GET", "POST", "OPTIONS"],
           accepts: ["application/json"],
@@ -320,8 +322,10 @@ const ROUTES = {
   health: "/health",
   debugConfig: "/debug/config",
   ingest: "/ingest",
-  submitContact: "/submit/contact",
-  submitCareers: "/submit/careers",
+  submitContactLegacy: "/submit/contact",
+  submitCareersLegacy: "/submit/careers",
+  submitContact: "/v1/intake/contact",
+  submitCareers: "/v1/intake/careers",
 };
 
 const API_CSP =
@@ -367,13 +371,15 @@ function isAcceptedPostPath(path) {
   return (
     path === ROUTES.root ||
     path === ROUTES.ingest ||
+    path === ROUTES.submitContactLegacy ||
+    path === ROUTES.submitCareersLegacy ||
     path === ROUTES.submitContact ||
     path === ROUTES.submitCareers
   );
 }
 
 function resolveSubmissionRoute(path, request, env) {
-  if (path === ROUTES.submitContact) {
+  if (path === ROUTES.submitContact || path === ROUTES.submitContactLegacy) {
     return {
       ok: true,
       route: {
@@ -385,7 +391,7 @@ function resolveSubmissionRoute(path, request, env) {
     };
   }
 
-  if (path === ROUTES.submitCareers) {
+  if (path === ROUTES.submitCareers || path === ROUTES.submitCareersLegacy) {
     return {
       ok: true,
       route: {
