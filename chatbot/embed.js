@@ -1,5 +1,5 @@
 const CHATBOT_CONFIG = window.SITE_CHATBOT_CONFIG || {};
-const WORKER_BASE = CHATBOT_CONFIG.workerBaseUrl || 'https://drastic-measures.rulathemtodos.workers.dev';
+const WORKER_BASE = CHATBOT_CONFIG.workerBaseUrl || 'https://con-artist.rulathemtodos.workers.dev';
 const WORKER_CHAT = `${WORKER_BASE}/api/chat`;
 const WORKER_MODE = CHATBOT_CONFIG.mode || 'iframe_service_qa';
 
