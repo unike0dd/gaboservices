@@ -298,11 +298,6 @@ body.summary-drawer-open { overflow: hidden; }
   padding: 0 18px 18px;
 }
 
-.contact-hub .field textarea,
-.contact-hub .field input,
-.contact-hub .field select {
-  text-align: left;
-}
 
 @media (max-width: 820px) {
   .contact-proof-strip {
