@@ -36,3 +36,42 @@ body[data-page-key='services'] { margin: 0; background: #f7f7fb; color: #111; }
   .section p { font-size: 18px; }
   .compare, .it-support-levels { grid-template-columns: 1fr; }
 }
+
+/* Services page only */
+.services-page .services-hero {
+  display: grid;
+  gap: clamp(18px, 3vw, 32px);
+}
+
+.services-page .kpi-grid {
+  margin-top: 18px;
+}
+
+.services-page .tabs {
+  align-self: start;
+}
+
+.services-page #tab-content {
+  min-height: 360px;
+}
+
+.services-page #tab-content ul {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.services-page #tab-content li {
+  position: relative;
+  padding-left: 24px;
+}
+
+.services-page #tab-content li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--gs-accent);
+  font-size: 1.35rem;
+  line-height: 1;
+}

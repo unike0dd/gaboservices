@@ -62,19 +62,8 @@ body.summary-drawer-open { overflow: hidden; }
 .contact-hub .grid { display: grid; gap: var(--space-3); }
 .contact-hub .grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .contact-hub .grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.contact-hub .field { display: grid; gap: 8px; min-width: 0; }
-.contact-hub .field--full { grid-column: 1 / -1; }
 .contact-hub .field--full.contact-number-inline { display: grid; gap: var(--space-3); grid-template-columns: minmax(130px, 180px) minmax(0, 1fr); }
 .contact-hub .contact-number-inline > .field { align-content: start; }
-.contact-hub .field label,
-.contact-hub .field .label { font-size: 0.95rem; font-weight: 700; }
-.contact-hub .field input,
-.contact-hub .field select,
-.contact-hub .field textarea { width: 100%; min-height: 48px; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius-md); background: #fff; color: var(--text); transition: border-color 0.2s ease, box-shadow 0.2s ease; }
-.contact-hub .field textarea { min-height: 110px; resize: vertical; }
-.contact-hub .field input:focus,
-.contact-hub .field select:focus,
-.contact-hub .field textarea:focus { outline: none; border-color: #111; box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08); }
 .contact-hub .field-help { margin: 0; color: var(--muted); font-size: 0.9rem; text-align: justify; }
 .contact-hub .field > .label {
   display: block;
