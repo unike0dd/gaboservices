@@ -16,6 +16,7 @@
   --heading-h3-size: clamp(1.3rem, 1.15rem + 0.7vw, 1.8rem);
   --reading-max-width: 72ch;
   --reading-line-height: 1.72;
+  --hover-glow-strength: 0.12;
 }
 
 * { box-sizing: border-box; }
@@ -197,7 +198,7 @@ main li + li {
 }
 .editorial-toggle:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 6px 14px rgba(15, 23, 42, var(--hover-glow-strength));
 }
 .editorial-toggle[data-current-theme='wallstreet'] {
   color: #5ba3ff;
@@ -1729,7 +1730,7 @@ body.chat-open {
 .related-service-link:focus-visible {
   transform: translateY(-2px);
   border-color: color-mix(in oklab, var(--primary) 55%, var(--border));
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 8px 16px rgba(15, 23, 42, calc(var(--hover-glow-strength) + 0.02));
   background: color-mix(in oklab, var(--card) 86%, #ffffff);
   text-decoration: none;
 }
