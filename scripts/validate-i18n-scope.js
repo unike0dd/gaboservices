@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 
-const CRITICAL_ROOT_KEYS = ['nav', 'fab', 'mobileBottomNav', 'cookieConsent'];
+const CRITICAL_ROOT_KEYS = ['nav', 'mobileBottomNav', 'cookieConsent'];
 
 function parseArgs(argv) {
   const args = { report: null };

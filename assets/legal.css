@@ -225,69 +225,6 @@ li { margin: 6px 0; text-align: justify; hyphens: none; overflow-wrap: normal; w
   cursor: pointer;
 }
 
-.chat-overlay[hidden] {
-  display: none !important;
-}
-
-.chat-overlay {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: end;
-  padding: 1rem;
-  background: rgba(2, 6, 23, 0.46);
-  z-index: 60;
-}
-
-.chat-panel {
-  width: min(96vw, 420px);
-  height: min(70vh, 500px);
-  border: 1px solid var(--line);
-  border-radius: 1rem;
-  background: var(--card);
-  box-shadow: 0 20px 35px rgba(15, 23, 42, 0.35);
-  overflow: hidden;
-}
-
-.chat-panel-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.75rem;
-  border-bottom: 1px solid var(--line);
-  padding: 0.6rem 0.8rem;
-  color: var(--link);
-}
-
-.chat-panel-head strong,
-.chat-panel-head .ghost {
-  color: inherit;
-}
-
-.chat-panel-actions {
-  display: inline-flex;
-  gap: 0.45rem;
-}
-
-.chat-status {
-  margin: 0;
-  padding: 0.6rem 0.8rem;
-  color: var(--muted);
-  border-bottom: 1px solid var(--line);
-}
-
-.chat-panel iframe {
-  width: 100%;
-  height: calc(100% - 61px);
-  border: 0;
-}
-
-:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
-  border-radius: 8px;
-}
-
 @media (max-width: 720px) {
   .footer-grid {
     grid-template-columns: 1fr;
