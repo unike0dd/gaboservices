@@ -1,7 +1,6 @@
 # Contact + Careers Communication Path Alignment (Repo ↔ Cloudflare Worker)
 
 ## Purpose
-This document defines the **exact communication contract** between the repository form clients and the Cloudflare Worker intake layer, with chatbot traffic kept fully separate.
 
 ## What was implemented
 
@@ -54,13 +53,9 @@ This document defines the **exact communication contract** between the repositor
 
 ---
 
-## Separation guarantee (chatbot vs intake)
-- Chatbot path remains: `POST /api/chat` on chatbot worker base.
 - Contact/Careers intake paths are now dedicated to:
   - `POST /v1/intake/contact`
   - `POST /v1/intake/careers`
-- No Contact/Careers form route posts to `/api/chat`.
-- No chatbot request path posts to `/v1/intake/*`.
 
 ---
 
@@ -72,5 +67,4 @@ This document defines the **exact communication contract** between the repositor
    - `ASSET_C5T`, `ASSET_C5S`, `SOLITARY_TO_CORREO_SHARED_SECRET`
 3. Attach domain/route for intake endpoints, e.g.:
    - `intake.gabo.services/v1/intake/*`
-4. Keep chatbot worker deployment/profile separate from this intake profile.
 

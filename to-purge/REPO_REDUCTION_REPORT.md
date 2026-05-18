@@ -36,7 +36,6 @@
 ### Files unsafe to touch (kept intentionally)
 - Contact/Careers form HTML fields + endpoint contract wiring (`/submit/contact`, `/submit/careers`)
 - Honeypot field names/inputs
-- Chatbot runtime and UI assets (`chatbot/embed.js`, `chatbot/chatbot.css`, `chatbot/fab.css`)
 - Worker contract file `workers.contact-careers-intake.js`
 - Existing URL structure and page content files under `services/`, `legal/`, `about/`, `learning/`, `contact/`, `careers/`
 
@@ -72,7 +71,6 @@
 - `careers/careers-form.js`
 - `main.js`
 - all route HTML pages and legal pages
-- chatbot assets
 - canonical worker entrypoint files
 
 ### REVIEW MANUALLY
