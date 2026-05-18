@@ -1,7 +1,6 @@
 # Repo Reduction Report — 2026-04-24
 
 ## Scope and constraints
-- Preserve visual design, layout, behavior, URLs, copy, forms, chatbot behavior, mobile nav behavior, and worker contracts.
 - Preserve `/submit/contact` and `/submit/careers` endpoints.
 - Preserve honeypot fields.
 
@@ -37,8 +36,6 @@ Common repeated blocks:
 ## Unused/stale support files (review)
 Potentially stale/non-runtime files identified:
 - `DEEP_DIVE_FINDINGS_2026-04-23.md` (internal analysis notes).
-- `scripts/chatbot-regression-smoke.js` (no in-repo invocation references).
-- `scripts/validate-chatbot-policy-parity.js` (no in-repo invocation references).
 - `wrangler.contact-careers-intake.toml` and `workers.contact-careers-intake.js` appear legacy/alternate worker path; keep for now due deployment risk.
 
 ## Files safe to merge
@@ -50,7 +47,6 @@ Potentially stale/non-runtime files identified:
 - `workers/contact-careers-intake-worker.js`
 - `workers.contact-careers-intake.js`
 - `workers/solitary-term-worker.js`
-- `chatbot/embed.js`, `chatbot/chatbot.css`, `chatbot/fab.css`, `chatbot/behavior.yml`
 - Form HTML structures/field names and honeypots in contact/careers pages.
 - Endpoints `/submit/contact` and `/submit/careers`.
 
@@ -70,12 +66,9 @@ Potentially stale/non-runtime files identified:
 ### KEEP
 - `site.config.js`
 - Worker files under `workers/`
-- Chatbot runtime files
 - Legal pages and service pages
 
 ### REVIEW MANUALLY
 - `DEEP_DIVE_FINDINGS_2026-04-23.md`
-- `scripts/chatbot-regression-smoke.js`
-- `scripts/validate-chatbot-policy-parity.js`
 - `wrangler.contact-careers-intake.toml`
 - `workers.contact-careers-intake.js`

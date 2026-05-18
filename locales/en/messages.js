@@ -2,13 +2,6 @@ export const EN_MESSAGES = {
   nav: {
     submitting: 'Submitting...'
   },
-  fab: {
-    careers: 'Careers',
-    contact: 'Contact',
-    chatbot: 'Gabo io',
-    openQuickActions: 'Open quick actions',
-    closeQuickActions: 'Close quick actions'
-  },
   mobileBottomNav: {
     ariaLabel: 'Mobile bottom navigation',
     home: 'Home',
@@ -16,7 +9,6 @@ export const EN_MESSAGES = {
     services: 'Services',
     careers: 'Careers',
     contact: 'Contact',
-    chatbot: 'Gabo io',
     logistics: 'Logistics',
     admin: 'Admin BackOffice',
     it: 'IT Support',

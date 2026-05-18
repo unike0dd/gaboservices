@@ -2,13 +2,6 @@ export const ES_MESSAGES = {
   nav: {
     submitting: 'Enviando...'
   },
-  fab: {
-    careers: 'Carreras',
-    contact: 'Contacto',
-    chatbot: 'Gabo io',
-    openQuickActions: 'Abrir acciones rápidas',
-    closeQuickActions: 'Cerrar acciones rápidas'
-  },
 
   mobileBottomNav: {
     ariaLabel: 'Navegación inferior móvil',
@@ -17,7 +10,6 @@ export const ES_MESSAGES = {
     services: 'Servicios',
     contact: 'Contacto',
     careers: 'Carreras',
-    chatbot: 'Gabo io',
     logistics: 'Logística',
     admin: 'Admin',
     it: 'IT',
