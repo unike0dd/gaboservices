@@ -98,10 +98,6 @@ export function closeMobileMenu() {
     releaseFocusBeforeHide(backdrop);
     backdrop.classList.remove('is-open', 'open', 'active', 'is-active', 'is-visible');
     backdrop.setAttribute('aria-hidden', 'true');
-    if (backdrop.id === 'fabOverlay') {
-      backdrop.removeAttribute('style');
-      return;
-    }
     backdrop.style.opacity = '0';
     backdrop.style.visibility = 'hidden';
     backdrop.style.pointerEvents = 'none';
