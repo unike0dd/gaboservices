@@ -1,5 +1,4 @@
 import { initAdaptiveLayout } from '../adaptive-layout.js';
-import { initFabControls } from '../fab-controls.js';
 import { initSiteFooter } from '../footer/footer.js';
 import { initMobileNav } from '../assets/mobile-nav.js';
 import { initAnalyticsConsentGuard } from '../analytics-consent-guard.js';
@@ -18,24 +17,6 @@ function syncPageMetadata() {
   }
 
   document.documentElement.lang = ACTIVE_LOCALE;
-}
-
-function ensureChatbotRuntimeStyles() {
-  const requiredStyles = ['/chatbot/chatbot.css', '/chatbot/fab.css'];
-
-  const hasStylesheet = (target) => [...document.querySelectorAll('link[rel="stylesheet"]')]
-    .some((link) => {
-      const href = link.getAttribute('href') || '';
-      return href === target || href.endsWith(target);
-    });
-
-  requiredStyles.forEach((href) => {
-    if (hasStylesheet(href)) return;
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = href;
-    document.head.appendChild(link);
-  });
 }
 
 function initFormStatus() {
@@ -72,9 +53,6 @@ function initScrollRevealAndCounters() {
     'header',
     '#mobile-nav-root',
     '.mobile-nav',
-    '.chatbot-fab',
-    '.chatbot-root',
-    '.chatbot-container',
     '.modal',
     '.dropdown',
     'button',
@@ -185,8 +163,6 @@ export function initSharedVisualBoot() {
   initSiteGovernance();
   initAdaptiveLayout();
   initMobileNav();
-  ensureChatbotRuntimeStyles();
-  initFabControls();
   initSiteFooter();
   initFormStatus();
   initScrollRevealAndCounters();

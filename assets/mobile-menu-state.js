@@ -3,8 +3,7 @@ const MENU_OPEN_CLASSES = [
   'nav-open',
   'drawer-open',
   'offcanvas-open',
-  'is-menu-open',
-  'fab-open'
+  'is-menu-open'
 ];
 
 const WRAPPER_SELECTORS = [
@@ -22,7 +21,6 @@ const WRAPPER_SELECTORS = [
 const MENU_PANEL_SELECTORS = [
   '[data-mobile-menu]',
   '[data-mobile-services-menu]',
-  '#fabOverlay .fab-sheet',
   '.drawer',
   '.offcanvas',
   '.mobile-menu',
@@ -31,8 +29,6 @@ const MENU_PANEL_SELECTORS = [
 
 const BACKDROP_SELECTORS = [
   '[data-mobile-backdrop]',
-  '#fabOverlay',
-  '#fabOverlay .fab-backdrop',
   '.menu-overlay',
   '.drawer-backdrop',
   '.offcanvas-backdrop',
@@ -58,7 +54,7 @@ function releaseFocusBeforeHide(element) {
   activeElement.blur();
 
   const fallbackTarget =
-    document.querySelector('[data-menu-toggle], .hamburger, .menu-toggle, #fabMainToggle') ||
+    document.querySelector('[data-menu-toggle], .hamburger, .menu-toggle') ||
     document.querySelector('main, [role="main"], body');
 
   if (fallbackTarget instanceof HTMLElement) {
@@ -116,19 +112,11 @@ export function closeMobileMenu() {
     servicesToggle.setAttribute('aria-expanded', 'false');
   }
 
-  const menuToggle = document.querySelector('[data-menu-toggle], .hamburger, .menu-toggle, #fabMainToggle');
+  const menuToggle = document.querySelector('[data-menu-toggle], .hamburger, .menu-toggle');
   if (menuToggle instanceof HTMLElement) {
     menuToggle.setAttribute('aria-expanded', 'false');
-    if (menuToggle.id === 'fabMainToggle') {
-      menuToggle.textContent = 'Chatbot Gabo io';
-    }
   }
 
-  const fabOverlay = document.getElementById('fabOverlay');
-  if (fabOverlay instanceof HTMLElement) {
-    fabOverlay.setAttribute('aria-hidden', 'true');
-    fabOverlay.removeAttribute('style');
-  }
 
   if (body instanceof HTMLElement) {
     body.style.overflow = '';
