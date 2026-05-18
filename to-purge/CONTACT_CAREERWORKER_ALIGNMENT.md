@@ -56,6 +56,7 @@
 - Contact/Careers intake paths are now dedicated to:
   - `POST /v1/intake/contact`
   - `POST /v1/intake/careers`
+- No Contact/Careers form route posts to `/api/chat`.
 
 ---
 
