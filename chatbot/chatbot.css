@@ -5,8 +5,8 @@
   --clr-tx: #333333;
 }
 
-#chattia-chatbot-root,
-#chattia-chatbot-root * {
+#gabo-io-chatbot-root,
+#gabo-io-chatbot-root * {
   box-sizing: border-box;
 }
 

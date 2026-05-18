@@ -1,4 +1,4 @@
-name: Chattia OPS AI Chatbot
+name: GABO IO Chatbot
 api_path: /api/ops-online-chat
 request:
   method: POST

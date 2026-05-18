@@ -1,7 +1,7 @@
 const API_URL = '/api/ops-online-chat';
 const STYLESHEET_HREF = '/chatbot/chatbot.css';
-const OPEN_EVENT = 'chattia:open';
-const CLOSE_EVENT = 'chattia:close';
+const OPEN_EVENT = 'gabo-io:open';
+const CLOSE_EVENT = 'gabo-io:close';
 
 function ensureStylesheet() {
   const hasStylesheet = [...document.querySelectorAll('link[rel="stylesheet"]')]
@@ -29,14 +29,14 @@ function addMsg(log, text, type) {
 
 function buildChatbotMarkup() {
   return `
-    <button id="chatbot-toggle" type="button" aria-expanded="false" aria-controls="chatbot-container" aria-label="Open OPS AI Chatbot">
+    <button id="chatbot-toggle" type="button" aria-expanded="false" aria-controls="chatbot-container" aria-label="Open GABO IO Chatbot">
       <span aria-hidden="true">OPS AI</span>
     </button>
 
-    <div id="chatbot-container" role="dialog" aria-modal="false" aria-label="OPS AI Chatbot" hidden>
+    <div id="chatbot-container" role="dialog" aria-modal="false" aria-label="GABO IO Chatbot" hidden>
       <div id="chatbot-header">
-        <span>OPS AI Chatbot</span>
-        <button id="chatbot-close" type="button" aria-label="Close OPS AI Chatbot">×</button>
+        <span>GABO IO Chatbot</span>
+        <button id="chatbot-close" type="button" aria-label="Close GABO IO Chatbot">×</button>
       </div>
 
       <div id="chat-log" aria-live="polite"></div>
@@ -59,13 +59,13 @@ function buildChatbotMarkup() {
   `;
 }
 
-export function initChattiaChatbot() {
+export function initGaboIoChatbot() {
   if (document.getElementById('chatbot-container')) return;
 
   ensureStylesheet();
 
   const host = document.createElement('div');
-  host.id = 'chattia-chatbot-root';
+  host.id = 'gabo-io-chatbot-root';
   host.innerHTML = buildChatbotMarkup();
   document.body.appendChild(host);
 
@@ -82,7 +82,7 @@ export function initChattiaChatbot() {
   const setOpen = (open) => {
     container.hidden = !open;
     toggle.setAttribute('aria-expanded', String(open));
-    toggle.setAttribute('aria-label', open ? 'Close OPS AI Chatbot' : 'Open OPS AI Chatbot');
+    toggle.setAttribute('aria-label', open ? 'Close GABO IO Chatbot' : 'Open GABO IO Chatbot');
 
     if (open) {
       input.focus({ preventScroll: true });
@@ -124,7 +124,7 @@ export function initChattiaChatbot() {
         ? data.reply
         : 'No reply.';
     } catch (error) {
-      botDiv.textContent = 'Error: can’t reach Chattia.';
+      botDiv.textContent = 'Error: can’t reach GABO IO.';
     } finally {
       sendBtn.disabled = false;
       input.disabled = false;

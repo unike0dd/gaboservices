@@ -7,23 +7,23 @@ const css = fs.readFileSync(path.join(process.cwd(), 'chatbot', 'chatbot.css'), 
 
 const checks = [
   {
-    name: 'Chattia uses same-origin API route',
+    name: 'GABO IO uses same-origin API route',
     test: () => /const API_URL = '\/api\/ops-online-chat';/.test(embed)
   },
   {
-    name: 'Chattia does not expose workers.dev URLs',
+    name: 'GABO IO does not expose workers.dev URLs',
     test: () => !/workers\.dev/.test(embed)
   },
   {
-    name: 'Chattia renders the required chatbot structure',
+    name: 'GABO IO renders the required chatbot structure',
     test: () => /id="chatbot-container"/.test(embed) && /id="chat-log"/.test(embed) && /id="chatbot-input-row"/.test(embed)
   },
   {
-    name: 'Chattia caps user input at 256 characters',
+    name: 'GABO IO caps user input at 256 characters',
     test: () => /maxlength="256"/.test(embed)
   },
   {
-    name: 'Chattia CSS contains supplied primary chatbot selectors',
+    name: 'GABO IO CSS contains supplied primary chatbot selectors',
     test: () => /#chatbot-container/.test(css) && /#chatbot-header/.test(css) && /\.chat-msg/.test(css)
   }
 ];
