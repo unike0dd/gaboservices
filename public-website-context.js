@@ -3,15 +3,15 @@
     en: {
       businessName: 'Gabo Services',
       assistantName: 'gabo io',
-      creatorName: 'Gabriel Anangonó',
-      creatorDisplay: 'gabo io was created by Gabriel Anangonó for Gabo Services.',
+      creatorName: 'Gabriel Anangono',
+      creatorDisplay: 'gabo io was created by Gabriel Anangono for Gabo Services.',
       rule: 'Only answer about the services and information listed on this public website.'
     },
     es: {
       businessName: 'Gabo Services',
       assistantName: 'gabo io',
-      creatorName: 'Gabriel Anangonó',
-      creatorDisplay: 'gabo io fue creado por Gabriel Anangonó para Gabo Services.',
+      creatorName: 'Gabriel Anangono',
+      creatorDisplay: 'gabo io fue creado por Gabriel Anangono para Gabo Services.',
       rule: 'Responde únicamente sobre los servicios y la información pública listada en este sitio web.'
     }
   };
