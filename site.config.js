@@ -14,3 +14,21 @@
     }
   };
 })();
+
+
+function getPublicServicesContext(lang) {
+  const safeLang = lang === "es" ? "es" : "en";
+  const ctx = window.GABO_SERVICES_CONTEXT?.[safeLang];
+
+  if (!ctx) return "";
+
+  return JSON.stringify({
+    businessName: ctx.businessName,
+    assistantName: ctx.assistantName,
+    serviceRule: ctx.serviceRule,
+    services: ctx.services,
+    fallback: ctx.fallback
+  });
+}
+
+window.getPublicServicesContext = getPublicServicesContext;
