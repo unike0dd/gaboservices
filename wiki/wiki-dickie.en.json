@@ -1,9 +1,8 @@
 {
   "wikiId": "WIKI_DICKIE",
   "locale": "en",
-  "generatedAt": "2026-04-03T17:37:33.281Z",
+  "generatedAt": "2026-05-21T00:00:00.000Z",
   "siteBaseUrl": "https://www.gabo.services",
-  "workerUrl": "https://wikie-dickie.rulathemtodos.workers.dev/",
   "pageCount": 13,
   "chunkCount": 56,
   "uiMessages": [
